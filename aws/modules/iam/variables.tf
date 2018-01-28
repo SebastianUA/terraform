@@ -23,20 +23,20 @@ variable "region" {
 #}
 variable "environment" {
     description = "environment for service"
-    default     = "PROD"
+    default     = "STAGE"
 }
 variable "aws_iam_role-principals" {
-  type        = "list"
-  description = "List of allowed actions."
+  description = "List of allowed principals."
+  type        = "list"  
 }
 variable "aws_iam_policy-resources" {
+  description = "List of allowed resources."
   type        = "list"
-  description = "List of allowed actions."
   default     = ["*"]
 }
 variable "aws_iam_policy-actions" {
+  description = "List of allowed actions."  
   type        = "list"
-  description = "List of allowed actions."	
   default     = ["*"]
  
 }

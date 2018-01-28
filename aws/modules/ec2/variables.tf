@@ -11,7 +11,7 @@ variable "region" {
 } 
 variable "environment" {
     description = "Environment for service"
-    default     = "PROD"
+    default     = "STAGE"
 }
 variable "orchestration" {
     description = "Type of orchestration"

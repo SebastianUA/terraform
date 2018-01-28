@@ -18,8 +18,8 @@ variable "enable_dns_hostnames" {
     default     = "true"
 }
 variable "assign_generated_ipv6_cidr_block" {
-    description = "Enabling dns hostnames"
-    default     = "true"
+    description = "Generation IPv6"
+    default     = "false"
 }
 variable "enable_classiclink" {
     description = "Enabling classiclink"
@@ -27,7 +27,7 @@ variable "enable_classiclink" {
 }
 variable "environment" {
     description = "Environment for service"
-    default     = "PROD"
+    default     = "STAGE"
 }
 variable "orchestration" {
     description = "Type of orchestration"
