@@ -1,10 +1,10 @@
 # Work with AWS EC2 via terraform
-=======================
+=================================
 
 A terraform module for making ec2 instances.
 
 ## Usage
------
+--------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
 
 ```
