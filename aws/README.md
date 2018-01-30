@@ -6,7 +6,7 @@ modules - Uses for modules.
 Authors
 =======
 
-Created and maintained by [Vitaliy Natrov](https://github.com/SebastianUA)
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA)
 (vitaliy.natarov@yahoo.com).
 
 License
