@@ -31,4 +31,7 @@ module "aim" {
         "ec2:DescribeSecurityGroups",
         "ec2:DescribeVpcs",
   ]
+  enable_crossaccount_role = "true" 
+  cross_acc_principal_arns = ["222222222222","arn:aws:iam::333333333333:user/MyUser"]
+  cross_acc_policy_arns    = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser", "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"] 
 }

@@ -18,7 +18,9 @@ output "policy_name" {
 output "AWS region" {
     value = "${var.region}"
 }
-
 output "role_id" {
   value = "${aws_iam_role.role.id}"
+}
+output "cross_account_assume_role_arn" {
+  value = "${aws_iam_role.cross_account_assume_role.*.arn}"
 }

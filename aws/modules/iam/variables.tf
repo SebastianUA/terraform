@@ -37,8 +37,21 @@ variable "aws_iam_policy-resources" {
 variable "aws_iam_policy-actions" {
   description = "List of allowed actions."  
   type        = "list"
-  default     = ["*"]
- 
+  default     = ["*"] 
+}
+variable "enable_crossaccount_role" {
+    description = "Enabling cross account role"
+    default     = "false"
+}
+variable "cross_acc_principal_arns" {
+    description = "ARNs of accounts, groups, or users with the ability to assume this role."
+    type        = "list"
+    default     = ["222222222222","arn:aws:iam::333333333333:user/MyUser"]
+}
+variable "cross_acc_policy_arns" {
+    description = "List of ARNs of policies to be associated with the created IAM role"
+    type        = "list"
+    default     = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser", "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"]
 }
 
 
