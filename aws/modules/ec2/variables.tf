@@ -74,7 +74,7 @@ variable "private_key" {
     default     = "/Users/captain/.ssh/id_rsa"
 }
 variable "enable_associate_public_ip_address" {
-    description = "Enabling associate public ip address"
+    description = "Enabling associate public ip address (Associate a public ip address with an instance in a VPC)"
     default     = "true"
 }
 variable "source_dest_check" {

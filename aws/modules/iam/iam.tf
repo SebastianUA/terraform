@@ -62,9 +62,10 @@ data "aws_iam_policy_document" "policy-document" {
 # EC2 Policy Assuming Crossaccount Role
 ####################################################
 resource "aws_iam_role" "cross_account_assume_role" {
-  count              = "${var.enable_crossaccount_role ? 1 : 0}"
-  name               = "${var.name}-cross_account_assume_role-${var.environment}"
-  assume_role_policy = "${data.aws_iam_policy_document.cross_account_assume_role_policy.json}"
+    count              = "${var.enable_crossaccount_role ? 1 : 0}"
+    name               = "${var.name}-cross_account_assume_role-${var.environment}"
+    description        = "IMA ${var.name}-cross_account_assume_role-${var.environment} role" 
+    assume_role_policy = "${data.aws_iam_policy_document.cross_account_assume_role_policy.json}"
 }
 
 data "aws_iam_policy_document" "cross_account_assume_role_policy" {
