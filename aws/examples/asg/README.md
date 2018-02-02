@@ -116,7 +116,7 @@ Module Input Variables
 - `createdby` - Created by (`default = "Vitaliy Natarov"`).
 - `create_lc` - Whether to create launch configuration (`default = true`).
 - `create_asg` - Whether to create autoscaling group (`default = true`).
-# Launch configuration
+//Launch configuration
 - `launch_configuration` - The name of the launch configuration to use (if it is created outside of this module) (`default = ""`).
 - `ec2_instance_type` - Type of instance t2.micro, m1.xlarge, c1.medium etc (`default = "t2.micro"`).
 - `iam_instance_profile` - The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile (`default = ""`).
@@ -154,7 +154,7 @@ Module Input Variables
         eu-west-1 = "ami-6e28b517"
     }`).
 - `enable_create_before_destroy` - Create before destroy (`default = "true"`). NOT USING YET..... Have some problems with terraform.
-# Autoscaling group
+//Autoscaling group
 - `asg_max_size` - Max size of instances to making autoscalin (`default = "1`).
 - `asg_size_scale` - Size of instances to making autoscaling(up/down) (`default = "1`).
 - `asg_min_size` - Min size of instances to making autoscalin (`default = "1`).
