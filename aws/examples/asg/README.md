@@ -77,6 +77,49 @@ module "vpc" {
     # EIP
     enable_eip                          = "false"
 }
+module "elb" {
+    source                              = "../../modules/elb"
+    name                                = "TEST-ELB"
+    region                              = "us-east-1"
+    environment                         = "PROD"
+
+    security_groups                     = ["${module.vpc.security_group_id}"]
+
+    # Need to choose subnets or availability_zones. The subnets has been chosen.
+    subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
+
+    #access_logs = [
+    #    {
+    #        bucket = "my-access-logs-bucket"
+    #        bucket_prefix = "bar"
+    #        interval = 60
+    #    },
+    #]
+    listener = [
+        {
+            instance_port     = "80"
+            instance_protocol = "HTTP"
+            lb_port           = "80"
+            lb_protocol       = "HTTP"
+        },
+    #    {
+    #        instance_port      = 80
+    #        instance_protocol  = "http"
+    #        lb_port            = 443
+    #        lb_protocol        = "https"
+    #        ssl_certificate_id = "${var.elb_certificate}"
+    #    },
+    ]
+    health_check = [
+        {
+            target              = "HTTP:80/"
+            interval            = 30
+            healthy_threshold   = 2
+            unhealthy_threshold = 2
+            timeout             = 5
+        },
+    ]
+}
 module "asg" {
     source                              = "../../modules/asg"
     name                                = "TEST-ASG"
@@ -100,6 +143,8 @@ module "asg" {
     asg_max_size              = 1
     desired_capacity          = 1
     wait_for_capacity_timeout = 0
+
+    load_balancers            = ["${module.elb.elb_name}"]
 
     #
     enable_autoscaling_schedule = true
