@@ -74,10 +74,10 @@ module "elb" {
     environment                         = "PROD"
 
     security_groups                     = ["${module.vpc.security_group_id}"]
-
+    
     # Need to choose subnets or availability_zones. The subnets has been chosen.
     subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-
+    
     #access_logs = [
     #    {
     #        bucket = "my-access-logs-bucket"
@@ -109,34 +109,4 @@ module "elb" {
             timeout             = 5
         },
     ]
-}
-module "asg" {
-    source                              = "../../modules/asg"
-    name                                = "TEST-ASG"
-    region                              = "us-east-1"
-    environment                         = "PROD"
-
-    security_groups = ["${module.vpc.security_group_id}"]
-    
-    root_block_device  = [
-        {
-            volume_size = "8"
-            volume_type = "gp2"
-        },
-    ]
-    
-    # Auto scaling group
-    #asg_name                  = "example-asg"
-    vpc_zone_identifier       = ["${module.vpc.vpc-publicsubnet-ids}"]
-    health_check_type         = "EC2"
-    asg_min_size              = 0
-    asg_max_size              = 1
-    desired_capacity          = 1
-    wait_for_capacity_timeout = 0
-
-    load_balancers            = ["${module.elb.elb_name}"]
-
-    #
-    enable_autoscaling_schedule = true
-}
-
+}    

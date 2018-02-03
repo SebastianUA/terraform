@@ -1,6 +1,6 @@
 # Work with AWS ASG via terraform
 
-A terraform module for making ec2 instances.
+A terraform module for making ASG.
 
 ## Usage
 --------
