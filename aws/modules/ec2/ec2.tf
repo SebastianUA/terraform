@@ -1,9 +1,6 @@
 #---------------------------------------------------
 # Define SSH key pair for our instances
 #---------------------------------------------------
-#
-# https://blog.meshstudio.io/automating-ecs-deployments-with-terraform-1146736b7688
-#
 resource "aws_key_pair" "key_pair" {
   key_name = "${var.name}-key_pair"
   public_key = "${file("${var.key_path}")}"
