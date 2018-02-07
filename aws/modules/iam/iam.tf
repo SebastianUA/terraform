@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "policy-document" {
 #resource "aws_iam_policy" "test-policy" {
 #    name        = "test-policy"
 #    description = "AIM test-policy policy"
-#    policy      = "${file(policies/assume_role_policy.json)}"
+#    policy      = "${file(${path.module}/policies/assume_role_policy.json)}"
 #    
 #}
 ####################################################

@@ -1,0 +1,59 @@
+#---------------------------------------------------
+# Create S3 bucket
+#---------------------------------------------------
+resource "aws_s3_bucket" "s3_bucket" {
+    #count  = "" 
+    #bucket_prefix = "${var.bucket_prefix}"
+    bucket = "${lower(var.name)}-s3-${lower(var.environment)}"
+    region = "${var.region}"
+    
+    acl    = "${var.s3_acl}"
+    policy = "${file("${path.module}/policies/${var.s3_acl}-policy.json")}"
+    #Add website
+    website     = "${var.website}"
+    #Add cors rules
+    cors_rule   = "${var.cors_rule}"
+    #Add logging
+    logging {
+        target_bucket = "${lower(var.name)}-s3-${lower(var.environment)}"
+        target_prefix = "/log"
+    }    
+    #Add versioning    
+    versioning {
+        enabled = "${var.versioning}"
+    }
+    #Add lifecycle rule
+    lifecycle_rule  = "${var.lifecycle_rule}"
+
+    #Add server side encryption configuration
+    server_side_encryption_configuration {
+        rule {
+            apply_server_side_encryption_by_default {
+                kms_master_key_id = "${aws_kms_key.kms_key.arn}"
+                sse_algorithm     = "aws:kms"
+            }
+        }
+    }    
+
+    force_destroy   = "${var.force_destroy}"
+    
+    tags {
+        Name            = "${lower(var.name)}-s3-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    depends_on  = ["aws_kms_key.kms_key"]
+}
+#---------------------------------------------------
+# Create AWS KMS key
+#---------------------------------------------------
+resource "aws_kms_key" "kms_key" {
+    #count                   = "${var.enable_default_server_side_encryption ? 1 : 0}"
+    description             = "This key is used to encrypt bucket objects"
+    deletion_window_in_days = 10
+}

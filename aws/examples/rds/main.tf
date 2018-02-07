@@ -19,6 +19,7 @@ module "iam" {
 
     aws_iam_role-principals         = [
         "ec2.amazonaws.com",
+        "monitoring.rds.amazonaws.com",
     ]
     aws_iam_policy-actions           = [
         "cloudwatch:GetMetricStatistics",
