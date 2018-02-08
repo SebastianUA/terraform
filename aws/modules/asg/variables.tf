@@ -42,9 +42,9 @@ variable "iam_instance_profile" {
     description = "The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile."
     default     = ""
 }
-variable "key_name" {
-    description = "The key name to use for the instance"
-    default     = ""
+variable "key_path" {
+    description = "Key path to your RSA|DSA key"
+    default     = "/Users/captain/.ssh/id_rsa.pub"
 }
 variable "security_groups" {
   description = "A list of security group IDs to assign to the launch configuration"

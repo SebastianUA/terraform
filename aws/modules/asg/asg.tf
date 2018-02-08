@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "asg" {
     #name                        = "${var.name}-asg-${var.environment}"
     name_prefix                 = "${var.name}-asg-"
     #Have got issue with availability_zones usage. So, I skip this parameter.
-    #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
+    availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
     max_size                    = "${var.asg_max_size}"
     min_size                    = "${var.asg_min_size}"
     vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
@@ -60,7 +60,14 @@ resource "aws_autoscaling_group" "asg" {
 #---------------------------------------------------
 data "template_file" "instances_index" {
     count       = "${var.asg_max_size}"
-    template    = "${var.name}-${var.environment}-${count.index+1}"
+    template    = "${lower(var.name)}-${lower(var.environment)}-${count.index+1}"
+}
+#---------------------------------------------------
+# Define SSH key pair for our instances
+#---------------------------------------------------
+resource "aws_key_pair" "key_pair" {
+  key_name = "${lower(var.name)}-key_pair-${lower(var.environment)}"
+  public_key = "${file("${var.key_path}")}"
 }
 #---------------------------------------------------
 # Launch AWS configuration
@@ -74,7 +81,7 @@ resource "aws_launch_configuration" "lc" {
     security_groups             = ["${var.security_groups}"]
     iam_instance_profile        = "${var.iam_instance_profile}"
     
-    key_name                    = "${var.key_name}"
+    key_name                    = "${aws_key_pair.key_pair.id}"
     user_data                   = "${var.user_data}"
     associate_public_ip_address = "${var.enable_associate_public_ip_address}"
     
@@ -92,6 +99,7 @@ resource "aws_launch_configuration" "lc" {
     lifecycle {
         create_before_destroy = "true" #"${var.enable_create_before_destroy}"
     }
+    depends_on = ["aws_key_pair.key_pair"]
     
 }
 #---------------------------------------------------

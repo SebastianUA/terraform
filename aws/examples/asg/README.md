@@ -16,6 +16,7 @@ terraform {
 }
 provider "aws" {
     region  = "us-east-1"
+    profile = "default"
     # Make it faster by skipping something
     #skip_get_ec2_platforms      = true
     #skip_metadata_api_check     = true
@@ -25,7 +26,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -48,7 +49,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -69,7 +70,7 @@ module "vpc" {
     enable_internet_gateway             = "true"
     #NAT
     enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
     enable_vpn_gateway                  = "false"
     #DHCP
@@ -84,10 +85,10 @@ module "elb" {
     environment                         = "PROD"
 
     security_groups                     = ["${module.vpc.security_group_id}"]
-
+    
     # Need to choose subnets or availability_zones. The subnets has been chosen.
     subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-
+    
     #access_logs = [
     #    {
     #        bucket = "my-access-logs-bucket"
@@ -103,8 +104,8 @@ module "elb" {
             lb_protocol       = "HTTP"
         },
     #    {
-    #        instance_port      = 80
-    #        instance_protocol  = "http"
+    #        instance_port      = 443
+    #        instance_protocol  = "https"
     #        lb_port            = 443
     #        lb_protocol        = "https"
     #        ssl_certificate_id = "${var.elb_certificate}"
@@ -117,8 +118,22 @@ module "elb" {
             healthy_threshold   = 2
             unhealthy_threshold = 2
             timeout             = 5
-        },
+        }
     ]
+    # You could use ONE health_check!
+    #health_check = [
+    #    {
+    #        target              = "HTTP:443/"
+    #        interval            = 30
+    #        healthy_threshold   = 2
+    #        unhealthy_threshold = 2
+    #        timeout             = 5
+    #    }
+    #]
+    # Enable 
+    enable_lb_cookie_stickiness_policy_http  = true
+    # Enable 
+    enable_app_cookie_stickiness_policy_http = "true"
 }
 module "asg" {
     source                              = "../../modules/asg"
@@ -127,14 +142,14 @@ module "asg" {
     environment                         = "PROD"
 
     security_groups = ["${module.vpc.security_group_id}"]
-
+    
     root_block_device  = [
         {
             volume_size = "8"
             volume_type = "gp2"
         },
     ]
-
+    
     # Auto scaling group
     #asg_name                  = "example-asg"
     vpc_zone_identifier       = ["${module.vpc.vpc-publicsubnet-ids}"]
@@ -149,7 +164,6 @@ module "asg" {
     #
     enable_autoscaling_schedule = true
 }
-
 ```
 
 Module Input Variables
@@ -165,7 +179,7 @@ Module Input Variables
 - `launch_configuration` - The name of the launch configuration to use (if it is created outside of this module) (`default = ""`).
 - `ec2_instance_type` - Type of instance t2.micro, m1.xlarge, c1.medium etc (`default = "t2.micro"`).
 - `iam_instance_profile` - The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile (`default = ""`).
-- `key_name` - The key name to use for the instance (default = "").
+- `key_path` - The key name path to use for the instance (default = "/Users/captain/.ssh/id_rsa.pub").
 - `security_groups` - A list of security group IDs to assign to the launch configuration.
 - `enable_associate_public_ip_address` - Enabling associate public ip address (Associate a public ip address with an instance in a VPC) (`default = false`).
 - `user_data` - The user data to provide when launching the instance (`default = ""`).
@@ -192,7 +206,7 @@ Module Input Variables
         ap-southeast-2 = "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
         ap-northeast-1 = "ap-northeast-1a,ap-northeast-1c"
         ap-northeast-2 = "ap-northeast-2a,ap-northeast-2c"
-    }`).
+    }`). NOT USED IN MODULE.... Have got issue with terraform :( 
 - `ami` - I added only 3 regions to show the map feature but you can add all (`default     = {
         us-east-1 = "ami-46c1b650"
         us-west-2 = "ami-46c1b632"

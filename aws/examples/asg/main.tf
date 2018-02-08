@@ -6,6 +6,7 @@ terraform {
 }
 provider "aws" {
     region  = "us-east-1"
+    profile = "default"
     # Make it faster by skipping something
     #skip_get_ec2_platforms      = true
     #skip_metadata_api_check     = true
@@ -15,7 +16,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -38,7 +39,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -59,7 +60,7 @@ module "vpc" {
     enable_internet_gateway             = "true"
     #NAT
     enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
     enable_vpn_gateway                  = "false"
     #DHCP
@@ -74,10 +75,10 @@ module "elb" {
     environment                         = "PROD"
 
     security_groups                     = ["${module.vpc.security_group_id}"]
-
+    
     # Need to choose subnets or availability_zones. The subnets has been chosen.
     subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-
+    
     #access_logs = [
     #    {
     #        bucket = "my-access-logs-bucket"
@@ -93,8 +94,8 @@ module "elb" {
             lb_protocol       = "HTTP"
         },
     #    {
-    #        instance_port      = 80
-    #        instance_protocol  = "http"
+    #        instance_port      = 443
+    #        instance_protocol  = "https"
     #        lb_port            = 443
     #        lb_protocol        = "https"
     #        ssl_certificate_id = "${var.elb_certificate}"
@@ -107,8 +108,22 @@ module "elb" {
             healthy_threshold   = 2
             unhealthy_threshold = 2
             timeout             = 5
-        },
+        }
     ]
+    # You could use ONE health_check!
+    #health_check = [
+    #    {
+    #        target              = "HTTP:443/"
+    #        interval            = 30
+    #        healthy_threshold   = 2
+    #        unhealthy_threshold = 2
+    #        timeout             = 5
+    #    }
+    #]
+    # Enable 
+    enable_lb_cookie_stickiness_policy_http  = true
+    # Enable 
+    enable_app_cookie_stickiness_policy_http = "true"
 }
 module "asg" {
     source                              = "../../modules/asg"
