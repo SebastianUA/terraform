@@ -27,6 +27,7 @@ resource "aws_db_instance" "db_instance" {
 
     vpc_security_group_ids  = ["${var.vpc_security_group_ids}"]
     db_subnet_group_name    = "${var.db_subnet_group_name}"
+    #db_subnet_group_name    = "${var.db_subnet_group_name == "" ? aws_db_subnet_group.db_subnet_group.id : var.db_subnet_group_name}"
     parameter_group_name    = "${var.parameter_group_name}"
     #parameter_group_name    = "${length(var.parameter_group_name) > 0 ? var.parameter_group_name : aws_db_parameter_group.db_parameter_group_instance.id}"
     publicly_accessible     = "${var.publicly_accessible}"
@@ -122,7 +123,6 @@ resource "aws_rds_cluster" "rds_cluster" {
 #---------------------------------------------------
 resource "aws_db_subnet_group" "db_subnet_group" {
     count       = "${var.create_rds_cluster ? 1 : 0}"
-    
     name        = "${lower(var.name)}-db_subnet_group-${lower(var.environment)}"
     description = "My ${lower(var.name)}-db_subnet_group-${lower(var.environment)} group of subnets"
     subnet_ids  = ["${var.subnet_ids}"]
@@ -171,15 +171,15 @@ resource "aws_db_parameter_group" "db_parameter_group" {
 #
 # Not finished yet..... It's not working and don't use in this module at all........ 
 #
-resource "aws_db_parameter_group" "db_parameter_group_instance" {
-    count       = "${length(var.parameter_group_name) > 0 ? 0 : 1}"
-        
-    #name_prefix = "${lower(var.name)}-${lower(var.environment)}-"
-    name        = "${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)}"
-    description = "RDS ${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)} parameter group for ${var.engine}"
-    family      = "mysql5.7"
-    parameter   = "${var.default_db_parameters[var.engine]}"
-}
+#resource "aws_db_parameter_group" "db_parameter_group_instance" {
+#    count       = "${length(var.parameter_group_name) > 0 ? 0 : 1}"
+#        
+#    #name_prefix = "${lower(var.name)}-${lower(var.environment)}-"
+#    name        = "${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)}"
+#    description = "RDS ${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)} parameter group for ${var.engine}"
+#    family      = "mysql5.7"
+#    parameter   = "${var.default_db_parameters[var.engine]}"
+#}
 
 #
 # Planned to add SNS https://www.terraform.io/docs/providers/aws/r/db_event_subscription.html

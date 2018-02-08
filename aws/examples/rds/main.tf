@@ -13,7 +13,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -30,7 +30,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -66,7 +66,6 @@ module "rds" {
     environment         = "PROD"
 
     subnet_ids          = ["subnet-11ed234b", "subnet-34eddf51"]
-
     #create_rds_cluster  = true
     #
     ## For cluster
