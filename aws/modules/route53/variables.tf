@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST-ASG"
+  default     = "TEST-Route53"
 }
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
@@ -30,10 +30,10 @@ variable "domain_name_for_primary_public_route53_zone" {
     description = " Domain name for primary_public route53_zone"
     default     = "domain.localdomain"
 }
-variable "route53_record_name" {
+variable "route53_record_names" {
     description = "Route53 record name"
-    type        = "string"
-    default     = ""
+    type        = "list"
+    default     = []
 }
 variable "route53_record_type" {
     description = "The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT"

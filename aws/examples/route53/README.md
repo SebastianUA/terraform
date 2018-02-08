@@ -25,7 +25,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -48,7 +48,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -127,14 +127,14 @@ module "asg" {
     environment                         = "PROD"
 
     security_groups = ["${module.vpc.security_group_id}"]
-
+    
     root_block_device  = [
         {
             volume_size = "8"
             volume_type = "gp2"
         },
     ]
-
+    
     # Auto scaling group
     #asg_name                  = "example-asg"
     vpc_zone_identifier       = ["${module.vpc.vpc-publicsubnet-ids}"]
@@ -151,33 +151,32 @@ module "asg" {
 }
 module "route53" {
     source                              = "../../modules/route53"
-    name                                = "TEST-ASG"
+    name                                = "TEST-Route53"
     region                              = "us-east-1"
     environment                         = "PROD"
-
+ 
     create_primary_public_route53_zone          = "true"
     domain_name_for_primary_public_route53_zone = "example.local"
 
-    route53_record_name     = "Test-domain.local"
+    route53_record_names     = ["Test-domain.local", "domain2.local"]
     #route53_record_type     = "A"
     #route53_record_ttl      = "60"
     #route53_record_records  = ["192.168.0.114"]
-
+    
     #parent_zone_id          = "Z254KLT7VYA1UX"
-
+    
     target_dns_name         = "${module.elb.elb_dns_name}"
     target_zone_id          = "${module.elb.elb_zone_id}"
-
+    
     evaluate_target_health  = "true"
 
     #Health_checks
     #create_http_route53_health_check    = "true"
     fqdn_for_http_route53_health_check       = "linux-notes.org"
-
+    
     #create_https_route53_health_check   = "true"
     fqdn_for_https_route53_health_check = "linux-notes.org"
 }
-
 ```
 
 Module Input Variables

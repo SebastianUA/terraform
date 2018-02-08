@@ -2,7 +2,7 @@
 # Create AWS route53 zone(s)
 #---------------------------------------------------
 resource "aws_route53_zone" "primary_public" {
-    count           = "${var.create_primary_public_route53_zone ? 1 : 0}"
+    count           = "${var.create_primary_public_route53_zone ? signum(length(compact(var.route53_record_names))) : 0}"
     name            = "${var.domain_name_for_primary_public_route53_zone}"
     comment         = "Public zone for ${var.domain_name_for_primary_public_route53_zone}"
     tags {
@@ -17,7 +17,8 @@ resource "aws_route53_zone" "primary_public" {
 # Create AWS Route53 record(s)
 #---------------------------------------------------
 resource "aws_route53_record" "route53_record" {
-    name    = "${var.route53_record_name}"
+    count   = "${length(compact(var.route53_record_names))}"
+    name    = "${element(compact(var.route53_record_names), count.index)}"
     zone_id = "${var.create_primary_public_route53_zone ? aws_route53_zone.primary_public.zone_id : var.parent_zone_id}"
     type    = "${var.route53_record_type}"
     #ttl     = "${var.route53_record_ttl}"

@@ -15,7 +15,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -38,7 +38,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -141,14 +141,14 @@ module "asg" {
 }
 module "route53" {
     source                              = "../../modules/route53"
-    name                                = "TEST-ASG"
+    name                                = "TEST-Route53"
     region                              = "us-east-1"
     environment                         = "PROD"
  
     create_primary_public_route53_zone          = "true"
     domain_name_for_primary_public_route53_zone = "example.local"
 
-    route53_record_name     = "Test-domain.local"
+    route53_record_names     = ["Test-domain.local", "domain2.local"]
     #route53_record_type     = "A"
     #route53_record_ttl      = "60"
     #route53_record_records  = ["192.168.0.114"]
