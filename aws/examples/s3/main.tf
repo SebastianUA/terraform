@@ -25,6 +25,7 @@ module "s3" {
     {
         index_document = "index.html"
         error_document = "error.html"
+        #redirect_all_requests_to = "https://s3-website.linux-notes.org"
     },
     ]
     # Use cors rules
@@ -32,7 +33,7 @@ module "s3" {
     {
         allowed_headers = ["*"]
         allowed_methods = ["PUT", "POST"]
-        allowed_origins = ["https://s3-website-test.hashicorp.com"]
+        allowed_origins = ["https://s3-website.linux-notes.org"]
         expose_headers  = ["ETag"]
         max_age_seconds = 3000
     },

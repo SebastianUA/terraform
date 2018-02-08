@@ -29,13 +29,13 @@ variable "s3_acl" {
     description = "The canned ACL to apply. Defaults to 'private'."
     default     = "private"
 }
-variable "versioning" {
+variable "enable_versioning" {
     description = "A state of versioning"
-    default = false
+    default     = false
 }
 variable "force_destroy" {
     description = "A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
-    default = false
+    default     = false
 }
 variable "website" {
     description = "List of website fields"
@@ -57,12 +57,31 @@ variable "logging" {
     type        = "list"
     default     = []
 }
-variable "lifecycle_rule" {
-    description = "Add lifecycle rules"
-    type        = "list"
-    default     = []
+variable "enable_lifecycle_rule" {
+    description = "Enable lifecycle rule"
+    default     = true
 }
-#variable "enable_default_server_side_encryption" {
-#    description = "enable default server side encryption"
-#    default = false
-#}
+variable "lifecycle_rule_prefix" {
+    description = " Set prefix for lifecycle rule"
+    default     = ""
+}
+variable "noncurrent_version_expiration_days" {
+    description = "(Optional) Specifies when noncurrent object versions expire."
+    default     = "90"
+}
+variable "noncurrent_version_transition_days" {
+    description = "(Optional) Specifies when noncurrent object versions transitions"
+    default     = "30"
+}
+variable "standard_transition_days" {
+    description = "Number of days to persist in the standard storage tier before moving to the infrequent access tier"
+    default     = "30"
+}
+variable "glacier_transition_days" {
+    description = "Number of days after which to move the data to the glacier storage tier"
+    default     = "60"
+}
+variable "expiration_days" {
+    description = "Number of days after which to expunge the objects"
+    default     = "90"
+}

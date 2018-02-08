@@ -50,7 +50,6 @@ module "s3" {
 
 
 }
-
 ```
 
 Module Input Variables
@@ -69,7 +68,13 @@ Module Input Variables
 - `routing_rules` - Routing rules (`default = []`).
 - `cors_rule` - Cors rule (`default = []`).
 - `logging` - Add logging rules (`default = []`).
-- `lifecycle_rule` - Add lifecycle rules (`default = []`).
+- `enable_lifecycle_rule` - Enable lifecycle rule (`default = true`).
+- `lifecycle_rule_prefix` - Set prefix for lifecycle rule (`default = ""`).
+- `noncurrent_version_expiration_days` - (Optional) Specifies when noncurrent object versions expire (`default = "90"`).
+- `noncurrent_version_transition_days` - Specifies when noncurrent object versions transitions (`default = "30"`).
+- `standard_transition_days` - Number of days to persist in the standard storage tier before moving to the infrequent access tier (`default = "30"`).
+- `glacier_transition_days` - Number of days after which to move the data to the glacier storage tier (`default = "60"`).
+- `expiration_days` - Number of days after which to expunge the objects (`default = "90"`).
 
 Authors
 =======

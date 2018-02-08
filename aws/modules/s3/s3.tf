@@ -2,7 +2,6 @@
 # Create S3 bucket
 #---------------------------------------------------
 resource "aws_s3_bucket" "s3_bucket" {
-    #count  = "" 
     #bucket_prefix = "${var.bucket_prefix}"
     bucket = "${lower(var.name)}-s3-${lower(var.environment)}"
     region = "${var.region}"
@@ -20,11 +19,44 @@ resource "aws_s3_bucket" "s3_bucket" {
     }    
     #Add versioning    
     versioning {
-        enabled = "${var.versioning}"
+        enabled = "${var.enable_versioning}"
     }
     #Add lifecycle rule
-    lifecycle_rule  = "${var.lifecycle_rule}"
+    lifecycle_rule  {
+        id      = "${lower(var.name)}-lifecycle_rule-${lower(var.environment)}"
+        enabled = "${var.enable_lifecycle_rule}"
+        
+        prefix = "${var.lifecycle_rule_prefix}"
+        tags {
+            Name            = "${lower(var.name)}-lc_rule-${lower(var.environment)}"
+            Environment     = "${var.environment}"
+            Orchestration   = "${var.orchestration}"
+            Createdby       = "${var.createdby}"
+        }
 
+        noncurrent_version_expiration {
+            days = "${var.noncurrent_version_expiration_days}"
+        }
+        
+        noncurrent_version_transition {
+            days          = "${var.noncurrent_version_transition_days}"
+            storage_class = "GLACIER"
+        }
+        
+        transition {
+            days          = "${var.standard_transition_days}"
+            storage_class = "STANDARD_IA"
+        }
+    
+        transition {
+            days          = "${var.glacier_transition_days}"
+            storage_class = "GLACIER"
+        }
+        
+        expiration {
+            days = "${var.expiration_days}"
+        }
+    }
     #Add server side encryption configuration
     server_side_encryption_configuration {
         rule {
