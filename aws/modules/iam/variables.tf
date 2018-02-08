@@ -5,7 +5,6 @@ variable "name" {
   description = "Name to be used on all resources as prefix"
   default     = "TEST-AIM"
 }
-
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
