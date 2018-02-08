@@ -16,10 +16,11 @@ terraform {
 }
 provider "aws" {
     region  = "us-east-1"
+    profile = "default"
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -39,14 +40,10 @@ module "iam" {
         "ec2:DescribeVpcs",
         "ec2:Owner",
     ]
-    # cross account role    
-    enable_crossaccount_role = "true"
-    cross_acc_principal_arns = ["222222222222","arn:aws:iam::333333333333:user/MyUser"]
-    cross_acc_policy_arns    = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser", "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"]
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -57,7 +54,7 @@ module "vpc" {
     vpc_cidr                            = "172.31.0.0/16"
     private_subnet_cidrs                = ["172.31.64.0/20"]
     public_subnet_cidrs                 = ["172.31.0.0/20"]
-    availability_zones                  = ["us-east-1a"]
+    availability_zones                  = ["us-east-1a", "us-east-1b"]
     enable_all_egress_ports             = "true"
     allowed_ports                       = ["9300", "3272", "8888", "8444"]
 
@@ -67,7 +64,7 @@ module "vpc" {
     enable_internet_gateway             = "true"
     #NAT
     enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
     enable_vpn_gateway                  = "false"
     #DHCP
@@ -77,7 +74,7 @@ module "vpc" {
 }
 module "ec2" {
     source                              = "../../modules/ec2"
-    name                                = "TEST-Machine"
+    name                                = "TEST-Machine"    
     region                              = "us-east-1"
     environment                         = "PROD"
     ec2_instance_type                   = "t2.micro"
@@ -86,11 +83,12 @@ module "ec2" {
     tenancy                             = "${module.vpc.instance_tenancy}"
     iam_instance_profile                = "${module.iam.instance_profile_id}"
     subnet_id                           = "${element(module.vpc.vpc-publicsubnet-ids, 0)}"
+    #subnet_id                           = "${element(module.vpc.vpc-privatesubnet-ids, 0)}"
+    #subnet_id                           = ["${element(module.vpc.vpc-privatesubnet-ids)}"]
     vpc_security_group_ids              = ["${module.vpc.security_group_id}"]
 
     monitoring                          = "true"
 }
-
 ```
 
 Module Input Variables
@@ -106,7 +104,6 @@ Module Input Variables
         eu-west-1 = "ami-6e28b517"
     }
 `).
-- `key_name` - The key name to use for the instance.
 - `number_of_instances` - Number of instances to make(`default = 1`).
 - `ec2_instance_type` - Type of instance t2.micro, m1.xlarge, c1.medium etc (`default = t2.micro`).
 - `disk_size` - disk size for EC2 instance (`default = 8`).

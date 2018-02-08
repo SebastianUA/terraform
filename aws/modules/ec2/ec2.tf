@@ -2,7 +2,7 @@
 # Define SSH key pair for our instances
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair" {
-  key_name = "${var.name}-key_pair"
+  key_name = "${lower(var.name)}-key_pair-${lower(var.environment)}"
   public_key = "${file("${var.key_path}")}"
 }
 #---------------------------------------------------
@@ -13,9 +13,9 @@ resource "aws_instance" "instance" {
 
     ami                         = "${lookup(var.ami, var.region)}"
     instance_type               = "${var.ec2_instance_type}"
-    #user_data                   = "${var.user_data}"
+    user_data                   = "${var.user_data}"
      #user_data                  = "${file("bootstrap.sh")}"
-    key_name                    = "${var.key_name}"
+    key_name                    = "${aws_key_pair.key_pair.id}"
     subnet_id                   = "${var.subnet_id}"
     vpc_security_group_ids      = ["${var.vpc_security_group_ids}"]
     monitoring                  = "${var.monitoring}"
@@ -59,33 +59,16 @@ resource "aws_instance" "instance" {
     ##############################################
     # Provisioning
     #############################################
-    #user_data                   = "${file("install.sh")}"
-    # OR
-    #provisioner "remote-exec" {
-    #    inline = [
-    #        "sudo yum update -y",
-    #        "sudo yum upgrade -y",
-    #        "uname -a"
-    #    ]
-    #    connection {
-    #        timeout   = "5m"
-    #        user      = "centos"
-    #    }
-    #}
+    provisioner "remote-exec" {
+        inline = [
+            "sudo yum update -y",
+            "sudo yum upgrade -y",
+            "uname -a"
+        ]
+        connection {
+            timeout   = "5m"
+            user      = "centos"
+        }
+    }
+    depends_on = ["aws_key_pair.key_pair"]
 }
-
-#resource "null_resource" "rerun" {
-#    triggers {
-#      rerun = "${uuid()}"
-#    }
-#    connection {
-#        user = "centos"
-#        private_key = "${file("${var.private_key}")}"
-#        host = "${aws_instance.instance.public_ip}"
-#    }
-#    provisioner "remote-exec" {
-#      inline = [
-#        "sudo yum  update -y"
-#      ]
-#    }
-#}

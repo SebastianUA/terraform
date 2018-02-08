@@ -33,10 +33,6 @@ variable "ami" {
 #---------------------------------------------------------------
 # Custom variables
 #---------------------------------------------------------------
-variable "key_name" {
-    description = "The key name to use for the instance"
-    default     = ""
-}    
 variable "number_of_instances" {
     description = "Number of instances to make"
     default     = "1"

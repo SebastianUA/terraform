@@ -6,10 +6,11 @@ terraform {
 }
 provider "aws" {
     region  = "us-east-1"
+    profile = "default"
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -32,7 +33,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -53,7 +54,7 @@ module "vpc" {
     enable_internet_gateway             = "true"
     #NAT
     enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
     enable_vpn_gateway                  = "false"
     #DHCP
@@ -77,8 +78,4 @@ module "ec2" {
     vpc_security_group_ids              = ["${module.vpc.security_group_id}"]
 
     monitoring                          = "true"
-    #depends_on = [
-    #    "module.vpc",
-    #    "module.iam"
-    #]
 }
