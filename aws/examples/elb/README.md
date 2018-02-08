@@ -25,7 +25,7 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
@@ -48,7 +48,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -84,10 +84,10 @@ module "elb" {
     environment                         = "PROD"
 
     security_groups                     = ["${module.vpc.security_group_id}"]
-
+    
     # Need to choose subnets or availability_zones. The subnets has been chosen.
     subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-
+    
     #access_logs = [
     #    {
     #        bucket = "my-access-logs-bucket"
@@ -103,8 +103,8 @@ module "elb" {
             lb_protocol       = "HTTP"
         },
     #    {
-    #        instance_port      = 80
-    #        instance_protocol  = "http"
+    #        instance_port      = 443
+    #        instance_protocol  = "https"
     #        lb_port            = 443
     #        lb_protocol        = "https"
     #        ssl_certificate_id = "${var.elb_certificate}"
@@ -117,8 +117,22 @@ module "elb" {
             healthy_threshold   = 2
             unhealthy_threshold = 2
             timeout             = 5
-        },
+        }
     ]
+    # You could use ONE health_check!
+    #health_check = [
+    #    {
+    #        target              = "HTTP:443/"
+    #        interval            = 30
+    #        healthy_threshold   = 2
+    #        unhealthy_threshold = 2
+    #        timeout             = 5
+    #    }
+    #]
+    # Enable lb cookie stickiness policy 
+    enable_lb_cookie_stickiness_policy_http  = true
+    # Enable app cookie stickiness policy 
+    enable_app_cookie_stickiness_policy_http = "true"
 }
 ```
 
@@ -157,7 +171,12 @@ Module Input Variables
 - `access_logs` - An access logs block. Uploads access logs to S3 bucket (`default = []`).
 - `listener` - A list of Listener block.
 - `health_check` - Health check block.
-
+- `enable_lb_cookie_stickiness_policy_http` - Enable lb cookie stickiness policy http. If set true, will add it, else will use https (`default = "true"`).
+- `enable_app_cookie_stickiness_policy_http` - Enable app cookie stickiness policy http. If set true, will add it, else will use https (`default = "true"`).
+- `http_lb_port` - Set http lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies (`default = "80"`).
+- `https_lb_port` - Set https lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies (`default = "443"`).
+- `cookie_expiration_period` - Set cookie expiration period (`default = 600`).
+- `cookie_name` - Set cookie name (`default = "SessionID"`).
 
 Authors
 =======

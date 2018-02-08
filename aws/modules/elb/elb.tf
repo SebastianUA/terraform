@@ -2,13 +2,12 @@
 # Create AWS ELB
 #---------------------------------------------------
 resource "aws_elb" "elb" {
-    name                = "${var.name}-elb-${var.environment}"
-    #availability_zones  = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
+    name                = "${lower(var.name)}-elb-${lower(var.environment)}"
+    #availability_zones  = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
     security_groups     = ["${var.security_groups}"]
     subnets             = ["${var.subnets}"]
-    internal            = false #"${var.elb_internal}"
+    internal            = "${var.elb_internal}"
     
-    #instances                   = ["${var.instances}"]
     cross_zone_load_balancing   = "${var.cross_zone_load_balancing}"
     idle_timeout                = "${var.idle_timeout}"
     connection_draining         = "${var.connection_draining}"
@@ -31,7 +30,6 @@ resource "aws_elb" "elb" {
 resource "aws_elb_attachment" "elb_attachment" {
     count       = "${length(var.instances)}"
     
-    #elb         = "${var.name}-elb_attachment-${var.environment}"
     elb         = "${aws_elb.elb.name}"
     instance    = "${element(var.instances, count.index)}"
     
@@ -41,37 +39,41 @@ resource "aws_elb_attachment" "elb_attachment" {
 # Add LB cookie stickiness policy
 #---------------------------------------------------
 resource "aws_lb_cookie_stickiness_policy" "lb_cookie_stickiness_policy_http" {
-    name                        = "${var.name}-lb-cookie-stickiness-policy-http-${var.environment}"
+    count                       = "${var.enable_lb_cookie_stickiness_policy_http ? 1 : 0}"
+    name                        = "${lower(var.name)}-lb-cookie-stickiness-policy-http-${lower(var.environment)}"
     load_balancer               = "${aws_elb.elb.id}"
-    lb_port                     = 80
-    cookie_expiration_period    = 600
-        
+    lb_port                     = "${var.http_lb_port}"
+    cookie_expiration_period    = "${var.cookie_expiration_period}"
+                                
     depends_on                  = ["aws_elb.elb"]
 }
-#resource "aws_lb_cookie_stickiness_policy" "lb_cookie_stickiness_policy_https" {
-#    name                        = "${var.name}-lb_cookie-stickiness-policy-https-${var.environment}"
-#    load_balancer               = "${aws_elb.elb.id}"
-#    lb_port                     = 443
-#    cookie_expiration_period    = 600
-#
-#    depends_on                  = ["aws_elb.elb"]
-#}
+resource "aws_lb_cookie_stickiness_policy" "lb_cookie_stickiness_policy_https" {
+    count                       = "${var.enable_lb_cookie_stickiness_policy_http ? 0 : 1}"
+    name                        = "${lower(var.name)}-lb_cookie-stickiness-policy-https-${lower(var.environment)}"
+    load_balancer               = "${aws_elb.elb.id}"
+    lb_port                     = "${var.https_lb_port}"
+    cookie_expiration_period    = "${var.cookie_expiration_period}"
+
+    depends_on                  = ["aws_elb.elb"]
+}
 #---------------------------------------------------
 #Add APP cookie stickiness policy
 #---------------------------------------------------
 resource "aws_app_cookie_stickiness_policy" "app_cookie_stickiness_policy_http" {
-    name                     = "${var.name}-app-cookie-stickiness-policy-http-${var.environment}"
+    count                    = "${var.enable_app_cookie_stickiness_policy_http ? 1 : 0}"
+    name                     = "${lower(var.name)}-app-cookie-stickiness-policy-http-${lower(var.environment)}"
     load_balancer            = "${aws_elb.elb.id}"
-    lb_port                  = 80
-    cookie_name              = "JSESSIONID"
+    lb_port                  = "${var.http_lb_port}"
+    cookie_name              = "${var.cookie_name}"
 
     depends_on               = ["aws_elb.elb"]
 }
-#resource "aws_app_cookie_stickiness_policy" "app_cookie_stickiness_policy_https" {
-#    name                     = "${var.name}-app-cookie-stickiness-policy-https-${var.environment}"
-#    load_balancer            = "${aws_elb.elb.id}"
-#    lb_port                  = 443
-#    cookie_name              = "JSESSIONID"
-#  
-#    depends_on               = ["aws_elb.elb"]
-#}
+resource "aws_app_cookie_stickiness_policy" "app_cookie_stickiness_policy_https" {
+    count                    = "${var.enable_app_cookie_stickiness_policy_http ? 0 : 1}"
+    name                     = "${lower(var.name)}-app-cookie-stickiness-policy-https-${lower(var.environment)}"
+    load_balancer            = "${aws_elb.elb.id}"
+    lb_port                  = "${var.https_lb_port}"
+    cookie_name              = "${var.cookie_name}"
+  
+    depends_on               = ["aws_elb.elb"]
+}

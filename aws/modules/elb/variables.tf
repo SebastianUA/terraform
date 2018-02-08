@@ -94,3 +94,27 @@ variable "health_check" {
     description = " Health check"
     type        = "list"
 }
+variable "enable_lb_cookie_stickiness_policy_http" {
+    description = "Enable lb cookie stickiness policy http. If set true, will add it, else will use https"
+    default     = "true"
+}
+variable "enable_app_cookie_stickiness_policy_http" {
+    description = "Enable app cookie stickiness policy http. If set true, will add it, else will use https"
+    default     = "true"
+}
+variable "http_lb_port" {
+    description = "Set http lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
+    default     = "80"
+}
+variable "https_lb_port" {
+    description = "Set https lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
+    default     = "443"
+}
+variable "cookie_expiration_period" {
+    description = "Set cookie expiration period"
+    default     = 600
+}
+variable "cookie_name" {
+    description = "Set cookie name"
+    default     = "SessionID"
+}
