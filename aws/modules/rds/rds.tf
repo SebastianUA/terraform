@@ -123,6 +123,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 #---------------------------------------------------
 resource "aws_db_subnet_group" "db_subnet_group" {
     count       = "${var.create_rds_cluster ? 1 : 0}"
+    
     name        = "${lower(var.name)}-db_subnet_group-${lower(var.environment)}"
     description = "My ${lower(var.name)}-db_subnet_group-${lower(var.environment)} group of subnets"
     subnet_ids  = ["${var.subnet_ids}"]

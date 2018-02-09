@@ -50,6 +50,7 @@ resource "aws_instance" "instance" {
         # we have to ignore changes in the following arguments
         ignore_changes = ["private_ip", "vpc_security_group_ids", "root_block_device"]
     }
+    
     tags {
         Name            = "${lower(var.name)}-ec2-${lower(var.environment)}-${count.index+1}"
         Environment     = "${var.environment}"
@@ -70,5 +71,6 @@ resource "aws_instance" "instance" {
             user      = "centos"
         }
     }
+    
     depends_on = ["aws_key_pair.key_pair"]
 }

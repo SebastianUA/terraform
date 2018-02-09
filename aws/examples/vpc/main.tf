@@ -14,7 +14,7 @@ provider "aws" {
 
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "dedicated"
@@ -26,17 +26,17 @@ module "vpc" {
     private_subnet_cidrs                = ["172.31.64.0/20"]
     public_subnet_cidrs                 = ["172.31.80.0/20"]
     availability_zones                  = ["us-east-1a", "us-east-1b"]
-    allowed_ports                       = ["80", "3272", "8888", "8444"]
+    allowed_ports                       = ["80", "3306", "80", "443"]
     
     #Internet-GateWay
     enable_internet_gateway             = "true" 
     #NAT
-    enable_nat_gateway                  = "true"
-    single_nat_gateway                  = "false"
+    enable_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
-    enable_vpn_gateway                  = "true"
+    enable_vpn_gateway                  = "false"
     #DHCP
-    enable_dhcp_options                 = "true"
+    enable_dhcp_options                 = "false"
     # EIP
-    enable_eip                          = "true"   
+    enable_eip                          = "false"   
 }

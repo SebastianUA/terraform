@@ -2,14 +2,17 @@
 output "instance_ids" {
     value = ["${aws_instance.instance.*.id}"]
 }
+
 output "availability_zone" {
   description = "List of availability zones of instances"
   value       = ["${aws_instance.instance.*.availability_zone}"]
 }
+
 output "key_name" {
   description = "List of key names of instances"
   value       = ["${aws_instance.instance.*.key_name}"]
 }
+
 output "public_dns" {
   description = "List of public DNS names assigned to the instances. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC"
   value       = ["${aws_instance.instance.*.public_dns}"]
@@ -59,6 +62,7 @@ output "tags" {
   description = "List of tags of instances"
   value       = ["${aws_instance.instance.*.tags}"]
 }
+
 output "key_pair_id" {
     description = "key_pair_id"
     value       = "aws_key_pair.key_pair.id"

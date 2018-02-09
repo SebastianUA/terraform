@@ -3,8 +3,10 @@
 #---------------------------------------------------
 resource "aws_route53_zone" "primary_public" {
     count           = "${var.create_primary_public_route53_zone ? signum(length(compact(var.route53_record_names))) : 0}"
+    
     name            = "${var.domain_name_for_primary_public_route53_zone}"
     comment         = "Public zone for ${var.domain_name_for_primary_public_route53_zone}"
+    
     tags {
         Name            = "${lower(var.name)}-route53_primary_public_zone-${lower(var.environment)}"
         Environment     = "${var.environment}"
@@ -18,6 +20,7 @@ resource "aws_route53_zone" "primary_public" {
 #---------------------------------------------------
 resource "aws_route53_record" "route53_record" {
     count   = "${length(compact(var.route53_record_names))}"
+    
     name    = "${element(compact(var.route53_record_names), count.index)}"
     zone_id = "${var.create_primary_public_route53_zone ? aws_route53_zone.primary_public.zone_id : var.parent_zone_id}"
     type    = "${var.route53_record_type}"
@@ -36,6 +39,7 @@ resource "aws_route53_record" "route53_record" {
         zone_id                = "${var.target_zone_id}" 
         evaluate_target_health = "${var.evaluate_target_health}"
     }
+    
     depends_on  = ["aws_route53_zone.primary_public"]
 }
 #---------------------------------------------------
