@@ -2,7 +2,7 @@
 # Create AWS RDS instance(s)
 #---------------------------------------------------
 resource "aws_db_instance" "db_instance" {
-    count                = "${var.create_rds_cluster ? 0 : var.number_of_instances_in_the_cluster}"
+    count                       = "${var.create_rds_cluster ? 0 : var.number_of_instances_in_the_cluster}"
 
     identifier                  = "${lower(var.name)}-rds-${lower(var.environment)}-${count.index+1}"
     allocated_storage           = "${var.allocated_storage}"
@@ -21,15 +21,12 @@ resource "aws_db_instance" "db_instance" {
     name                    = "${var.db_name}"
     username                = "${var.db_username}"
     password                = "${var.db_password}"
-    #port                    = "${var.db_port}"
     port                    = "${lookup(var.default_ports, var.engine)}"    
     character_set_name      = "${var.character_set_name}"
 
     vpc_security_group_ids  = ["${var.vpc_security_group_ids}"]
-    db_subnet_group_name    = "${var.db_subnet_group_name}"
-    #db_subnet_group_name    = "${var.db_subnet_group_name == "" ? aws_db_subnet_group.db_subnet_group.id : var.db_subnet_group_name}"
-    parameter_group_name    = "${var.parameter_group_name}"
-    #parameter_group_name    = "${length(var.parameter_group_name) > 0 ? var.parameter_group_name : aws_db_parameter_group.db_parameter_group_instance.id}"
+    db_subnet_group_name    = "${var.db_subnet_group_name == "" ? aws_db_subnet_group.db_subnet_group.id : var.db_subnet_group_name}"
+    parameter_group_name    = "${length(var.parameter_group_name) > 0 ? var.parameter_group_name : aws_db_parameter_group.db_parameter_group.id}"
     publicly_accessible     = "${var.publicly_accessible}"
     storage_encrypted       = "${var.storage_encrypted}"
     multi_az                = "${var.multi_az}"
@@ -53,7 +50,7 @@ resource "aws_db_instance" "db_instance" {
         ignore_changes          = ["final_snapshot_identifier", "replicate_source_db"],
     }
                      
-    #depends_on  = ["aws_db_parameter_group.db_parameter_group_instance"]
+    depends_on  = ["aws_db_subnet_group.db_subnet_group", "aws_db_parameter_group.db_parameter_group"]
 }
 #---------------------------------------------------
 # Create AWS RDS cluster
@@ -66,7 +63,6 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
     instance_class      = "${var.instance_class}"
 
     db_subnet_group_name    = "${var.db_subnet_group_name == "" ? aws_db_subnet_group.db_subnet_group.id : var.db_subnet_group_name}"
-    #db_subnet_group_name    = "aws_db_subnet_group.db_subnet_group.id"
     apply_immediately       = "${var.apply_immediately}"
     db_parameter_group_name = "${var.instance_parameter_group_name == "" ? aws_db_parameter_group.db_parameter_group.id : var.instance_parameter_group_name}"
  
@@ -92,14 +88,12 @@ resource "aws_rds_cluster" "rds_cluster" {
     skip_final_snapshot         = "${var.skip_final_snapshot}"
     final_snapshot_identifier   = "${lower(var.name)}-cluster-${lower(var.environment)}-${md5(timestamp())}"
 
-    #db_subnet_group_name            = "${var.db_subnet_group_name}"
-    db_subnet_group_name            = "${aws_db_subnet_group.db_subnet_group.id}"
-    vpc_security_group_ids          = ["${var.vpc_security_group_ids}"]
-    
+    db_subnet_group_name        = "${var.db_subnet_group_name == "" ? aws_db_subnet_group.db_subnet_group.id : var.db_subnet_group_name}"
+    vpc_security_group_ids      = ["${var.vpc_security_group_ids}"]
+     
     storage_encrypted               = "${var.storage_encrypted}"
     apply_immediately               = "${var.apply_immediately}"
-    db_cluster_parameter_group_name = "${var.db_cluster_parameter_group_name}"
-
+    db_cluster_parameter_group_name = "${length(var.db_cluster_parameter_group_name) > 0 ? aws_db_parameter_group.db_parameter_group.id : var.db_cluster_parameter_group_name}"
     availability_zones  = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
     
     database_name       = "${var.db_name}"
@@ -116,16 +110,17 @@ resource "aws_rds_cluster" "rds_cluster" {
     lifecycle {
         create_before_destroy   = true,
         ignore_changes          = ["final_snapshot_identifier"],
-  }
-}
+    }
+    depends_on          = ["aws_db_subnet_group.db_subnet_group", "aws_db_parameter_group.db_parameter_group"]
+}                                                       
 #---------------------------------------------------
 # Create AWS DB subnet group
 #---------------------------------------------------
 resource "aws_db_subnet_group" "db_subnet_group" {
-    count       = "${var.create_rds_cluster ? 1 : 0}"
-    
-    name        = "${lower(var.name)}-db_subnet_group-${lower(var.environment)}"
-    description = "My ${lower(var.name)}-db_subnet_group-${lower(var.environment)} group of subnets"
+    count       = "${var.db_subnet_group_name == "" ? 1 : 0}"    
+                                                    
+    name        = "${lower(var.name)}-db_subnet_group-for-${var.create_rds_cluster ? "cluster" : "rds"}-${lower(var.environment)}"
+    description = "My ${lower(var.name)}-db_subnet_group-for-${var.create_rds_cluster ? "cluster" : "rds"}-${lower(var.environment)} group of subnets"
     subnet_ids  = ["${var.subnet_ids}"]
 
     tags {
@@ -139,28 +134,13 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 # Create AWS DB parameter group
 #---------------------------------------------------
 resource "aws_db_parameter_group" "db_parameter_group" {
-    count       = "${var.create_rds_cluster ? 1 : 0}"
-    
-    name        = "${lower(var.name)}-db-parameter-group-${lower(var.environment)}"
-    family      = "aurora5.6"
-    description = "${var.name} ${var.environment} parameter group for ${var.engine}"
-
-    parameter = {
-        name = "slow_query_log"
-        value = "1"
-    }
-    parameter = {
-        name = "long_query_time"
-        value = "1"
-    }
-    parameter = {
-        name = "general_log"
-        value = "0"
-    }
-    parameter = {
-        name = "log_output"
-        value = "FILE"
-    }
+    count       = "${length(var.parameter_group_name) > 0 ? 0 : 1}"
+        
+    #name_prefix = "${lower(var.name)}-${lower(var.environment)}-"
+    name        = "${lower(var.name)}-db-parameter-group-for-${var.create_rds_cluster ? "cluster" : "rds"}-${lower(var.environment)}"
+    description = "RDS ${lower(var.name)}-db_parameter_group-for-${var.create_rds_cluster ? "cluster" : "rds"}-${lower(var.environment)} parameter group for ${var.engine}"
+    family      = "${var.db_group_family[var.engine]}"
+    parameter   = "${var.default_db_parameters[var.engine]}"
 
     tags {
         Name            = "${lower(var.name)}-db_parameter_group-${lower(var.environment)}"
@@ -168,20 +148,9 @@ resource "aws_db_parameter_group" "db_parameter_group" {
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
     }
+
 }
-#
-# Not finished yet..... It's not working and don't use in this module at all........ 
-#
-#resource "aws_db_parameter_group" "db_parameter_group_instance" {
-#    count       = "${length(var.parameter_group_name) > 0 ? 0 : 1}"
-#        
-#    #name_prefix = "${lower(var.name)}-${lower(var.environment)}-"
-#    name        = "${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)}"
-#    description = "RDS ${lower(var.name)}-db_parameter_group_instance-${lower(var.environment)} parameter group for ${var.engine}"
-#    family      = "mysql5.7"
-#    parameter   = "${var.default_db_parameters[var.engine]}"
-#}
 
 #
-# Planned to add SNS https://www.terraform.io/docs/providers/aws/r/db_event_subscription.html
+# Planned to add https://www.terraform.io/docs/providers/aws/r/db_event_subscription.html in future....
 #

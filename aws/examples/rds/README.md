@@ -23,12 +23,13 @@ provider "aws" {
 }
 module "iam" {
     source                          = "../../modules/iam"
-    name                            = "TEST-AIM2"
+    name                            = "TEST-AIM"
     region                          = "us-east-1"
     environment                     = "PROD"
 
     aws_iam_role-principals         = [
         "ec2.amazonaws.com",
+        "monitoring.rds.amazonaws.com",
     ]
     aws_iam_policy-actions           = [
         "cloudwatch:GetMetricStatistics",
@@ -39,7 +40,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "main"
+    name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -73,19 +74,20 @@ module "rds" {
     name                = "Test-DB"
     region              = "us-east-1"
     environment         = "PROD"
-
+    
     subnet_ids          = ["subnet-11ed234b", "subnet-34eddf51"]
-
-    #create_rds_cluster  = true
-    #
-    ## For cluster
-    ## aurora or aurora-postgresql. !!!!Tested just for aurora!!!!
-    #engine              = "aurora"
-    #engine_version      = "1.14.1"
-    #subnet_ids          = ["subnet-11ed234b", "subnet-34eddf51"]
     ##subnet_ids          = ["module.vpc.vpc-privatesubnet-ids"]
-    #instance_class      = "db.t2.small"
-} 
+    # Single node(s)
+    #create_rds_cluster  = false
+    #engine              = "mysql"
+    
+    ## For cluster
+    create_rds_cluster  = true
+    ## aurora or aurora-postgresql. !!!!Tested just for aurora!!!!
+    engine              = "aurora"
+    instance_class      = "db.t2.small"
+    
+}
 ```
 
 Module Input Variables

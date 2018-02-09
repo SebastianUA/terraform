@@ -106,11 +106,6 @@ variable "db_password" {
     default     = "ROot666roOT"
 }
 
-variable "db_port" {
-    description = "The database port (3306 etc)"
-    default     = "3306"
-}
-
 variable "default_ports" {
     description = "Default database ports"  
     type        = "map"
@@ -125,36 +120,64 @@ variable "default_ports" {
 variable "default_db_parameters" {
     default = {
         mysql = [
-            {
-                name  = "slow_query_log"
-                value = "1"
-            },
-            {
-                name  = "long_query_time"
-                value = "1"
-            },
-            {
-                name  = "general_log"
-                value = "0"
-            },
-            {
-                name  = "log_output"
-                value = "FILE"
-            },
-            {
-                name  = "character_set_server"
-                value = "utf8"
-            },
-            {
-                name  = "character_set_client"
-                value = "utf8"
-            },
+        {
+            name  = "slow_query_log"
+            value = "1"
+        },
+        {
+            name  = "long_query_time"
+            value = "1"
+        },
+        {
+            name  = "general_log"
+            value = "0"
+        },
+        {
+            name  = "log_output"
+            value = "FILE"
+        },
+        {
+            name  = "character_set_server"
+            value = "utf8"
+        },
+        {
+            name  = "character_set_client"
+            value = "utf8"
+        },
         ]
-        postgres = []
-        oracle   = []
+        aurora        = [
+        {
+            name  = "slow_query_log"
+            value = "1"
+        },
+        {
+            name  = "long_query_time"
+            value = "1"
+        },
+        {
+            name  = "general_log"
+            value = "0"
+        },
+        {
+            name  = "log_output"
+            value = "FILE"
+        },
+        ]  
+        postgres      = []
+        oracle        = []
     }
 }
-
+variable "db_group_family" {
+    description = "Set DB group family"
+    type        = "map"
+    default     = {
+        mysql     = "mysql5.6"
+        postgres  = "postgres9.6"
+        oracle    = "oracle-ee-12.1"   
+        aurora    = "aurora5.6"  
+    }
+}
+    
 variable "character_set_name" {
     description = "The character set name to use for DB encoding in Oracle instances. This can't be changed"
     #default     = "utf8"
@@ -168,7 +191,8 @@ variable "db_subnet_group_name" {
 
 variable "parameter_group_name" {
     description = "Name of the DB parameter group to associate."
-    default     = "default.mysql5.6"
+    #default     = "default.mysql5.6"
+    default     = ""
 }
 
 variable "publicly_accessible" {
