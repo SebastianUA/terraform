@@ -52,7 +52,7 @@ module "vpc" {
     public_subnet_cidrs                 = ["172.31.0.0/20"]
     availability_zones                  = ["us-east-1a", "us-east-1b"]
     enable_all_egress_ports             = "true"
-    allowed_ports                       = ["9300", "3272", "8888", "8444"]
+    allowed_ports                       = ["9300", "3306", "80", "443"]
 
     map_public_ip_on_launch             = "true"
 

@@ -3,11 +3,12 @@
 #---------------------------------------------------
 resource "aws_autoscaling_group" "asg" {
     count                       = "${var.create_asg}"
+    
     launch_configuration        = "${var.create_lc ? element(aws_launch_configuration.lc.*.name, 0) : var.launch_configuration}"
     #name                        = "${var.name}-asg-${var.environment}"
     name_prefix                 = "${var.name}-asg-"
     #Have got issue with availability_zones usage. So, I skip this parameter.
-    availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
+    #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
     max_size                    = "${var.asg_max_size}"
     min_size                    = "${var.asg_min_size}"
     vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
@@ -74,6 +75,7 @@ resource "aws_key_pair" "key_pair" {
 #---------------------------------------------------
 resource "aws_launch_configuration" "lc" {
     count                       = "${var.create_lc}"
+    
     #name                        = "${var.name}-lc-${var.environment}"
     name_prefix                 = "${var.name}-lc-"
     image_id                    = "${lookup(var.ami, var.region)}"
@@ -99,6 +101,7 @@ resource "aws_launch_configuration" "lc" {
     lifecycle {
         create_before_destroy = "true" #"${var.enable_create_before_destroy}"
     }
+    
     depends_on = ["aws_key_pair.key_pair"]
     
 }
@@ -107,6 +110,7 @@ resource "aws_launch_configuration" "lc" {
 #---------------------------------------------------
 resource "aws_autoscaling_policy" "scale_up" {
     count                   = "${var.enable_autoscaling_schedule ? 1 : 0}"
+    
     name                    = "${var.name}-asg_policy-${var.environment}-scale_up"
     scaling_adjustment      = "${var.asg_size_scale}"
     adjustment_type         = "${var.adjustment_type}"
@@ -121,6 +125,7 @@ resource "aws_autoscaling_policy" "scale_up" {
 }
 resource "aws_autoscaling_policy" "scale_down" {
     count                   = "${var.enable_autoscaling_schedule ? 1 : 0}"
+    
     name                    = "${var.name}-asg_policy-${var.environment}-scale_down"
     scaling_adjustment      = "-${var.asg_size_scale}"
     adjustment_type         = "${var.adjustment_type}"
@@ -138,6 +143,7 @@ resource "aws_autoscaling_policy" "scale_down" {
 #---------------------------------------------------
 resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
     count                   = "${var.enable_autoscaling_schedule ? 1 : 0}"
+    
     scheduled_action_name   = "scale-out-during-business-hours"
     min_size                = "${var.asg_min_size}"
     max_size                = "${var.asg_size_scale}"
@@ -149,6 +155,7 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
 }
 resource "aws_autoscaling_schedule" "scale_in_at_night" {
     count                   = "${var.enable_autoscaling_schedule ? 1 : 0}"
+    
     scheduled_action_name   = "scale-in-at-night"
     min_size                = "${var.asg_min_size}"
     max_size                = "${var.asg_size_scale}"
