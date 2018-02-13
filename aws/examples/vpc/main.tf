@@ -22,12 +22,13 @@ module "vpc" {
     enable_dns_hostnames                = "true"
     assign_generated_ipv6_cidr_block    = "false"
     enable_classiclink                  = "false"
+    
     vpc_cidr                            = "172.31.0.0/16"
     private_subnet_cidrs                = ["172.31.64.0/20"]
-    public_subnet_cidrs                 = ["172.31.80.0/20"]
+    public_subnet_cidrs                 = ["172.31.80.0/20", "172.31.0.0/20"]
     availability_zones                  = ["us-east-1a", "us-east-1b"]
-    allowed_ports                       = ["80", "3306", "80", "443"]
-    
+    allowed_ports                       = ["8080", "3306", "80", "443"]
+
     #Internet-GateWay
     enable_internet_gateway             = "true" 
     #NAT

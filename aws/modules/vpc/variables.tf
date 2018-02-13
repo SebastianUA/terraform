@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST"
+  default     = "TEST-VPC"
 }
 
 variable "instance_tenancy" {
@@ -52,6 +52,17 @@ variable "createdby" {
 variable "allowed_ports" {
   description = "Allowed ports from/to host"
   type        = "list"
+}
+
+variable "allow_cidrs_for_allowed_ports" {
+    description = "Set allowed cidrs for allowed_ports"
+    type        = "map"
+    default     = {
+        "80"        = ["0.0.0.0/0"]
+        "443"       = ["0.0.0.0/0"]
+        "3306"      = ["172.31.0.0/20", "172.31.16.0/20"]
+        "8080"      = ["0.0.0.0/0"]
+    }
 }
 
 variable "enable_all_egress_ports" {

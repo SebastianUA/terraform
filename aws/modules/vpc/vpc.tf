@@ -25,15 +25,6 @@ resource "aws_security_group" "sg" {
     description         = "Security Group ${var.name}-sg-${var.environment}"
     vpc_id              = "${aws_vpc.vpc.id}"
     
-    tags { 
-        Name            = "${var.name}-sg-${var.environment}"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-    lifecycle {
-        create_before_destroy = true
-    }
     # allow traffic for TCP 22 to host
     ingress {
         from_port   = 22
@@ -41,6 +32,7 @@ resource "aws_security_group" "sg" {
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
+    
     # allow traffic for TCP 22 from host
     egress {
         from_port   = 22
@@ -49,6 +41,18 @@ resource "aws_security_group" "sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     
+    tags {
+        Name            = "${var.name}-sg-${var.environment}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+  
+    lifecycle {
+        create_before_destroy = true
+    }
+
+
     depends_on  = ["aws_vpc.vpc"]
 }
 #---------------------------------------------------
@@ -62,7 +66,7 @@ resource "aws_security_group_rule" "ingress_ports" {
     from_port           = "${element(var.allowed_ports, count.index)}"
     to_port             = "${element(var.allowed_ports, count.index)}"
     protocol            = "tcp"
-    cidr_blocks         = ["0.0.0.0/0"]
+    cidr_blocks         = ["${var.allow_cidrs_for_allowed_ports[element(var.allowed_ports, count.index)]}"]
     
     depends_on          = ["aws_security_group.sg"]
 }
@@ -74,7 +78,7 @@ resource "aws_security_group_rule" "egress_ports" {
     from_port           = "${element(var.allowed_ports, count.index)}"
     to_port             = "${element(var.allowed_ports, count.index)}"
     protocol            = "tcp"
-    cidr_blocks         = ["0.0.0.0/0"]
+    cidr_blocks         = ["${var.allow_cidrs_for_allowed_ports[element(var.allowed_ports, count.index)]}"] 
     
     depends_on          = ["aws_security_group.sg"]
 }
@@ -106,16 +110,13 @@ resource "aws_security_group_rule" "default_egress" {
 resource "aws_subnet" "private_subnets" {
     count                   = "${length(var.private_subnet_cidrs)}"
     
-    cidr_block              = "${element(var.private_subnet_cidrs, count.index)}"
+    cidr_block              = "${var.private_subnet_cidrs[count.index]}"
     vpc_id                  = "${aws_vpc.vpc.id}"
     map_public_ip_on_launch = "false"
-    #count                   = "${length(var.availability_zones)}"
-    #availability_zone       = "${element(var.availability_zones, count.index)}"
-    availability_zone       = "${element(var.availability_zones, 0)}"
-    #availability_zone		= "${element(split(",", var.availability_zones), count.index)}"
+    availability_zone       = "${element(var.availability_zones, count.index)}"
     
     tags {
-        Name            = "private_subnet-${element(var.availability_zones, count.index)}"
+        Name            = "${lower(var.name)}-${lower(var.environment)}-private_subnet-${count.index+1}"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
@@ -127,17 +128,15 @@ resource "aws_subnet" "private_subnets" {
 # Add AWS subnets (public)
 #---------------------------------------------------
 resource "aws_subnet" "public_subnets" {
-    count                   = "${length(var.public_subnet_cidrs)}"
-    
-    cidr_block              = "${element(var.public_subnet_cidrs, count.index)}"
+    count                   = "${length(var.public_subnet_cidrs)}"    
+
+    cidr_block              = "${var.public_subnet_cidrs[count.index]}"
     vpc_id                  = "${aws_vpc.vpc.id}"
     map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
-    #count                   = "${length(var.availability_zones)}"
-    #availability_zone       = "${element(var.availability_zones, count.index)}"
-    availability_zone       = "${element(var.availability_zones, 0)}"
+    availability_zone       = "${element(var.availability_zones, count.index)}"
     
     tags {
-        Name            = "public_subnet-${element(var.availability_zones, count.index)}"
+        Name            = "${lower(var.name)}-${lower(var.environment)}-public_subnet-${count.index+1}"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
@@ -211,8 +210,8 @@ resource "aws_nat_gateway" "nat_gw" {
 # Create private route table and the route to the internet
 #---------------------------------------------------
 resource "aws_route_table" "private_route_tables" {
-    count               = "${length(var.availability_zones)}"
-    
+    count               = "${length(var.private_subnet_cidrs) > 0 ? 1 : 0}"
+                    
     vpc_id              = "${aws_vpc.vpc.id}"
     propagating_vgws    = ["${var.private_propagating_vgws}"]
     
@@ -223,6 +222,12 @@ resource "aws_route_table" "private_route_tables" {
         Createdby       = "${var.createdby}"
     }
     
+    lifecycle {
+        # When attaching VPN gateways it is common to define aws_vpn_gateway_route_propagation
+        # resources that manipulate the attributes of the routing table (typically for the private subnets)
+        ignore_changes = ["propagating_vgws"]
+    }   
+
     depends_on          = ["aws_vpc.vpc"]
 }
 resource "aws_route" "private_nat_gateway" {
