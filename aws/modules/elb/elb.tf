@@ -3,9 +3,10 @@
 #---------------------------------------------------
 resource "aws_elb" "elb" {
     name                = "${lower(var.name)}-elb-${lower(var.environment)}"
+    # can be use availability_zones or subnets....
     #availability_zones  = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
-    security_groups     = ["${var.security_groups}"]
     subnets             = ["${var.subnets}"]
+    security_groups     = ["${var.security_groups}"]
     internal            = "${var.elb_internal}"
     
     cross_zone_load_balancing   = "${var.cross_zone_load_balancing}"

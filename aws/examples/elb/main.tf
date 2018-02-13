@@ -36,30 +36,64 @@ module "iam" {
         "ec2:Owner",
     ]
 }
+module "kms" {
+    source               = "../../modules/kms"
+    name                 = "TEST-KMS"
+    environment          = "PROD"
+
+    aws_account_id       = "XXXXXXXXXXXXXXXXX"
+}
+module "s3" {
+    source                              = "../../modules/s3"
+    name                                = "My-backet"
+    environment                         = "PROD"
+
+    #
+    s3_acl          = "log-delivery-write"  #"private"
+    force_destroy   = "true"
+    # Allow public web-site (Static website hosting)
+    website         = [
+    {
+        index_document = "index.html"
+        error_document = "error.html"
+        #redirect_all_requests_to = "https://s3-website.linux-notes.org"
+    },
+    ]
+    # Use cors rules
+    cors_rule       = [
+    {
+        allowed_headers = ["*"]
+        allowed_methods = ["PUT", "POST"]
+        allowed_origins = ["https://s3-website.linux-notes.org"]
+        expose_headers  = ["ETag"]
+        max_age_seconds = 3000
+    },
+    ]
+
+    kms_master_key_id = "arn:aws:kms:${module.kms.region}:${module.kms.aws_account_id}:key/${module.kms.kms_key_id}"
+}
 module "vpc" {
     source                              = "../../modules/vpc"
     name                                = "TEST-VPC"
     environment                         = "PROD"
     # VPC
-    instance_tenancy                    = "default"
+    instance_tenancy                    = "dedicated"
     enable_dns_support                  = "true"
     enable_dns_hostnames                = "true"
     assign_generated_ipv6_cidr_block    = "false"
     enable_classiclink                  = "false"
+
     vpc_cidr                            = "172.31.0.0/16"
     private_subnet_cidrs                = ["172.31.64.0/20"]
-    public_subnet_cidrs                 = ["172.31.0.0/20"]
+    public_subnet_cidrs                 = ["172.31.80.0/20", "172.31.0.0/20"]
     availability_zones                  = ["us-east-1a", "us-east-1b"]
-    enable_all_egress_ports             = "true"
-    allowed_ports                       = ["9300", "3272", "8888", "8444"]
-
-    map_public_ip_on_launch             = "true"
+    allowed_ports                       = ["8080", "3306", "80", "443"]
 
     #Internet-GateWay
     enable_internet_gateway             = "true"
     #NAT
     enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
+    single_nat_gateway                  = "true"
     #VPN
     enable_vpn_gateway                  = "false"
     #DHCP
@@ -78,13 +112,13 @@ module "elb" {
     # Need to choose subnets or availability_zones. The subnets has been chosen.
     subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
     
-    #access_logs = [
-    #    {
-    #        bucket = "my-access-logs-bucket"
-    #        bucket_prefix = "bar"
-    #        interval = 60
-    #    },
-    #]
+    access_logs = [
+        {
+            bucket = "${module.s3.bucket_name}"
+            bucket_prefix = "bar"
+            interval = 60
+        },
+    ]
     listener = [
         {
             instance_port     = "80"
