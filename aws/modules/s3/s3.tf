@@ -61,7 +61,7 @@ resource "aws_s3_bucket" "s3_bucket" {
     server_side_encryption_configuration {
         rule {
             apply_server_side_encryption_by_default {
-                kms_master_key_id = "${aws_kms_key.kms_key.arn}"
+                kms_master_key_id = "${var.kms_master_key_id}"
                 sse_algorithm     = "aws:kms"
             }
         }
@@ -79,13 +79,4 @@ resource "aws_s3_bucket" "s3_bucket" {
         create_before_destroy = true
     }
 
-    depends_on  = ["aws_kms_key.kms_key"]
-}
-#---------------------------------------------------
-# Create AWS KMS key
-#---------------------------------------------------
-resource "aws_kms_key" "kms_key" {
-    #count                   = "${var.enable_default_server_side_encryption ? 1 : 0}"
-    description             = "This key is used to encrypt bucket objects"
-    deletion_window_in_days = 10
 }

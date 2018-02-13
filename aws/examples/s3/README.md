@@ -21,7 +21,13 @@ provider "aws" {
      # access_key = "${var.aws_access_key}"
      # secret_key = "${var.aws_secret_key}"
 }
+module "kms" {
+    source               = "../../modules/kms"
+    name                 = "TEST-KMS"
+    environment          = "PROD"
 
+    aws_account_id       = "XXXXXXXXXXXXXXXXX"
+}
 module "s3" {
     source                              = "../../modules/s3"
     name                                = "My-backet"
@@ -49,7 +55,7 @@ module "s3" {
     },
     ]
 
-
+    kms_master_key_id = "arn:aws:kms:${module.kms.region}:${module.kms.aws_account_id}:key/${module.kms.kms_key_id}"
 }
 ```
 

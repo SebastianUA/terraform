@@ -104,3 +104,8 @@ variable "expiration_days" {
     description = "Number of days after which to expunge the objects"
     default     = "90"
 }
+
+variable "kms_master_key_id" {
+    description = "Set KMS master ket ID"
+    default     = ""
+}
