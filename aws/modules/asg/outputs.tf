@@ -55,6 +55,15 @@ output "this_autoscaling_group_health_check_type" {
   value       = "${element(concat(aws_autoscaling_group.asg.*.health_check_type, list("")), 0)}"
 }
 
+output "autoscaling_policy_scale_up_arn" {
+    description = ""
+    value       = "${element(concat(aws_autoscaling_policy.scale_up.*.arn, list("")), 0)}"
+}
+output "autoscaling_policy_scale_down_arn" {
+    description = ""
+    value       = "${element(concat(aws_autoscaling_policy.scale_down.*.arn, list("")), 0)}"
+}
+
 //output "this_autoscaling_group_vpc_zone_identifier" {
 //  description = "The VPC zone identifier"
 //  value       = "${element(concat(aws_autoscaling_group.asg.vpc_zone_identifier, list("")), 0)}"
