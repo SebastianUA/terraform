@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair" {
   key_name = "${lower(var.name)}-key_pair-${lower(var.environment)}"
-  public_key = "${file("${var.key_path}")}"
+  public_key = "${file("${var.public_key}")}"
 }
 #---------------------------------------------------
 # Create AWS Instance
@@ -67,8 +67,13 @@ resource "aws_instance" "instance" {
             "uname -a"
         ]
         connection {
-            timeout   = "5m"
-            user      = "centos"
+            #host        = "${element(aws_instance.instance.*.public_ip, 0)}"
+            user        = "centos"
+            #password   = ""
+            timeout     = "5m"
+            private_key = "${file("${var.private_key}")}"
+            agent       = "true"
+            type        = "ssh"
         }
     }
     

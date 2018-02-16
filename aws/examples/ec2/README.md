@@ -111,7 +111,7 @@ Module Input Variables
 - `ebs_optimized` - If true, the launched EC2 instance will be EBS-optimized (`default = false`).
 - `disable_api_termination` - If true, enables EC2 Instance Termination Protection (`default = false`).
 - `instance_initiated_shutdown_behavior` - Shutdown behavior for the instance" # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior (`default = false`).
-- `key_path` - Key path to your RSA|DSA key (`default = /Users/captain/.ssh/id_rsa.pub`).
+- `public_key` - Key path to your RSA|DSA public key (`default = /Users/captain/.ssh/id_rsa.pub`).
 - `private_key` - Private key (`default = /Users/captain/.ssh/id_rsa`).
 - `enable_associate_public_ip_address` - Enabling associate public ip address (`default = true`).
 - `source_dest_check` - (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true (`default = false`).
