@@ -132,6 +132,7 @@ module "alb" {
     backend_protocol    = "HTTP"
     alb_protocols       = "HTTP"
    
+    #It's not working properly when use EC2... First of all, comment the line under this text. Run playbook. Uncomment that line:
     target_ids          = ["${module.ec2.instance_ids}"]
     
     #access_logs = [

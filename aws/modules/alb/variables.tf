@@ -121,7 +121,7 @@ variable "backend_protocol" {
 variable "target_ids" {
     description = "The ID of the target. This is the Instance ID for an instance, or the container ID for an ECS container. If the target type is ip, specify an IP address."
     type        = "list"
-    #default     = []
+    default     = []
 }
 
 variable "certificate_arn" {
