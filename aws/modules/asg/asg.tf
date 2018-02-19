@@ -7,11 +7,11 @@ resource "aws_autoscaling_group" "asg" {
     launch_configuration        = "${var.create_lc ? element(aws_launch_configuration.lc.*.name, 0) : var.launch_configuration}"
     #name                        = "${var.name}-asg-${var.environment}"
     name_prefix                 = "${var.name}-asg-"
-    #Have got issue with availability_zones usage. So, I skip this parameter.
+    #Have got issue between availability_zones and vpc_zone_identifier. I preferred vpc_zone_identifier.....  
     #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"] #["us-east-1a", "us-east-1b"]
+    vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
     max_size                    = "${var.asg_max_size}"
     min_size                    = "${var.asg_min_size}"
-    vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
     desired_capacity            = "${var.desired_capacity}"
     
     health_check_grace_period   = "${var.health_check_grace_period}"
