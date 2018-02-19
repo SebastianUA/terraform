@@ -39,7 +39,7 @@ module "iam" {
 }
 module "vpc" {
     source                              = "../../modules/vpc"
-    name                                = "TEST-VPC"
+    name                                = "My"
     environment                         = "PROD"
     # VPC
     instance_tenancy                    = "default"
@@ -47,12 +47,14 @@ module "vpc" {
     enable_dns_hostnames                = "true"
     assign_generated_ipv6_cidr_block    = "false"
     enable_classiclink                  = "false"
-
     vpc_cidr                            = "172.31.0.0/16"
-    private_subnet_cidrs                = ["172.31.64.0/20"]
+    private_subnet_cidrs                = ["172.31.32.0/20", "172.31.48.0/20"]
     public_subnet_cidrs                 = ["172.31.80.0/20"]
-    availability_zones                  = ["us-east-1a"]
-    allowed_ports                       = ["8080", "3306", "80", "443"]
+    availability_zones                  = ["us-east-1a", "us-east-1e"]
+    enable_all_egress_ports             = "true"
+    allowed_ports                       = ["8080", "3306", "443", "80"]
+
+    map_public_ip_on_launch             = "true"
 
     #Internet-GateWay
     enable_internet_gateway             = "true"
@@ -102,62 +104,88 @@ module "vpc" {
 #
 #    kms_master_key_id = "arn:aws:kms:${module.kms.region}:${module.kms.aws_account_id}:key/${module.kms.kms_key_id}"
 #}
-module "elb" {
-    source                              = "../../modules/elb"
-    name                                = "TEST-ELB"
-    region                              = "us-east-1"
-    environment                         = "PROD"
+#module "elb" {
+#    source                              = "../../modules/elb"
+#    name                                = "TEST-ELB"
+#    region                              = "us-east-1"
+#    environment                         = "PROD"
+#
+#    security_groups                     = ["${module.vpc.security_group_id}"]
+#    
+#    # Need to choose subnets or availability_zones. The subnets has been chosen.
+#    subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
+#    
+#    #access_logs = [
+#    #    {
+#    #        bucket = "${module.s3.bucket_name}"
+#    #        bucket_prefix = "bar"
+#    #        interval = 60
+#    #    },
+#    #]
+#    listener = [
+#        {
+#            instance_port     = "80"
+#            instance_protocol = "HTTP"
+#            lb_port           = "80"
+#            lb_protocol       = "HTTP"
+#        },
+#    #    {
+#    #        instance_port      = 443
+#    #        instance_protocol  = "https"
+#    #        lb_port            = 443
+#    #        lb_protocol        = "https"
+#    #        ssl_certificate_id = "${var.elb_certificate}"
+#    #    },
+#    ]
+#    health_check = [
+#        {
+#            target              = "HTTP:80/"
+#            interval            = 30
+#            healthy_threshold   = 2
+#            unhealthy_threshold = 2
+#            timeout             = 5
+#        }
+#    ]
+#    # You could use ONE health_check!
+#    #health_check = [
+#    #    {
+#    #        target              = "HTTP:443/"
+#    #        interval            = 30
+#    #        healthy_threshold   = 2
+#    #        unhealthy_threshold = 2
+#    #        timeout             = 5
+#    #    }
+#    #]
+#    # Enable 
+#    enable_lb_cookie_stickiness_policy_http  = true
+#    # Enable 
+#    enable_app_cookie_stickiness_policy_http = "true"
+#}
+module "alb" {
+    source                  = "../../modules/alb"
+    name                    = "App-Load-Balancer"
+    region                  = "us-east-1"
+    environment             = "PROD"
 
-    security_groups                     = ["${module.vpc.security_group_id}"]
-    
-    # Need to choose subnets or availability_zones. The subnets has been chosen.
-    subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-    
+    load_balancer_type          = "application"
+    security_groups             = ["${module.vpc.security_group_id}", "${module.vpc.default_security_group_id}"]
+    subnets                     = ["${module.vpc.vpc-privatesubnet-ids}"]
+    vpc_id                      = "${module.vpc.vpc_id}"
+    enable_deletion_protection  = false
+
+    backend_protocol    = "HTTP"
+    alb_protocols       = "HTTP"
+
+    target_ids          = []
+
     #access_logs = [
     #    {
-    #        bucket = "${module.s3.bucket_name}"
-    #        bucket_prefix = "bar"
-    #        interval = 60
+    #        enabled         = true
+    #        bucket          = "${module.s3.bucket_name}"
+    #        prefix          = "log"
     #    },
     #]
-    listener = [
-        {
-            instance_port     = "80"
-            instance_protocol = "HTTP"
-            lb_port           = "80"
-            lb_protocol       = "HTTP"
-        },
-    #    {
-    #        instance_port      = 443
-    #        instance_protocol  = "https"
-    #        lb_port            = 443
-    #        lb_protocol        = "https"
-    #        ssl_certificate_id = "${var.elb_certificate}"
-    #    },
-    ]
-    health_check = [
-        {
-            target              = "HTTP:80/"
-            interval            = 30
-            healthy_threshold   = 2
-            unhealthy_threshold = 2
-            timeout             = 5
-        }
-    ]
-    # You could use ONE health_check!
-    #health_check = [
-    #    {
-    #        target              = "HTTP:443/"
-    #        interval            = 30
-    #        healthy_threshold   = 2
-    #        unhealthy_threshold = 2
-    #        timeout             = 5
-    #    }
-    #]
-    # Enable 
-    enable_lb_cookie_stickiness_policy_http  = true
-    # Enable 
-    enable_app_cookie_stickiness_policy_http = "true"
+
 }
 module "asg" {
     source                              = "../../modules/asg"
@@ -184,7 +212,16 @@ module "asg" {
     desired_capacity          = 1
     wait_for_capacity_timeout = 0
 
-    load_balancers            = ["${module.elb.elb_name}"]
+    # ELB
+    #load_balancer_type        = "ELB"  
+    # It's not working properly when use ELB... First of all, comment the line under this text. Run playbook. Uncomment that line:
+    #load_balancers            = ["${module.elb.elb_name}"]
+    # ALB
+    load_balancer_type        = "ALB"
+    #It's not working properly when use ALB... First of all, comment the line under this text. Run playbook. Uncomment that line:
+    load_balancers            = ["${module.alb.target_group_arn}"]
+    # NLB doesn't support yet.... 
+
     monitoring                = "true"
     #
     enable_autoscaling_schedule = true

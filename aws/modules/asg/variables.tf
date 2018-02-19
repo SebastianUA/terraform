@@ -36,6 +36,11 @@ variable "create_asg" {
     default     = true
 }
 
+variable "load_balancer_type" {
+    description = "Type of load balancer. Ex: ELB, ALB etc"
+    default     = "elb"
+}
+
 # Launch configuration
 variable "launch_configuration" {
     description = "The name of the launch configuration to use (if it is created outside of this module)"

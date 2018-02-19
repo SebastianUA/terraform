@@ -16,7 +16,7 @@ resource "aws_autoscaling_group" "asg" {
     
     health_check_grace_period   = "${var.health_check_grace_period}"
     health_check_type           = "${var.health_check_type}"
-    load_balancers              = ["${var.load_balancers}"]
+    #load_balancers              = ["${var.load_balancers}"]
     
     min_elb_capacity            = "${var.min_elb_capacity}"
     wait_for_elb_capacity       = "${var.wait_for_elb_capacity}"
@@ -63,6 +63,30 @@ data "template_file" "instances_index" {
     count       = "${var.asg_max_size}"
     template    = "${lower(var.name)}-${lower(var.environment)}-${count.index+1}"
 }
+#---------------------------------------------------
+# Create AWS autoscaling_attachment
+#---------------------------------------------------
+resource "aws_autoscaling_attachment" "elb_autoscaling_attachment" {
+    count                   = "${upper(var.load_balancer_type) == "ELB" && length(var.load_balancers) > 0 ? 1 : 0}"
+    autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
+    elb                     = "${data.template_file.elb_index.rendered}"
+}
+data "template_file" "elb_index" {
+    count       = "${length(var.load_balancers)}"
+    template    = "${var.load_balancers[count.index]}"
+}
+
+resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
+    count                   = "${upper(var.load_balancer_type) == "ALB" && length(var.load_balancers) > 0 ? 1 : 0}"
+    autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
+    alb_target_group_arn    = "${data.template_file.alb_index.rendered}" 
+}
+data "template_file" "alb_index" {
+    count       = "${length(var.load_balancers)}"
+    template    = "${var.load_balancers[count.index]}"
+}
+
+
 #---------------------------------------------------
 # Define SSH key pair for our instances
 #---------------------------------------------------
