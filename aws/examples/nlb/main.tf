@@ -93,6 +93,7 @@ module "nlb" {
 
     backend_protocol    = "TCP"
     alb_protocols       = "TCP"
-                                     
+    
+    #It's not working properly when use EC2... First of all, comment the line under this text. Run playbook. Uncomment that line.    
     target_ids          = ["${module.ec2.instance_ids}"]
 }
