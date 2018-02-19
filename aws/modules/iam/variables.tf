@@ -59,4 +59,7 @@ variable "cross_acc_policy_arns" {
     default     = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser", "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"]
 }
 
-
+variable "upload_server_certificate" {
+    description = "Allow upload server certificate"
+    default     = "false"
+}

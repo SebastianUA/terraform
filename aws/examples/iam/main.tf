@@ -35,4 +35,6 @@ module "aim" {
   enable_crossaccount_role = "false" 
   cross_acc_principal_arns = ["222222222222222","arn:aws:iam::333333333333:user/test"]
   cross_acc_policy_arns    = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser", "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"] 
+  #  
+  upload_server_certificate = false
 }

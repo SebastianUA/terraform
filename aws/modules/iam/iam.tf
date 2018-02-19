@@ -100,3 +100,17 @@ resource "aws_iam_role_policy_attachment" "cross_account_assume_role" {
     
     depends_on = ["aws_iam_role.cross_account_assume_role"]
 }
+####################################################
+# Create AWS IAM server certificate
+####################################################
+resource "aws_iam_server_certificate" "iam_server_certificate" {
+    count            = "${var.upload_server_certificate ? 1 : 0}"
+
+    name             = "${lower(var.name)}-certificate-${lower(var.environment)}"
+    certificate_body = "${file("${path.module}/certs/example.crt.pem")}"
+    private_key      = "${file("${path.module}/certs/example.key.pem")}"
+    
+    lifecycle {
+        create_before_destroy = true
+    }
+}
