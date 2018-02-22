@@ -29,7 +29,7 @@ module "sns" {
 
     #
     sns_protocol = "sqs"
-    sns_endpoint = "arn:aws:sqs:us-east-1:316963130188:my_sqs"    
+    sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"    
 }
 
 ```
