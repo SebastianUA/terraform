@@ -1,6 +1,6 @@
 # Work with Google Cloud  Platform (compute instance) via terraform
 
-A terraform module for making google cloud <> records.
+A terraform module for making google cloud instance.
  
 ## Usage
 --------
