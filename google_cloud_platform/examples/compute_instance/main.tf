@@ -10,8 +10,8 @@ provider "google" {
     project     = "terraform-2018"
     region      = "us-east-1"
 }   
-module "compute" {
-    source                          = "../../modules/compute"
+module "compute_instance" {
+    source                          = "../../modules/compute_instance"
     name                            = "TEST"
 
     project_name                    = "terraform-2018"
