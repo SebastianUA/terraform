@@ -3,6 +3,11 @@ variable "name" {
     default     = "TEST"
 }
 
+variable "custom_name" {
+    description = "A custom name for the resource, required by GCE. Changing this forces a new resource to be created."
+    default     = ""
+}
+
 variable "project" {
     description = "The project in which the resource belongs. If it is not provided, the provider project is used."
     default     = ""

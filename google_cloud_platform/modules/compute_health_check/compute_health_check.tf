@@ -5,7 +5,7 @@ resource "google_compute_health_check" "compute_http_health_check" {
     count = "${var.enable_compute_http_health_check ? 1 : 0 }"
             
     project             = "${var.project}"
-    name                = "${lower(var.name)}-http-hc-${lower(var.environment)}"
+    name                = "${length(var.custom_name) > 0 ? var.custom_name : "${lower(var.name)}-http-hc-${lower(var.environment)}" }"
     description         = "${var.description}"
 
     check_interval_sec  = "${var.check_interval_sec}"
@@ -35,7 +35,7 @@ resource "google_compute_health_check" "compute_https_health_check" {
     count = "${var.enable_compute_https_health_check ? 1 : 0 }"
 
     project             = "${var.project}"
-    name                = "${lower(var.name)}-https-hc-${lower(var.environment)}"
+    name                = "${length(var.custom_name) > 0 ? var.custom_name : "${lower(var.name)}-https-hc-${lower(var.environment)}" }"
     description         = "${var.description}"
     
     check_interval_sec  = "${var.check_interval_sec}"
@@ -64,7 +64,7 @@ resource "google_compute_health_check" "compute_ssl_health_check" {
     count = "${var.enable_compute_ssl_health_check ? 1 : 0 }"
 
     project             = "${var.project}"
-    name                = "${lower(var.name)}-ssl-hc-${lower(var.environment)}"
+    name                = "${length(var.custom_name) > 0 ? var.custom_name : "${lower(var.name)}-ssl-hc-${lower(var.environment)}" }"
     description         = "${var.description}"
 
     check_interval_sec  = "${var.check_interval_sec}"
@@ -92,7 +92,7 @@ resource "google_compute_health_check" "compute_tcp_health_check" {
     count = "${var.enable_compute_tcp_health_check ? 1 : 0 }"
 
     project             = "${var.project}"
-    name                = "${lower(var.name)}-tcp-hc-${lower(var.environment)}"
+    name                = "${length(var.custom_name) > 0 ? var.custom_name : "${lower(var.name)}-tcp-hc-${lower(var.environment)}" }"
     description         = "${var.description}"
 
     check_interval_sec  = "${var.check_interval_sec}"
