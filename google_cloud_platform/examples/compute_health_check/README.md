@@ -26,6 +26,8 @@ module "compute_health_check" {
 
     project                             = "terraform-2018"
     
+    #custom_name                         = "mycustomhc"
+
     enable_compute_http_health_check    = true
     enable_compute_https_health_check   = true
     enable_compute_ssl_health_check     = true
@@ -42,6 +44,7 @@ Module Input Variables
 - `environment` - Environment for service (`default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`default     = "Terraform"`).
 - `project` - The ID of the project in which the resource belongs. If it is not provided, the provider project is used (`default     = ""`).
+- `custom_name` - Custom name for HC (`default     = ""`).
 - `check_interval_sec` - The number of seconds between each poll of the instance instance (default 5) - (`default     = "5"`).
 - `timeout_sec` - The number of seconds to wait before declaring failure (default 5) - (`default     = "5"`).
 - `description` - Textual description field (`default     = ""`).
