@@ -13,3 +13,5 @@ sudo yum upgrade -y
 sudo yum install epel-release -y
 
 sudo yum install nginx -y
+
+sudo service nginx restart
