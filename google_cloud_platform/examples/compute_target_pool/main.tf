@@ -47,3 +47,27 @@ module "compute_target_pool" {
     #health_checks                       = ["${module.compute_health_check.https_name}"]
 }   
 
+module "compute_forwarding_rule" {
+    source                          = "../../modules/compute_forwarding_rule"
+    name                            = "TEST"
+
+    project                         = "terraform-2018"
+
+    port_range                      = "80"
+    target                          = "${module.compute_target_pool.self_link}"
+}
+
+module "compute_firewall" {
+    source                          = "../../modules/compute_firewall"
+    name                            = "TEST"
+
+    project                         = "terraform-2018"
+
+    enable_all_ingress              = true
+    enable_all_egress               = true
+
+    #enable_all_ingress              = false
+    #allow_protocol                  = "icmp"
+    #allow_ports                     = ["80", "443"]
+}
+
