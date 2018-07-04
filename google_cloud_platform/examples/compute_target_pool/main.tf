@@ -10,7 +10,7 @@ provider "google" {
     project     = "terraform-2018"
     region      = "us-east1"
 }   
- 
+
 module "compute_instance" {
     source                          = "../../modules/compute_instance"
     name                            = "TEST"
@@ -18,22 +18,21 @@ module "compute_instance" {
     project_name                    = "terraform-2018"
 
     number_of_instances             = "2"
+    machine_type                    = "n1-highcpu-4"
     service_account_scopes          = ["userinfo-email", "compute-ro", "storage-ro"]
-
 }
 
 module "compute_health_check" {
     source                              = "../../modules/compute_health_check"
     name                                = "TEST"
-    
+
     project                             = "terraform-2018"
 
-
-    custom_name                         = "testhc"
-    enable_compute_http_health_check    = true
-    
-
-}                   
+    custom_name                         = "testhttp"
+    enable_compute_http_health_check    = "true"
+    http_health_check_port              = "80"
+    http_health_check_request_path      = "/"
+}
 
 module "compute_target_pool" {
     source                              = "../../modules/compute_target_pool"
@@ -41,10 +40,10 @@ module "compute_target_pool" {
 
     project                             = "terraform-2018"
     region                              = "us-east1"
-     
+
     instances                           = ["${module.compute_instance.compute_instance_self_links}"]
-    health_checks                       = ["${module.compute_health_check.http_self_link}"]
-    #health_checks                       = ["${module.compute_health_check.https_name}"]
+    #health_checks                       = ["${module.compute_health_check.http_self_link}"]
+    health_checks                       = ["testhttphcstage"]
 }   
 
 module "compute_forwarding_rule" {
@@ -70,4 +69,3 @@ module "compute_firewall" {
     #allow_protocol                  = "icmp"
     #allow_ports                     = ["80", "443"]
 }
-
