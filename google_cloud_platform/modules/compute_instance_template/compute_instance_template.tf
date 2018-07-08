@@ -23,7 +23,7 @@ resource "google_compute_instance_template" "compute_instance_template" {
 
 
     network_interface {
-        network             = "${var.network}"
+        network             = "${var.subnetwork == "" ? var.network : ""}"
         subnetwork          = "${var.subnetwork}"
         subnetwork_project  = "${var.subnetwork_project}"
         address             = "${var.address}"

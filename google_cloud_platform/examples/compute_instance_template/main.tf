@@ -14,7 +14,7 @@ module "compute_instance_template" {
     name                                = "TEST"
 
     #Create a new boot disk from an image
-    disk_source_image                   = "debian-cloud/debian-8"
+    disk_source_image                   = "centos-7"
     disk_auto_delete                    = true
     disk_boot                           = true
 
