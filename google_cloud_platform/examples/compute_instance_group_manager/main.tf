@@ -1,0 +1,54 @@
+#
+# MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
+#
+terraform {
+  required_version = "> 0.9.0"
+}
+provider "google" {
+    credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
+    project     = "terraform-2018"
+    region      = "us-east1"
+}
+
+module "compute_health_check" {
+    source                              = "../../modules/compute_health_check"
+    name                                = "TEST"
+
+    project                             = "terraform-2018"
+
+    enable_compute_http_health_check    = true
+}
+
+
+
+module "compute_instance_template" {
+    source                              = "../../modules/compute_instance_template"
+    name                                = "TEST"
+
+    #Create a new boot disk from an image
+    disk_source_image                   = "centos-7"
+    disk_auto_delete                    = true
+    disk_boot                           = true
+
+    #Use an existing disk resource
+    #disk_source_image                   = "foo_existing_disk"
+    #disk_auto_delete                    = false
+    #disk_boot                           = false
+
+    service_account_scopes              = ["userinfo-email", "compute-ro", "storage-ro"]
+    can_ip_forward                      = false
+    network                             = "default"
+    machine_type                        = "n1-highcpu-4"
+}
+
+module "compute_instance_group_manager" {
+    source                              = "../../modules/compute_instance_group_manager"
+    name                                = "TEST"
+
+    enable_just_instance_template_usage = "false"
+    instance_template                   = "${element(module.compute_instance_template.self_link, 0)}"
+    #target_pools                        = ["https://www.googleapis.com/compute/v1/projects/terraform-2018/regions/us-east1/targetPools/test1-tp-stage"]
+    auto_healing_policies_health_check  = "${element(module.compute_health_check.http_self_link, 0)}"
+    target_size                         = 1
+}
+
