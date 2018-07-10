@@ -70,7 +70,7 @@ Module Input Variables
 - `health_checks` - List of zero or one health check name or self_link. Only legacy google_compute_http_health_check is supported (`default     = []`).
 - `instances` - List of instances in the pool. They can be given as URLs, or in the form of 'zone/name'. Note that the instances need not exist at the time of target pool creation, so there is no need to use the Terraform interpolators to create a dependency on the instances from the target pool (`default     = []`).                                                                                  
 - `session_affinity` - How to distribute load. Options are 'NONE' (no affinity). 'CLIENT_IP' (hash of the source/dest addresses / ports), and 'CLIENT_IP_PROTO' also includes the protocol (default 'NONE') - (`default     = "NONE"`).                         
-
+- `use_compute_target_pool_default` - Enable compute target pool default for compute autoscaler or compute instance group manager. Default - fasle (`default = false`).
 
 Authors
 =======

@@ -99,6 +99,16 @@ output "name" {
     value       = "${module.compute_target_pool.name}"
 }
 
+#output "name_default" {
+#    description = "Name for default target pool"
+#    value       = "${module.compute_target_pool.default_pool_name}"
+#}
+#
+#output "self_link_d" {
+#    description = "self_link for default target pool"
+#    value       = "${module.compute_target_pool.default_pool_self_link}"
+#}
+
 #########################################################################################################
 ############################################ forwarding rule ############################################
 #########################################################################################################

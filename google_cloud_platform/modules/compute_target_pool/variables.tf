@@ -49,3 +49,8 @@ variable "session_affinity" {
     description = "How to distribute load. Options are 'NONE' (no affinity). 'CLIENT_IP' (hash of the source/dest addresses / ports), and 'CLIENT_IP_PROTO' also includes the protocol (default 'NONE')."
     default     = "NONE"
 }
+
+variable "use_compute_target_pool_default" {
+    description = "Enable compute target pool default for compute autoscaler or compute instance group manager. Default - fasle"
+    default     = false
+}

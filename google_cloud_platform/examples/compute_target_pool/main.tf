@@ -41,9 +41,15 @@ module "compute_target_pool" {
     project                             = "terraform-2018"
     region                              = "us-east1"
 
+    #Use it when you want to add nodes to pool with HC
+    use_compute_target_pool_default     = false
     instances                           = ["${module.compute_instance.compute_instance_self_links}"]
     #health_checks                       = ["${module.compute_health_check.http_self_link}"]
     health_checks                       = ["testhttphcstage"]
+        
+    #Use this way if you want to create default target pool for autoscaler or group manager. But, you SHOULD delete compute_instance for this case 
+    #use_compute_target_pool_default     = true
+    #health_checks                       = ["testhttphcstage"]
 }   
 
 module "compute_forwarding_rule" {
@@ -53,7 +59,8 @@ module "compute_forwarding_rule" {
     project                         = "terraform-2018"
 
     port_range                      = "80"
-    target                          = "${module.compute_target_pool.self_link}"
+    target                          = "${element(module.compute_target_pool.self_link, 0)}"
+    #target                          = "${element(module.compute_target_pool.default_pool_self_link, 0)}"
 }
 
 module "compute_firewall" {
