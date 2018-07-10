@@ -19,7 +19,40 @@ module "compute_health_check" {
     enable_compute_http_health_check    = true
 }
 
+module "compute_target_pool" {
+    source                              = "../../modules/compute_target_pool"
+    name                                = "TEST"
 
+    project                             = "terraform-2018"
+    region                              = "us-east1"
+
+    use_compute_target_pool_default     = true
+    health_checks                       = ["testhttphcstage"]
+}   
+
+module "compute_forwarding_rule" {
+    source                          = "../../modules/compute_forwarding_rule"
+    name                            = "TEST"
+
+    project                         = "terraform-2018"
+
+    port_range                      = "80"
+    target                          = "${element(module.compute_target_pool.default_pool_self_link, 0)}"
+}
+
+module "compute_firewall" {
+    source                          = "../../modules/compute_firewall"
+    name                            = "TEST"
+
+    project                         = "terraform-2018"
+
+    enable_all_ingress              = true
+    enable_all_egress               = true
+
+    #enable_all_ingress              = false
+    #allow_protocol                  = "icmp"
+    #allow_ports                     = ["80", "443"]
+}
 
 module "compute_instance_template" {
     source                              = "../../modules/compute_instance_template"
@@ -47,6 +80,7 @@ module "compute_instance_group_manager" {
 
     enable_just_instance_template_usage = "false"
     instance_template                   = "${element(module.compute_instance_template.self_link, 0)}"
+    target_pools                        = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
     #target_pools                        = ["https://www.googleapis.com/compute/v1/projects/terraform-2018/regions/us-east1/targetPools/test1-tp-stage"]
     auto_healing_policies_health_check  = "${element(module.compute_health_check.http_self_link, 0)}"
     target_size                         = 1
