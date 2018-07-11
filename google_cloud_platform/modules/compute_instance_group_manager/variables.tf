@@ -123,4 +123,7 @@ variable "enable_just_instance_template_usage" {
     default     = "true"
 }
 
-
+variable "use_compute_instance_group_manager_default" {
+    description = "Enable instance group manager default"
+    default     = false
+}

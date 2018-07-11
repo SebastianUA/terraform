@@ -61,3 +61,8 @@ output "group_manager_instance_group" {
     description = "Instance group"
     value       = "${module.compute_instance_group_manager.instance_group}"
 }
+
+output "group_manager_self_link_default" {
+    description = "self_link"
+    value       = "${module.compute_instance_group_manager.gm_self_link_default}"
+}

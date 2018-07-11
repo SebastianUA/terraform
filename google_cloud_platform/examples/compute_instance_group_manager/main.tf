@@ -77,12 +77,19 @@ module "compute_instance_template" {
 module "compute_instance_group_manager" {
     source                              = "../../modules/compute_instance_group_manager"
     name                                = "TEST"
-
-    enable_just_instance_template_usage = "false"
-    instance_template                   = "${element(module.compute_instance_template.self_link, 0)}"
-    target_pools                        = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
-    #target_pools                        = ["https://www.googleapis.com/compute/v1/projects/terraform-2018/regions/us-east1/targetPools/test1-tp-stage"]
-    auto_healing_policies_health_check  = "${element(module.compute_health_check.http_self_link, 0)}"
-    target_size                         = 1
+    
+    #enable_just_instance_template_usage         = "true"
+    #use_compute_instance_group_manager_default = false
+    #instance_template                          = "${element(module.compute_instance_template.self_link, 0)}"
+    #target_pools                               = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
+    #auto_healing_policies_health_check         = "${element(module.compute_health_check.http_self_link, 0)}"
+    #target_size                                = 1
+    
+    # Uses for autoscaler (if set true and target_size=0)
+    use_compute_instance_group_manager_default  = true
+    instance_template                           = "${element(module.compute_instance_template.self_link, 0)}"
+    target_pools                                = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
+    #auto_healing_policies_health_check          = "${element(module.compute_health_check.http_self_link, 0)}"
+    target_size                                 = 0
 }
 
