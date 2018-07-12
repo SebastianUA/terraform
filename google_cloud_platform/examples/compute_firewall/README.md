@@ -1,6 +1,6 @@
-# Work with Google Cloud  Platform (compute forwarding rule) via terraform
+# Work with Google Cloud  Platform (compute firewall) via terraform
 
-A terraform module for making google cloud instance.
+A terraform module for making google compute firewall.
  
 ## Usage
 --------

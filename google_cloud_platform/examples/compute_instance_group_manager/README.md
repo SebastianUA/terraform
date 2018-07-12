@@ -1,6 +1,6 @@
 # Work with Google Cloud  Platform (compute instance group manager) via terraform
 
-A terraform module for making compute health check for instance.
+A terraform module for making google compute instance group manager.
  
 ## Usage
 --------

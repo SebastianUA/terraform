@@ -1,6 +1,6 @@
 # Work with Google Cloud  Platform (storage bucket) via terraform
 
-A terraform module for making compute health check for instance.
+A terraform module for making google storage bucket.
  
 ## Usage
 --------

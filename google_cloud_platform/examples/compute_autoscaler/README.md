@@ -1,6 +1,6 @@
 # Work with Google Cloud  Platform (compute autoscaler) via terraform
 
-A terraform module for making compute health check for instance.
+A terraform module for making google compute autoscaler.
  
 ## Usage
 --------

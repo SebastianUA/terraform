@@ -1,6 +1,6 @@
 # Work with Google Cloud  Platform (project) via terraform
 
-A terraform module for making google cloud <> records.
+A terraform module for making google cloud project.
  
 ## Usage
 --------
