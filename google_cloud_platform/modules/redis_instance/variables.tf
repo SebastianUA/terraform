@@ -69,16 +69,16 @@ variable "reserved_ip_range" {
 }
 
 variable "timeouts_create" {
-    description = "Time to create redis node. Default is 6 minutes."
+    description = "Time to create redis node. Default is 6 minutes. Valid units of time are s, m, h."
     default     = "6m"
 }
 
 variable "timeouts_update" {
-    description = "Time to update redis node. Default is 4 minutes."
+    description = "Time to update redis node. Default is 4 minutes. Valid units of time are s, m, h."
     default     = "4m"
 }
 
 variable "timeouts_delete" {
-    description = "Time to delete redis node. Default is 4 minutes."
+    description = "Time to delete redis node. Default is 4 minutes. Valid units of time are s, m, h."
     default     = "4m"
 }
