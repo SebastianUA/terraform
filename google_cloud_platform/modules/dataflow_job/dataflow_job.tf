@@ -13,10 +13,7 @@ resource "google_dataflow_job" "dataflow_job" {
     max_workers         = "${var.max_workers}"
     on_delete           = "${var.on_delete}"
     
-    parameters {
-        foo = "bar"
-        baz = "qux"
-    }
+    parameters          = ["${var.parameters}"]
     
     lifecycle {
         ignore_changes = []
