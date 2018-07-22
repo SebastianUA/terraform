@@ -110,8 +110,8 @@ Module Input Variables
 - `daily_maintenance_window_start_time` - "(Required) Time window specified for daily maintenance operations. Specify start_time in RFC3339 format 'HH:MM', where HH : [00-23] and MM : [00-59] GMT." (`    default     = "03:00"`)
 - `enable_container_node_pool` - "Enable container node pool usage" (`    default     = "false"`)
 - `container_cluster_name` - "(Required) The cluster to create the node pool for. Cluster must be present in zone provided for zonal clusters." (`    default     = ""`)
-- `autoscaling_min_node_count` - "(Required) Minimum number of nodes in the NodePool. Must be > (`    default     = "1"`)
-- `autoscaling_max_node_count` - "(Required) Maximum number of nodes in the NodePool. Must be > (`    default     = "3"`)
+- `autoscaling_min_node_count` - "(Required) Minimum number of nodes in the NodePool. Must be >=1 and <= max_node_count (`    default     = "1"`)
+- `autoscaling_max_node_count` - "(Required) Maximum number of nodes in the NodePool. Must be >= min_node_count > (`    default     = "1"`).
 - `management_auto_repair` - "(Optional) Whether the nodes will be automatically repaired." (`    default     = "true"`)
 - `management_auto_upgrade` - "(Optional) Whether the nodes will be automatically upgraded." (`    default     = "true"`)
 - `node_count` - "(Optional) The number of nodes per instance group. This field can be used to update the number of nodes per instance group but should not be used alongside autoscaling." (`    default     = "3"`)
