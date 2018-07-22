@@ -74,4 +74,22 @@ output "google_container_cluster_region_master_version" {
 #--------------------------------------------------------------------------------
 # Container node pool
 #--------------------------------------------------------------------------------
+output "google_container_node_pool_zone_instance_group_urls" {
+    description = "instance_group_urls"
+    value       = "${google_container_node_pool.container_node_pool_zone.*.instance_group_urls}"
+}
 
+output "google_container_node_pool_zone_name" {
+    description = "Name"
+    value       = "${google_container_node_pool.container_node_pool_zone.*.name}"
+}
+
+output "google_container_node_pool_region_instance_group_urls" {
+    description = "instance_group_urls"
+    value       = "${google_container_node_pool.container_node_pool_region.*.instance_group_urls}"
+}
+
+output "google_container_node_pool_region_name" {
+    description = "Name"
+    value       = "${google_container_node_pool.container_node_pool_region.*.name}"
+}

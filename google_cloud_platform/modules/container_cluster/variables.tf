@@ -278,3 +278,27 @@ variable "container_cluster_name" {
     default     = ""
 }
 
+variable "autoscaling_min_node_count" {
+    description = "(Required) Minimum number of nodes in the NodePool. Must be >=1 and <= max_node_count."
+    default     = "1"
+}
+
+variable "autoscaling_max_node_count" {
+    description = "(Required) Maximum number of nodes in the NodePool. Must be >= min_node_count."
+    default     = "1"
+}
+
+variable "management_auto_repair" {
+    description = "(Optional) Whether the nodes will be automatically repaired."
+    default     = "true"
+}
+
+variable "management_auto_upgrade" {
+    description = "(Optional) Whether the nodes will be automatically upgraded."
+    default     = "true"
+}
+
+variable "node_count" {
+    description = "(Optional) The number of nodes per instance group. This field can be used to update the number of nodes per instance group but should not be used alongside autoscaling."
+    default     = "3"
+}

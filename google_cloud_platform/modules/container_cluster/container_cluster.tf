@@ -117,11 +117,10 @@ resource "google_container_cluster" "container_cluster_zone" {
     }
 
     lifecycle {
-        ignore_changes = ["node_count", "network"]
+        ignore_changes = ["node_count"]
         create_before_destroy = true
     }
 }
-
 
 resource "google_container_cluster" "container_cluster_region" {
     count                               = "${var.enable_container_cluster && length(var.region) >0 && var.zone =="" ? 1 : 0}"
@@ -254,21 +253,55 @@ resource "google_container_node_pool" "container_node_pool_zone" {
     project             = "${var.project}"
     #region              = "${var.region}"
     cluster             = "${var.container_cluster_name}"
-    node_count          = 3
+    node_count          = "${var.node_count}"
     #initial_node_count  = "${var.initial_node_count}"
-    #version             = ""
     
-    #node_config {
-    #}
+    node_config {
+        disk_size_gb        = "${var.node_config_disk_size_gb}"
+        image_type          = "${var.node_config_image_type}"
+        local_ssd_count     = "${var.node_config_local_ssd_count}"
+        machine_type        = "${var.node_config_machine_type}"
+        min_cpu_platform    = "${var.node_config_min_cpu_platform}"
+        preemptible         = "${var.node_config_preemptible}"
+        service_account     = "${var.node_config_service_account}"
+        taint               = ["${var.node_config_taint}"]
+
+        metadata {
+            ssh-keys = "${var.ssh_user}:${file("${var.public_key_path}")}"
+        }
+        workload_metadata_config {
+            node_metadata = "${var.node_config_workload_metadata_config_node_metadata}"
+        }
+
+        guest_accelerator {
+            count   = "${var.node_config_guest_accelerator_count}"
+            type    = "${var.node_config_guest_accelerator_type}"
+        }
+
+        oauth_scopes    = ["${var.node_config_oauth_scopes}"]
+
+        labels {
+            name                = "${lower(var.name)}-cn-pool-${lower(var.environment)}"
+            initial_node_count  = "${var.initial_node_count}"
+            environment         = "${lower(var.environment)}"
+            orchestration       = "${lower(var.orchestration)}"
+        }
+
+        tags = [
+            "${lower(var.name)}",
+            "${lower(var.environment)}",
+            "${lower(var.orchestration)}"
+        ]
+    }
 
     autoscaling {
-        min_node_count  = 3
-        max_node_count  = 3
+        min_node_count  = "${var.autoscaling_min_node_count}"
+        max_node_count  = "${var.autoscaling_max_node_count}"
     }
 
     management {    
-        auto_repair     = "true"
-        auto_upgrade    = "true"
+        auto_repair     = "${var.management_auto_repair}"
+        auto_upgrade    = "${var.management_auto_upgrade}"
     }
 
     lifecycle {
@@ -276,3 +309,67 @@ resource "google_container_node_pool" "container_node_pool_zone" {
         create_before_destroy = true
     }
 }
+
+resource "google_container_node_pool" "container_node_pool_region" {
+    count               = "${var.enable_container_node_pool && length(var.region) >0 && var.zone =="" ? 1 : 0}"
+
+    name                = "${lower(var.name)}-cn-pool-${lower(var.environment)}"
+    project             = "${var.project}"
+    region              = "${var.region}"
+    cluster             = "${var.container_cluster_name}"
+    node_count          = "${var.node_count}"
+
+    node_config {
+        disk_size_gb        = "${var.node_config_disk_size_gb}"
+        image_type          = "${var.node_config_image_type}"
+        local_ssd_count     = "${var.node_config_local_ssd_count}"
+        machine_type        = "${var.node_config_machine_type}"
+        min_cpu_platform    = "${var.node_config_min_cpu_platform}"
+        preemptible         = "${var.node_config_preemptible}"
+        service_account     = "${var.node_config_service_account}"
+        taint               = ["${var.node_config_taint}"]
+
+        metadata {
+            ssh-keys = "${var.ssh_user}:${file("${var.public_key_path}")}"
+        }
+        workload_metadata_config {
+            node_metadata = "${var.node_config_workload_metadata_config_node_metadata}"
+        }
+
+        guest_accelerator {
+            count   = "${var.node_config_guest_accelerator_count}"
+            type    = "${var.node_config_guest_accelerator_type}"
+        }
+
+        oauth_scopes    = ["${var.node_config_oauth_scopes}"]
+
+        labels {
+            name                = "${lower(var.name)}-cn-pool-${lower(var.environment)}"
+            initial_node_count  = "${var.initial_node_count}"
+            environment         = "${lower(var.environment)}"
+            orchestration       = "${lower(var.orchestration)}"
+        }
+
+        tags = [
+            "${lower(var.name)}",
+            "${lower(var.environment)}",
+            "${lower(var.orchestration)}"
+        ]
+    }
+
+    autoscaling {
+        min_node_count  = "${var.autoscaling_min_node_count}"
+        max_node_count  = "${var.autoscaling_max_node_count}"
+    }
+
+    management {
+        auto_repair     = "${var.management_auto_repair}"
+        auto_upgrade    = "${var.management_auto_upgrade}"
+    }
+
+    lifecycle {
+        ignore_changes = []
+        create_before_destroy = true
+    }
+}
+
