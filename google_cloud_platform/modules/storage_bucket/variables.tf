@@ -183,7 +183,7 @@ variable "enable_storage_bucket_object" {
     default     = "false"
 }
 
-variable "source" {
+variable "source_path" {
     description = "(Optional) A path to the data you want to upload. Must be defined if content is not."
     default     = ""
 }

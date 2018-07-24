@@ -183,9 +183,9 @@ resource "google_storage_object_acl" "storage_object_acl" {
 # Create storage bucket object
 #---------------------------------------------------
 resource "google_storage_bucket_object" "storage_bucket_object" {
-    count           = "${var.enable_storage_bucket_object && length(var.bucket) >0 && length(var.source) >0 ? 1 : 0}"    
+    count           = "${var.enable_storage_bucket_object && length(var.bucket) >0 && length(var.source_path) >0 ? 1 : 0}"    
     name            = "${lower(var.name)}-sb-obj-${lower(var.environment)}"
-    source          = "${var.source}"
+    source          = "${var.source_path}"
     bucket          = "${var.bucket}"
             
     cache_control       = "${var.cache_control}"
