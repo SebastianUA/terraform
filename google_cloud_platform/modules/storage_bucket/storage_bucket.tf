@@ -2,7 +2,7 @@
 # Create storage bucket 
 #---------------------------------------------------
 resource "google_storage_bucket" "storage_bucket" {
-    #count           = "${var.}"
+    count           = "${var.enable_storage_bucket ? 1 : 0}"
     
     name            = "${lower(var.name)}-sb-${lower(var.environment)}"
     project         = "${var.project}"

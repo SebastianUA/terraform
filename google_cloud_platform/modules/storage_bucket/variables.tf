@@ -238,3 +238,7 @@ variable "object_name_prefix" {
     default     = ""
 }
 
+variable "enable_storage_bucket" {
+    description = "Enable storage bucket usage"
+    default     = "true"
+}

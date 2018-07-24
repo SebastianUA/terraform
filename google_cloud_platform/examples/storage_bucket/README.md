@@ -97,7 +97,7 @@ Module Input Variables
 - `topic` - "(Required) The Cloud PubSub topic to which this subscription publishes. Expects either the topic name, assumed to belong to the default GCP provider project, or the project-level name, i.e. projects/my-gcp-project/topics/my-topic or my-topic." (`    default     = ""`)
 - `event_types` - "(Optional) List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: 'OBJECT_FINALIZE', 'OBJECT_METADATA_UPDATE', 'OBJECT_DELETE', 'OBJECT_ARCHIVE'" (`    default     = ["OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE"]`)
 - `object_name_prefix` - "(Optional) Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix." (`    default     = ""`)
-
+- `enable_storage_bucket` - Enable storage bucket usage (`default = "true"`).
 
 Authors
 =======
