@@ -132,3 +132,8 @@ variable "enable_compute_subnetwork_iam_member" {
     description = "Enable compute subnetwork iam member"
     default     = "false"
 }
+
+variable "enable_secondary_ip_range" {
+    description = "Enable secondary ip range"
+    default     = "false"
+}

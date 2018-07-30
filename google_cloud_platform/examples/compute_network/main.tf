@@ -45,6 +45,7 @@ module "compute_subnetwork" {
 
     enable_compute_network          = false
     enable_compute_subnetwork       = true
+    enable_secondary_ip_range       = false
     network                         = "${element(module.compute_network2.google_compute_network_self_link, 0)}"
 }
 
@@ -57,6 +58,7 @@ module "compute_subnetwork_iam_policy" {
     enable_compute_network                  = false
     enable_compute_subnetwork_iam_policy    = false
     subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_name, 0)}"
+    #subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_with_secondary_ip_range_name, 0)}"
     role                                    = "roles/editor"
     members                                 = ["user:solo.metalisebastian@gmail.com"]
 }
@@ -67,6 +69,7 @@ module "compute_subnetwork_iam_binding" {
     enable_compute_network                  = false
     enable_compute_subnetwork_iam_binding   = false
     subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_name, 0)}"
+    #subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_with_secondary_ip_range_name, 0)}"
     role                                    = "roles/compute.networkUser"
     members                                 = ["user:solo.metalisebastian@gmail.com"]
 }
@@ -77,6 +80,7 @@ module "compute_subnetwork_iam_member" {
     enable_compute_network                  = false
     enable_compute_subnetwork_iam_member    = false
     subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_name, 0)}"
+    #subnetwork                              = "${element(module.compute_subnetwork.google_compute_subnetwork_with_secondary_ip_range_name, 0)}"
     role                                    = "roles/compute.networkUser"
     members                                 = ["user:solo.metalisebastian@gmail.com"]
 }

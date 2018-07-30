@@ -50,6 +50,22 @@ output "compute_subnetwork_gateway_address" {
     description = "The gateway address for default routes to reach destination addresses outside this subnetwork."
     value       = "${module.compute_network.google_compute_subnetwork_gateway_address}"
 }
+
+output "compute_subnetwork_with_secondary_ip_range_name" {
+    description = "Name"
+    value       = "${module.compute_network.google_compute_subnetwork_with_secondary_ip_range_name}"
+}
+
+output "compute_subnetwork_with_secondary_ip_range_self_link" {
+    description = "The URI of the created resource."
+    value       = "${module.compute_network.google_compute_subnetwork_with_secondary_ip_range_self_link}"
+}
+
+output "compute_subnetwork_with_secondary_ip_range_gateway_address" {
+    description = "The gateway address for default routes to reach destination addresses outside this subnetwork."
+    value       = "${module.compute_network.google_compute_subnetwork_with_secondary_ip_range_gateway_address}"
+}
+
 #
 # IAM
 #

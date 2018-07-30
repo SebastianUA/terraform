@@ -36,7 +36,7 @@ resource "google_compute_network_peering" "compute_network_peering" {
 # Create compute subnetwork
 #---------------------------------------------------
 resource "google_compute_subnetwork" "compute_subnetwork" {
-    count                       = "${var.enable_compute_subnetwork ? 1 :0}"
+    count                       = "${var.enable_compute_subnetwork && !var.enable_secondary_ip_range ? 1 :0}"
                 
     name                        = "${lower(var.name)}-subnetwork-${lower(var.environment)}"
     description                 = "${var.description}"
@@ -47,6 +47,31 @@ resource "google_compute_subnetwork" "compute_subnetwork" {
                         
     enable_flow_logs            = "${var.enable_flow_logs}"
     private_ip_google_access    = "${var.private_ip_google_access}"    
+
+    timeouts {
+        create  = "${var.timeouts_create}"
+        update  = "${var.timeouts_update}"
+        delete  = "${var.timeouts_delete}"
+    }
+
+    lifecycle {
+        ignore_changes = []
+        create_before_destroy = true
+    }
+  }
+
+resource "google_compute_subnetwork" "compute_subnetwork_with_secondary_ip_range" {
+    count                       = "${var.enable_compute_subnetwork && var.enable_secondary_ip_range ? 1 :0}"
+
+    name                        = "${lower(var.name)}-subnetwork-${lower(var.environment)}"
+    description                 = "${var.description}"
+    project                     = "${var.project}"
+    ip_cidr_range               = "${var.ip_cidr_range}"
+    region                      = "${var.region}"
+    network                     = "${var.network}"
+
+    enable_flow_logs            = "${var.enable_flow_logs}"
+    private_ip_google_access    = "${var.private_ip_google_access}"
 
     secondary_ip_range {
         range_name    = "${var.secondary_ip_range_name}"

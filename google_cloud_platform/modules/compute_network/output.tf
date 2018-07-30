@@ -51,6 +51,22 @@ output "google_compute_subnetwork_gateway_address" {
     description = "The gateway address for default routes to reach destination addresses outside this subnetwork."
     value       = "${google_compute_subnetwork.compute_subnetwork.*.gateway_address}"
 }
+
+output "google_compute_subnetwork_with_secondary_ip_range_name" {
+    description = "Name"
+    value       = "${google_compute_subnetwork.compute_subnetwork_with_secondary_ip_range.*.name}"
+}
+
+output "google_compute_subnetwork_with_secondary_ip_range_self_link" {
+    description = "The URI of the created resource."
+    value       = "${google_compute_subnetwork.compute_subnetwork_with_secondary_ip_range.*.self_link}"
+}
+
+output "google_compute_subnetwork_with_secondary_ip_range_gateway_address" {
+    description = "The gateway address for default routes to reach destination addresses outside this subnetwork."
+    value       = "${google_compute_subnetwork.compute_subnetwork_with_secondary_ip_range.*.gateway_address}"
+}
+
 #
 # IAM
 #
@@ -61,7 +77,7 @@ output "google_compute_subnetwork_iam_policy_etag" {
 
 output "google_compute_subnetwork_iam_binding_etag" {
     description = "Etag"
-    value       = "${google_compute_subnetwork_iam_binding.compute_subnetwork_iam_binding..*.etag}"
+    value       = "${google_compute_subnetwork_iam_binding.compute_subnetwork_iam_binding.*.etag}"
 }
 
 output "google_compute_subnetwork_iam_member_etag" {
