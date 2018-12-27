@@ -1,46 +1,175 @@
 #---------------------------------------------------
 # Create AWS route53 zone(s)
 #---------------------------------------------------
-resource "aws_route53_zone" "primary_public" {
-    count           = "${var.create_primary_public_route53_zone ? signum(length(compact(var.route53_record_names))) : 0}"
-    
-    name            = "${var.domain_name_for_primary_public_route53_zone}"
-    comment         = "Public zone for ${var.domain_name_for_primary_public_route53_zone}"
-    
+resource "aws_route53_zone" "route53_zone_default" {
+    count               = "${var.enable_route53_zone && var.route53_zone_delegation_set_id == "" && var.route53_zone_vpc_id == "" ? 1 : 0 }"
+                            
+    name                = "${var.domain_name_for_route53_zone == "" ? "${lower(var.name)}-route53_zone-${lower(var.environment)}" : "${var.domain_name_for_route53_zone}" }"
+    comment             = "Public zone for ${var.domain_name_for_route53_zone}"
+
+    force_destroy       = "${var.route53_zone_force_destroy}"
+
     tags {
-        Name            = "${lower(var.name)}-route53_primary_public_zone-${lower(var.environment)}"
+        Name            = "${lower(var.name)}-route53_zone-${lower(var.environment)}"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
     }
 
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+    
+    depends_on  = []
+}
+
+resource "aws_route53_zone" "route53_zone_with_delegation_set" {
+    count               = "${var.enable_route53_zone && var.route53_zone_delegation_set_id != "" && var.route53_zone_vpc_id == "" ? 1 : 0}"
+
+    name                = "${var.domain_name_for_route53_zone == "" ? "${lower(var.name)}-route53_zone-${lower(var.environment)}" : "${var.domain_name_for_route53_zone}" }"
+    comment             = "Public zone for ${var.domain_name_for_route53_zone}"
+
+    delegation_set_id   = "${var.route53_zone_delegation_set_id}"
+
+    force_destroy       = "${var.route53_zone_force_destroy}"
+
+    tags {
+        Name            = "${lower(var.name)}-route53_zone-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
+
+resource "aws_route53_zone" "route53_zone_with_vpc" {
+    count               = "${var.enable_route53_zone && var.route53_zone_delegation_set_id == "" && var.route53_zone_vpc_id != "" ? 1 : 0}"
+
+    name                = "${var.domain_name_for_route53_zone == "" ? "${lower(var.name)}-route53_zone-${lower(var.environment)}" : "${var.domain_name_for_route53_zone}" }"
+    comment             = "Public zone for ${var.domain_name_for_route53_zone}"
+
+    vpc {
+        vpc_id      = "${var.route53_zone_vpc_id}"
+        vpc_region  = "${var.route53_zone_vpc_region}"
+    }
+
+    force_destroy       = "${var.route53_zone_force_destroy}"
+
+    tags {
+        Name            = "${lower(var.name)}-route53_zone-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
+#---------------------------------------------------
+# Create AWS route53 delegation set
+#---------------------------------------------------
+resource "aws_route53_delegation_set" "route53_delegation_set" {
+    count           = "${var.enable_route53_delegation_set}"
+    
+    reference_name  = "${var.reference_name}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+  
+    depends_on  = []
+
+}
+#---------------------------------------------------
+# Create AWS route53 zone association
+#---------------------------------------------------
+resource "aws_route53_zone_association" "route53_zone_association" {
+    count       = "${var.enable_route53_zone_association}"
+
+    zone_id     = "${var.route53_zone_association_zone_id}"
+    vpc_id      = "${var.route53_zone_association_vpc_id}"
+    vpc_region  = "${var.route53_zone_association_vpc_region}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
 }
 #---------------------------------------------------
 # Create AWS Route53 record(s)
 #---------------------------------------------------
-resource "aws_route53_record" "route53_record" {
-    count   = "${length(compact(var.route53_record_names))}"
+resource "aws_route53_record" "route53_record_default" {
+    count   = "${var.enable_route53_record && !var.evaluate_target_health && var.weighted_routing_policy_weight == "" ? "${length(compact(var.route53_record_names))}" : 0}"
+                                                                            
+    name    = "${element(compact(var.route53_record_names), count.index)}"
+    zone_id = "${var.enable_route53_zone && var.parent_zone_id == "" ? aws_route53_zone.route53_zone_default.zone_id : var.parent_zone_id}"
+    type    = "${var.route53_record_type}"
+    ttl     = "${var.route53_record_ttl}"
+    records = ["${var.route53_record_names}"]
+    
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
+
+resource "aws_route53_record" "route53_record_alias" {
+    count   = "${var.enable_route53_record && var.evaluate_target_health && var.weighted_routing_policy_weight == "" ? "${length(compact(var.route53_record_names))}" : 0}"
     
     name    = "${element(compact(var.route53_record_names), count.index)}"
-    zone_id = "${var.create_primary_public_route53_zone ? aws_route53_zone.primary_public.zone_id : var.parent_zone_id}"
+    zone_id = "${var.enable_route53_zone && var.parent_zone_id == "" ? aws_route53_zone.route53_zone_default.zone_id : var.parent_zone_id}"
     type    = "${var.route53_record_type}"
-    #ttl     = "${var.route53_record_ttl}"
-    #weighted_routing_policy {
-    #    weight = 10
-    #
-    #}
-    #set_identifier = "dev"
-    #records = ["${var.route53_record_records}"]
-    #failover_routing_policy {
-    #    type = "PRIMARY"
-    #}
+    
     alias {
         name                   = "${var.target_dns_name}" 
         zone_id                = "${var.target_zone_id}" 
         evaluate_target_health = "${var.evaluate_target_health}"
     }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
+
+resource "aws_route53_record" "route53_record_weighted_routing_policy" {
+    count   = "${var.enable_route53_record && !var.evaluate_target_health && var.weighted_routing_policy_weight != "" ? "${length(compact(var.route53_record_names))}" : 0}"
+
+    name    = "${element(compact(var.route53_record_names), count.index)}"
+    zone_id = "${var.enable_route53_zone && var.parent_zone_id == "" ? aws_route53_zone.route53_zone_default.zone_id : var.parent_zone_id}"
+    type    = "${var.route53_record_type}"
+
+    weighted_routing_policy {
+        weight = "${var.weighted_routing_policy_weight}"
+    }
     
-    depends_on  = ["aws_route53_zone.primary_public"]
+    set_identifier = "${var.set_identifier}"
+    records = ["${var.route53_record_names}"]
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
 }
 #---------------------------------------------------
 # Create AWS route53 health check(s)
@@ -62,7 +191,15 @@ resource "aws_route53_health_check" "http_route53_health_check" {
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
     }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+    
+    depends_on  = []
 }
+
 resource "aws_route53_health_check" "https_route53_health_check" {
     count             = "${var.create_https_route53_health_check ? 1 : 0}"
 
@@ -80,30 +217,72 @@ resource "aws_route53_health_check" "https_route53_health_check" {
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
     }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+    
+    depends_on  = []
 }
 
+resource "aws_route53_health_check" "calculated_route53_health_check" {
+    count                   = "${var.create_calculated_route53_health_check}"
+                                
+    type                    = "${var.type_for_calculated_route53_health_check}"
+    child_health_threshold  = "${var.child_health_threshold_for_calculated_route53_health_check}"
+    child_healthchecks      = ["${var.child_healthchecks_for_calculated_route53_health_check}"]
+    
+    tags {
+        Name            = "${lower(var.name)}-calculated_route53_health_check-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
+
+resource "aws_route53_health_check" "cloudwatch_route53_health_check" {
+    count                           = "${var.create_cloudwatch_route53_health_check}"
+                            
+    type                            = "${var.type_for_cloudwatch_route53_health_check}"
+    cloudwatch_alarm_name           = "${var.cloudwatch_alarm_name_for_cloudwatch_route53_health_check}"
+    cloudwatch_alarm_region         = "${var.cloudwatch_alarm_region_for_cloudwatch_route53_health_check}"
+    insufficient_data_health_status = "${var.insufficient_data_health_status_for_cloudwatch_route53_health_check}"
+
+    tags {
+        Name            = "${lower(var.name)}-calculated_route53_health_check-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+
+    depends_on  = []
+}
 #---------------------------------------------------
-# Create AWS api gateway domain name
+# Create route53 query log
 #---------------------------------------------------
-#resource "aws_api_gateway_domain_name" "example" {
-#    domain_name = "api.example.com"
-#
-#    certificate_name        = "example-api"
-#    certificate_body        = "${file("${path.module}/example.com/example.crt")}"
-#    certificate_chain       = "${file("${path.module}/example.com/ca.crt")}"
-#    certificate_private_key = "${file("${path.module}/example.com/example.key")}"
-#}
-# Example DNS record using Route53.
-# Route53 is not specifically required; any DNS host can be used.
-#resource "aws_route53_record" "example" {
-#  zone_id = "${aws_route53_zone.example.id}" # See aws_route53_zone for how to create this
-#
-#  name = "${aws_api_gateway_domain_name.example.domain_name}"
-#  type = "A"
-#
-#  alias {
-#    name                   = "${aws_api_gateway_domain_name.example.cloudfront_domain_name}"
-#    zone_id                = "${aws_api_gateway_domain_name.example.cloudfront_zone_id}"
-#    evaluate_target_health = true
-#  }
-#}
+resource "aws_route53_query_log" "route53_query_log" {
+    count                           = "${var.enable_route53_query_log}"
+    
+    cloudwatch_log_group_arn        = "${var.cloudwatch_log_group_arn}"
+    zone_id                         = "${var.route53_query_log_zone_id}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = []
+    }
+ 
+    depends_on  = []
+}

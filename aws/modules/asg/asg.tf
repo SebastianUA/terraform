@@ -53,9 +53,15 @@ resource "aws_autoscaling_group" "asg" {
             propagate_at_launch = true
         },
     ]
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
     
     depends_on  = ["aws_launch_configuration.lc"]
 }
+
 #---------------------------------------------------
 # Data for ASG
 #---------------------------------------------------
@@ -63,6 +69,7 @@ data "template_file" "instances_index" {
     count       = "${var.asg_max_size}"
     template    = "${lower(var.name)}-${lower(var.environment)}-${count.index+1}"
 }
+
 #---------------------------------------------------
 # Create AWS autoscaling_attachment
 #---------------------------------------------------
@@ -70,6 +77,11 @@ resource "aws_autoscaling_attachment" "elb_autoscaling_attachment" {
     count                   = "${upper(var.load_balancer_type) == "ELB" && length(var.load_balancers) > 0 ? 1 : 0}"
     autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
     elb                     = "${data.template_file.elb_index.rendered}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
 }
 data "template_file" "elb_index" {
     count       = "${length(var.load_balancers)}"
@@ -80,19 +92,73 @@ resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
     count                   = "${upper(var.load_balancer_type) == "ALB" && length(var.load_balancers) > 0 ? 1 : 0}"
     autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
     alb_target_group_arn    = "${data.template_file.alb_index.rendered}" 
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
 }
 data "template_file" "alb_index" {
     count       = "${length(var.load_balancers)}"
     template    = "${var.load_balancers[count.index]}"
 }
 
+#---------------------------------------------------
+# Create AWS autoscaling_notification
+#---------------------------------------------------
+data "aws_autoscaling_groups" "autoscaling_groups" {
+    filter = ["${var.autoscaling_groups_filter}"]
+}
+
+resource "aws_autoscaling_notification" "autoscaling_notification" {
+    count                   = "${var.enable_autoscaling_notification && length(var.autoscaling_notification_topic_arn) > 0 ? 1 : 0}"
+    
+    group_names             = ["${data.aws_autoscaling_groups.autoscaling_groups.names}"]
+    notifications           = ["${var.autoscaling_notification_notifications}"]
+    topic_arn               = "${var.autoscaling_notification_topic_arn}"
+
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+ 
+    depends_on = ["data.aws_autoscaling_groups.autoscaling_groups"]
+}
+
+#---------------------------------------------------
+# Create AWS autoscaling lifecycle hook
+#---------------------------------------------------
+resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
+    count                   = "${var.enable_autoscaling_lifecycle_hook ? 1 : 0 }"
+    
+    name                    = "${lower(var.name)}-asg-lifecycle-hook-${lower(var.environment)}"
+    #autoscaling_group_name  = "${aws_autoscaling_group.asg.name}"
+        
+    autoscaling_group_name  = "${length(var.autoscaling_group_name) > 0 ? "${var.autoscaling_group_name}" : "${aws_autoscaling_group.asg.name}" }"
+
+    default_result          = "${var.autoscaling_lifecycle_hook_default_result}"
+    heartbeat_timeout       = "${var.autoscaling_lifecycle_hook_heartbeat_timeout}"
+    lifecycle_transition    = "${var.autoscaling_lifecycle_hook_lifecycle_transition}"
+    
+    notification_metadata   = "${var.autoscaling_lifecycle_hook_notification_metadata}"
+
+    notification_target_arn = "${var.autoscaling_lifecycle_hook_notification_target_arn}"
+    role_arn                = "${var.autoscaling_lifecycle_hook_role_arn}"
+
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+
+    depends_on = ["aws_autoscaling_group.asg"]
+}
 
 #---------------------------------------------------
 # Define SSH key pair for our instances
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair" {
-  key_name = "${lower(var.name)}-key_pair-${lower(var.environment)}"
-  public_key = "${file("${var.key_path}")}"
+    key_name    = "${lower(var.name)}-key_pair-${lower(var.environment)}"
+    public_key  = "${file("${var.key_path}")}"
 }
 #---------------------------------------------------
 # Launch AWS configuration
@@ -108,7 +174,15 @@ resource "aws_launch_configuration" "lc" {
     iam_instance_profile        = "${var.iam_instance_profile}"
     
     key_name                    = "${aws_key_pair.key_pair.id}"
-    user_data                   = "${var.user_data}"
+    #
+    #user_data                   = "${var.user_data}"
+    #user_data                   = "${file("${var.user_data}")}"
+    #user_data                   = "$${null}"
+    #user_data                   = "${length(var.user_data) > 0 ? "${file("${var.user_data}")}" : "$${null}" }"
+    #user_data                    = "${file(var.user_data)}"     
+    user_data                   = "${data.template_file.user_data.rendered}"
+    
+              
     associate_public_ip_address = "${var.enable_associate_public_ip_address}"
     
     enable_monitoring           = "${var.monitoring}"
@@ -123,12 +197,21 @@ resource "aws_launch_configuration" "lc" {
     root_block_device           = "${var.root_block_device}"
 
     lifecycle {
-        create_before_destroy = "true" #"${var.enable_create_before_destroy}"
+        create_before_destroy   = true
+        ignore_changes          = ["user_data"]
     }
     
-    depends_on = ["aws_key_pair.key_pair"]
-    
+    depends_on = [
+        "aws_key_pair.key_pair",
+        "data.template_file.user_data"
+    ]
 }
+  
+data "template_file" "user_data" {
+    count       = "${var.create_lc}"
+    template    = "${file(var.user_data)}"
+}   
+
 #---------------------------------------------------
 # Add autoscaling policy rules
 #---------------------------------------------------
@@ -141,10 +224,11 @@ resource "aws_autoscaling_policy" "scale_up" {
     cooldown                = "${var.default_cooldown}"
     autoscaling_group_name  = "${aws_autoscaling_group.asg.name}"
     
-    lifecycle { 
-        create_before_destroy = true 
-    }
-    
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }   
+
     depends_on  = ["aws_autoscaling_group.asg"]
 }
 resource "aws_autoscaling_policy" "scale_down" {
@@ -157,11 +241,13 @@ resource "aws_autoscaling_policy" "scale_down" {
     autoscaling_group_name  = "${aws_autoscaling_group.asg.name}"
 
     lifecycle {
-        create_before_destroy = true
-    }
-    
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }   
+
     depends_on  = ["aws_autoscaling_group.asg"]
 }
+
 #---------------------------------------------------
 # ASW ASG Scale-up/Scale-down
 #---------------------------------------------------
@@ -175,6 +261,11 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
     recurrence              = "${var.asg_recurrence_scale_up}"
     autoscaling_group_name  = "${aws_autoscaling_group.asg.name}"
 
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
+
     depends_on              = ["aws_autoscaling_group.asg"]
 }
 resource "aws_autoscaling_schedule" "scale_in_at_night" {
@@ -186,6 +277,11 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
     desired_capacity        = "${var.asg_min_size}"
     recurrence              = "${var.asg_recurrence_scale_down}"
     autoscaling_group_name  = "${aws_autoscaling_group.asg.name}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
 
     depends_on              = ["aws_autoscaling_group.asg"]
 }

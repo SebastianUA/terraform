@@ -25,22 +25,6 @@ resource "aws_security_group" "sg" {
     description         = "Security Group ${var.name}-sg-${var.environment}"
     vpc_id              = "${aws_vpc.vpc.id}"
     
-    # allow traffic for TCP 22 to host
-    ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    
-    # allow traffic for TCP 22 from host
-    egress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    
     tags {
         Name            = "${var.name}-sg-${var.environment}"
         Environment     = "${var.environment}"

@@ -12,163 +12,26 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+  required_version = ">= 0.11.11"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    # Make it faster by skipping something
-    #skip_get_ec2_platforms      = true
-    #skip_metadata_api_check     = true
-    #skip_region_validation      = true
-    #skip_credentials_validation = true
-    #skip_requesting_account_id  = true
+    region  = "us-west-2"
 }
-module "iam" {
-    source                          = "../../modules/iam"
-    name                            = "TEST-AIM"
-    region                          = "us-east-1"
-    environment                     = "PROD"
 
-    aws_iam_role-principals         = [
-        "ec2.amazonaws.com",
-    ]
-    aws_iam_policy-actions           = [
-        "cloudwatch:GetMetricStatistics",
-        "logs:DescribeLogStreams",
-        "logs:GetLogEvents",
-        "elasticache:Describe*",
-        "rds:Describe*",
-        "rds:ListTagsForResource",
-        "ec2:DescribeAccountAttributes",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeSecurityGroups",
-        "ec2:DescribeVpcs",
-        "ec2:Owner",
-    ]
-}
-module "vpc" {
-    source                              = "../../modules/vpc"
-    name                                = "TEST-VPC"
-    environment                         = "PROD"
-    # VPC
-    instance_tenancy                    = "default"
-    enable_dns_support                  = "true"
-    enable_dns_hostnames                = "true"
-    assign_generated_ipv6_cidr_block    = "false"
-    enable_classiclink                  = "false"
-    vpc_cidr                            = "172.31.0.0/16"
-    private_subnet_cidrs                = ["172.31.64.0/20"]
-    public_subnet_cidrs                 = ["172.31.0.0/20"]
-    availability_zones                  = ["us-east-1a", "us-east-1b"]
-    enable_all_egress_ports             = "true"
-    allowed_ports                       = ["9300", "3272", "8888", "8444"]
-
-    map_public_ip_on_launch             = "true"
-
-    #Internet-GateWay
-    enable_internet_gateway             = "true"
-    #NAT
-    enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "false"
-    #VPN
-    enable_vpn_gateway                  = "false"
-    #DHCP
-    enable_dhcp_options                 = "false"
-    # EIP
-    enable_eip                          = "false"
-}
-module "elb" {
-    source                              = "../../modules/elb"
-    name                                = "TEST-ELB"
-    region                              = "us-east-1"
-    environment                         = "PROD"
-
-    security_groups                     = ["${module.vpc.security_group_id}"]
-
-    # Need to choose subnets or availability_zones. The subnets has been chosen.
-    subnets                             = ["${element(module.vpc.vpc-publicsubnet-ids, 0)}"]
-
-    #access_logs = [
-    #    {
-    #        bucket = "my-access-logs-bucket"
-    #        bucket_prefix = "bar"
-    #        interval = 60
-    #    },
-    #]
-    listener = [
-        {
-            instance_port     = "80"
-            instance_protocol = "HTTP"
-            lb_port           = "80"
-            lb_protocol       = "HTTP"
-        },
-    #    {
-    #        instance_port      = 80
-    #        instance_protocol  = "http"
-    #        lb_port            = 443
-    #        lb_protocol        = "https"
-    #        ssl_certificate_id = "${var.elb_certificate}"
-    #    },
-    ]
-    health_check = [
-        {
-            target              = "HTTP:80/"
-            interval            = 30
-            healthy_threshold   = 2
-            unhealthy_threshold = 2
-            timeout             = 5
-        },
-    ]
-}
-module "asg" {
-    source                              = "../../modules/asg"
-    name                                = "TEST-ASG"
-    region                              = "us-east-1"
-    environment                         = "PROD"
-
-    security_groups = ["${module.vpc.security_group_id}"]
-    
-    root_block_device  = [
-        {
-            volume_size = "8"
-            volume_type = "gp2"
-        },
-    ]
-    
-    # Auto scaling group
-    #asg_name                  = "example-asg"
-    vpc_zone_identifier       = ["${module.vpc.vpc-publicsubnet-ids}"]
-    health_check_type         = "EC2"
-    asg_min_size              = 0
-    asg_max_size              = 1
-    desired_capacity          = 1
-    wait_for_capacity_timeout = 0
-
-    load_balancers            = ["${module.elb.elb_name}"]
-
-    #
-    enable_autoscaling_schedule = true
-}
 module "route53" {
     source                              = "../../modules/route53"
     name                                = "TEST-Route53"
-    region                              = "us-east-1"
+    region                              = "us-west-2"
     environment                         = "PROD"
  
-    create_primary_public_route53_zone          = "true"
-    domain_name_for_primary_public_route53_zone = "example.local"
+    enable_route53_zone                 = true
+    domain_name_for_route53_zone        = "example.local"
 
-    route53_record_names     = ["Test-domain.local", "domain2.local"]
-    #route53_record_type     = "A"
-    #route53_record_ttl      = "60"
-    #route53_record_records  = ["192.168.0.114"]
-    
-    #parent_zone_id          = "Z254KLT7VYA1UX"
-    
-    target_dns_name         = "${module.elb.elb_dns_name}"
-    target_zone_id          = "${module.elb.elb_zone_id}"
-    
-    evaluate_target_health  = "true"
+    enable_route53_record               = true
+    route53_record_type                 = "A"
+    route53_record_ttl                  = 50
+    route53_record_names                = ["192.168.0.113"]
 
     #Health_checks
     #create_http_route53_health_check    = "true"
@@ -186,14 +49,22 @@ Module Input Variables
 - `environment` - Environment for service (`default = "STAGE"`).
 - `orchestration` - Type of orchestration (`default = "Terraform"`).
 - `createdby` - Created by (`default = "Vitaliy Natarov"`).
-- `create_primary_public_route53_zone` - If true, then create primary public route53 zone (`default  = "false"`).
-- `domain_name_for_primary_public_route53_zone` - Domain name for primary_public route53_zone (`default  = "domain.localdomain"`).
-- `route53_record_name` - Route53 record name, can use ELB DNS name (`default = ""`).
+- `enable_route53_zone` - If true, then create primary public route53 zone (`default  = "false"`).
+- `domain_name_for_route53_zone` - Domain name for primary_public route53_zone (`default  = "domain.localdomain"`).
+- `route53_zone_force_destroy` - (Optional) Whether to destroy all records (possibly managed outside of Terraform) in the zone when destroying the zone (`default     = true`).
+- `route53_zone_delegation_set_id` - (Optional) The ID of the reusable delegation set whose NS records you want to assign to the hosted zone. Conflicts with vpc and vpc_id as delegation sets can only be used for public zones (`default = ""`).
+- `route53_zone_vpc_id` - (Required) ID of the VPC to associate (`default = ""`).
+- `route53_zone_vpc_region` - (Optional) Region of the VPC to associate. Defaults to AWS provider region (`default = ""`).
+- `enable_route53_record` - Enable route53 record usage (`default     = false`).
+- `route53_record_names` - Route53 record name (`default     = []`).
 - `route53_record_type` - The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT (`default = "A"`).
+- `route53_record_ttl` - Route53 record ttl (`default     = "30"`).
 - `parent_zone_id` - Perent Zone ID (`default = ""`).
 - `target_dns_name` - Target DNS name which needs to add to route53 (`default = ""`).
 - `target_zone_id` - Target Zone ID which needs to add to route53 (`default = ""`).
 - `evaluate_target_health` - Set to true if you want Route 53 to determine whether to respond to DNS queries using this resource record set by checking the health of the resource record set (`default = "false"`).
+- `set_identifier` - (Optional) Unique identifier to differentiate records with routing policies from one another. Required if using failover, geolocation, latency, or weighted routing policies documented below (`default     = ""`).
+- `weighted_routing_policy_weight` - (Required) A numeric value indicating the relative weight of the record (`default     = ""`).
 - `create_http_route53_health_check` - Create http route53 health check (`default = "false"`).
 - `create_https_route53_health_check` - Create https route53 health check (`default = "false"`).
 - `fqdn_for_http_route53_health_check` - FQDN for http route53 health check (`default = ""`).
@@ -210,7 +81,24 @@ Module Input Variables
 - `request_interval_for_https_route53_health_check` - Request interval for https route53 health check (`default = "30"`).
 - `measure_latency_for_http_route53_health_check` - The measure latency for http route53 health check (`default = "1"`).
 - `measure_latency_for_https_route53_health_check` - The measure latency for https route53 health check (`default = "1"`).
-
+- `create_calculated_route53_health_check` - Create calculated route53 health check (`default     = false`).
+- `child_health_threshold_for_calculated_route53_health_check` - (Optional) The minimum number of child health checks that must be healthy for Route 53 to consider the parent health check to be healthy. Valid values are integers between 0 and 256, inclusive (`default     = 1`).
+- `child_healthchecks_for_calculated_route53_health_check` - (Optional) For a specified parent health check, a list of HealthCheckId values for the associated child health checks (`default     = []`).
+- `type_for_calculated_route53_health_check` - (Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC. But for this point you shoulf use CALCULATED (`default     = "CALCULATED"`).
+- `create_cloudwatch_route53_health_check` - Create loudwatch route53 health check (`default     = false`).
+- `type_for_cloudwatch_route53_health_check` - (Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC. But for this point you shoulf use CLOUDWATCH_METRIC (`default     = "CLOUDWATCH_METRIC"`).
+- `cloudwatch_alarm_name_for_cloudwatch_route53_health_check` - (Optional) The name of the CloudWatch alarm (`default     = ""`).
+- `cloudwatch_alarm_region_for_cloudwatch_route53_health_check` - (Optional) The CloudWatchRegion that the CloudWatch alarm was created in (`default     = "us-east-1"`).
+- `insufficient_data_health_status_for_cloudwatch_route53_health_check` - (Optional) The status of the health check when CloudWatch has insufficient data about the state of associated alarm. Valid values are Healthy , Unhealthy and LastKnownStatus (`default     = "Healthy"`).
+- `enable_route53_delegation_set` - Enable route53 delegation set (`default     = false`).
+- `reference_name` - (Optional) This is a reference name used in Caller Reference (helpful for identifying single delegation set amongst others) - (`default     = "DynDNS"`).
+- `enable_route53_zone_association` - Enable route53 zone association (`default     = false`).
+- `route53_zone_association_zone_id` - (Required) The private hosted zone to associate (`default     = ""`).
+- `route53_zone_association_vpc_id` - (Required) The VPC to associate with the private hosted zone (`default     = ""`).
+- `route53_zone_association_vpc_region` - (Optional) The VPC's region. Defaults to the region of the AWS provider (`default     = ""`).
+- `enable_route53_query_log` - Enable route53 query log (`default     = false`).
+- `cloudwatch_log_group_arn` - (Required) CloudWatch log group ARN to send query logs (`default     = ""`).
+- `route53_query_log_zone_id` - (Required) Route53 hosted zone ID to enable query logs (`default     = ""`).
 
 Authors
 =======

@@ -9,6 +9,16 @@ output "this_launch_configuration_name" {
   value       = "${var.launch_configuration == "" && var.create_lc ? element(concat(aws_launch_configuration.lc.*.name, list("")), 0) : ""}"
 }
 
+output "this_launch_configuration_associate_public_ip_address" {
+    description = "Whether a Public IP address is associated with the instance."
+    value       = "${var.launch_configuration == "" && var.create_lc ? element(concat(aws_launch_configuration.lc.*.associate_public_ip_address, list("")), 0) : var.launch_configuration}"
+}
+
+output "this_launch_configuration_user_data" {
+    description = "The User Data of the instance."
+    value       = "${var.launch_configuration == "" && var.create_lc ? element(concat(aws_launch_configuration.lc.*.user_data, list("")), 0) : var.launch_configuration}"
+}
+
 # Autoscaling group
 output "this_autoscaling_group_id" {
   description = "The autoscaling group id"
@@ -59,6 +69,7 @@ output "autoscaling_policy_scale_up_arn" {
     description = ""
     value       = "${element(concat(aws_autoscaling_policy.scale_up.*.arn, list("")), 0)}"
 }
+
 output "autoscaling_policy_scale_down_arn" {
     description = ""
     value       = "${element(concat(aws_autoscaling_policy.scale_down.*.arn, list("")), 0)}"

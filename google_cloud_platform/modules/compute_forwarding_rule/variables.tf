@@ -50,7 +50,7 @@ variable "ports" {
 
 variable "port_range" {
     description = "Port range, if this forwarding rule has one."
-    default     = 80
+    default     = ""
 }
 
 variable "target" {
@@ -64,6 +64,6 @@ variable "backend_service" {
 }
 
 variable "load_balancing_scheme" {
-    description = " Type of load balancing of this forwarding rule."
-    default     = ""
+    description = " Type of load balancing of this forwarding rule. Default is EXTERNAL"
+    default     = "EXTERNAL"
 }

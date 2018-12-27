@@ -138,8 +138,8 @@ variable "ami" {
     description = "I added only 3 regions to show the map feature but you can add all"
     type        = "map"
     default     = {
-        us-east-1 = "ami-46c1b650"
-        us-west-2 = "ami-46c1b632"
+        us-east-1 = "ami-9887c6e7"
+        us-west-2 = "ami-3ecc8f46"
         eu-west-1 = "ami-6e28b517"
     }
 }
@@ -280,4 +280,69 @@ variable "wait_for_elb_capacity" {
 variable "protect_from_scale_in" {
     description = "Allows setting instance protection. The autoscaling group will not select instances with this setting for terminination during scale in events."
     default     = false
+}
+
+variable "enable_autoscaling_notification" {
+    description = "Enable autoscaling notification"
+    default     = false
+}
+
+variable "autoscaling_groups_filter" {
+    description = "A filter used to scope the list e.g. by tags"
+    default     = []
+}
+
+variable "autoscaling_notification_notifications" {
+    description = "(Required) A list of Notification Types that trigger notifications."
+    default     = [
+        "autoscaling:EC2_INSTANCE_LAUNCH",
+        "autoscaling:EC2_INSTANCE_TERMINATE",
+        "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+        "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
+    ]
+}
+
+variable "autoscaling_notification_topic_arn" {
+    description = "(Required) The Topic ARN for notifications to be sent through"
+    default     = ""
+}
+
+variable "enable_autoscaling_lifecycle_hook" {
+    description = "Enable autoscaling lifecycle hook"
+    default     = false
+}
+
+variable "autoscaling_lifecycle_hook_default_result" {
+    description = "Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The value for this parameter can be either CONTINUE or ABANDON. The default value for this parameter is ABANDON."
+    default     = "ABANDON"
+}
+
+variable "autoscaling_lifecycle_hook_heartbeat_timeout" {
+    description = "(Optional) Defines the amount of time, in seconds, that can elapse before the lifecycle hook times out. When the lifecycle hook times out, Auto Scaling performs the action defined in the DefaultResult parameter"
+    default     = ""
+}
+
+variable "autoscaling_lifecycle_hook_lifecycle_transition" {
+    description = "(Required) The instance state to which you want to attach the lifecycle hook."
+    default     = "autoscaling:EC2_INSTANCE_LAUNCHING"
+}
+
+variable "autoscaling_lifecycle_hook_notification_metadata" {
+    description = "(Optional) Contains additional information that you want to include any time Auto Scaling sends a message to the notification target."
+    default     = ""
+}
+
+variable "autoscaling_lifecycle_hook_notification_target_arn" {
+    description = "(Optional) The ARN of the notification target that Auto Scaling will use to notify you when an instance is in the transition state for the lifecycle hook. This ARN target can be either an SQS queue or an SNS topic."
+    default     = ""
+}
+
+variable "autoscaling_lifecycle_hook_role_arn" {
+    description = "(Optional) The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target."
+    default     = ""
+}
+
+variable "autoscaling_group_name" {
+    description = "(Required) The name of the Auto Scaling group to which you want to assign the lifecycle hook"
+    default     = ""
 }
