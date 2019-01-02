@@ -36,6 +36,11 @@ variable "create_asg" {
     default     = true
 }
 
+variable "enable_asg_azs" {
+    description = "Enable ASG with AZS. If not, will use vpc_zone_identifier"
+    default     = false
+}
+
 variable "load_balancer_type" {
     description = "Type of load balancer. Ex: ELB, ALB etc"
     default     = "elb"
@@ -146,7 +151,7 @@ variable "ami" {
 
 variable "enable_create_before_destroy" {
     description = "Create before destroy"
-    default     = "true"
+    default     = true
 }
 
 # Autoscaling group
@@ -212,7 +217,7 @@ variable "health_check_type" {
 
 variable "force_delete" {
     description = "Allows deleting the autoscaling group without waiting for all instances in the pool to terminate."
-    default     = "true"
+    default     = true
 }
 
 variable "load_balancers" {
