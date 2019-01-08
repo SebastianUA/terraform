@@ -55,8 +55,13 @@ variable "enable_all_egress_ports" {
     default     = false
 }
 
-variable "enable_custom_sg_rule" {
-    description = "Allows create a custom sg rule"
+variable "enable_custom_sg_rule_with_cidr_blocks" {
+    description = "Allows create a custom sg rule with cidr_blocks usage"
+    default     = false
+}
+
+variable "enable_custom_sg_rule_with_self" {
+    description = "Allows create a custom sg rule with self usage"
     default     = false
 }
 
