@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST-VPC"
+  default     = "TEST-SG"
 }
 
 variable "environment" {
