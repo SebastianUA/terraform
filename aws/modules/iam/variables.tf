@@ -34,6 +34,11 @@ variable "iam_role_name" {
     default     = ""
 }
 
+variable "assume_role_policy_file" {
+    description = "File with assume role policy"
+    default     = ""
+}
+
 variable "iam_role_force_detach_policies" {
     description = "(Optional) Specifies to force detaching any policies the role has before destroying it. Defaults to false."
     default     = false

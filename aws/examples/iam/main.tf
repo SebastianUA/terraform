@@ -16,7 +16,7 @@ module "aim" {
 
     enable_iam_role                 = true
     # if you would like to set custom name for role, use iam_role_name;
-    iam_role_name                   = ""
+    iam_role_name                   = "test_assume_role2"
     assume_role_policy_file         = "additional_files/policies/test_policy_principal.json"
 
     enable_iam_instance_profile     = false

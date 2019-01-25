@@ -3,17 +3,9 @@
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": "ec2:*",
+            "Action": "*",
             "Resource": "*",
             "Condition": {
-                "ForAnyValue:StringEquals": {
-                    "aws:PrincipalTag/EnableAssumeRole": [
-                        "Yes",
-                        "true",
-                        "True",
-                        "Enable"
-                    ]
-                },
                 "IpAddress": {
                     "aws:SourceIp": [
                         "85.223.209.0/24",

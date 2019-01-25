@@ -6,8 +6,7 @@
       "Effect": "Allow",
       "Principal": {
         "AWS": [
-          "arn:aws:iam::167127734783:root",
-          "arn:aws:iam::167127734783:role/test_assume_role"
+          "arn:aws:iam::167127734783:root"
         ],
         "Service": [
           "ec2.amazonaws.com"
