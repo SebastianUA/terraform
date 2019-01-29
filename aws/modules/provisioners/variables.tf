@@ -3,17 +3,17 @@
 #---------------------------------------------------
 variable "enable_file_provisioner" {
     description = "Enable file provisioner usage"
-    default     = "false"
+    default     = false
 }
 
 variable "enable_connection_by_login" {
     description = "Enable connection with login usage"
-    default     = "false"
+    default     = false
 }
 
 variable "enable_connection_by_key" {
     description = "Enable connection through key"
-    default     = "true"
+    default     = true
 }
 
 variable "source_path_to_file" {
@@ -86,10 +86,41 @@ variable "connection_agent" {
 #---------------------------------------------------
 variable "enable_provisioner_remote_exec_inline" {
     description = "Enable remote-exec provisioner"
-    default     = "false"
+    default     = false
 }
 
 variable "provisioner_remote_exec_inline_command" {
     description = "This is a list of command strings. They are executed in the order they are provided. This cannot be provided with script or scripts."
     default     = []
 }
+
+#---------------------------------------------------
+# Provisioner local-exec
+#---------------------------------------------------
+variable "enable_provisioner_local_exec_command" { 
+    description = "Enable remote-exec provisioner by command"
+    default     = false
+}
+
+variable "provisioner_local_exec_command_working_dir" {
+    description = "(Optional) If provided, specifies the working directory where command will be executed. It can be provided as as a relative path to the current working directory or as an absolute path. The directory must exist."
+    default     = ""
+}
+
+variable "provisioner_local_exec_command_command" {
+    description = "(Required) This is the command to execute. It can be provided as a relative path to the current working directory or as an absolute path. It is evaluated in a shell, and can use environment variables or Terraform variables."
+    default     = "echo 'test text' >> test.txt"
+}
+
+variable "provisioner_local_exec_command_interpreter" {
+    description = "(Optional) If provided, this is a list of interpreter arguments used to execute the command. The first argument is the interpreter itself. It can be provided as a relative path to the current working directory or as an absolute path. The remaining arguments are appended prior to the command. This allows building command lines of the form '/bin/bash', '-c', 'echo foo'. If interpreter is unspecified, sensible defaults will be chosen based on the system OS."
+    type        = "list"
+    default     = []
+}
+
+variable "provisioner_local_exec_command_environment" {
+    description = "(Optional) block of key value pairs representing the environment of the executed command. inherits the current process environment."
+    type        = "list"
+    default     = []
+}
+
