@@ -38,8 +38,8 @@ module "s3" {
     enable_s3_bucket_object                 = true
     # if you wanna to use created bucket to uploading the file, please set up - bucket_name variable to it. The enable_s3_bucket variable should be turn off
     # bucket_name                            = "bucket_name_here"
-    s3_bucket_object_key                    = "artifacts/eb.zip"
-    s3_bucket_object_source                 = "additional_files/eb.zip"
+    #s3_bucket_object_key                    = "artifacts/eb.zip"
+    s3_bucket_object_source                 = ["additional_files/eb.zip", "additional_files/eb_rollback.zip"]
     type_of_file                            = "zip"
 }
 
@@ -48,14 +48,15 @@ module "elasticbeanstalk" {
     name                                    = "TESTmeNow"
     region                                  = "us-west-2"
     environment                             = "PROD"
-                                    
+
     #appversion_lifecycle_service_role       = "${module.aim.role_arn}"
     enable_elastic_beanstalk_application    = "true"
-    
+
     enable_elastic_beanstalk_environment    = true
     cname_prefix                            = ""
     tier                                    = "WebServer"
-   
+    version_label                           = "${module.elasticbeanstalk.elastic_beanstalk_application_version_name}"
+
     setting                                 = [
     {
 	    namespace = "aws:ec2:vpc"
@@ -228,23 +229,26 @@ module "elasticbeanstalk" {
         value = "7"
     }
     ]
-         
+
     enable_elastic_beanstalk_application_version    = true
     beanstalk_application_name                      = ""
+    deploy_or_rollback                              = "rollback" # deploy
     bucket                                          = "${module.s3.s3_bucket_default_id}"
-    key                                             = "${module.s3.s3_bucket_object_id}"
+    #keys                                            = ["${module.s3.s3_bucket_object_ids}"]
+    key                                             = "${module.elasticbeanstalk.elastic_beanstalk_application_version_deploy_or_rollback == "deploy" ? "${element(module.s3.s3_bucket_object_ids, 0)}" : "${element(module.s3.s3_bucket_object_ids, 1)}"}"
+    #key                                             = "${module.s3.s3_bucket_object_id}"
     force_delete                                    = false
 
     #
     enable_elastic_beanstalk_configuration_template = true
 }
- 
+
 #module "route53" {
 #    source                              = "../../modules/route53"
 #    name                                = "TEST"
 #    region                              = "us-west-2"
 #    environment                         = "PROD"
-# 
+#
 #    create_primary_public_route53_zone          = "true"
 #    domain_name_for_primary_public_route53_zone = "example.local"
 #
@@ -252,22 +256,23 @@ module "elasticbeanstalk" {
 #    #route53_record_type     = "A"
 #    #route53_record_ttl      = "60"
 #    #route53_record_records  = ["192.168.0.114"]
-#    
+#
 #    #parent_zone_id          = "Z254KLT7VYA1UX"
-#    
+#
 #    records                 = ["${module.elasticbeanstalk.elastic_beanstalk_environment_cname}"]
 #    target_dns_name         = "${module.elb.elb_dns_name}"
 #    target_zone_id          = "${module.elb.elb_zone_id}"
-#    
+#
 #    evaluate_target_health  = "true"
 #
 #    #Health_checks
 #    #create_http_route53_health_check    = "true"
 #    #fqdn_for_http_route53_health_check       = "linux-notes.org"
-#    
+#
 #    #create_https_route53_health_check   = "true"
 #    #fqdn_for_https_route53_health_check = "linux-notes.org"
 #}
+
 ```
 
 Module Input Variables
@@ -322,3 +327,4 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
+
