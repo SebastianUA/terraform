@@ -24,9 +24,9 @@ output "s3_bucket_default_name" {
 #---------------------------------
 # S3 bucket object
 #---------------------------------
-output "s3_bucket_object_id" {
+output "s3_bucket_object_ids" {
     description = " the key of the resource supplied above"
-    value       = "${element(concat(aws_s3_bucket_object.s3_bucket_object.*.id, list("")), 0)}"
+    value       = "${aws_s3_bucket_object.s3_bucket_object.*.id}"
 }
 
 output "s3_bucket_object_etag" {
