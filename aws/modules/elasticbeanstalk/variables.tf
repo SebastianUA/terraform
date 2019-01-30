@@ -82,7 +82,7 @@ variable "application_name" {
 
 variable "solution_stack_name" {
     description = "(Optional) A solution stack to base your environment off of. Example stacks can be found in the Amazon API documentation"
-    default     = "64bit Amazon Linux 2018.03 v2.11.6 running Multi-container Docker 18.06.1-ce (Generic)"
+    default     = "64bit Amazon Linux 2018.03 v2.11.7 running Multi-container Docker 18.06.1-ce (Generic)"
 }
 
 variable "cname_prefix" {

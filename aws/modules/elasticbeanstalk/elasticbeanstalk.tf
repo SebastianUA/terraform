@@ -93,7 +93,7 @@ resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment_with
         ignore_changes          = ["tags"]
     }
 
-    depends_on  = []
+    depends_on  = ["aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version"]
 
 }
  
@@ -123,15 +123,18 @@ resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_confi
 # Create AWS elastic beanstalk application version
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_application_version" {
-    count           = "${var.enable_elastic_beanstalk_application_version ? length(concat(var.keys)) : 0 }"
-                                
-    name            = "${lower(var.name)}-eb-app-ver-${lower(var.environment)}-${count.index+1}"
+    count           = "${var.enable_elastic_beanstalk_application_version ? 1 : 0 }"
+    #count           = "${var.enable_elastic_beanstalk_application_version ? length(concat(var.keys)) : 0 }"
+    
+    name            = "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
+    #name            = "${lower(var.name)}-eb-app-ver-${lower(var.environment)}-${count.index+1}"
     application     = "${var.beanstalk_application_name == "" ? "${aws_elastic_beanstalk_application.elastic_beanstalk_application.id}" : var.beanstalk_application_name }"
     description     = "EB App version for ${lower(var.name)}-eb-app-ver-${lower(var.environment)}-${count.index+1}"
     bucket          = "${var.bucket}"
-    key             = "${element(concat(coalescelist(var.keys), list("")), 0)}"
+    key             = "${var.key}"
+
+    #key             = "${element(concat(coalescelist(var.keys), list("")), 0)}"
     #key             = "${element(var.keys, count.index)}"
-    #key             = "${var.key}"
     
     force_delete    = "${var.force_delete}"
 

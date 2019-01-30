@@ -45,7 +45,7 @@ module "elasticbeanstalk" {
     enable_elastic_beanstalk_environment    = true
     cname_prefix                            = ""
     tier                                    = "WebServer"
-    version_label                           = ""
+    version_label                           = "${module.elasticbeanstalk.elastic_beanstalk_application_version_name}"
 
     setting                                 = [
     {
@@ -222,10 +222,10 @@ module "elasticbeanstalk" {
          
     enable_elastic_beanstalk_application_version    = true
     beanstalk_application_name                      = ""
-    deploy_or_rollback                              = "deploy"
+    deploy_or_rollback                              = "rollback" # deploy
     bucket                                          = "${module.s3.s3_bucket_default_id}"
-    keys                                            = ["${module.s3.s3_bucket_object_ids}"]
-    #key                                             = "${module.elasticbeanstalk.elastic_beanstalk_application_version_deploy_or_rollback == "deploy" ? "${element(module.s3.s3_bucket_object_ids, 0)}" : "${element(module.s3.s3_bucket_object_ids, 1)}"}"
+    #keys                                            = ["${module.s3.s3_bucket_object_ids}"]
+    key                                             = "${module.elasticbeanstalk.elastic_beanstalk_application_version_deploy_or_rollback == "deploy" ? "${element(module.s3.s3_bucket_object_ids, 0)}" : "${element(module.s3.s3_bucket_object_ids, 1)}"}"
     #key                                             = "${module.s3.s3_bucket_object_id}"
     force_delete                                    = false
     
