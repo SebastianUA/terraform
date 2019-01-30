@@ -148,14 +148,15 @@ variable "enable_s3_bucket_object" {
     default     = "false"
 }
 
-variable "s3_bucket_object_key" {
-    description = "(Required) The name of the object once it is in the bucket."
-    default     = ""
-}
+#variable "s3_bucket_object_key" {
+#    description = "(Required) The name of the object once it is in the bucket."
+#    default     = ""
+#}
 
 variable "s3_bucket_object_source" {
     description = "(Required unless content or content_base64 is set) The path to a file that will be read and uploaded as raw bytes for the object content."
-    default     = ""
+    type        = "list"
+    default     = []
 }
 
 #variable "s3_bucket_object_content_type" {
@@ -165,13 +166,14 @@ variable "s3_bucket_object_source" {
 
 variable "mime_types" {
     default = {
-        htm = "text/html"
-        html = "text/html"
-        css = "text/css"
-        js = "application/javascript"
-        map = "application/javascript"
-        json = "application/json"
-        zip = "application/zip"
+        htm     = "text/html"
+        html    = "text/html"
+        css     = "text/css"
+        txt     = "text/plain"
+        js      = "application/javascript"
+        map     = "application/javascript"
+        json    = "application/json"
+        zip     = "application/zip"
   }
 }
 

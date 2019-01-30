@@ -172,17 +172,20 @@ resource "aws_s3_bucket_policy" "s3_bucket_policy" {
 # Create S3 bucket
 #---------------------------------------------------
 resource "aws_s3_bucket_object" "s3_bucket_object" {
-    count                   = "${var.enable_s3_bucket_object}" 
+    count                   = "${var.enable_s3_bucket_object ? length(var.s3_bucket_object_source) : 0 }" 
                  
     bucket                  = "${var.bucket_name == "" && var.enable_s3_bucket ? "${aws_s3_bucket.s3_bucket_default.id}" : var.bucket_name }"
-    source                  = "${var.s3_bucket_object_source}"
-    key                     = "${var.s3_bucket_object_key}"
+    #source                  = "${var.s3_bucket_object_source}"
+    #key                     = "${var.s3_bucket_object_key}"
+    source                  = "${element(var.s3_bucket_object_source, count.index)}" 
+    key                     = "${element(var.s3_bucket_object_source, count.index)}"
     #content_type            = "${var.s3_bucket_object_content_type}"
     content_type            = "${lookup(var.mime_types, var.type_of_file)}"
     server_side_encryption  = "${var.s3_bucket_object_server_side_encryption}"
 
     tags {
-        Name            = "${lower(var.s3_bucket_object_key)}"
+        #Name            = "${lower(var.s3_bucket_object_key)}"
+        Name            = "${element(var.s3_bucket_object_source, count.index)}"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"

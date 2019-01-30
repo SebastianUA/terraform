@@ -35,9 +35,9 @@ module "s3" {
 
     # Add files to bucket
     enable_s3_bucket_object                 = true
-    s3_bucket_object_key                    = "additional_files/test.txt"
-    s3_bucket_object_source                 = "additional_files/test.txt"
-    type_of_file                            = "zip"
+    #s3_bucket_object_key                    = ["additional_files/test.txt"]
+    s3_bucket_object_source                 = ["additional_files/test.txt", "additional_files/test2.txt"]
+    type_of_file                            = "txt"
 
 
     #enable_s3_bucket_notification_sns       = true
