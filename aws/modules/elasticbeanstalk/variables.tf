@@ -161,12 +161,23 @@ variable "key" {
     description = "(Required) S3 object that is the Application Version source bundle."
     default     = ""
 }
+
+variable "keys" {
+    description = ""
+    type        = "list"
+    default     = []
+}
  
 variable "force_delete" {
     description = "(Optional) On delete, force an Application Version to be deleted when it may be in use by multiple Elastic Beanstalk Environments."
     default     = false
 }
 
+
+variable "deploy_or_rollback" {
+    description = "Set 'deploy' to deploy AWS EB stack or 'rollback' to use s3_bucket_object as rollback"
+    default     = "deploy"
+}
 #-----------------------------------------------------------
 # EB configuration template
 #-----------------------------------------------------------

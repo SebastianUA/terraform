@@ -82,6 +82,11 @@ output "elastic_beanstalk_application_version_name" {
     value       = "${element(concat(aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version.*.name, list("")), 0)}"
 }
 
+output "elastic_beanstalk_application_version_deploy_or_rollback" {
+    description = ""
+    value       = "${var.deploy_or_rollback}"
+}
+
 #-----------------------------------------------------------------
 # EB configuration template
 #-----------------------------------------------------------------

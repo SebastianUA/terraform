@@ -123,14 +123,16 @@ resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_confi
 # Create AWS elastic beanstalk application version
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_application_version" {
-    count           = "${var.enable_elastic_beanstalk_application_version ? 1 : 0}"
-            
-    name            = "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
+    count           = "${var.enable_elastic_beanstalk_application_version ? length(concat(var.keys)) : 0 }"
+                                
+    name            = "${lower(var.name)}-eb-app-ver-${lower(var.environment)}-${count.index+1}"
     application     = "${var.beanstalk_application_name == "" ? "${aws_elastic_beanstalk_application.elastic_beanstalk_application.id}" : var.beanstalk_application_name }"
-    description     = "EB App version for ${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
+    description     = "EB App version for ${lower(var.name)}-eb-app-ver-${lower(var.environment)}-${count.index+1}"
     bucket          = "${var.bucket}"
-    key             = "${var.key}"
-
+    key             = "${element(concat(coalescelist(var.keys), list("")), 0)}"
+    #key             = "${element(var.keys, count.index)}"
+    #key             = "${var.key}"
+    
     force_delete    = "${var.force_delete}"
 
     lifecycle {
