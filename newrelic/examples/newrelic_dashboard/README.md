@@ -1,0 +1,66 @@
+# Work with newrelic dashboard via terraform
+
+A terraform module for making newrelic dashboard.
+ 
+## Usage
+--------
+
+Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
+
+```
+#
+# MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
+#
+terraform {
+  required_version = "~> 0.11.11"
+}
+
+provider "newrelic" {
+    api_key = "75e6741e6326cce1666ecfb94c3c0b8fdf"
+}
+
+module "newrelic_dashboard" {
+    source                                              = "../../modules/newrelic_dashboard"
+
+    dashboard                                           = "true"
+    
+    dashboard_custom                                    = "true"
+    dashboard_custom_widget                             = [
+        {
+            title         = "Average Transaction Duration"
+            row           = 1
+            column        = 1
+            width         = 2
+            visualization = "faceted_line_chart"
+            nrql          = "SELECT AVERAGE(duration) from Transaction FACET appName TIMESERIES auto"
+        },
+        {
+            title         = "Page Views"
+            row           = 1
+            column        = 3
+            visualization = "billboard"
+            nrql          = "SELECT count(*) FROM PageView SINCE 1 week ago"
+    }
+    ]
+}
+
+```
+
+Module Input Variables
+----------------------
+- `name` - The name for newrelic_alert resources (`default     = "test"`).
+- `environment` - environment (`default     = "prod"`).
+
+
+
+Authors
+=======
+
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA)
+(vitaliy.natarov@yahoo.com).
+
+License
+=======
+
+Apache 2 Licensed. See LICENSE for full details.
+
