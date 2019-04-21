@@ -1,5 +1,5 @@
 resource "newrelic_alert_condition" "alert_condition" {
-    count                       = "${var.newrelic_alert_condition? 1 : 0}"
+    count                       = "${var.alert_condition? 1 : 0}"
                             
     name                        = "${var.alert_condition_name !="" ? "${lower(var.alert_condition_name)}" : "${lower(var.name)}-nr-alert-condition-${var.alert_condition_type}-${lower(var.environment)}" }"
     policy_id                   = "${var.alert_condition_policy_id}"

@@ -14,7 +14,7 @@ variable "environment" {
 #-----------------------------------------------------------
 # newrelic_alert_channel
 #-----------------------------------------------------------
-variable "newrelic_alert_channel" {
+variable "alert_channel" {
     description = "Enable newrelic alert channel at general"
     default     = "false"
 }
@@ -22,27 +22,27 @@ variable "newrelic_alert_channel" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_campfire
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_campfire" {
+variable "alert_channel_campfire" {
     description = "Enable newrelic alert channel campfire usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_campfire_name_custom" {
+variable "alert_channel_campfire_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_campfire_configuration_room" {
+variable "alert_channel_campfire_configuration_room" {
     description = "Set room"
     default     = ""
 }
 
-variable "newrelic_alert_channel_campfire_configuration_subdomain" {
+variable "alert_channel_campfire_configuration_subdomain" {
     description = "Set subdomain"
     default     = ""
 }
 
-variable "newrelic_alert_channel_campfire_configuration_token" {
+variable "alert_channel_campfire_configuration_token" {
     description = "Set token"
     default     = ""
 }
@@ -50,22 +50,22 @@ variable "newrelic_alert_channel_campfire_configuration_token" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_email
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_email" {
+variable "alert_channel_email" {
     description = "Enable newrelic alert channel email usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_email_name_custom" {
+variable "alert_channel_email_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_email_configuration_recipients" {
+variable "alert_channel_email_configuration_recipients" {
     description = "Set reemail. In this case, its - email address"
     default     = ""
 }
 
-variable "newrelic_alert_channel_email_configuration_include_json_attachment" {
+variable "alert_channel_email_configuration_include_json_attachment" {
     description = "Set include_json_attachment"
     default     = 1
 }
@@ -73,34 +73,34 @@ variable "newrelic_alert_channel_email_configuration_include_json_attachment" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_opsgenie
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_opsgenie" {
+variable "alert_channel_opsgenie" {
     description = "Enable newrelic alert channel opsgenie"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_opsgenie_name_custom" {
+variable "alert_channel_opsgenie_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_opsgenie_configuration_api_key" {
+variable "alert_channel_opsgenie_configuration_api_key" {
     description = "Set api_key"
     default     = ""
 }
 
-variable "newrelic_alert_channel_opsgenie_configuration_recipients" {
+variable "alert_channel_opsgenie_configuration_recipients" {
     description = "Set reemail. In this case, its - email address"
     default     = ""
 }
 
-variable "newrelic_alert_channel_opsgenie_configuration_tags" {
+variable "alert_channel_opsgenie_configuration_tags" {
     description = "Set tags"
     type        = "list"
     default     = []
 }
 
 
-variable "newrelic_alert_channel_opsgenie_configuration_teams" {
+variable "alert_channel_opsgenie_configuration_teams" {
     description = "Set teams"
     type        = "list"
     default     = []
@@ -109,17 +109,17 @@ variable "newrelic_alert_channel_opsgenie_configuration_teams" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_pagerduty
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_pagerduty" {
+variable "alert_channel_pagerduty" {
     description = "Enable newrelic alert channel pagerduty usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_pagerduty_name_custom" {
+variable "alert_channel_pagerduty_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_pagerduty_configuration_service_key" {
+variable "alert_channel_pagerduty_configuration_service_key" {
     description = "Set service_key"
     default     = ""
 }
@@ -127,22 +127,22 @@ variable "newrelic_alert_channel_pagerduty_configuration_service_key" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_slack
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_slack" {
+variable "alert_channel_slack" {
     description = "Enable newrelic alert channel slack usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_slack_name_custom" {
+variable "alert_channel_slack_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_slack_configuration_channel" {
+variable "alert_channel_slack_configuration_channel" {
     description = "Set channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_slack_configuration_url" {
+variable "alert_channel_slack_configuration_url" {
     description = "Set url"
     default     = 1
 }
@@ -150,17 +150,17 @@ variable "newrelic_alert_channel_slack_configuration_url" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_user
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_user" {
+variable "alert_channel_user" {
     description = "Enable newrelic alert channel user usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_user_name_custom" {
+variable "alert_channel_user_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_user_configuration_user_id" {
+variable "alert_channel_user_configuration_user_id" {
     description = "Set user_id"
     default     = ""
 }
@@ -168,22 +168,22 @@ variable "newrelic_alert_channel_user_configuration_user_id" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_victorops
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_victorops" {
+variable "alert_channel_victorops" {
     description = "Enable newrelic alert channel victorops usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_victorops_name_custom" {
+variable "alert_channel_victorops_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_victorops_configuration_key" {
+variable "alert_channel_victorops_configuration_key" {
     description = "Set key"
     default     = ""
 }
 
-variable "newrelic_alert_channel_victorops_configuration_route_key" {
+variable "alert_channel_victorops_configuration_route_key" {
     description = "Set route_key"
     default     = ""
 }
@@ -191,48 +191,48 @@ variable "newrelic_alert_channel_victorops_configuration_route_key" {
 #-----------------------------------------------------------
 # newrelic_alert_channel_webhook
 #-----------------------------------------------------------
-variable "newrelic_alert_channel_webhook" {
+variable "alert_channel_webhook" {
     description = "Enable newrelic alert channel webhook usage"
     default     = "false"
 }
 
-variable "newrelic_alert_channel_webhook_name_custom" {
+variable "alert_channel_webhook_name" {
     description = "Set custom name for newrelic_alert_channel"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_auth_password" {
+variable "alert_channel_webhook_configuration_auth_password" {
     description = "Set auth_password"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_auth_type" {
+variable "alert_channel_webhook_configuration_auth_type" {
     description = "Set auth_type"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_auth_username" {
+variable "alert_channel_webhook_configuration_auth_username" {
     description = "Set auth_username"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_base_url" {
+variable "alert_channel_webhook_configuration_base_url" {
     description = "Set base_url"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_headers" {
+variable "alert_channel_webhook_configuration_headers" {
     description = "Set headers"
     type        = "list" 
     default     = []
 }
 
-variable "newrelic_alert_channel_webhook_configuration_payload_type" {
+variable "alert_channel_webhook_configuration_payload_type" {
     description = "Set type"
     default     = ""
 }
 
-variable "newrelic_alert_channel_webhook_configuration_payload" {
+variable "alert_channel_webhook_configuration_payload" {
     type        = "list"
     default     = []
 }
@@ -241,12 +241,12 @@ variable "newrelic_alert_channel_webhook_configuration_payload" {
 # newrelic_alert_policy
 #-----------------------------------------------------------
 
-variable "newrelic_alert_policy" {
+variable "alert_policy" {
     description = "Enable newrelic_alert_policy usage"
     default     = "false"
 }
 
-variable "newrelic_alert_policy_name_custom" {
+variable "alert_policy_name" {
     description = "Set custom name for newrelic_alert_policy"
     default     = ""
 }
@@ -256,12 +256,12 @@ variable "alert_policy_incident_preference" {
     default     = "PER_POLICY"
 }
  
-variable "newrelic_alert_policy_simple_default" {
+variable "alert_policy_simple_default" {
     description = "Enable newrelic_alert_policy_simple_default"
     default     = "false"
 }
 
-variable "newrelic_alert_policy_simple_default_name" {
+variable "alert_policy_simple_default_name" {
     description = "Name"
     default     = ""
 }
@@ -270,7 +270,7 @@ variable "newrelic_alert_policy_simple_default_name" {
 # newrelic_alert_condition
 #-----------------------------------------------------------
 
-variable "newrelic_alert_condition" {
+variable "alert_condition" {
     description = "Enable newrelic_alert_condition"
     default     = "false"
 }
@@ -359,7 +359,7 @@ variable "alert_condition_term_time_function" {
 #-----------------------------------------------------------
 # newrelic_alert_policy_channel
 #-----------------------------------------------------------
-variable "newrelic_alert_policy_channel" {
+variable "alert_policy_channel" {
     description = "Enable newrelic_alert_policy_channel"
     default     = "false"
 }
