@@ -6,6 +6,11 @@ output "nr_alert_channel_slack" {
     value       = "${module.newrelic_alert.alert_channel_slack_id}"
 }
 
+output "nr_alert_channel_email" {
+    description = "ID for newrelic_alert_channel_email"
+    value       = "${module.newrelic_alert.alert_channel_email_id}"
+}
+
 #-----------------------------------------------------------
 # newrelic_alert_policy
 #-----------------------------------------------------------

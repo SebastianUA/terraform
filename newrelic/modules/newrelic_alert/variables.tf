@@ -67,7 +67,7 @@ variable "alert_channel_email_configuration_recipients" {
 
 variable "alert_channel_email_configuration_include_json_attachment" {
     description = "Set include_json_attachment"
-    default     = 1
+    default     = "true"
 }
 
 #-----------------------------------------------------------
@@ -297,9 +297,66 @@ variable "alert_condition_entities" {
 }
 
 variable "alert_condition_metric" {
-    description = "(Required) The metric field accepts parameters based on the `type` set."
+    description = "(Required) The metric field accepts parameters based on the `type` set. Ex: `apdex`, `error_percentage`, `response_time_web`, `response_time_background`, `throughput_web`, `throughput_background`, `user_defined`"
     default     = "apdex"
 }
+
+#"apm_app_metric": {
+#		"apdex",
+#		"error_percentage",
+#		"response_time_background",
+#		"response_time_web",
+#		"throughput_background",
+#		"throughput_web",
+#		"user_defined",
+#	},
+#	"apm_jvm_metric": {
+#		"cpu_utilization_time",
+#		"deadlocked_threads",
+#		"gc_cpu_time",
+#		"heap_memory_usage",
+#	},
+#	"apm_kt_metric": {
+#		"apdex",
+#		"error_count",
+#		"error_percentage",
+#		"response_time",
+#		"throughput",
+#	},
+#	"browser_metric": {
+#		"ajax_response_time",
+#		"ajax_throughput",
+#		"dom_processing",
+#		"end_user_apdex",
+#		"network",
+#		"page_rendering",
+#		"page_view_throughput",
+#		"page_views_with_js_errors",
+#		"request_queuing",
+#		"total_page_load",
+#		"user_defined",
+#		"web_application",
+#	},
+#	"mobile_metric": {
+#		"database",
+#		"images",
+#		"json",
+#		"mobile_crash_rate",
+#		"network_error_percentage",
+#		"network",
+#		"status_error_percentage",
+#		"user_defined",
+#		"view_loading",
+#	},
+#	"servers_metric": {
+#		"cpu_percentage",
+#		"disk_io_percentage",
+#		"fullest_disk_percentage",
+#		"load_average_one_minute",
+#		"memory_percentage",
+#		"user_defined",
+#	},
+
 
 variable "alert_condition_gc_metric" {
     description = "(Optional) A valid Garbage Collection metric e.g. GC/G1 Young Generation. This is required if you are using apm_jvm_metric with gc_cpu_time condition type."
