@@ -26,7 +26,7 @@ resource "newrelic_alert_condition" "alert_condition" {
         create_before_destroy   = true,
         # I think, newrelic provider has a bug. To fix it, I have added the next ignoring changes.
         # Note: If you're changing those values, please use `terraform destroy` and `terraform plan && terraform apply` to update all your values.
-        ignore_changes          = ["gc_metric", "user_defined_value_function", "violation_close_timer"]
+        ignore_changes          = ["gc_metric", "user_defined_value_function", "violation_close_timer", "condition_scope", "entities"]
     }
 
     depends_on  = ["data.newrelic_application.application"]
