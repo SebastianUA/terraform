@@ -20,12 +20,12 @@ module "newrelic_alert" {
     
     alert_channel                                                   = "true"
     alert_channel_email                                             = "true"
-    alert_channel_email_name                                        = "nps-team-email"
-    alert_channel_email_configuration_recipients                    = "vitalii.natarov@nordstrom.com"
+    alert_channel_email_name                                        = "nr-team-email"
+    alert_channel_email_configuration_recipients                    = "vitalii.natarov@yahoo.com"
     alert_channel_email_configuration_include_json_attachment       = "true"
     #
     alert_channel_slack                                             = "true"
-    alert_channel_slack_name                                        = "psops-slack"
+    alert_channel_slack_name                                        = "nrops-slack"
     alert_channel_slack_configuration_channel                       = "new-relic"
     alert_channel_slack_configuration_url                           = "https://hooks.slack.com/services/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666"
     #                                                       
@@ -51,7 +51,7 @@ module "alert_condition_response_time_web" {
     alert_condition_name                                            = "alert_condition_response_time_web"
     alert_condition_policy_id                                       = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     alert_condition_type                                            = "apm_app_metric"
-    alert_condition_entities                                        = ["productservice-express-blue"]
+    alert_condition_entities                                        = ["test_entry"]
     alert_condition_metric                                          = "response_time_web"
 
     alert_condition_gc_metric                                       = ""
@@ -81,7 +81,7 @@ module "alert_condition_response_time_background" {
     alert_condition_name                                            = "alert_condition_response_time_background"
     alert_condition_policy_id                                       = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     alert_condition_type                                            = "apm_app_metric"
-    alert_condition_entities                                        = ["productservice-express-blue"]
+    alert_condition_entities                                        = ["test_entry"]
     alert_condition_metric                                          = "response_time_background"
 
     alert_condition_gc_metric                                       = ""
@@ -111,7 +111,7 @@ module "alert_condition_response_time_background" {
 #    alert_condition_name                                            = "alert_condition_database_transaction_time"
 #    alert_condition_policy_id                                       = "${element(module.newrelic_alert.alert_policy_id, 0)}"
 #    alert_condition_type                                            = "mobile_metric"
-#    alert_condition_entities                                        = ["productservice-express-blue"]
+#    alert_condition_entities                                        = ["test_entry"]
 #    alert_condition_metric                                          = "database"
 #
 #    alert_condition_gc_metric                                       = "GC/G1 Young Generation"
@@ -140,7 +140,7 @@ module "alert_condition_CPU_Utilization" {
     alert_condition_name                                            = "alert_condition_CPU_Utilization"
     alert_condition_policy_id                                       = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     alert_condition_type                                            = "apm_jvm_metric"
-    alert_condition_entities                                        = ["productservice-express-blue"]
+    alert_condition_entities                                        = ["test_entry"]
     alert_condition_metric                                          = "cpu_utilization_time"
 
     alert_condition_gc_metric                                       = ""
@@ -170,7 +170,7 @@ module "alert_condition_deadlocked_threads" {
     alert_condition_name                                            = "alert_condition_deadlocked_threads"
     alert_condition_policy_id                                       = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     alert_condition_type                                            = "apm_jvm_metric"
-    alert_condition_entities                                        = ["productservice-express-blue"]
+    alert_condition_entities                                        = ["test_entry"]
     alert_condition_metric                                          = "deadlocked_threads"
 
     alert_condition_gc_metric                                       = ""
