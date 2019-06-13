@@ -14,10 +14,10 @@ resource "newrelic_alert_channel" "alert_channel_campfire" {
         token       = "${var.alert_channel_campfire_configuration_token}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
     
@@ -35,10 +35,10 @@ resource "newrelic_alert_channel" "alert_channel_email" {
         include_json_attachment = "${var.alert_channel_email_configuration_include_json_attachment}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 
@@ -58,10 +58,10 @@ resource "newrelic_alert_channel" "alert_channel_opsgenie" {
         teams                   = "${var.alert_channel_opsgenie_configuration_teams}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 
@@ -78,10 +78,10 @@ resource "newrelic_alert_channel" "alert_channel_pagerduty" {
         service_key = "${var.alert_channel_pagerduty_configuration_service_key}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 
@@ -99,10 +99,10 @@ resource "newrelic_alert_channel" "alert_channel_slack" {
         url         = "${var.alert_channel_slack_configuration_url}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = ["configuration"]
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = ["configuration"]
+    #}
 
     depends_on  = []
 
@@ -119,10 +119,10 @@ resource "newrelic_alert_channel" "alert_channel_user" {
         user_id     = "${var.alert_channel_user_configuration_user_id}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 }
@@ -139,10 +139,10 @@ resource "newrelic_alert_channel" "alert_channel_victorops" {
         route_key   = "${var.alert_channel_victorops_configuration_route_key}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 
@@ -165,10 +165,10 @@ resource "newrelic_alert_channel" "alert_channel_webhook" {
         payload                 = "${var.alert_channel_webhook_configuration_payload}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        ignore_changes          = []
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    ignore_changes          = []
+    #}
 
     depends_on  = []
 

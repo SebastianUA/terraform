@@ -1,10 +1,13 @@
 resource "newrelic_alert_condition" "alert_condition" {
-    count                       = "${var.alert_condition? 1 : 0}"
+    count                       = "${var.alert_condition ? 1 : 0}"
                             
     name                        = "${var.alert_condition_name !="" ? "${lower(var.alert_condition_name)}" : "${lower(var.name)}-nr-alert-condition-${var.alert_condition_type}-${lower(var.environment)}" }"
     policy_id                   = "${var.alert_condition_policy_id}"
     type                        = "${var.alert_condition_type}"
-    entities                    = ["${data.newrelic_application.application.id}"]
+    #entities                    = ["${data.newrelic_application.application.id}"]
+    entities                    = data.newrelic_application.application[count.index]
+ 
+                                            
     metric                      = "${var.alert_condition_metric}"
 
     gc_metric                   = "${var.alert_condition_gc_metric}"
@@ -22,19 +25,21 @@ resource "newrelic_alert_condition" "alert_condition" {
         time_function = "${var.alert_condition_term_time_function}"
     }
 
-    lifecycle = {
-        create_before_destroy   = true,
-        # I think, newrelic provider has a bug. To fix it, I have added the next ignoring changes.
-        # Note: If you're changing those values, please use `terraform destroy` and `terraform plan && terraform apply` to update all your values.
-        ignore_changes          = ["gc_metric", "user_defined_value_function", "violation_close_timer"]
-    }
+    #lifecycle = {
+    #    create_before_destroy   = true,
+    #    # I think, newrelic provider has a bug. To fix it, I have added the next ignoring changes.
+    #    # Note: If you're changing those values, please use `terraform destroy` and `terraform plan && terraform apply` to update all your values.
+    #    ignore_changes          = ["gc_metric", "user_defined_value_function", "violation_close_timer"]
+    #}
 
     depends_on  = ["data.newrelic_application.application"]
     
 }
 
 data "newrelic_application" "application" {
-    count   = "${length(var.alert_condition_entities) >0 ? 1 : 0}"
-
-    name    = "${var.alert_condition_entities[count.index]}"
+    count   = "${length(var.alert_condition_entities) >0 ? "${length(var.alert_condition_entities)}" : 0}"
+    
+    name    = "${element(var.alert_condition_entities, count.index)}"
+    #name    = "${var.alert_condition_entities[count.index]}"
+    #name    = var.alert_condition_entities[0] 
 }
