@@ -95,15 +95,17 @@ variable "alert_channel_opsgenie_configuration_recipients" {
 
 variable "alert_channel_opsgenie_configuration_tags" {
     description = "Set tags"
-    type        = "list"
-    default     = []
+    #type        = "list"
+    #default     = ["tag"]
+    default     = ""
 }
 
 
 variable "alert_channel_opsgenie_configuration_teams" {
     description = "Set teams"
-    type        = "list"
-    default     = []
+    #type        = "list"
+    #default     = []
+    default     = ""
 }
 
 #-----------------------------------------------------------
@@ -223,8 +225,9 @@ variable "alert_channel_webhook_configuration_base_url" {
 
 variable "alert_channel_webhook_configuration_headers" {
     description = "Set headers"
-    type        = "list" 
-    default     = []
+    #type        = "list" 
+    #default     = ["headers-here"]
+    default     = ""
 }
 
 variable "alert_channel_webhook_configuration_payload_type" {
@@ -233,8 +236,10 @@ variable "alert_channel_webhook_configuration_payload_type" {
 }
 
 variable "alert_channel_webhook_configuration_payload" {
-    type        = "list"
-    default     = []
+    description = ""
+    #type        = "list"
+    #default     = ["payload-here"]
+    default     = ""
 }
 
 #-----------------------------------------------------------
@@ -293,7 +298,7 @@ variable "alert_condition_type" {
 variable "alert_condition_entities" {
     description = "(Required) The instance IDS associated with this condition."
     type        = "list"
-    default     = []
+    default     = ["linux-notes-php"]
 }
 
 variable "alert_condition_metric" {
