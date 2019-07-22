@@ -167,3 +167,36 @@ variable "enable_msk_cluster_all" {
     description = "Enable AWS MSK with all functions usage"
     default     = "false"
 }
+
+#-----------------------------------------------------------
+# AWS msk configuration
+#-----------------------------------------------------------
+variable "enable_msk_configuration" {
+    description = "Enable mask configuration usage"
+    default     = "false"
+}
+
+variable "msk_configuration_name"  {
+    description = "Name of the configuration."
+    default     = ""
+}
+
+variable "kafka_versions" {
+    description = "(Required) List of Apache Kafka versions which can use this configuration."
+    type        = "list"
+    default     = ["2.1.0"]
+}
+
+variable "msk_configuration_description" {
+    description = "(Optional) Description of the configuration."
+    default     = ""
+}
+
+variable "server_properties" {
+    description = "(Required) List of Apache Kafka versions which can use this configuration."
+    type        = "list"
+    default     = [
+        "auto.create.topics.enable = true",
+        "delete.topic.enable = true"
+    ]
+}
