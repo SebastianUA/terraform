@@ -1,3 +1,8 @@
+output "kms_key_default_id" {
+    description = "The globally unique identifier for the key."
+    value       = "${aws_kms_key.kms_key_default.key_id}"
+}
+
 output "kms_key_id" {
     description = "The globally unique identifier for the key."
     value       = "${aws_kms_key.kms_key.key_id}"

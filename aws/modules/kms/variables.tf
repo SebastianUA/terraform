@@ -26,6 +26,21 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }
 
+variable "kms_key_default" {
+    description = "Allow to create kms_key as default"
+    default     = "false"
+}
+
+variable "kms_key" {
+    description = "Allow to create kms_key"
+    default     = "false"
+}
+
+variable "kms_alias" {
+    description = "Allow to create kms_alias"
+    default     = "false"
+}
+
 variable "deletion_window_in_days" {
     description = "Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Defaults to 30 days."
     default     = "10"
