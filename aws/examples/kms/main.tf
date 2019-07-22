@@ -14,6 +14,8 @@ provider "aws" {
 
 module "kms" {
     source               = "../../modules/kms"
+    
+    kms_key              = "true"  
     name                 = "TEST-KMS"
     environment          = "PROD"
 
