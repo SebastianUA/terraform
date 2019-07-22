@@ -29,7 +29,7 @@ variable "createdby" {
 #-----------------------------------------------------------
 # aws msk cluster
 #-----------------------------------------------------------
-variable "enable_msk_cluster" {
+variable "enable_msk_cluster_default" {
     description = "Enable AWS MSK usage"
     default     = "false"
 }
@@ -81,6 +81,14 @@ variable "encryption_info_encryption_at_rest_kms_key_arn" {
     default     = ""
 }
 
+#-----------------------------------------------------------
+# AWS msk cluster with encryption
+#-----------------------------------------------------------
+variable "enable_msk_cluster_encryption" {
+    description = "Enable AWS MSK with encryption usage"
+    default     = "false"
+}
+
 variable "encryption_info_encryption_in_transit" {
     description = "(Optional) Configuration block to specify encryption in transit. See below."
     default     = ""
@@ -92,4 +100,70 @@ variable "client_authenication_certificate_authority_arns" {
     default     = []
 }
 
+#-----------------------------------------------------------
+# AWS msk cluster with client authentication 
+#-----------------------------------------------------------
+variable "enable_msk_cluster_client_authentication" {
+    description = "Enable AWS MSK with client_authentication usage"
+    default     = "false"
+}
 
+variable "client_authentication_tls" {
+    description = "(Optional) Configuration block for specifying TLS client authentication. See below."
+    default     = ""
+}
+
+variable "client_authentication_certificate_authority_arns" {
+    description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
+    default     = ""
+}
+
+#-----------------------------------------------------------
+# AWS msk cluster with configuration info
+#-----------------------------------------------------------
+variable "enable_msk_cluster_configuration_info" {
+    description = "Enable AWS MSK with configuration_info usage"
+    default     = "false"
+}
+
+variable "configuration_info_arn" {
+    description = "(Required) Amazon Resource Name (ARN) of the MSK Configuration to use in the cluster."
+    default     = ""
+}
+
+variable "configuration_info_revision" {
+    description = "(Required) Revision of the MSK Configuration to use in the cluster."
+    default     = ""
+}
+
+#-----------------------------------------------------------
+# AWS msk cluster with encryption and client authentication
+#-----------------------------------------------------------
+variable "msk_cluster_encryption_and_authentication" {
+    description = "Enable AWS MSK with encryption and client authentication usage"
+    default     = "false"
+}
+
+#-----------------------------------------------------------
+# AWS msk cluster with encryption and configuration info
+#-----------------------------------------------------------
+variable "enable_msk_cluster_encryption_and_configuration_info" {
+    description = "Enable AWS MSK with encryption and configuration info usage"
+    default     = "false"
+}
+
+#-----------------------------------------------------------
+# AWS msk cluster with client authentication and configuration info
+#-----------------------------------------------------------
+variable "enable_msk_cluster_client_authentication_and_configuration_info" {
+    description = "Enable AWS MSK with client authentication and configuration info usage"
+    default     = "false"
+}
+
+#-----------------------------------------------------------
+# AWS msk cluster with all functions
+#-----------------------------------------------------------
+variable "enable_msk_cluster_all" {
+    description = "Enable AWS MSK with all functions usage"
+    default     = "false"
+}

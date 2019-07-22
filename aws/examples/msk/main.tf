@@ -12,10 +12,6 @@ provider "aws" {
     shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
 }
 
-# AWS VPC
-
-# AWS SG
- 
 # AWS KMS
 #module "kms" {
 #    source               = "../../modules/kms"
@@ -53,15 +49,13 @@ module "msk" {
     source                                          =  "../../modules/msk"
 
 
-    enable_msk_cluster                              = "true"
+    enable_msk_cluster_default                      = "true"
     kafka_version                                   = "2.1.0"
     number_of_broker_nodes                          = "3"
     
-
     broker_node_group_info_instance_type            = "kafka.m5.large"
     broker_node_group_info_ebs_volume_size          = "100"
     broker_node_group_info_client_subnets           = ["subnet-02697458", "subnet-02e9c549", "subnet-289d9e51"] 
-    #, "subnet-6548dd4e"]
     broker_node_group_info_security_groups          = ["sg-014100db4cdff3e0a", "sg-038b8bd5f9120f3c3", "sg-044c87b82fc0fa439", "sg-0eb59e471c3d5a87b", "sg-7f501633"]
     
     #encryption_info_encryption_at_rest_kms_key_arn  = "${module.kms.}"
