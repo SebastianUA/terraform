@@ -67,7 +67,16 @@ resource "aws_kms_alias" "kms_alias" {
     count           = "${var.kms_alias ? 1 : 0}"
                         
     name            = "alias/${lower(var.name)}"
-    target_key_id   = "${aws_kms_key.kms_key.key_id}"
+    target_key_id   = "${var.target_key_id}"
     
-    depends_on      = ["aws_kms_key.kms_key"]
+    depends_on      = []
+}
+
+resource "aws_kms_alias" "kms_alias_prefix" {
+    count           = "${var.kms_alias_prefix ? 1 : 0}"
+                        
+    name_prefix     = "${var.name_prefix}"
+    target_key_id   = "${var.target_key_id}"
+    
+    depends_on      = []
 }
