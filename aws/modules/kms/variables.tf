@@ -88,6 +88,6 @@ variable "kms_alias_prefix" {
 
 
 variable "name_prefix" {
-        description = " (Optional) Creates an unique alias beginning with the specified prefix. The name must start with the word "alias" followed by a forward slash (alias/). Conflicts with name."
+        description = "(Optional) Creates an unique alias beginning with the specified prefix. The name must start with the word 'alias' followed by a forward slash (alias/). Conflicts with name."
         default     = ""
 }
