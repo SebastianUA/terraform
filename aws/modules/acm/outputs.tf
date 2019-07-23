@@ -9,7 +9,7 @@ output "aws_acm_certificate_id" {
 
 output "aws_acm_certificate_arn" {
     description = "The ARN of the certificate"
-    value       = "${aws_acm_certificate.acm_certificate.0.arn}"
+    value       = "${aws_acm_certificate.acm_certificate.*.arn}"
 }
 
 output "aws_acm_certificate_domain_name" {

@@ -5,7 +5,7 @@ resource "aws_acm_certificate" "acm_certificate" {
     count                       = "${var.acm_certificate && !var.import_existing_certificate ? 1 : 0}"
 
     domain_name                 = "${var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}" }"
-    validation_method           = "${var.validation_method}"
+    validation_method           = "${upper(var.validation_method)}"
                         
     subject_alternative_names   = "${var.subject_alternative_names}"
 
