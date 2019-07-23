@@ -51,6 +51,8 @@ resource "aws_kms_key" "kms_key" {
 }
 
 data "template_file" "kms_key_policy" {
+    count                   = "${!var.kms_key_default && var.kms_key ? 1 : 0}"
+
     template = "${file("${path.module}/policies/kms_key_policy.json.tpl")}"
     
     vars {
