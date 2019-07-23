@@ -84,10 +84,14 @@ variable "enable_msk_cluster_encryption" {
     default     = "false"
 }
 
-variable "encryption_info_encryption_in_transit" {
-    description = "(Optional) Configuration block to specify encryption in transit."
-    type        = "list"
-    default     = []
+variable "encryption_in_transit_client_broker" {
+    description = "(Optional) Encryption setting for data in transit between clients and brokers. Valid values: TLS, TLS_PLAINTEXT, and PLAINTEXT. Default value: TLS_PLAINTEXT."
+    default     = "TLS_PLAINTEXT"
+}
+
+variable "encryption_in_transit_in_cluster" {
+    description = "(Optional) Whether data communication among broker nodes is encrypted. Default value: true."
+    default     = "true"
 }
 
 variable "encryption_info_encryption_at_rest_kms_key_arn" {

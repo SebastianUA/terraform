@@ -44,7 +44,10 @@ resource "aws_msk_cluster" "msk_cluster_encryption" {
 
     encryption_info {
         encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit           = ["${var.encryption_info_encryption_in_transit}"]
+        encryption_in_transit {
+            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
+            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+        }
     }
 
     tags = {
@@ -74,8 +77,9 @@ resource "aws_msk_cluster" "msk_cluster_client_authentication" {
     }
 
     client_authentication {
-        tls                         = ["${var.client_authentication_tls}"]
-        certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        tls {
+            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        }    
     }
 
     tags = {
@@ -137,12 +141,16 @@ resource "aws_msk_cluster" "msk_cluster_encryption_and_authentication" {
 
     encryption_info {
         encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit           = ["${var.encryption_info_encryption_in_transit}"]
+        encryption_in_transit {
+            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
+            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+        }
     }
 
      client_authentication {
-        tls                         = ["${var.client_authentication_tls}"]
-        certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        tls {
+            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        }    
     }
 
     tags = {
@@ -173,7 +181,10 @@ resource "aws_msk_cluster" "msk_cluster_encryption_and_configuration_info" {
 
     encryption_info {
         encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit           = ["${var.encryption_info_encryption_in_transit}"]
+        encryption_in_transit {
+            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
+            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+        }
     }
 
     configuration_info {
@@ -208,8 +219,9 @@ resource "aws_msk_cluster" "msk_cluster_client_authentication_and_configuration_
     }
 
     client_authentication {
-        tls                         = ["${var.client_authentication_tls}"]
-        certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        tls {
+            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        }    
     }
 
     configuration_info {
@@ -246,12 +258,16 @@ resource "aws_msk_cluster" "msk_cluster_all" {
 
     encryption_info {
         encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit           = ["${var.encryption_info_encryption_in_transit}"]
+        encryption_in_transit {
+            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
+            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+        }
     }
 
     client_authentication {
-        tls                         = ["${var.client_authentication_tls}"]
-        certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        tls {
+            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+        }    
     }
 
     configuration_info {
