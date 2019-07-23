@@ -2,17 +2,18 @@
 # aws_msk_cluster
 #---------------------------------------------------
 output "zookeeper_connect_string" {
-  value = "${aws_msk_cluster.msk_cluster_default.0.zookeeper_connect_string}"
+	description = ""
+  	value 		= "${aws_msk_cluster.msk_cluster_default.*.zookeeper_connect_string}"
 }
 
 output "bootstrap_brokers" {
   description = "Plaintext connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_default.0.bootstrap_brokers}"
+  value       = "${aws_msk_cluster.msk_cluster_default.*.bootstrap_brokers}"
 }
 
 output "bootstrap_brokers_tls" {
   description = "TLS connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_default.0.bootstrap_brokers_tls}"
+  value       = "${aws_msk_cluster.msk_cluster_default.*.bootstrap_brokers_tls}"
 }
 
 #---------------------------------------------------

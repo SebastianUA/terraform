@@ -76,11 +76,6 @@ variable "broker_node_group_info_client_subnets" {
     default     = []
 }
 
-variable "encryption_info_encryption_at_rest_kms_key_arn" {
-    description = "(Optional) You may specify a KMS key short ID or ARN (it will always output an ARN) to use for encrypting your data at rest. If no key is specified, an AWS managed KMS ('aws/msk' managed service) key will be used for encrypting the data at rest."
-    default     = ""
-}
-
 #-----------------------------------------------------------
 # AWS msk cluster with encryption
 #-----------------------------------------------------------
@@ -90,14 +85,14 @@ variable "enable_msk_cluster_encryption" {
 }
 
 variable "encryption_info_encryption_in_transit" {
-    description = "(Optional) Configuration block to specify encryption in transit. See below."
-    default     = ""
-}
-
-variable "client_authenication_certificate_authority_arns" {
-    description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
+    description = "(Optional) Configuration block to specify encryption in transit."
     type        = "list"
     default     = []
+}
+
+variable "encryption_info_encryption_at_rest_kms_key_arn" {
+    description = "(Optional) You may specify a KMS key short ID or ARN (it will always output an ARN) to use for encrypting your data at rest. If no key is specified, an AWS managed KMS ('aws/msk' managed service) key will be used for encrypting the data at rest."
+    default     = ""
 }
 
 #-----------------------------------------------------------
@@ -109,13 +104,15 @@ variable "enable_msk_cluster_client_authentication" {
 }
 
 variable "client_authentication_tls" {
-    description = "(Optional) Configuration block for specifying TLS client authentication. See below."
-    default     = ""
+    description = "(Optional) Configuration block for specifying TLS client authentication."
+    type        = "list"
+    default     = []
 }
 
 variable "client_authentication_certificate_authority_arns" {
     description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
-    default     = ""
+    type        = "list"
+    default     = []
 }
 
 #-----------------------------------------------------------
@@ -139,7 +136,7 @@ variable "configuration_info_revision" {
 #-----------------------------------------------------------
 # AWS msk cluster with encryption and client authentication
 #-----------------------------------------------------------
-variable "msk_cluster_encryption_and_authentication" {
+variable "enable_msk_cluster_encryption_and_authentication" {
     description = "Enable AWS MSK with encryption and client authentication usage"
     default     = "false"
 }
