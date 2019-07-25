@@ -26,11 +26,6 @@ resource "aws_acm_certificate" "acm_certificate" {
 resource "aws_acm_certificate" "acm_certificate_exist" {
     count                       = "${var.acm_certificate && var.import_existing_certificate ? 1 : 0}"
 
-    domain_name                 = "${var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}" }"
-    validation_method           = "DNS"
-
-    subject_alternative_names   = "${var.subject_alternative_names}"
-    
     private_key                 = "${var.private_key}"
     certificate_body            = "${var.certificate_body}"
     certificate_chain           = "${var.certificate_chain}"
@@ -72,7 +67,7 @@ resource "aws_acm_certificate_validation" "acm_certificate_validation_with_valid
     count                       = "${length(var.validation_record_fqdns) >0 && var.acm_certificate_validation ? 1 : 0}"
                                     
     certificate_arn             = "${var.certificate_arn}"
-    validation_record_fqdns     = "${var.validation_record_fqdns}"
+    validation_record_fqdns     = ["${var.validation_record_fqdns}"]
 
     timeouts {
         create  = "${var.timeouts_create}"

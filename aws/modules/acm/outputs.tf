@@ -22,6 +22,21 @@ output "aws_acm_certificate_domain_validation_options" {
     value       = "aws_acm_certificate.acm_certificate.*.domain_validation_options}"
 }
 
+output "aws_acm_certificate_resource_record_name" {
+    description = ""
+    value       = "aws_acm_certificate.acm_certificate.domain_validation_options.0.resource_record_name}"
+}
+
+output "aws_acm_certificate_resource_record_type" {
+    description = ""
+    value       = "aws_acm_certificate.acm_certificate.domain_validation_options.0.resource_record_type}"
+}
+
+output "aws_acm_certificate_resource_record_value" {
+    description = ""
+    value       = "aws_acm_certificate.acm_certificate.domain_validation_options.0.resource_record_value}"
+}
+
 #---------------------------------------------------
 #
 #---------------------------------------------------
