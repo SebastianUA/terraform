@@ -24,9 +24,14 @@ output "route53_record_default_name" {
     value       = "${element(concat(aws_route53_record.route53_record_default.*.name, list("")), 0)}"
 }
 
+#output "route53_record_default_fqdn" {
+#    description = "FQDN built using the zone domain and name."
+#    value       = "${element(concat(aws_route53_record.route53_record_default.*.fqdn, list("")), 0)}"
+#}
+
 output "route53_record_default_fqdn" {
     description = "FQDN built using the zone domain and name."
-    value       = "${element(concat(aws_route53_record.route53_record_default.*.fqdn, list("")), 0)}"
+    value       = "${aws_route53_record.route53_record_default.*.fqdn}"
 }
 
 output "route53_record_default_zone_ids" {
