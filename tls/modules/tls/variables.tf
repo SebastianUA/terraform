@@ -225,7 +225,8 @@ variable "tls_cert_request_subject_organizational_unit" {
 
 variable "tls_cert_request_subject_street_address" {
     description = "Set street name"
-    default     = ""
+    type        = "list"
+    default     = []
 }
 
 variable "tls_cert_request_subject_locality" {
