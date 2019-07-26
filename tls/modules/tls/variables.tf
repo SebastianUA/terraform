@@ -37,32 +37,63 @@ variable "enable_self_signed_cert" {
     default     = "false"
 }
 
-variable "key_algorithm" {
+variable "tls_self_signed_cert_key_algorithm" {
     description = "(Required) The name of the algorithm for the key provided in private_key_pem."
     default     = "ECDSA"
 }
 
-variable "private_key_pem" {
+variable "tls_self_signed_cert_private_key_pem" {
     description = "(Required) PEM-encoded private key data. This can be read from a separate file using the file interpolation function. If the certificate is being generated to be used for a throwaway development environment or other non-critical application, the tls_private_key resource can be used to generate a TLS private key from within Terraform. Only an irreversable secure hash of the private key will be stored in the Terraform state."
     default     = ""
 }
 
-variable "subject_common_name" {
+variable "tls_self_signed_cert_subject_common_name" {
     description = "Set common name"
     default     = ""
 }
 
-variable "subject_organization" {
+variable "tls_self_signed_cert_subject_organization" {
     description = "Set organization"
     default     = ""
 }
 
-variable "validity_period_hours" {
+variable "tls_self_signed_cert_subject_organizational_unit" {
+    description = "Set organizational unit"
+    default     = ""
+}
+
+variable "tls_self_signed_cert_subject_street_address" {
+    description = "Set street address"
+    type        = "list"
+    default     = []
+}
+
+variable "tls_self_signed_cert_subject_locality" {
+    description = "Set locality"
+    default     = ""
+}
+
+variable "tls_self_signed_cert_subject_province" {
+    description = "Set province"
+    default     = ""
+}
+
+variable "tls_self_signed_cert_subject_country" {
+    description = "Set country"
+    default     = ""
+}
+
+variable "tls_self_signed_cert_subject_postal_code" {
+    description = "Set postal code"
+    default     = ""
+}
+
+variable "tls_self_signed_cert_validity_period_hours" {
     description = "(Required) The number of hours after initial issuing that the certificate will become invalid."
     default     = "12"
 }
 
-variable "allowed_uses" {
+variable "tls_self_signed_cert_allowed_uses" {
     description = "(Required) List of keywords each describing a use that is permitted for the issued certificate. The valid keywords are listed below."
     type        = "list"
     default     = [
@@ -72,24 +103,24 @@ variable "allowed_uses" {
     ]
 }
 
-variable "dns_names" {
+variable "tls_self_signed_cert_dns_names" {
     description = "(Optional) List of DNS names for which a certificate is being requested."
     type        = "list"
     default     = []
 }
 
-variable "ip_addresses" {
+variable "tls_self_signed_cert_ip_addresses" {
     description = "(Optional) List of IP addresses for which a certificate is being requested"
     type        = "list"
     default     = []
 }
 
-variable "early_renewal_hours" {
+variable "tls_self_signed_cert_early_renewal_hours" {
     description = "(Optional) If set, the resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. Note however that the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Note also that this advance update can only be performed should the Terraform configuration be applied during the early renewal period."
     default     = "12"
 }
 
-variable "is_ca_certificate" {
+variable "tls_self_signed_cert_is_ca_certificate" {
     description = "(Optional) Boolean controlling whether the CA flag will be set in the generated certificate. Defaults to false, meaning that the certificate does not represent a certificate authority."
     default     = "false"
 }
@@ -97,7 +128,7 @@ variable "is_ca_certificate" {
 #-----------------------------------------------------------
 # tls_locally_signed_cert
 #-----------------------------------------------------------
-variable "enable_tls_locally_signed_cert" {
+variable "enable_locally_signed_cert" {
     description = "Enable tls_locally_signed_cert usage"
     default     = "false"
 }
@@ -194,7 +225,8 @@ variable "tls_cert_request_subject_organizational_unit" {
 
 variable "tls_cert_request_subject_street_address" {
     description = "Set street name"
-    default     = ""
+    type        = "list"
+    default     = []
 }
 
 variable "tls_cert_request_subject_locality" {

@@ -24,6 +24,8 @@ provider "aws" {
 
 module "kms" {
     source               = "../../modules/kms"
+    
+    kms_key              = "true"  
     name                 = "TEST-KMS"
     environment          = "PROD"
 
@@ -39,6 +41,9 @@ Module Input Variables
 - `environment` - Environment for service (`default  = "STAGE"`).
 - `orchestration` - Type of orchestration (`default  = "Terraform"`).
 - `createdby` - Created by (`default  = "Vitaliy Natarov"`).
+- `kms_key_default` - Allow to create kms_key as default (`default     = "false"`).
+- `kms_key` - Allow to create kms_key (`default     = "false"`).
+- `kms_alias` - Allow to create kms_alias (`default     = "false"`).
 - `deletion_window_in_days` - Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Defaults to 30 days (`default = "10"`).
 - `description` - The description of the key as viewed in AWS console (`default = "This key is used to encrypt <___> AWS service"`).
 - `key_usage` - Specifies the intended use of the key. Defaults to ENCRYPT_DECRYPT, and only symmetric encryption and decryption are supported (`default = ""`).
