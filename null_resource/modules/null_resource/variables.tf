@@ -123,4 +123,3 @@ variable "provisioner_local_exec_command_environment" {
     type        = "list"
     default     = []
 }
-
