@@ -2,7 +2,7 @@
 # Create AWS key pair
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair_key_name" {
-    count           = "${var.enable_key_pair && length(var.key_name) !="" ? 1 : 0}"
+    count           = "${var.enable_key_pair && var.key_name != "" ? 1 : 0}"
     
     key_name        = "${var.key_name}"
     public_key      = "${var.public_key}"
@@ -17,7 +17,7 @@ resource "aws_key_pair" "key_pair_key_name" {
 }
 
 resource "aws_key_pair" "key_pair_key_name_prefix" {
-    count           = "${var.enable_key_pair && length(var.key_name) =="" ? 1 : 0}"
+    count           = "${var.enable_key_pair && length(var.key_name) == 0 ? 1 : 0}"
 
     key_name_prefix = "${var.key_name_prefix}"
     public_key      = "${var.public_key}"
