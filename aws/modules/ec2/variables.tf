@@ -71,6 +71,11 @@ variable "instance_initiated_shutdown_behavior" {
   default     = ""
 }
 
+variable "key_name" {
+    description = "(Optional) The name for the key pair."
+    default     = ""
+}
+
 variable "public_key" {
     description = "Key path to your RSA|DSA key"
     default     = "/Users/captain/.ssh/id_rsa.pub"
