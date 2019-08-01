@@ -1,11 +1,4 @@
 #---------------------------------------------------
-# Define SSH key pair for our instances
-#---------------------------------------------------
-resource "aws_key_pair" "key_pair" {
-  key_name = "${lower(var.name)}-key_pair-${lower(var.environment)}"
-  public_key = "${file("${var.public_key}")}"
-}
-#---------------------------------------------------
 # Create AWS Instance
 #---------------------------------------------------
 resource "aws_instance" "instance" {
@@ -15,7 +8,7 @@ resource "aws_instance" "instance" {
     instance_type               = "${var.ec2_instance_type}"
     user_data                   = "${var.user_data}"
      #user_data                  = "${file("bootstrap.sh")}"
-    key_name                    = "${aws_key_pair.key_pair.id}"
+    key_name                    = "${var.key_name}"
     subnet_id                   = "${var.subnet_id}"
     vpc_security_group_ids      = ["${var.vpc_security_group_ids}"]
     monitoring                  = "${var.monitoring}"
@@ -77,5 +70,5 @@ resource "aws_instance" "instance" {
         }
     }
     
-    depends_on = ["aws_key_pair.key_pair"]
+    depends_on = []
 }
