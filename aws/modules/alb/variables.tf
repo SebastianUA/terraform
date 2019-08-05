@@ -26,6 +26,21 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }
 
+variable "enable_alb" {
+    description = "Enable ALB usage"
+    default     = "false"
+}
+
+variable "alb_name_prefix" {
+    description = "Enable ALB with name_prefix usage"
+    default     = "false"
+}
+
+variable "alb_name" {
+    description = "Set ALB name"
+    default     = ""
+}
+
 variable "security_groups" {
     description = "A list of security group IDs to assign to the ALB. Only valid if creating an ALB within a VPC"
     type        = "list"
@@ -41,6 +56,7 @@ variable "lb_internal" {
     description = "If true, ALB will be an internal ALB"
     default     = false
 }
+
 
 variable "name_prefix" {
     description = "Creates a unique name beginning with the specified prefix. Conflicts with name"
@@ -107,6 +123,17 @@ variable "deregistration_delay" {
     description = "The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds."
     default     = "300"
 }
+
+variable "enable_alb_target_group" {
+    description = "Enable alb target group"
+    default     = "false"
+}
+
+variable "alb_target_group_name" {
+    description = "Name for alb target group"
+    default     = ""
+}
+
 
 variable "backend_port" {
     description = "The port the service on the EC2 instances listen on."
