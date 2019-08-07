@@ -11,8 +11,8 @@ resource "aws_msk_cluster" "msk_cluster_default" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -37,8 +37,8 @@ resource "aws_msk_cluster" "msk_cluster_encryption" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -71,8 +71,8 @@ resource "aws_msk_cluster" "msk_cluster_client_authentication" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -103,8 +103,8 @@ resource "aws_msk_cluster" "msk_cluster_configuration_info" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -134,8 +134,8 @@ resource "aws_msk_cluster" "msk_cluster_encryption_and_authentication" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -174,8 +174,8 @@ resource "aws_msk_cluster" "msk_cluster_encryption_and_configuration_info" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -213,8 +213,8 @@ resource "aws_msk_cluster" "msk_cluster_client_authentication_and_configuration_
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
@@ -251,8 +251,8 @@ resource "aws_msk_cluster" "msk_cluster_all" {
     broker_node_group_info {
         instance_type   = "${var.broker_node_group_info_instance_type}"
         ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = "${var.broker_node_group_info_client_subnets}"
-        security_groups = "${var.broker_node_group_info_security_groups}"
+        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
+        security_groups = ["${var.broker_node_group_info_security_groups}"]
         az_distribution = "${var.broker_node_group_info_az_distribution}"
     }
 
