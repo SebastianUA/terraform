@@ -318,8 +318,8 @@ variable "iam_user_login_profile_user" {
 }
 
 variable "iam_user_login_profile_pgp_key" {
-    description = "(Required) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:username. Only applies on resource creation. Drift detection is not possible with this argument."
-    default     = "keybase:some_person_that_exists"
+    description = "(Required) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:username. Only applies on resource creation. Drift detection is not possible with this argument. Ex - keybase:captainua"
+    default     = ""
 }
 
 variable "iam_user_login_profile_password_length" {
