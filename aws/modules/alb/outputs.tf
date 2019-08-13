@@ -1,7 +1,7 @@
 output "lb_name" {
     description = "LB name"
     value       = "${element(concat(
-        aws_lb.alb.*.name.
+        aws_lb.alb.*.name,
         aws_lb.alb_name_prefix.*.name,
         list(""),), 0,)}"
 }

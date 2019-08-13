@@ -75,7 +75,7 @@ resource "aws_lb" "alb_name_prefix" {
 # Create AWS LB target group
 #---------------------------------------------------
 resource "aws_lb_target_group" "alb_target_group" {
-    count                = "${var.enable_alb_target_group ? 1 :0 }"
+    count                = "${var.enable_alb_target_group ? 1 : 0 }"
 
     name                 = "${var.alb_target_group_name !="" ? var.alb_target_group_name :  "${lower(var.name)}-alb-tg-${lower(var.environment)}" }"
     port                 = "${var.backend_port}"
@@ -198,7 +198,7 @@ resource "aws_lb_listener" "frontend_https_alb_name_prefix" {
 # Create AWS LB target group attachment
 #---------------------------------------------------
 resource "aws_lb_target_group_attachment" "alb_target_group_attachment" {
-    count               = "${var.enable_alb && length(var.target_ids) > 0 ? length(var.target_ids) : 0 }"
+    count               = "${var.alb_target_group_attachment && length(var.target_ids) > 0 ? length(var.target_ids) : 0 }"
                                     
     #availability_zone   = "all"
     target_group_arn    = "${aws_lb_target_group.alb_target_group.arn}"
