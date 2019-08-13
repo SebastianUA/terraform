@@ -9,7 +9,7 @@ resource "aws_iam_role" "iam_role" {
     #name_prefix             = ""
     description             = "IMA role created by ${var.orchestration}"
     
-    assume_role_policy      = "${file("${var.assume_role_policy_file}")}"
+    assume_role_policy      = "${var.assume_role_policy}"
     force_detach_policies   = "${var.iam_role_force_detach_policies}"
     path                    = "${var.iam_role_path}"
     #max_session_duration    = "${var.iam_role_max_session_duration}"
@@ -30,6 +30,19 @@ resource "aws_iam_role" "iam_role" {
     depends_on  = []
 
 }
+
+#-----------------------------------------------------------
+# IAM role policy attachment
+#-----------------------------------------------------------
+resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment" {
+    count      = "${var.enable_iam_role_policy_attachment ? 1 : 0}"
+
+    role       = "${var.iam_role_policy_attachment_role}"
+    policy_arn = "${var.iam_role_policy_attachment_policy_arn}"
+    
+    depends_on = []
+}
+
 
 #-----------------------------------------------------------
 # EC2 Policy Assuming Crossaccount Role

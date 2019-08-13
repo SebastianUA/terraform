@@ -24,6 +24,11 @@ output "policy_name" {
     value       = "${element(concat(aws_iam_policy.iam_policy.*.name, list("")), 0)}"
 }
 
+output "policy_arn" {
+    description = ""
+    value       = "${element(concat(aws_iam_policy.iam_policy.*.arn, list("")), 0)}"
+}
+
 #-----------------------------------------------------------
 # IAM instance profile
 #-----------------------------------------------------------
@@ -37,6 +42,10 @@ output "instance_profile_uid" {
     value       = "${element(concat(aws_iam_instance_profile.iam_instance_profile.*.unique_id, list("")), 0)}"
 }
 
+output "instance_profile_arn" {
+    description = ""
+    value       = "${element(concat(aws_iam_instance_profile.iam_instance_profile.*.unique_id, list("")), 0)}"
+}
 #-----------------------------------------------------------
 # IAM cross acc assume role
 #-----------------------------------------------------------

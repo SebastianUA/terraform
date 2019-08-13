@@ -34,7 +34,7 @@ variable "iam_role_name" {
     default     = ""
 }
 
-variable "assume_role_policy_file" {
+variable "assume_role_policy" {
     description = "File with assume role policy"
     default     = ""
 }
@@ -68,6 +68,21 @@ variable "iam_role_permissions_boundary" {
 #    }
 #}
 
+variable "enable_iam_role_policy_attachment" {
+    description = ""
+    default     = "false"
+}
+
+variable "iam_role_policy_attachment_policy_arn" {
+    description = ""
+    default     = "false"
+}
+
+variable "iam_role_policy_attachment_role" {
+    description = ""
+    default     = "false"
+}
+
 #-----------------------------------------------------------
 # IAM Instance Profile
 #-----------------------------------------------------------
@@ -99,14 +114,19 @@ variable "iam_policy_path" {
     default     = "/"
 }
 
-variable "iam_policy_file" {
-    description = "File with policy"
+variable "iam_policy_policy" {
+    description = "Policy"
     default     = ""
 }
 
 variable "iam_policy_name" {
     description = "Set custom policy name"
     default     = ""
+}
+
+variable "iam_policy_name_prefix" {
+    description = "Enable IAM policy with name_prefix usage"
+    default     = "false"
 }
 
 #-----------------------------------------------------------
@@ -125,7 +145,6 @@ variable "cross_account_assume_role_name" {
 #-----------------------------------------------------------
 # IAM Policy Attachment
 #-----------------------------------------------------------
-
 variable "enable_iam_policy_attachment" {
     description = "Enabling IAM policy attachment"
     default     = false
