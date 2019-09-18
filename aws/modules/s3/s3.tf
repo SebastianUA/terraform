@@ -68,6 +68,83 @@ resource "aws_s3_bucket" "s3_bucket_default" {
     }
 }
 
+resource "aws_s3_bucket" "s3_bucket_default_encryption" {
+    count           = "${var.enable_s3_bucket && var.enable_s3_bucket_default_encryption ? 1 : 0}"
+
+    bucket          = "${lower(var.name)}-s3-${lower(var.environment)}"
+    region          = "${var.region}"
+
+    acl             = "${var.s3_acl}"
+    cors_rule       = "${var.cors_rule}"
+    policy          = "${length(var.policy) > 0 ? var.policy : "" }"
+
+    website         = "${var.website}"
+
+    versioning {
+        enabled = "${var.enable_versioning}"
+    }
+
+    lifecycle_rule  {
+        enabled     = "${var.enable_lifecycle_rule}"
+        id          = "${lower(var.name)}-lifecycle_rule-${lower(var.environment)}"
+        prefix      = "${var.lifecycle_rule_prefix}"
+
+        tags {
+            Name            = "${lower(var.name)}-lc_rule-${lower(var.environment)}"
+            Environment     = "${var.environment}"
+            Orchestration   = "${var.orchestration}"
+            Createdby       = "${var.createdby}"
+        }
+
+        noncurrent_version_expiration {
+            days = "${var.noncurrent_version_expiration_days}"
+        }
+
+        noncurrent_version_transition {
+            days          = "${var.noncurrent_version_transition_days}"
+            storage_class = "GLACIER"
+        }
+
+        transition {
+            days          = "${var.standard_transition_days}"
+            storage_class = "STANDARD_IA"
+        }
+
+        transition {
+            days          = "${var.glacier_transition_days}"
+            storage_class = "GLACIER"
+        }
+
+        expiration {
+            days = "${var.expiration_days}"
+        }
+    }
+
+    #Add server side encryption configuration
+    server_side_encryption_configuration {
+        rule {
+            apply_server_side_encryption_by_default {
+                kms_master_key_id = "${var.kms_master_key_id}"
+                sse_algorithm     = "aws:kms"
+            }
+        }
+    }
+
+    force_destroy   = "${var.force_destroy}"
+
+    tags {
+        Name            = "${lower(var.name)}-s3-${lower(var.environment)}"
+        Environment     = "${var.environment}"
+        Orchestration   = "${var.orchestration}"
+        Createdby       = "${var.createdby}"
+    }
+
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+}
+
 resource "aws_s3_bucket" "s3_bucket_website" {
     count           = "${var.enable_s3_bucket_website}"    
 

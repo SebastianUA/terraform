@@ -34,6 +34,11 @@ variable "enable_s3_bucket" {
     default     = "false"
 }
 
+variable "enable_s3_bucket_default_encryption" {
+    description = "Enable to create S3 bucket by default with encryption"
+    default     = "false"
+}
+
 variable "enable_s3_bucket_website" {
     description = "Enable to create S3 bucket with website"
     default     = false
