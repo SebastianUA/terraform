@@ -1,13 +1,3 @@
-#############################################################
-# HULU
-#############################################################
-module "hulu-ami" {
-    source  = "terraform.prod.hulu.com/Hulu/ami-module/aws"
-    version = "0.0.7"
-
-    name    = "hulu-base-ami-bionic-*"
-}
-
 #---------------------------------------------------
 # Create AWS ASG
 #---------------------------------------------------
@@ -15,8 +5,8 @@ resource "aws_autoscaling_group" "asg" {
     count                       = "${var.create_asg && !var.enable_asg_azs ? 1 : 0}"
     
     launch_configuration        = "${var.create_lc ? element(aws_launch_configuration.lc.*.name, 0) : var.launch_configuration}"
-    #name                        = "${var.name}-asg-${var.environment}"
-    name_prefix                 = "${var.name}-asg-"
+    name                        = "${var.name}-asg-${var.environment}"
+    #name_prefix                 = "${var.name}-asg-"
     #Have got issue between availability_zones and vpc_zone_identifier. I preferred vpc_zone_identifier.....  
     #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
     #vpc_zone_identifier          = ["${module.hulu-m.data_a_subnet_ids[0]}", "${module.hulu-m.data_b_subnet_ids[0]}", "${module.hulu-m.data_c_subnet_ids[0]}"]
@@ -62,17 +52,7 @@ resource "aws_autoscaling_group" "asg" {
             key                 = "Createdby"
             value               = "${var.createdby}"
             propagate_at_launch = true
-        },
-        {
-            key                 = "YP_Service_ID"
-            value               = "${var.yp_service_id}"
-            propagate_at_launch = true
-        },
-        {
-            key                 = "YP_Team_ID"
-            value               = "${var.yp_team_id}"
-            propagate_at_launch = true
-        },
+        }
     ]
 
     lifecycle {
@@ -131,17 +111,7 @@ resource "aws_autoscaling_group" "asg_azs" {
             key                 = "Createdby"
             value               = "${var.createdby}"
             propagate_at_launch = true
-        },
-        {
-            key                 = "YP_Service_ID"
-            value               = "${var.yp_service_id}"
-            propagate_at_launch = true
-        },
-        {
-            key                 = "YP_Team_ID"
-            value               = "${var.yp_team_id}"
-            propagate_at_launch = true
-        },
+        }
     ]
 
     lifecycle {
@@ -255,8 +225,7 @@ resource "aws_launch_configuration" "lc" {
     
     #name                        = "${var.name}-lc-${var.environment}"
     name_prefix                 = "${var.name}-lc-"
-    image_id                    = "${module.hulu-ami.ami_id}"
-    #image_id                    = "${lookup(var.ami, var.region)}"
+    image_id                    = "${lookup(var.ami, var.region)}"
     instance_type               = "${var.ec2_instance_type}"
     security_groups             = ["${var.security_groups}"]
     iam_instance_profile        = "${var.iam_instance_profile}"

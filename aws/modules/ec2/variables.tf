@@ -170,18 +170,3 @@ variable "network_interface" {
     description = "Customize network interfaces to be attached at instance boot time"
     default     = []
 }
-
-variable "yp_service_id" {
-    description = "The YellowPage Service ID the infrastructure is for"
-    type        = "string"
-}
-
-variable "yp_team_id" {
-    description = "The YellowPage Team ID that owns the infrastructure"
-    type        = "string"
-}
-
-variable "garage_group_id" {
-    description = ""
-    type        = "string"
-}
