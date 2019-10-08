@@ -1,3 +1,13 @@
+#############################################################
+# HULU
+#############################################################
+module "hulu-ami" {
+    source  = "terraform.prod.hulu.com/Hulu/ami-module/aws"
+    version = "0.0.7"
+
+    name    = "hulu-base-ami-bionic-*"
+}
+
 #---------------------------------------------------
 # Create AWS ASG
 #---------------------------------------------------
@@ -9,6 +19,7 @@ resource "aws_autoscaling_group" "asg" {
     name_prefix                 = "${var.name}-asg-"
     #Have got issue between availability_zones and vpc_zone_identifier. I preferred vpc_zone_identifier.....  
     #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
+    #vpc_zone_identifier          = ["${module.hulu-m.data_a_subnet_ids[0]}", "${module.hulu-m.data_b_subnet_ids[0]}", "${module.hulu-m.data_c_subnet_ids[0]}"]
     vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
     max_size                    = "${var.asg_max_size}"
     min_size                    = "${var.asg_min_size}"
@@ -50,6 +61,16 @@ resource "aws_autoscaling_group" "asg" {
         {
             key                 = "Createdby"
             value               = "${var.createdby}"
+            propagate_at_launch = true
+        },
+        {
+            key                 = "YP_Service_ID"
+            value               = "${var.yp_service_id}"
+            propagate_at_launch = true
+        },
+        {
+            key                 = "YP_Team_ID"
+            value               = "${var.yp_team_id}"
             propagate_at_launch = true
         },
     ]
@@ -111,6 +132,16 @@ resource "aws_autoscaling_group" "asg_azs" {
             value               = "${var.createdby}"
             propagate_at_launch = true
         },
+        {
+            key                 = "YP_Service_ID"
+            value               = "${var.yp_service_id}"
+            propagate_at_launch = true
+        },
+        {
+            key                 = "YP_Team_ID"
+            value               = "${var.yp_team_id}"
+            propagate_at_launch = true
+        },
     ]
 
     lifecycle {
@@ -129,41 +160,19 @@ data "template_file" "instances_index" {
 #---------------------------------------------------
 # Create AWS autoscaling_attachment
 #---------------------------------------------------
-resource "aws_autoscaling_attachment" "elb_autoscaling_attachment" {
-    count                   = "${upper(var.load_balancer_type) == "ELB" && length(var.load_balancers) > 0 ? 1 : 0}"
-    #autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
-    autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
-
-    elb                     = "${data.template_file.elb_index.rendered}"
-
-    lifecycle {
-        create_before_destroy   = true,
-        ignore_changes          = [],
-    }
-
-    depends_on  = []
-}
-data "template_file" "elb_index" {
-    count       = "${length(var.load_balancers)}"
-    template    = "${var.load_balancers[count.index]}"
-}
-
 resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
-    count                   = "${upper(var.load_balancer_type) == "ALB" && length(var.load_balancers) > 0 ? 1 : 0}"
+    #count                   = "${var.enable_autoscaling_attachment && upper(var.load_balancer_type) == "ALB" ? 1 : 0}"
     #autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
-    autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
-    alb_target_group_arn    = "${data.template_file.alb_index.rendered}" 
-
+    #autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
+    autoscaling_group_name  = "${var.autoscaling_group_name_id}"
+    alb_target_group_arn    = "${var.alb_target_group_arn}" 
+    
     lifecycle {
         create_before_destroy   = true,
         ignore_changes          = [],
     }
     
     depends_on  = []
-}
-data "template_file" "alb_index" {
-    count       = "${length(var.load_balancers)}"
-    template    = "${var.load_balancers[count.index]}"
 }
 
 #---------------------------------------------------
@@ -237,13 +246,7 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook_azs" {
 
     depends_on = ["aws_autoscaling_group.asg"]
 }
-#---------------------------------------------------
-# Define SSH key pair for our instances
-#---------------------------------------------------
-resource "aws_key_pair" "key_pair" {
-    key_name    = "${lower(var.name)}-key_pair-${lower(var.environment)}"
-    public_key  = "${file("${var.key_path}")}"
-}
+
 #---------------------------------------------------
 # Launch AWS configuration
 #---------------------------------------------------
@@ -252,12 +255,13 @@ resource "aws_launch_configuration" "lc" {
     
     #name                        = "${var.name}-lc-${var.environment}"
     name_prefix                 = "${var.name}-lc-"
-    image_id                    = "${lookup(var.ami, var.region)}"
+    image_id                    = "${module.hulu-ami.ami_id}"
+    #image_id                    = "${lookup(var.ami, var.region)}"
     instance_type               = "${var.ec2_instance_type}"
     security_groups             = ["${var.security_groups}"]
     iam_instance_profile        = "${var.iam_instance_profile}"
     
-    key_name                    = "${aws_key_pair.key_pair.id}"
+    key_name                    = "${var.key_name}"
     #
     #user_data                   = "$${null}"
     #user_data                   = "${var.user_data}"
@@ -286,13 +290,12 @@ resource "aws_launch_configuration" "lc" {
     }
     
     depends_on = [
-        "aws_key_pair.key_pair",
         "data.template_file.user_data"
     ]
 }
   
 data "template_file" "user_data" {
-    template    = "${file("${var.user_data}")}"
+    template    = "${var.user_data}"
 }           
 #---------------------------------------------------
 # Add autoscaling policy rules

@@ -26,6 +26,11 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }    
 
+variable "ami_id" {
+    description = "AMIs ID"
+    default     = ""
+}
+
 variable "ami" {
     description = "I added only 3 regions to show the map feature but you can add all"    
     type        = "map"
@@ -164,4 +169,19 @@ variable "ephemeral_block_device" {
 variable "network_interface" {
     description = "Customize network interfaces to be attached at instance boot time"
     default     = []
+}
+
+variable "yp_service_id" {
+    description = "The YellowPage Service ID the infrastructure is for"
+    type        = "string"
+}
+
+variable "yp_team_id" {
+    description = "The YellowPage Team ID that owns the infrastructure"
+    type        = "string"
+}
+
+variable "garage_group_id" {
+    description = ""
+    type        = "string"
 }

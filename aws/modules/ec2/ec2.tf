@@ -1,13 +1,21 @@
 #---------------------------------------------------
 # Create AWS Instance
 #---------------------------------------------------
+module "hulu-ami" {
+    source  = "terraform.prod.hulu.com/Hulu/ami-module/aws"
+    version = "0.0.7"
+
+    name    = "hulu-base-ami-bionic-*"
+}
+
 resource "aws_instance" "instance" {
     count                       = "${var.number_of_instances}"
-
-    ami                         = "${lookup(var.ami, var.region)}"
+    
+    ami                         = "${module.hulu-ami.ami_id}"
+    #ami                         = "${var.ami_id}"
+    #ami                         = "${var.ami_id == "" ? "${lookup(var.ami, var.region)}" : "${var.ami_id}" }"
     instance_type               = "${var.ec2_instance_type}"
     user_data                   = "${var.user_data}"
-     #user_data                  = "${file("bootstrap.sh")}"
     key_name                    = "${var.key_name}"
     subnet_id                   = "${var.subnet_id}"
     vpc_security_group_ids      = ["${var.vpc_security_group_ids}"]
@@ -41,7 +49,7 @@ resource "aws_instance" "instance" {
         # Due to several known issues in Terraform AWS provider related to arguments of aws_instance:
         # (eg, https://github.com/terraform-providers/terraform-provider-aws/issues/2036)
         # we have to ignore changes in the following arguments
-        ignore_changes = ["private_ip", "vpc_security_group_ids", "root_block_device"]
+        ignore_changes = ["private_ip", "vpc_security_group_ids", "root_block_device", "subnet_id"]
     }
     
     tags {
@@ -49,26 +57,29 @@ resource "aws_instance" "instance" {
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
+        YP_Service_ID   = "${var.yp_service_id}"
+        YP_Team_ID      = "${var.yp_team_id}"
+        Garage_Group_ID = "${var.garage_group_id}"
     }
-    ##############################################
-    # Provisioning
-    #############################################
-    provisioner "remote-exec" {
-        inline = [
-            "sudo yum update -y",
-            "sudo yum upgrade -y",
-            "uname -a"
-        ]
-        connection {
-            #host        = "${element(aws_instance.instance.*.public_ip, 0)}"
-            user        = "centos"
-            #password   = ""
-            timeout     = "5m"
-            private_key = "${file("${var.private_key}")}"
-            agent       = "true"
-            type        = "ssh"
-        }
-    }
+#    ##############################################
+#    # Provisioning
+#    #############################################
+#    provisioner "remote-exec" {
+#        inline = [
+#            "sudo yum update -y",
+#            "sudo yum upgrade -y",
+#            "uname -a"
+#        ]
+#        connection {
+#            #host        = "${element(aws_instance.instance.*.public_ip, 0)}"
+#            user        = "centos"
+#            #password   = ""
+#            timeout     = "5m"
+#            private_key = "${file("${var.private_key}")}"
+#            agent       = "true"
+#            type        = "ssh"
+#        }
+#    }
     
     depends_on = []
 }

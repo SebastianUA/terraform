@@ -118,22 +118,27 @@ module "ec2" {
 #    kms_master_key_id = "arn:aws:kms:${module.kms.region}:${module.kms.aws_account_id}:key/${module.kms.kms_key_id}"
 #}
 module "alb" {
-    source                  = "../../modules/alb"
-    name                    = "App-Load-Balancer"
-    region                  = "us-east-1"
-    environment             = "PROD"
+    source                      = "../../modules/alb"
+    name                        = "App-Load-Balancer"
+    region                      = "us-east-1"
+    environment                 = "PROD"
     
+
+    enable_alb                  = "true"
+    enable_alb_target_group     = "true" 
+
+        
     load_balancer_type          = "application"
     security_groups             = ["${module.vpc.security_group_id}", "${module.vpc.default_security_group_id}"]
     subnets                     = ["${module.vpc.vpc-privatesubnet-ids}"]
     vpc_id                      = "${module.vpc.vpc_id}"   
     enable_deletion_protection  = false
     
-    backend_protocol    = "HTTP"
-    alb_protocols       = "HTTP"
+    backend_protocol            = "HTTP"
+    alb_protocols               = "HTTP"
    
     #It's not working properly when use EC2... First of all, comment the line under this text. Run playbook. Uncomment that line:
-    target_ids          = ["${module.ec2.instance_ids}"]
+    target_ids                  = ["${module.ec2.instance_ids}"]
     
     #access_logs = [
     #    {
