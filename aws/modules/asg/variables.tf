@@ -62,7 +62,7 @@ variable "iam_instance_profile" {
     default     = ""
 }
 
-variable "key_path" {
+variable "key_name" {
     description = "Key path to your RSA|DSA key"
     default     = "/Users/captain/.ssh/id_rsa.pub"
 }
@@ -198,6 +198,7 @@ variable "desired_capacity" {
 variable "vpc_zone_identifier" {
     description = "A list of subnet IDs to launch resources in"
     type        = "list"
+    default     = []
 }
 
 variable "default_cooldown" {
@@ -349,5 +350,36 @@ variable "autoscaling_lifecycle_hook_role_arn" {
 
 variable "autoscaling_group_name" {
     description = "(Required) The name of the Auto Scaling group to which you want to assign the lifecycle hook"
+    default     = ""
+}
+
+
+variable "yp_service_id" {
+    description = "The YellowPage Service ID the infrastructure is for"
+    type        = "string"
+}
+
+variable "yp_team_id" {
+    description = "The YellowPage Team ID that owns the infrastructure"
+    type        = "string"
+}
+
+variable "enable_autoscaling_attachment" {
+    description = ""
+    default     = "false"
+}
+
+variable "autoscaling_group_name_id" {
+    description = ""
+    default     = ""
+}
+
+variable "elb_autoscaling_attachment" {
+    description = ""
+    default     = ""
+}
+
+variable "alb_target_group_arn" {
+    description = ""
     default     = ""
 }

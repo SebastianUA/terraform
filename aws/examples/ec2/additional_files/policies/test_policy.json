@@ -1,0 +1,18 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "85.223.209.0/24",
+                        "172.18.0.0/12"
+                    ]
+                }
+            }
+        }
+    ]
+}
