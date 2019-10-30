@@ -123,3 +123,17 @@ variable "provisioner_local_exec_command_environment" {
     type        = "list"
     default     = []
 }
+
+#---------------------------------------------------
+# depends_on
+#---------------------------------------------------
+variable "enable_depends_on" { 
+    description = "Enable depends_on"
+    default     = false
+}
+
+variable "depends_on" {
+    description = "List with resources which can be used as depends_on"
+    type        = "list"
+    default     = []
+}
