@@ -237,13 +237,7 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook_azs" {
 
     depends_on = ["aws_autoscaling_group.asg"]
 }
-#---------------------------------------------------
-# Define SSH key pair for our instances
-#---------------------------------------------------
-resource "aws_key_pair" "key_pair" {
-    key_name    = "${lower(var.name)}-key_pair-${lower(var.environment)}"
-    public_key  = "${file("${var.key_path}")}"
-}
+
 #---------------------------------------------------
 # Launch AWS configuration
 #---------------------------------------------------
@@ -257,13 +251,13 @@ resource "aws_launch_configuration" "lc" {
     security_groups             = ["${var.security_groups}"]
     iam_instance_profile        = "${var.iam_instance_profile}"
     
-    key_name                    = "${aws_key_pair.key_pair.id}"
+    key_name                    = "${var.key_name}"
     #
     #user_data                   = "$${null}"
-    #user_data                   = "${var.user_data}"
+    user_data                   = "${var.user_data}"
     #user_data                   = "${file("${var.user_data}")}"
     #user_data                    = "${file(var.user_data)}"     
-    user_data                   = "${data.template_file.user_data.rendered}"
+    #user_data                   = "${data.template_file.user_data.rendered}"
     
               
     #associate_public_ip_address = "${var.enable_associate_public_ip_address}"
@@ -285,15 +279,9 @@ resource "aws_launch_configuration" "lc" {
         ignore_changes          = ["user_data"]
     }
     
-    depends_on = [
-        "aws_key_pair.key_pair",
-        "data.template_file.user_data"
-    ]
+    depends_on = []
 }
-  
-data "template_file" "user_data" {
-    template    = "${file("${var.user_data}")}"
-}           
+          
 #---------------------------------------------------
 # Add autoscaling policy rules
 #---------------------------------------------------

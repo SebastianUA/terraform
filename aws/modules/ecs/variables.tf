@@ -103,6 +103,63 @@ variable "propagate_tags" {
   default     = "SERVICE"
 }
 
+variable "deployment_maximum_percent" {
+  description = "(Optional) The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the DAEMON scheduling strategy."
+  default     = ""
+}
+
+variable "deployment_minimum_healthy_percent" {
+  description = "(Optional) The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment."
+  default     = "2"
+}
+
+variable "enable_ecs_managed_tags" {
+  description = "(Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service."
+  default     = "true"
+}
+
+variable "health_check_grace_period_seconds" {
+  description = "(Optional) Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 2147483647. Only valid for services configured to use load balancers."
+  default     = "2147483647"
+}
+
+variable "network_configuration_subnets" {
+  description = "(Required) The subnets associated with the task or service."
+  type        = "list"
+  default     = []
+}
+
+variable "network_configuration_security_groups" {
+  description = "(Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used."
+  type        = "list"
+  default     = []
+}
+
+variable "network_configuration_assign_public_ip" {
+  description = "(Optional) Assign a public IP address to the ENI (Fargate launch type only). Valid values are true or false. Default false."
+  default     = "false"
+}
+
+variable "service_registries_registry_arn" {
+  description = "(Required) The ARN of the Service Registry. The currently supported service registry is Amazon Route 53 Auto Naming Service(aws_service_discovery_service)."
+  default     = ""
+}
+
+variable "service_registries_port" {
+  description = "(Optional) The port value used if your Service Discovery service specified an SRV record."
+  default     = "9999"
+}
+
+variable "service_registries_container_port" {
+  description = "(Optional) The port value, already specified in the task definition, to be used for your service discovery service."
+  default     = "9999"
+}
+
+variable "service_registries_container_name" {
+  description = "(Optional) The container name value, already specified in the task definition, to be used for your service discovery service."
+  default     = ""
+}
+
 variable "deployment_controller_type" {
   description = "(Optional) Type of deployment controller. Valid values: CODE_DEPLOY, ECS. Default: ECS."
   default     = "ECS"

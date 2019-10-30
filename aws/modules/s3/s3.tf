@@ -2,9 +2,9 @@
 # Create S3 bucket
 #---------------------------------------------------
 resource "aws_s3_bucket" "s3_bucket_default" {
-    count           = "${var.enable_s3_bucket}"
+    count           = "${var.enable_s3_bucket && !var.enable_s3_bucket_default_encryption ? 1 : 0}"
     
-    bucket          = "${lower(var.name)}-s3-${lower(var.environment)}"
+    bucket          = "${var.bucket_name !="" ? var.bucket_name : "${lower(var.name)}-s3-${lower(var.environment)}" }"
     region          = "${var.region}"
     
     acl             = "${var.s3_acl}"
@@ -56,7 +56,7 @@ resource "aws_s3_bucket" "s3_bucket_default" {
     force_destroy   = "${var.force_destroy}"
 
     tags {
-        Name            = "${lower(var.name)}-s3-${lower(var.environment)}"
+        Name            = "${var.bucket_name !="" ? var.bucket_name : "${lower(var.name)}-s3-${lower(var.environment)}" }"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"
@@ -71,7 +71,8 @@ resource "aws_s3_bucket" "s3_bucket_default" {
 resource "aws_s3_bucket" "s3_bucket_default_encryption" {
     count           = "${var.enable_s3_bucket && var.enable_s3_bucket_default_encryption ? 1 : 0}"
 
-    bucket          = "${lower(var.name)}-s3-${lower(var.environment)}"
+    bucket          = "${var.bucket_name !="" ? var.bucket_name : "${lower(var.name)}-s3-${lower(var.environment)}" }" 
+    #bucket          = "${lower(var.name)}-s3-${lower(var.environment)}"
     region          = "${var.region}"
 
     acl             = "${var.s3_acl}"
@@ -133,7 +134,7 @@ resource "aws_s3_bucket" "s3_bucket_default_encryption" {
     force_destroy   = "${var.force_destroy}"
 
     tags {
-        Name            = "${lower(var.name)}-s3-${lower(var.environment)}"
+        Name            = "${var.bucket_name !="" ? var.bucket_name : "${lower(var.name)}-s3-${lower(var.environment)}" }"
         Environment     = "${var.environment}"
         Orchestration   = "${var.orchestration}"
         Createdby       = "${var.createdby}"

@@ -77,6 +77,11 @@ variable "enable_associate_public_ip_address" {
     default     = false
 }
 
+variable "key_name" {
+    description = "Key name id"
+    default     = ""
+}
+
 variable "user_data" {
     description = "The user data to provide when launching the instance"
     default     = ""
