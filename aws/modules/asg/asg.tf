@@ -5,11 +5,10 @@ resource "aws_autoscaling_group" "asg" {
     count                       = "${var.create_asg && !var.enable_asg_azs ? 1 : 0}"
     
     launch_configuration        = "${var.create_lc ? element(aws_launch_configuration.lc.*.name, 0) : var.launch_configuration}"
-    name                        = "${var.name}-asg-${var.environment}"
-    #name_prefix                 = "${var.name}-asg-"
+    #name                        = "${var.name}-asg-${var.environment}"
+    name_prefix                 = "${var.name}-asg-"
     #Have got issue between availability_zones and vpc_zone_identifier. I preferred vpc_zone_identifier.....  
     #availability_zones          = ["${split(",", (lookup(var.availability_zones, var.region)))}"]
-    #vpc_zone_identifier          = ["${module.hulu-m.data_a_subnet_ids[0]}", "${module.hulu-m.data_b_subnet_ids[0]}", "${module.hulu-m.data_c_subnet_ids[0]}"]
     vpc_zone_identifier         = ["${var.vpc_zone_identifier}"]
     max_size                    = "${var.asg_max_size}"
     min_size                    = "${var.asg_min_size}"
@@ -52,7 +51,7 @@ resource "aws_autoscaling_group" "asg" {
             key                 = "Createdby"
             value               = "${var.createdby}"
             propagate_at_launch = true
-        }
+        },
     ]
 
     lifecycle {
@@ -111,7 +110,7 @@ resource "aws_autoscaling_group" "asg_azs" {
             key                 = "Createdby"
             value               = "${var.createdby}"
             propagate_at_launch = true
-        }
+        },
     ]
 
     lifecycle {
@@ -130,19 +129,41 @@ data "template_file" "instances_index" {
 #---------------------------------------------------
 # Create AWS autoscaling_attachment
 #---------------------------------------------------
-resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
-    #count                   = "${var.enable_autoscaling_attachment && upper(var.load_balancer_type) == "ALB" ? 1 : 0}"
+resource "aws_autoscaling_attachment" "elb_autoscaling_attachment" {
+    count                   = "${upper(var.load_balancer_type) == "ELB" && length(var.load_balancers) > 0 ? 1 : 0}"
     #autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
-    #autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
-    autoscaling_group_name  = "${var.autoscaling_group_name_id}"
-    alb_target_group_arn    = "${var.alb_target_group_arn}" 
-    
+    autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
+
+    elb                     = "${data.template_file.elb_index.rendered}"
+
+    lifecycle {
+        create_before_destroy   = true,
+        ignore_changes          = [],
+    }
+
+    depends_on  = []
+}
+data "template_file" "elb_index" {
+    count       = "${length(var.load_balancers)}"
+    template    = "${var.load_balancers[count.index]}"
+}
+
+resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
+    count                   = "${upper(var.load_balancer_type) == "ALB" && length(var.load_balancers) > 0 ? 1 : 0}"
+    #autoscaling_group_name  = "${aws_autoscaling_group.asg.id}"
+    autoscaling_group_name  = "${var.create_asg && !var.enable_asg_azs ? "${aws_autoscaling_group.asg.id}" : "${aws_autoscaling_group.asg_azs.id}" }"
+    alb_target_group_arn    = "${data.template_file.alb_index.rendered}" 
+
     lifecycle {
         create_before_destroy   = true,
         ignore_changes          = [],
     }
     
     depends_on  = []
+}
+data "template_file" "alb_index" {
+    count       = "${length(var.load_balancers)}"
+    template    = "${var.load_balancers[count.index]}"
 }
 
 #---------------------------------------------------
@@ -233,10 +254,10 @@ resource "aws_launch_configuration" "lc" {
     key_name                    = "${var.key_name}"
     #
     #user_data                   = "$${null}"
-    #user_data                   = "${var.user_data}"
+    user_data                   = "${var.user_data}"
     #user_data                   = "${file("${var.user_data}")}"
     #user_data                    = "${file(var.user_data)}"     
-    user_data                   = "${data.template_file.user_data.rendered}"
+    #user_data                   = "${data.template_file.user_data.rendered}"
     
               
     #associate_public_ip_address = "${var.enable_associate_public_ip_address}"
@@ -258,14 +279,9 @@ resource "aws_launch_configuration" "lc" {
         ignore_changes          = ["user_data"]
     }
     
-    depends_on = [
-        "data.template_file.user_data"
-    ]
+    depends_on = []
 }
-  
-data "template_file" "user_data" {
-    template    = "${var.user_data}"
-}           
+          
 #---------------------------------------------------
 # Add autoscaling policy rules
 #---------------------------------------------------

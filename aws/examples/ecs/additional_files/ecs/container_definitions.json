@@ -1,0 +1,39 @@
+[
+    {
+        "networkMode": "awsvpc",
+        "name": "tomcat-webserver",
+        "image": "tomcat",
+        "memory": 2048,
+        "cpu": 1024,
+        "portMappings": [
+            {
+                "containerPort": 8080,
+                "hostPort": 80
+            }
+        ],
+        "containerDefinitions": [
+            {
+                "essential": true,
+                "name": "tomcat-webserver",
+                "image": "tomcat",
+                "memory": 2048,
+                "cpu": 1024,
+                "portMappings": [
+                    {
+                        "hostPort": 80,
+                        "containerPort": 8080,
+                        "protocol": "tcp"
+                    }
+                ],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/tomcat-container-logs",
+                        "awslogs-region": "us-east-1"
+                    }
+                }
+            }
+        ],
+        "family": "tomcat-webserver"
+    }
+]
