@@ -35,12 +35,12 @@ resource "aws_ecs_service" "ecs_service" {
         container_port   = "${var.load_balancer_container_port}"
     }
 
-    service_registries {
-        registry_arn    = "${var.service_registries_registry_arn}"
-        port            = "${var.service_registries_port}"
-        container_port  = "${var.service_registries_container_port}"
-        container_name  = "${var.service_registries_container_name !="" ? var.service_registries_container_name : "${lower(var.name)}-sr-container-${lower(var.environment)}" }"
-    }
+    #service_registries {
+    #    registry_arn    = "${var.service_registries_registry_arn}"
+    #    port            = "${var.service_registries_port}"
+    #    container_port  = "${var.service_registries_container_port}"
+    #    container_name  = "${var.service_registries_container_name !="" ? var.service_registries_container_name : "${lower(var.name)}-sr-container-${lower(var.environment)}" }"
+    #}
 
     ordered_placement_strategy {
         type  = "${var.ordered_placement_strategy_type}"
@@ -53,11 +53,11 @@ resource "aws_ecs_service" "ecs_service" {
     }
 
     tags {
-        Name            = "${var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Region          = "${var.region}"    
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+        Name                = "${var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}" }"
+        Environment         = "${var.environment}"
+        Region              = "${var.region}"    
+        Orchestration       = "${var.orchestration}"
+        Createdby           = "${var.createdby}"
     }
 
     lifecycle {
@@ -84,11 +84,11 @@ resource "aws_ecs_service" "ecs_service_daemon" {
     scheduling_strategy = "${var.scheduling_strategy}"
 
     tags {
-        Name            = "${var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Region          = "${var.region}"    
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+        Name                = "${var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}" }"
+        Environment         = "${var.environment}"
+        Region              = "${var.region}"    
+        Orchestration       = "${var.orchestration}"
+        Createdby           = "${var.createdby}"    
     }
 
     lifecycle {

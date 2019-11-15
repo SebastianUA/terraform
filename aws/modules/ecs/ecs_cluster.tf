@@ -3,14 +3,14 @@ resource "aws_ecs_cluster" "ecs_cluster" {
         
     name           = "${var.ecs_cluster_name !="" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-cluster-${lower(var.environment)}" }"
 
-    setting        = ["${var.setting}"] 
+    setting        = "${var.setting}"
 
     tags {
-        Name            = "${var.alb_name !="" ? var.alb_name : "${lower(var.name)}-alb-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Region          = "${var.region}"    
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+        Name                = "${var.ecs_cluster_name !="" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-cluster-${lower(var.environment)}" }"
+        Environment         = "${var.environment}"
+        Region              = "${var.region}"    
+        Orchestration       = "${var.orchestration}"
+        Createdby           = "${var.createdby}"
     }
 
     lifecycle {

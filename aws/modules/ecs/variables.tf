@@ -42,7 +42,11 @@ variable "ecs_cluster_name" {
 variable "setting" {
   description = "(Optional) Configuration block(s) with cluster settings. For example, this can be used to enable CloudWatch Container Insights for a cluster. The name - (Required) Name of the setting to manage. Valid values: containerInsights. The value - (Required) The value to assign to the setting. Value values are enabled and disabled."
   type        = "list"
-  default     = []
+  default     = [{
+    "name"  = "containerInsights",
+    "value" = "enabled"
+    }
+  ]
 }
 
 #------------------------------------------------------------------
@@ -83,7 +87,7 @@ variable "iam_role" {
   default     = ""
 }
 
-variable "launch_type " {
+variable "launch_type" {
   description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2."
   default     = "EC2"
 }
@@ -202,7 +206,7 @@ variable "placement_constraints_type" {
 
 variable "placement_constraints_expression" {
   description = "(Optional) Cluster Query Language expression to apply to the constraint. Does not need to be specified for the distinctInstance type."
-  default     = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
+  default     = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b, us-east-2c]"
 }
 
 #------------------------------------------------------------------
@@ -220,7 +224,7 @@ variable "family" {
 
 variable "container_definitions" {
   description = "(Required) A list of valid container definitions provided as a single valid JSON document. Please note that you should only provide values that are part of the container definition document. For a detailed description of what parameters are available, see the Task Definition Parameters section from the official Developer Guide."
-  default     = "value"
+  default     = ""
 }
 
 variable "task_role_arn" {
@@ -311,4 +315,9 @@ variable "proxy_configuration_properties_proxyegressport" {
 variable "proxy_configuration_properties_proxyingressport" {
   description = ""
   default     = "15000"
+}
+
+variable "enable_appmesh_proxy" {
+  description = "Enable ecs task definition"
+  default     = "false"
 }

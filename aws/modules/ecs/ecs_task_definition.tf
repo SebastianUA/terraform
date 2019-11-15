@@ -1,9 +1,10 @@
 resource "aws_ecs_task_definition" "ecs_task_definition" {
     count                   = "${var.enable_ecs_task_definition && !var.enable_appmesh_proxy ? 1 :0 }"
         
-    family                  = "${var.family}"
-    container_definitions   = "${file("${var.container_definitions}")}"
-
+    family                  = "${var.family !="" ? var.family : "${lower(var.name)}-service-${lower(var.environment)}" }"
+    #container_definitions   = "${file("${var.container_definitions}")}"
+    container_definitions   = "${var.container_definitions}"
+    
     task_role_arn           = "${var.task_role_arn}"
     execution_role_arn      = "${var.execution_role_arn}"
     network_mode            = "${var.network_mode}"
@@ -13,14 +14,14 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     volume {
         name      = "${var.volume_name !="" ? var.volume_name : "${lower(var.name)}-volume-${lower(var.environment)}" }"
         host_path = "${var.volume_host_path}"
-        docker_volume_configuration {
-            scope           = "${var.docker_volume_configuration_scope}"
-            autoprovision   = "${var.docker_volume_configuration_autoprovision}"
-            driver          = ""
-            driver_opts     = []
-            labels          = []
-        }    
     }
+    #docker_volume_configuration {
+    #    scope           = "${var.docker_volume_configuration_scope}"
+    #    autoprovision   = "${var.docker_volume_configuration_autoprovision}"
+    #    driver          = ""
+    #    driver_opts     = []
+    #    labels          = []
+    #}
 
     placement_constraints {
         type       = "${var.task_definition_placement_constraints_type}"
@@ -28,11 +29,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     }
 
     tags {
-        Name            = "${var.volume_name !="" ? var.volume_name : "${lower(var.name)}-volume-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Region          = "${var.region}"    
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+        Name                = "${var.family !="" ? var.family : "${lower(var.name)}-service-${lower(var.environment)}" }"
+        Environment         = "${var.environment}"
+        Region              = "${var.region}"    
+        Orchestration       = "${var.orchestration}"
+        Createdby           = "${var.createdby}"
     }
 
     lifecycle {
@@ -62,11 +63,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition_appmesh_proxy" {
     }
 
     tags {
-        Name            = "${var.volume_name !="" ? var.volume_name : "${lower(var.name)}-volume-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Region          = "${var.region}"    
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+        Name                = "${var.volume_name !="" ? var.volume_name : "${lower(var.name)}-volume-${lower(var.environment)}" }"
+        Environment         = "${var.environment}"
+        Region              = "${var.region}"    
+        Orchestration       = "${var.orchestration}"
+        Createdby           = "${var.createdby}"
     }
 
     lifecycle {
