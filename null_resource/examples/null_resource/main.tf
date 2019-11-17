@@ -3,11 +3,11 @@
 #
 
 terraform {
-  required_version = ">= 0.11.11"
+  required_version = ">= 0.12.12"
 }
 
 provider "aws" {
-    version                 = "~> 1.0"
+    version                 = "~> 2.36"
     region                  = "us-west-2"
     shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
     profile                 = "default"
@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 module "provisioners" {
-    source                                      = "../../modules/provisioners"
+    source                                      = "../../modules/null_resource"
 
     # 
     enable_file_provisioner                     = true
@@ -27,11 +27,9 @@ module "provisioners" {
     enable_provisioner_local_exec_command       = true
     provisioner_local_exec_command_command      = "echo 'test text' >> test.txt"
     provisioner_local_exec_command_interpreter  = []
-    provisioner_local_exec_command_environment  = [
-        {
-            FOO = "bar"
-            BAR = 1
-            BAZ = "true"
-        }
-    ]
+    provisioner_local_exec_command_environment  = {
+        FOO = "bar"
+        BAR = 1
+        BAZ = "true"
+    }
 }

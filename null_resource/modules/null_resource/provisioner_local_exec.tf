@@ -7,12 +7,12 @@ resource "null_resource" "local-exec_command" {
     provisioner "local-exec" {
         working_dir     = "${var.provisioner_local_exec_command_working_dir}"
         command         = "${var.provisioner_local_exec_command_command}"
-        interpreter     = ["${var.provisioner_local_exec_command_interpreter}"]
+        interpreter     = "${var.provisioner_local_exec_command_interpreter}"
         environment     = "${var.provisioner_local_exec_command_environment}"
     }
 
     lifecycle {
-        create_before_destroy   = true,
+        create_before_destroy   = true
         ignore_changes          = []
     }
 

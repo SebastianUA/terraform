@@ -5,7 +5,7 @@ resource "null_resource" "remote_exec_by_login" {
     count               = "${var.enable_provisioner_remote_exec_inline && var.enable_connection_by_login ? 1 : 0}"
                 
     provisioner "remote-exec" {
-        inline          = ["${var.provisioner_remote_exec_inline_command}"]
+        inline          = "${var.provisioner_remote_exec_inline_command}"
 
         connection {
             type        = "${var.connection_type}"
@@ -26,7 +26,7 @@ resource "null_resource" "remote_exec_by_key" {
     count                   = "${var.enable_provisioner_remote_exec_inline && var.enable_connection_by_key ? 1 : 0}"
                 
     provisioner "remote-exec" {
-        inline              = ["${var.provisioner_remote_exec_inline_command}"]
+        inline              = "${var.provisioner_remote_exec_inline_command}"
 
         connection {
             type            = "${var.connection_type}"

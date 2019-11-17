@@ -120,8 +120,12 @@ variable "provisioner_local_exec_command_interpreter" {
 
 variable "provisioner_local_exec_command_environment" {
     description = "(Optional) block of key value pairs representing the environment of the executed command. inherits the current process environment."
-    type        = "list"
-    default     = []
+    type        = "map"
+    default     = {
+        FOO = "bar"
+        BAR = 1
+        BAZ = "true"
+    }
 }
 
 #---------------------------------------------------
@@ -132,7 +136,7 @@ variable "enable_depends_on" {
     default     = false
 }
 
-variable "depends_on" {
+variable "depends_on_var" {
     description = "List with resources which can be used as depends_on"
     type        = "list"
     default     = []
