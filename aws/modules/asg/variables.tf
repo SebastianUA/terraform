@@ -24,24 +24,30 @@ variable "orchestration" {
 variable "createdby" {
     description = "Created by"
     default     = "Vitaliy Natarov"
-}    
+}
+
+variable "tags" {
+  description = "A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch."
+  type        = list(map(string))
+  default     = []
+}
 
 #-----------------------------------------------------------
 # AWS ASG
 #-----------------------------------------------------------
 variable "enable_asg" {
     description = "Whether to create autoscaling group"
-    default     = "false"
+    default     = false
 }
 
 variable "asg_name" {
     description = "Whether to create autoscaling group"
-    default     = "false"
+    default     = ""
 }
 
 variable "enable_asg_azs" {
     description = "Enable ASG with AZS. If not, will use vpc_zone_identifier"
-    default     = "false"
+    default     = false
 }
 
 variable "launch_configuration" {
@@ -56,7 +62,6 @@ variable "name_prefix" {
 
 variable "vpc_zone_identifier" {
     description = "A list of subnet IDs to launch resources in"
-    type        = "list"
     default     = []
 }
 
@@ -77,7 +82,7 @@ variable "desired_capacity" {
 
 variable "health_check_grace_period" {
     description = "Time (in seconds) after instance comes into service before checking health."
-    default     = "300"
+    default     = 300
 }
 
 variable "health_check_type" {
@@ -87,12 +92,12 @@ variable "health_check_type" {
 
 variable "min_elb_capacity" {
     description = "Setting this causes Terraform to wait for this number of instances to show up healthy in the ELB only on creation. Updates will not wait on ELB instance number changes"
-    default     = "0"
+    default     = 0
 }
 
 variable "wait_for_elb_capacity" {
     description = "Setting this will cause Terraform to wait for exactly this number of healthy instances in all attached load balancers on both create and update operations. Takes precedence over min_elb_capacity behavior."
-    default     = false
+    default     = 1
 }
 
 variable "target_group_arns" {
@@ -102,17 +107,16 @@ variable "target_group_arns" {
 
 variable "default_cooldown" {
     description = "The amount of time, in seconds, after a scaling activity completes before another scaling activity can start"
-    default     = "300"
+    default     = 300
 }
 
 variable "force_delete" {
     description = "Allows deleting the autoscaling group without waiting for all instances in the pool to terminate."
-    default     = "true"
+    default     = true
 }
 
 variable "termination_policies" {
     description = "A list of policies to decide how the instances in the auto scale group should be terminated. The allowed values are OldestInstance, NewestInstance, OldestLaunchConfiguration, ClosestToNextInstanceHour, Default"
-    type        = "list"
     default     = ["Default"]
 }
 
@@ -133,8 +137,6 @@ variable "metrics_granularity" {
 
 variable "enabled_metrics" {
     description = "A list of metrics to collect. The allowed values are GroupMinSize, GroupMaxSize, GroupDesiredCapacity, GroupInServiceInstances, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances"
-    type        = "list"
-    
     default = [
         "GroupMinSize",
         "GroupMaxSize",
@@ -154,7 +156,7 @@ variable "wait_for_capacity_timeout" {
 
 variable "protect_from_scale_in" {
     description = "Allows setting instance protection. The autoscaling group will not select instances with this setting for terminination during scale in events."
-    default     = "false"
+    default     = false
 }
 
 variable "timeouts_delete" {
@@ -172,11 +174,16 @@ variable "load_balancer_type" {
 
 variable "load_balancers" {
     description = "An elastic load balancer name/ALB to add to the autoscaling group names"
-    default     = ""
+    default     = []
 }
 
 variable "autoscaling_group_name" {
   description   = "(Required) Name of ASG to associate with the ELB or ALB. Also, The name of the Auto Scaling group to which you want to assign the lifecycle hoo"
+  default       = ""
+}
+
+variable "alb_target_group_arn" {
+  description   = "(Optional) The ARN of an ALB Target Group."
   default       = ""
 }
 
@@ -185,12 +192,12 @@ variable "autoscaling_group_name" {
 #-----------------------------------------------------------
 variable "enable_autoscaling_lifecycle_hook" {
     description = "Enable autoscaling lifecycle hook"
-    default     = "false"
+    default     = false
 }
 
 variable "autoscaling_lifecycle_hook_name" {
   description   = "(Required) The name of the lifecycle hook."
-  default       = "value"
+  default       = ""
 }
 
 variable "autoscaling_lifecycle_hook_default_result" {
@@ -228,7 +235,7 @@ variable "autoscaling_lifecycle_hook_role_arn" {
 #-----------------------------------------------------------
 variable "enable_autoscaling_notification" {
     description = "Enable autoscaling notification"
-    default     = "false"
+    default     = false
 }
 
 variable "autoscaling_groups_filter" {
@@ -256,12 +263,12 @@ variable "autoscaling_notification_topic_arn" {
 #-----------------------------------------------------------
 variable "enable_autoscaling_policy" {
     description = "Enabling autoscaling schedule"
-    default     = "false"
+    default     = false
 } 
 
 variable "asg_size_scale" {
     description = "Size of instances to making autoscaling(up/down)"
-    default     = "1"
+    default     = 1
 }
 
 variable "adjustment_type" {
@@ -274,7 +281,7 @@ variable "adjustment_type" {
 #-----------------------------------------------------------
 variable "enable_autoscaling_schedule" {
     description = "Enabling autoscaling schedule"
-    default     = "false"
+    default     = false
 } 
 
 variable "asg_recurrence_scale_up" {
@@ -292,7 +299,7 @@ variable "asg_recurrence_scale_down" {
 #-----------------------------------------------------------
 variable "enable_lc" {
     description = "Whether to create launch configuration"
-    default     = "false"
+    default     = false
 }
 
 variable "launch_configuration_name" {
@@ -302,7 +309,7 @@ variable "launch_configuration_name" {
 
 variable "enable_lc_spot" {
   description   = "Whether to create launch configuration"
-  default       = "false"
+  default       = false
 }
 
 variable "ec2_instance_type" {
@@ -317,13 +324,12 @@ variable "iam_instance_profile" {
 
 variable "security_groups" {
   description = "A list of security group IDs to assign to the launch configuration"
-  type        = "list"
   default     = []
 }
 
 variable "enable_associate_public_ip_address" {
     description = "Enabling associate public ip address (Associate a public ip address with an instance in a VPC)"
-    default     = "false"
+    default     = null
 }
 
 variable "key_name" {
@@ -338,12 +344,12 @@ variable "user_data" {
 
 variable "enable_monitoring" {
     description = "If true, the launched EC2 instance will have detailed monitoring enabled"
-    default     = "false"
+    default     = false
 }
 
 variable "ebs_optimized" {
     description = "If true, the launched EC2 instance will be EBS-optimized"
-    default     = "false"
+    default     = false
 }
 
 variable "root_block_device" {
@@ -363,7 +369,7 @@ variable "ephemeral_block_device" {
 
 variable "spot_price" {
     description = "The price to use for reserving spot instances"
-    default     = "0"
+    default     = 0
 }
 
 variable "placement_tenancy" {
@@ -373,7 +379,6 @@ variable "placement_tenancy" {
 
 variable "availability_zones" {
     description = "Availability zones for AWS ASG"
-    type        = "map"
     default     = {
         us-east-1      = "us-east-1b,us-east-1c,us-east-1d,us-east-1e"
         us-east-2      = "us-east-2a,eu-east-2b,eu-east-2c"
@@ -395,7 +400,6 @@ variable "availability_zones" {
 
 variable "ami" {
     description = "I added only 3 regions to show the map feature but you can add all"
-    type        = "map"
     default     = {
         us-east-1 = "ami-9887c6e7"
         us-west-2 = "ami-3ecc8f46"
@@ -403,26 +407,20 @@ variable "ami" {
     }
 }
 
-variable "enable_create_before_destroy" {
-    description = "Create before destroy"
-    default     = true
-} 
-
 #-----------------------------------------------------------
 # AWS ASG with launch_template
 #-----------------------------------------------------------
 variable "enable_launch_template" {
   description   = "Enable ASG with launch_template"
-  default       = "false"
+  default       = false
 }
 
 variable "enable_launch_template_mixed_instances_policy" {
   description   = "Enable ASG with launch_template and mixed_instances_policy"
-  default       = "false"
+  default       = false
 }
 
 variable "launch_template" {
   description   = "(Optional) Nested argument with Launch template specification to use to launch instances."
-  type          = "list"
   default       = []
 }
