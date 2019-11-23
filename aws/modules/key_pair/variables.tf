@@ -11,7 +11,7 @@ variable "name" {
 #-----------------------------------------------------------
 variable "enable_key_pair" {
     description = "Enable aws key_pair"
-    default     = "false"
+    default     = false
 }
 
 variable "key_name" {
