@@ -12,81 +12,92 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+  required_version = "> 0.12.12"
 }
+
 provider "aws" {
     region  = "us-east-1"
     profile = "default"
 }
+
 module "cloudwatch" {
     source                  = "../../modules/cloudwatch"
+                        
+    alarm_name              = "my-application-logs-errors"
+     alarm_description      = "Bad errors in my-application-logs"
+    comparison_operator     = "GreaterThanOrEqualToThreshold"
+    evaluation_periods      = 1
+    threshold               = 10
+    period                  = 60
+    unit                    = "Count"
 
-    dimensions = [
-        {
-          AutoScalingGroupName = ""
-          #AutoScalingGroupName = "${aws_autoscaling_group.bar.name}"
-        }
-    ]
+    namespace               = "MyApplication"
+    metric_name             = "ErrorCount"
+    statistic               = "Maximum"
 
-    alarm_name          = "My first alarm"
-    #alarm_description  = "Test description"
-    #alarm_actions      = "${aws_autoscaling_policy.bat.arn}"
-
-    #
-    #principal_for_event_permission  = "XXXXXXXXXXXXXXX"
-
-    #arn_for_cloudwatch_event_target = "arn:aws:sns:us-east-1:XXXXXXXXXXXXXXX:test-sns-sns-prod"
-    #
-    #name_for_cloudwatch_log_group   = "test-log-group"
-    #
-    #name_for_cloudwatch_log_stream  = "test-log-steam"
+    alarm_actions           = []
 }
 
 ```
 
 Module Input Variables
 ----------------------
-
-- `name`- Name to be used on tags (`default = TEST-CW`).
-- `environment` - Environment for service (`default = stage`). Just uses for tag.
-- `orchestration` - Type of orchestration (`default = Terraform`). Just uses for tag.
-- `region` - The region where to deploy this code (e.g. us-east-1) - (`default     = "us-east-1"`).
-- `alarm_name` - The descriptive name for the alarm. This name must be unique within the user's AWS account (`default     = ""`).
-- `comparison_operator` - The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold (`default     = "GreaterThanOrEqualToThreshold"`).
-- `evaluation_periods` - The number of periods over which data is compared to the specified threshol (`default     = "2"`).
-- `metric_name` - The name for the alarm's associated metric (ex: CPUUtilization) - (`default     = "CPUUtilization"`).
-- `namespace` - The namespace for the alarm's associated metric (ex: AWS/EC2) - (`default     = "AWS/EC2"`).
-- `period` - The period in seconds over which the specified statistic is applied (`default     = "120"`).
-- `statistic` - The statistic to apply to the alarm's associated metric. Either of the following is supported: SampleCount, Average, Sum, Minimum, Maximum (`efault     = "Average"`).
-- `threshold` - The value against which the specified statistic is compared (`default     = "80"`).
-- `actions_enabled` - Indicates whether or not actions should be executed during any changes to the alarm's state. Defaults to true (`default     = "true"`).
-- `alarm_actions` - The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Number (ARN) - (`default     = []`).
-- `alarm_description` - The description for the alarm (`default     = ""`).
-- `datapoints_to_alarm` - The number of datapoints that must be breaching to trigger the alarm (`default     = "0"`).
-- `dimensions` - List of the dimensions for the alarm's associated metric (`default     = []`).
-- `insufficient_data_actions` - he list of actions to execute when this alarm transitions into an INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Number (ARN) - (`default     = []`).
-- `ok_actions` - The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Number (ARN) - (`default     = []`).
-- `unit` - The unit for the alarm's associated metric (`default     = ""`).
-- `extended_statistic` - The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100 (`default     = "p100"`).
-- `treat_missing_data` - Sets how this alarm is to handle missing data points. The following values are supported: missing, ignore, breaching and notBreaching. Defaults to missing (`default     = "missing"`).
-- `evaluate_low_sample_count_percentiles` - Used only for alarms based on percentiles. If you specify ignore, the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. The following values are supported: ignore, and evaluate (`default     = "ignore"`).
-- `principal_for_event_permission` -  The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify * to permit any account to put events to your default event bus (`default     = ""`).
-- `statement_id_for_event_permission` - An identifier string for the external account that you are granting permissions to (`default     = "DevAccountAccess"`).
-- `action_for_event_permission` - The action that you are enabling the other account to perform. Defaults to events:PutEvents (`default     = "events:PutEvents"`).
-- `is_enabled_for_event_rule` - Whether the rule should be enabled (defaults to true) - (`default     = "true"`).
-- `arn_for_cloudwatch_event_target` -  The Amazon Resource Name (ARN) of the rule (`default     = ""`).
-- `target_id_for_cloudwatch_event_target` - target ID (`default     = "SendToSNS"`).
-- `cloudwatch_dashboard_name` -  The name of the dashboard (`default     = ""`).
-- `name_for_cloudwatch_log_group` - The name of the log group. If omitted, Terraform will assign a random, unique name (`default     = ""`).
-- `retention_in_days_for_cloudwatch_log_group` - Specifies the number of days you want to retain log events in the specified log group (`default     = "0"`).
-- `kms_key_id_for_cloudwatch_log_group` - The ARN of the KMS Key to use when encrypting log data. Please note, after the AWS KMS CMK is disassociated from the log group, AWS CloudWatch Logs stops encrypting newly ingested data for the log group. All previously ingested data remains encrypted, and AWS CloudWatch Logs requires permissions for the CMK whenever the encrypted data is requested (`default     = ""`).
-- `name_for_cloudwatch_log_metric_filter` - A name for the metric filter (`default     = "metric-filter"`).
-- `pattern_for_cloudwatch_log_metric_filter` - A valid CloudWatch Logs filter pattern for extracting metric data out of ingested log events (`default     = ""`).
-- `name_for_metric_transformation` - The name of the CloudWatch metric to which the monitored log information should be published (e.g. ErrorCount) - (`default     = "ErrorCount"`).
-- `namespace_for_metric_transformation` - The destination namespace of the CloudWatch metric (`default     = "NameSpace"`).
-- `value_for_metric_transformation` - What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log even (`default     = "1"`).                                                                                    
-- `name_for_cloudwatch_log_stream` - The name of the log stream. Must not be longer than 512 characters and must not contain : (`default     = ""`).
-
+-`name` - Name to be used on all resources as prefix(`default     = "TEST"`)
+-`region` - The region where to deploy this code (e.g. us-east-1).(`default     = "us-east-1"`)
+-`environment` - Environment for service(`  default     = "STAGE"`)
+-`orchestration` - Type of orchestration(`  default     = "Terraform"`)
+-`createdby` - Created by(`  default     = "Vitaliy Natarov"`)
+-`tags` - Add additional tags(`default       = {}`)
+-`enable_cw_metric_alarm` - Enable cw_metric_alarm usage(`default       = false`)
+-`alarm_name` - The descriptive name for the alarm. This name must be unique within the user's AWS account(`default     = ""`)
+-`comparison_operator` - The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold.(`default     = "GreaterThanOrEqualToThreshold"`) 
+-`evaluation_periods` - The number of periods over which data is compared to the specified threshold.(`  default     = 2`)
+-`metric_name` - The name for the alarm's associated metric (ex: CPUUtilization)(`  default     = null`)
+-`namespace` - The namespace for the alarm's associated metric (ex: AWS/EC2)(`  default     = null`)
+-`period` - The period in seconds over which the specified statistic is applied.(`  default     = null`)
+-`statistic` - The statistic to apply to the alarm's associated metric. Either of the following is supported: SampleCount, Average, Sum, Minimum, Maximum(`  default     = null`)
+-`threshold` - The value against which the specified statistic is compared(`  default     = 80`)
+-`unit` - (Optional) The unit for the alarm's associated metric.(`  default     = null`)
+-`metric_query` - (Optional) Enables you to create an alarm based on a metric math expression. You may specify at most 20.(`default       = []`)
+-`actions_enabled` - Indicates whether or not actions should be executed during any changes to the alarm's state. Defaults to true.(`  default     = true`)
+-`alarm_actions` - The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Number (ARN).(`  default     = []`)
+-`alarm_description` - The description for the alarm.(`  default     = null`)
+-`datapoints_to_alarm` - The number of datapoints that must be breaching to trigger the alarm.(`  default     = 0`)
+-`dimensions` - List of the dimensions for the alarm's associated metric(`  default     = []`)
+-`insufficient_data_actions` - The list of actions to execute when this alarm transitions into an INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Number (ARN).(`  default     = []`)
+-`ok_actions` - The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Number (ARN).(`  default     = []`)
+-`extended_statistic` - The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.(`  default     = null`)
+-`treat_missing_data` - Sets how this alarm is to handle missing data points. The following values are supported: missing, ignore, breaching and notBreaching. Defaults to missing.(`  default     = "missing"`)
+-`evaluate_low_sample_count_percentiles` - Used only for alarms based on percentiles. If you specify ignore, the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. The following values are supported: ignore, and evaluate.(`  default     = null`)
+-`enable_cw_event_permission` - Enable cw_event_permission usage(`default       = false`)
+-`cw_event_permission_principal` - The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify * to permit any account to put events to your default event bus.(`  default     = ""`)
+-`cw_event_permission_statement_id` - An identifier string for the external account that you are granting permissions to.(`  default     = "DevAccountAccess"`)
+-`cw_event_permission_action` - The action that you are enabling the other account to perform. Defaults to events:PutEvents.(`  default     = "events:PutEvents"`)
+-`is_enabled_for_event_rule` - Whether the rule should be enabled (defaults to true).(`  default     = true`)
+-`cw_event_rule_event_pattern` - description(`default       = ""`)
+-`enable_cw_event_rule` - Enable cw_event_rule usage(`default       = false`)
+-`enbale_cw_event_target` - Enable enbale_cw_event_target usage(`default       = false`)
+-`cw_event_target_arn` - The Amazon Resource Name (ARN) of the rule.(`  default     = ""`)
+-`cw_event_rule_name` - description(`default       = ""`)
+-`cw_event_rule_description` - description(`default       = ""`)
+-`cw_event_target_target_id` - target ID(`  default     = "SendToSNS"`)
+-`enable_cw_log_group` - Enable cw_log_group usage(`default       = false`)
+-`enable_cw_log_stream` - Enable cw_log_stream usage(`default       = false`)
+-`enable_cw_log_metric_filter` - Enable cw_log_metric_filter usage(`default       = false`)
+-`cw_log_group` - Enable cw_log_group usage(`default       = false`)
+-`cw_log_group_name` - The name of the log group. If omitted, Terraform will assign a random, unique name.(`  default     = ""`)
+-`cw_log_group_retention_in_days` - Specifies the number of days you want to retain log events in the specified log group.(`  default     = 0`)
+-`cw_log_group_kms_key_id` - The ARN of the KMS Key to use when encrypting log data. Please note, after the AWS KMS CMK is disassociated from the log group, AWS CloudWatch Logs stops encrypting newly ingested data for the log group. All previously ingested data remains encrypted, and AWS CloudWatch Logs requires permissions for the CMK whenever the encrypted data is requested.(`  default     = ""`)
+-`cw_log_metric_filter_name` - A name for the metric filter.(`  default     = "metric-filter"`)
+-`cw_log_metric_filter_pattern` - A valid CloudWatch Logs filter pattern for extracting metric data out of ingested log events.(`  default     = ""`)
+-`metric_transformation_name` - The name of the CloudWatch metric to which the monitored log information should be published (e.g. ErrorCount)(`  default     = "ErrorCount"`)
+-`metric_transformation_namespace` - The destination namespace of the CloudWatch metric.(`  default     = "NameSpace"`)
+-`metric_transformation_value` - What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event.(`  default     = 1`)
+-`metric_transformation_default_value` - What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event.(`  default     = null`)
+-`cloudwatch_log_stream_name` - The name of the log stream. Must not be longer than 512 characters and must not contain :(`  default     = ""`)
+-`enable_cw_dashboard` - Enable cw_dashboard(`default       = false`)
+-`cw_dashboard_name` - The name of the dashboard.(`  default     = ""`)
+-`cw_dashboard_body` - description(`default       = ""`)
 
 Authors
 =======
