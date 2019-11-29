@@ -2,13 +2,14 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+    required_version = "> 0.12.12"
 }
 
 provider "aws" {
-    region  = "us-east-1"
+    region  = "us-west-2"
     profile = "default"
 }
+<<<<<<< HEAD
 
 module "iam" {
     source                          = "../../modules/iam"
@@ -53,33 +54,23 @@ module "vpc" {
     allowed_ports                       = ["8080", "3306", "80", "443"]
 
     map_public_ip_on_launch             = "true"
+=======
+>>>>>>> dev
 
-    #Internet-GateWay
-    enable_internet_gateway             = "true"
-    #NAT
-    enable_nat_gateway                  = "false"
-    single_nat_gateway                  = "true"
-    #VPN
-    enable_vpn_gateway                  = "false"
-    #DHCP
-    enable_dhcp_options                 = "false"
-    # EIP
-    enable_eip                          = "false"
-}
 module "ec2" {
     source                              = "../../modules/ec2"
     name                                = "TEST-Machine"    
-    region                              = "us-east-1"
-    environment                         = "PROD"
-    ec2_instance_type                   = "t2.micro"
-    enable_associate_public_ip_address  = "true"
-    disk_size                           = "8"
-    tenancy                             = "${module.vpc.instance_tenancy}"
-    iam_instance_profile                = "${module.iam.instance_profile_id}"
-    subnet_id                           = "${element(module.vpc.vpc-publicsubnet-ids, 0)}"
-    #subnet_id                           = "${element(module.vpc.vpc-privatesubnet-ids, 0)}"
-    #subnet_id                           = ["${element(module.vpc.vpc-privatesubnet-ids)}"]
-    vpc_security_group_ids              = ["${module.vpc.security_group_id}"]
+    region                              = "us-west-2"
 
-    monitoring                          = "true"
+    enable_instance                     = true
+    environment                         = "dev"
+    instance_type                   = "t2.micro"
+    enable_associate_public_ip_address  = true
+    disk_size                           = 8
+    tenancy                             = "default"
+    iam_instance_profile                = ""
+    subnet_id                           = ""
+    vpc_security_group_ids              = []
+
+    monitoring                          = true
 }

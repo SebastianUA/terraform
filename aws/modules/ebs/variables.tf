@@ -2,13 +2,13 @@
 # Global or/and default variables
 #-----------------------------------------------------------
 variable "name" {
-  description = "Name to be used on all resources as prefix"
-  default     = "TEST-ASG"
+    description = "Name to be used on all resources as prefix"
+    default     = "TEST"
 }
 
 variable "region" {
-  description = "The region where to deploy this code (e.g. us-east-1)."
-  default     = "us-east-1"
+    description = "The region where to deploy this code (e.g. us-east-1)."
+    default     = "us-east-1"
 } 
 
 variable "environment" {
@@ -24,7 +24,12 @@ variable "orchestration" {
 variable "createdby" {
     description = "Created by"
     default     = "Vitaliy Natarov"
-}    
+}
+
+variable "tags" {
+  description   = "Add additional tags"
+  default       = {}
+}
 
 #-----------------------------------------------------------
 # EBS
@@ -34,6 +39,12 @@ variable "enable_ebs_volume" {
     default     = false
 }
 
+variable "ebs_volume_name" {
+  description   = "Name for ebs_volume"
+  default       = ""
+}
+
+
 variable "availability_zone" {
     description = "(Required) The AZ where the EBS volume will exist."
     default     = ""
@@ -41,7 +52,6 @@ variable "availability_zone" {
 
 variable "availability_zones" {
     description = "Availability zones for AWS ASG"
-    type        = "map"
     default     = {
         us-east-1      = "us-east-1b,us-east-1c,us-east-1d,us-east-1e"
         us-east-2      = "us-east-2a,eu-east-2b,eu-east-2c"
@@ -127,10 +137,29 @@ variable "skip_destroy" {
 #-----------------------------------------------------------
 # AWS EBS snapshop
 #-----------------------------------------------------------
-
 variable "enable_ebs_snapshot" {
     description = "Enable ebs snapshop for the volume"
     default     = false
+}
+
+variable "ebs_snapshot_description" {
+  description   = " (Optional) A description of what the snapshot is."
+  default       = ""
+}
+
+variable "ebs_snapshot_name" {
+  description   = "Name for ebs_snapshot"
+  default       = ""
+}
+
+variable "timeouts_create" {
+  description   = "(Default 10 minutes) Used for creating the ebs snapshot"
+  default       = "10m"
+}
+
+variable "timeouts_delete" {
+  description   = "(Default 10 minutes) Used for deleting the ebs snapshot"
+  default       = "10m"
 }
 
 variable "enable_ebs_snapshot_copy" {
@@ -141,6 +170,16 @@ variable "enable_ebs_snapshot_copy" {
 variable "source_snapshot_id" {
     description = "The ARN for the snapshot to be copied."
     default     = ""
+}
+
+variable "ebs_snapshot_copy_name" {
+  description   = "Name for ebs_snapshot_copy"
+  default       = ""
+}
+
+variable "ebs_snapshot_copy_description" {
+  description   = "(Optional) A description of what the snapshot is."
+  default       = ""
 }
 
 variable "source_region" {

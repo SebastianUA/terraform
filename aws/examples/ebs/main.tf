@@ -4,10 +4,9 @@ module "ebs" {
     region                          = "us-west-2"
     environment                     = "PROD"
                                     
-    #
     # AWS EBS volume
-    #
     enable_ebs_volume               = true
+    ebs_volume_name                 = ""
     type                            = "gp2"
     size                            = 8
     
@@ -16,9 +15,7 @@ module "ebs" {
     snapshot_id                     = ""
     kms_key_id                      = ""
 
-    #
     # AWS EBS volume attachment
-    #
     enable_ebs_volume_attachment    = false
     device_name                     = ""
     instance_id                     = ""
@@ -26,4 +23,6 @@ module "ebs" {
     
     force_detach                    = false
     skip_destroy                    = false
+
+    # 
 }
