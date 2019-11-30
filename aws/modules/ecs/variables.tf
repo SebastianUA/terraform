@@ -98,14 +98,14 @@ variable "volume" {
   default     = []
 }
 
-variable "td_placement_constraints" {
+variable "placement_constraints" {
   description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
   default     = []
 }
 
 variable "proxy_configuration_type" {
   description = "(Optional) The proxy type. The default value is APPMESH. The only supported value is APPMESH."
-  default     = null #"APPMESH"
+  default     = null
 }
 
 variable "proxy_configuration_container_name" {
@@ -114,28 +114,28 @@ variable "proxy_configuration_container_name" {
 }
 
 variable "proxy_configuration_properties_appports" {
-  description = ""
-  default     = null #8080
+  description = "For ex: 8080"
+  default     = null
 }
 
 variable "proxy_configuration_properties_egressignoredips" {
-  description = ""
-  default     = null #"169.254.170.2,169.254.169.254"
+  description = "For ex: '169.254.170.2,169.254.169.254'"
+  default     = null
 }
 
 variable "proxy_configuration_properties_ignoreduid" {
-  description = ""
-  default     = null #1339
+  description = "For ex: 1339"
+  default     = null
 }
 
 variable "proxy_configuration_properties_proxyegressport" {
-  description = ""
-  default     = null #15001
+  description = "For ex: 15001"
+  default     = null
 }
 
 variable "proxy_configuration_properties_proxyingressport" {
-  description = ""
-  default     = null #15000
+  description = "For ex: 15000"
+  default     = null
 }
 
 variable "enable_appmesh_proxy" {
@@ -256,7 +256,7 @@ variable "ordered_placement_strategy" {
   default     = []
 }
 
-variable "service_placement_constraints" {
-  description = "(Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. Defined below."
-  default     = []
-}
+#variable "placement_constraints" {
+#  description = "(Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. Defined below."
+#  default     = []
+#}

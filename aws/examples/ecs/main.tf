@@ -3,7 +3,7 @@
 #
 
 terraform {
-    required_version = "~> 0.12.2"
+    required_version = "~> 0.12.12"
 }
 
 provider "aws" {
@@ -56,7 +56,7 @@ module "ecs_task_definition" {
         },
     ]
 
-    td_placement_constraints = [
+    placement_constraints = [
         {
             type         = "memberOf"
             expression   = "attribute:ecs.availability-zone in [us-east-2a, us-east-2b, us-east-2c]"
@@ -84,17 +84,32 @@ module "ecs_service" {
     launch_type						    = "EC2"
     platform_version					= "LATEST"
     scheduling_strategy				    = "REPLICA"
-    
-    #deployment_controller_type			= "ECS"
-    
-    #load_balancer_target_group_arn		= element(module.alb_slave.target_group_arn, 0)
-    #load_balancer_container_name		= "tomcat-webserver"
-    #load_balancer_container_port		= 8080
-    #
-    #ordered_placement_strategy_type	    = "binpack"
-    #ordered_placement_strategy_field	= "cpu"
-    #
-    #placement_constraints_type			= "memberOf"
-    #placement_constraints_expression	= "attribute:ecs.availability-zone in [us-east-2a, us-east-2b]"
-}
+   
+    deployment_controller               = [
+        {
+            type         = "ECS"
+        },
+    ]
+   
+    load_balancer                       = [
+        {
+            target_group_arn    = "alb"
+            container_port      = 8080
+        },
+    ]
 
+    ordered_placement_strategy          = [
+        {
+            type    = "binpack"
+            field   = "cpu"
+        },
+    ]
+    
+    placement_constraints               = [
+        {
+            type         = "memberOf"
+            expression   = "attribute:ecs.availability-zone in [us-east-2a, us-east-2b]"
+        },
+    ]
+
+}
