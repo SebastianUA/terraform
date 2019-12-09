@@ -26,18 +26,61 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }
 
-variable "security_group_names" {
-    description = "List of EC2 security group names to be authorized for ingress to the cache security group"
-    type        = "list"
-    default     = []
+variable "tags" {
+    description = "A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch."
+    type        = map(string)
+    default     = {}
+}
+
+#-----------------------------------------------------------
+# AWS elasticache subnet group
+#-----------------------------------------------------------
+variable "enable_elasticache_subnet_group" {
+  description   = "Enable elasticache_subnet_group usage"
+  default       = false
+}
+
+variable "elasticache_subnet_group_name" {
+  description   = "(Required) Name for the cache subnet group. Elasticache converts this name to lowercase."
+  default       = ""
+}
+
+variable "elasticache_subnet_group_description" {
+  description   = "(Optional) Description for the cache subnet group. Defaults to "Managed by Terraform"."
+  default       = ""
 }
 
 variable "subnet_ids" {
     description = "List of VPC Subnet IDs for the cache subnet group"
-    type        = "list"
     default     = []
 }
 
+#-----------------------------------------------------------
+# AWS elasticache security group
+#-----------------------------------------------------------
+variable "enable_elasticache_security_group" {
+  description   = "Enable elasticache_security_group"
+  default       = false
+}
+
+variable "elasticache_security_group_name" {
+  description   = "Name for the cache security group. This value is stored as a lowercase string."
+  default       = ""
+}
+
+variable "elasticache_security_group_description" {
+  description   = "(Optional) description for the cache security group. Defaults to 'Managed by Terraform'."
+  default       = ""
+}
+
+variable "security_group_names" {
+    description = "List of EC2 security group names to be authorized for ingress to the cache security group"
+    default     = []
+}
+
+#-----------------------------------------------------------
+# AWS 
+#-----------------------------------------------------------
 variable "parameters_for_parameter_group" {
     description = "List of parameters for custom elasticache parameter group"
     type        = "list"
@@ -46,12 +89,7 @@ variable "parameters_for_parameter_group" {
 
 variable "create_custom_elasticache_parameter_group" {
     description = "If true, will create elasticache parameter group"
-    default     = "true"
-}
-
-variable "engine" {
-    description = "Name of the cache engine to be used for this cache cluster. Valid values for this parameter are memcached or redis"
-    default     = "redis"
+    default     = true
 }
 
 variable "engine_version" {
@@ -61,7 +99,6 @@ variable "engine_version" {
 
 variable "default_ports" {
     description = "Default database ports"
-    type        = "map"
     default     = {
         redis       = "6379"
         memcached   = "11211"
@@ -70,16 +107,29 @@ variable "default_ports" {
 
 variable "elasticache_parameter_group_family" {
     description = "Set DB group family"
-    type        = "map"
     default     = {
         redis       = "redis3.2"
         memcached   = "memcached1.4"
     }           
 }
 
+#---------------------------------------------------
+# Create AWS elasticache cluster
+#---------------------------------------------------
+variable "elasticache_cluster_name" {
+  description   = "description"
+  default       = ""
+}
+
+
 variable "create_single_cluster" {
     description = "Enable to create a cluster without any replicas. Default - true"
-    default     = "true"
+    default     = true
+}
+
+variable "engine" {
+    description = "Name of the cache engine to be used for this cache cluster. Valid values for this parameter are memcached or redis"
+    default     = "redis"
 }
 
 variable "node_type" {
@@ -87,34 +137,34 @@ variable "node_type" {
     default     = "cache.t2.micro"
 }
 
+variable "elasticache_cluster_port" {
+  description   = "(Optional) The port number on which each of the cache nodes will accept connections. For Memcache the default is 11211, and for Redis the default port is 6379. Cannot be provided with replication_group_id."
+  default       = null
+}
+
+#---------------------------------------------------
+# AWS elasticache replication group
+#---------------------------------------------------
 variable "num_cache_nodes" {
     description = "The number of cache nodes that the cache cluster has.  Cannot create a Redis cluster with a NumCacheNodes parameter greater than 1."
-    default     = "1"
+    default     = 1
 }
 
 variable "parameter_group_name" {
     description = "Name of the parameter group associated with this cache cluster. Ex: default.redis3.2, default.memcached1.4 etc"
-    type        = "map"
     default     = {
-        redis       = ""
-        memcached   = ""
+        redis       = "default.redis3.2"
+        memcached   = "default.memcached1.4"
     }
-}
-
-variable "subnet_group_name" {
-    description = "Name of the subnet group associated to the cache cluster."
-    default     = ""
 }
 
 variable "security_group_names_for_cluster" {
     description = "List of security group names associated with this cache cluster."
-    type        = "list"
     default     = []
 }
 
 variable "security_group_ids" {
     description = "List VPC security groups associated with the cache cluster."
-    type        = "list"
     default     = []
 }
 
@@ -140,7 +190,7 @@ variable "notification_topic_arn" {
 
 variable "snapshot_retention_limit" {
     description = "The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot_retention_limit is not supported on cache.t1.micro or cache.t2.* cache nodes"
-    default     = "7"
+    default     = null
 }
 
 variable "replication_group_id" {
@@ -148,29 +198,40 @@ variable "replication_group_id" {
     default     = "replication-cluster-group"
 }
 
+variable "replication_group_description" {
+  description   = "Description for replication_group"
+  default       = ""
+}
+
+variable "availability_zones" {
+  description   = "(Optional) A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important."
+  default       = []
+}
+
+
 variable "number_cluster_replicas" {
     description = "Number of cluster replicas which will create"
-    default     = "0"
+    default     = 0
 }
 
 variable "automatic_failover_enabled" {
     description = "Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. Defaults to false."
-    default     = "true"
+    default     = true
 }
 
 variable "auto_minor_version_upgrade" {
     description = "Specifies whether a minor engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Defaults to true."
-    default     = "true"
+    default     = true
 }
 
 variable "at_rest_encryption_enabled" {
     description = "Whether to enable encryption at rest."
-    default     = "false"
+    default     = false
 }
 
 variable "transit_encryption_enabled" {
     description = "Whether to enable encryption in transit."
-    default     = "false"
+    default     = false
 }
 
 variable "auth_token" {
@@ -185,11 +246,15 @@ variable "snapshot_name" {
 
 variable "apply_immediately" {
     description = "Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false."
-    default     = "false"
+    default     = false
 }
 
-variable "cluster_mode_replicas_per_node_group" {
-    description = "Specify the number of replica nodes in each node group. Valid values are 0 to 5. Changing this number will force a new resource."
-    default     = "1"
+variable "cluster_mode" {
+  description   = "(Optional) Create a native redis cluster. automatic_failover_enabled must be set to true."
+  default       = []
 }
 
+#variable "cluster_mode_replicas_per_node_group" {
+#    description = "Specify the number of replica nodes in each node group. Valid values are 0 to 5. Changing this number will force a new resource."
+#    default     = 1
+#}

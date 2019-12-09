@@ -1,6 +1,6 @@
 output "elasticache_sg_ids" {
     description = ""
-    value       = "${aws_elasticache_security_group.elasticache_sg.*.id}"
+    value       = "${aws_elasticache_security_group.elasticache_security_group.*.id}"
 }
 
 output "elasticache_subnet_group" {
