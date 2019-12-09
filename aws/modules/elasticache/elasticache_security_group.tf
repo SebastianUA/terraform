@@ -2,7 +2,7 @@
 # Create AWS elasticache security group (SG)
 #---------------------------------------------------
 resource "aws_elasticache_security_group" "elasticache_security_group" {
-    count                = var.elasticache_security_group ? 1 : 0
+    count                = var.enable_elasticache_security_group ? 1 : 0
 
     name                 = var.elasticache_security_group_name != "" ? var.elasticache_security_group_name : "${lower(var.name)}-elasticache-sg-${lower(var.environment)}"
     description          = var.elasticache_security_group_description != "" ? var.elasticache_security_group_description : "Elasticache security group (SG) which managed by ${var.orchestration}"

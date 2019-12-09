@@ -46,7 +46,7 @@ variable "elasticache_subnet_group_name" {
 }
 
 variable "elasticache_subnet_group_description" {
-  description   = "(Optional) Description for the cache subnet group. Defaults to "Managed by Terraform"."
+  description   = "(Optional) Description for the cache subnet group. Defaults to 'Managed by Terraform'."
   default       = ""
 }
 
@@ -73,42 +73,37 @@ variable "elasticache_security_group_description" {
   default       = ""
 }
 
-variable "security_group_names" {
-    description = "List of EC2 security group names to be authorized for ingress to the cache security group"
-    default     = []
-}
-
 #-----------------------------------------------------------
-# AWS 
+# parameters_for_parameter_group 
 #-----------------------------------------------------------
-variable "parameters_for_parameter_group" {
-    description = "List of parameters for custom elasticache parameter group"
-    type        = "list"
-    default     = []
-}
-
-variable "create_custom_elasticache_parameter_group" {
+variable "enable_elasticache_parameter_group" {
     description = "If true, will create elasticache parameter group"
     default     = true
 }
 
-variable "engine_version" {
-    description = "The version number of the cache engine to be used for the cache clusters in this replication group."
-    default     = ""
+variable "elasticache_parameter_group_name" {
+  description   = "The name of the ElastiCache parameter group."
+  default       = ""
 }
 
-variable "default_ports" {
-    description = "Default database ports"
-    default     = {
-        redis       = "6379"
-        memcached   = "11211"
-    }
+variable "elasticache_parameter_group_description" {
+  description   = "(Optional) The description of the ElastiCache parameter group. Defaults to 'Managed by Terraform'."
+  default       = ""
+}
+
+variable "parameter" {
+    description = "List of parameters for custom elasticache parameter group"
+    type = list(object({
+        name  = string
+        value = string
+    }))
+    default     = []
 }
 
 variable "elasticache_parameter_group_family" {
     description = "Set DB group family"
     default     = {
-        redis       = "redis3.2"
+        redis       = "redis4.0"
         memcached   = "memcached1.4"
     }           
 }
@@ -116,20 +111,37 @@ variable "elasticache_parameter_group_family" {
 #---------------------------------------------------
 # Create AWS elasticache cluster
 #---------------------------------------------------
+variable "enable_elasticache_cluster" {
+  description   = "Enable elasticache_cluster usage"
+  default       = false
+}
+
 variable "elasticache_cluster_name" {
-  description   = "description"
+  description   = "(Required) Group identifier. ElastiCache converts this name to lowercase"
   default       = ""
 }
 
-
-variable "create_single_cluster" {
-    description = "Enable to create a cluster without any replicas. Default - true"
-    default     = true
+variable "replication_group_id" {
+    description = "The replication group to which this cache cluster belongs."
+    default     = null
 }
 
 variable "engine" {
     description = "Name of the cache engine to be used for this cache cluster. Valid values for this parameter are memcached or redis"
     default     = "redis"
+}
+
+variable "engine_version" {
+    description = "(Optional) Version number of the cache engine to be used. See Describe Cache Engine Versions in the AWS Documentation center for supported versions"
+    default     = ""
+}
+
+variable "engine_version_default" {
+    description = "(Optional) Version number of the cache engine to be used. The values for default"
+    default     = {
+        redis       = "4.0.10"
+        memcached   = "1.4.33"
+    }
 }
 
 variable "node_type" {
@@ -142,30 +154,45 @@ variable "elasticache_cluster_port" {
   default       = null
 }
 
-#---------------------------------------------------
-# AWS elasticache replication group
-#---------------------------------------------------
+variable "default_ports" {
+    description = "Default elasticache ports"
+    default     = {
+        redis       = 6379
+        memcached   = 11211
+    }
+}
+
 variable "num_cache_nodes" {
     description = "The number of cache nodes that the cache cluster has.  Cannot create a Redis cluster with a NumCacheNodes parameter greater than 1."
     default     = 1
 }
 
-variable "parameter_group_name" {
-    description = "Name of the parameter group associated with this cache cluster. Ex: default.redis3.2, default.memcached1.4 etc"
-    default     = {
-        redis       = "default.redis3.2"
-        memcached   = "default.memcached1.4"
-    }
+variable "subnet_group_name" {
+  description   = "(Optional, VPC only) Name of the subnet group to be used for the cache cluster."
+  default       = ""
 }
 
-variable "security_group_names_for_cluster" {
-    description = "List of security group names associated with this cache cluster."
-    default     = []
+variable "security_group_names" {
+  description = "(Optional, EC2 Classic only) List of security group names to associate with this cache cluster"
+  default     = []
 }
 
 variable "security_group_ids" {
-    description = "List VPC security groups associated with the cache cluster."
+    description = "(Optional, VPC only) One or more VPC security groups associated with the cache cluster"
     default     = []
+}
+
+variable "parameter_group_name" {
+    description = "Name of the parameter group associated with this cache cluster. Ex: default.redis4.0, default.memcached1.4 etc"
+    default     = {
+        redis       = ""
+        memcached   = ""
+    }
+}
+
+variable "apply_immediately" {
+  description   = "(Optional) Specifies whether any database modifications are applied immediately, or during the next maintenance window. Default is false. See Amazon ElastiCache Documentation for more information. (Available since v0.6.0)"
+  default       = false
 }
 
 variable "maintenance_window" {
@@ -175,17 +202,7 @@ variable "maintenance_window" {
 
 variable "snapshot_window" {
     description = "The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of the cache cluster. Format: hh24:mi-hh24:mi. The minimum snapshot window is a 60 minute period. Example: 05:00-09:00"
-    default     = "01:00-05:00"
-}
-
-variable "availability_zone" {
-    description = "The Availability Zone for the cache cluster."
-    default     = ""
-}
-
-variable "notification_topic_arn" {
-    description = "An Amazon Resource Name (ARN) of an SNS topic that ElastiCache notifications get sent to."
-    default     = ""
+    default     = null
 }
 
 variable "snapshot_retention_limit" {
@@ -193,11 +210,39 @@ variable "snapshot_retention_limit" {
     default     = null
 }
 
-variable "replication_group_id" {
-    description = "The replication group to which this cache cluster belongs."
-    default     = "replication-cluster-group"
+variable "snapshot_arns" {
+  description   = "(Optional) A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. Example: arn:aws:s3:::my_bucket/snapshot1.rdb"
+  default       = null
 }
 
+variable "snapshot_name" {
+  description   = "(Optional) The name of a snapshot from which to restore data into the new node group. Changing the snapshot_name forces a new resource."
+  default       = ""
+}
+
+variable "notification_topic_arn" {
+    description = "An Amazon Resource Name (ARN) of an SNS topic that ElastiCache notifications get sent to."
+    default     = ""
+}
+
+variable "availability_zone" {
+    description = "The Availability Zone for the cache cluster."
+    default     = ""
+}
+
+variable "az_mode" {
+  description   = "(Optional, Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1"
+  default       = null
+}
+
+variable "preferred_availability_zones" {
+  description   = "(Optional, Memcached only) A list of the Availability Zones in which cache nodes are created. If you are creating your cluster in an Amazon VPC you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of num_cache_nodes. If you want all the nodes in the same Availability Zone, use availability_zone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones. Detecting drift of existing node availability zone is not currently supported. Updating this argument by itself to migrate existing node availability zones is not currently supported and will show a perpetual difference."
+  default       = null
+}
+
+#---------------------------------------------------
+# AWS elasticache replication group
+#---------------------------------------------------
 variable "replication_group_description" {
   description   = "Description for replication_group"
   default       = ""
@@ -237,16 +282,6 @@ variable "transit_encryption_enabled" {
 variable "auth_token" {
     description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
     default     = "AUTHtoken666AUTHtoken666AUTHtoken666AUTHtoken666"
-}
-
-variable "snapshot_name" {
-    description = "The name of a snapshot from which to restore data into the new node group. Changing the snapshot_name forces a new resource."
-    default     = ""
-}
-
-variable "apply_immediately" {
-    description = "Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false."
-    default     = false
 }
 
 variable "cluster_mode" {

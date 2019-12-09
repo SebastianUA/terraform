@@ -3,20 +3,20 @@
 #---------------------------------------------------
 resource "aws_elasticache_replication_group" "elasticache_replication_group" {  
     # Redis Master with One Replica with 1 shard
-    count                           = var.num_cache_nodes >1 && var.number_cluster_replicas ==1 && var.create_single_cluster !="true" ? 1 : 0    
+    count                           = var.num_cache_nodes >1 && var.number_cluster_replicas == 1 && !var.enable_elasticache_cluster ? 1 : 0    
 
     replication_group_id            = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
     replication_group_description   = var.replication_group_description != "" ? var.replication_group_description : "The ${var.engine} master with 1 replica shard which managed by ${var.orchestration}"
     node_type                       = var.node_type
     number_cache_clusters           = var.num_cache_nodes
-    port                            = var.default_ports[var.engine]
+    port                            = var.elasticache_cluster_port != null ? var.elasticache_cluster_port : var.default_ports[var.engine]
     engine                          = var.engine
-    engine_version                  = var.engine_version
+    engine_version                  = var.engine_version != "" ? var.engine_version : var.engine_version_default[var.engine]
                                                                                             
     availability_zones              = var.availability_zones
     automatic_failover_enabled      = var.automatic_failover_enabled
     subnet_group_name               = var.subnet_group_name
-    security_group_names            = [var.security_group_names_for_cluster]
+    security_group_names            = [var.security_group_names]
     security_group_ids              = [var.security_group_ids]
     parameter_group_name            = var.parameter_group_name[var.engine] !="" ? var.parameter_group_name[var.engine] : element(aws_elasticache_parameter_group.elasticache_parameter_group.*.name, 0)
     at_rest_encryption_enabled      = var.at_rest_encryption_enabled
@@ -65,13 +65,13 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group_2" {
     replication_group_id            = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
     replication_group_description   = var.replication_group_description != "" ? var.replication_group_description : "The ${var.engine} master with 2 replica shards which managed by ${var.orchestration}"
     node_type                       = var.node_type
-    port                            = var.default_ports[var.engine]
+    port                            = var.elasticache_cluster_port != null ? var.elasticache_cluster_port : var.default_ports[var.engine]
     engine                          = var.engine
-    engine_version                  = var.engine_version
+    engine_version                  = var.engine_version != "" ? var.engine_version : var.engine_version_default[var.engine]
 
     automatic_failover_enabled      = var.automatic_failover_enabled
     subnet_group_name               = var.subnet_group_name
-    security_group_names            = [var.security_group_names_for_cluster]
+    security_group_names            = [var.security_group_names]
     security_group_ids              = [var.security_group_ids]
     parameter_group_name            = var.parameter_group_name[var.engine] !="" ? var.parameter_group_name[var.engine] : element(aws_elasticache_parameter_group.elasticache_parameter_group.*.name, 0)
     at_rest_encryption_enabled      = var.at_rest_encryption_enabled
