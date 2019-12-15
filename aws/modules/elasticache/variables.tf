@@ -126,6 +126,11 @@ variable "replication_group_id" {
     default     = null
 }
 
+variable "number_cache_clusters" {
+  description = "(Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications."
+  default     = null
+}
+
 variable "engine" {
     description = "Name of the cache engine to be used for this cache cluster. Valid values for this parameter are memcached or redis"
     default     = "redis"
@@ -243,6 +248,11 @@ variable "preferred_availability_zones" {
 #---------------------------------------------------
 # AWS elasticache replication group
 #---------------------------------------------------
+variable "elasticache_replication_group" {
+  description = "Enable elasticache_replication_group usage"
+  default     = false
+}
+
 variable "replication_group_description" {
   description   = "Description for replication_group"
   default       = ""
@@ -261,7 +271,7 @@ variable "number_cluster_replicas" {
 
 variable "automatic_failover_enabled" {
     description = "Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. Defaults to false."
-    default     = true
+    default     = false
 }
 
 variable "auto_minor_version_upgrade" {
@@ -281,7 +291,7 @@ variable "transit_encryption_enabled" {
 
 variable "auth_token" {
     description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
-    default     = "AUTHtoken666AUTHtoken666AUTHtoken666AUTHtoken666"
+    default     = null
 }
 
 variable "cluster_mode" {
@@ -289,7 +299,22 @@ variable "cluster_mode" {
   default       = []
 }
 
-#variable "cluster_mode_replicas_per_node_group" {
-#    description = "Specify the number of replica nodes in each node group. Valid values are 0 to 5. Changing this number will force a new resource."
-#    default     = 1
-#}
+variable "kms_key_id" {
+  description = "(Optional) The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. Can be specified only if at_rest_encryption_enabled = true."
+  default     = null
+}
+
+variable "timeouts_create" {
+  description = "(Default 60m) How long to wait for a replication group to be created."
+  default     = "60m"
+}
+
+variable "timeouts_update" {
+  description = "(Default 40m) How long to wait for replication group settings to be updated. This is also separately used for adding/removing replicas and online resize operation completion, if necessary."
+  default     = "40m"
+}
+
+variable "timeouts_delete" {
+  description = "(Default 40m) How long to wait for a replication group to be deleted."
+  default     = "40m"
+}

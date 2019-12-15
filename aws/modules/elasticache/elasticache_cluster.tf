@@ -26,7 +26,7 @@ resource "aws_elasticache_cluster" "elasticache_cluster" {
     notification_topic_arn          = var.notification_topic_arn
                     
     availability_zone               = var.availability_zone
-    az_mode                          = var.az_mode
+    az_mode                         = var.az_mode
     preferred_availability_zones    = var.preferred_availability_zones
     
     tags = merge(
