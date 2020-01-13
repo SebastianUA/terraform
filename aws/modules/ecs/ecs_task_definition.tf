@@ -19,10 +19,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     }
 
     dynamic "placement_constraints" {
-        for_each = var.td_placement_constraints
+        for_each = var.placement_constraints
         content {
-            type        = lookup(td_placement_constraints.value, "type", null)
-            expression  = lookup(td_placement_constraints.value, "expression", null)
+            type        = lookup(placement_constraints.value, "type", null)
+            expression  = lookup(placement_constraints.value, "expression", null)
         }
     }
 

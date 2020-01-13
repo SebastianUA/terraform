@@ -17,7 +17,6 @@ resource "aws_ecs_service" "ecs_service" {
     #enable_ecs_managed_tags             = var.enable_ecs_managed_tags
     #health_check_grace_period_seconds   = var.health_check_grace_period_seconds
     
-  
     dynamic "deployment_controller" {
         for_each = var.deployment_controller
         content {
@@ -63,10 +62,10 @@ resource "aws_ecs_service" "ecs_service" {
     }
 
     dynamic "placement_constraints" {
-        for_each = var.service_placement_constraints
+        for_each = var.placement_constraints
         content {
-            type            = lookup(service_placement_constraints.value, "type", null)
-            expression      = lookup(service_placement_constraints.value, "expression", null)
+            type            = lookup(placement_constraints.value, "type", null)
+            expression      = lookup(placement_constraints.value, "expression", null)
         }
     }
 
