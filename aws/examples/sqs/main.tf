@@ -2,24 +2,30 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+    required_version = "~> 0.12.12"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    # alias = "us-east-1"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
-     # access_key = "${var.aws_access_key}"
-     # secret_key = "${var.aws_secret_key}"
+    region                      = "us-east-1"
+    shared_credentials_file     = pathexpand("~/.aws/credentials")
 }
 
 module "sqs" {
     source                              = "../../modules/sqs"
-    name                                = "TEST-SQS"
-    environment                         = "PROD"
+    name                                = "TEST"
+    environment                         = "stage"
 
-    #Enable Fifo
-    #enable_fifo_queue           = true
-    #content_based_deduplication = true
+    # SQS queue
+    enable_sqs_queue                    = true
+    sqs_queue_name                      = "test-sqs-here"
+
+    #redrive_policy                      = file("policies/redrive_policy.json.tpl")
+    sqs_dead_letter_queue_arn           = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXX:my_sqs"
+    maxReceiveCount                     = 10
+
+    # SQS queue policy 
+    enable_sqs_queue_policy             = true
+    queue_url                           = ""
+    sqs_queue_policy                    = file("policies/sqs_queue_policy.json.tpl")
     
-    #sqs_dead_letter_queue_arn   = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXX:my_sqs"
 }

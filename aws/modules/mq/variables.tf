@@ -26,6 +26,30 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }
 
+variable "tags" {
+    description = "A list of tag blocks. Each element should have keys named key, value, etc."
+    type        = map(string)
+    default     = {}
+}
+
+#-----------------------------------------------------------
+# MQ config
+#-----------------------------------------------------------
+variable "enable_mq_configuration" {
+  description   = "Enabele MQ configuration"
+  default       = false
+}
+
+variable "mq_configuration_name" {
+  description   = "The name of the configuration"
+  default       = ""
+}
+
+variable "mq_configuration_description" {
+  description   = "(Optional) The description of the configuration."
+  default       = ""
+}
+
 variable "engine_type" {
     description = "The type of broker engine. Currently, Amazon MQ supports only ActiveMQ."
     default     = "ActiveMQ"
@@ -33,7 +57,25 @@ variable "engine_type" {
 
 variable "engine_version" {
     description = "The version of the broker engine. Currently, Amazon MQ supports only 5.15.0"
-    default     = "5.15.0"
+    default     = "5.15.8"
+}
+
+variable "mq_configuration_data" {
+  description   = "description"
+  default       = ""
+}
+
+#-----------------------------------------------------------
+# MQ broker
+#-----------------------------------------------------------
+variable "enable_mq_broker" {
+  description   = "Enable MQ broker usage"
+  default       = false
+}
+
+variable "broker_name" {
+  description   = "The name of the broker."
+  default       = ""
 }
 
 variable "host_instance_type" {
@@ -53,12 +95,12 @@ variable "subnet_ids" {
 
 variable "apply_immediately" {
     description = "Specifies whether any broker modifications are applied immediately, or during the next maintenance window. Default is false."
-    default     = "false"
+    default     = false
 }
 
 variable "auto_minor_version_upgrade" {
     description = "Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions."
-    default     = "false"
+    default     = false
 }
 
 variable "deployment_mode" {
@@ -68,41 +110,30 @@ variable "deployment_mode" {
 
 variable "publicly_accessible" {
     description = "Whether to enable connections from applications outside of the VPC that hosts the broker's subnets."
-    default     = "false"
+    default     = false
 }
 
-variable "mq_broker_username" {
-    description = "The username of the user."
-    default     = "mq_broker"
+variable "configuration" {
+  description   = "Configuration of the broker."
+  default       = []
 }
 
-variable "mq_broker_password" {
-    description = "The password of the user. It must be 12 to 250 characters long, at least 4 unique characters, and must not contain commas."
-    default     = "mq_broker666"
+variable "encryption_options" {
+  description   = "Configuration block containing encryption options"
+  default       = []
 }
 
-variable "mq_broker_groups" {
-    description = "The list of groups (20 maximum) to which the ActiveMQ user belongs."
-    type        = "list"
-    default     = ["mq_broker"]
+variable "maintenance_window_start_time" {
+  description   = "Maintenance window start time"
+  default       = []
 }
 
-variable "mq_broker_console_access" {
-    description = "Whether to enable access to the the ActiveMQ Web Console for the user."
-    default     = "true"
+variable "logs" {
+  description   = "(Optional) Logging configuration of the broker."
+  default       = []
 }
 
-variable "day_of_week" {
-    description = "The day of the week. e.g. MONDAY, TUESDAY, or WEDNESDAY"
-    default     = "MONDAY"
-}
-
-variable "time_of_day" {
-    description = "The time, in 24-hour format. e.g. 02:00"
-    default     = "02:00"
-}
-
-variable "time_zone" {
-    description = "The time zone, UTC by default, in either the Country/City format, or the UTC offset format. e.g. CET"
-    default     = "UTC"
+variable "user" {
+  description   = "The list of all ActiveMQ usernames for the specified broker."
+  default       = []
 }

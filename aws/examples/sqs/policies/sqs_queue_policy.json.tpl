@@ -7,10 +7,10 @@
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
-      "Resource": "${sqs_arn}",
+      "Resource": "sqs_arn_here",
       "Condition": {
         "ArnEquals": {
-          "aws:SourceArn": "${sqs_arn}"
+          "aws:SourceArn": "sqs_arn_here"
         }
       }
     }
