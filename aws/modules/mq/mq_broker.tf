@@ -19,8 +19,8 @@ resource "aws_mq_broker" "mq_broker" {
     dynamic "configuration" {
         for_each = var.configuration
         content {
-            id          = lookup(encryption_options.value, "id", element(concat(aws_mq_configuration.mq_configuration.*.id, [""]), 0))
-            revision    = lookup(encryption_options.value, "revision", element(concat(aws_mq_configuration.mq_configuration.*.latest_revision, [""]), 0))
+            id          = lookup(configuration.value, "id", element(concat(aws_mq_configuration.mq_configuration.*.id, [""]), 0))
+            revision    = lookup(configuration.value, "revision", element(concat(aws_mq_configuration.mq_configuration.*.latest_revision, [""]), 0))
         }
     }
 
