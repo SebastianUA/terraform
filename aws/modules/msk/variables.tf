@@ -8,7 +8,7 @@ variable "name" {
 
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
 variable "environment" {
@@ -26,12 +26,18 @@ variable "createdby" {
     default     = "Vitaliy Natarov"
 }
 
+variable "tags" {
+    description = "A list of tag blocks. Each element should have keys named key, value, etc."
+    type        = map(string)
+    default     = {}
+}
+
 #-----------------------------------------------------------
 # aws msk cluster
 #-----------------------------------------------------------
-variable "enable_msk_cluster_default" {
+variable "enable_msk_cluster" {
     description = "Enable AWS MSK usage"
-    default     = "false"
+    default     = false
 }
 
 variable "cluster_name" {
@@ -41,49 +47,20 @@ variable "cluster_name" {
 
 variable "kafka_version" {
     description = "(Required) Specify the desired Kafka software version."
-    default     = "2.1.0"
+    default     = "2.3.1"
 }
 
 variable "number_of_broker_nodes" {
     description = "(Required) The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets."
-    default     = "3"
+    default     = 3
 }
 
-variable "broker_node_group_info_instance_type" {
-    description = "(Required) Specify the instance type to use for the kafka brokers. e.g. kafka.m5.large."
-    default     = "kafka.m5.large"
+variable "broker_node_group_info" {
+  description   = "(Required) Configuration block for the broker nodes of the Kafka cluster."
+  default       = []
 }
 
-variable "broker_node_group_info_ebs_volume_size" {
-    description = "(Required) The size in GiB of the EBS volume for the data drive on each broker node."
-    default     = "100"
-}
-
-variable "broker_node_group_info_security_groups" {
-    description = "(Required) A list of the security groups to associate with the elastic network interfaces to control who can communicate with the cluster."
-    type        = "list"
-    default     = []
-}
-
-variable "broker_node_group_info_az_distribution" {
-    description = "(Optional) The distribution of broker nodes across availability zones (documentation). Currently the only valid value is DEFAULT."
-    default     = "DEFAULT"
-}
-
-variable "broker_node_group_info_client_subnets" {
-    description = "(Required) A list of subnets to connect to in client VPC"
-    type        = "list"
-    default     = []
-}
-
-#-----------------------------------------------------------
 # AWS msk cluster with encryption
-#-----------------------------------------------------------
-variable "enable_msk_cluster_encryption" {
-    description = "Enable AWS MSK with encryption usage"
-    default     = "false"
-}
-
 variable "encryption_in_transit_client_broker" {
     description = "(Optional) Encryption setting for data in transit between clients and brokers. Valid values: TLS, TLS_PLAINTEXT, and PLAINTEXT. Default value: TLS_PLAINTEXT."
     default     = "TLS_PLAINTEXT"
@@ -91,7 +68,7 @@ variable "encryption_in_transit_client_broker" {
 
 variable "encryption_in_transit_in_cluster" {
     description = "(Optional) Whether data communication among broker nodes is encrypted. Default value: true."
-    default     = "true"
+    default     = true
 }
 
 variable "encryption_info_encryption_at_rest_kms_key_arn" {
@@ -99,74 +76,22 @@ variable "encryption_info_encryption_at_rest_kms_key_arn" {
     default     = ""
 }
 
-#-----------------------------------------------------------
 # AWS msk cluster with client authentication 
-#-----------------------------------------------------------
-variable "enable_msk_cluster_client_authentication" {
-    description = "Enable AWS MSK with client_authentication usage"
-    default     = "false"
-}
-
-variable "client_authentication_tls" {
-    description = "(Optional) Configuration block for specifying TLS client authentication."
-    type        = "list"
-    default     = []
-}
-
 variable "client_authentication_certificate_authority_arns" {
     description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
-    type        = "list"
     default     = []
 }
 
-#-----------------------------------------------------------
 # AWS msk cluster with configuration info
-#-----------------------------------------------------------
-variable "enable_msk_cluster_configuration_info" {
-    description = "Enable AWS MSK with configuration_info usage"
-    default     = "false"
+variable "configuration_info" {
+  description   = "(Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers."
+  default       = []
 }
 
-variable "configuration_info_arn" {
-    description = "(Required) Amazon Resource Name (ARN) of the MSK Configuration to use in the cluster."
-    default     = ""
-}
-
-variable "configuration_info_revision" {
-    description = "(Required) Revision of the MSK Configuration to use in the cluster."
-    default     = ""
-}
-
-#-----------------------------------------------------------
-# AWS msk cluster with encryption and client authentication
-#-----------------------------------------------------------
-variable "enable_msk_cluster_encryption_and_authentication" {
-    description = "Enable AWS MSK with encryption and client authentication usage"
-    default     = "false"
-}
-
-#-----------------------------------------------------------
-# AWS msk cluster with encryption and configuration info
-#-----------------------------------------------------------
-variable "enable_msk_cluster_encryption_and_configuration_info" {
-    description = "Enable AWS MSK with encryption and configuration info usage"
-    default     = "false"
-}
-
-#-----------------------------------------------------------
-# AWS msk cluster with client authentication and configuration info
-#-----------------------------------------------------------
-variable "enable_msk_cluster_client_authentication_and_configuration_info" {
-    description = "Enable AWS MSK with client authentication and configuration info usage"
-    default     = "false"
-}
-
-#-----------------------------------------------------------
-# AWS msk cluster with all functions
-#-----------------------------------------------------------
-variable "enable_msk_cluster_all" {
-    description = "Enable AWS MSK with all functions usage"
-    default     = "false"
+# AWS enhanced monitoring
+variable "enhanced_monitoring" {
+  description   = "(Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER]"
+  default       = "DEFAULT"
 }
 
 #-----------------------------------------------------------
@@ -174,7 +99,7 @@ variable "enable_msk_cluster_all" {
 #-----------------------------------------------------------
 variable "enable_msk_configuration" {
     description = "Enable mask configuration usage"
-    default     = "false"
+    default     = false
 }
 
 variable "msk_configuration_name"  {
@@ -184,7 +109,6 @@ variable "msk_configuration_name"  {
 
 variable "kafka_versions" {
     description = "(Required) List of Apache Kafka versions which can use this configuration."
-    type        = "list"
     default     = ["2.1.0"]
 }
 
@@ -195,7 +119,6 @@ variable "msk_configuration_description" {
 
 variable "server_properties" {
     description = "(Required) List of Apache Kafka versions which can use this configuration."
-    type        = "list"
     default     = [
         "auto.create.topics.enable = true",
         "delete.topic.enable = true"

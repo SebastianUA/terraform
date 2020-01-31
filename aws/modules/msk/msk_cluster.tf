@@ -1,285 +1,67 @@
 #---------------------------------------------------
 # Create aws msk cluster
 #---------------------------------------------------
-resource "aws_msk_cluster" "msk_cluster_default" {
-    count                   = "${var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
+resource "aws_msk_cluster" "msk_cluster" {
+    count                   = var.enable_msk_cluster ? 1 : 0
 
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
+    cluster_name            = var.cluster_name != "" ? lower(var.cluster_name) : "${lower(var.name)}-msk-cluster-${lower(var.environment)}"
+    kafka_version           = var.kafka_version
+    number_of_broker_nodes  = var.number_of_broker_nodes
 
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_encryption" {
-    count                   = "${!var.enable_msk_cluster_default && var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    encryption_info {
-        encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit {
-            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
-            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+    dynamic "broker_node_group_info" {
+        for_each = var.broker_node_group_info
+        content {
+            instance_type   = lookup(broker_node_group_info.value, "instance_type", null)
+            ebs_volume_size = lookup(broker_node_group_info.value, "ebs_volume_size", null)
+            client_subnets  = lookup(broker_node_group_info.value, "client_subnets", null)
+            security_groups = lookup(broker_node_group_info.value, "security_groups", null)
+            az_distribution = lookup(broker_node_group_info.value, "az_distribution", null)
         }
     }
 
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_client_authentication" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    client_authentication {
-        tls {
-            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
-        }    
-    }
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_configuration_info" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    configuration_info {
-        arn         = "${var.configuration_info_arn}"
-        revision    = "${var.configuration_info_revision}"
-    }
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_encryption_and_authentication" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
     encryption_info {
-        encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
+        encryption_at_rest_kms_key_arn  = var.encryption_info_encryption_at_rest_kms_key_arn != "" ? var.encryption_info_encryption_at_rest_kms_key_arn : null
         encryption_in_transit {
-            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
-            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
-        }
-    }
-
-     client_authentication {
-        tls {
-            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
-        }    
-    }
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_encryption_and_configuration_info" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    encryption_info {
-        encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit {
-            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
-            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
-        }
-    }
-
-    configuration_info {
-        arn         = "${var.configuration_info_arn}"
-        revision    = "${var.configuration_info_revision}"
-    }
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_client_authentication_and_configuration_info" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && var.enable_msk_cluster_client_authentication_and_configuration_info && !var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    client_authentication {
-        tls {
-            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
-        }    
-    }
-
-    configuration_info {
-        arn         = "${var.configuration_info_arn}"
-        revision    = "${var.configuration_info_revision}"
-    }
-
-
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
-    }
-
-    depends_on  = []
-
-}
-
-resource "aws_msk_cluster" "msk_cluster_all" {
-    count                   = "${!var.enable_msk_cluster_default && !var.enable_msk_cluster_encryption && !var.enable_msk_cluster_client_authentication && !var.enable_msk_cluster_configuration_info && !var.enable_msk_cluster_encryption_and_authentication && !var.enable_msk_cluster_encryption_and_configuration_info && !var.enable_msk_cluster_client_authentication_and_configuration_info && var.enable_msk_cluster_all ? 1 : 0}"
-
-    cluster_name           = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-    kafka_version          = "${var.kafka_version}"
-    number_of_broker_nodes = "${var.number_of_broker_nodes}"
-
-    broker_node_group_info {
-        instance_type   = "${var.broker_node_group_info_instance_type}"
-        ebs_volume_size = "${var.broker_node_group_info_ebs_volume_size}"
-        client_subnets  = ["${var.broker_node_group_info_client_subnets}"]
-        security_groups = ["${var.broker_node_group_info_security_groups}"]
-        az_distribution = "${var.broker_node_group_info_az_distribution}"
-    }
-
-    encryption_info {
-        encryption_at_rest_kms_key_arn  = "${var.encryption_info_encryption_at_rest_kms_key_arn}"
-        encryption_in_transit {
-            client_broker   = "${upper(var.encryption_in_transit_client_broker)}"
-            in_cluster      = "${var.encryption_in_transit_in_cluster}"    
+            client_broker   = upper(var.encryption_in_transit_client_broker)
+            in_cluster      = var.encryption_in_transit_in_cluster 
         }
     }
 
     client_authentication {
         tls {
-            certificate_authority_arns  = ["${var.client_authentication_certificate_authority_arns}"]
+            certificate_authority_arns  = length(var.client_authentication_certificate_authority_arns) > 0 ? var.client_authentication_certificate_authority_arns : null
         }    
     }
 
-    configuration_info {
-        arn         = "${var.configuration_info_arn}"
-        revision    = "${var.configuration_info_revision}"
+    dynamic "configuration_info" {
+        for_each = var.configuration_info
+        content {
+            arn         = lookup(configuration_info.value, "arn", null)
+            revision    = lookup(configuration_info.value, "revision", null)
+        }    
     }
 
-    tags = {
-        Name            = "${var.cluster_name !="" ? var.cluster_name : "${lower(var.name)}-msk-cluster-${lower(var.environment)}" }"
-        Environment     = "${var.environment}"
-        Orchestration   = "${var.orchestration}"
-        Createdby       = "${var.createdby}"
+    enhanced_monitoring = upper(var.enhanced_monitoring)
+
+    tags = merge(
+        {
+            "Name"          = var.cluster_name != "" ? lower(var.cluster_name) : "${lower(var.name)}-msk-cluster-${lower(var.environment)}"
+        },
+        {
+            "Environment"   = var.environment
+        },
+        {
+            "Orchestration" = var.orchestration
+        },
+        {
+            "Createdby"     = var.createdby
+        },
+        var.tags,
+    )
+
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
     depends_on  = []

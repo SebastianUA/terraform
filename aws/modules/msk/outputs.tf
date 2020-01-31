@@ -1,34 +1,24 @@
 #---------------------------------------------------
 # aws_msk_cluster
 #---------------------------------------------------
-output "zookeeper_connect_string" {
+output "msk_cluster_arn" {
+  description = "Amazon Resource Name (ARN) of the MSK cluster."
+  value 		  = element(concat(aws_msk_cluster.msk_cluster.*.arn, [""]), 0)
+}
+
+output "msk_cluster_zookeeper_connect_string" {
 	description = ""
-  	value 		= "${aws_msk_cluster.msk_cluster_default.*.zookeeper_connect_string}"
+  value 		  = concat(aws_msk_cluster.msk_cluster.*.zookeeper_connect_string, [""])
 }
 
-output "bootstrap_brokers" {
+output "msk_cluster_bootstrap_brokers" {
   description = "Plaintext connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_default.*.bootstrap_brokers}"
+  value       = concat(aws_msk_cluster.msk_cluster.*.bootstrap_brokers, [""])
 }
 
-output "bootstrap_brokers_tls" {
+output "msk_cluster_bootstrap_brokers_tls" {
   description = "TLS connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_default.*.bootstrap_brokers_tls}"
-}
-
-output "msk_cluster_encryption_and_authentication_zookeeper_connect_string" {
-  description = ""
-    value     = "${aws_msk_cluster.msk_cluster_encryption_and_authentication.*.zookeeper_connect_string}"
-}
-
-output "msk_cluster_encryption_and_authentication_bootstrap_brokers" {
-  description = "Plaintext connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_encryption_and_authentication.*.bootstrap_brokers}"
-}
-
-output "msk_cluster_encryption_and_authentication_bootstrap_brokers_tls" {
-  description = "TLS connection host:port pairs"
-  value       = "${aws_msk_cluster.msk_cluster_encryption_and_authentication.*.bootstrap_brokers_tls}"
+  value       = concat(aws_msk_cluster.msk_cluster.*.bootstrap_brokers_tls, [""])
 }
 
 #---------------------------------------------------
@@ -36,10 +26,10 @@ output "msk_cluster_encryption_and_authentication_bootstrap_brokers_tls" {
 #---------------------------------------------------
 output "msk_configuration_arn" {
     description = "Amazon Resource Name (ARN) of the configuration."
-    value       = "${aws_msk_configuration.msk_configuration.*.arn}"
+    value       = element(concat(aws_msk_configuration.msk_configuration.*.arn, [""]), 0)
 }
 
 output "msk_configuration_latest_revision" {
     description = "Latest revision of the configuration."
-    value       = "${aws_msk_configuration.msk_configuration.*.latest_revision}"
+    value       = element(concat(aws_msk_configuration.msk_configuration.*.latest_revision, [""]), 0)
 }
