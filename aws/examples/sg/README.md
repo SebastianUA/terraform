@@ -1,6 +1,6 @@
-# Work with AWS VPC via terraform
+# Work with AWS Security group via terraform
 
-A terraform module for making VPC.
+A terraform module for making SG.
 
 ## Usage
 ----------------------
@@ -12,23 +12,33 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = ">= 0.11.11"
+  required_version = "~> 0.12.12"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
+    region                  = "us-east-1"
+    shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "sg" {
-    source                              = "../../modules/sg"
-    name                                = "test"
-    environment                         = "NonPROD"
+    source                                  = "../../modules/sg"
+    name                                    = "test"
+    environment                             = "NonPROD"
 
-    enable_sg_creating                  = true
-    vpc_id                              = "vpc-0d0d22629db6d471d"
-    enable_all_egress_ports             = true
-    allowed_ports                       = ["22", "7199", "7000", "7001", "9160", "9042"]
-    allow_cidrs_for_allowed_ports       = {
+    enable_security_group                   = true
+    security_group_name                     = "my-test-sg-here"
+    security_group_vpc_id                   = "vpc-56af732c"
+
+    # Using ingress
+    enable_sg_rule_ingress_ports            = true
+    enable_sg_rule_ingress_ports_all        = false
+
+    # Using egress
+    enable_sg_rule_egress_ports             = false
+    enable_sg_rule_egress_ports_all         = true
+
+    allowed_ports                           = ["22", "7199"]
+    cidr_blocks                             = {
         "22" = [
             "159.224.217.0/24",
             "10.0.0.0/8",
@@ -38,50 +48,69 @@ module "sg" {
             "10.0.0.0/8",
             "172.16.0.0/12"
         ],
-        "7000" = [
-            "10.0.0.0/8",
-            "172.16.0.0/12"
-        ],
-        "7001" = [
-            "10.0.0.0/8",
-            "172.16.0.0/12"
-        ],
-        "9160" = [
-            "10.0.0.0/8",
-            "172.16.0.0/12"
-        ],
-        "9042" = [
-            "10.0.0.0/8",
-            "172.16.0.0/12"
-        ]
     }
 
-
+    # Using custom SG rule
+    enable_sg_rule_custom_ports             = true
+    custom_ports_type                       = "ingress"
+    custom_ports_protocol                   = "icmp"
+    custom_ports_from_port                  = -1
+    custom_ports_to_port                    = -1
+    custom_ports_self                       = true
+    #custom_ports_source_security_group_id   = "sg-aed75fe1"
+    custom_ports_description                = "Allow ICMP pkgs"
 }
 
 ```
 
 Module Input Variables
 ----------------------
-- `name` - Name to be used on all resources as prefix (default     = "TEST-SG").
+
+- `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
 - `environment` - Environment for service (`default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`default     = "Terraform"`).
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`).
-- `vpc_id` - VPC ID (`default     = ""`).
-- `enable_sg_creating` -  Enable to create SG for VPC (`default     = true`).
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default     = {}`).
+- `enable_security_group` - Enable SG usage (`  default     = false`).
+- `security_group_name` - (Optional, Forces new resource) The name of the security group. If omitted, Terraform will assign a random, unique name (`default       = ""`).
+- `security_group_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with security_group_name. (`default       = ""`).
+- `security_group_description` - (Optional, Forces new resource) The security group description. Defaults to 'Managed by Terraform'. Cannot be ''. NOTE: This field maps to the AWS GroupDescription attribute, for which there is no Update API. If you'd like to classify your security groups in a way that can be updated, use tags. (`default       = "Managed by Terraform"`).
+- `security_group_vpc_id` - (Optional, Forces new resource) The VPC ID. (`default       = null`).
+- `security_group_revoke_rules_on_delete` - (Optional) Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed, however certain AWS services such as Elastic Map Reduce may automatically add required rules to security groups used with the service, and those rules may contain a cyclic dependency that prevent the security groups from being destroyed without removing the dependency first. Default false (`default       = false`).
+- `security_group_ingress` - (Optional) Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default       = []`).
+- `security_group_egress` - (Optional, VPC only) Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default       = []`).
+- `security_group_id` - The security group to apply this rule to. (`default     = ""`).
 - `allowed_ports` - Allowed ports from/to host (`default     = []`).
-- `allow_cidrs_for_allowed_ports` - Set allowed cidrs for allowed_ports (`default     = {
-        "80"        = ["0.0.0.0/0"]
-        "443"       = ["0.0.0.0/0"]
-    }`)
-- `enable_all_egress_ports` - Allows all ports from host (`default     = false`).
-- `enable_custom_sg_rule_with_cidr_blocks` - Allows create a custom sg rule with cidr_blocks usage (`default     = false`).
-- `enable_custom_sg_rule_with_self` - Allows create a custom sg rule with self usage (`default     = false`).
-- `sg_rule_type` - (`default     = "ingress"`).
-- `sg_rule_from_port` - (`default     = "0"`).
-- `sg_rule_to_port` - (`default     = "0"`).
-- `sg_rule_protocol` - (`default     = "-1"`).
-- `sg_rule_cidr_blocks` - (`default     =["0.0.0.0/0"]`).
+- `cidr_blocks` - (Optional) List of CIDR blocks. Cannot be specified with source_security_group_id. (`default     = null`).
+- `enable_sg_rule_ingress_ports` - Enable SG rule with ingress ports usage (`default     = false`).
+- `ingress_ports_from_port` - The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default     = null`).
+- `ingress_ports_to_port` - The end port (or ICMP code if protocol is 'icmp'). (`default     = null`).
+- `ingress_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default     = "tcp"`).
+- `ingress_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default     = null`).
+- `ingress_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with ingress_ports_ipv6_cidr_blocks and ingress_ports_self. (`default     = null`).
+- `ingress_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with ingress_ports_source_security_group_id. (`default     = null`).
+- `ingress_ports_description` - (Optional) Description of the rule. (`default     = null`).
+- `enable_sg_rule_egress_ports` - Enable SG rule with egress ports usage (`default     = false`).
+- `egress_ports_from_port` - The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default     = null`).
+- `egress_ports_to_port` - The end port (or ICMP code if protocol is 'icmp'). (`default     = null`).
+- `egress_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default     = "tcp"`).
+- `egress_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default     = null`).
+- `egress_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with egress_ports_ipv6_cidr_blocks and egress_ports_self. (`default     = null`).
+- `egress_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with egress_ports_source_security_group_id. (`default     = null`).
+- `egress_ports_description` - (Optional) Description of the rule. (`default     = null`).
+- `enable_sg_rule_custom_ports` - Enable SG rule for custom ports usage (`default     = false`).
+- `custom_ports_type` - (Required) The type of rule being created. Valid options are ingress (inbound) or egress (outbound). (`default     = "ingress"`).
+- `custom_ports_from_port` - (Required) The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default     = -1`).
+- `custom_ports_to_port` - (Required) The end port (or ICMP code if protocol is 'icmp'). (`default     = -1`).
+- `custom_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default     = "icmp"`).
+- `custom_ports_cidr_blocks` - (Optional) List of CIDR blocks. Cannot be specified with custom_ports_source_security_group_id. (`default     = null`).
+- `custom_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default     = null`).
+- `custom_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with custom_ports_ipv6_cidr_blocks and custom_ports_self. (`default     = null`).
+- `custom_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with custom_ports_source_security_group_id. (`default     = null`).
+- `custom_ports_description` - (Optional) Description of the rule. (`default     = null`).
+- `enable_sg_rule_ingress_ports_all` - Enable SG rule with ingress to open all ports usage (`default     = false`).
+- `enable_sg_rule_egress_ports_all` - Enable SG rule with egress to open all ports usage (`default     = false`).
+
 
 Authors
 =======
