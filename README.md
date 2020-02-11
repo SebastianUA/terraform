@@ -1,5 +1,7 @@
 # terraform usage
 ----------------
+![License](https://img.shields.io/badge/License-GPLv3-blue.svg)|![Releases](https://img.shields.io/github/downloads/sebastianua/terraform/total.svg?style=plastic)|![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)
+
 I have uploaded managing AWS via terraform. However, I would like to use other providers which terraform support in future.
 
 First of all, you should clone this repo to your local machine. I provided modules with simple examples.    
