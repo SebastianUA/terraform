@@ -6,7 +6,7 @@ resource "aws_kms_key" "kms_key" {
 
     description             = var.description
     deletion_window_in_days = var.deletion_window_in_days
-    key_usage               = var.key_usage
+    key_usage               = upper(var.key_usage)
 
     is_enabled              = var.is_enabled
     policy                  = var.policy
