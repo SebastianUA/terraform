@@ -21,9 +21,17 @@ variable "createdby" {
   default     = "Vitaliy Natarov"
 }    
 
+variable "tags" {
+  description = "A list of tag blocks. Each element should have keys named key, value"
+  default     = {}
+}
+
+#---------------------------------------------------
+# AWS cloudtrail
+#---------------------------------------------------
 variable "enable_cloudtrail" {
   description = "Enable cloudtrail usage"
-  default     = "false"
+  default     = false
 }
 
 variable "cloudtrail_name" {
@@ -38,7 +46,7 @@ variable "s3_bucket_name" {
 
 variable "s3_key_prefix" {
   description = "(Optional) Specifies the S3 key prefix that follows the name of the bucket you have designated for log file delivery."
-  default     = "prefix"
+  default     = ""
 }
 
 variable "cloud_watch_logs_role_arn" {
@@ -53,22 +61,22 @@ variable "cloud_watch_logs_group_arn" {
 
 variable "enable_logging" {
   description = "(Optional) Enables logging for the trail. Defaults to true. Setting this to false will pause logging."
-  default     = "true"
+  default     = true
 }
 
 variable "include_global_service_events" {
   description = "(Optional) Specifies whether the trail is publishing events from global services such as IAM to the log files. Defaults to true."
-  default     = "true"
+  default     = true
 }
 
 variable "is_multi_region_trail" {
   description = "(Optional) Specifies whether the trail is created in the current region or in all regions. Defaults to false."
-  default     = "false"
+  default     = false
 }
 
 variable "is_organization_trail" {
   description = "(Optional) Specifies whether the trail is an AWS Organizations trail. Organization trails log events for the master account and all member accounts. Can only be created in the organization master account. Defaults to false."
-  default     = "false"
+  default     = false
 }
 
 variable "sns_topic_name" {
@@ -78,7 +86,7 @@ variable "sns_topic_name" {
 
 variable "enable_log_file_validation" {
   description = "(Optional) Specifies whether log file integrity validation is enabled. Defaults to false."
-  default     = "false"
+  default     = false
 }
 
 variable "kms_key_id" {
@@ -88,7 +96,7 @@ variable "kms_key_id" {
 
 variable "enable_cloudtrail_event_selector" {
   description = "Enable cloudtrail with event_selector"
-  default     = "false"
+  default     = false
 }
 
 variable "event_selector_read_write_type" {
@@ -98,7 +106,7 @@ variable "event_selector_read_write_type" {
 
 variable "event_selector_include_management_events" {
   description = "(Optional) - Specify if you want your event selector to include management events for your trail."
-  default     = "true"
+  default     = true
 }
 
 variable "event_selector_data_resource_type" {
@@ -108,6 +116,5 @@ variable "event_selector_data_resource_type" {
 
 variable "event_selector_data_resource_values" {
   description = "(Required) - A list of ARN for the specified S3 buckets and object prefixes."
-  type        = "list"
   default     = []
 }

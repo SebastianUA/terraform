@@ -13,76 +13,94 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-    required_version = "~>0.12.2"
+    required_version = "~> 0.12.12"
 }
 
 provider "aws" {
     region                  = "us-east-1"
     profile                 = "default"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
+    shared_credentials_file = pathexpand("~/.aws/credentials")
+}
+
+module "s3" {
+    source                                  = "../../modules/s3"
+    name                                    = "TEST"
+    environment                             = "NonPROD"
+    region                                  = "us-west-2"
+
+    enable_s3_bucket                        = true
+    s3_bucket_acl                           = "private"
+    s3_bucket_cors_rule                     = []
+
+    s3_bucket_versioning                    = []
+    enable_lifecycle_rule                   = true
+
+    # Add policy to the bucket
+    enable_s3_bucket_policy                 = false
 }
 
 module "cloudtrail" {
-    source                      	= "../../modules/cloudtrail"
-    enable_cloudtrail				= "true"
-    cloudtrail_name					= "cloudtrail_name"
+    source                          = "../../modules/cloudtrail"
+    enable_cloudtrail               = true
+    cloudtrail_name                 = "cloudtrail_name"
 
-    s3_bucket_name					= "bucket_name_here"
-    s3_key_prefix					= "prefix"
+    s3_bucket_name                  = module.s3.s3_bucket_id
+    s3_key_prefix                   = "prefix"
 
-    include_global_service_events	= "false"
+    include_global_service_events   = false
                         
 }
 
 # Logging All Lambda Function Invocations
-module "cloudtrail_event_selector" {
-    source                      				= "../../modules/cloudtrail"
-    enable_cloudtrail							= "true"
-    enable_cloudtrail_event_selector			= "true"
-    cloudtrail_name								= "cloudtrail_event_selector_lambda"
+module "cloudtrail_event_selector_lambda" {
+    source                                      = "../../modules/cloudtrail"
+    enable_cloudtrail                           = true
+    enable_cloudtrail_event_selector            = true
+    cloudtrail_name                             = "cloudtrail_event_selector_lambda"
 
-    s3_bucket_name								= "bucket_name_here"
-    s3_key_prefix								= "prefix"
+    s3_bucket_name                              = module.s3.s3_bucket_id
+    s3_key_prefix                               = "prefix"
 
-    include_global_service_events				= "false"
+    include_global_service_events               = false
 
-    event_selector_read_write_type				= "All"
-    event_selector_include_management_events	= "true"
+    event_selector_read_write_type              = "All"
+    event_selector_include_management_events    = true
 
-    event_selector_data_resource_type			= "AWS::Lambda::Function"
-    event_selector_data_resource_values			= ["arn:aws:lambda"]
+    event_selector_data_resource_type           = "AWS::Lambda::Function"
+    event_selector_data_resource_values         = ["arn:aws:lambda"]
                         
 }
 
 # Logging All S3 Bucket Object Events
-module "cloudtrail_event_selector" {
-    source                      				= "../../modules/cloudtrail"
-    enable_cloudtrail							= "true"
-    enable_cloudtrail_event_selector			= "true"
-    cloudtrail_name								= "cloudtrail_event_selector_s3"
+module "cloudtrail_event_selector_s3" {
+    source                                      = "../../modules/cloudtrail"
+    enable_cloudtrail                           = true
+    enable_cloudtrail_event_selector            = true
+    cloudtrail_name                             = "cloudtrail_event_selector_s3"
 
-    s3_bucket_name								= "bucket_name_here"
-    s3_key_prefix								= "prefix"
+    s3_bucket_name                              = module.s3.s3_bucket_id
+    s3_key_prefix                               = "prefix"
 
-    include_global_service_events				= "false"
+    include_global_service_events               = false
 
-    event_selector_read_write_type				= "All"
-    event_selector_include_management_events	= "true"
+    event_selector_read_write_type              = "All"
+    event_selector_include_management_events    = true
 
-    event_selector_data_resource_type			= "AWS::S3::Object"
-    event_selector_data_resource_values			= ["arn:aws:s3:::"]
+    event_selector_data_resource_type           = "AWS::S3::Object"
+    event_selector_data_resource_values         = ["arn:aws:s3:::"]
                         
 }
 ```
 
 Module Input Variables
 ----------------------
+
 - `name` - "Name to be used on all resources as prefix" (`default     = "TEST`).
 - `environment` - "Environment for service" (`default     = "STAGE`).
 - `orchestration` - "Type of orchestration" (`default     = "Terraform`).
 - `createdby` - "Created by" (`default     = "Vitaliy Natarov`).    
 - `enable_cloudtrail` - "Enable cloudtrail usage" (`default     = "false`).
-- `cloudtrail_name` - "Specifies the name of the trail" (`default     = "").
+- `cloudtrail_name` - "Specifies the name of the trail" (`default     = ""`).
 - `s3_bucket_name` - "(Required) Specifies the name of the S3 bucket designated for publishing log files." (`default     = "`).
 - `s3_key_prefix` - "(Optional) Specifies the S3 key prefix that follows the name of the bucket you have designated for log file delivery." (`default     = "prefix`).
 - `cloud_watch_logs_role_arn` - "(Optional) Specifies the role for the CloudWatch Logs endpoint to assume to write to a user’s log group." (`default     = "`).
@@ -98,7 +116,7 @@ Module Input Variables
 - `event_selector_read_write_type` - "(Optional) - Specify if you want your trail to log read-only events, write-only events, or all. By default, the value is All. You can specify only the following value: 'ReadOnly', 'WriteOnly', 'All'. Defaults to All" (`default     = "All`).
 - `event_selector_include_management_events` - "(Optional) - Specify if you want your event selector to include management events for your trail." (`default     = "true`).
 - `event_selector_data_resource_type` - "(Required) - The resource type in which you want to log data events. You can specify only the follwing value: 'AWS::S3::Object', 'AWS::Lambda::Function'" (`default     = "`).
-- `event_selector_data_resource_values` - "(Required) - A list of ARN for the specified S3 buckets and object prefixes" (`type        = "list (`default     = []`).
+- `event_selector_data_resource_values` - "(Required) - A list of ARN for the specified S3 buckets and object prefixes" (`default     = []`).
 
 
 Authors
