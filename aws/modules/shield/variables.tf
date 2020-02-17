@@ -9,19 +9,27 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
     default     = "STAGE"
 }
 
-variable "orchestration" {
-    description = "Type of orchestration"
-    default     = "Terraform"
+#---------------------------------------------------
+# AWS shield protection
+#---------------------------------------------------
+variable "enable_shield_protection" {
+  description = "Enable shield protection usage"
+  default     = false
 }
 
-variable "createdby" {
-    description = "Created by"
-    default     = "Vitaliy Natarov"
-}    
+variable "shield_protection_name" {
+  description = "A friendly name for the Protection you are creating."
+  default     = ""
+}
+
+variable "shield_protection_resource_arn" {
+  description = "(Required) The ARN (Amazon Resource Name) of the resource to be protected."
+  default     = ""
+}
