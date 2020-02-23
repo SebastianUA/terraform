@@ -3,13 +3,13 @@
 #
 
 terraform {
-  required_version = ">= 0.12.12"
+  required_version = "~> 0.12.12"
 }
 
 provider "aws" {
     version                 = "~> 2.36"
     region                  = "us-west-2"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
+    shared_credentials_file = pathexpand("~/.aws/credentials")
     profile                 = "default"
     max_retries             = 3
 }

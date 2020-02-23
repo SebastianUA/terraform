@@ -4,7 +4,7 @@
 resource "aws_s3_bucket_metric" "s3_bucket_metric" {
     count       = var.enable_s3_bucket_metric ? 1 : 0
 
-    bucket      = var.bucket_name != "" && !var.enable_s3_bucket ? var.bucket_name : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+    bucket      = var.s3_bucket_metric_bucket != null && !var.enable_s3_bucket ? var.s3_bucket_metric_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
     name        = var.s3_bucket_metric_name != "" ? lower(var.s3_bucket_metric_name) : "${lower(var.name)}-s3_metric-${lower(var.environment)}"
 
     dynamic "filter" {

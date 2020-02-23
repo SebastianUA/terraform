@@ -23,7 +23,7 @@ module "s3" {
     region                                  = "us-east-1"
 
     enable_s3_bucket                        = true
-    bucket_name                             = "aws-config-bucket-dev"
+    s3_bucket_name                          = "aws-config-bucket-dev"
     s3_bucket_acl                           = "private"
     s3_bucket_cors_rule                     = []
 

@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudformation.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    },
+    {
+      "Sid": "AllowRootAcc",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::167127734783:root"
+      },
+      "Action": "sts:AssumeRole"
+    },
+    {
+      "Sid": "AllowAssumeRole",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::167127734783:role/cloudformation-role"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}

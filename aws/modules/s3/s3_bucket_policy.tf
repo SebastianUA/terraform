@@ -4,8 +4,8 @@
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
     count       = var.enable_s3_bucket_policy ? 1 : 0 
                     
-    bucket      = var.bucket_name != "" && !var.enable_s3_bucket ? var.bucket_name : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
-    policy      = var.s3_bucket_policy != null ? var.s3_bucket_policy : null
+    bucket      = var.s3_bucket_policy_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_policy_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+    policy      = var.s3_bucket_policy
 
     lifecycle {
         create_before_destroy   = true

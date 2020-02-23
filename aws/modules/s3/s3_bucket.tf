@@ -4,8 +4,8 @@
 resource "aws_s3_bucket" "s3_bucket" {
     count               = var.enable_s3_bucket ? 1 : 0
     
-    bucket              = var.bucket_name != null && var.bucket_prefix == null ? lower(var.bucket_name) : null
-    bucket_prefix       = var.bucket_prefix != null && var.bucket_name == null ? lower(var.bucket_prefix) : null
+    bucket              = var.s3_bucket_name != null && var.s3_bucket_prefix == null ? lower(var.s3_bucket_name) : null
+    bucket_prefix       = var.s3_bucket_prefix != null && var.s3_bucket_name == null ? lower(var.s3_bucket_prefix) : null
     region              = var.region
     
     acl                 = var.s3_bucket_acl
@@ -169,7 +169,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 
     tags = merge(
         {
-            "Name"          = var.bucket_name != null && var.bucket_prefix == null ? lower(var.bucket_name) : lower(var.bucket_prefix)
+            "Name"          = var.s3_bucket_name != null && var.s3_bucket_prefix == null ? lower(var.s3_bucket_name) : lower(var.s3_bucket_prefix)
         },
         {
             "Environment"   = var.environment

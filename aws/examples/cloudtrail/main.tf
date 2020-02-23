@@ -19,6 +19,7 @@ module "s3" {
     region                                  = "us-west-2"
 
     enable_s3_bucket                        = true
+    s3_bucket_name                          = "test-bucket"
     s3_bucket_acl                           = "private"
     s3_bucket_cors_rule                     = []
 

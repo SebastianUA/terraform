@@ -48,7 +48,7 @@ variable "connection_host" {
 
 variable "connection_port" {
     description = "The port to connect to. Defaults to 22 when using type ssh and defaults to 5985 when using type winrm."
-    default     = "22"
+    default     = 22
 }
 
 variable "connection_timeout" {
@@ -68,18 +68,18 @@ variable "connection_private_key" {
 
 variable "connection_agent" {
     description = "Set to false to disable using ssh-agent to authenticate. On Windows the only supported SSH authentication agent is Pageant."
-    default     = "false"
+    default     = false
 }
 
-#variable "connection_agent_identity" {
-#    description = "The preferred identity from the ssh agent for authentication."
-#    default     = "false"
-#}
-#
-#variable "connection_host_key" {
-#    description = "The public key from the remote host or the signing CA, used to verify the connection."
-#    default     = ""
-#}
+variable "connection_agent_identity" {
+   description = "The preferred identity from the ssh agent for authentication."
+   default     = null
+}
+
+variable "connection_host_key" {
+   description = "The public key from the remote host or the signing CA, used to verify the connection."
+   default     = null
+}
 
 #---------------------------------------------------
 # Provisioner remote-exec
@@ -114,13 +114,11 @@ variable "provisioner_local_exec_command_command" {
 
 variable "provisioner_local_exec_command_interpreter" {
     description = "(Optional) If provided, this is a list of interpreter arguments used to execute the command. The first argument is the interpreter itself. It can be provided as a relative path to the current working directory or as an absolute path. The remaining arguments are appended prior to the command. This allows building command lines of the form '/bin/bash', '-c', 'echo foo'. If interpreter is unspecified, sensible defaults will be chosen based on the system OS."
-    type        = "list"
     default     = []
 }
 
 variable "provisioner_local_exec_command_environment" {
     description = "(Optional) block of key value pairs representing the environment of the executed command. inherits the current process environment."
-    type        = "map"
     default     = {
         FOO = "bar"
         BAR = 1
@@ -138,6 +136,5 @@ variable "enable_depends_on" {
 
 variable "depends_on_var" {
     description = "List with resources which can be used as depends_on"
-    type        = "list"
     default     = []
 }

@@ -395,12 +395,12 @@ variable "redirect_status_code" {
 }
 
 variable "redirect_path" {
-  description   = "(Optional) The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}. Defaults to /#{path}."
+  description   = "(Optional) The absolute path, starting with the leading '/'. This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}. Defaults to /#{path}."
   default       = "/#{path}"
 }
 
 variable "redirect_query" {
-  description   = "(Optional) The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?". Defaults to #{query}."
+  description   = "(Optional) The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading '?'. Defaults to #{query}."
   default       = "#{query}"
 }
 

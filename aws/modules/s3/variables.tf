@@ -40,9 +40,14 @@ variable "enable_s3_bucket" {
     default     = false
 }
 
-variable "bucket_name" {
-    description = "Name for bucket name"
-    default     = ""
+variable "s3_bucket_name" {
+    description = "Name for bucket name. Conflicts with s3_bucket_prefix."
+    default     = null
+}
+
+variable "s3_bucket_prefix" {
+    description = "Creates a unique bucket name beginning with the specified prefix. Conflicts with s3_bucket_name."
+    default     = null
 }
 
 variable "bucket_policy" {
@@ -53,11 +58,6 @@ variable "bucket_policy" {
 variable "enable_s3_bucket_website" {
     description = "Enable to create S3 bucket with website"
     default     = false
-}
-
-variable "bucket_prefix" {
-    description = "Creates a unique bucket name beginning with the specified prefix. Conflicts with bucket."
-    default     = ""
 }
 
 variable "s3_bucket_acl" {
@@ -248,9 +248,14 @@ variable "enable_s3_bucket_policy" {
     default     = false
 }
 
+variable "s3_bucket_policy_bucket" {
+  description = "The name of the bucket to which to apply the policy."
+  default     = ""
+}
+
 variable "s3_bucket_policy" {
   description   = "(Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
-  default       = null
+  default       = ""
 }
 
 #-----------------------------------------------------------
@@ -259,6 +264,11 @@ variable "s3_bucket_policy" {
 variable "enable_s3_bucket_object" {
     description = "Enable s3 bucket object" 
     default     = false
+}
+
+variable "s3_bucket_object_bucket" {
+  description = "The name of the bucket to put the file in."
+  default     = ""
 }
 
 variable "s3_bucket_object_key" {
@@ -388,6 +398,11 @@ variable "enable_s3_bucket_notification" {
     default     = false
 }
 
+variable "s3_bucket_notification_bucket" {
+  description = "The name of the bucket to put notification configuration."
+  default     = ""
+}
+
 variable "s3_bucket_notification_topic" {
     description = "(Optional) The notification configuration to SNS Topic"
     default     = []
@@ -411,6 +426,11 @@ variable "enable_s3_bucket_metric" {
   default       = false
 }
 
+variable "s3_bucket_metric_bucket" {
+  description = "The name of the bucket to put metric configuration."
+  default     = ""
+}
+
 variable "s3_bucket_metric_name" {
   description = "Name for S3 bucket metric"
   default     = ""
@@ -432,6 +452,11 @@ variable "s3_bucket_metric_filter" {
 variable "enable_s3_bucket_inventory" {
   description   = "Enable S3 bucket inventory usage"
   default       = false
+}
+
+variable "s3_bucket_inventory_bucket" {
+  description = "The name of the bucket to put metric configuration."
+  default     = ""
 }
 
 variable "s3_bucket_inventory_name" {
@@ -500,6 +525,11 @@ variable "destination_bucket_encryption_sse_s3" {
 variable "enable_s3_bucket_public_access_block" {
   description   = "Enable S3 bucket public access block usage"
   default       = false
+}
+
+variable "s3_bucket_public_access_block_bucket" {
+  description = "S3 Bucket to which this Public Access Block configuration should be applied."
+  default     = ""
 }
 
 variable "s3_bucket_public_access_block_block_public_acls" {

@@ -1,0 +1,21 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudformation.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    },
+    {
+      "Sid": "AllowAssumeRole2",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::167127734783:role/AWSCloudFormationStackSetExecutionRole"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
