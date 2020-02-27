@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "newrelic_nrql_alert_condition" "nrql_alert_condition" {
     count               = "${var.nrql_alert_condition ? 1 : 0}"
-            
+
     name                = "${var.nrql_alert_condition_name !="" ? var.nrql_alert_condition_name : "${lower(var.name)}-nr-nrql-alert-condition-${lower(var.environment)}" }"
     policy_id           = "${var.nrql_alert_condition_policy_id}"
 
@@ -26,7 +26,7 @@ resource "newrelic_nrql_alert_condition" "nrql_alert_condition" {
    #     threshold     = "1"
    #     time_function = "all"
    # }
-    
+
     nrql {
         query       = "${var.nrql_alert_condition_nrql_query}"
         since_value = "${var.nrql_alert_condition_nrql_since_value}"
@@ -38,5 +38,5 @@ resource "newrelic_nrql_alert_condition" "nrql_alert_condition" {
     }
 
     depends_on  = []
-    
+
 }

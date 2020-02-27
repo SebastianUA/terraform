@@ -36,7 +36,7 @@ module "elasticbeanstalk" {
     elastic_beanstalk_environment_name          = ""
     elastic_beanstalk_environment_description   = ""
     application_name                            = ""
-    
+
 
 }
 
@@ -88,4 +88,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

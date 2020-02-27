@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -74,7 +74,7 @@ variable "elasticache_security_group_description" {
 }
 
 #-----------------------------------------------------------
-# parameters_for_parameter_group 
+# parameters_for_parameter_group
 #-----------------------------------------------------------
 variable "enable_elasticache_parameter_group" {
     description = "If true, will create elasticache parameter group"
@@ -105,7 +105,7 @@ variable "elasticache_parameter_group_family" {
     default     = {
         redis       = "redis4.0"
         memcached   = "memcached1.4"
-    }           
+    }
 }
 
 #---------------------------------------------------

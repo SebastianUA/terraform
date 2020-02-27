@@ -36,7 +36,7 @@ resource "aws_mq_configuration" "mq_configuration" {
     ]
 }
 #---------------------------------------------------
-# Create data for AWS MQ broker configuration 
+# Create data for AWS MQ broker configuration
 #---------------------------------------------------
 data "template_file" "mq_configuration_data" {
     template    = var.mq_configuration_data

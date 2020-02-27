@@ -105,6 +105,6 @@ resource "aws_instance" "instance" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on = []
 }

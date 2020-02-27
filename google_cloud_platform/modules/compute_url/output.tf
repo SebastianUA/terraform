@@ -27,4 +27,3 @@ output "google_compute_url_map_custom_map_id" {
     description = "The GCE assigned ID of the resource."
     value       = "${google_compute_url_map.compute_url_map_custom.*.map_id}"
 }
-

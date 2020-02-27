@@ -22,4 +22,3 @@ output "google_dns_record_set_id" {
     description = "ID"
     value       = "${google_dns_record_set.dns_record_set.*.id}"
 }
-

@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
   description = "Environment for service"
@@ -58,7 +58,7 @@ variable "appversion_lifecycle" {
 #-----------------------------------------------------------
 # EB ENV
 #-----------------------------------------------------------
-variable "enable_elastic_beanstalk_environment" { 
+variable "enable_elastic_beanstalk_environment" {
   description = "Enable to create elastic_beanstalk_environment"
   default     = false
 }
@@ -88,7 +88,7 @@ variable "cname_prefix" {
   default     = ""
 }
 
-variable "tier" {   
+variable "tier" {
   description = "(Optional) Elastic Beanstalk Environment tier. Valid values are Worker or WebServer. If tier is left blank WebServer will be used."
   default     = "WebServer"
 }
@@ -159,7 +159,7 @@ variable "bucket" {
   default     = ""
 }
 
-variable "key" {    
+variable "key" {
   description = "(Required) S3 object that is the Application Version source bundle."
   default     = ""
 }

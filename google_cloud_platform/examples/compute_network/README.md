@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute network and subnetwork) via terraform
 
 A terraform module for making google compute network and subnetwork.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_network" {
     source                          = "../../modules/compute_network"
@@ -31,7 +31,7 @@ module "compute_network" {
 module "compute_network_peering" {
     source                          = "../../modules/compute_network"
     name                            = "TEST"
-   
+
     enable_compute_network          = false
     enable_compute_network_peering  = true
     network                         = "${element(module.compute_network.google_compute_network_self_link, 0)}"

@@ -42,7 +42,7 @@ module "ssm" {
     ssm_maintenance_window_task_name                = ""
     ssm_maintenance_window_task_service_role_arn    = "arn:aws:iam::167127734783:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
     ssm_maintenance_window_task_task_arn            = "AWS-RestartEC2Instance"
-    
+
 }
 ```
 
@@ -50,10 +50,10 @@ Module Input Variables
 ----------------------
 
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `environment` - Environment for service (`  default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`  default     = "Terraform"`).
-- `createdby` - Created by (`  default     = "Vitaliy Natarov"`).    
+- `createdby` - Created by (`  default     = "Vitaliy Natarov"`).
 - `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default     = {}`).
 - `enable_ssm_activation` - Enable ssm activation usage (`default     = false`).
 - `ssm_activation_name` - The default name of the registered managed instance. (`default     = ""`).

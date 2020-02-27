@@ -14,12 +14,12 @@ output "rds_cluster_endpoint" {
 output "rds_cluster_arn" {
     description = "Amazon Resource Name (ARN) of cluster"
     value       = element(concat(aws_rds_cluster.rds_cluster.*.arn, [""]), 0)
-} 
+}
 
 output "rds_cluster_id" {
     description = "The RDS Cluster Identifier"
     value       = element(concat(aws_rds_cluster.rds_cluster.*.id, [""]), 0)
-} 
+}
 
 #---------------------------------------------------
 # AWS RDS global cluster

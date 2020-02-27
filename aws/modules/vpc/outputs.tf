@@ -12,7 +12,7 @@ output "vpc_id" {
 }
 
 output "vpc_cidr_block" {
-    description = "The CIDR block of the VPC"  
+    description = "The CIDR block of the VPC"
     value       = element(concat(aws_vpc.vpc.*.cidr_block, [""]), 0)
 }
 
@@ -44,12 +44,12 @@ output "vpc_main_route_table_id" {
 output "vpc_default_network_acl_id" {
     description = "The ID of the network ACL created by default on VPC creation"
     value       = element(concat(aws_vpc.vpc.*.default_network_acl_id, [""]), 0)
-}           
+}
 
 output "vpc_default_security_group_id" {
     description = "The ID of the security group created by default on VPC creation"
     value       = element(concat(aws_vpc.vpc.*.default_security_group_id, [""]), 0)
-}  
+}
 
 output "vpc_default_route_table_id" {
     description = "The ID of the route table created by default on VPC creation"
@@ -259,7 +259,7 @@ output "public_route_tables_owner_id" {
 }
 
 #---------------------------------------------------
-# Route Table Associations 
+# Route Table Associations
 #---------------------------------------------------
 output "private_route_table_associations_id" {
     description = "The ID of the association"

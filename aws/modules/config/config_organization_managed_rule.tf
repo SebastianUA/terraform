@@ -3,8 +3,8 @@
 #---------------------------------------------------
 resource "aws_config_organization_managed_rule" "config_organization_managed_rule" {
     count                           = var.enable_organizations_organization && var.enable_config_organization_managed_rule ? 1 : 0
-  
-    name                            = var.config_organization_managed_rule_name != "" ? lower(var.config_organization_managed_rule_name) : "${lower(var.name)}-config-org-managed-rule-${lower(var.environment)}" 
+
+    name                            = var.config_organization_managed_rule_name != "" ? lower(var.config_organization_managed_rule_name) : "${lower(var.name)}-config-org-managed-rule-${lower(var.environment)}"
     rule_identifier                 = upper(var.config_organization_managed_rule_identifier)
 
     description                     = var.config_organization_managed_rule_description != null ? var.config_organization_managed_rule_description : null

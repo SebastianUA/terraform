@@ -1,6 +1,8 @@
-#-----------------------------------------------------------
-# AWS SSM activation
-#-----------------------------------------------------------
+/*
+-----------------------------------------------------------
+AWS SSM activation
+-----------------------------------------------------------
+*/
 output "ssm_activation_id" {
     description = "The activation ID."
     value       = element(concat(aws_ssm_activation.ssm_activation.*.id, [""]), 0)

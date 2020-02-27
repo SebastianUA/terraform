@@ -45,7 +45,7 @@ module "iam_role" {
     enable_iam_role_policy                          = true
     iam_role_policy_name                            = "opsworks-policy-test"
     iam_role_policy                                 = file("additional_files/policy.json")
-    
+
     # Using IAM instance profile
     enable_iam_instance_profile                     = true
     iam_instance_profile_name                       = "opsworks-instance-profile-test"
@@ -69,7 +69,7 @@ module "opsworks" {
 
     enable_opsworks_custom_layer                = true
     opsworks_custom_layer_name                  = "opsworks-custom-layer"
-    
+
     enable_opsworks_instance                    = true
     opsworks_instance_instance_type             = "t2.large"
     opsworks_instance_os                        = "Amazon Linux 2015.09"
@@ -77,12 +77,12 @@ module "opsworks" {
     opsworks_instance_virtualization_type       = "hvm"
     opsworks_instance_tenancy                   = "default"
     opsworks_instance_root_device_type          = "ebs"
-    
+
 
     enable_opsworks_application                 = true
     opsworks_application_name                   = "opsworks-app-test"
     opsworks_application_short_name             = "app-test"
-    
+
 }
 ```
 
@@ -90,7 +90,7 @@ Module Input Variables
 ----------------------
 
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `environment` - Environment for service (`  default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`  default     = "Terraform"`).
 - `createdby` - Created by (`  default     = "Vitaliy Natarov"`).

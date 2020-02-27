@@ -1,7 +1,7 @@
 #---------------------------------------------------
 # Create AWS NLB target group
 #---------------------------------------------------
-resource "aws_lb_target_group" "nlb_target_group" {   
+resource "aws_lb_target_group" "nlb_target_group" {
     count                               = var.enable_nlb_target_group ? 1 : 0
 
     name                                = var.nlb_target_group_name != "" && var.name_prefix == "" ? lower(var.nlb_target_group_name) : null
@@ -52,4 +52,4 @@ resource "aws_lb_target_group" "nlb_target_group" {
     }
 
     depends_on = []
-}    
+}

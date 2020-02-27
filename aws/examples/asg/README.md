@@ -72,7 +72,7 @@ module "asg" {
 Module Input Variables
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`)
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`) 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`)
 - `environment` - Environment for service (`default     = "STAGE"`)
 - `orchestration` - Type of orchestration (`default     = "Terraform"`)
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`)
@@ -131,12 +131,12 @@ Module Input Variables
         "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
     ]`)
 - `autoscaling_notification_topic_arn` - (Required) The Topic ARN for notifications to be sent through (`default     = ""`)
-- `enable_autoscaling_policy` - Enabling autoscaling schedule (`default     = false`) 
+- `enable_autoscaling_policy` - Enabling autoscaling schedule (`default     = false`)
 - `asg_size_scale` - Size of instances to making autoscaling(up/down) (`default     = 1`)
 - `adjustment_type` - Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. (`default     = "ChangeInCapacity"`)
-- `enable_autoscaling_schedule` - Enabling autoscaling schedule (`default     = false`) 
+- `enable_autoscaling_schedule` - Enabling autoscaling schedule (`default     = false`)
 - `asg_recurrence_scale_up` -  Cronjob time for scale-up (`default     = "0 9 * * *"`)
-- `asg_recurrence_scale_down` -  Cronjob time for scale-down (`default     = "0 17 * * *"`) 
+- `asg_recurrence_scale_down` -  Cronjob time for scale-down (`default     = "0 17 * * *"`)
 - `enable_lc` - Whether to create launch configuration (`default     = false`)
 - `launch_configuration_name` - Custome name for lc (`default     = ""`)
 - `enable_lc_spot`- Whether to create launch configuration (`default       = false`)

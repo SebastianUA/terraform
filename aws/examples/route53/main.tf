@@ -18,7 +18,7 @@ module "route53" {
     # Route53 zone
     enable_route53_zone                 = true
     route53_zone_name                   = "example.local"
-    
+
     # Route53 record
     enable_route53_record               = true
     route53_record_type                 = "A"

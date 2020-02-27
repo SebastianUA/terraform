@@ -17,12 +17,12 @@ module "waf" {
     enable_waf_ipset                = true
     waf_ipset_name                  = ""
     #waf_ipset_ip_set_descriptors    = [
-    #    { 
-    #        "value"     = "1.2.3.4/32", 
+    #    {
+    #        "value"     = "1.2.3.4/32",
     #        "type"      ="IPV4"
     #    },
-    #    { 
-    #        "value"     = "2.3.4.5/28", 
+    #    {
+    #        "value"     = "2.3.4.5/28",
     #        "type"      = "IPV4"
     #    }
     #]
@@ -32,4 +32,3 @@ module "waf" {
     waf_rule_metric_name            = "test"
     waf_rule_predicates             = []
 }
-

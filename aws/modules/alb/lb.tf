@@ -1,7 +1,7 @@
 #---------------------------------------------------
-# Create AWS ALB 
+# Create AWS ALB
 #---------------------------------------------------
-resource "aws_lb" "alb" {                      
+resource "aws_lb" "alb" {
     count                               = var.enable_alb && !var.enable_alb_prefix ? 1 :0
 
     name                                = var.alb_name !="" ? "${lower(var.alb_name)}" : "${lower(var.name)}-alb-${lower(var.environment)}"
@@ -10,12 +10,12 @@ resource "aws_lb" "alb" {
     internal                            = var.lb_internal
 
     enable_cross_zone_load_balancing    = var.enable_cross_zone_load_balancing
-    enable_deletion_protection          = var.enable_deletion_protection  
+    enable_deletion_protection          = var.enable_deletion_protection
     load_balancer_type                  = var.load_balancer_type
     idle_timeout                        = var.idle_timeout
     enable_http2                        = var.enable_http2
     ip_address_type                     = var.ip_address_type
-    
+
     access_logs {
         enabled = var.access_logs_enabled
         bucket  = var.access_logs_bucket
@@ -30,7 +30,7 @@ resource "aws_lb" "alb" {
 
     timeouts {
         create  = var.timeouts_create
-        update  = var.timeouts_update 
+        update  = var.timeouts_update
         delete  = var.timeouts_delete
     }
 
@@ -67,12 +67,12 @@ resource "aws_lb" "alb_prefix" {
     internal                            = var.lb_internal
 
     enable_cross_zone_load_balancing    = var.enable_cross_zone_load_balancing
-    enable_deletion_protection          = var.enable_deletion_protection  
+    enable_deletion_protection          = var.enable_deletion_protection
     load_balancer_type                  = var.load_balancer_type
     idle_timeout                        = var.idle_timeout
     enable_http2                        = var.enable_http2
     ip_address_type                     = var.ip_address_type
-   
+
     access_logs {
         enabled = var.access_logs_enabled
         bucket  = var.access_logs_bucket
@@ -87,7 +87,7 @@ resource "aws_lb" "alb_prefix" {
 
     timeouts {
         create  = var.timeouts_create
-        update  = var.timeouts_update  
+        update  = var.timeouts_update
         delete  = var.timeouts_delete
     }
 

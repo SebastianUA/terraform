@@ -5,7 +5,7 @@
 resource "aws_config_organization_custom_rule" "config_organization_custom_rule" {
     count                           = var.enable_organizations_organization && var.enable_config_organization_custom_rule ? 1 : 0
 
-    name                            = var.config_organization_custom_rule_name != "" ? lower(var.config_organization_custom_rule_name) : "${lower(var.name)}-config-org-custom-rule-${lower(var.environment)}" 
+    name                            = var.config_organization_custom_rule_name != "" ? lower(var.config_organization_custom_rule_name) : "${lower(var.name)}-config-org-custom-rule-${lower(var.environment)}"
     lambda_function_arn             = var.config_organization_custom_rule_lambda_function_arn
     trigger_types                   = var.config_organization_custom_rule_trigger_types
 
@@ -22,7 +22,7 @@ resource "aws_config_organization_custom_rule" "config_organization_custom_rule"
         create  = var.config_organization_custom_rule_timeouts_create
         update  = var.config_organization_custom_rule_timeouts_update
         delete  = var.config_organization_custom_rule_timeouts_delete
-    } 
+    }
 
     lifecycle {
         create_before_destroy   = true

@@ -1,6 +1,6 @@
 resource "aws_ecs_cluster" "ecs_cluster" {
-    count          = var.enable_ecs_cluster ? 1 :0 
-        
+    count          = var.enable_ecs_cluster ? 1 :0
+
     name           = var.ecs_cluster_name !="" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-cluster-${lower(var.environment)}"
 
     dynamic "setting" {

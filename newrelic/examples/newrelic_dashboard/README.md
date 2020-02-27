@@ -1,7 +1,7 @@
 # Work with newrelic dashboard via terraform
 
 A terraform module for making newrelic dashboard.
- 
+
 ## Usage
 --------
 
@@ -23,7 +23,7 @@ module "newrelic_dashboard" {
     source                                              = "../../modules/newrelic_dashboard"
 
     dashboard                                           = "true"
-    
+
     dashboard_custom                                    = "true"
     dashboard_custom_widget                             = [
         {
@@ -63,4 +63,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

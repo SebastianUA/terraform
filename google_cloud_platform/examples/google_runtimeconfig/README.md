@@ -1,8 +1,8 @@
-# Work with Google Cloud  Platform (google runtimeconfig) via terraform
+#Work with Google Cloud  Platform (google runtimeconfig) via terraform
 
 A terraform module for making google runtimeconfig.
- 
-## Usage
+
+##Usage
 --------
 
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -18,11 +18,11 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "google_runtimeconfig" {
     source                                      = "../../modules/google_runtimeconfig"
     name                                        = "TEST"
-                                        
+
     # variable with text
     #enable_runtimeconfig_variable_text_usage    = "true"
     #runtimeconfig_config_name                   = "test-rc-config-stage"
@@ -33,8 +33,8 @@ module "google_runtimeconfig" {
     #runtimeconfig_config_name                   = "test-rc-config-stage"
     #value                                       = "test2"
     #value_file                                  = "files/file_name.dat"
-    
-}    
+
+}
 ```
 
 Module Input Variables

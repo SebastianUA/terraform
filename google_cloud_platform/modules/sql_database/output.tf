@@ -57,7 +57,7 @@ output "sql_database_instance_postgres_replication_self_link" {
 output "sql_database_instance_postgres_connection_name" {
     description = "connection_name of sql database instance for postgres"
     value       = "${google_sql_database_instance.sql_database_instance_postgres.*.connection_name}"
-}       
+}
 
 output "sql_database_instance_postgres_replication_connection_name" {
     description = "connection_nameof sql database instance for postgres replica"
@@ -84,4 +84,3 @@ output "sql_user_name" {
     description = "User"
     value       = "${google_sql_user.sql_user.*.name}"
 }
-

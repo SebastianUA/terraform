@@ -5,11 +5,11 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority_defaul
     count                           = var.enable_acmpca_certificate_authority_default && !var.enable_acmpca_certificate_authority_revocation_configuration ? 1 : 0
 
     enabled                         = var.acmpca_certificate_authority_enabled
-    
+
     certificate_authority_configuration {
         key_algorithm       = "var.certificate_authority_configuration_key_algorithm"
         signing_algorithm   = "var.certificate_authority_configuration_signing_algorithm"
-    
+
         subject {
             common_name                     = "var.certificate_authority_configuration_subject_common_name"
             country                         = "var.certificate_authority_configuration_subject_country"
@@ -103,4 +103,3 @@ resource "aws_acmpca_certificate_authority" "acmpca_cert_authority_revocation_co
     depends_on = []
 
 }
-

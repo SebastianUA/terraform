@@ -63,4 +63,3 @@ output "google_bigquery_table_view_table_id" {
     description = "table_id"
     value       = "${google_bigquery_table.bigquery_table_view.*.table_id}"
 }
-

@@ -18,7 +18,7 @@ resource "aws_efs_file_system" "efs_file_system" {
             transition_to_ia = lookup(lifecycle_policy.value, "transition_to_ia", null)
         }
     }
-    
+
     tags = merge(
         {
             "Name"          = var.efs_file_system_name != "" ? var.efs_file_system_name : "${lower(var.name)}-efs-${lower(var.environment)}"

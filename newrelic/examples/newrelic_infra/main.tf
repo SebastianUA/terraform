@@ -44,7 +44,7 @@ module "newrelic_infra" {
     infra_alert_condition_comparison                    = "equal"
     infra_alert_condition_where                         = "(`hostname` LIKE '%frontend%')"
     infra_alert_condition_integration_provider          = ""
-    
+
     #
-    infra_alert_condition_with_warning                  = "true"    
-}                                                       
+    infra_alert_condition_with_warning                  = "true"
+}

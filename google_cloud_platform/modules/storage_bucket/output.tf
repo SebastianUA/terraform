@@ -16,8 +16,8 @@ output "google_storage_bucket_url" {
 output "google_storage_bucket_acl_role_entity_id" {
     description = "ID for storage bucket acl"
     value       = "${google_storage_bucket_acl.storage_bucket_acl_role_entity.*.id}"
-}               
- 
+}
+
 output "google_storage_bucket_acl_predefined_acl_id" {
     description = "ID for storage bucket acl"
     value       = "${google_storage_bucket_acl.storage_bucket_acl_predefined_acl.*.id}"
@@ -39,7 +39,7 @@ output "google_storage_bucket_iam_binding_role" {
 }
 
 output "google_storage_bucket_iam_member_id" {
-    description = "ID"                                  
+    description = "ID"
     value       = "${google_storage_bucket_iam_member.storage_bucket_iam_member.*.id}"
 }
 
@@ -54,7 +54,7 @@ output "google_storage_bucket_iam_member_etag" {
 }
 
 output "google_storage_bucket_iam_policy_id" {
-    description = "ID"                                      
+    description = "ID"
     value       = "${google_storage_bucket_iam_policy.storage_bucket_iam_policy.*.id}"
 }
 
@@ -74,7 +74,7 @@ output "google_storage_object_acl_id" {
 }
 
 output "google_storage_bucket_object_id" {
-    description = "ID"                                  
+    description = "ID"
     value       = "${google_storage_bucket_object.storage_bucket_object.*.id}"
 }
 
@@ -84,6 +84,6 @@ output "google_storage_bucket_object_name" {
 }
 
 output "google_storage_notification_self_link" {
-    description = "self_link"                       
+    description = "self_link"
     value       = "${google_storage_notification.storage_notification.*.self_link}"
 }

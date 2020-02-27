@@ -14,6 +14,6 @@ resource "aws_opsworks_user_profile" "opsworks_user_profile" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on          = []
 }

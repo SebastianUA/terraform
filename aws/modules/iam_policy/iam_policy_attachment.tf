@@ -9,7 +9,7 @@ resource "aws_iam_policy_attachment" "iam_policy_attachment" {
     users       = var.iam_policy_attachment_users
     groups      = var.iam_policy_attachment_groups
     policy_arn  = var.iam_role_policy_attachment_policy_arn != "" && !var.enable_iam_policy ? var.iam_role_policy_attachment_policy_arn : element(concat(aws_iam_policy.iam_policy.*.arn, [""]), 0)
-    
+
     depends_on  = [
         aws_iam_policy.iam_policy
     ]

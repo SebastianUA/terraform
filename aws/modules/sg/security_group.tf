@@ -6,7 +6,7 @@ resource "aws_security_group" "security_group" {
 
     name                    = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : null
     name_prefix             = var.security_group_name_prefix != "" && var.security_group_name == "" ? lower(var.security_group_name_prefix) : null
-    
+
     description             = var.security_group_description
     vpc_id                  = var.security_group_vpc_id
     revoke_rules_on_delete  = var.security_group_revoke_rules_on_delete
@@ -56,7 +56,7 @@ resource "aws_security_group" "security_group" {
         },
         var.tags,
     )
-  
+
     lifecycle {
         create_before_destroy   = true
         ignore_changes          = []

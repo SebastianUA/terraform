@@ -42,5 +42,5 @@ output "security_group_egress" {
 }
 
 #---------------------------------------------------
-# Security group rules 
+# Security group rules
 #---------------------------------------------------

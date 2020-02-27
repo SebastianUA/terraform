@@ -17,4 +17,3 @@ output "compute_security_policy_custom_self_link" {
     description = "The URI of the created resource."
     value       = "${module.compute_security.google_compute_security_policy_custom_self_link}"
 }
-

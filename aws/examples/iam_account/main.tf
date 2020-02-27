@@ -32,7 +32,7 @@ module "iam_account" {
     require_uppercase_characters        = true
     require_symbols                     = true
     allow_users_to_change_password      = true
-    
+
     hard_expiry                         = null
     max_password_age                    = null
     password_reuse_prevention           = null

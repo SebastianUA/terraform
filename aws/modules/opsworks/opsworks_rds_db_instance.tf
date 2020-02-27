@@ -13,7 +13,7 @@ resource "aws_opsworks_rds_db_instance" "opsworks_rds_db_instance" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on              = [
         aws_opsworks_stack.opsworks_stack
     ]

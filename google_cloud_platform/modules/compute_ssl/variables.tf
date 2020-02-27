@@ -54,7 +54,7 @@ variable "timeouts_delete" {
 }
 
 variable "enable_compute_ssl_certificate" {
-    description = "Enable compute ssl certificate usage" 
+    description = "Enable compute ssl certificate usage"
     default     = "false"
 }
 

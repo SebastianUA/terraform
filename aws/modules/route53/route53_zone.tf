@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_route53_zone" "route53_zone" {
     count               = var.enable_route53_zone ? 1 : 0
-                            
+
     name                = var.route53_zone_name != "" ? lower(var.route53_zone_name) : "${lower(var.name)}-route53_zone-${lower(var.environment)}"
     comment             = var.route53_zone_comment
     force_destroy       = var.route53_zone_force_destroy
@@ -38,6 +38,6 @@ resource "aws_route53_zone" "route53_zone" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = []
 }

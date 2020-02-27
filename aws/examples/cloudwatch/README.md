@@ -22,7 +22,7 @@ provider "aws" {
 
 module "cloudwatch" {
     source                  = "../../modules/cloudwatch"
-                        
+
     alarm_name              = "my-application-logs-errors"
      alarm_description      = "Bad errors in my-application-logs"
     comparison_operator     = "GreaterThanOrEqualToThreshold"
@@ -50,7 +50,7 @@ Module Input Variables
 -`tags` - Add additional tags(`default       = {}`)
 -`enable_cw_metric_alarm` - Enable cw_metric_alarm usage(`default       = false`)
 -`alarm_name` - The descriptive name for the alarm. This name must be unique within the user's AWS account(`default     = ""`)
--`comparison_operator` - The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold.(`default     = "GreaterThanOrEqualToThreshold"`) 
+-`comparison_operator` - The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold.(`default     = "GreaterThanOrEqualToThreshold"`)
 -`evaluation_periods` - The number of periods over which data is compared to the specified threshold.(`  default     = 2`)
 -`metric_name` - The name for the alarm's associated metric (ex: CPUUtilization)(`  default     = null`)
 -`namespace` - The namespace for the alarm's associated metric (ex: AWS/EC2)(`  default     = null`)

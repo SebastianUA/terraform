@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "null_resource" "remote_exec_by_login" {
     count               = var.enable_provisioner_remote_exec_inline && var.enable_connection_by_login ? 1 : 0
-                
+
     provisioner "remote-exec" {
         inline          = var.provisioner_remote_exec_inline_command
 
@@ -24,7 +24,7 @@ resource "null_resource" "remote_exec_by_login" {
 #---------------------------------------------------
 resource "null_resource" "remote_exec_by_key" {
     count                   = var.enable_provisioner_remote_exec_inline && var.enable_connection_by_key ? 1 : 0
-                
+
     provisioner "remote-exec" {
         inline              = var.provisioner_remote_exec_inline_command
 
@@ -40,7 +40,7 @@ resource "null_resource" "remote_exec_by_key" {
             port            = var.connection_port
             timeout         = var.connection_timeout
         }
-    }    
+    }
 }
 
 #---------------------------------------------------
@@ -62,7 +62,7 @@ resource "null_resource" "remote_exec_by_key" {
 # https://www.terraform.io/docs/provisioners/remote-exec.html
 
 #---------------------------------------------------
-# Provisioner remote-exec "scripts" by key 
+# Provisioner remote-exec "scripts" by key
 #---------------------------------------------------
 
 # https://www.terraform.io/docs/provisioners/remote-exec.html

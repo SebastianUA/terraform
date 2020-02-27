@@ -3,7 +3,7 @@
 #
 output "compute_address_name" {
     description = "Name of google_compute_address"
-    value       = "${module.compute_address.google_compute_address_name}"    
+    value       = "${module.compute_address.google_compute_address_name}"
 }
 
 output "compute_address_self_link" {
@@ -37,4 +37,3 @@ output "compute_global_address_address" {
     description = "The IP of the created resource."
     value       = "${module.compute_address.google_compute_global_address_address}"
 }
-

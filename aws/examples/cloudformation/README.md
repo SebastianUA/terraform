@@ -175,7 +175,7 @@ module "cloudformation" {
 
     enable_cloudformation_stack                         = true
     cloudformation_stack_name                           = ""
-    cloudformation_stack_template_body                  = file("additional_files/template_body.json")    
+    cloudformation_stack_template_body                  = file("additional_files/template_body.json")
     cloudformation_stack_parameters                     = merge(
         {
             VPCCidr = "10.0.0.0/16"
@@ -194,7 +194,7 @@ module "cloudformation" {
     )
 
     enable_cloudformation_stack_set_instance            = true
-    
+
 }
 ```
 
@@ -202,7 +202,7 @@ Module Input Variables
 ----------------------
 
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `environment` - Environment for service (`  default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`  default     = "Terraform"`).
 - `createdby` - Created by (`  default     = "Vitaliy Natarov"`).

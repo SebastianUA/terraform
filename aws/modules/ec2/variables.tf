@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
     description = "The region where to deploy this code (e.g. us-east-1)."
     default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -46,7 +46,7 @@ variable "instance_name" {
 }
 
 variable "ami" {
-    description = "I added only 3 regions to show the map feature but you can add all"    
+    description = "I added only 3 regions to show the map feature but you can add all"
     default     = {
         us-east-1 = "ami-46c1b650"
         us-west-2 = "ami-50d1d929"

@@ -6,7 +6,7 @@ resource "aws_acm_certificate" "acm_certificate" {
 
     domain_name                 = var.domain_name !="" ? var.domain_name : "lower(var.name)-acm-cert-lower(var.environment)"
     validation_method           = "upper(var.validation_method)"
-                        
+
     subject_alternative_names   = var.subject_alternative_names
 
     tags = {
@@ -46,12 +46,12 @@ resource "aws_acm_certificate" "acm_certificate_exist" {
 
 #---------------------------------------------------
 # Create AWS ACM (Amazon Certificate Manager) certificate validation
-#--------------------------------------------------- 
+#---------------------------------------------------
 resource "aws_acm_certificate_validation" "acm_certificate_validation" {
     count                       = var.enable_acm_certificate ? 1 : 0
-                                                                   
+
     certificate_arn             = "var.certificate_arn"
-    
+
     timeouts {
         create  = var.timeouts_create
     }
@@ -65,7 +65,7 @@ resource "aws_acm_certificate_validation" "acm_certificate_validation" {
 
 resource "aws_acm_certificate_validation" "acm_certificate_validation_with_validation_record_fqdns" {
     count                       = var.enable_acm_certificate ? 1 : 0
-                                    
+
     certificate_arn             = "var.certificate_arn"
     validation_record_fqdns     = ["var.validation_record_fqdns"]
 

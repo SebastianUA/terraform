@@ -15,8 +15,8 @@ variable "project" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -166,9 +166,8 @@ variable "tcp_health_check_request" {
     description = "Application data to send once the TCP connection has been established (default '')."
     default     = ""
 }
-            
+
 variable "tcp_health_check_response" {
     description = "The response that indicates health (default '')"
     default     = ""
 }
-

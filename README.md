@@ -4,11 +4,11 @@
 
 I have uploaded managing AWS via terraform. However, I would like to use other providers which terraform support in future.
 
-First of all, you should clone this repo to your local machine. I provided modules with simple examples.    
+First of all, you should clone this repo to your local machine. I provided modules with simple examples.
 
 ## Plan
 -------
-```terraform plan``` or ```terraform plan -var-file terraform.tfvars``` 
+```terraform plan``` or ```terraform plan -var-file terraform.tfvars```
 
 ## Apply
 --------

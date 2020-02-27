@@ -8,7 +8,7 @@ resource "aws_config_configuration_recorder" "config_configuration_recorder" {
     role_arn        = var.config_configuration_recorder_role_arn
 
     dynamic "recording_group" {
-        for_each = var.recording_group 
+        for_each = var.recording_group
         content {
             all_supported                   = lookup(recording_group.value, "all_supported", null)
             include_global_resource_types   = lookup(recording_group.value, "include_global_resource_types", null)

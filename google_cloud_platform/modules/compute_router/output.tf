@@ -44,4 +44,3 @@ output "google_compute_router_peer_ip_address" {
     description = "ip_address"
     value       = "${google_compute_router_peer.compute_router_peer.*.ip_address}"
 }
-

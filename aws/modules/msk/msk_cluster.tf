@@ -23,14 +23,14 @@ resource "aws_msk_cluster" "msk_cluster" {
         encryption_at_rest_kms_key_arn  = var.encryption_info_encryption_at_rest_kms_key_arn != "" ? var.encryption_info_encryption_at_rest_kms_key_arn : null
         encryption_in_transit {
             client_broker   = upper(var.encryption_in_transit_client_broker)
-            in_cluster      = var.encryption_in_transit_in_cluster 
+            in_cluster      = var.encryption_in_transit_in_cluster
         }
     }
 
     client_authentication {
         tls {
             certificate_authority_arns  = length(var.client_authentication_certificate_authority_arns) > 0 ? var.client_authentication_certificate_authority_arns : null
-        }    
+        }
     }
 
     dynamic "configuration_info" {
@@ -38,7 +38,7 @@ resource "aws_msk_cluster" "msk_cluster" {
         content {
             arn         = lookup(configuration_info.value, "arn", null)
             revision    = lookup(configuration_info.value, "revision", null)
-        }    
+        }
     }
 
     enhanced_monitoring = upper(var.enhanced_monitoring)

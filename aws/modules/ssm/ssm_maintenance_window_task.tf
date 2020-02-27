@@ -33,7 +33,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
             payload             = var.enable_lambda_parameters && var.lambda_parameters_payload != null ? var.lambda_parameters_payload : null
             qualifier           = var.enable_lambda_parameters && var.lambda_parameters_qualifier != null ? var.lambda_parameters_qualifier : null
         }
-        
+
         run_command_parameters {
             comment                 = var.enable_run_command_parameters && var.run_command_parameters_comment != null ? var.run_command_parameters_comment : null
             document_hash           = var.enable_run_command_parameters && var.run_command_parameters_document_hash != null ? upper(var.run_command_parameters_document_hash) : null

@@ -5,8 +5,8 @@ variable "name" {
 
 variable "location" {
   description = "The Google Cloud Platform location for the KeyRing. A full list of valid locations can be found by running gcloud kms locations list."
-  default     = "us-east1"    
-} 
+  default     = "us-east1"
+}
 
 variable "environment" {
     description = "Environment for service"

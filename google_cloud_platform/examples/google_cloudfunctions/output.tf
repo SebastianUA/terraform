@@ -17,4 +17,3 @@ output "cloudfunctions_function_https_id" {
     description = "ID"
     value       = "${module.google_cloudfunctions.google_cloudfunctions_function_https_id}"
 }
-

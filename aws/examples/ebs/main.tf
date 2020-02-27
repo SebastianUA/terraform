@@ -3,13 +3,13 @@ module "ebs" {
     name                            = "test"
     region                          = "us-west-2"
     environment                     = "PROD"
-                                    
+
     # AWS EBS volume
     enable_ebs_volume               = true
     ebs_volume_name                 = ""
     type                            = "gp2"
     size                            = 8
-    
+
     ebs_volume_encrypted            = false
     iops                            = 100
     snapshot_id                     = ""
@@ -20,9 +20,9 @@ module "ebs" {
     device_name                     = ""
     instance_id                     = ""
     volume_id                       = ""
-    
+
     force_detach                    = false
     skip_destroy                    = false
 
-    # 
+    #
 }

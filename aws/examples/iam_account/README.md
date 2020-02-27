@@ -42,7 +42,7 @@ module "iam_account" {
     require_uppercase_characters        = true
     require_symbols                     = true
     allow_users_to_change_password      = true
-    
+
     hard_expiry                         = null
     max_password_age                    = null
     password_reuse_prevention           = null
@@ -72,7 +72,7 @@ Module Input Variables
 - `hard_expiry` - (Optional) Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) (`default       = null`).
 - `max_password_age` - (Optional) The number of days that an user password is valid. (`default       = null`).
 - `password_reuse_prevention` - (Optional) The number of previous passwords that users are prevented from reusing. (`default       = null`).
- 
+
 
 Authors
 =======

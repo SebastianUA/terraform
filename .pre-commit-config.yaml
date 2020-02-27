@@ -1,3 +1,4 @@
+default_stages: [commit]
 repos:
 - repo: git://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0

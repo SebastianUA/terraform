@@ -42,7 +42,7 @@ resource "aws_opsworks_php_app_layer" "opsworks_php_app_layer" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
     description = "The region where to deploy this code (e.g. us-east-1)."
     default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -58,7 +58,7 @@ variable "enable_ecr_repository_policy" {
     default     = false
 }
 
-variable "repository" { 
+variable "repository" {
     description = "(Required) Name of the repository to apply the policy."
     default     = ""
 }

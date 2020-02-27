@@ -1,7 +1,7 @@
 # Work with newrelic nrql via terraform
 
 A terraform module for making newrelic nrql.
- 
+
 ## Usage
 --------
 
@@ -50,8 +50,8 @@ module "newrelic_nrql" {
     nrql_alert_condition_policy_id                      = "${element(module.newrelic_alert.alert_policy_id, 0)}"
 
     nrql_alert_condition_nrql_query                     = "SELECT count(*) FROM SyntheticCheck WHERE monitorId = '1'"
-    
-}                                                       
+
+}
 ```
 
 Module Input Variables
@@ -83,4 +83,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

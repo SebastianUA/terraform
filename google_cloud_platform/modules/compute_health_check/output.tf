@@ -24,6 +24,6 @@ output "ssl_name" {
 }
 
 output "ssl_self_link" {
-    description = "self_link of ssl HC"                     
+    description = "self_link of ssl HC"
     value       = "${google_compute_health_check.compute_ssl_health_check.*.self_link}"
 }

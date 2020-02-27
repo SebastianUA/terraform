@@ -71,7 +71,7 @@ variable "security_group_egress" {
 }
 
 #---------------------------------------------------
-# Security group rules 
+# Security group rules
 #---------------------------------------------------
 variable "security_group_id" {
   description = "The security group to apply this rule to."
@@ -92,7 +92,7 @@ variable "cidr_blocks" {
       #}
 }
 
-# ingress 
+# ingress
 variable "enable_sg_rule_ingress_ports" {
   description = "Enable SG rule with ingress ports usage"
   default     = false

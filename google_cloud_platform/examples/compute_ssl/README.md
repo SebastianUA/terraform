@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute ssl certificate and policy) via terraform
 
 A terraform module for making google compute ssl certificate and policy.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_ssl" {
     source                          = "../../modules/compute_ssl"

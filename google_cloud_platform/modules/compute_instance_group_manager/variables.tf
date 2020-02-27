@@ -48,7 +48,7 @@ variable "description" {
     default     = ""
 }
 
-variable "update_strategy" {            
+variable "update_strategy" {
     description = "(Optional, Default 'RESTART') If the instance_template resource is modified, a value of 'NONE' will prevent any of the managed instances from being restarted by Terraform. A value of 'RESTART' will restart all of the instances at once. 'ROLLING_UPDATE' is supported as [Beta feature]. A value of 'ROLLING_UPDATE' requires rolling_update_policy block to be set"
     default     = "RESTART"
 }

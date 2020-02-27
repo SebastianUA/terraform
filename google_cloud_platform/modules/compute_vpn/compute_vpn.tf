@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "google_compute_vpn_gateway" "compute_vpn_gateway" {
     count       = "${var.enable_compute_vpn_gateway ? 1 : 0}"
-            
+
     name        = "${lower(var.name)}-cv-gateway-${lower(var.environment)}"
     description = "${var.description}"
     project     = "${var.project}"
@@ -25,7 +25,7 @@ resource "google_compute_vpn_gateway" "compute_vpn_gateway" {
 # Create compute vpn tunnel
 #---------------------------------------------------
 resource "google_compute_vpn_tunnel" "compute_vpn_tunnel" {
-    count       = "${var.enable_compute_vpn_tunnel ? 1 : 0}"    
+    count       = "${var.enable_compute_vpn_tunnel ? 1 : 0}"
 
     name                    = "${lower(var.name)}-cv-tunnel-${lower(var.environment)}"
     description             = "${var.description}"
@@ -44,7 +44,7 @@ resource "google_compute_vpn_tunnel" "compute_vpn_tunnel" {
         name            = "${lower(var.name)}-cv-tunnel-${lower(var.environment)}"
         environment     = "${lower(var.environment)}"
         orchestration   = "${lower(var.orchestration)}"
-    }               
+    }
 
     timeouts {
         create  = "${var.timeouts_create}"

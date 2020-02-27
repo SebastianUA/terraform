@@ -13,7 +13,7 @@ module "newrelic_dashboard" {
     source                                              = "../../modules/newrelic_dashboard"
 
     dashboard                                           = "true"
-    
+
     dashboard_custom                                    = "true"
     dashboard_custom_widget                             = [
         {

@@ -32,7 +32,7 @@ output "hc_ssl_self_link" {
 }
 
 #
-# template instance 
+# template instance
 #
 output "template_instance_name" {
     description = "Name of compute instance template"

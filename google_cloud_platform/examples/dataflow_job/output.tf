@@ -12,4 +12,3 @@ output "dataflow_job_id" {
     description = "ID"
     value       = "${module.dataflow_job.google_dataflow_job_id}"
 }
-

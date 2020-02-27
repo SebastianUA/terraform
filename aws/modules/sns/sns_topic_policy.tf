@@ -11,7 +11,7 @@ resource "aws_sns_topic_policy" "sns_topic_policy" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                    
+
     depends_on  = [
         aws_sns_topic.sns_topic
     ]

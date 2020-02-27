@@ -39,7 +39,7 @@ module "cloudtrail" {
     s3_key_prefix					= "prefix"
 
     include_global_service_events	= false
-                        
+
 }
 
 # Logging All Lambda Function Invocations
@@ -59,7 +59,7 @@ module "cloudtrail_event_selector_lambda" {
 
     event_selector_data_resource_type			= "AWS::Lambda::Function"
     event_selector_data_resource_values			= ["arn:aws:lambda"]
-                        
+
 }
 
 # Logging All S3 Bucket Object Events
@@ -79,5 +79,5 @@ module "cloudtrail_event_selector_s3" {
 
     event_selector_data_resource_type			= "AWS::S3::Object"
     event_selector_data_resource_values			= ["arn:aws:s3:::"]
-                        
+
 }

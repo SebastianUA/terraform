@@ -6,7 +6,7 @@ resource "aws_opsworks_ganglia_layer" "opsworks_ganglia_layer" {
 
     name                        = var.opsworks_ganglia_layer_name != "" ? lower(var.opsworks_ganglia_layer_name) : "${lower(var.name)}-opsworks-ganglia-layer-${lower(var.environment)}"
     stack_id                    = var.opsworks_ganglia_layer_stack_id != "" && !var.enable_opsworks_stack ? var.opsworks_ganglia_layer_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
-    
+
     auto_assign_elastic_ips     = var.opsworks_ganglia_layer_auto_assign_elastic_ips
     auto_assign_public_ips      = var.opsworks_ganglia_layer_auto_assign_public_ips
     custom_instance_profile_arn = var.opsworks_ganglia_layer_custom_instance_profile_arn
@@ -46,7 +46,7 @@ resource "aws_opsworks_ganglia_layer" "opsworks_ganglia_layer" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

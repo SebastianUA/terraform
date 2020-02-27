@@ -37,4 +37,3 @@ output "needed_egress_firewall_self_link" {
     description = "Self link"
     value       = "${google_compute_firewall.compute_firewall_needed_egress.*.self_link}"
 }
-

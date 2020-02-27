@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_route53_record" "route53_record" {
     count                               = var.enable_route53_record ? 1 : 0
-                                                                            
+
     name                                = var.route53_record_name
     zone_id                             = !var.enable_route53_zone && var.parent_zone_id != "" ? var.parent_zone_id : element(concat(aws_route53_zone.route53_zone.*.id, [""]), 0)
     type                                = var.route53_record_type
@@ -52,9 +52,9 @@ resource "aws_route53_record" "route53_record" {
             evaluate_target_health = lookup(route53_record_alias.value, "evaluate_target_health",  null)
         }
     }
-    
+
     set_identifier                      = var.set_identifier != null ? lower(var.set_identifier) : null
-    
+
     lifecycle {
         create_before_destroy   = true
         ignore_changes          = []

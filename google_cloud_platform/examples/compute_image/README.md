@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute image) via terraform
 
 A terraform module for making google compute_image.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "compute_image" {
     source                              = "../../modules/compute_image"
     name                                = "TEST"

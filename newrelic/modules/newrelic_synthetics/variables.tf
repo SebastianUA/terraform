@@ -1,10 +1,10 @@
 #-----------------------------------------------------------
-# Global 
+# Global
 #-----------------------------------------------------------
 variable "name" {
     description = "The name for newrelic_alert resources"
     default     = "test"
-}   
+}
 
 variable "environment" {
     description = "environment"

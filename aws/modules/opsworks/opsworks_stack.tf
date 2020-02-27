@@ -12,7 +12,7 @@ resource "aws_opsworks_stack" "opsworks_stack" {
     configuration_manager_name          = var.opsworks_stack_configuration_manager_name
     configuration_manager_version       = var.opsworks_stack_configuration_manager_version
     agent_version                       = var.opsworks_stack_agent_version
-    
+
     dynamic "custom_cookbooks_source" {
         for_each = var.opsworks_stack_custom_cookbooks_source
         content {
@@ -26,7 +26,7 @@ resource "aws_opsworks_stack" "opsworks_stack" {
     }
 
     custom_json                         = var.opsworks_stack_custom_json
-    
+
     default_availability_zone           = var.opsworks_stack_default_availability_zone
     default_os                          = var.opsworks_stack_default_os
     default_root_device_type            = var.opsworks_stack_default_root_device_type
@@ -60,6 +60,6 @@ resource "aws_opsworks_stack" "opsworks_stack" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                          = []
 }

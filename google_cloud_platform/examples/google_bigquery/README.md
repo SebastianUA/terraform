@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (google bigquery) via terraform
 
 A terraform module for making google bigquery.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "google_bigquery" {
     source                              = "../../modules/google_bigquery"
     name                                = "TEST"
@@ -27,7 +27,7 @@ module "google_bigquery" {
     #
     #enable_bigquery_table               = true
     #dataset_id                          = "668"
-    
+
 }
 
 

@@ -20,7 +20,7 @@ module "elb" {
     security_groups             = []
     subnets                     = []
     availability_zones          = ["us-east-1a", "us-east-1b", "us-east-1c"]
-    
+
     access_logs                 = []
     listener = [
         {
@@ -46,10 +46,10 @@ module "elb" {
             timeout             = 5
         }
     ]
-    
-    # Enable 
+
+    # Enable
     enable_lb_cookie_stickiness_policy_http  = true
-    
-    # Enable 
+
+    # Enable
     enable_app_cookie_stickiness_policy_http = true
 }

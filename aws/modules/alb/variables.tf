@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -115,7 +115,7 @@ variable "ip_address_type" {
     default     = "ipv4"
 }
 
-variable "timeouts_create" { 
+variable "timeouts_create" {
     description = "Used for Creating LB. Default = 10mins"
     default     = "10m"
 }
@@ -457,7 +457,7 @@ variable "authenticate_cognito_user_pool_client_id" {
 variable "authenticate_cognito_user_pool_domain" {
   description   = "description"
   default       = "(Required) The domain prefix or fully-qualified domain name of the Cognito user pool."
-} 
+}
 
 variable "authenticate_oidc_authentication_request_extra_params" {
   description   = "(Optional) The query parameters to include in the redirect request to the authorization endpoint. Max: 10."

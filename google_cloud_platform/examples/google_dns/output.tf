@@ -22,4 +22,3 @@ output "google_dns_record_set_id" {
     description = "ID"
     value       = "${module.google_dns.google_dns_record_set_id}"
 }
-

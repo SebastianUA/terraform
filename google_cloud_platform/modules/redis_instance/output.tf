@@ -17,4 +17,3 @@ output "redis_instance_current_location_id" {
     description = "current_location_id"
     value       = "${google_redis_instance.redis_instance.*.current_location_id}"
 }
-

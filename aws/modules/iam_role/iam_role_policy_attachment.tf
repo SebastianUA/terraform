@@ -6,7 +6,7 @@ resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment" {
 
     role                = var.iam_role_policy_role != "" ? var.iam_role_policy_role : element(concat(aws_iam_role.iam_role.*.name, [""]), 0)
     policy_arn          = var.policy_arns[count.index]
-    
+
     depends_on          = [
         aws_iam_role.iam_role
     ]

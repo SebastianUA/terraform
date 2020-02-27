@@ -43,7 +43,7 @@ output "tls_self_signed_cert_validity_end_time" {
     description = "The time until which the certificate is invalid, as an RFC3339 timestamp."
     value       = element(concat(tls_self_signed_cert.self_signed_cert.*.validity_end_time, [""]), 0)
 }
- 
+
 #-----------------------------------------------------------
 # tls_locally_signed_cert
 #-----------------------------------------------------------

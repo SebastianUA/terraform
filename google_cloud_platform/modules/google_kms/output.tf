@@ -27,4 +27,3 @@ output "kms_crypto_key_iam_member_etag" {
     description = "etag"
     value       = "${google_kms_crypto_key_iam_member.kms_crypto_key_iam_member.*.etag}"
 }
-

@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -264,7 +264,7 @@ variable "autoscaling_notification_topic_arn" {
 variable "enable_autoscaling_policy" {
     description = "Enabling autoscaling schedule"
     default     = false
-} 
+}
 
 variable "asg_size_scale" {
     description = "Size of instances to making autoscaling(up/down)"
@@ -282,7 +282,7 @@ variable "adjustment_type" {
 variable "enable_autoscaling_schedule" {
     description = "Enabling autoscaling schedule"
     default     = false
-} 
+}
 
 variable "asg_recurrence_scale_up" {
     description = " Cronjob time for scale-up"
@@ -292,7 +292,7 @@ variable "asg_recurrence_scale_up" {
 variable "asg_recurrence_scale_down" {
     description = " Cronjob time for scale-down"
     default     = "0 17 * * *"
-} 
+}
 
 #-----------------------------------------------------------
 # Launch AWS configuration

@@ -1,7 +1,7 @@
 # Work with newrelic synthetics via terraform
 
 A terraform module for making newrelic synthetics.
- 
+
 ## Usage
 --------
 
@@ -49,8 +49,8 @@ module "newrelic_synthetics" {
     synthetics_alert_condition                          = "true"
     synthetics_alert_condition_policy_id                = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     synthetics_alert_condition_name                     = "test"
-    synthetics_monitor_name                             = "linux-notes" 
-}                                                       
+    synthetics_monitor_name                             = "linux-notes"
+}
 ```
 
 Module Input Variables
@@ -76,4 +76,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

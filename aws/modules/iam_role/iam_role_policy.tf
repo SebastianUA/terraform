@@ -9,7 +9,7 @@ resource "aws_iam_role_policy" "iam_role_policy" {
 
     role            = var.iam_role_policy_role != "" && !var.enable_iam_role ? var.iam_role_policy_role : element(concat(aws_iam_role.iam_role.*.id, [""]), 0)
     policy          = var.iam_role_policy
-    
+
     depends_on      = [
         aws_iam_role.iam_role
     ]

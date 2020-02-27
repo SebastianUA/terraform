@@ -47,7 +47,7 @@ variable "alarm_name" {
 variable "comparison_operator" {
   description = "The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold."
   default     = "GreaterThanOrEqualToThreshold"
-} 
+}
 
 variable "evaluation_periods" {
     description = "The number of periods over which data is compared to the specified threshold."
@@ -62,7 +62,7 @@ variable "metric_name" {
 variable "namespace" {
     description = "The namespace for the alarm's associated metric (ex: AWS/EC2)"
     default     = null
-}    
+}
 
 variable "period" {
     description = "The period in seconds over which the specified statistic is applied."
@@ -147,7 +147,7 @@ variable "enable_cw_event_permission" {
   default       = false
 }
 
-variable "cw_event_permission_principal" { 
+variable "cw_event_permission_principal" {
     description = "The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify * to permit any account to put events to your default event bus."
     default     = ""
 }
@@ -260,12 +260,12 @@ variable "metric_transformation_namespace" {
     default     = "NameSpace"
 }
 
-variable "metric_transformation_value" {                                                                                    
+variable "metric_transformation_value" {
     description = "What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event."
     default     = 1
 }
 
-variable "metric_transformation_default_value" {                                                                                    
+variable "metric_transformation_default_value" {
     description = "What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event."
     default     = null
 }
@@ -283,7 +283,7 @@ variable "enable_cw_dashboard" {
   default       = false
 }
 
-variable "cw_dashboard_name" { 
+variable "cw_dashboard_name" {
     description = "The name of the dashboard."
     default     = ""
 }

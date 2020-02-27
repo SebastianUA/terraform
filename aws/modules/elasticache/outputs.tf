@@ -13,7 +13,7 @@ output "elasticache_parameter_group_names" {
     value       = element(concat(aws_elasticache_parameter_group.elasticache_parameter_group.*.name, [""]), 0)
 }
 
-output "elasticache_cluster_ids" {  
+output "elasticache_cluster_ids" {
     description = ""
     value       = element(concat(aws_elasticache_cluster.elasticache_cluster.*.id, [""]), 0)
 }

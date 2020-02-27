@@ -38,7 +38,7 @@ module "ecs_task_definition" {
     environment                                         = "nonprod"
     region                                              = "us-west-2"
     name                                                = "jenkins-slave"
-   
+
     enable_ecs_task_definition							= true
     family 											    = "jenkins-slave-service-nonprod"
     container_definitions								= file("./additional_files/ecs/container_definitions.json")
@@ -80,17 +80,17 @@ module "ecs_service" {
     task_definition					    = module.ecs_task_definition.ecs_task_definition_arn
     desired_count						= 3
     iam_role							= ""
-    
+
     launch_type						    = "EC2"
     platform_version					= "LATEST"
     scheduling_strategy				    = "REPLICA"
-   
+
     deployment_controller               = [
         {
             type         = "ECS"
         },
     ]
-   
+
     load_balancer                       = [
         {
             target_group_arn    = "alb"
@@ -104,7 +104,7 @@ module "ecs_service" {
             field   = "cpu"
         },
     ]
-    
+
     placement_constraints               = [
         {
             type         = "memberOf"

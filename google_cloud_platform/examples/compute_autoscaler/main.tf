@@ -84,7 +84,7 @@ module "compute_instance_group_manager" {
     target_pools                        = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
     #auto_healing_policies_health_check  = "${element(module.compute_health_check.http_self_link, 0)}"
     target_size                         = 0
-} 
+}
 
 module "compute_autoscaler" {
     source                              = "../../modules/compute_autoscaler"
@@ -94,6 +94,3 @@ module "compute_autoscaler" {
     #target                              = "${element(module.compute_instance_group_manager.group_manager_self_link, 0)}"
     #target                              = "https://www.googleapis.com/compute/v1/projects/terraform-2018/zones/us-east1-b/instanceGroupManagers/test-ce-gm-stage"
 }
-
-
-

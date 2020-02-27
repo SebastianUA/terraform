@@ -3,13 +3,13 @@
 #---------------------------------------------------
 resource "google_container_cluster" "container_cluster_zone" {
     count                               = "${var.enable_container_cluster && length(var.zone) >0 && var.region =="" ? 1 : 0}"
-                                
+
     name                                = "${lower(var.name)}-cc-${lower(var.environment)}"
     description                         = "${var.description}"
     project                             = "${var.project}"
     zone                                = "${var.zone}"
     initial_node_count                  = "${var.initial_node_count}"
-                                
+
     additional_zones                    = ["${var.additional_zones}"]
     private_cluster                     = "${var.private_cluster}"
     cluster_ipv4_cidr                   = "${var.cluster_ipv4_cidr}"
@@ -17,18 +17,18 @@ resource "google_container_cluster" "container_cluster_zone" {
     enable_legacy_abac                  = "${var.enable_legacy_abac}"
     network                             = "${var.network}"
     subnetwork                          = "${var.subnetwork}"
-    
+
     master_authorized_networks_config   = ["${var.master_authorized_networks_config}"]
     master_ipv4_cidr_block              = "${var.master_ipv4_cidr_block}"
     min_master_version                  = "${var.min_master_version}"
-    
+
     logging_service                     = "${var.logging_service}"
     monitoring_service                  = "${var.monitoring_service}"
-        
+
     node_pool                           = ["${var.node_pool}"]
     node_version                        = "${var.node_version}"
     remove_default_node_pool            = "${var.remove_default_node_pool}"
-   
+
     master_auth {
         username = "${var.master_auth_username}"
         password = "${var.master_auth_password}"
@@ -36,7 +36,7 @@ resource "google_container_cluster" "container_cluster_zone" {
             issue_client_certificate = "${var.issue_client_certificate}"
         }
     }
-    
+
     node_config {
         disk_size_gb        = "${var.node_config_disk_size_gb}"
         image_type          = "${var.node_config_image_type}"
@@ -56,7 +56,7 @@ resource "google_container_cluster" "container_cluster_zone" {
 
         guest_accelerator {
             count   = "${var.node_config_guest_accelerator_count}"
-            type    = "${var.node_config_guest_accelerator_type}"    
+            type    = "${var.node_config_guest_accelerator_type}"
         }
 
         oauth_scopes    = ["${var.node_config_oauth_scopes}"]
@@ -67,7 +67,7 @@ resource "google_container_cluster" "container_cluster_zone" {
             environment         = "${lower(var.environment)}"
             orchestration       = "${lower(var.orchestration)}"
         }
-        
+
         tags = [
             "${lower(var.name)}",
             "${lower(var.environment)}",
@@ -124,13 +124,13 @@ resource "google_container_cluster" "container_cluster_zone" {
 
 resource "google_container_cluster" "container_cluster_region" {
     count                               = "${var.enable_container_cluster && length(var.region) >0 && var.zone =="" ? 1 : 0}"
-                                
+
     name                                = "${lower(var.name)}-cc-${lower(var.environment)}"
     description                         = "${var.description}"
     project                             = "${var.project}"
     region                              = "${var.region}"
     initial_node_count                  = "${var.initial_node_count}"
-                                
+
     additional_zones                    = ["${var.additional_zones}"]
     private_cluster                     = "${var.private_cluster}"
     cluster_ipv4_cidr                   = "${var.cluster_ipv4_cidr}"
@@ -138,18 +138,18 @@ resource "google_container_cluster" "container_cluster_region" {
     enable_legacy_abac                  = "${var.enable_legacy_abac}"
     network                             = "${var.network}"
     subnetwork                          = "${var.subnetwork}"
-    
+
     master_authorized_networks_config   = ["${var.master_authorized_networks_config}"]
     master_ipv4_cidr_block              = "${var.master_ipv4_cidr_block}"
     min_master_version                  = "${var.min_master_version}"
-    
+
     logging_service                     = "${var.logging_service}"
     monitoring_service                  = "${var.monitoring_service}"
-        
+
     node_pool                           = ["${var.node_pool}"]
     node_version                        = "${var.node_version}"
     remove_default_node_pool            = "${var.remove_default_node_pool}"
-   
+
     master_auth {
         username = "${var.master_auth_username}"
         password = "${var.master_auth_password}"
@@ -157,7 +157,7 @@ resource "google_container_cluster" "container_cluster_region" {
             issue_client_certificate = "${var.issue_client_certificate}"
         }
     }
-    
+
     node_config {
         disk_size_gb        = "${var.node_config_disk_size_gb}"
         image_type          = "${var.node_config_image_type}"
@@ -167,7 +167,7 @@ resource "google_container_cluster" "container_cluster_region" {
         preemptible         = "${var.node_config_preemptible}"
         service_account     = "${var.node_config_service_account}"
         taint               = ["${var.node_config_taint}"]
-    
+
         metadata {
             ssh-keys = "${var.ssh_user}:${file("${var.public_key_path}")}"
         }
@@ -177,7 +177,7 @@ resource "google_container_cluster" "container_cluster_region" {
 
         guest_accelerator {
             count   = "${var.node_config_guest_accelerator_count}"
-            type    = "${var.node_config_guest_accelerator_type}"    
+            type    = "${var.node_config_guest_accelerator_type}"
         }
 
         oauth_scopes    = ["${var.node_config_oauth_scopes}"]
@@ -188,7 +188,7 @@ resource "google_container_cluster" "container_cluster_region" {
             environment         = "${lower(var.environment)}"
             orchestration       = "${lower(var.orchestration)}"
         }
-        
+
         tags = [
             "${lower(var.name)}",
             "${lower(var.environment)}",
@@ -246,8 +246,8 @@ resource "google_container_cluster" "container_cluster_region" {
 # Create google container node pool
 #---------------------------------------------------
 resource "google_container_node_pool" "container_node_pool_zone" {
-    count               = "${var.enable_container_node_pool && length(var.zone) >0 && var.region =="" ? 1 : 0}" 
-                  
+    count               = "${var.enable_container_node_pool && length(var.zone) >0 && var.region =="" ? 1 : 0}"
+
     name                = "${lower(var.name)}-cn-pool-${lower(var.environment)}"
     zone                = "${var.zone}"
     project             = "${var.project}"
@@ -255,7 +255,7 @@ resource "google_container_node_pool" "container_node_pool_zone" {
     cluster             = "${var.container_cluster_name}"
     node_count          = "${var.node_count}"
     #initial_node_count  = "${var.initial_node_count}"
-    
+
     node_config {
         disk_size_gb        = "${var.node_config_disk_size_gb}"
         image_type          = "${var.node_config_image_type}"
@@ -299,7 +299,7 @@ resource "google_container_node_pool" "container_node_pool_zone" {
         max_node_count  = "${var.autoscaling_max_node_count}"
     }
 
-    management {    
+    management {
         auto_repair     = "${var.management_auto_repair}"
         auto_upgrade    = "${var.management_auto_upgrade}"
     }
@@ -372,4 +372,3 @@ resource "google_container_node_pool" "container_node_pool_region" {
         create_before_destroy = true
     }
 }
-

@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -24,7 +24,7 @@ variable "orchestration" {
 variable "createdby" {
     description = "Created by"
     default     = "Vitaliy Natarov"
-}    
+}
 
 #-----------------------------------------------------------
 # AWS EKS
@@ -44,7 +44,7 @@ variable "eks_role_arn" {
     default     = ""
 }
 
-variable "eks_enabled_cluster_log_types" {  
+variable "eks_enabled_cluster_log_types" {
     description = "(Optional) A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging"
     type        = "list"
     default     = []

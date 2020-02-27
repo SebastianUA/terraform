@@ -17,7 +17,7 @@ output "compute_vpn_gateway_id" {
 }
 #
 # Tunnel
-#   
+#
 output "compute_vpn_tunnel_name" {
     description = "Name"
     value       = "${module.compute_vpn_tunnel.google_compute_vpn_tunnel_name}"
@@ -37,4 +37,3 @@ output "compute_vpn_tunnel_shared_secret_hash" {
     description = "Hash of the shared secret."
     value       = "${module.compute_vpn_tunnel.google_compute_vpn_tunnel_shared_secret_hash}"
 }
-

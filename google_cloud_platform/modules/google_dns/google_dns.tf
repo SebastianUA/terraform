@@ -27,11 +27,11 @@ resource "google_dns_record_set" "dns_record_set" {
     ttl             = "${var.ttl}"
 
     managed_zone    = "${var.managed_zone}"
-    
+
     rrdatas         = ["${var.rrdatas}"]
 
     lifecycle {
         ignore_changes = []
         create_before_destroy = true
     }
-} 
+}

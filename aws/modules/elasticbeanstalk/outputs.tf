@@ -15,7 +15,7 @@ output "elastic_beanstalk_application_arn" {
 # EB ENV
 #-----------------------------------------------------------------
 output "elastic_beanstalk_environment_id" {
-    description = "ID of the Elastic Beanstalk Environment."    
+    description = "ID of the Elastic Beanstalk Environment."
     value       = element(concat(aws_elastic_beanstalk_environment.elastic_beanstalk_environment.*.id, [""]), 0)
 }
 

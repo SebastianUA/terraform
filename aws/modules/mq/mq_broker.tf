@@ -3,14 +3,14 @@
 #---------------------------------------------------
 resource "aws_mq_broker" "mq_broker" {
     count                           = var.enable_mq_broker ? 1 : 0
-  
+
     broker_name                     = var.broker_name != "" ? var.broker_name : "${lower(var.name)}-mq-broker-${lower(var.environment)}"
     engine_type                     = var.engine_type
     engine_version                  = var.engine_version
     host_instance_type              = var.host_instance_type
     security_groups                 = var.security_group_ids
     subnet_ids                      = var.subnet_ids
-    
+
     apply_immediately               = var.apply_immediately
     auto_minor_version_upgrade      = var.auto_minor_version_upgrade
     deployment_mode                 = var.deployment_mode

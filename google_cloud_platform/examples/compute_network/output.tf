@@ -1,6 +1,6 @@
 #
 # Network
-# 
+#
 output "compute_network_name" {
     description = "Name of google compute network"
     value       = "${module.compute_network.google_compute_network_name}"
@@ -17,7 +17,7 @@ output "google_compute_network_gateway_ipv4" {
 }
 #
 # Network peering
-#   
+#
 output "compute_network_peering_name" {
     description = "Name"
     value       = "${module.compute_network.google_compute_network_peering_name}"
@@ -83,4 +83,3 @@ output "compute_subnetwork_iam_member_etag" {
     description = ""
     value       = "${module.compute_subnetwork_iam_member.google_compute_subnetwork_iam_member_etag}"
 }
-

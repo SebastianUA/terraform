@@ -8,9 +8,9 @@ resource "aws_lb" "nlb" {
     name_prefix                         = var.name_prefix != "" && lower(var.nlb_name) == "" ? var.name_prefix : null
     subnets                             = var.subnets
     internal                            = var.lb_internal
-                        
+
     enable_deletion_protection          = var.enable_deletion_protection
-    enable_cross_zone_load_balancing    = var.enable_cross_zone_load_balancing  
+    enable_cross_zone_load_balancing    = var.enable_cross_zone_load_balancing
     load_balancer_type                  = var.load_balancer_type
     idle_timeout                        = var.idle_timeout
     ip_address_type                     = var.ip_address_type
@@ -31,10 +31,10 @@ resource "aws_lb" "nlb" {
             allocation_id   = lookup(subnet_mapping.value, "allocation_id",  null)
         }
     }
-    
+
     timeouts {
         create  = var.timeouts_create
-        update  = var.timeouts_update   
+        update  = var.timeouts_update
         delete  = var.timeouts_delete
     }
 

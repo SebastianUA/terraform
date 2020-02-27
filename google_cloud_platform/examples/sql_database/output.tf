@@ -84,4 +84,3 @@ output "sql_user_name" {
     description = "User"
     value       = "${module.sql_database.sql_user_name}"
 }
-

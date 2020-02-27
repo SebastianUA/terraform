@@ -1,9 +1,9 @@
 #---------------------------------------------------
-# Create tls self signed cert 
+# Create tls self signed cert
 #---------------------------------------------------
 resource "tls_self_signed_cert" "self_signed_cert" {
     count                   = var.enable_self_signed_cert ? 1 : 0
-                        
+
     key_algorithm           = upper(var.tls_self_signed_cert_key_algorithm)
     private_key_pem         = var.tls_self_signed_cert_private_key_pem
     validity_period_hours   = var.tls_self_signed_cert_validity_period_hours

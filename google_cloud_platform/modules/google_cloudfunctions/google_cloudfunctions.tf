@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "google_cloudfunctions_function" "cloudfunctions_function_http" {
     count                   = "${var.trigger_http ? 1 : 0}"
-  
+
     name                    = "${lower(var.name)}-cf-function-${lower(var.environment)}"
     description             = "${var.description}"
     project                 = "${var.project}"
@@ -16,7 +16,7 @@ resource "google_cloudfunctions_function" "cloudfunctions_function_http" {
     timeout                 = "${var.timeout}"
     entry_point             = "${var.entry_point}"
     trigger_http            = "${var.trigger_http}"
-    
+
     labels {
         name            = "${lower(var.name)}-cf-function-${lower(var.environment)}"
         environment     = "${lower(var.environment)}"
@@ -48,7 +48,7 @@ resource "google_cloudfunctions_function" "cloudfunctions_function_https" {
     trigger_bucket          = "${var.trigger_bucket}"
     trigger_topic           = "${var.trigger_topic}"
     retry_on_failure        = "${var.retry_on_failure}"
-    
+
     labels {
         name            = "${lower(var.name)}-cf-function-${lower(var.environment)}"
         environment     = "${lower(var.environment)}"
@@ -60,4 +60,3 @@ resource "google_cloudfunctions_function" "cloudfunctions_function_https" {
         create_before_destroy = true
     }
 }
-

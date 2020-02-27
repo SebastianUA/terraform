@@ -38,7 +38,7 @@ module "efs" {
             transition_to_ia    = "AFTER_90_DAYS"
         },
     ]
-    
+
     enable_efs_mount_target = true
     subnet_ids              = ["subnet-0e2b323b731655057", "subnet-0ffa47878036f1641", "subnet-096406cfdf907ee11"]
     security_groups         = ["sg-07b62c0d0ea37056d"]

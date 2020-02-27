@@ -437,7 +437,7 @@ variable "db_instance_db_port" {
 }
 
 variable "default_ports" {
-    description = "Default database ports"  
+    description = "Default database ports"
     default     = {
         mysql             = "3306"
         aurora-mysql      = "3306"
@@ -454,11 +454,11 @@ variable "db_group_family" {
         aurora-mysql      = "aurora-mysql5.7"
         postgres          = "postgres9.6"
         aurora-postgres   = "aurora-postgres9.6"
-        oracle            = "oracle-ee-12.1"   
-        aurora            = "aurora5.6"  
+        oracle            = "oracle-ee-12.1"
+        aurora            = "aurora5.6"
     }
 }
-    
+
 variable "db_instance_character_set_name" {
     description = "The character set name to use for DB encoding in Oracle instances. This can't be changed. For ex: utf8"
     default     = ""

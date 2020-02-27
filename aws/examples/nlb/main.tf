@@ -14,7 +14,7 @@ provider "aws" {
 module "nlb" {
     source                              = "../../modules/nlb"
     region                              = "us-east-1"
-   
+
     # NLB
     enable_nlb                          = true
     nlb_name                            = "Network-Load-Balancer"
@@ -51,5 +51,5 @@ module "nlb" {
     enable_nlb_listener2                = false
     nlb_listener2_port                  = 443
     nlb_listener2_protocol              = "TCP"
-        
+
 }

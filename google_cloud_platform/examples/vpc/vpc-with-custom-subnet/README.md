@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (vpc-with-custom-subnet) via terraform
 
 A terraform module for making google vpc-with-custom-subnet.
- 
+
 ## Usage
 --------
 

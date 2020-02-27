@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -24,7 +24,7 @@ variable "orchestration" {
 variable "createdby" {
     description = "Created by"
     default     = "Vitaliy Natarov"
-}    
+}
 
 variable "tags" {
     description = "A list of tag blocks. Each element should have keys named key, value, etc."
@@ -67,7 +67,7 @@ variable "route53_zone_vpc" {
 }
 
 #---------------------------------------------------
-# Route53 record 
+# Route53 record
 #---------------------------------------------------
 variable "enable_route53_record" {
     description = "Enable route53 record usage"
@@ -170,7 +170,7 @@ variable "route53_health_check_port" {
 variable "route53_health_check_type" {
     description = "(Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC."
     default     = "HTTP"
-}  
+}
 
 variable "route53_health_check_resource_path" {
     description = " Resource path for http route53 health check"

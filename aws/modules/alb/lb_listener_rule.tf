@@ -68,7 +68,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_redirect" {
 # Fixed-response action
 resource "aws_lb_listener_rule" "lb_listener_rule_fixed_response" {
     count               = var.enable_lb_listener_rule && var.lb_listener_rule_fixed_response ? 1 : 0
-  
+
     listener_arn        = var.listener_arn
 
     action {
@@ -100,7 +100,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_fixed_response" {
 # Authenticate-cognito Action
 resource "aws_lb_listener_rule" "lb_listener_rule_cognito" {
     count               = var.enable_lb_listener_rule && var.enable_lb_listener_rule_cognito ? 1 : 0
-  
+
     listener_arn        = var.listener_arn
 
     action {

@@ -26,7 +26,7 @@ module "iam_group" {
     name                                    = "TEST-iam-group"
     environment                             = "PROD"
 
-    # Using IAM group 
+    # Using IAM group
     enable_iam_group                        = true
     iam_group_name                          = ""
     iam_group_path                          = "/"
@@ -36,10 +36,10 @@ module "iam_group" {
     iam_group_policy_name                   = "test-policy"
     iam_group_policy                        = file("additional_files/policy.json")
 
-    # Using IAM group policy attachment 
+    # Using IAM group policy attachment
     #enable_iam_group_policy_attachment      = true
     #iam_group_policy_attachment_policy_arn  = ""
-    
+
     # Using IAM group membership
     enable_iam_group_membership             = true
     iam_group_membership_name               = ""
@@ -67,7 +67,7 @@ Module Input Variables
 - `enable_iam_group_membership` - Enable IAM group membership usage (`default       = false`).
 - `iam_group_membership_name` - The name to identify the Group Membership (`default       = ""`).
 - `iam_group_membership_users` - (Required) A list of IAM User names to associate with the Group (`default       = []`).
- 
+
 
 Authors
 =======

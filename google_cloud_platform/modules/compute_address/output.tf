@@ -37,4 +37,3 @@ output "google_compute_global_address_address" {
     description = "The IP of the created resource."
     value       = "${google_compute_global_address.compute_global_address.*.address}"
 }
-

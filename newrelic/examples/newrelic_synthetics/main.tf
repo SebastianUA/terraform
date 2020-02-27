@@ -39,5 +39,5 @@ module "newrelic_synthetics" {
     synthetics_alert_condition                          = "true"
     synthetics_alert_condition_policy_id                = "${element(module.newrelic_alert.alert_policy_id, 0)}"
     synthetics_alert_condition_name                     = "test"
-    synthetics_monitor_name                             = "linux-notes" 
-}                                                       
+    synthetics_monitor_name                             = "linux-notes"
+}

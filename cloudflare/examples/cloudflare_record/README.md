@@ -1,7 +1,7 @@
 # Work with cloudflare records via terraform
 
 A terraform module for making cloudflare records.
- 
+
 ## Usage
 --------
 
@@ -45,4 +45,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

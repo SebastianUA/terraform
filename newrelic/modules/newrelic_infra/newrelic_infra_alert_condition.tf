@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "newrelic_infra_alert_condition" "infra_alert_condition" {
     count                   = "${var.infra_alert_condition && !var.infra_alert_condition_with_warning ? 1 : 0}"
-            
+
     policy_id               = "${var.infra_alert_condition_policy_id}"
     name                    = "${var.infra_alert_condition_name !="" ? "${lower(var.infra_alert_condition_name)}" : "${var.name}-infra-alert-condition-${lower(var.environment)}" }"
     type                    = "${var.infra_alert_condition_type}"
@@ -15,13 +15,13 @@ resource "newrelic_infra_alert_condition" "infra_alert_condition" {
     where                   = "${var.infra_alert_condition_where}"
     process_where           = "${var.infra_alert_condition_process_where}"
     integration_provider    = "${var.infra_alert_condition_integration_provider}"
-    
+
     critical {
         duration      = "${var.infra_alert_condition_critical_duration}"
         value         = "${var.infra_alert_condition_critical_value}"
         time_function = "${var.infra_alert_condition_critical_time_function}"
     }
-    
+
     lifecycle = {
         create_before_destroy   = true,
         ignore_changes          = []
@@ -67,4 +67,3 @@ resource "newrelic_infra_alert_condition" "infra_alert_condition_with_warning" {
 
     depends_on  = []
 }
-

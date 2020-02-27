@@ -76,7 +76,7 @@ output "s3_bucket_metric_id" {
 }
 
 #-----------------------------------------------------------
-# S3 bucket inventory 
+# S3 bucket inventory
 #-----------------------------------------------------------
 output "s3_bucket_inventory_id" {
     description = "ID of S3 bucket inventory"

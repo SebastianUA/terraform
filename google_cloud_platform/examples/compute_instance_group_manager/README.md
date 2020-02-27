@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute instance group manager) via terraform
 
 A terraform module for making google compute instance group manager.
- 
+
 ## Usage
 --------
 
@@ -125,7 +125,7 @@ Module Input Variables
 - `auto_healing_policies_health_check` - "The health check resource that signals autohealing." (`    default     = ""`)
 - `auto_healing_policies_initial_delay_sec` - "The number of seconds that the managed instance group waits before it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600." (`    default     = "300"`)
 - `enable_just_instance_template_usage` - "Enable instance template usage. Will be conflict with version. Default - true" (`    default     = "true"`)
-- `use_compute_instance_group_manager_default` - Enable compute group manager default. Default false. If true, will use with autoscaler (`default     = "false"`). 
+- `use_compute_instance_group_manager_default` - Enable compute group manager default. Default false. If true, will use with autoscaler (`default     = "false"`).
 
 Authors
 =======

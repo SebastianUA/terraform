@@ -61,9 +61,9 @@ module "vpc" {
 }
 module "eks" {
     source                              = "../../modules/eks"
-    name                                = "TEST-eks"    
+    name                                = "TEST-eks"
     environment                         = "NonProd"
-    
+
     eks_cluster_name                    = ""
     eks_role_arn                        = "${element(module.iam.iam_arn, 0)}" # <---- need verify!
     # enebling aws eks logs
@@ -74,7 +74,7 @@ module "eks" {
     # eks_vpc_config_subnet_ids           = ["${element(module.vpc.vpc-privatesubnet-ids, 0)}"]
     # SG
     # eks_vpc_config_security_group_ids = []
-    
+
 
 
 }

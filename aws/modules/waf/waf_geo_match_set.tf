@@ -18,6 +18,6 @@ resource "aws_waf_geo_match_set" "waf_geo_match_set" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on      = []
 }

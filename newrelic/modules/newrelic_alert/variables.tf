@@ -1,10 +1,10 @@
 #-----------------------------------------------------------
-# Global 
+# Global
 #-----------------------------------------------------------
 variable "name" {
     description = "The name for newrelic_alert resources"
     default     = "test"
-}   
+}
 
 variable "environment" {
     description = "environment"
@@ -225,7 +225,7 @@ variable "alert_channel_webhook_configuration_base_url" {
 
 variable "alert_channel_webhook_configuration_headers" {
     description = "Set headers"
-    #type        = "list" 
+    #type        = "list"
     #default     = ["headers-here"]
     default     = ""
 }
@@ -260,7 +260,7 @@ variable "alert_policy_incident_preference" {
     description = "(Optional) The rollup strategy for the policy. Options include: PER_POLICY, PER_CONDITION, or PER_CONDITION_AND_TARGET. The default is PER_POLICY."
     default     = "PER_POLICY"
 }
- 
+
 variable "alert_policy_simple_default" {
     description = "Enable newrelic_alert_policy_simple_default"
     default     = "false"

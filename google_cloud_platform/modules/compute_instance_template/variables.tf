@@ -5,8 +5,8 @@ variable "name" {
 
 variable "region" {
   description = "An instance template is a global resource that is not bound to a zone or a region. However, you can still specify some regional resources in an instance template, which restricts the template to the region where that resource resides. For example, a custom subnetwork resource is tied to a specific region. Defaults to the region of the Provider if no value is given."
-  default     = ""    
-} 
+  default     = ""
+}
 
 variable "project" {
     description = "The ID of the project in which the resource belongs. If it is not provided, the provider project is used."

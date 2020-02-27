@@ -49,4 +49,3 @@ output "compute_instance_with_attached_disk_external_ip_addresses" {
     description = "If the instance has an access config, either the given external ip (in the nat_ip field) or the ephemeral (generated) ip (if you didn't provide one)."
     value       = "${module.compute_instance.compute_instance_with_attached_disk_external_ip_addresses}"
 }
-

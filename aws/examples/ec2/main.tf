@@ -59,7 +59,7 @@ module "vpc" {
 
 module "ec2" {
     source                              = "../../modules/ec2"
-    name                                = "TEST-Machine"    
+    name                                = "TEST-Machine"
     region                              = "us-west-2"
 
     enable_instance                     = true

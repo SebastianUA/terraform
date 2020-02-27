@@ -241,7 +241,7 @@ variable "request_payer" {
 # }
 
 #-----------------------------------------------------------
-# S3 bucket policy 
+# S3 bucket policy
 #-----------------------------------------------------------
 variable "enable_s3_bucket_policy" {
     description = "Enable s3 bucket policy usage"
@@ -262,7 +262,7 @@ variable "s3_bucket_policy" {
 # S3 bucket object
 #-----------------------------------------------------------
 variable "enable_s3_bucket_object" {
-    description = "Enable s3 bucket object" 
+    description = "Enable s3 bucket object"
     default     = false
 }
 
@@ -391,7 +391,7 @@ variable "s3_bucket_object_object_lock_retain_until_date" {
 }
 
 #-----------------------------------------------------------
-# S3 bucket notification 
+# S3 bucket notification
 #-----------------------------------------------------------
 variable "enable_s3_bucket_notification" {
     description = "Enable s3 bucket notification usage"
@@ -419,7 +419,7 @@ variable "s3_bucket_notification_lambda_function" {
 }
 
 #-----------------------------------------------------------
-# S3 bucket metric 
+# S3 bucket metric
 #-----------------------------------------------------------
 variable "enable_s3_bucket_metric" {
   description   = "Enable S3 bucket metric usage"
@@ -447,7 +447,7 @@ variable "s3_bucket_metric_filter" {
 }
 
 #-----------------------------------------------------------
-# S3 bucket inventory 
+# S3 bucket inventory
 #-----------------------------------------------------------
 variable "enable_s3_bucket_inventory" {
   description   = "Enable S3 bucket inventory usage"

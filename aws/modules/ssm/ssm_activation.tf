@@ -10,7 +10,7 @@ resource "aws_ssm_activation" "ssm_activation" {
     expiration_date     = var.ssm_activation_expiration_date
     description         = var.ssm_activation_description
     registration_limit  = var.ssm_activation_registration_limit
-    
+
     tags = merge(
         {
             "Name"          = var.ssm_activation_name != "" ? lower(var.ssm_activation_name) : "${lower(var.name)}-activation-${lower(var.environment)}"

@@ -25,7 +25,7 @@ module "s3" {
 
     s3_bucket_versioning                    = []
     enable_lifecycle_rule                   = true
-    
+
     # Add policy to the bucket
     enable_s3_bucket_policy                 = false
 
@@ -59,9 +59,9 @@ module "athena" {
     athena_workgroup_name                       = ""
     athena_workgroup_encryption_option          = "SSE_KMS"
     athena_workgroup_kms_key_arn                = "${module.kms.kms_key_arn}"
-    
+
     enable_athena_named_query                   = true
     athena_named_query_name                     = ""
     athena_named_query_query                    = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
-                        
+
 }

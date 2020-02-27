@@ -2,7 +2,7 @@
 # Create S3 account public access block
 #---------------------------------------------------
 resource "aws_s3_account_public_access_block" "s3_account_public_access_block" {
-    count                   = var.enable_s3_account_public_access_block ? 1 : 0 
+    count                   = var.enable_s3_account_public_access_block ? 1 : 0
 
     account_id              = var.s3_account_public_access_block_account_id
     block_public_acls       = var.s3_account_public_access_block_block_public_acls

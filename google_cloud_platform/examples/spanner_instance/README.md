@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (spanner instance) via terraform
 
 A terraform module for making google spanner instance.
- 
+
 ## Usage
 --------
 
@@ -18,18 +18,18 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "spanner_instance" {
     source                              = "../../modules/spanner_instance"
     name                                = "TEST"
 
     num_nodes                           = 1
-    
+
     # spanner instance iam policy
     #enable_spanner_instance_iam_policy  = true
     #instance                            = "test-si-stage"
     #members                             = ["user:solo.metaliSebastian@gmail.com",]
-    #role                                = "roles/editor"    
+    #role                                = "roles/editor"
     #
     # spanner instance iam binding
     #enable_spanner_instance_iam_binding = true
@@ -37,7 +37,7 @@ module "spanner_instance" {
     #members                             = [
     #    "user:solo.metaliSebastian@gmail.com",
     #]
-    #role                                = "roles/editor"    
+    #role                                = "roles/editor"
     #
     # spanner instance iam member
     #enable_spanner_instance_iam_member  = true
@@ -77,7 +77,7 @@ module "spanner_instance" {
     #    "user:solo.metaliSebastian@gmail.com",
     #]
     #role                                = "roles/editor"
-} 
+}
 ```
 
 Module Input Variables

@@ -107,4 +107,3 @@ variable "interface" {
     description = "(Required) The name of the interface the BGP peer is associated with. Changing this forces a new peer to be created."
     default     = ""
 }
-

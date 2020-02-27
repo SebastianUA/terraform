@@ -62,4 +62,3 @@ output "google_compute_ssl_certificate_name_prefix_certificate_id" {
     description = "A unique ID for the certificate, assigned by GCE."
     value       = "${google_compute_ssl_certificate.compute_ssl_certificate_name_prefix.*.certificate_id}"
 }
-

@@ -5,14 +5,14 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     count                         = var.enable_cloudfront_distribution ? 1 : 0
 
     enabled                       = var.cloudfront_distribution_enabled
-    
+
     restrictions {
       geo_restriction {
         restriction_type  = var.geo_restriction_restriction_type
         locations         = var.geo_restriction_locations
       }
     }
-    
+
     viewer_certificate {
       cloudfront_default_certificate  = var.viewer_certificate_acm_certificate_arn == "" ? (var.viewer_certificate_cloudfront_default_certificate != null ? var.viewer_certificate_cloudfront_default_certificate : true) : false
       acm_certificate_arn             = var.viewer_certificate_acm_certificate_arn
@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
 
       forwarded_values {
         query_string              = var.default_cache_behavior_forwarded_values_query_string
-        
+
         cookies {
           forward           = var.default_cache_behavior_cookies_forward
           whitelisted_names = var.default_cache_behavior_cookies_whitelisted_names
@@ -77,7 +77,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
         origin_keepalive_timeout  = var.custom_origin_config_origin_keepalive_timeout
         origin_read_timeout       = var.custom_origin_config_origin_read_timeout
       }
-      
+
       s3_origin_config {
         origin_access_identity  = var.s3_origin_config_origin_access_identity
       }
@@ -88,7 +88,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     comment                         = var.cloudfront_distribution_comment
     is_ipv6_enabled                 = var.cloudfront_distribution_is_ipv6_enabled
     http_version                    = var.cloudfront_distribution_http_version
-    
+
     custom_error_response {
       error_code            = var.custom_error_response_error_code
 
@@ -103,7 +103,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
       include_cookies = var.logging_config_include_cookies
       prefix          = var.logging_config_prefix
     }
-    
+
     # Cache behavior with precedence 1
     ordered_cache_behavior {
       path_pattern     = var.ordered_cache_behavior_path_pattern
@@ -125,7 +125,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
       compress               = var.ordered_cache_behavior_compress
       viewer_protocol_policy = var.ordered_cache_behavior_viewer_protocol_policy
     }
-    
+
     origin_group {
       origin_id = var.origin_group_origin_id != "" ? lower(var.origin_group_origin_id) : "groupS3"
 

@@ -44,7 +44,7 @@ output "google_pubsub_subscription_name" {
 }
 
 output "google_pubsub_subscription_iam_policy_etag" {
-    description = "Etag"                                    
+    description = "Etag"
     value       = "${google_pubsub_subscription_iam_policy.pubsub_subscription_iam_policy.*.etag}"
 }
 

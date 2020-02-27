@@ -13,7 +13,7 @@ module "ecr" {
     name                            = "test"
     region                          = "us-west-2"
     environment                     = "dev"
-    
+
     enable_ecr_repository           = true
     # You could use custom name for ECR repo
     ecr_repository_name             = "test-ecr-repo"
@@ -21,7 +21,7 @@ module "ecr" {
 
     enable_ecr_repository_policy    = true
     policy_json_file                = file("additional_files/policy.json")
-    
+
     enable_ecr_lifecycle_policy     = true
     lifecycle_policy_json_file      = file("additional_files/lifecycle_policy.json")
 }
@@ -30,7 +30,7 @@ module "ecr" {
 Module Input Variables
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`)
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`) 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`)
 - `environment` - Environment for service (`default     = "STAGE"`)
 - `orchestration` - Type of orchestration (`default     = "Terraform"`)
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`)

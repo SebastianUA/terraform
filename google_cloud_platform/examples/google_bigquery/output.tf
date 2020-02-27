@@ -5,7 +5,7 @@ output "bigquery_dataset_dataset_id" {
     description = "dataset_idof google_bigquery_dataset"
     value       = "${module.google_bigquery.google_bigquery_dataset_dataset_id}"
 }
-    
+
 output "bigquery_dataset_id" {
     description = "ID"
     value       = "${module.google_bigquery.google_bigquery_dataset_id}"
@@ -63,4 +63,3 @@ output "bigquery_table_view_table_id" {
     description = "table_id"
     value       = "${module.google_bigquery.google_bigquery_table_view_table_id}"
 }
-

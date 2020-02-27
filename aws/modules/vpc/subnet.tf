@@ -3,7 +3,7 @@
 #---------------------------------------------------------------
 resource "aws_subnet" "private_subnets" {
     count                           = length(var.private_subnet_cidrs)
-    
+
     cidr_block                      = var.private_subnet_cidrs[count.index]
     vpc_id                          = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
     map_public_ip_on_launch         = false
@@ -12,7 +12,7 @@ resource "aws_subnet" "private_subnets" {
     availability_zone_id            = var.availability_zone_id
     ipv6_cidr_block                 = var.private_subnet_ipv6_cidrs != null ? var.private_subnet_ipv6_cidrs[count.index] : null
     assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
-    
+
     timeouts {
         create  = var.subnet_timeouts_create
         delete  = var.subnet_timeouts_delete
@@ -38,7 +38,7 @@ resource "aws_subnet" "private_subnets" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on                      = [
         aws_vpc.vpc
     ]
@@ -48,7 +48,7 @@ resource "aws_subnet" "private_subnets" {
 # Add AWS subnets (public)
 #---------------------------------------------------------------
 resource "aws_subnet" "public_subnets" {
-    count                           = length(var.public_subnet_cidrs)    
+    count                           = length(var.public_subnet_cidrs)
 
     cidr_block                      = var.public_subnet_cidrs[count.index]
     vpc_id                          = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
@@ -58,7 +58,7 @@ resource "aws_subnet" "public_subnets" {
     availability_zone_id            = var.availability_zone_id
     ipv6_cidr_block                 = var.public_subnet_ipv6_cidrs != null ? var.public_subnet_ipv6_cidrs[count.index] : null
     assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
-    
+
     timeouts {
         create  = var.subnet_timeouts_create
         delete  = var.subnet_timeouts_delete
@@ -84,7 +84,7 @@ resource "aws_subnet" "public_subnets" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on                      = [
         aws_vpc.vpc
     ]

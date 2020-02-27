@@ -20,7 +20,7 @@ resource "google_compute_instance_group_manager" "compute_instance_group_manager
         name    = "${var.named_port_name}"
         port    = "${var.named_port_port}"
     }
- 
+
     update_strategy         = "${var.update_strategy}"
     auto_healing_policies {
         health_check      = "${var.auto_healing_policies_health_check}"
@@ -34,7 +34,7 @@ resource "google_compute_instance_group_manager" "compute_instance_group_manager
         max_unavailable_fixed   = "${var.rolling_update_policy_max_unavailable_fixed}"
         #max_unavailable_percent = "${var.rolling_update_policy_max_unavailable_percent}"
         min_ready_sec           = "${var.rolling_update_policy_min_ready_sec}"
-    }   
+    }
 
     lifecycle {
         ignore_changes = []
@@ -75,7 +75,7 @@ resource "google_compute_instance_group_manager" "compute_instance_group_manager
 
     base_instance_name      = "${lower(var.base_instance_name)}-${lower(var.environment)}"
     wait_for_instances      = "${var.wait_for_instances}"
-    
+
     version {
         name                = "${lower(var.base_instance_name)}-${lower(var.environment)}"
         instance_template   = "${var.instance_template}"
@@ -93,7 +93,7 @@ resource "google_compute_instance_group_manager" "compute_instance_group_manager
 
     target_pools            = ["${var.target_pools}"]
     target_size             = "${var.target_size}"
-    
+
     named_port {
         name    = "${var.named_port_name}"
         port    = "${var.named_port_port}"

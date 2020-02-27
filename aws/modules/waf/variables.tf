@@ -315,7 +315,7 @@ variable "waf_regex_pattern_set_regex_pattern_strings" {
 }
 
 #---------------------------------------------------
-# AWS WAF size constraint set 
+# AWS WAF size constraint set
 #---------------------------------------------------
 variable "enable_waf_size_constraint_set" {
   description   = "Enable waf size constraint set usage"

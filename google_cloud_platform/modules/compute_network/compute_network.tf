@@ -2,10 +2,10 @@
 # Create compute network
 #---------------------------------------------------
 resource "google_compute_network" "compute_network" {
-    count                   = "${var.enable_compute_network ? 1 : 0}"    
+    count                   = "${var.enable_compute_network ? 1 : 0}"
 
     name                    = "${lower(var.name)}-cn-network-${lower(var.environment)}"
-    description             = "${var.description}" 
+    description             = "${var.description}"
     project                 = "${var.project}"
 
     auto_create_subnetworks = "${var.auto_create_subnetworks}"
@@ -20,7 +20,7 @@ resource "google_compute_network" "compute_network" {
 # Create compute network peering
 #---------------------------------------------------
 resource "google_compute_network_peering" "compute_network_peering" {
-    count               = "${var.enable_compute_network_peering ? 1 : 0}" 
+    count               = "${var.enable_compute_network_peering ? 1 : 0}"
 
     name                = "${lower(var.name)}-cn-peering-${lower(var.environment)}"
     network             = "${var.network}"
@@ -37,16 +37,16 @@ resource "google_compute_network_peering" "compute_network_peering" {
 #---------------------------------------------------
 resource "google_compute_subnetwork" "compute_subnetwork" {
     count                       = "${var.enable_compute_subnetwork && !var.enable_secondary_ip_range ? 1 :0}"
-                
+
     name                        = "${lower(var.name)}-subnetwork-${lower(var.environment)}"
     description                 = "${var.description}"
     project                     = "${var.project}"
     ip_cidr_range               = "${var.ip_cidr_range}"
     region                      = "${var.region}"
     network                     = "${var.network}"
-                        
+
     enable_flow_logs            = "${var.enable_flow_logs}"
-    private_ip_google_access    = "${var.private_ip_google_access}"    
+    private_ip_google_access    = "${var.private_ip_google_access}"
 
     timeouts {
         create  = "${var.timeouts_create}"
@@ -121,7 +121,7 @@ resource "google_compute_subnetwork_iam_policy" "compute_subnetwork_iam_policy" 
 #---------------------------------------------------
 resource "google_compute_subnetwork_iam_binding" "compute_subnetwork_iam_binding" {
     count       = "${var.enable_compute_subnetwork_iam_binding ? 1 : 0}"
-    
+
     project     = "${var.project}"
     region      = "${var.region}"
     subnetwork  = "${var.subnetwork}"

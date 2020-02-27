@@ -73,7 +73,7 @@ variable "path_rule_service" {
     default     = ""
 }
 
-variable "path_rule" { 
+variable "path_rule" {
     description = "Rules for path_rule"
     default     = []
 }

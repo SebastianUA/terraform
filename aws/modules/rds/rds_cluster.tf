@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_rds_cluster" "rds_cluster" {
     count                               = var.enable_rds_cluster ? 1 : 0
-    
+
     cluster_identifier                  = var.cluster_identifier != "" ? lower(var.cluster_identifier) : null
     cluster_identifier_prefix           = var.cluster_identifier_prefix != "" ? lower(var.cluster_identifier_prefix) : null
     global_cluster_identifier           = var.global_cluster_identifier != "" ? var.global_cluster_identifier : element(concat(aws_rds_global_cluster.rds_global_cluster.*.id, [""]), 0)
@@ -11,13 +11,13 @@ resource "aws_rds_cluster" "rds_cluster" {
     engine_version                      = var.engine_version
     engine_mode                         = var.engine_mode
     source_region                       = var.source_region != "" ? var.source_region : var.region
-    
+
     db_subnet_group_name                = var.db_subnet_group_name != "" && !var.enable_db_subnet_group ? var.db_subnet_group_name : element(aws_db_subnet_group.db_subnet_group.*.id, 0)
     db_cluster_parameter_group_name     = var.db_cluster_parameter_group_name != "" && !var.enable_rds_cluster_parameter_group ? var.db_cluster_parameter_group_name : element(concat(aws_rds_cluster_parameter_group.rds_cluster_parameter_group.*.id, [""]), 0)
     vpc_security_group_ids              = var.vpc_security_group_ids
     availability_zones                  = split(",", (lookup(var.availability_zones, var.region)))
     port                                = var.rds_cluster_port != null ? var.rds_cluster_port : lookup(var.default_ports, var.engine)
-  
+
     iam_roles                           = var.iam_roles
     iam_database_authentication_enabled = var.iam_database_authentication_enabled != null ? var.iam_database_authentication_enabled : null
 
@@ -28,10 +28,10 @@ resource "aws_rds_cluster" "rds_cluster" {
     backtrack_window                    = var.backtrack_window
     backup_retention_period             = var.backup_retention_period
     preferred_backup_window             = var.backup_window
-    
+
     storage_encrypted                   = var.storage_encrypted
     kms_key_id                          = var.kms_key_id
-    
+
     apply_immediately                   = var.apply_immediately
     deletion_protection                 = var.deletion_protection
     replication_source_identifier       = var.replication_source_identifier

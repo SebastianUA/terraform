@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 resource "aws_ssm_resource_data_sync" "ssm_resource_data_sync" {
     count           = var.enable_ssm_resource_data_sync ? 1 : 0
-    
+
     name            = var.ssm_resource_data_sync_name != "" ? lower(var.ssm_resource_data_sync_name) : "${lower(var.name)}-resource-data-sync-${lower(var.environment)}"
 
     s3_destination  {

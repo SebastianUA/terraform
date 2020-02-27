@@ -3,10 +3,10 @@
 #---------------------------------------------------
 resource "tls_cert_request" "cert_request" {
     count                   = var.enable_tls_cert_request ? 1 : 0
-    
+
     key_algorithm           = upper(var.tls_cert_request_key_algorithm)
     private_key_pem         = var.tls_cert_request_private_key_pem
-        
+
     subject {
         common_name         = var.tls_cert_request_subject_common_name
         organization        = var.tls_cert_request_subject_organization

@@ -3,11 +3,11 @@
 #---------------------------------------------------
 resource "aws_s3_bucket" "s3_bucket" {
     count               = var.enable_s3_bucket ? 1 : 0
-    
+
     bucket              = var.s3_bucket_name != null && var.s3_bucket_prefix == null ? lower(var.s3_bucket_name) : null
     bucket_prefix       = var.s3_bucket_prefix != null && var.s3_bucket_name == null ? lower(var.s3_bucket_prefix) : null
     region              = var.region
-    
+
     acl                 = var.s3_bucket_acl
     policy              = var.bucket_policy != "" && !var.enable_s3_bucket_policy ? var.bucket_policy : null
     force_destroy       = var.s3_bucket_force_destroy
@@ -104,7 +104,7 @@ resource "aws_s3_bucket" "s3_bucket" {
     #        priority                    = var.replication_configuration_priority
     #        prefix                      = var.replication_configuration_prefix
     #        status                      = var.replication_configuration_status
-    
+
     #        destination {
     #            bucket                      = var.replication_configuration_destination_bucket
     #            storage_class               = var.replication_configuration_destination_storage_class
@@ -112,13 +112,13 @@ resource "aws_s3_bucket" "s3_bucket" {
     #            access_control_translation  = var.replication_configuration_destination_access_control_translation
     #            account_id                  = var.replication_configuration_destination_account_id
     #        }
-    
+
     #        source_selection_criteria {
     #            sse_kms_encrypted_objects {
     #                enabled = var.sse_kms_encrypted_objects_enabled
     #            }
     #        }
-    
+
     #        filter {
     #            prefix  = var.replication_configuration_filter_prefix
     #            tags = merge(

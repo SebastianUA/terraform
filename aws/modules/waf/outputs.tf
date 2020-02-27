@@ -111,7 +111,7 @@ output "waf_regex_pattern_set_arn" {
 }
 
 #---------------------------------------------------
-# AWS WAF size constraint set 
+# AWS WAF size constraint set
 #---------------------------------------------------
 output "waf_size_constraint_set_id" {
     description = "The ID of the WAF Size Constraint Set."

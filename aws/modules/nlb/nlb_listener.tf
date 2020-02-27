@@ -10,7 +10,7 @@ resource "aws_lb_listener" "nlb_listener1" {
 
     default_action {
         target_group_arn    = var.nlb_listener1_default_action_target_group_arn != "" ? var.nlb_listener1_default_action_target_group_arn : element(aws_lb_target_group.nlb_target_group.*.arn, 0)
-        type                = var.nlb_listener1_default_action_type 
+        type                = var.nlb_listener1_default_action_type
     }
 
     #dynamic "default_action" {
@@ -41,7 +41,7 @@ resource "aws_lb_listener" "nlb_listener2" {
 
     default_action {
         target_group_arn    = var.nlb_listener2_default_action_target_group_arn != "" ? var.nlb_listener2_default_action_target_group_arn : element(aws_lb_target_group.nlb_target_group.*.arn, 0)
-        type                = var.nlb_listener2_default_action_type 
+        type                = var.nlb_listener2_default_action_type
     }
 
     #dynamic "default_action" {

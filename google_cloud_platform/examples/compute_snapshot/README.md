@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute snapshot) via terraform
 
 A terraform module for making google compute snapshot.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_snapshot" {
     source                          = "../../modules/compute_snapshot"

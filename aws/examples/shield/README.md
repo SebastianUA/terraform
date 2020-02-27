@@ -34,7 +34,7 @@ module "shield" {
     enable_shield_protection        = true
     shield_protection_name          = "my-first-shield-protection"
     shield_protection_resource_arn  = ""
-                        
+
 }
 ```
 

@@ -7,7 +7,7 @@ resource "newrelic_alert_channel" "alert_channel_campfire" {
 
     name    = "${var.alert_channel_campfire_name !="" ? var.alert_channel_campfire_name : "${lower(var.name)}-nr-channel-campfire-${lower(var.environment)}" }"
     type    = "campfire"
-    
+
     configuration = {
         room        = "${var.alert_channel_campfire_configuration_room}"
         subdomain   = "${var.alert_channel_campfire_configuration_subdomain}"
@@ -20,7 +20,7 @@ resource "newrelic_alert_channel" "alert_channel_campfire" {
     #}
 
     depends_on  = []
-    
+
 }
 
 #email
@@ -90,7 +90,7 @@ resource "newrelic_alert_channel" "alert_channel_pagerduty" {
 #slack
 resource "newrelic_alert_channel" "alert_channel_slack" {
     count   = "${var.alert_channel_slack && var.alert_channel ? 1 : 0}"
-        
+
     name    = "${var.alert_channel_slack_name !="" ? var.alert_channel_slack_name : "${lower(var.name)}-nr-channel-slack-${lower(var.environment)}" }"
     type    = "slack"
 
@@ -151,11 +151,11 @@ resource "newrelic_alert_channel" "alert_channel_victorops" {
 #webhook
 resource "newrelic_alert_channel" "alert_channel_webhook" {
     count   = "${var.alert_channel_webhook && var.alert_channel ? 1 : 0}"
-       
+
     name    = "${var.alert_channel_webhook_name !="" ? var.alert_channel_webhook_name : "${lower(var.name)}-nr-channel-webhook-${lower(var.environment)}" }"
     type    = "webhook"
 
-    configuration = {                           
+    configuration = {
         auth_password           = "${var.alert_channel_webhook_configuration_auth_password}"
         auth_type               = "${var.alert_channel_webhook_configuration_auth_type}"
         auth_username           = "${var.alert_channel_webhook_configuration_auth_username}"

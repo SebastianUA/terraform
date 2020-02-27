@@ -1,7 +1,7 @@
 # Work with newrelic alerts via terraform
 
 A terraform module for making newrelic alerts.
- 
+
 ## Usage
 --------
 
@@ -283,4 +283,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

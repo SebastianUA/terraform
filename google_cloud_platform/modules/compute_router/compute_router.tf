@@ -3,14 +3,14 @@
 #---------------------------------------------------
 resource "google_compute_router" "compute_router" {
     count       = "${var.enable_compute_router && length(var.bgp) ==0 ? 1 : 0}"
-                    
+
     name        = "${lower(var.name)}-cr-router-${lower(var.environment)}"
     description = "${var.description}"
     project     = "${var.project}"
     region      = "${var.region}"
-    
+
     network     = "${var.network}"
-  
+
     bgp {
         asn               = "${var.bgp_asn}"
         advertise_mode    = "${var.bgp_advertise_mode}"
@@ -57,7 +57,7 @@ resource "google_compute_router" "compute_router_custom" {
 #---------------------------------------------------
 resource "google_compute_router_interface" "compute_router_interface" {
     count       = "${var.enable_compute_router_interface ? 1 :0}"
-                
+
     name        = "${lower(var.name)}-cr-interface-${lower(var.environment)}"
     router      = "${var.router}"
     project     = "${var.project}"
@@ -75,14 +75,14 @@ resource "google_compute_router_interface" "compute_router_interface" {
 # Create compute router peer
 #---------------------------------------------------
 resource "google_compute_router_peer" "compute_router_peer" {
-    count                     = "${var.enable_compute_router_peer ? 1 :0}" 
-                
+    count                     = "${var.enable_compute_router_peer ? 1 :0}"
+
     name                      = "${lower(var.name)}-cr-peer-${lower(var.environment)}"
     router                    = "${var.router}"
     interface                 = "${var.interface}"
     peer_ip_address           = "${var.peer_ip_address}"
     peer_asn                  = "${var.peer_asn}"
-    
+
     project                   = "${var.project}"
     region                    = "${var.region}"
     advertised_route_priority = "${var.advertised_route_priority}"

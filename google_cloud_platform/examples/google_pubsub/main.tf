@@ -8,7 +8,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "google_pubsub" {
     source                              = "../../modules/google_pubsub"
     name                                = "TEST"
@@ -24,9 +24,9 @@ module "google_pubsub" {
     #members                              = ["OWNER:solo.metal@bigmir.net"]
     #
     #enable_pubsub_topic_iam_member       = true
-    #members                              = ["OWNER:solo.metal@bigmir.net"]   
+    #members                              = ["OWNER:solo.metal@bigmir.net"]
     #
-    #enable_pubsub_subscription_default   = true  
+    #enable_pubsub_subscription_default   = true
     #
     #enable_pubsub_subscription_iam_policy  = true
     #
@@ -36,4 +36,3 @@ module "google_pubsub" {
     #enable_pubsub_subscription_iam_member  = true
     #members                                = ["OWNER:solo.metal@bigmir.net"]
 }
-

@@ -6,7 +6,7 @@ resource "aws_iam_user" "iam_user" {
 
     name                    = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-iam-user-${lower(var.environment)}"
     path                    = var.iam_user_path
-                
+
     permissions_boundary    = var.permissions_boundary
     force_destroy           = var.force_destroy
 

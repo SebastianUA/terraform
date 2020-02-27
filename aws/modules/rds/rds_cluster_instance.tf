@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_rds_cluster_instance" "rds_cluster_instance" {
     count                           = var.enable_rds_cluster_instance ? var.number_of_instances : 0
-    
+
     identifier                      = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier) : null
     identifier_prefix               = var.rds_cluster_instance_identifier_prefix != "" && var.rds_cluster_instance_identifier == "" ? lower(var.rds_cluster_instance_identifier_prefix) : null
     cluster_identifier              = var.cluster_identifier != "" ? lower(var.cluster_identifier) : element(concat(aws_rds_cluster.rds_cluster.*.id, [""]), 0)
@@ -23,12 +23,12 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
     preferred_maintenance_window    = var.preferred_maintenance_window
     apply_immediately               = var.apply_immediately
     auto_minor_version_upgrade      = var.auto_minor_version_upgrade
-    
+
     performance_insights_enabled    = var.performance_insights_enabled
     performance_insights_kms_key_id = var.performance_insights_kms_key_id
-    
+
     copy_tags_to_snapshot           = var.copy_tags_to_snapshot
-     
+
     tags = merge(
         {
             "Name"          = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier): lower(var.rds_cluster_instance_identifier_prefix)
@@ -61,4 +61,4 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
         aws_db_subnet_group.db_subnet_group,
         aws_db_parameter_group.db_parameter_group
     ]
-}        
+}

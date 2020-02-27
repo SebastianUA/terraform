@@ -35,7 +35,7 @@ resource "google_compute_ssl_certificate" "compute_ssl_certificate_name_prefix" 
 # Create compute ssl policy
 #---------------------------------------------------
 resource "google_compute_ssl_policy" "compute_ssl_policy" {
-    count           = "${var.enable_compute_ssl_policy && upper(var.profile) !="CUSTOM" ? 1 : 0}"    
+    count           = "${var.enable_compute_ssl_policy && upper(var.profile) !="CUSTOM" ? 1 : 0}"
 
     name            = "${lower(var.name)}-cs-policy-${lower(var.environment)}"
     description     = "${var.description}"
@@ -76,4 +76,3 @@ resource "google_compute_ssl_policy" "compute_ssl_policy_custom" {
         create_before_destroy = true
     }
 }
-

@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "newrelic_dashboard" "dashboard" {
     count               = "${var.dashboard && !var.dashboard_custom ? 1 : 0}"
-                                 
+
     title               = "${var.dashboard_title !="" ? "${lower(var.dashboard_title)}" : "${lower(var.name)}-nr-dashboard-${lower(var.environment)}" }"
     icon                = "${var.dashboard_icon}"
     visibility          = "${var.dashboard_visibility}"
@@ -20,7 +20,7 @@ resource "newrelic_dashboard" "dashboard" {
         notes           = "${var.dashboard_widget_notes}"
         nrql            = "${var.dashboard_widget_nrql}"
     }
-    
+
     widget {
         title         = "Page Views"
         row           = 1
@@ -34,7 +34,7 @@ resource "newrelic_dashboard" "dashboard" {
         ignore_changes          = []
     }
 
-    depends_on  = []    
+    depends_on  = []
 }
 
 resource "newrelic_dashboard" "dashboard_custom" {
@@ -54,4 +54,3 @@ resource "newrelic_dashboard" "dashboard_custom" {
 
     depends_on  = []
 }
-

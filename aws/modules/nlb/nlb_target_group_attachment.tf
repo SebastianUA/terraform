@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_lb_target_group_attachment" "nlb_target_group_attachment" {
     count               = var.enable_nlb_target_group_attachment && length(var.target_ids) > 0 ? length(var.target_ids) : 0
-                                                    
+
     availability_zone   = var.availability_zone
     target_id           = var.target_ids[count.index]
     port                = var.backend_port

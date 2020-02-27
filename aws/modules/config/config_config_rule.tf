@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_config_config_rule" "config_config_rule" {
     count                       = var.enable_config_config_rule ? 1  : 0
-  
+
     name                        = var.config_config_rule_name != "" ? lower(var.config_config_rule_name) : "${lower(var.name)}-config-rule-${lower(var.environment)}"
     description                 = var.config_config_rule_description
     input_parameters            = var.config_config_rule_input_parameters

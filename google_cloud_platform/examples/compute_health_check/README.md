@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute health check) via terraform
 
 A terraform module for making compute health check for instance.
- 
+
 ## Usage
 --------
 
@@ -19,13 +19,13 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east-1"
-}   
+}
 module "compute_health_check" {
     source                              = "../../modules/compute_health_check"
     name                                = "TEST"
 
     project                             = "terraform-2018"
-    
+
     #custom_name                         = "mycustomhc"
 
     enable_compute_http_health_check    = true

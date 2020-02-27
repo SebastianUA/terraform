@@ -25,4 +25,3 @@ module "compute_instance_template" {
 
     service_account_scopes              = ["userinfo-email", "compute-ro", "storage-ro"]
 }
-

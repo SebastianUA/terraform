@@ -4,7 +4,7 @@
 variable "name" {
     description = " The name of the project"
     default     = "project"
-}   
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -46,7 +46,7 @@ variable "skip_delete" {
     default     = false
 }
 
-variable "auto_create_network" {                                                                                                            
+variable "auto_create_network" {
     description = "(Optional) Create the 'default' network automatically. Default true. Note: this might be more accurately described as 'Delete Default Network', since the network is created automatically then deleted before project creation returns, but we choose this name to match the GCP Console UI. Setting this field to false will enable the Compute Engine API which is required to delete the network."
     default     = true
 }
@@ -59,9 +59,9 @@ variable "google_project_services" {
 
 variable "disable_on_destroy" {
     description = "(Optional) If true, disable the service when the terraform resource is destroyed. Defaults to true. May be useful in the event that a project is long-lived but the infrastructure running in that project changes frequently."
-    default     = true 
+    default     = true
 }
-                
+
 variable "enable_organization_iam_policy" {
     description = "Enable add an organization iam policy"
     default     = false
@@ -81,5 +81,3 @@ variable "enable_organization_iam_binding" {
     description = "Enable add an organization iam binding"
     default     = false
 }
-
-

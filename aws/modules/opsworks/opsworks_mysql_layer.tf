@@ -42,7 +42,7 @@ resource "aws_opsworks_mysql_layer" "opsworks_mysql_layer" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

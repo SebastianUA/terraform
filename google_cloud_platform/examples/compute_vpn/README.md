@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute vpn gateway and tunnel) via terraform
 
 A terraform module for making google compute vpn gateway and tunnel.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_vpn_gateway" {
     source                          = "../../modules/compute_vpn"
@@ -36,7 +36,7 @@ module "compute_vpn_tunnel" {
     peer_ip                         = "15.0.0.120"
     shared_secret                   = "test"
     target_vpn_gateway              = "${element(module.compute_vpn_gateway.google_compute_vpn_gateway_self_link, 0)}"
-    
+
     local_traffic_selector          = []
     remote_traffic_selector         = []
 }

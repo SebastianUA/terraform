@@ -19,6 +19,6 @@ resource "aws_wafregional_byte_match_set" "wafregional_byte_match_set" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = []
 }

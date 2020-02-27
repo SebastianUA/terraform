@@ -42,4 +42,3 @@ output "google_endpoints_service_grpc_apis" {
     description = "apis"
     value       = "${google_endpoints_service.endpoints_service_grpc.*.apis}"
 }
-

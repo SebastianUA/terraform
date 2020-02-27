@@ -17,4 +17,3 @@ output "bigtable_table_id" {
     description = "ID"
     value       = "${module.google_bigtable.google_bigtable_table_id}"
 }
-

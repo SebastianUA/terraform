@@ -9,7 +9,7 @@ resource "aws_elb" "elb" {
     subnets                     = var.subnets
     security_groups             = var.security_groups
     internal                    = var.elb_internal
-    
+
     cross_zone_load_balancing   = var.cross_zone_load_balancing
     idle_timeout                = var.idle_timeout
     connection_draining         = var.connection_draining
@@ -46,7 +46,7 @@ resource "aws_elb" "elb" {
             timeout                 = lookup(health_check.value, "timeout", null)
         }
     }
-    
+
     tags = merge(
         {
             "Name"          = var.elb_name != "" ? var.elb_name : "${lower(var.name)}-elb-${lower(var.environment)}"

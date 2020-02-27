@@ -23,9 +23,9 @@ module "sqs" {
     sqs_dead_letter_queue_arn           = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXX:my_sqs"
     maxReceiveCount                     = 10
 
-    # SQS queue policy 
+    # SQS queue policy
     enable_sqs_queue_policy             = true
     queue_url                           = ""
     sqs_queue_policy                    = file("policies/sqs_queue_policy.json.tpl")
-    
+
 }

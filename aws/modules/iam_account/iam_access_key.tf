@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 resource "aws_iam_access_key" "iam_access_key" {
     count       = var.enable_iam_access_key ? 1 : 0
-    
+
     status      = var.iam_access_key_status
 
     # If you need IAM access key

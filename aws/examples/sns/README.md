@@ -37,11 +37,11 @@ module "sns" {
 
     # SNS topic subscription
     enable_sns_topic_subscription       = true
-    
+
     sns_protocol                        = "sqs"
     sns_endpoint                        = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
 
-    # 
+    #
     enable_sns_platform_application     = false
     sns_platform_application_name       = "test"
 }

@@ -32,5 +32,5 @@ module "ssm" {
     ssm_maintenance_window_task_name                = ""
     ssm_maintenance_window_task_service_role_arn    = "arn:aws:iam::167127734783:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
     ssm_maintenance_window_task_task_arn            = "AWS-RestartEC2Instance"
-    
+
 }

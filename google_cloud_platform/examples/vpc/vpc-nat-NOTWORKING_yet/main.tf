@@ -9,7 +9,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 
 
@@ -55,7 +55,7 @@ module "compute_route" {
     enable_compute_route            = true
     dest_range                      = "15.0.0.0/24"
     network                         = "${element(module.compute_network.google_compute_network_self_link, 0)}"
-    next_hop_ip                     = "10.0.0.5"   
+    next_hop_ip                     = "10.0.0.5"
 }
 
 module "compute_firewall" {

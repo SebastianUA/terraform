@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
     count                   = var.enable_autoscaling_schedule ? 1 : 0
-    
+
     scheduled_action_name   = "scale-out-during-business-hours"
     min_size                = var.asg_min_size
     max_size                = var.asg_size_scale
@@ -26,7 +26,7 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
 
 resource "aws_autoscaling_schedule" "scale_in_at_night" {
     count                   = var.enable_autoscaling_schedule ? 1 : 0
-    
+
     scheduled_action_name   = "scale-in-at-night"
     min_size                = var.asg_min_size
     max_size                = var.asg_size_scale

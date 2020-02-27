@@ -14,6 +14,6 @@ output "repository_size" {
 }
 
 output "repository_id" {
-    description = "ID"                      
+    description = "ID"
     value       = "${module.sourcerepo_repository.google_sourcerepo_repository_id}"
 }

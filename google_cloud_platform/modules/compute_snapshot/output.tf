@@ -17,4 +17,3 @@ output "google_compute_snapshot_source_disk_link" {
     description = "The URI of the source disk."
     value       = "${google_compute_snapshot.compute_snapshot.*.source_disk_link}"
 }
-

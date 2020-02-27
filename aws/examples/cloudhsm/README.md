@@ -42,10 +42,10 @@ Module Input Variables
 ----------------------
 
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `environment` - Environment for service (`default     = "STAGE"`).
 - `orchestration` - ype of orchestration (`default     = "Terraform"`).
-- `createdby` - Created by (`default     = "Vitaliy Natarov"`).    
+- `createdby` - Created by (`default     = "Vitaliy Natarov"`).
 - `tags` - Add additional tags (`default       = {}`).
 - `enable_cloudhsm_v2_cluster` - Enable cloudhsm v2 cluster usage (`default     = false`).
 - `cloudhsm_v2_cluster_hsm_type` - (Required) The type of HSM module in the cluster. Currently, only hsm1.medium is supported. (`default     = "hsm1.medium"`).

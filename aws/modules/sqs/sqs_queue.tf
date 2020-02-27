@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS SQS 
+# Create AWS SQS
 #---------------------------------------------------
 resource "aws_sqs_queue" "sqs_queue" {
     count                               = var.enable_sqs_queue ? 1 : 0
@@ -17,13 +17,13 @@ resource "aws_sqs_queue" "sqs_queue" {
         deadLetterTargetArn = var.sqs_dead_letter_queue_arn
         maxReceiveCount     = var.maxReceiveCount
     }) : null
-    
+
     fifo_queue                          = var.fifo_queue
     content_based_deduplication         = var.content_based_deduplication
-    
+
     kms_master_key_id                   = var.kms_master_key_id
     kms_data_key_reuse_period_seconds   = var.kms_data_key_reuse_period_seconds
-    
+
     tags = merge(
         {
             "Name"          = var.sqs_queue_name != "" && var.name_prefix == "" ? var.sqs_queue_name : var.name_prefix

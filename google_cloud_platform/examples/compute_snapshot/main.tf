@@ -8,7 +8,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_snapshot" {
     source                          = "../../modules/compute_snapshot"
@@ -16,4 +16,3 @@ module "compute_snapshot" {
 
     source_disk                     = "gke-test-cc-stage-70df-pvc-afc95369-90e1-11e8-96dc-42010a8e0109"
 }
-

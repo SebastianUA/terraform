@@ -15,6 +15,6 @@ resource "aws_elasticache_security_group" "elasticache_security_group" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on = []
 }

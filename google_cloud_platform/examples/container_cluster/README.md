@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (container cluster) via terraform
 
 A terraform module for making google container cluster (kubernetes cluster).
- 
+
 ## Usage
 --------
 
@@ -20,7 +20,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "container_cluster" {
     source                              = "../../modules/container_cluster"
@@ -30,7 +30,7 @@ module "container_cluster" {
     enable_container_cluster            = true
     zone                                = "us-east1-b"
     region                              = ""
-    #    
+    #
     # Create container cluster in region
     #enable_container_cluster            = true
     #zone                                = ""
@@ -42,7 +42,7 @@ module "node_pool" {
     name                                = "TEST"
 
     enable_container_cluster            = false
-    
+
     # Create container node pool
     enable_container_node_pool          = true
     container_cluster_name              = "${element(module.container_cluster.google_container_cluster_zone_name, 0)}"

@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_route53_health_check" "route53_health_check" {
     count                           = var.enable_route53_health_check ? 1 : 0
-    
+
     type                            = var.route53_health_check_type
 
     # Default setting for Route53 HC
@@ -51,6 +51,6 @@ resource "aws_route53_health_check" "route53_health_check" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = []
 }

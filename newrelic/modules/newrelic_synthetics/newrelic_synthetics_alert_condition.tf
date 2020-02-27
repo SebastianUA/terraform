@@ -2,8 +2,8 @@
 # Add newrelic synthetics alert condition
 #---------------------------------------------------
 resource "newrelic_synthetics_alert_condition" "synthetics_alert_condition" {
-    count           = "${var.synthetics_alert_condition ? 1 : 0}"      
-                
+    count           = "${var.synthetics_alert_condition ? 1 : 0}"
+
     policy_id       = "${var.synthetics_alert_condition_policy_id}"
     name            = "${var.synthetics_alert_condition_name !="" ? "${lower(var.synthetics_alert_condition_name)}" : "${lower(var.name)}-nr-synthetics-alert-condition-${lower(var.environment)}" }"
     monitor_id      = "${data.newrelic_synthetics_monitor.synthetics_monitor.id}"
@@ -16,7 +16,7 @@ resource "newrelic_synthetics_alert_condition" "synthetics_alert_condition" {
         ignore_changes          = []
     }
 
-    depends_on  = ["data.newrelic_synthetics_monitor.synthetics_monitor"]    
+    depends_on  = ["data.newrelic_synthetics_monitor.synthetics_monitor"]
 
 }
 

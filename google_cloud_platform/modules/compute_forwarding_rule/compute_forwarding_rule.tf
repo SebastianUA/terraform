@@ -2,14 +2,14 @@
 # Create compute forwarding rule
 #---------------------------------------------------
 resource "google_compute_forwarding_rule" "compute_forwarding_rule" {
-    #count                   = "${length(var.target) > 0 ? 1 :0 }"    
-                                                                                
+    #count                   = "${length(var.target) > 0 ? 1 :0 }"
+
     name                    = "${lower(var.name)}-fr-${lower(var.environment)}"
     description             = "${var.description}"
 
     project                 = "${var.project}"
     region                  = "${var.region}"
-                    
+
     network                 = "${var.network}"
     subnetwork              = "${var.subnetwork}"
     ip_address              = "${var.ip_address}"

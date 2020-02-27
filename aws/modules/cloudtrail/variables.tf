@@ -19,7 +19,7 @@ variable "orchestration" {
 variable "createdby" {
   description = "Created by"
   default     = "Vitaliy Natarov"
-}    
+}
 
 variable "tags" {
   description = "A list of tag blocks. Each element should have keys named key, value"
@@ -36,7 +36,7 @@ variable "enable_cloudtrail" {
 
 variable "cloudtrail_name" {
   description = "Specifies the name of the trail."
-  default     = "" 
+  default     = ""
 }
 
 variable "s3_bucket_name" {

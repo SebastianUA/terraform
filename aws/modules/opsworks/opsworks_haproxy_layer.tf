@@ -46,7 +46,7 @@ resource "aws_opsworks_haproxy_layer" "opsworks_haproxy_layer" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

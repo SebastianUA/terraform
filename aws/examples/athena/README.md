@@ -35,7 +35,7 @@ module "s3" {
 
     s3_bucket_versioning                    = []
     enable_lifecycle_rule                   = true
-    
+
     # Add policy to the bucket
     enable_s3_bucket_policy                 = false
 
@@ -69,11 +69,11 @@ module "athena" {
     athena_workgroup_name                       = ""
     athena_workgroup_encryption_option          = "SSE_KMS"
     athena_workgroup_kms_key_arn                = "${module.kms.kms_key_arn}"
-    
+
     enable_athena_named_query                   = true
     athena_named_query_name                     = ""
     athena_named_query_query                    = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
-                        
+
 }
 ```
 
@@ -82,7 +82,7 @@ Module Input Variables
 
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
 - `environment` - Environment for service (`default     = "STAGE"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `orchestration` - Type of orchestration (`default     = "Terraform"`).
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`).
 - `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default     = {}`).

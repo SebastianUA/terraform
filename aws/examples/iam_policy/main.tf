@@ -21,13 +21,13 @@ module "iam_policy" {
     iam_policy_path                         = "/"
     iam_policy_policy                       = file("additional_files/policy.json")
 
-    # Using IAM policy attachment 
+    # Using IAM policy attachment
     enable_iam_policy_attachment            = true
     iam_policy_attachment_name              = ""
-    
+
     #iam_role_policy_attachment_roles        = null
     #iam_policy_attachment_users             = null
     iam_policy_attachment_groups            = ["admins"]
-    
+
     iam_role_policy_attachment_policy_arn   = ""
-} 
+}

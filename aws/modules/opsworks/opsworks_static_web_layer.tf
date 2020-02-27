@@ -41,7 +41,7 @@ resource "aws_opsworks_static_web_layer" "opsworks_static_web_layer" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

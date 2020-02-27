@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -260,7 +260,7 @@ variable "dhcp_options_id" {
 }
 
 #---------------------------------------------------------------
-# Add AWS internet gateway 
+# Add AWS internet gateway
 #---------------------------------------------------------------
 variable "enable_internet_gateway" {
     description = "Allow Internet GateWay to/from public network"

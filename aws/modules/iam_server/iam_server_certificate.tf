@@ -11,7 +11,7 @@ resource "aws_iam_server_certificate" "iam_server_certificate" {
 
     certificate_chain   = var.iam_server_certificate_chain
     path                = var.iam_server_certificate_path
-                        
+
     lifecycle {
         create_before_destroy = true
         ignore_changes          = []

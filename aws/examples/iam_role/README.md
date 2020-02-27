@@ -41,11 +41,11 @@ module "iam_role" {
     enable_iam_role_policy                          = true
     iam_role_policy_name                            = "my-iam-role-policy-for-testing-terraform"
     iam_role_policy                                 = file("additional_files/policy.json")
-    
+
     # Using IAM role policy attachment
     enable_iam_role_policy_attachment               = false
     policy_arns                                     = ["test"]
-    
+
     # Using IAM instance profile
     enable_iam_instance_profile                     = true
     iam_instance_profile_name                       = "tf-role-for-testing"

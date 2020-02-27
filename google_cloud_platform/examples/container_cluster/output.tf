@@ -89,4 +89,3 @@ output "container_node_pool_region_name" {
     description = "Name"
     value       = "${module.container_cluster.google_container_node_pool_region_name}"
 }
-

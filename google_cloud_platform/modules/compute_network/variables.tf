@@ -34,7 +34,7 @@ variable "enable_compute_network" {
 }
 
 variable "enable_compute_network_peering" {
-    description = "Enable compute network peering" 
+    description = "Enable compute network peering"
     default     = "false"
 }
 

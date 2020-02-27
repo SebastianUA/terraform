@@ -1,7 +1,7 @@
 # Work with TLS via terraform
 
 A terraform module for making TLS resources.
- 
+
 ## Usage
 --------
 
@@ -15,7 +15,7 @@ terraform {
     required_version = "~> 0.12.2"
     backend "remote" {
         organization = "captain"
-    
+
         workspaces {
             name = "captain-tls-nonprod"
         }
@@ -59,7 +59,7 @@ module "tls_self_signed_cert_root" {
     tls_self_signed_cert_dns_names                      = []
     tls_self_signed_cert_ip_addresses                   = []
 
-}   
+}
 
 module "tls_private_key_node" {
     source                                          = "../../modules/tls"
@@ -105,7 +105,7 @@ module "tls_locally_signed_cert_node" {
 
     locally_allowed_uses                            = ["server_auth", "cert_signing", "digital_signature"]
 
-} 
+}
 ```
 
 Module Input Variables
@@ -175,4 +175,3 @@ License
 =======
 
 Apache 2 Licensed. See LICENSE for full details.
-

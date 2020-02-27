@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (dataflow job) via terraform
 
 A terraform module for making google dataflow job.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "dataflow_job" {
     source                              = "../../modules/dataflow_job"
     name                                = "TEST"

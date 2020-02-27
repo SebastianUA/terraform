@@ -49,7 +49,7 @@ module "cloudtrail" {
     s3_key_prefix                   = "prefix"
 
     include_global_service_events   = false
-                        
+
 }
 
 # Logging All Lambda Function Invocations
@@ -69,7 +69,7 @@ module "cloudtrail_event_selector_lambda" {
 
     event_selector_data_resource_type           = "AWS::Lambda::Function"
     event_selector_data_resource_values         = ["arn:aws:lambda"]
-                        
+
 }
 
 # Logging All S3 Bucket Object Events
@@ -89,7 +89,7 @@ module "cloudtrail_event_selector_s3" {
 
     event_selector_data_resource_type           = "AWS::S3::Object"
     event_selector_data_resource_values         = ["arn:aws:s3:::"]
-                        
+
 }
 ```
 
@@ -99,7 +99,7 @@ Module Input Variables
 - `name` - "Name to be used on all resources as prefix" (`default     = "TEST`).
 - `environment` - "Environment for service" (`default     = "STAGE`).
 - `orchestration` - "Type of orchestration" (`default     = "Terraform`).
-- `createdby` - "Created by" (`default     = "Vitaliy Natarov`).    
+- `createdby` - "Created by" (`default     = "Vitaliy Natarov`).
 - `enable_cloudtrail` - "Enable cloudtrail usage" (`default     = "false`).
 - `cloudtrail_name` - "Specifies the name of the trail" (`default     = ""`).
 - `s3_bucket_name` - "(Required) Specifies the name of the S3 bucket designated for publishing log files." (`default     = "`).

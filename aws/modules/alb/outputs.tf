@@ -137,7 +137,7 @@ output "lb_listener_https_arn" {
     ),
     0,
   )
-}  
+}
 
 output "lb_listener_http_arn" {
     description = "The ARN of the HTTP lb Listener we created."
@@ -149,7 +149,7 @@ output "lb_listener_http_arn" {
     ),
     0,
   )
-} 
+}
 
 output "lb_listener_https_id" {
     description = "The ID of the lb Listener we created."

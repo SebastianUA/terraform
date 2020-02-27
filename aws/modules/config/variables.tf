@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -24,7 +24,7 @@ variable "orchestration" {
 variable "createdby" {
     description = "Created by"
     default     = "Vitaliy Natarov"
-}    
+}
 
 variable "tags" {
   description = "A list of tag blocks. Each element should have keys named key, value"

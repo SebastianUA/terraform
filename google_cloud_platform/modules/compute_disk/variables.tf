@@ -5,8 +5,8 @@ variable "name" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -25,7 +25,7 @@ variable "description" {
 
 variable "size" {
     description = "Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk."
-    default     = "10" 
+    default     = "10"
 }
 
 variable "type" {
@@ -62,4 +62,3 @@ variable "timeouts_delete" {
     description = "Set timeouts for delete. Default is 4 minutes."
     default     = "4m"
 }
-   

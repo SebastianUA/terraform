@@ -4,7 +4,7 @@
 output "compute_instance_ids" {
     description = "The server-assigned unique identifier of this instance."
     value       = "${module.compute_instance.compute_instance_ids}"
-}                                       
+}
 
 output "compute_instance_self_links" {
     description = "output the URI of the created resource."
@@ -82,7 +82,7 @@ output "ssl_name" {
 }
 
 output "ssl_self_link" {
-    description = "self_link of ssl HC"                     
+    description = "self_link of ssl HC"
     value       = "${module.compute_health_check.ssl_self_link}"
 }
 
@@ -154,4 +154,3 @@ output "needed_egress_firewall_self_link" {
     description = "Self link"
     value       = "${module.compute_firewall.needed_egress_firewall_self_link}"
 }
-

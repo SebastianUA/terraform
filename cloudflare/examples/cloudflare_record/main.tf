@@ -27,4 +27,3 @@ module "cloudflare_record" {
         target   = "linux-notes.org"
   }
 }
-

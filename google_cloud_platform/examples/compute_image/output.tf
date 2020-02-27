@@ -7,4 +7,3 @@ output "self_link" {
     description = ""
     value       = "${module.compute_image.self_link}"
 }
-

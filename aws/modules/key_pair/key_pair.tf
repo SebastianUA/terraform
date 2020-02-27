@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair_key_name" {
     count           = var.enable_key_pair && var.key_name != "" ? 1 : 0
-    
+
     key_name        = var.key_name
     public_key      = var.public_key
 

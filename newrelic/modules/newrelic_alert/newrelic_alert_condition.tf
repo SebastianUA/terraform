@@ -1,13 +1,13 @@
 resource "newrelic_alert_condition" "alert_condition" {
     count                       = "${var.alert_condition ? 1 : 0}"
-                            
+
     name                        = "${var.alert_condition_name !="" ? "${lower(var.alert_condition_name)}" : "${lower(var.name)}-nr-alert-condition-${var.alert_condition_type}-${lower(var.environment)}" }"
     policy_id                   = "${var.alert_condition_policy_id}"
     type                        = "${var.alert_condition_type}"
     #entities                    = ["${data.newrelic_application.application.id}"]
     entities                    = data.newrelic_application.application[count.index]
- 
-                                            
+
+
     metric                      = "${var.alert_condition_metric}"
 
     gc_metric                   = "${var.alert_condition_gc_metric}"
@@ -33,13 +33,13 @@ resource "newrelic_alert_condition" "alert_condition" {
     }
 
     depends_on  = ["data.newrelic_application.application"]
-    
+
 }
 
 data "newrelic_application" "application" {
     count   = "${length(var.alert_condition_entities) >0 ? "${length(var.alert_condition_entities)}" : 0}"
-    
+
     name    = "${element(var.alert_condition_entities, count.index)}"
     #name    = "${var.alert_condition_entities[count.index]}"
-    #name    = var.alert_condition_entities[0] 
+    #name    = var.alert_condition_entities[0]
 }

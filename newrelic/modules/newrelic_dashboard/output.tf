@@ -10,4 +10,3 @@ output "newrelic_dashboard_custom_id" {
     description = "ID for dashboard_custom"
     value       = "${newrelic_dashboard.dashboard_custom.*.id}"
 }
-

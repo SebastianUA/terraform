@@ -3,10 +3,10 @@
 #---------------------------------------------------
 resource "google_compute_instance" "compute_instance" {
     #count           = "${var.number_of_instances}"
-    count           = "${var.enable_attached_disk ? 0 : var.number_of_instances}"                  
+    count           = "${var.enable_attached_disk ? 0 : var.number_of_instances}"
 
     project         = "${var.project_name}"
-    name            = "${lower(var.name)}-ce-${lower(var.environment)}-${count.index+1}"    
+    name            = "${lower(var.name)}-ce-${lower(var.environment)}-${count.index+1}"
     zone            = "${var.zone}"
     machine_type    = "${var.machine_type}"
 
@@ -18,7 +18,7 @@ resource "google_compute_instance" "compute_instance" {
     min_cpu_platform            = "${var.min_cpu_platform}"
 
     #scratch_disk {
-    #    #interface   = "${var.scratch_disk_interface}"    
+    #    #interface   = "${var.scratch_disk_interface}"
     #}
 
     boot_disk {
@@ -31,7 +31,7 @@ resource "google_compute_instance" "compute_instance" {
             image   = "${var.boot_disk_initialize_params_image}"
         }
     }
-  
+
     #attached_disk {
     #    source                  = "testua666"
     #    device_name             = "testua666"
@@ -45,16 +45,16 @@ resource "google_compute_instance" "compute_instance" {
         subnetwork_project  = "${var.subnetwork_project}"
         address             = "${var.address}"
 
-        #alias_ip_range {   
+        #alias_ip_range {
         #    ip_cidr_range              = "10.138.0.0/20"
         #    subnetwork_range_name      = ""
         #}
-        
+
         access_config {
             nat_ip                  = "${var.nat_ip}"
             public_ptr_domain_name  = "${var.public_ptr_domain_name}"
             network_tier            = "${var.network_tier}"
-        }   
+        }
     }
 
     labels {
@@ -67,14 +67,14 @@ resource "google_compute_instance" "compute_instance" {
         ssh-keys = "${var.ssh_user}:${file("${var.public_key_path}")}"
         #shutdown-script = "${file("${path.module}/scripts/shutdown.sh")}"
     }
-    
+
     metadata_startup_script = "${file("${path.module}/${var.install_script_src_path}")}"
     #
     #metadata_startup_script = "echo hi > /test.txt"
-    #metadata_startup_script = "${file("startup.sh")}"    
+    #metadata_startup_script = "${file("startup.sh")}"
     #metadata_startup_script = <<SCRIPT
     #    ${file("${path.module}/scripts/install.sh")}
-    #SCRIPT  
+    #SCRIPT
 
     #provisioner "file" {
     #    source      = "${var.install_script_src_path}"
@@ -111,15 +111,15 @@ resource "google_compute_instance" "compute_instance" {
     #
 
     tags = [
-        "${lower(var.name)}", 
-        "${lower(var.environment)}", 
+        "${lower(var.name)}",
+        "${lower(var.environment)}",
         "${lower(var.orchestration)}"
     ]
 
     service_account {
-        email   = "${var.service_account_email}"    
-        scopes  = "${var.service_account_scopes}" 
-    }           
+        email   = "${var.service_account_email}"
+        scopes  = "${var.service_account_scopes}"
+    }
 
     scheduling {
         preemptible         = "${var.scheduling_preemptible}"
@@ -146,10 +146,10 @@ resource "google_compute_instance" "compute_instance" {
 #---------------------------------------------------
 resource "google_compute_instance" "compute_instance_with_attached_disk" {
     count           = "${var.enable_attached_disk && length(var.attached_disk_source) > 0 ? var.number_of_instances : 0}"
-    
+
     project         = "${var.project_name}"
     name            = "${lower(var.name)}-ce-${lower(var.environment)}-${count.index+1}"
-    zone            = "${var.zone}" 
+    zone            = "${var.zone}"
     machine_type    = "${var.machine_type}"
 
     allow_stopping_for_update   = "${var.allow_stopping_for_update}"
@@ -173,7 +173,7 @@ resource "google_compute_instance" "compute_instance_with_attached_disk" {
             image   = "${var.boot_disk_initialize_params_image}"
         }
     }
-    
+
     attached_disk {
         source                  = "${var.attached_disk_source}"
         device_name             = "${var.attached_disk_device_name}"
@@ -283,4 +283,3 @@ resource "google_compute_instance" "compute_instance_with_attached_disk" {
     }
 
 }
-

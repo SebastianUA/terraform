@@ -25,7 +25,7 @@ module "vpc" {
     assign_generated_ipv6_cidr_block    = false
     # Dedicated tenancy VPCs cannot be enabled for ClassicLink by default
     enable_classiclink                  = false
-    
+
     vpc_cidr                            = "172.32.0.0/16"
     private_subnet_cidrs                = ["172.32.64.0/20"]
     public_subnet_cidrs                 = ["172.32.80.0/20", "172.32.0.0/20"]
@@ -42,5 +42,5 @@ module "vpc" {
     #DHCP
     enable_dhcp                         = true
     # EIP
-    enable_eip                          = false   
+    enable_eip                          = false
 }

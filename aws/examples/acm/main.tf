@@ -14,7 +14,7 @@ provider "aws" {
 
 module "acm_certificate" {
     source                      = "../../modules/acm"
-                        
+
     enable_acm_certificate      = true
 
     domain_name                 = "linux-notes.org"
@@ -29,7 +29,7 @@ module "acm_certificate" {
 
 module "acm_certificate_validation" {
     source                              = "../../modules/acm"
-    
+
     enable_acm_certificate              = true
     certificate_arn                     = "${module.acm_certificate.aws_acm_certificate_arn}"
     validation_record_fqdns             = "linux-notes.org"

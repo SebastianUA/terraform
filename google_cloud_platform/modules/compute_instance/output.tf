@@ -1,5 +1,5 @@
 ########################################################################
-# Compute instance 
+# Compute instance
 ########################################################################
 output "compute_instance_ids" {
     description = "The server-assigned unique identifier of this instance."
@@ -12,7 +12,7 @@ output "compute_instance_metadata_fingerprints" {
 }
 
 output "compute_instance_self_links" {
-    description = "output the URI of the created resource."                                                                                                                
+    description = "output the URI of the created resource."
     value       = "${google_compute_instance.compute_instance.*.self_link}"
 }
 
@@ -83,4 +83,3 @@ output "compute_instance_with_attached_disk_external_ip_addresses" {
     description = "If the instance has an access config, either the given external ip (in the nat_ip field) or the ephemeral (generated) ip (if you didn't provide one)."
     value       = "${google_compute_instance.compute_instance_with_attached_disk.*.network_interface.0.access_config.0.assigned_nat_ip}"
 }
-

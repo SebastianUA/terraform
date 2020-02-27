@@ -26,6 +26,6 @@ module "elasticbeanstalk" {
     elastic_beanstalk_environment_name          = ""
     elastic_beanstalk_environment_description   = ""
     application_name                            = ""
-    
+
 
 }

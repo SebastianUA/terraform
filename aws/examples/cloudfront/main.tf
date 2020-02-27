@@ -24,7 +24,7 @@ module "s3" {
 
     s3_bucket_versioning                    = []
     enable_lifecycle_rule                   = true
-    
+
     # Add policy to the bucket
     enable_s3_bucket_policy                 = true
     s3_bucket_policy                        = <<POLICY

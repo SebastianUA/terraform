@@ -8,7 +8,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_security" {
     source                          = "../../modules/compute_security"
@@ -40,4 +40,3 @@ module "compute_security" {
         },
     ]
 }
-

@@ -5,8 +5,8 @@ variable "name" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -222,4 +222,3 @@ variable "attached_disk_mode" {
     description = "Either 'READ_ONLY' or 'READ_WRITE', defaults to 'READ_WRITE' If you have a persistent disk with data that you want to share between multiple instances, detach it from any read-write instances and attach it to one or more instances in read-only mode."
     default     = "READ_WRITE"
 }
-

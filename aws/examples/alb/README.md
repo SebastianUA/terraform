@@ -27,7 +27,7 @@ module "alb" {
     name                                = "App-Load-Balancer"
     region                              = "us-east-1"
     environment                         = "staging"
-    tags                                = "${map("Mytestkey", "test")}"    
+    tags                                = "${map("Mytestkey", "test")}"
 
     enable_alb                          = true
     load_balancer_type                  = "application"
@@ -36,7 +36,7 @@ module "alb" {
     subnets                             = ["subnet-ea58d88d", "subnet-cb5581f5"]
     enable_deletion_protection          = false
 
-    enable_alb_target_group             = true 
+    enable_alb_target_group             = true
     alb_target_group_name               = "myFirstLB"
     backend_protocol                    = "HTTP"
     alb_protocols                       = "HTTP"
@@ -58,7 +58,7 @@ module "alb" {
 Module Input Variables
 ----------------------
 - `name` - Name to be used on all resources as prefix (`     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`     = "us-east-1"`).
 - `environment` - Environment for service (`default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`default     = "Terraform"`).
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`).
@@ -80,7 +80,7 @@ Module Input Variables
 - `load_balancer_type` - The type of load balancer to create. Possible values are application or network. The default value is application. (`default     = "application"`).
 - `idle_timeout` - The time in seconds that the connection is allowed to be idle. Default: 60. (`default     = 60`).
 - `ip_address_type` - The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 and dualstack (`default     = "ipv4"`).
-- `timeouts_create" { 
+- `timeouts_create" {
     description = "Used for Creating LB. Default = 10mins (`default     = "10m"`).
 - `timeouts_update` - Used for LB modifications. Default = 10mins (`default     = "10m"`).
 - `timeouts_delete` - Used for LB destroying LB. Default = 10mins (`default     = "10m"`).
@@ -177,7 +177,7 @@ Module Input Variables
 - `authenticate_cognito_user_pool_client_id" {
   description   = "(Required) The ID of the Cognito user pool client. (`       = ""`).
 - `authenticate_cognito_user_pool_domain" {
-  description   = "description (`       = "(Required) The domain prefix or fully-qualified domain name of the Cognito user pool."`). 
+  description   = "description (`       = "(Required) The domain prefix or fully-qualified domain name of the Cognito user pool."`).
 - `authenticate_oidc_authentication_request_extra_params" {
   description   = "(Optional) The query parameters to include in the redirect request to the authorization endpoint. Max: 10. (`       =  []`).
 - `authenticate_oidc_authorization_endpoint" {

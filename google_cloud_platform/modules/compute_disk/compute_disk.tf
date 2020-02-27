@@ -4,12 +4,12 @@
 resource "google_compute_disk" "compute_disk" {
     name        = "${lower(var.name)}-disk-${lower(var.environment)}"
     description = "${var.description}"
-    
+
     size        = "${var.size}"
     type        = "${var.type}"
     zone        = "${var.zone}"
     image       = "${var.image}"
-    
+
     disk_encryption_key {
         raw_key = "${var.disk_encryption_key_raw_key}"
     }

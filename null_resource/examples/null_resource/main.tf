@@ -17,10 +17,10 @@ provider "aws" {
 module "provisioners" {
     source                                      = "../../modules/null_resource"
 
-    # 
+    #
     enable_file_provisioner                     = true
     enable_connection_by_login                  = true
-    # or 
+    # or
     # enable_connection_by_key                  = true
 
 

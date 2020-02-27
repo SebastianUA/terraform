@@ -7,7 +7,7 @@ resource "aws_config_configuration_aggregator" "config_configuration_aggregator"
     name                    = var.config_configuration_aggregator_name != "" ? lower(var.config_configuration_aggregator_name) : "${lower(var.name)}-config-aggregator-${lower(var.environment)}"
 
     dynamic "account_aggregation_source" {
-        for_each = var.account_aggregation_source 
+        for_each = var.account_aggregation_source
         content {
             account_ids = lookup(account_aggregation_source.value, "account_ids", null)
             regions     = lookup(account_aggregation_source.value, "regions", null)
@@ -16,7 +16,7 @@ resource "aws_config_configuration_aggregator" "config_configuration_aggregator"
     }
 
     dynamic "organization_aggregation_source" {
-        for_each = var.organization_aggregation_source 
+        for_each = var.organization_aggregation_source
         content {
             all_regions = lookup(organization_aggregation_source.value, "all_regions", null)
             regions     = lookup(organization_aggregation_source.value, "regions", null)

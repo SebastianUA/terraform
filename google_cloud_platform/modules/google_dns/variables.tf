@@ -34,7 +34,7 @@ variable "dns_name" {
 }
 
 variable "enable_dns_record_set" {
-    description = "Enable DNS record set" 
+    description = "Enable DNS record set"
     default     = "true"
 }
 
@@ -57,4 +57,3 @@ variable "rrdatas" {
     description = "(Required) The string data for the records in this record set whose meaning depends on the DNS type. For TXT record, if the string data contains spaces, add surrounding \" if you don't want your string to get split on spaces."
     default     = []
 }
-    

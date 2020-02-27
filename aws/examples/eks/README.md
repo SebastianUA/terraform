@@ -76,7 +76,7 @@ module "vpc" {
 }
 module "ec2" {
     source                              = "../../modules/ec2"
-    name                                = "TEST-Machine"    
+    name                                = "TEST-Machine"
     region                              = "us-east-1"
     environment                         = "PROD"
     ec2_instance_type                   = "t2.micro"

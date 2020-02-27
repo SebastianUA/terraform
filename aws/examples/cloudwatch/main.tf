@@ -12,7 +12,7 @@ provider "aws" {
 
 module "cloudwatch" {
     source                  = "../../modules/cloudwatch"
-                        
+
     alarm_name              = "my-application-logs-errors"
      alarm_description      = "Bad errors in my-application-logs"
     comparison_operator     = "GreaterThanOrEqualToThreshold"

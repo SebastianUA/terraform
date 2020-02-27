@@ -5,8 +5,8 @@ variable "name" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -85,7 +85,7 @@ variable "master_authorized_networks_config" {
 
 variable "master_ipv4_cidr_block" {
     description = "(Optional, Beta) Specifies a private RFC1918 block for the master's VPC. The master range must not overlap with any subnet in your cluster's VPC. The master and your cluster use VPC peering. Must be specified in CIDR notation and must be /28 subnet. Ex: 10.0.0.0/28"
-    default     = "10.4.0.0/28" 
+    default     = "10.4.0.0/28"
 }
 
 variable "min_master_version" {

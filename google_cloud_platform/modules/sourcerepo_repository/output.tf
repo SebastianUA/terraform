@@ -17,4 +17,3 @@ output "google_sourcerepo_repository_id" {
     description = "ID"
     value       = "${google_sourcerepo_repository.sourcerepo_repository.id}"
 }
-

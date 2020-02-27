@@ -41,7 +41,7 @@ output "google_spanner_database_name" {
 }
 
 output "google_spanner_database_state" {
-    description = "state" 
+    description = "state"
     value       = "${google_spanner_database.spanner_database.*.state}"
 }
 #-------------------------------------------------------------------

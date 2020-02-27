@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
     count                   = var.enable_route53_resolver_endpoint ? 1 : 0
-  
+
     name                    = var.route53_resolver_endpoint_name != "" ? lower(var.route53_resolver_endpoint_name) : "${lower(var.name)}-route53_resolve-endpoint-${lower(var.environment)}"
     direction               = var.route53_resolver_endpoint_direction
     security_group_ids      = var.route53_resolver_endpoint_security_group_ids
@@ -42,6 +42,6 @@ resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on              = []
 }

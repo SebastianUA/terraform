@@ -11,7 +11,7 @@ resource "aws_elb_attachment" "elb_attachment" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = [
         aws_elb.elb
     ]

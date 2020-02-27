@@ -1,9 +1,9 @@
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-    count                   = var.enable_ecs_task_definition && !var.enable_appmesh_proxy ? 1 :0 
-        
+    count                   = var.enable_ecs_task_definition && !var.enable_appmesh_proxy ? 1 :0
+
     family                  = var.family !="" ? var.family : "${lower(var.name)}-ecs-td-${lower(var.environment)}"
     container_definitions   = var.container_definitions
-    
+
     task_role_arn           = var.task_role_arn
     execution_role_arn      = var.execution_role_arn
     network_mode            = var.network_mode
@@ -28,8 +28,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 
     proxy_configuration {
         type           = var.proxy_configuration_type
-        container_name = var.proxy_configuration_container_name !="" ? var.proxy_configuration_container_name : "${lower(var.name)}-container-${lower(var.environment)}" 
-        
+        container_name = var.proxy_configuration_container_name !="" ? var.proxy_configuration_container_name : "${lower(var.name)}-container-${lower(var.environment)}"
+
         properties = {
             AppPorts         = var.proxy_configuration_properties_appports
             EgressIgnoredIPs = var.proxy_configuration_properties_egressignoredips

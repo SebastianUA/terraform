@@ -1,7 +1,7 @@
 variable "project" {
   description = "(Optional) The project ID that the service belongs to. If not provided, provider project is used."
-  default     = ""    
-} 
+  default     = ""
+}
 
 variable "enable_endpoints_service_openapi" {
     description = "Enable endpoints service openapi usage"

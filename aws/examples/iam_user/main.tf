@@ -35,7 +35,7 @@ module "iam_user" {
     # Using IAM user policy attachment
     enable_iam_user_policy_attachment               = false
     iam_user_policy_attachment_policy_arn           = ""
-    
+
     # Using IAM user membership
     enable_iam_user_group_membership                = true
     iam_user_group_membership_groups                = ["admins"]
@@ -45,5 +45,5 @@ module "iam_user" {
     iam_user_login_profile_pgp_key                  = "keybase:captain"
     iam_user_login_profile_password_length          = 20
     iam_user_login_profile_password_reset_required  = true
-    
+
 }

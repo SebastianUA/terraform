@@ -68,7 +68,7 @@ variable "project" {
     default     = ""
 }
 
-variable "region" {                                             
+variable "region" {
     description = "Region of function. Currently can be only 'us-central1'. If it is not provided, the provider region is used."
     default     = "us-central1"
 }

@@ -17,4 +17,3 @@ output "google_compute_security_policy_custom_self_link" {
     description = "The URI of the created resource."
     value       = "${google_compute_security_policy.compute_security_policy_custom.*.self_link}"
 }
-

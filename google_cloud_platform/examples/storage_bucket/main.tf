@@ -8,7 +8,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 module "storage_bucket" {
     source                              = "../../modules/storage_bucket"
     name                                = "TEST"
@@ -26,13 +26,13 @@ module "storage_bucket_acl" {
     enable_storage_bucket_acl           = false
     bucket                              = "test-sb-stage"
     role_entity                         = ["OWNER:solo.metal@bigmir.net"]
-    
+
 }
 
 module "storage_bucket_iam_binding" {
     source                              = "../../modules/storage_bucket"
     name                                = "TEST"
-    
+
     enable_storage_bucket               = false
     enable_storage_bucket_iam_binding   = false
 }
@@ -44,15 +44,15 @@ module "storage_bucket_iam_member" {
     enable_storage_bucket               = false
     enable_storage_bucket_iam_member    = false
     members                             = ["solo.metal@bigmir.net"]
-} 
+}
 
 module "storage_bucket_iam_policy" {
     source                              = "../../modules/storage_bucket"
     name                                = "TEST"
-    
+
     enable_storage_bucket               = false
     enable_storage_bucket_iam_policy    = false
-} 
+}
 
 module "storage_default_object_acl" {
     source                              = "../../modules/storage_bucket"
@@ -61,7 +61,7 @@ module "storage_default_object_acl" {
     enable_storage_bucket               = false
     enable_storage_default_object_acl   = false
     role_entity                         = ["OWNER:solo.metal@bigmir.net"]
-} 
+}
 
 module "storage_object_acl" {
     source                              = "../../modules/storage_bucket"
@@ -70,7 +70,7 @@ module "storage_object_acl" {
     enable_storage_bucket               = false
     enable_storage_object_acl           = false
     role_entity                         = ["OWNER:solo.metal@bigmir.net"]
-}    
+}
 
 module "storage_bucket_object" {
     source                              = "../../modules/storage_bucket"
@@ -80,7 +80,7 @@ module "storage_bucket_object" {
     enable_storage_bucket_object        = true
     bucket                              = "${element(module.storage_bucket.google_storage_bucket_name, 0)}"
     source_path                         = "/Users/captain/Downloads/line-bot-google-cloud-functions-example-master.zip"
-} 
+}
 
 module "storage_notification" {
     source                              = "../../modules/storage_bucket"
@@ -91,4 +91,4 @@ module "storage_notification" {
 
     topic                               = "my-topic"
     bucket                              = "test-sb-stage"
-} 
+}

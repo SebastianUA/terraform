@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Provisioner file with SSH use by login/key  
+# Provisioner file with SSH use by login/key
 #---------------------------------------------------
 variable "enable_file_provisioner" {
     description = "Enable file provisioner usage"
@@ -97,7 +97,7 @@ variable "provisioner_remote_exec_inline_command" {
 #---------------------------------------------------
 # Provisioner local-exec
 #---------------------------------------------------
-variable "enable_provisioner_local_exec_command" { 
+variable "enable_provisioner_local_exec_command" {
     description = "Enable remote-exec provisioner by command"
     default     = false
 }
@@ -129,7 +129,7 @@ variable "provisioner_local_exec_command_environment" {
 #---------------------------------------------------
 # depends_on
 #---------------------------------------------------
-variable "enable_depends_on" { 
+variable "enable_depends_on" {
     description = "Enable depends_on"
     default     = false
 }

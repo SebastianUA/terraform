@@ -56,7 +56,7 @@ module "config" {
     config_configuration_recorder_name              = ""
     config_configuration_recorder_role_arn          = "arn:aws:iam::167127734783:role/aws-service-role/organizations.amazonaws.com/AWSServiceRoleForOrganizations"
     recording_group                                 = []
-    
+
     enable_config_configuration_recorder_status     = true
     config_configuration_recorder_status_is_enabled = true
 

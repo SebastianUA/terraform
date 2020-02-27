@@ -5,8 +5,8 @@ variable "name" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "project" {
     description = "The project in which the resource belongs. If it is not provided, the provider project is used. If you are using a public base image, be sure to specify the correct Image Project."
@@ -67,4 +67,3 @@ variable "timeouts_delete" {
     description = "Set timeouts for delete. Default is 4 minutes."
     default     = "4m"
 }
-

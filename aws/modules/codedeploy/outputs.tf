@@ -19,7 +19,7 @@ output "codedeploy_deployment_config_id" {
     value       = element(concat(
         aws_codedeploy_deployment_config.codedeploy_deployment_config_canary.*.id,
         aws_codedeploy_deployment_config.codedeploy_deployment_config_linear.*.id,
-        [""], 
+        [""],
         ), 0)
 }
 
@@ -28,7 +28,7 @@ output "codedeploy_deployment_config_deployment_config_id" {
     value       = element(concat(
         aws_codedeploy_deployment_config.codedeploy_deployment_config_canary.*.deployment_config_id,
         aws_codedeploy_deployment_config.codedeploy_deployment_config_linear.*.deployment_config_id,
-        [""], 
+        [""],
         ), 0)
 }
 

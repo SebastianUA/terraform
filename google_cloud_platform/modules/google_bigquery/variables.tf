@@ -5,8 +5,8 @@ variable "name" {
 
 variable "zone" {
   description = "The zone that the machine should be created in"
-  default     = "us-east1-b"    
-} 
+  default     = "us-east1-b"
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -82,7 +82,7 @@ variable "time_partitioning_type" {
     description = "(Required) The only type supported is DAY, which will generate one partition per day based on data loading time."
     default     = "DAY"
 }
-    
+
 variable "time_partitioning_expiration_ms" {
     description = "(Optional) Number of milliseconds for which to keep the storage for a partition."
     default     = "0"

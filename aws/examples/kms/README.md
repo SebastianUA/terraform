@@ -27,7 +27,7 @@ data "template_file" "kms_key_policy" {
 
 module "kms" {
     source              = "../../modules/kms"
-    
+
     enable_kms_key      = true
     name                = "TESTKMS"
     environment         = "stage"

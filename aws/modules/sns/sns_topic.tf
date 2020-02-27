@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_sns_topic" "sns_topic" {
     count                                       = var.enable_sns_topic ? 1 : 0
-    
+
     name                                        = var.sns_topic_name != "" && var.sns_topic_name_prefix == "" ? var.sns_topic_name : null
     name_prefix                                 = var.sns_topic_name_prefix != "" && var.sns_topic_name == "" ? var.sns_topic_name_prefix : null
     display_name                                = var.display_name != "" ? var.display_name : "${lower(var.name)}-sns-${lower(var.environment)}"

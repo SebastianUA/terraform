@@ -14,7 +14,7 @@ variable "enable_cloudflare_record_data" {
 variable "name" {
     description = "The name of the record"
     default     = "cloudflare_name"
-}   
+}
 
 variable "zone_id" {
     description = "(Required) The DNS zone ID to add the record to"
@@ -51,7 +51,7 @@ variable "ttl" {
     default     = 3600
 }
 
-variable "priority" {   
+variable "priority" {
     description = "The priority of the record"
     default     = 1
 }

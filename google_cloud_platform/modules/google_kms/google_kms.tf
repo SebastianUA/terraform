@@ -19,12 +19,12 @@ resource "google_kms_key_ring" "kms_key_ring" {
 #---------------------------------------------------
 resource "google_kms_crypto_key_iam_binding" "kms_crypto_key_iam_binding" {
     count           = "${var.enable_kms_crypto_key_iam_binding ? 1 : 0}"
-            
+
     #crypto_key_id   = "my-gcp-project/us-central1/my-key-ring/my-crypto-key"
-    crypto_key_id   = "${var.crypto_key_id}" 
+    crypto_key_id   = "${var.crypto_key_id}"
     role            = "${var.role}"
-                    
-    members         = ["${var.members}"] 
+
+    members         = ["${var.members}"]
 
     lifecycle {
         ignore_changes = []
@@ -36,7 +36,7 @@ resource "google_kms_crypto_key_iam_binding" "kms_crypto_key_iam_binding" {
 # Create google KMS crypto key
 #---------------------------------------------------
 resource "google_kms_crypto_key" "kms_crypto_key" {
-    count           = "${var.enable_kms_crypto_key ? 1 : 0}"    
+    count           = "${var.enable_kms_crypto_key ? 1 : 0}"
 
     name            = "${lower(var.name)}-kms-ck-${lower(var.environment)}"
     key_ring        = "${var.key_ring}"
@@ -49,10 +49,10 @@ resource "google_kms_crypto_key" "kms_crypto_key" {
 }
 
 #---------------------------------------------------
-# Create google KMS crypto key iam member 
+# Create google KMS crypto key iam member
 #---------------------------------------------------
 resource "google_kms_crypto_key_iam_member" "kms_crypto_key_iam_member" {
-    count           = "${var.enable_kms_crypto_key_iam_member ? 1 : 0}"    
+    count           = "${var.enable_kms_crypto_key_iam_member ? 1 : 0}"
 
     crypto_key_id   = "${var.crypto_key_id}"
     role            = "${var.role}"
@@ -81,7 +81,7 @@ resource "google_kms_key_ring_iam_policy" "kms_key_ring_iam_policy" {
     key_ring_id     = "${var.key_ring_id}"
     policy_data     = "${data.google_iam_policy.iam_policy.policy_data}"
 
-    depends_on      = ["data.google_iam_policy.iam_policy"] 
+    depends_on      = ["data.google_iam_policy.iam_policy"]
 
     lifecycle {
         ignore_changes = []

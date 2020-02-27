@@ -9,7 +9,7 @@ resource "google_compute_autoscaler" "compute_autoscaler" {
     project         = "${var.project}"
 
     target          = "${var.target}"
-            
+
     autoscaling_policy = {
         max_replicas    = "${var.autoscaling_policy_max_replicas}"
         min_replicas    = "${var.autoscaling_policy_min_replicas}"
@@ -18,13 +18,13 @@ resource "google_compute_autoscaler" "compute_autoscaler" {
         cpu_utilization {
             target  = "${var.cpu_utilization_target}"
         }
-        
+
         metric {
             name    = "${var.metric_name}"
             type    = "${var.metric_type}"
             target  = "${var.metric_target}"
         }
-        
+
         load_balancing_utilization {
             target  = "${var.load_balancing_utilization_target}"
         }
@@ -34,4 +34,3 @@ resource "google_compute_autoscaler" "compute_autoscaler" {
         create_before_destroy = true
     }
 }
-

@@ -10,6 +10,6 @@ resource "aws_iam_policy" "iam_policy" {
 
     path        = var.iam_policy_path
     policy      = var.iam_policy_policy
-    
+
     depends_on  = []
 }

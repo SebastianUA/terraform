@@ -2,13 +2,13 @@
 # Create compute address
 #---------------------------------------------------
 resource "google_compute_address" "compute_address" {
-    count           = "${var.enable_compute_address ? 1 : 0}"    
-                
+    count           = "${var.enable_compute_address ? 1 : 0}"
+
     name            = "${lower(var.name)}-address-${lower(var.environment)}"
     description     = "${var.description}"
     project         = "${var.project}"
     region          = "${var.region}"
-                
+
     address_type    = "${var.address_type}"
     network_tier    = "${var.network_tier}"
     subnetwork      = "${var.subnetwork}"
@@ -28,7 +28,7 @@ resource "google_compute_address" "compute_address" {
 # Create compute global address
 #---------------------------------------------------
 resource "google_compute_global_address" "compute_global_address" {
-    count           = "${var.enable_compute_global_address ? 1 : 0}"  
+    count           = "${var.enable_compute_global_address ? 1 : 0}"
 
     name            = "${lower(var.name)}-gaddress-${lower(var.environment)}"
     description     = "${var.description}"
@@ -40,7 +40,7 @@ resource "google_compute_global_address" "compute_global_address" {
         create  = "${var.timeouts_create}"
         delete  = "${var.timeouts_delete}"
     }
-    
+
     lifecycle {
         ignore_changes = []
         create_before_destroy = true

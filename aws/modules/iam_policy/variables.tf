@@ -29,7 +29,7 @@ variable "enable_iam_policy" {
     default     = false
 }
 
-variable "iam_policy_path" {            
+variable "iam_policy_path" {
     description = "(Optional, default '/') Path in which to create the policy. See IAM Identifiers for more information."
     default     = "/"
 }

@@ -61,7 +61,7 @@ variable "lifecycle_rule_condition_is_live" {
 variable "lifecycle_rule_condition_matches_storage_class" {
     description = "(Optional) Storage Class of objects to satisfy this condition. Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, DURABLE_REDUCED_AVAILABILITY."
     default     = ["MULTI_REGIONAL"]
-}               
+}
 
 variable "lifecycle_rule_condition_num_newer_versions" {
     description = "(Optional) Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition."
@@ -154,7 +154,7 @@ variable "members" {
 }
 
 variable "enable_storage_bucket_iam_member" {
-    description = "Enable storage bucket iam member" 
+    description = "Enable storage bucket iam member"
     default     = "false"
 }
 
@@ -164,7 +164,7 @@ variable "enable_storage_bucket_iam_policy" {
 }
 
 variable "enable_storage_default_object_acl" {
-    description = "Enable storage default object acl" 
+    description = "Enable storage default object acl"
     default     = "false"
 }
 

@@ -9,7 +9,7 @@ resource "aws_athena_database" "athena_database" {
     force_destroy       = var.force_destroy
 
     # dynamic "encryption_configuration" {
-    #     for_each = var.athena_database_encryption_configuration 
+    #     for_each = var.athena_database_encryption_configuration
     #     content {
     #         encryption_option   = lookup(athena_database_encryption_configuration.value, "encryption_option", null)
     #         kms_key             = lookup(athena_database_encryption_configuration.value, "kms_key", null)

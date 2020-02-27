@@ -39,13 +39,13 @@ variable "health_checks" {
     default     = []
 }
 
-variable "instances" {                                                                                  
+variable "instances" {
     description = "List of instances in the pool. They can be given as URLs, or in the form of 'zone/name'. Note that the instances need not exist at the time of target pool creation, so there is no need to use the Terraform interpolators to create a dependency on the instances from the target pool."
     #type        = "list"
     default     = []
 }
 
-variable "session_affinity" {                           
+variable "session_affinity" {
     description = "How to distribute load. Options are 'NONE' (no affinity). 'CLIENT_IP' (hash of the source/dest addresses / ports), and 'CLIENT_IP_PROTO' also includes the protocol (default 'NONE')."
     default     = "NONE"
 }

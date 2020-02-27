@@ -11,7 +11,7 @@ resource "aws_vpc" "vpc" {
     enable_classiclink                  = var.enable_classiclink
     enable_classiclink_dns_support      = var.enable_classiclink_dns_support
     assign_generated_ipv6_cidr_block    = var.assign_generated_ipv6_cidr_block
-    
+
     tags                                = merge(
         {
             "Name"          = var.vpc_name != "" ? lower(var.vpc_name) : "${lower(var.name)}-vpc-${lower(var.environment)}"
@@ -27,7 +27,7 @@ resource "aws_vpc" "vpc" {
         },
         var.tags,
     )
-  
+
     lifecycle {
         create_before_destroy   = true
         ignore_changes          = []

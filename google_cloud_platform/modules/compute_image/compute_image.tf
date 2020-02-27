@@ -2,12 +2,12 @@
 # Create compute image
 #---------------------------------------------------
 resource "google_compute_image" "compute_image" {
-    count           = "${length(var.raw_disk_source) > 0 ? 1 : 0}"    
-                        
+    count           = "${length(var.raw_disk_source) > 0 ? 1 : 0}"
+
     name            = "${lower(var.name)}-image-${lower(var.environment)}"
     description     = "${var.description}"
-    
-    project         = "${var.project}"  
+
+    project         = "${var.project}"
 
     family          = "${var.family}"
     source_disk     = "${var.source_disk}"

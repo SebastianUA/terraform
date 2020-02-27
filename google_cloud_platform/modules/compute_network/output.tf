@@ -84,4 +84,3 @@ output "google_compute_subnetwork_iam_member_etag" {
     description = ""
     value       = "${google_compute_subnetwork_iam_member.compute_subnetwork_iam_member.*.etag}"
 }
-

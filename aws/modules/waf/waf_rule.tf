@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_waf_rule" "waf_rule" {
     count       = var.enable_waf_rule ? 1 : 0
-    
+
     name        = var.waf_rule_name != "" ? lower(var.waf_rule_name) : "${lower(var.name)}-${var.waf_rule_metric_name}-rule-${lower(var.environment)}"
     metric_name = var.waf_rule_metric_name
 

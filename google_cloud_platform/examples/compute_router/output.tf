@@ -22,7 +22,7 @@ output "compute_router_custom_self_link" {
 }
 #
 # Router interface
-#   
+#
 output "compute_router_interface_name" {
     description = "Name"
     value       = "${module.compute_router.google_compute_router_interface_name}"
@@ -44,4 +44,3 @@ output "compute_router_peer_ip_address" {
     description = "ip_address"
     value       = "${module.compute_router.google_compute_router_peer_ip_address}"
 }
-

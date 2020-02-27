@@ -37,4 +37,3 @@ output "needed_egress_firewall_self_link" {
     description = "Self link"
     value       = "${module.compute_firewall.needed_egress_firewall_self_link}"
 }
-

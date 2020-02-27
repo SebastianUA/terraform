@@ -1,5 +1,5 @@
 #-----------------------------------------------------------
-#newrelic_alert_channel 
+#newrelic_alert_channel
 #-----------------------------------------------------------
 output "nr_alert_channel_slack" {
     description = "ID for newrelic_alert_channel_slack"

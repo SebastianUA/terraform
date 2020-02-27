@@ -9,7 +9,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_instance" {
     source                          = "../../modules/compute_instance"
@@ -46,11 +46,11 @@ module "compute_target_pool" {
     instances                           = ["${module.compute_instance.compute_instance_self_links}"]
     #health_checks                       = ["${module.compute_health_check.http_self_link}"]
     health_checks                       = ["testhttphcstage"]
-        
-    #Use this way if you want to create default target pool for autoscaler or group manager. But, you SHOULD delete compute_instance for this case 
+
+    #Use this way if you want to create default target pool for autoscaler or group manager. But, you SHOULD delete compute_instance for this case
     #use_compute_target_pool_default     = true
     #health_checks                       = ["testhttphcstage"]
-}   
+}
 
 module "compute_forwarding_rule" {
     source                          = "../../modules/compute_forwarding_rule"

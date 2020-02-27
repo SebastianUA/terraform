@@ -76,7 +76,7 @@ variable "encryption_info_encryption_at_rest_kms_key_arn" {
     default     = ""
 }
 
-# AWS msk cluster with client authentication 
+# AWS msk cluster with client authentication
 variable "client_authentication_certificate_authority_arns" {
     description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
     default     = []

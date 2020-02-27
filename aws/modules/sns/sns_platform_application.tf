@@ -16,7 +16,7 @@ resource "aws_sns_platform_application" "sns_platform_application" {
     failure_feedback_role_arn               = var.failure_feedback_role_arn
     platform_principal                      = var.platform_principal
     success_feedback_role_arn               = var.success_feedback_role_arn
-    success_feedback_sample_rate            = var.success_feedback_sample_rate 
+    success_feedback_sample_rate            = var.success_feedback_sample_rate
 
     lifecycle {
         create_before_destroy   = true

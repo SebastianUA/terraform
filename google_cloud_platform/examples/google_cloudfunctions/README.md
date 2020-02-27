@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (google cloudfunctions) via terraform
 
 A terraform module for making google cloudfunctions.
- 
+
 ## Usage
 --------
 
@@ -18,7 +18,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "storage_bucket" {
     source                              = "../../modules/storage_bucket"
@@ -38,7 +38,7 @@ module "storage_bucket_object" {
     bucket                              = "${element(module.storage_bucket.google_storage_bucket_name, 0)}"
     source_path                         = "/Users/captain/Downloads/line-bot-google-cloud-functions-example-master.zip"
 }
- 
+
 module "google_cloudfunctions" {
     source                              = "../../modules/google_cloudfunctions"
     name                                = "TEST"

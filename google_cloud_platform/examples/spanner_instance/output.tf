@@ -62,4 +62,3 @@ output "spanner_database_iam_member_etag" {
     description = "Etag"
     value       = "${module.spanner_instance.google_spanner_database_iam_member_etag}"
 }
-

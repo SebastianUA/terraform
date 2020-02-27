@@ -1,6 +1,6 @@
 #
 # SSL policy
-#       
+#
 output "compute_ssl_policy_name" {
     description = "Name of google_compute_ssl_policy"
     value       = "${module.compute_ssl.google_compute_ssl_policy_name}"

@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
   description = "The region where to deploy this code (e.g. us-east-1)."
   default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -95,7 +95,7 @@ variable "subnet_mapping" {
   default       = []
 }
 
-variable "timeouts_create" { 
+variable "timeouts_create" {
     description = "Used for Creating LB. Default = 10mins"
     default     = "10m"
 }

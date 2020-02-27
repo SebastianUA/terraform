@@ -12,7 +12,7 @@ resource "google_bigtable_instance" "bigtable_instance" {
     num_nodes       = "${var.num_nodes}"
     instance_type   = "${var.instance_type}"
     storage_type    = "${var.storage_type}"
-    
+
     lifecycle {
         ignore_changes = []
         create_before_destroy = true
@@ -24,7 +24,7 @@ resource "google_bigtable_instance" "bigtable_instance" {
 #---------------------------------------------------
 resource "google_bigtable_table" "bigtable_table" {
     count           = "${var.enable_bigtable_table ? 1 : 0}"
-    
+
     name            = "${length(var.table_name) >0 ? var.table_name : "${lower(var.name)}-bt-table-${lower(var.environment)}" }"
     project         = "${var.project}"
     instance_name   = "${var.instance_name}"

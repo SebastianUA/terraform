@@ -84,4 +84,3 @@ output "acmpca_certificate_authority_default_status" {
     description = "Status of the certificate authority."
     value       = "${aws_acmpca_certificate_authority.acmpca_certificate_authority_default.*.status}"
 }
-

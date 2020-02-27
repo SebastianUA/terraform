@@ -7,25 +7,25 @@ resource "google_compute_url_map" "compute_url_map" {
     name            = "${lower(var.name)}-cr-map-${lower(var.environment)}"
     description     = "${var.description}"
     project         = "${var.project}"
-     
+
     default_service = "${var.default_service}"
 
     host_rule {
         hosts           = ["${var.host_rule_hosts}"]
-        description     = "${var.host_rule_description}"     
+        description     = "${var.host_rule_description}"
         path_matcher    = "${var.host_rule_path_matcher}"
     }
 
     path_matcher {
         name            = "${length(var.path_matcher_name) >0 ? var.path_matcher_name : "${lower(var.name)}-path-matcher-${lower(var.environment)}" }"
         default_service = "${var.default_service}"
-        
+
         path_rule {
             paths   = ["${var.path_rule_paths}"]
             service = "${var.path_rule_service}"
         }
     }
-    
+
     test {
         service     = "${var.test_service}"
         host        = "${var.test_host}"
@@ -58,7 +58,7 @@ resource "google_compute_url_map" "compute_url_map_custom" {
         name            = "${length(var.path_matcher_name) >0 ? var.path_matcher_name : "${lower(var.name)}-path-matcher-${lower(var.environment)}" }"
         default_service = "${var.default_service}"
 
-        path_rule       = ["${var.path_rule}"] 
+        path_rule       = ["${var.path_rule}"]
     }
 
     test {
@@ -73,4 +73,3 @@ resource "google_compute_url_map" "compute_url_map_custom" {
         create_before_destroy = true
     }
 }
-

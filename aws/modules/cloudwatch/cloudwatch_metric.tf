@@ -8,7 +8,7 @@ resource "aws_cloudwatch_metric_alarm" "cw_metric_alarm" {
     alarm_description                           = var.alarm_description
     actions_enabled                             = var.actions_enabled
 
-    comparison_operator                         = var.comparison_operator    
+    comparison_operator                         = var.comparison_operator
     evaluation_periods                          = var.evaluation_periods
     threshold                                   = var.threshold
     unit                                        = var.unit
@@ -28,7 +28,7 @@ resource "aws_cloudwatch_metric_alarm" "cw_metric_alarm" {
     namespace                                   = var.namespace
     period                                      = var.period
     extended_statistic                          = var.extended_statistic
-    statistic                                   = var.statistic  
+    statistic                                   = var.statistic
 
     # conflicts with metric_name
     dynamic "metric_query" {
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_metric_alarm" "cw_metric_alarm" {
     lifecycle {
         create_before_destroy   = true
         ignore_changes          = []
-    }   
+    }
 
     depends_on  = []
 }

@@ -1,7 +1,7 @@
 # Work with Google Cloud  Platform (compute forwarding rule) via terraform
 
 A terraform module for making google compute forwarding rule.
- 
+
 ## Usage
 --------
 
@@ -19,7 +19,7 @@ provider "google" {
     credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
     project     = "terraform-2018"
     region      = "us-east1"
-}   
+}
 
 module "compute_instance" {
     source                          = "../../modules/compute_instance"
@@ -53,7 +53,7 @@ module "compute_target_pool" {
     instances                           = ["${module.compute_instance.compute_instance_self_links}"]
     health_checks                       = ["${module.compute_health_check.http_self_link}"]
     #health_checks                       = ["testhttphcstage"]
-}       
+}
 
 module "compute_forwarding_rule" {
     source                          = "../../modules/compute_forwarding_rule"

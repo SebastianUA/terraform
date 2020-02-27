@@ -7,7 +7,7 @@ resource "aws_msk_configuration" "msk_configuration" {
     name                = var.msk_configuration_name != "" ? lower(var.msk_configuration_name) : "${lower(var.name)}-msk-cluster-configuration-${lower(var.environment)}"
     description         = var.msk_configuration_description
     kafka_versions      = var.kafka_versions
-    
+
     server_properties   = var.server_properties
 
     lifecycle {

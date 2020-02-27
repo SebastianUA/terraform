@@ -5,8 +5,8 @@ variable "name" {
 
 variable "enable_bigtable_instance" {
   description = "Enable bigtable instance creating"
-  default     = "true"    
-} 
+  default     = "true"
+}
 
 variable "environment" {
     description = "Environment for service"

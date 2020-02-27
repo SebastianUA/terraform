@@ -33,7 +33,7 @@ variable "tags" {
 variable "enable_iam_user" {
     description = "Enable iam_user usage"
     default     = false
-} 
+}
 
 variable "iam_user_name" {
     description = "(Required) The user's name. The name must consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-_.. User names are not distinguished by case. For example, you cannot create users named both 'TESTUSER' and 'testuser'."
@@ -122,7 +122,7 @@ variable "iam_user_ssh_key_public_key" {
 variable "iam_user_ssh_key_status" {
     description = "(Optional) The status to assign to the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used. Default is Active."
     default     = "Active"
-} 
+}
 
 #-----------------------------------------------------------
 # IAM  use login profile

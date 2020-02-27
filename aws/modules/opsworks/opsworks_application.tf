@@ -58,7 +58,7 @@ resource "aws_opsworks_application" "opsworks_application" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-                     
+
     depends_on                  = [
         aws_opsworks_stack.opsworks_stack
     ]

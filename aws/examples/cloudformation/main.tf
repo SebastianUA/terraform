@@ -69,7 +69,7 @@ module "cloudformation" {
 
     enable_cloudformation_stack                         = true
     cloudformation_stack_name                           = ""
-    cloudformation_stack_template_body                  = file("additional_files/template_body.json")    
+    cloudformation_stack_template_body                  = file("additional_files/template_body.json")
     cloudformation_stack_parameters                     = merge(
         {
             VPCCidr = "10.0.0.0/16"
@@ -88,5 +88,5 @@ module "cloudformation" {
     )
 
     enable_cloudformation_stack_set_instance            = true
-    
+
 }

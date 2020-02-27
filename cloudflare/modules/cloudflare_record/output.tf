@@ -28,7 +28,7 @@ output "record_prioritys" {
     value       = "${cloudflare_record.record.*.priority}"
 }
 
-output "record_hostnames" { 
+output "record_hostnames" {
     description = ""
     value       = "${cloudflare_record.record.*.hostname}"
 }

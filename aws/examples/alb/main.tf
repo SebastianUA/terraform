@@ -17,7 +17,7 @@ module "alb" {
     name                                = "App-Load-Balancer"
     region                              = "us-east-1"
     environment                         = "staging"
-    tags                                = "${map("Mytestkey", "test")}"    
+    tags                                = "${map("Mytestkey", "test")}"
 
     enable_alb                          = true
     load_balancer_type                  = "application"
@@ -26,7 +26,7 @@ module "alb" {
     subnets                             = ["subnet-ea58d88d", "subnet-cb5581f5"]
     enable_deletion_protection          = false
 
-    enable_alb_target_group             = true 
+    enable_alb_target_group             = true
     alb_target_group_name               = "myFirstLB"
     backend_protocol                    = "HTTP"
     alb_protocols                       = "HTTP"

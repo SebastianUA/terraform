@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_ebs_volume" "ebs_volume" {
     count               = var.enable_ebs_volume ? 1 : 0
-                                            
+
     availability_zone   = length(var.availability_zone) > 0 ? var.availability_zone : element(split(",", (lookup(var.availability_zones, var.region))), 0)
     type                = var.type
     size                = var.size
@@ -12,7 +12,7 @@ resource "aws_ebs_volume" "ebs_volume" {
     iops                = var.iops
     snapshot_id         = var.snapshot_id
     kms_key_id          = var.kms_key_id
-                        
+
     tags = merge(
         var.tags,
         {

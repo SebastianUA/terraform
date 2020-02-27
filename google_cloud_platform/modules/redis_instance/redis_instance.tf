@@ -2,12 +2,12 @@
 # Create redis instance
 #---------------------------------------------------
 resource "google_redis_instance" "redis_instance" {
-    count                   = "${var.count_redis_instance}"    
+    count                   = "${var.count_redis_instance}"
 
     name                    = "${lower(var.name)}-ri-${lower(var.environment)}-${count.index+1}"
     memory_size_gb          = "${var.memory_size_gb}"
     tier                    = "${var.tier}"
-    
+
     project                 = "${var.project}"
     region                  = "${var.region}"
     location_id             = "${var.location_id}"

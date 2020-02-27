@@ -1,22 +1,22 @@
 resource "aws_ecs_service" "ecs_service" {
-    count                               = var.enable_ecs_service && !var.enable_ecs_service_daemon ? 1 :0 
-                         
+    count                               = var.enable_ecs_service && !var.enable_ecs_service_daemon ? 1 :0
+
     name                                = var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
     cluster                             = var.ecs_cluster_id
     task_definition                     = var.task_definition
     desired_count                       = var.desired_count
     iam_role                            = var.iam_role
-    
+
     launch_type                         = var.launch_type
     platform_version                    = var.platform_version
     scheduling_strategy                 = var.scheduling_strategy
-    
+
     #propagate_tags                      = var.propagate_tags
     #deployment_maximum_percent          = var.deployment_maximum_percent
     #deployment_minimum_healthy_percent  = var.deployment_minimum_healthy_percent
     #enable_ecs_managed_tags             = var.enable_ecs_managed_tags
     #health_check_grace_period_seconds   = var.health_check_grace_period_seconds
-    
+
     dynamic "deployment_controller" {
         for_each = var.deployment_controller
         content {
@@ -95,9 +95,9 @@ resource "aws_ecs_service" "ecs_service" {
 
 
 resource "aws_ecs_service" "ecs_service_daemon" {
-    count               = var.enable_ecs_service && var.enable_ecs_service_daemon ? 1 :0 
+    count               = var.enable_ecs_service && var.enable_ecs_service_daemon ? 1 :0
 
-    name                = var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}" 
+    name                = var.ecs_service_name !="" ? var.ecs_service_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
     cluster             = var.ecs_cluster_id
     task_definition     = var.task_definition
     scheduling_strategy = "DAEMON"

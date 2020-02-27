@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_ecr_repository" "ecr_repository" {
     count               = var.enable_ecr_repository ? 1 : 0
-                                             
+
     name                = var.ecr_repository_name != "" ? var.ecr_repository_name : "${lower(var.name)}-ecr-${lower(var.environment)}"
 
     tags = merge(

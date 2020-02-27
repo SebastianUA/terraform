@@ -3,18 +3,18 @@
 #---------------------------------------------------
 resource "aws_autoscaling_group" "asg" {
     count                       = var.enable_asg && var.name_prefix =="" && !var.enable_asg_azs ? 1 : 0
-    
+
     name                        = var.asg_name != "" ? var.asg_name : "${lower(var.name)}-asg-${lower(var.environment)}"
     launch_configuration        = var.launch_configuration != "" ? var.launch_configuration : element(concat(aws_launch_configuration.lc.*.name, aws_launch_configuration.lc_spot.*.name, [""]), 0)
     vpc_zone_identifier         = var.vpc_zone_identifier
     max_size                    = var.asg_max_size
     min_size                    = var.asg_min_size
     desired_capacity            = var.desired_capacity
-    
+
     health_check_grace_period   = var.health_check_grace_period
     health_check_type           = var.health_check_type
     load_balancers              = var.load_balancers
-    
+
     min_elb_capacity            = var.min_elb_capacity
     wait_for_elb_capacity       = var.wait_for_elb_capacity
     target_group_arns           = var.target_group_arns
@@ -62,7 +62,7 @@ resource "aws_autoscaling_group" "asg" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = [
         aws_launch_configuration.lc,
         aws_launch_configuration.lc_spot
@@ -71,18 +71,18 @@ resource "aws_autoscaling_group" "asg" {
 
 resource "aws_autoscaling_group" "asg_prefix" {
     count                       = var.enable_asg && var.name_prefix !="" && !var.enable_asg_azs ? 1 : 0
-    
+
     launch_configuration        = var.launch_configuration != "" ? var.launch_configuration : element(concat(aws_launch_configuration.lc_prefix.*.name, aws_launch_configuration.lc_spot_prefix.*.name, [""]), 0)
     name_prefix                 = var.name_prefix
     vpc_zone_identifier         = var.vpc_zone_identifier
     max_size                    = var.asg_max_size
     min_size                    = var.asg_min_size
     desired_capacity            = var.desired_capacity
-    
+
     health_check_grace_period   = var.health_check_grace_period
     health_check_type           = var.health_check_type
     load_balancers              = var.load_balancers
-    
+
     min_elb_capacity            = var.min_elb_capacity
     wait_for_elb_capacity       = var.wait_for_elb_capacity
     target_group_arns           = var.target_group_arns
@@ -130,7 +130,7 @@ resource "aws_autoscaling_group" "asg_prefix" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = [
         aws_launch_configuration.lc_prefix,
         aws_launch_configuration.lc_spot_prefix
@@ -186,8 +186,8 @@ resource "aws_autoscaling_group" "asg_azs" {
     #        override {
     #            instance_type = ""
     #        }
-    #    }    
-    #} 
+    #    }
+    #}
 
     tags = concat(
         [
@@ -276,8 +276,8 @@ resource "aws_autoscaling_group" "asg_azs_prefix" {
     #        override {
     #            instance_type = ""
     #        }
-    #    }    
-    #} 
+    #    }
+    #}
 
     tags = concat(
         [

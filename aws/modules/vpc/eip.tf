@@ -31,6 +31,6 @@ resource "aws_eip" "nat_eip" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on  = []
 }

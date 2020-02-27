@@ -9,7 +9,7 @@ variable "name" {
 variable "region" {
     description = "The region where to deploy this code (e.g. us-east-1)."
     default     = "us-east-1"
-} 
+}
 
 variable "environment" {
     description = "Environment for service"
@@ -130,7 +130,7 @@ variable "force_detach" {
 }
 
 variable "skip_destroy" {
-    description = "(Optional, Boolean) Set this to true if you do not wish to detach the volume from the instance to which it is attached at destroy time, and instead just remove the attachment from Terraform state. This is useful when destroying an instance which has volumes created by some other means attached." 
+    description = "(Optional, Boolean) Set this to true if you do not wish to detach the volume from the instance to which it is attached at destroy time, and instead just remove the attachment from Terraform state. This is useful when destroying an instance which has volumes created by some other means attached."
     default     = false
 }
 
@@ -186,7 +186,7 @@ variable "source_region" {
     description = "The region of the source snapshot."
     default     = ""
 }
- 
+
 variable "ebs_snapshot_copy_encrypted" {
     description = "Whether the snapshot is encrypted."
     default     = false

@@ -37,7 +37,7 @@ module "rds" {
             name  = "character_set_client"
             value = "utf8"
         },
-    ]    
+    ]
 
     enable_db_subnet_group              = true
     db_subnet_group_name                = "db_parameter_group_name"

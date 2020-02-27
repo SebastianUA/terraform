@@ -13,13 +13,13 @@ module "ebs" {
     name                            = "test"
     region                          = "us-west-2"
     environment                     = "PROD"
-                                    
+
     # AWS EBS volume
     enable_ebs_volume               = true
     ebs_volume_name                 = ""
     type                            = "gp2"
     size                            = 8
-    
+
     ebs_volume_encrypted            = false
     iops                            = 100
     snapshot_id                     = ""
@@ -30,18 +30,18 @@ module "ebs" {
     device_name                     = ""
     instance_id                     = ""
     volume_id                       = ""
-    
+
     force_detach                    = false
     skip_destroy                    = false
 
-    # 
+    #
 }
 ```
 
 Module Input Variables
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default     = "TEST"`).
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`). 
+- `region` - The region where to deploy this code (e.g. us-east-1). (`default     = "us-east-1"`).
 - `environment` - Environment for service (`default     = "STAGE"`).
 - `orchestration` - Type of orchestration (`default     = "Terraform"`).
 - `createdby` - Created by (`default     = "Vitaliy Natarov"`).
@@ -71,7 +71,7 @@ Module Input Variables
 - `source_snapshot_id` - The ARN for the snapshot to be copied. (`default     = ""`).
 - `ebs_snapshot_copy_name` - Name for ebs_snapshot_copy (`default       = ""`).
 - `ebs_snapshot_copy_description` - (Optional) A description of what the snapshot is. (`default       = ""`).
-- `source_region` - The region of the source snapshot. (`default     = ""`). 
+- `source_region` - The region of the source snapshot. (`default     = ""`).
 - `ebs_snapshot_copy_encrypted` - Whether the snapshot is encrypted. (`default     = false`).
 - `ebs_snapshot_copy_kms_key_id` -  The ARN for the KMS encryption key. (`default     = ""`).
 

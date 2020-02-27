@@ -8,7 +8,7 @@ resource "aws_sqs_queue_policy" "sqs_queue_policy" {
     policy      = data.template_file.sqs_queue_policy.rendered
 
     depends_on  = [
-        aws_sqs_queue.sqs_queue, 
+        aws_sqs_queue.sqs_queue,
         data.template_file.sqs_queue_policy
     ]
 }

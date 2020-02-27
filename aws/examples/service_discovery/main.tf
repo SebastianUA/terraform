@@ -16,4 +16,3 @@ module "service_discovery" {
     environment                     = "stage"
 
 }
-

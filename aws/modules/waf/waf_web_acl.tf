@@ -3,7 +3,7 @@
 #---------------------------------------------------
 resource "aws_waf_web_acl" "waf_web_acl" {
     count           = var.enable_waf_web_acl ? 1 : 0
-            
+
     name            = var.waf_web_acl_name != "" ? lower(var.waf_web_acl_name) : "${lower(var.name)}-waf-web-acl-${lower(var.environment)}"
     metric_name     = var.waf_web_acl_metric_name
 
@@ -56,7 +56,7 @@ resource "aws_waf_web_acl" "waf_web_acl" {
         create_before_destroy   = true
         ignore_changes          = []
     }
-    
+
     depends_on      = [
         aws_waf_ipset.waf_ipset,
         aws_waf_rule.waf_rule

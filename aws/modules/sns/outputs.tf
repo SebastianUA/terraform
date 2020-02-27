@@ -16,7 +16,7 @@ output "sns_topic_arn" {
 #---------------------------------------------------
 output "sns_topic_policy_id" {
     description = ""
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.id, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.id, [""]), 0)
 }
 
 #---------------------------------------------------
@@ -24,25 +24,25 @@ output "sns_topic_policy_id" {
 #---------------------------------------------------
 output "sns_topic_subscription_id" {
     description = "The ARN of the subscription"
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.id, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.id, [""]), 0)
 }
 
 output "sns_topic_subscription_arn" {
     description = "The ARN of the subscription stored as a more user-friendly property"
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.arn, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.arn, [""]), 0)
 }
 
 output "sns_topic_subscription_topic_arn" {
     description = "The ARN of the topic the subscription belongs to"
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.topic_arn, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.topic_arn, [""]), 0)
 }
 
 output "sns_topic_subscription_protocol" {
     description = "The protocol being used"
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.protocol, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.protocol, [""]), 0)
 }
 
 output "sns_topic_subscription_endpoint" {
     description = "The full endpoint to send data to (SQS ARN, HTTP(S) URL, Application ARN, SMS number, etc.)"
-    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.endpoint, [""]), 0) 
+    value       = element(concat(aws_sns_topic_subscription.sns_topic_subscription.*.endpoint, [""]), 0)
 }

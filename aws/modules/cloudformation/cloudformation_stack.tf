@@ -3,8 +3,8 @@
 #---------------------------------------------------
 resource "aws_cloudformation_stack" "cloudformation_stack" {
     count               = var.enable_cloudformation_stack ? 1 : 0
-  
-  
+
+
     name                = var.cloudformation_stack_name != "" ? lower(var.cloudformation_stack_name) : "${lower(var.name)}-cloudformation-stack-${lower(var.environment)}"
 
     template_body       = var.cloudformation_stack_template_body

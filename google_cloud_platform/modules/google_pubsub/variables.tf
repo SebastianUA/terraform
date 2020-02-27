@@ -69,12 +69,12 @@ variable "push_config_push_endpoint" {
 }
 
 variable "enable_pubsub_subscription_iam_policy" {
-    description = "Enable pubsub subscription iam policy" 
+    description = "Enable pubsub subscription iam policy"
     default     = "false"
 }
 
 variable "enable_pubsub_subscription_iam_binding" {
-    description = "Enable pubsub subscription iam binding" 
+    description = "Enable pubsub subscription iam binding"
     default     = "false"
 }
 
@@ -87,4 +87,3 @@ variable "enable_pubsub_subscription_iam_member" {
     description = "Enable pubsub subscription iam member"
     default     = "false"
 }
-

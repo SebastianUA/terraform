@@ -29,7 +29,7 @@ module "mq" {
     # MQ broker
     enable_mq_broker                = true
     broker_name                     = ""
-    
+
     security_group_ids              = ["sg-aed75fe1"]
     subnet_ids                      = ["subnet-8851dea6"]
 
