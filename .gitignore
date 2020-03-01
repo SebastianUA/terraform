@@ -1,0 +1,5 @@
+**/.DS_Store
+Icon*
+!.gitignore
+!.pre-commit-config.yaml
+!.github
