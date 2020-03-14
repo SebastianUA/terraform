@@ -1,16 +1,17 @@
+#---------------------------------------------------
+# AWS KMS key
+#---------------------------------------------------
+output "kms_key_arn" {
+    description = "The globally unique identifier for the key."
+    value       = element(concat(aws_kms_key.kms_key.*.arn, [""]), 0)
+}
+
 output "kms_key_id" {
     description = "The globally unique identifier for the key."
-    value       = "${aws_kms_key.kms_key.key_id}"
+    value       = element(concat(aws_kms_key.kms_key.*.key_id, [""]), 0)
 }
 
 output "kms_alias_arn" {
-    value = "${aws_kms_alias.kms_alias.arn}"
-}
-
-output "region" {
-    value = "${var.region}"
-}
-
-output "aws_account_id" {
-    value = "${var.aws_account_id}"
+    description = "Alias arn of KMS"
+    value       = element(concat(aws_kms_alias.kms_alias.*.arn, [""]), 0)
 }

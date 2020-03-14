@@ -3,32 +3,40 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST-NLB"
+  default     = "TEST"
 }
-
-variable "region" {
-  description = "The region where to deploy this code (e.g. us-east-1)."
-  default     = "us-east-1"
-} 
 
 variable "environment" {
     description = "Environment for service"
     default     = "STAGE"
 }
 
-variable "orchestration" {
-    description = "Type of orchestration"
-    default     = "Terraform"
+variable "tags" {
+    description = "A list of tag blocks. Each element should have keys named key, value, etc."
+    type        = map(string)
+    default     = {}
 }
 
-variable "createdby" {
-    description = "Created by"
-    default     = "Vitaliy Natarov"
+#-----------------------------------------------------------
+# NLB
+#-----------------------------------------------------------
+variable "enable_nlb" {
+  description   = "Enable NLB usage"
+  default       = false
+}
+
+variable "nlb_name" {
+  description   = "description"
+  default       = ""
+}
+
+variable "name_prefix" {
+    description = "Creates a unique name beginning with the specified prefix. Conflicts with nlb_name"
+    default     = ""
 }
 
 variable "subnets" {
     description = "A list of subnet IDs to attach to the NLB"
-    type        = "list"
     default     = []
 }
 
@@ -37,14 +45,14 @@ variable "lb_internal" {
     default     = false
 }
 
-variable "name_prefix" {
-    description = "Creates a unique name beginning with the specified prefix. Conflicts with name"
-    default     = "nlb"
-}
-
 variable "enable_deletion_protection" {
     description = "If true, deletion of the load balancer will be disabled via the AWS API. This will prevent Terraform from deleting the load balancer. Defaults to false."
     default     = false
+}
+
+variable "enable_cross_zone_load_balancing" {
+  description   = "(Optional) If true, cross-zone load balancing of the load balancer will be enabled. This is a network load balancer feature. Defaults to false."
+  default       = false
 }
 
 variable "load_balancer_type" {
@@ -54,7 +62,7 @@ variable "load_balancer_type" {
 
 variable "idle_timeout" {
     description = "The time in seconds that the connection is allowed to be idle. Default: 60."
-    default     = "60"
+    default     = 60
 }
 
 variable "ip_address_type" {
@@ -62,7 +70,17 @@ variable "ip_address_type" {
     default     = "ipv4"
 }
 
-variable "timeouts_create" { 
+variable "access_logs" {
+  description   = "(Optional) An Access Logs block."
+  default       = []
+}
+
+variable "subnet_mapping" {
+  description   = "(Optional) A subnet mapping block"
+  default       = []
+}
+
+variable "timeouts_create" {
     description = "Used for Creating LB. Default = 10mins"
     default     = "10m"
 }
@@ -77,8 +95,27 @@ variable "timeouts_delete" {
     default     = "10m"
 }
 
+#-----------------------------------------------------------
+# NLB target group
+#-----------------------------------------------------------
+variable "enable_nlb_target_group" {
+  description   = "Enable nlb target_group usage"
+  default       = false
+}
+
+variable "nlb_target_group_name" {
+  description   = "The name of the target group. If omitted, Terraform will assign a random, unique name."
+  default       = ""
+}
+
+variable "deregistration_delay" {
+  description   = " (Optional) The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds."
+  default       = 300
+}
+
 variable "vpc_id" {
-    description = "Set VPC ID for ?LB"
+    description   = "Set VPC ID for ?LB"
+    default       = ""
 }
 
 variable "alb_protocols" {
@@ -91,9 +128,19 @@ variable "target_type" {
     default     = "instance"
 }
 
-variable "deregistration_delay" {
-    description = "The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds."
-    default     = "300"
+variable "slow_start" {
+  description   = "(Optional) The amount time for targets to warm up before the load balancer sends them a full share of requests. The range is 30-900 seconds or 0 to disable. The default value is 0 seconds."
+  default       = 0
+}
+
+variable "lambda_multi_value_headers_enabled" {
+  description   = "(Optional) Boolean whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. Only applies when target_type is lambda."
+  default       = null
+}
+
+variable "proxy_protocol_v2" {
+  description   = "(Optional) Boolean to enable / disable support for proxy protocol v2 on Network Load Balancers"
+  default       = false
 }
 
 variable "backend_port" {
@@ -106,34 +153,103 @@ variable "backend_protocol" {
     default     = "HTTP"
 }
 
-variable "target_ids" {
-    description = "The ID of the target. This is the Instance ID for an instance, or the container ID for an ECS container. If the target type is ip, specify an IP address."
-    type        = "list"
-    default     = []
-}
-
 variable "certificate_arn" {
     description = "The ARN of the SSL Certificate. e.g. 'arn:aws:iam::XXXXXXXXXXX:server-certificate/ProdServerCert'"
     default     = ""
 }
 
-variable "health_check_healthy_threshold" {
-    description = "Number of consecutive positive health checks before a backend instance is considered healthy."
-    default     = 3
+variable "health_check" {
+  description   = "(Optional) A Health Check block."
+  default       = []
 }
 
-variable "health_check_interval" {
-    description = "Interval in seconds on which the health check against backend hosts is tried."
-    default     = 10
+#---------------------------------------------------
+# NLB target group attachment
+#---------------------------------------------------
+variable "enable_nlb_target_group_attachment" {
+  description   = "Enable nlb target group attachment usage"
+  default       = false
 }
 
-variable "health_check_port" {
-    description = "The port used by the health check if different from the traffic-port."
-    default     = "traffic-port"
+variable "target_ids" {
+    description = "The ID of the target. This is the Instance ID for an instance, or the container ID for an ECS container. If the target type is ip, specify an IP address."
+    default     = []
 }
 
-variable "health_check_unhealthy_threshold" {
-    description = "Number of consecutive positive health checks before a backend instance is considered unhealthy."
-    default     = 3
+variable "availability_zone" {
+  description   = "(Optional) The Availability Zone where the IP address of the target is to be registered."
+  default       = null
 }
 
+variable "target_group_arn" {
+  description   = "The ARN of the target group with which to register targets"
+  default       = ""
+}
+
+#---------------------------------------------------
+# NLB listeners
+#---------------------------------------------------
+variable "enable_nlb_listener1" {
+  description   = "Enable NLB 1st listener"
+  default       = false
+}
+
+variable "nlb_listener1_port" {
+  description   = "(Required) The port on which the load balancer is listening."
+  default       = 80
+}
+
+variable "nlb_listener1_protocol" {
+  description   = "(Optional) The protocol for connections from clients to the load balancer. Valid values are TCP, TLS, UDP, TCP_UDP, HTTP and HTTPS. Defaults to HTTP."
+  default       = "TCP"
+}
+
+#variable "nlb_listener1_default_action" {
+#  description = "An Action block"
+#  default     = []
+#}
+
+variable "nlb_listener1_default_action_target_group_arn" {
+  description = "(Optional) The ARN of the Target Group to which to route traffic. Required if type is forward"
+  default     = ""
+}
+
+variable "nlb_listener1_default_action_type" {
+  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc."
+  default     = "forward"
+}
+
+variable "enable_nlb_listener2" {
+  description   = "Enable NLB 2d listener"
+  default       = false
+}
+
+variable "nlb_listener2_port" {
+  description   = "(Required) The port on which the load balancer is listening."
+  default       = 443
+}
+
+variable "nlb_listener2_protocol" {
+  description   = "(Optional) The protocol for connections from clients to the load balancer. Valid values are TCP, TLS, UDP, TCP_UDP, HTTP and HTTPS. Defaults to HTTP."
+  default       = "TCP"
+}
+
+#variable "nlb_listener2_default_action" {
+#  description = "An Action block"
+#  default     = []
+#}
+
+variable "nlb_listener2_default_action_target_group_arn" {
+  description = "(Optional) The ARN of the Target Group to which to route traffic. Required if type is forward"
+  default     = ""
+}
+
+variable "nlb_listener2_default_action_type" {
+  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc."
+  default     = "forward"
+}
+
+variable "load_balancer_arn" {
+  description   = "The ARN of the load balancer."
+  default       = ""
+}

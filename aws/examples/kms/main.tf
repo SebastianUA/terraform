@@ -2,20 +2,26 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+    required_version = "~> 0.12.12"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    # alias = "us-east-1"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
-     # access_key = "${var.aws_access_key}"
-     # secret_key = "${var.aws_secret_key}"
+    region                  = "us-east-1"
+    # alias                  = "us-east-1"
+    shared_credentials_file = pathexpand("~/.aws/credentials")
+}
+
+data "template_file" "kms_key_policy" {
+    template = file("policies/kms_key_policy.json.tpl")
 }
 
 module "kms" {
-    source               = "../../modules/kms"
-    name                 = "TEST-KMS"
-    environment          = "PROD"
+    source              = "../../modules/kms"
 
-    aws_account_id       = "XXXXXXXXXXXXXXXXXX"           
+    enable_kms_key      = true
+    name                = "TESTKMS"
+    environment         = "stage"
+
+    policy              = data.template_file.kms_key_policy.rendered
+
 }

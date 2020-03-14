@@ -1,0 +1,53 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowOpsworks",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "opsworks.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowEC2",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowRDS",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rds.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowCloudWatch",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudwatch.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowLB",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "elasticloadbalancing.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowIAM",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "iam.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}

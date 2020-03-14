@@ -2,48 +2,37 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+    required_version = "~> 0.12.12"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    # alias = "us-east-1"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
-     # access_key = "${var.aws_access_key}"
-     # secret_key = "${var.aws_secret_key}"
+    region                     = "us-west-2"
+    profile                    = "default"
+    shared_credentials_file    = pathexpand("~/.aws/credentials")
 }
-module "kms" {
-    source               = "../../modules/kms"
-    name                 = "TEST-KMS"
-    environment          = "PROD"
 
-    aws_account_id       = "XXXXXXXXXXXXXXXXX"
-}
 module "s3" {
-    source                              = "../../modules/s3"
-    name                                = "My-backet"
-    environment                         = "PROD"
+    source                                  = "../../modules/s3"
+    name                                    = "TEST"
+    environment                             = "NonPROD"
+    region                                  = "us-west-2"
 
-    #
-    s3_acl          = "log-delivery-write"  #"private"  
-    force_destroy   = "true"    
-    # Allow public web-site (Static website hosting)
-    website         = [
-    {
-        index_document = "index.html"
-        error_document = "error.html"
-        #redirect_all_requests_to = "https://s3-website.linux-notes.org"
-    },
-    ]
-    # Use cors rules
-    cors_rule       = [
-    {
-        allowed_headers = ["*"]
-        allowed_methods = ["PUT", "POST"]
-        allowed_origins = ["https://s3-website.linux-notes.org"]
-        expose_headers  = ["ETag"]
-        max_age_seconds = 3000
-    },
-    ]
+    enable_s3_bucket                        = true
+    s3_bucket_name                          = "natarov-test-bucket"
+    s3_bucket_acl                           = "private"
+    s3_bucket_cors_rule                     = []
 
-    kms_master_key_id = "arn:aws:kms:${module.kms.region}:${module.kms.aws_account_id}:key/${module.kms.kms_key_id}"
+    s3_bucket_versioning                    = []
+    enable_lifecycle_rule                   = true
+
+    # Add policy to the bucket
+    enable_s3_bucket_policy                 = false
+
+    # Add files to bucket
+    enable_s3_bucket_object                 = true
+    s3_bucket_object_source                 = ["additional_files/test.txt", "additional_files/test2.txt"]
+    type_of_file                            = "txt"
+
+    tags                                    = map("Env", "stage", "Orchestration", "Terraform")
+
 }

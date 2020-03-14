@@ -1,6 +1,6 @@
 # AWS Terraform
 
-examples - Uses for some examples. 
+examples - Uses for some examples.
 modules - Uses for modules.
 
 Authors

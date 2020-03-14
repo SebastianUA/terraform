@@ -2,22 +2,38 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+    required_version = "~> 0.12.12"
 }
+
 provider "aws" {
-    region  = "us-east-1"
-    # alias = "us-east-1"
-    shared_credentials_file = "${pathexpand("~/.aws/credentials")}"
-     # access_key = "${var.aws_access_key}"
-     # secret_key = "${var.aws_secret_key}"
+    region                  = "us-east-1"
+    shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "sns" {
     source                              = "../../modules/sns"
-    name                                = "TEST-SNS"
-    environment                         = "PROD"
+    name                                = "TEST"
+    environment                         = "stage"
+
+    # SNS topic
+    enable_sns_topic                    = true
+    sns_topic_name                      = "sns-test-stage"
+    sns_topic_delivery_policy           = file("./policies/sns_topic_delivery_policy_document.json.tpl")
+
+    # SNS topic policy
+    enable_sns_topic_policy             = true
+    topic_arn                           = ""
+    sns_topic_policy                    = ""
+
+    # SNS topic subscription
+    enable_sns_topic_subscription       = true
+
+    sns_protocol                        = "sqs"
+    sns_endpoint                        = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
 
     #
-    sns_protocol = "sqs"
-    sns_endpoint = "arn:aws:sqs:us-east-1:316963130188:my_sqs"    
+    enable_sns_platform_application     = false
+    sns_platform_application_name       = "test"
+
+    tags                                = map("Env", "stage", "Orchestration", "Terraform")
 }
