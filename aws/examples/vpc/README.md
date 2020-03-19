@@ -135,9 +135,11 @@ module "vpc" {
 - `vpc_ipv6_cidr_block` - The IPv6 CIDR block.
 - `vpc_owner_id` - The ID of the AWS account that owns the VPC.
 - `private_subnets_id` - The ID of the subnet
+- `private_subnets_ids` - The IDs of the subnet
 - `private_subnets_arn` - The ARN of the subnet.
 - `private_subnets_owner_id` - The ID of the AWS account that owns the subnet.
 - `public_subnets_id` - The ID of the subnet
+- `public_subnets_ids` - The IDs of the subnet
 - `public_subnets_arn` - The ARN of the subnet.
 - `public_subnets_owner_id` - The ID of the AWS account that owns the subnet.
 - `vpn_gw_id` - The ID of the VPN Gateway.
