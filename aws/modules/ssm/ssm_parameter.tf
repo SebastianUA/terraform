@@ -16,7 +16,7 @@ resource "aws_ssm_parameter" "ssm_parameter" {
 
     tags            = merge(
         {
-            "Name"          = var.ssm_parameter_name != "" ? lower(var.ssm_parameter_name) : "/${var.environment}/database/password/master"
+            "Name"  = var.ssm_parameter_name != "" ? lower(var.ssm_parameter_name) : "/${var.environment}/database/password/master"
         },
         var.tags
     )

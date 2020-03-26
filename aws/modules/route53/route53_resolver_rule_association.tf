@@ -13,7 +13,7 @@ resource "aws_route53_resolver_rule_association" "route53_resolver_rule_associat
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on          = [
         aws_route53_resolver_rule.route53_resolver_rule
     ]
 }

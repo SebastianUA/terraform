@@ -12,9 +12,9 @@ resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_applicat
     key             = var.key
     force_delete    = var.force_delete
 
-    tags = merge(
+    tags            = merge(
         {
-            "Name"          = var.elastic_beanstalk_environment_name != "" ? var.elastic_beanstalk_environment_name : "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
+            "Name"  = var.elastic_beanstalk_environment_name != "" ? var.elastic_beanstalk_environment_name : "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
         },
         var.tags
     )
@@ -24,7 +24,7 @@ resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_applicat
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on      = [
         aws_elastic_beanstalk_application.elastic_beanstalk_application
     ]
 }

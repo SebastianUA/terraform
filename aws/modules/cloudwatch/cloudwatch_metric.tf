@@ -58,5 +58,5 @@ resource "aws_cloudwatch_metric_alarm" "cw_metric_alarm" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on                                  = []
 }

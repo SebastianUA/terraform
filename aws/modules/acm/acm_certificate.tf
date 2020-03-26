@@ -11,13 +11,14 @@ resource "aws_acm_certificate" "acm_certificate" {
 
     tags                        = merge(
         {
-            "Name"          = var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
+            "Name"  = var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
         },
         var.tags
     )
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
     depends_on                  = []
@@ -32,13 +33,14 @@ resource "aws_acm_certificate" "acm_certificate_exist" {
 
     tags                        = merge(
         {
-            "Name"          = var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
+            "Name"  = var.domain_name !="" ? var.domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
         },
         var.tags
     )
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
     depends_on                  = []

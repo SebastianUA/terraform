@@ -12,5 +12,5 @@ resource "aws_iam_saml_provider" "iam_saml_provider" {
         ignore_changes          = []
     }
 
-    depends_on      = []
+    depends_on              = []
 }

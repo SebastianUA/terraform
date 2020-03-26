@@ -18,7 +18,7 @@ resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
 
     tags                    = merge(
         {
-            "Name"          = var.route53_resolver_endpoint_name != "" ? lower(var.route53_resolver_endpoint_name) : "${lower(var.name)}-route53_resolve-endpoint-${lower(var.environment)}"
+            "Name"  = var.route53_resolver_endpoint_name != "" ? lower(var.route53_resolver_endpoint_name) : "${lower(var.name)}-route53_resolve-endpoint-${lower(var.environment)}"
         },
         var.tags
     )

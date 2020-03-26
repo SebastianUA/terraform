@@ -21,7 +21,7 @@ resource "aws_sns_topic_subscription" "sns_topic_subscription" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on                      = [
         aws_sns_topic.sns_topic
     ]
 }

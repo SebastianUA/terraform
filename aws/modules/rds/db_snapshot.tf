@@ -19,7 +19,7 @@ resource "aws_db_snapshot" "db_snapshot" {
         ignore_changes          = []
     }
 
-    depends_on      = [
+    depends_on              = [
         aws_db_instance.db_instance
     ]
 }

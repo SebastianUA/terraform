@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS LB listeners
+# AWS LB listeners
 #---------------------------------------------------
 resource "aws_lb_listener" "frontend_http" {
     count               = var.enable_alb && !var.enable_alb_prefix && trimspace(element(split(",", var.alb_protocols), 1)) == "HTTP" || trimspace(element(split(",", var.alb_protocols), 2)) == "HTTP" ? 1 : 0
@@ -20,7 +20,7 @@ resource "aws_lb_listener" "frontend_http" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb,
         aws_lb_target_group_attachment.alb_target_group_attachment,
         aws_lb_target_group.alb_target_group
@@ -46,7 +46,7 @@ resource "aws_lb_listener" "frontend_https" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb,
         aws_lb_target_group_attachment.alb_target_group_attachment,
         aws_lb_target_group.alb_target_group
@@ -70,7 +70,7 @@ resource "aws_lb_listener" "frontend_http_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb_prefix,
         aws_lb_target_group_attachment.alb_target_group_attachment_prefix,
         aws_lb_target_group.alb_target_group_prefix
@@ -96,7 +96,7 @@ resource "aws_lb_listener" "frontend_https_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb_prefix,
         aws_lb_target_group_attachment.alb_target_group_attachment_prefix,
         aws_lb_target_group.alb_target_group_prefix

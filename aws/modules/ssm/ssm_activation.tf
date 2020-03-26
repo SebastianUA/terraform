@@ -11,9 +11,9 @@ resource "aws_ssm_activation" "ssm_activation" {
     description         = var.ssm_activation_description
     registration_limit  = var.ssm_activation_registration_limit
 
-    tags = merge(
+    tags                = merge(
         {
-            "Name"          = var.ssm_activation_name != "" ? lower(var.ssm_activation_name) : "${lower(var.name)}-activation-${lower(var.environment)}"
+            "Name"  = var.ssm_activation_name != "" ? lower(var.ssm_activation_name) : "${lower(var.name)}-activation-${lower(var.environment)}"
         },
         var.tags
     )
@@ -23,5 +23,5 @@ resource "aws_ssm_activation" "ssm_activation" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on          = []
 }

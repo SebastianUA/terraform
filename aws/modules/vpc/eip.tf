@@ -13,7 +13,7 @@ resource "aws_eip" "nat_eip" {
 
     tags                        = merge(
         {
-            "Name"          = var.nat_eip_name != "" ? lower(var.nat_eip_name) : "${lower(var.name)}-nat-eip-${lower(var.environment)}"
+            "Name"  = var.nat_eip_name != "" ? lower(var.nat_eip_name) : "${lower(var.name)}-nat-eip-${lower(var.environment)}"
         },
         var.tags
     )
@@ -23,5 +23,5 @@ resource "aws_eip" "nat_eip" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on                  = []
 }

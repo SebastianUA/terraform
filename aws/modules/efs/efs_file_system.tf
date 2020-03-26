@@ -19,9 +19,9 @@ resource "aws_efs_file_system" "efs_file_system" {
         }
     }
 
-    tags = merge(
+    tags                            = merge(
         {
-            "Name"          = var.efs_file_system_name != "" ? var.efs_file_system_name : "${lower(var.name)}-efs-${lower(var.environment)}"
+            "Name"  = var.efs_file_system_name != "" ? var.efs_file_system_name : "${lower(var.name)}-efs-${lower(var.environment)}"
         },
         var.tags
     )
@@ -31,5 +31,5 @@ resource "aws_efs_file_system" "efs_file_system" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                      = []
 }

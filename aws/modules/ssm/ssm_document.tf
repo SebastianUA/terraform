@@ -22,7 +22,7 @@ resource "aws_ssm_document" "ssm_document" {
 
     tags                = merge(
         {
-            "Name"          = var.ssm_document_name != "" ? lower(var.ssm_document_name) : "${lower(var.name)}-document-${lower(var.environment)}"
+            "Name"  = var.ssm_document_name != "" ? lower(var.ssm_document_name) : "${lower(var.name)}-document-${lower(var.environment)}"
         },
         var.tags
     )

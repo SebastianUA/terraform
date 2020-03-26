@@ -30,9 +30,9 @@ resource "aws_lb_target_group" "nlb_target_group" {
         }
     }
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"          = var.nlb_target_group_name != "" && var.name_prefix == "" ? lower(var.nlb_target_group_name) : var.name_prefix
+            "Name"  = var.nlb_target_group_name != "" && var.name_prefix == "" ? lower(var.nlb_target_group_name) : var.name_prefix
         },
         var.tags
     )
@@ -42,5 +42,5 @@ resource "aws_lb_target_group" "nlb_target_group" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                          = []
 }

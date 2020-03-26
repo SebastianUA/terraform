@@ -149,7 +149,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
 
     tags                            = merge(
         {
-            "Name"          = var.cloudfront_distribution_name != "" ? lower(var.cloudfront_distribution_name) : "${lower(var.name)}-cloudfront-distribution-${lower(var.environment)}"
+            "Name"  = var.cloudfront_distribution_name != "" ? lower(var.cloudfront_distribution_name) : "${lower(var.name)}-cloudfront-distribution-${lower(var.environment)}"
         },
         var.tags,
     )

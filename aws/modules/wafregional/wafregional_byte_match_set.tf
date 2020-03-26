@@ -2,9 +2,9 @@
 # Create AWS wafregional byte match set
 #---------------------------------------------------
 resource "aws_wafregional_byte_match_set" "wafregional_byte_match_set" {
-    count   = var.ip_set_descriptors_value !="" && var.enable_cloudfront_else_alb ? 0 : 1
+    count       = var.ip_set_descriptors_value !="" && var.enable_cloudfront_else_alb ? 0 : 1
 
-    name    = "${lower(var.name)}-wafregional-byte_match_set-${lower(var.environment)}"
+    name        = "${lower(var.name)}-wafregional-byte_match_set-${lower(var.environment)}"
     byte_match_tuple {
         text_transformation     = var.byte_match_tuples_text_transformation
         target_string           = var.byte_match_tuples_target_string
@@ -20,5 +20,5 @@ resource "aws_wafregional_byte_match_set" "wafregional_byte_match_set" {
         ignore_changes          = []
     }
 
-    depends_on                  = []
+    depends_on  = []
 }

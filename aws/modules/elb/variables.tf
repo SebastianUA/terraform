@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST-ELB"
+  default     = "TEST"
 }
 
 variable "environment" {

@@ -13,7 +13,7 @@ resource "aws_autoscaling_notification" "autoscaling_notification" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on              = [
         data.aws_autoscaling_groups.autoscaling_notification
     ]
 }

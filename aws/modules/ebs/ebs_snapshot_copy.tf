@@ -13,7 +13,7 @@ resource "aws_ebs_snapshot_copy" "ebs_snapshot_copy" {
 
     tags                = merge(
         {
-            "Name"          = var.ebs_snapshot_copy_name !="" ? lower(var.ebs_snapshot_copy_name) : "${lower(var.name)}-ebs-snapshot-copy-${lower(var.environment)}"
+            "Name"  = var.ebs_snapshot_copy_name !="" ? lower(var.ebs_snapshot_copy_name) : "${lower(var.name)}-ebs-snapshot-copy-${lower(var.environment)}"
         },
         var.tags
     )
@@ -23,5 +23,5 @@ resource "aws_ebs_snapshot_copy" "ebs_snapshot_copy" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on          = []
 }

@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS LB listener certificate
+# AWS LB listener certificate
 #---------------------------------------------------
 resource "aws_lb_listener_certificate" "lb_listener_certificate" {
     count               = var.enable_lb_listener_certificate && !var.enable_lb_listener_certificate_prefix ? 1 : 0
@@ -12,7 +12,7 @@ resource "aws_lb_listener_certificate" "lb_listener_certificate" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb,
         aws_lb_target_group_attachment.alb_target_group_attachment,
         aws_lb_target_group.alb_target_group,
@@ -31,7 +31,7 @@ resource "aws_lb_listener_certificate" "lb_listener_certificate_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.alb_prefix,
         aws_lb_target_group_attachment.alb_target_group_attachment_prefix,
         aws_lb_target_group.alb_target_group_prefix,

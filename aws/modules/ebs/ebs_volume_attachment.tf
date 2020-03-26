@@ -16,7 +16,7 @@ resource "aws_volume_attachment" "ebs_volume_attachment" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on          = [
         aws_ebs_volume.ebs_volume
     ]
 }

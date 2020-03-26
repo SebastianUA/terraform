@@ -43,7 +43,7 @@ resource "aws_security_group" "security_group" {
 
     tags                    = merge(
         {
-            "Name"          = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : lower(var.security_group_name_prefix)
+            "Name"  = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : lower(var.security_group_name_prefix)
         },
         var.tags
     )

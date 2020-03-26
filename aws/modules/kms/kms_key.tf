@@ -12,9 +12,9 @@ resource "aws_kms_key" "kms_key" {
     policy                  = var.policy
     enable_key_rotation     = var.enable_key_rotation
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.kms_key_name != "" ? var.kms_key_name : "${lower(var.name)}-kms-${lower(var.environment)}"
+            "Name"  = var.kms_key_name != "" ? var.kms_key_name : "${lower(var.name)}-kms-${lower(var.environment)}"
         },
         var.tags
     )
@@ -24,5 +24,5 @@ resource "aws_kms_key" "kms_key" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on              = []
 }

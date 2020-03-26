@@ -15,7 +15,7 @@ resource "aws_athena_named_query" "athena_named_query" {
         ignore_changes          = []
     }
 
-    depends_on          = [
+    depends_on      = [
         aws_athena_workgroup.athena_workgroup,
         aws_athena_database.athena_database
     ]

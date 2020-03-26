@@ -19,9 +19,9 @@ resource "aws_eks_cluster" "eks_cluster" {
     enabled_cluster_log_types   = var.eks_enabled_cluster_log_types
     version                     = var.eks_version
 
-    tags = merge(
+    tags                        = merge(
         {
-            "Name"          = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
+            "Name"  = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
         },
         var.tags
     )
@@ -37,7 +37,7 @@ resource "aws_eks_cluster" "eks_cluster" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }
 
 resource "aws_eks_cluster" "eks_cluster_encryption" {
@@ -65,9 +65,9 @@ resource "aws_eks_cluster" "eks_cluster_encryption" {
         resources   = var.encryption_config_resources
     }
 
-    tags = merge(
+    tags                        = merge(
         {
-            "Name"          = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
+            "Name"  = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
         },
         var.tags
     )
@@ -83,5 +83,5 @@ resource "aws_eks_cluster" "eks_cluster_encryption" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }

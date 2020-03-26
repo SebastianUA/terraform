@@ -28,7 +28,7 @@ resource "aws_autoscaling_group" "asg" {
     wait_for_capacity_timeout   = var.wait_for_capacity_timeout
     protect_from_scale_in       = var.protect_from_scale_in
 
-    tags = concat(
+    tags                        = concat(
         [
             {
                 key                 = "Name"
@@ -48,7 +48,7 @@ resource "aws_autoscaling_group" "asg" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_launch_configuration.lc,
         aws_launch_configuration.lc_spot
     ]
@@ -81,7 +81,7 @@ resource "aws_autoscaling_group" "asg_prefix" {
     wait_for_capacity_timeout   = var.wait_for_capacity_timeout
     protect_from_scale_in       = var.protect_from_scale_in
 
-    tags = concat(
+    tags                        = concat(
         [
             {
                 key                 = "Name"
@@ -101,7 +101,7 @@ resource "aws_autoscaling_group" "asg_prefix" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_launch_configuration.lc_prefix,
         aws_launch_configuration.lc_spot_prefix
     ]
@@ -159,7 +159,7 @@ resource "aws_autoscaling_group" "asg_azs" {
     #    }
     #}
 
-    tags = concat(
+    tags                        = concat(
         [
             {
                 key                 = "Name"
@@ -179,7 +179,7 @@ resource "aws_autoscaling_group" "asg_azs" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_launch_configuration.lc,
         aws_launch_configuration.lc_spot
     ]
@@ -234,7 +234,7 @@ resource "aws_autoscaling_group" "asg_azs_prefix" {
     #    }
     #}
 
-    tags = concat(
+    tags                        = concat(
         [
             {
                 key                 = "Name"
@@ -254,7 +254,7 @@ resource "aws_autoscaling_group" "asg_azs_prefix" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_launch_configuration.lc_prefix,
         aws_launch_configuration.lc_spot_prefix
     ]

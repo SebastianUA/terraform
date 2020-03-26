@@ -22,7 +22,7 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on              = [
         data.template_file.autoscaling_lifecycle_hook,
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,

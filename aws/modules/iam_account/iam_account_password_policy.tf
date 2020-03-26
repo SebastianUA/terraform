@@ -20,5 +20,5 @@ resource "aws_iam_account_password_policy" "iam_account_password_policy" {
         ignore_changes          = []
     }
 
-    depends_on      = []
+    depends_on                      = []
 }

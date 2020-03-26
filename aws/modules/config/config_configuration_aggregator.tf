@@ -24,11 +24,11 @@ resource "aws_config_configuration_aggregator" "config_configuration_aggregator"
         }
     }
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.config_configuration_aggregator_name != "" ? lower(var.config_configuration_aggregator_name) : "${lower(var.name)}-config-aggregator-${lower(var.environment)}"
+            "Name"  = var.config_configuration_aggregator_name != "" ? lower(var.config_configuration_aggregator_name) : "${lower(var.name)}-config-aggregator-${lower(var.environment)}"
         },
-        var.tags,
+        var.tags
     )
 
     lifecycle {

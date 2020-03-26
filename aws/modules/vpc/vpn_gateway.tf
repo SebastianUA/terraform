@@ -11,7 +11,7 @@ resource "aws_vpn_gateway" "vpn_gw" {
 
     tags                = merge(
         {
-            "Name"          = var.vpn_gw_name != "" ? lower(var.vpn_gw_name) : "${lower(var.name)}-vpn-gw-${lower(var.environment)}"
+            "Name"  = var.vpn_gw_name != "" ? lower(var.vpn_gw_name) : "${lower(var.name)}-vpn-gw-${lower(var.environment)}"
         },
         var.tags
     )

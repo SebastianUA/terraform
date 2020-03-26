@@ -31,7 +31,7 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
 
     tags                            = merge(
         {
-            "Name"          = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier): lower(var.rds_cluster_instance_identifier_prefix)
+            "Name"  = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier): lower(var.rds_cluster_instance_identifier_prefix)
         },
         var.tags
     )
@@ -47,7 +47,7 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
         ignore_changes          = []
     }
 
-    depends_on              = [
+    depends_on                      = [
         aws_rds_cluster.rds_cluster,
         aws_db_subnet_group.db_subnet_group,
         aws_db_parameter_group.db_parameter_group

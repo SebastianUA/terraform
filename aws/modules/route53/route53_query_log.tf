@@ -12,7 +12,7 @@ resource "aws_route53_query_log" "route53_query_log" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                      = [
         aws_route53_zone.route53_zone
     ]
 }

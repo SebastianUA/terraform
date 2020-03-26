@@ -58,7 +58,7 @@ resource "aws_launch_configuration" "lc" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }
 
 resource "aws_launch_configuration" "lc_spot" {
@@ -118,7 +118,7 @@ resource "aws_launch_configuration" "lc_spot" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }
 
 resource "aws_launch_configuration" "lc_prefix" {
@@ -178,7 +178,7 @@ resource "aws_launch_configuration" "lc_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }
 
 resource "aws_launch_configuration" "lc_spot_prefix" {
@@ -237,7 +237,7 @@ resource "aws_launch_configuration" "lc_spot_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                  = []
 }
 
 data "template_file" "user_data" {

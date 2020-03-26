@@ -70,7 +70,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 
     tags                                = merge(
         {
-            "Name"          = var.cluster_identifier != "" ? lower(var.cluster_identifier) : "${lower(var.name)}-cluster-${lower(var.environment)}"
+            "Name"  = var.cluster_identifier != "" ? lower(var.cluster_identifier) : "${lower(var.name)}-cluster-${lower(var.environment)}"
         },
         var.tags
     )
@@ -86,7 +86,7 @@ resource "aws_rds_cluster" "rds_cluster" {
         ignore_changes          = []
     }
 
-    depends_on          = [
+    depends_on                          = [
         aws_rds_global_cluster.rds_global_cluster,
         aws_db_subnet_group.db_subnet_group,
         aws_rds_cluster_parameter_group.rds_cluster_parameter_group

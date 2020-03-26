@@ -16,7 +16,7 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,
@@ -39,7 +39,7 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,

@@ -9,7 +9,7 @@ resource "aws_db_cluster_snapshot" "db_cluster_snapshot" {
 
     tags                            = merge(
         {
-            "Name"          = var.db_cluster_snapshot_identifier != "" ? lower(var.db_cluster_snapshot_identifier) : "${lower(var.name)}-db-cluster-snapshot-${lower(var.environment)}"
+            "Name"  = var.db_cluster_snapshot_identifier != "" ? lower(var.db_cluster_snapshot_identifier) : "${lower(var.name)}-db-cluster-snapshot-${lower(var.environment)}"
         },
         var.tags
     )
@@ -23,7 +23,7 @@ resource "aws_db_cluster_snapshot" "db_cluster_snapshot" {
         ignore_changes          = []
     }
 
-    depends_on      = [
+    depends_on                      = [
         aws_rds_cluster.rds_cluster
     ]
 }

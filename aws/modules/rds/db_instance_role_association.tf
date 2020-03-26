@@ -13,7 +13,7 @@ resource "aws_db_instance_role_association" "db_instance_role_association" {
         ignore_changes          = []
     }
 
-    depends_on      = [
+    depends_on              = [
         aws_db_instance.db_instance
     ]
 }

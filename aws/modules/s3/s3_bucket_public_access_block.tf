@@ -15,7 +15,7 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_s3_bucket.s3_bucket
     ]
 }

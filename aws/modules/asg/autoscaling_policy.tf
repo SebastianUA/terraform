@@ -15,7 +15,7 @@ resource "aws_autoscaling_policy" "scale_up" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,
@@ -37,7 +37,7 @@ resource "aws_autoscaling_policy" "scale_down" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,

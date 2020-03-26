@@ -15,7 +15,7 @@ resource "aws_cloudhsm_v2_hsm" "cloudhsm_v2_hsm" {
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on          = [
         aws_cloudhsm_v2_cluster.cloudhsm_v2_cluster
     ]
 

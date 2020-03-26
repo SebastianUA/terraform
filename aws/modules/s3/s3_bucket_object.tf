@@ -33,7 +33,7 @@ resource "aws_s3_bucket_object" "s3_bucket_object" {
 
     tags                            = merge(
         {
-            "Name"          = var.s3_bucket_object_key != "" ? lower(var.s3_bucket_object_key) : var.s3_bucket_object_source[count.index]
+            "Name"  = var.s3_bucket_object_key != "" ? lower(var.s3_bucket_object_key) : var.s3_bucket_object_source[count.index]
         },
         var.tags
     )

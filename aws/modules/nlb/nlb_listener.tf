@@ -26,7 +26,7 @@ resource "aws_lb_listener" "nlb_listener1" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.nlb,
         aws_lb_target_group.nlb_target_group
     ]
@@ -59,7 +59,7 @@ resource "aws_lb_listener" "nlb_listener2" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb.nlb,
         aws_lb_target_group.nlb_target_group
     ]

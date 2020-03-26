@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS LB target group attachment
+# AWS LB target group attachment
 #---------------------------------------------------
 resource "aws_lb_target_group_attachment" "alb_target_group_attachment" {
     count               = var.alb_target_group_attachment && !var.alb_target_group_attachment_prefix && length(var.target_ids) > 0 ? length(var.target_ids) : 0
@@ -14,7 +14,7 @@ resource "aws_lb_target_group_attachment" "alb_target_group_attachment" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_target_group.alb_target_group
     ]
 }
@@ -32,7 +32,7 @@ resource "aws_lb_target_group_attachment" "alb_target_group_attachment_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_target_group.alb_target_group_prefix
     ]
 }

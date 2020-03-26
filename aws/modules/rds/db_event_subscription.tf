@@ -15,7 +15,7 @@ resource "aws_db_event_subscription" "db_event_subscription" {
 
     tags                = merge(
         {
-            "Name"          = var.db_cluster_snapshot_identifier != "" ? lower(var.db_cluster_snapshot_identifier) : "${lower(var.name)}-db-cluster-snapshot-${lower(var.environment)}"
+            "Name"  = var.db_cluster_snapshot_identifier != "" ? lower(var.db_cluster_snapshot_identifier) : "${lower(var.name)}-db-cluster-snapshot-${lower(var.environment)}"
         },
         var.tags
     )
@@ -31,5 +31,5 @@ resource "aws_db_event_subscription" "db_event_subscription" {
         ignore_changes          = []
     }
 
-    depends_on      = []
+    depends_on          = []
 }

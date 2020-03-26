@@ -19,13 +19,14 @@ resource "aws_cloudtrail" "cloudtrail" {
 
     tags                            = merge(
         {
-            "Name"          = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-${lower(var.environment)}"
+            "Name"  = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-${lower(var.environment)}"
         },
-        var.tags,
+        var.tags
     )
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
     depends_on                      = []
@@ -62,13 +63,14 @@ resource "aws_cloudtrail" "cloudtrail_event_selector" {
 
     tags                            = merge(
         {
-            "Name"          = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-event-selector-${lower(var.environment)}"
+            "Name"  = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-event-selector-${lower(var.environment)}"
         },
-        var.tags,
+        var.tags
     )
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
     depends_on                      = []

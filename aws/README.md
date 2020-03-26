@@ -1,15 +1,12 @@
-# AWS Terraform
+# AWS Terraform project
 
-examples - Uses for some examples.
-modules - Uses for modules.
+- The `examples` folder uses for some examples.
+- The `modules` folder uses for modules.
 
-Authors
-=======
+## Authors
 
-Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA)
-(vitaliy.natarov@yahoo.com).
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com).
 
-License
-=======
+## License
 
-Apache 2 Licensed. See LICENSE for full details.
+Apache 2 Licensed. See [LICENSE](https://github.com/SebastianUA/terraform/blob/master/LICENSE) for full details.

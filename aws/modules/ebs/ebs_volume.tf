@@ -15,7 +15,7 @@ resource "aws_ebs_volume" "ebs_volume" {
 
     tags                = merge(
         {
-            "Name"          = var.ebs_volume_name !="" ? lower(var.ebs_volume_name) : "${lower(var.name)}-ebs-${lower(var.environment)}"
+            "Name"  = var.ebs_volume_name !="" ? lower(var.ebs_volume_name) : "${lower(var.name)}-ebs-${lower(var.environment)}"
         },
         var.tags
     )
@@ -25,5 +25,5 @@ resource "aws_ebs_volume" "ebs_volume" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on          = []
 }

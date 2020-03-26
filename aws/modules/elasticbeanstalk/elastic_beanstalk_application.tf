@@ -22,5 +22,5 @@ resource "aws_elastic_beanstalk_application" "elastic_beanstalk_application" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on              = []
 }

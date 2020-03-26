@@ -43,9 +43,9 @@ resource "aws_opsworks_stack" "opsworks_stack" {
     color                               = var.opsworks_stack_color
     vpc_id                              = var.opsworks_stack_vpc_id
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"   = var.opsworks_stack_name != "" ? lower(var.opsworks_stack_name) : "${lower(var.name)}-opsworks-stack-${lower(var.environment)}"
+            "Name"  = var.opsworks_stack_name != "" ? lower(var.opsworks_stack_name) : "${lower(var.name)}-opsworks-stack-${lower(var.environment)}"
         },
         var.tags
     )

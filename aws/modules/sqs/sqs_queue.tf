@@ -24,9 +24,9 @@ resource "aws_sqs_queue" "sqs_queue" {
     kms_master_key_id                   = var.kms_master_key_id
     kms_data_key_reuse_period_seconds   = var.kms_data_key_reuse_period_seconds
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"          = var.sqs_queue_name != "" && var.name_prefix == "" ? var.sqs_queue_name : var.name_prefix
+            "Name"  = var.sqs_queue_name != "" && var.name_prefix == "" ? var.sqs_queue_name : var.name_prefix
         },
         var.tags
     )
@@ -36,5 +36,5 @@ resource "aws_sqs_queue" "sqs_queue" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on                          = []
 }

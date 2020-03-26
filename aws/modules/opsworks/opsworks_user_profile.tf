@@ -15,5 +15,5 @@ resource "aws_opsworks_user_profile" "opsworks_user_profile" {
         ignore_changes          = []
     }
 
-    depends_on          = []
+    depends_on                  = []
 }

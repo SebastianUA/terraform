@@ -23,7 +23,7 @@ resource "aws_s3_bucket_metric" "s3_bucket_metric" {
         ignore_changes          = []
     }
 
-    depends_on              = [
+    depends_on  = [
         aws_s3_bucket.s3_bucket
     ]
 }

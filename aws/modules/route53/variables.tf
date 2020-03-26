@@ -12,7 +12,7 @@ variable "environment" {
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
+    description = "A list of tag blocks."
     type        = map(string)
     default     = {}
 }

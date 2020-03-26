@@ -53,7 +53,6 @@ module "acm_certificate_validation" {
 ## Module Input Variables
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
-- `region` - The region where to deploy this code (e.g. us-east-1). (`default = us-east-1`)
 - `environment` - Environment for service (`default = STAGE`)
 - `tags` - Add additional tags (`default = ""`)
 - `acm_certificate` - Enable acm certificate usage (`default = ""`)
@@ -90,7 +89,7 @@ module "acm_certificate_validation" {
 - `enable_acmpca_certificate_authority_revocation_configuration` - Enable acmpca certificate authority wirth revocation configuration usage (`default = ""`)
 - `revocation_configuration_crl_configuration_custom_cname` - (Optional) Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. (`default = ""`)
 - `revocation_configuration_crl_configuration_enabled` - (Optional) Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. Defaults to false. (`default = ""`)
-- `revocation_configuration_crl_configuration_expiration_in_days` - (Required) Number of days until a certificate expires. Must be between 1 and 5000. (`default = 10`)
+- `revocation_configuration_crl_configuration_expiration_in_days` - (Required) Number of days until a certificate expires. Must be between 1 and 5000.  (`default = 10`)
 - `revocation_configuration_crl_configuration_s3_bucket_name` - (Optional) Name of the S3 bucket that contains the CRL. If you do not provide a value for the custom_cname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket. (`default = ""`)
 - `acmpca_certificate_authority_timeouts_create` - (Default 1m) How long to wait for a certificate authority to be created. (`default = 1m`)
 
@@ -113,7 +112,7 @@ module "acm_certificate_validation" {
 
 ## Authors
 
-Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com)).
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com).
 
 ## License
 

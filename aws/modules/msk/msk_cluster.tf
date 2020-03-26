@@ -43,9 +43,9 @@ resource "aws_msk_cluster" "msk_cluster" {
 
     enhanced_monitoring = upper(var.enhanced_monitoring)
 
-    tags = merge(
+    tags                = merge(
         {
-            "Name"          = var.cluster_name != "" ? lower(var.cluster_name) : "${lower(var.name)}-msk-cluster-${lower(var.environment)}"
+            "Name"  = var.cluster_name != "" ? lower(var.cluster_name) : "${lower(var.name)}-msk-cluster-${lower(var.environment)}"
         },
         var.tags
     )
@@ -55,6 +55,6 @@ resource "aws_msk_cluster" "msk_cluster" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on          = []
 
 }

@@ -76,7 +76,7 @@ resource "aws_db_instance" "db_instance" {
 
     tags                                    = merge(
         {
-            "Name"          = var.db_instance_identifier != "" && var.db_instance_identifier_prefix == "" ? lower(var.db_instance_identifier) : lower(var.db_instance_identifier_prefix)
+            "Name"  = var.db_instance_identifier != "" && var.db_instance_identifier_prefix == "" ? lower(var.db_instance_identifier) : lower(var.db_instance_identifier_prefix)
         },
         var.tags
     )

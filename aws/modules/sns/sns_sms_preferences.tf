@@ -16,5 +16,5 @@ resource "aws_sns_sms_preferences" "sns_sms_preferences" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                              = []
 }

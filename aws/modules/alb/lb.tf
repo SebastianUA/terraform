@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ALB
+# AWS ALB
 #---------------------------------------------------
 resource "aws_lb" "alb" {
     count                               = var.enable_alb && !var.enable_alb_prefix ? 1 :0
@@ -39,9 +39,9 @@ resource "aws_lb" "alb" {
         ignore_changes          = []
     }
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"          = var.alb_name !="" ? lower(var.alb_name) : "${lower(var.name)}-alb-${lower(var.environment)}"
+            "Name"  = var.alb_name !="" ? lower(var.alb_name) : "${lower(var.name)}-alb-${lower(var.environment)}"
         },
         var.tags
     )
@@ -87,9 +87,9 @@ resource "aws_lb" "alb_prefix" {
         ignore_changes          = []
     }
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"          = var.name_prefix !="" ? lower(var.name_prefix) : "${lower(var.name)}-alb-"
+            "Name"  = var.name_prefix !="" ? lower(var.name_prefix) : "${lower(var.name)}-alb-"
         },
         var.tags
     )

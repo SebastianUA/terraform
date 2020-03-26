@@ -19,7 +19,7 @@ resource "aws_waf_rule_group" "waf_rule_group" {
 
     tags            = merge(
         {
-            "Name"          = var.waf_rule_group_name != "" ? lower(var.waf_rule_group_name) : "${lower(var.name)}-waf-rule-group-${lower(var.environment)}"
+            "Name"  = var.waf_rule_group_name != "" ? lower(var.waf_rule_group_name) : "${lower(var.name)}-waf-rule-group-${lower(var.environment)}"
         },
         var.tags
     )
@@ -29,7 +29,7 @@ resource "aws_waf_rule_group" "waf_rule_group" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on      = [
         aws_waf_rule.waf_rule
     ]
 }

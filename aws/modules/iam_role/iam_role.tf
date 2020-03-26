@@ -15,12 +15,12 @@ resource "aws_iam_role" "iam_role" {
     max_session_duration    = var.iam_role_max_session_duration
     permissions_boundary    = var.iam_role_permissions_boundary
 
-    tags = merge(
+    tags                    = merge(
         {
             "Name"          = var.iam_role_name != "" && var.iam_role_name_prefix == "" ? lower(var.iam_role_name) : lower(var.iam_role_name_prefix)
         },
         var.tags
     )
 
-    depends_on  = []
+    depends_on              = []
 }

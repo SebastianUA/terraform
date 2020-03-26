@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS LB target group
+# AWS LB target group
 #---------------------------------------------------
 resource "aws_lb_target_group" "alb_target_group" {
     count                   = var.enable_alb_target_group && !var.enable_alb_target_group_prefix ? 1 : 0
@@ -12,9 +12,9 @@ resource "aws_lb_target_group" "alb_target_group" {
     deregistration_delay    = var.deregistration_delay
     slow_start              = var.slow_start
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.alb_target_group_name !="" ? lower(var.alb_target_group_name) : "${lower(var.name)}-alb-tg-${lower(var.environment)}"
+            "Name"  = var.alb_target_group_name !="" ? lower(var.alb_target_group_name) : "${lower(var.name)}-alb-tg-${lower(var.environment)}"
         },
         var.tags
     )
@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "alb_target_group" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on              = [
         aws_lb.alb
     ]
 }
@@ -58,9 +58,9 @@ resource "aws_lb_target_group" "alb_target_group_prefix" {
     deregistration_delay    = var.deregistration_delay
     slow_start              = var.slow_start
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.tg_name_prefix  !="" ? "${lower(var.tg_name_prefix)}" : "alb-"
+            "Name"  = var.tg_name_prefix  !="" ? "${lower(var.tg_name_prefix)}" : "alb-"
         },
         var.tags
     )
@@ -88,7 +88,7 @@ resource "aws_lb_target_group" "alb_target_group_prefix" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on              = [
         aws_lb.alb_prefix
     ]
 }

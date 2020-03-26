@@ -16,7 +16,7 @@ resource "aws_cloudformation_stack_set" "cloudformation_stack_set" {
 
     tags                    = merge(
         {
-            "Name"          = var.cloudformation_stack_set_name != "" ? lower(var.cloudformation_stack_set_name) : "${lower(var.name)}-cloudformation-stack-set-${lower(var.environment)}"
+            "Name"  = var.cloudformation_stack_set_name != "" ? lower(var.cloudformation_stack_set_name) : "${lower(var.name)}-cloudformation-stack-set-${lower(var.environment)}"
         },
         var.tags
     )

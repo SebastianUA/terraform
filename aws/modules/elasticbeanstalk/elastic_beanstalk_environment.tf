@@ -38,9 +38,9 @@ resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment" {
     poll_interval               = var.poll_interval
     version_label               = var.version_label
 
-    tags = merge(
+    tags                        = merge(
         {
-            "Name"          = var.elastic_beanstalk_environment_name !="" ? lower(var.elastic_beanstalk_environment_name) : "${lower(var.name)}-eb-env-${lower(var.environment)}"
+            "Name"  = var.elastic_beanstalk_environment_name !="" ? lower(var.elastic_beanstalk_environment_name) : "${lower(var.name)}-eb-env-${lower(var.environment)}"
         },
         var.tags
     )
@@ -50,7 +50,7 @@ resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment" {
         ignore_changes          = [tags]
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_elastic_beanstalk_application.elastic_beanstalk_application,
         #aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version
     ]

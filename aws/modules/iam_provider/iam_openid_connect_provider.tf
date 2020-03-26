@@ -13,5 +13,5 @@ resource "aws_iam_openid_connect_provider" "iam_openid_connect_provider" {
         ignore_changes          = []
     }
 
-    depends_on      = []
+    depends_on              = []
 }

@@ -16,5 +16,5 @@ resource "aws_elasticache_security_group" "elasticache_security_group" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on          = []
 }

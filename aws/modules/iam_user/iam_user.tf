@@ -12,7 +12,7 @@ resource "aws_iam_user" "iam_user" {
 
     tags                    = merge(
         {
-            "Name"          = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-iam-user-${lower(var.environment)}"
+            "Name"  = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-iam-user-${lower(var.environment)}"
         },
         var.tags
     )

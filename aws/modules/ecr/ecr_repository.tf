@@ -6,9 +6,9 @@ resource "aws_ecr_repository" "ecr_repository" {
 
     name                = var.ecr_repository_name != "" ? var.ecr_repository_name : "${lower(var.name)}-ecr-${lower(var.environment)}"
 
-    tags = merge(
+    tags                = merge(
         {
-            "Name"          = var.ecr_repository_name != "" ? var.ecr_repository_name : "${lower(var.name)}-ecr-${lower(var.environment)}"
+            "Name"  = var.ecr_repository_name != "" ? var.ecr_repository_name : "${lower(var.name)}-ecr-${lower(var.environment)}"
         },
         var.tags
     )
@@ -17,5 +17,5 @@ resource "aws_ecr_repository" "ecr_repository" {
         delete  = var.timeouts_delete
     }
 
-    depends_on  = []
+    depends_on          = []
 }

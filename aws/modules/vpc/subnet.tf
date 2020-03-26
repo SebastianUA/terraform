@@ -20,7 +20,7 @@ resource "aws_subnet" "private_subnets" {
 
     tags                            = merge(
         {
-            "Name"          = var.private_subnets_name != "" ? "${lower(var.private_subnets_name)}-${count.index+1}" : "${lower(var.name)}-${lower(var.environment)}-private_subnet-${count.index+1}"
+            "Name"  = var.private_subnets_name != "" ? "${lower(var.private_subnets_name)}-${count.index+1}" : "${lower(var.name)}-${lower(var.environment)}-private_subnet-${count.index+1}"
         },
         var.tags
     )
@@ -57,7 +57,7 @@ resource "aws_subnet" "public_subnets" {
 
     tags                            = merge(
         {
-            "Name"          = var.public_subnets_name != "" ? "${lower(var.public_subnets_name)}-${count.index+1}" : "${lower(var.name)}-${lower(var.environment)}-public_subnet-${count.index+1}"
+            "Name"  = var.public_subnets_name != "" ? "${lower(var.public_subnets_name)}-${count.index+1}" : "${lower(var.name)}-${lower(var.environment)}-public_subnet-${count.index+1}"
         },
         var.tags
     )

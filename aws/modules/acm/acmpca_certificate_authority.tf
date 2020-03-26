@@ -31,7 +31,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority_defaul
 
     tags                            = merge(
         {
-            "Name"          = var.acmpca_certificate_authority_name != "" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
+            "Name"  = var.acmpca_certificate_authority_name !="" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
         },
         var.tags
     )
@@ -41,11 +41,11 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority_defaul
     }
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
-    depends_on = []
-
+    depends_on                              = []
 }
 
 resource "aws_acmpca_certificate_authority" "acmpca_cert_authority_revocation_configuration" {
@@ -87,7 +87,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_cert_authority_revocation_co
 
     tags                            = merge(
         {
-            "Name"          = var.acmpca_certificate_authority_name != "" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
+            "Name"  = var.acmpca_certificate_authority_name !="" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
         },
         var.tags
     )
@@ -97,9 +97,9 @@ resource "aws_acmpca_certificate_authority" "acmpca_cert_authority_revocation_co
     }
 
     lifecycle {
-        create_before_destroy = true
+        create_before_destroy   = true
+        ignore_changes          = []
     }
 
-    depends_on = []
-
+    depends_on                              = []
 }

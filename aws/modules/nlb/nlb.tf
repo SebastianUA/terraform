@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS NLB
+# AWS NLB
 #---------------------------------------------------
 resource "aws_lb" "nlb" {
     count                               = var.enable_nlb ? 1 : 0
@@ -38,9 +38,9 @@ resource "aws_lb" "nlb" {
         delete  = var.timeouts_delete
     }
 
-    tags = merge(
+    tags                                = merge(
         {
-            "Name"          = var.nlb_name != "" && var.name_prefix == "" ? lower(var.nlb_name) : var.name_prefix
+            "Name"  = var.nlb_name != "" && var.name_prefix == "" ? lower(var.nlb_name) : var.name_prefix
         },
         var.tags
     )
@@ -50,6 +50,6 @@ resource "aws_lb" "nlb" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                          = []
 
 }

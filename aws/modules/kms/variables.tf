@@ -3,7 +3,7 @@
 #-----------------------------------------------------------
 variable "name" {
   description = "Name to be used on all resources as prefix"
-  default     = "TEST-KMS"
+  default     = "TEST"
 }
 
 variable "environment" {
@@ -12,7 +12,7 @@ variable "environment" {
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch."
+    description = "A list of tag blocks."
     type        = map(string)
     default     = {}
 }

@@ -23,5 +23,5 @@ resource "aws_sns_platform_application" "sns_platform_application" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                              = []
 }

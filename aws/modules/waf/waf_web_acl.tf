@@ -38,7 +38,7 @@ resource "aws_waf_web_acl" "waf_web_acl" {
 
     tags            = merge(
         {
-            "Name"          = var.waf_web_acl_name != "" ? lower(var.waf_web_acl_name) : "${lower(var.name)}-waf-web-acl-${lower(var.environment)}"
+            "Name"  = var.waf_web_acl_name != "" ? lower(var.waf_web_acl_name) : "${lower(var.name)}-waf-web-acl-${lower(var.environment)}"
         },
         var.tags
     )

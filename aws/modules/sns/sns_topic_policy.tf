@@ -12,7 +12,7 @@ resource "aws_sns_topic_policy" "sns_topic_policy" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on      = [
         aws_sns_topic.sns_topic
     ]
 }

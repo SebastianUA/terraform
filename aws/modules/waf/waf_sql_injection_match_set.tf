@@ -2,9 +2,9 @@
 # AWS WAF sql injection match set
 #---------------------------------------------------
 resource "aws_waf_sql_injection_match_set" "waf_sql_injection_match_set" {
-    count   = var.enable_waf_sql_injection_match_set ? 1 : 0
+    count       = var.enable_waf_sql_injection_match_set ? 1 : 0
 
-    name    = var.waf_sql_injection_match_set_name != "" ? lower(var.waf_sql_injection_match_set_name): "${lower(var.name)}-sql-injection-match-set-${lower(var.environment)}"
+    name        = var.waf_sql_injection_match_set_name != "" ? lower(var.waf_sql_injection_match_set_name): "${lower(var.name)}-sql-injection-match-set-${lower(var.environment)}"
 
     dynamic "sql_injection_match_tuples" {
         for_each = var.sql_injection_match_tuples
@@ -63,5 +63,5 @@ resource "aws_waf_sql_injection_match_set" "waf_sql_injection_match_set" {
         ignore_changes          = []
     }
 
-    depends_on                  = []
+    depends_on  = []
 }

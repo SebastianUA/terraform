@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS LB listener rule
+# AWS LB listener rule
 #---------------------------------------------------
 
 # Forward action
@@ -24,7 +24,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_forward" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_listener.frontend_http,
         aws_lb_listener.frontend_https
     ]
@@ -59,7 +59,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_redirect" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_listener.frontend_http,
         aws_lb_listener.frontend_https
     ]
@@ -91,7 +91,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_fixed_response" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_listener.frontend_http,
         aws_lb_listener.frontend_https
     ]
@@ -134,7 +134,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_cognito" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_listener.frontend_http,
         aws_lb_listener.frontend_https
     ]
@@ -181,7 +181,7 @@ resource "aws_lb_listener_rule" "lb_listener_rule_oidc" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_listener.frontend_http,
         aws_lb_listener.frontend_https
     ]

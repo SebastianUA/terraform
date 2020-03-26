@@ -10,9 +10,9 @@ resource "aws_mq_configuration" "mq_configuration" {
     engine_version          = var.engine_version
     data                    = data.template_file.mq_configuration_data.rendered
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.mq_configuration_name != "" ? var.mq_configuration_name : "${lower(var.name)}-mq-broker-configuration-${lower(var.environment)}"
+            "Name"  = var.mq_configuration_name != "" ? var.mq_configuration_name : "${lower(var.name)}-mq-broker-configuration-${lower(var.environment)}"
         },
         var.tags
     )
@@ -22,7 +22,7 @@ resource "aws_mq_configuration" "mq_configuration" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         data.template_file.mq_configuration_data
     ]
 }

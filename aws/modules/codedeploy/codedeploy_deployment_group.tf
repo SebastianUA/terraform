@@ -22,7 +22,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group" {
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on              = [
         aws_codedeploy_app.codedeploy_app
     ]
 }
@@ -54,7 +54,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_notify" 
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on              = [
         aws_codedeploy_app.codedeploy_app
     ]
 }
@@ -86,7 +86,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag" 
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on              = [
         aws_codedeploy_app.codedeploy_app
     ]
 }
@@ -124,7 +124,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag_n
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on              = [
         aws_codedeploy_app.codedeploy_app
     ]
 }
@@ -176,7 +176,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_blue_gre
         ignore_changes          = []
     }
 
-    depends_on                  = [
+    depends_on              = [
         aws_codedeploy_app.codedeploy_app
     ]
 }

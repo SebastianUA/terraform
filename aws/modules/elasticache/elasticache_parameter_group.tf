@@ -21,5 +21,5 @@ resource "aws_elasticache_parameter_group" "elasticache_parameter_group" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on      = []
 }

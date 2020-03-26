@@ -12,7 +12,7 @@ resource "aws_vpc_dhcp_options" "vpc_dhcp_options" {
 
     tags                    = merge(
         {
-            "Name"          = var.vpc_dhcp_name != "" ? lower(var.vpc_dhcp_name) : "${lower(var.name)}-vpn-dhcp-${lower(var.environment)}"
+            "Name"  = var.vpc_dhcp_name != "" ? lower(var.vpc_dhcp_name) : "${lower(var.name)}-vpn-dhcp-${lower(var.environment)}"
         },
         var.tags
     )

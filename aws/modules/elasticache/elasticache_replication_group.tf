@@ -41,9 +41,9 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
         }
     }
 
-    tags = merge(
+    tags                            = merge(
         {
-            "Name"          = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
+            "Name"  = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
         },
         var.tags
     )
@@ -59,7 +59,7 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on                      = [
         aws_elasticache_parameter_group.elasticache_parameter_group
     ]
 }

@@ -29,9 +29,9 @@ resource "aws_elasticache_cluster" "elasticache_cluster" {
     az_mode                         = var.az_mode
     preferred_availability_zones    = var.preferred_availability_zones
 
-    tags = merge(
+    tags                            = merge(
         {
-            "Name"          = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
+            "Name"  = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
         },
         var.tags
     )
@@ -41,7 +41,7 @@ resource "aws_elasticache_cluster" "elasticache_cluster" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on                      = [
         aws_elasticache_subnet_group.elasticache_subnet_group,
         aws_elasticache_security_group.elasticache_security_group,
         aws_elasticache_parameter_group.elasticache_parameter_group

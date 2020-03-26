@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS Instance
+# AWS Instance
 #---------------------------------------------------
 resource "aws_instance" "instance" {
     count                                       = var.enable_instance ? 1 : 0
@@ -72,16 +72,16 @@ resource "aws_instance" "instance" {
         }
     }
 
-    volume_tags = merge(
+    volume_tags                             = merge(
         {
             "Name" = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
         },
         var.volume_tags
     )
 
-    tags = merge(
+    tags                                    = merge(
         {
-            "Name"          = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
+            "Name"  = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
         },
         var.tags
     )
@@ -97,5 +97,5 @@ resource "aws_instance" "instance" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                              = []
 }

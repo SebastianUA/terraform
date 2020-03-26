@@ -19,7 +19,7 @@ resource "aws_route53_resolver_rule" "route53_resolver_rule" {
 
     tags                    = merge(
         {
-            "Name"          = var.route53_resolver_rule_name != "" ? lower(var.route53_resolver_rule_name) : "${lower(var.name)}-route53_resolve-rule-${lower(var.environment)}"
+            "Name"  = var.route53_resolver_rule_name != "" ? lower(var.route53_resolver_rule_name) : "${lower(var.name)}-route53_resolve-rule-${lower(var.environment)}"
         },
         var.tags
     )
@@ -29,7 +29,7 @@ resource "aws_route53_resolver_rule" "route53_resolver_rule" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_route53_resolver_endpoint.route53_resolver_endpoint
     ]
 }

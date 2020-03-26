@@ -15,5 +15,5 @@ resource "aws_msk_configuration" "msk_configuration" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on          = []
 }

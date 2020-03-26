@@ -41,7 +41,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on                  = [
         aws_s3_bucket.s3_bucket
     ]
 }

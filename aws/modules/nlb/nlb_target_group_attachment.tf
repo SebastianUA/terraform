@@ -14,7 +14,7 @@ resource "aws_lb_target_group_attachment" "nlb_target_group_attachment" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on          = [
         aws_lb_target_group.nlb_target_group
     ]
 }

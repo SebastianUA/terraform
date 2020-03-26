@@ -12,7 +12,7 @@ resource "aws_autoscaling_attachment" "elb_autoscaling_attachment" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,
@@ -31,7 +31,7 @@ resource "aws_autoscaling_attachment" "alb_autoscaling_attachment" {
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on              = [
         aws_autoscaling_group.asg,
         aws_autoscaling_group.asg_prefix,
         aws_autoscaling_group.asg_azs,

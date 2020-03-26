@@ -1,7 +1,6 @@
 #---------------------------------------------------
-# acm_certificate
+# acm certificate
 #---------------------------------------------------
-
 output "aws_acm_certificate_id" {
     description = "The ARN of the certificate"
     value       = element(concat(aws_acm_certificate.acm_certificate.*.id, [""]), 0)

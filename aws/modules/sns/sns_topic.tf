@@ -30,7 +30,7 @@ resource "aws_sns_topic" "sns_topic" {
 
     tags                                        = merge(
         {
-            "Name"          = var.display_name != "" ? var.display_name : "${lower(var.name)}-sns-${lower(var.environment)}"
+            "Name"  = var.display_name != "" ? var.display_name : "${lower(var.name)}-sns-${lower(var.environment)}"
         },
         var.tags
     )
@@ -40,5 +40,5 @@ resource "aws_sns_topic" "sns_topic" {
         ignore_changes          = []
     }
 
-    depends_on = []
+    depends_on                                  = []
 }

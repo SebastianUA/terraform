@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS CloudWatch Create AWS dashboard
+# AWS CloudWatch Create AWS dashboard
 #---------------------------------------------------
 resource "aws_cloudwatch_dashboard" "cw_dashboard" {
     count           = var.enable_cw_dashboard ? 1 : 0
@@ -12,5 +12,5 @@ resource "aws_cloudwatch_dashboard" "cw_dashboard" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on      = []
 }

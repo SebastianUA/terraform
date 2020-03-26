@@ -59,9 +59,9 @@ resource "aws_mq_broker" "mq_broker" {
         }
     }
 
-    tags = merge(
+    tags                    = merge(
         {
-            "Name"          = var.broker_name != "" ? var.broker_name : "${lower(var.name)}-mq-broker-${lower(var.environment)}"
+            "Name"  = var.broker_name != "" ? var.broker_name : "${lower(var.name)}-mq-broker-${lower(var.environment)}"
         },
         var.tags
     )
@@ -71,7 +71,7 @@ resource "aws_mq_broker" "mq_broker" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on              = [
         aws_mq_configuration.mq_configuration
     ]
 }

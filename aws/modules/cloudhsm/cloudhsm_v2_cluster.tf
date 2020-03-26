@@ -9,9 +9,9 @@ resource "aws_cloudhsm_v2_cluster" "cloudhsm_v2_cluster" {
 
     source_backup_identifier    = var.cloudhsm_v2_cluster_source_backup_identifier != null ? var.cloudhsm_v2_cluster_source_backup_identifier : null
 
-    tags = merge(
+    tags                        = merge(
         {
-            "Name"          = var.cloudhsm_v2_cluster_name !="" ? "${lower(var.cloudhsm_v2_cluster_name)}" : "${lower(var.name)}-cloudhsm-v2-cluster-${lower(var.environment)}"
+            "Name"  = var.cloudhsm_v2_cluster_name !="" ? "${lower(var.cloudhsm_v2_cluster_name)}" : "${lower(var.name)}-cloudhsm-v2-cluster-${lower(var.environment)}"
         },
         var.tags,
     )

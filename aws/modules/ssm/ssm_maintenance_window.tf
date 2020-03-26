@@ -18,7 +18,7 @@ resource "aws_ssm_maintenance_window" "ssm_maintenance_window" {
 
     tags                        = merge(
         {
-            "Name"          = var.ssm_maintenance_window_name != "" ? lower(var.ssm_maintenance_window_name) : "${lower(var.name)}-mw-${lower(var.environment)}"
+            "Name"  = var.ssm_maintenance_window_name != "" ? lower(var.ssm_maintenance_window_name) : "${lower(var.name)}-mw-${lower(var.environment)}"
         },
         var.tags
     )

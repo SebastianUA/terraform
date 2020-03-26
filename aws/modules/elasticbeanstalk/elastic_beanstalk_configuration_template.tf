@@ -26,7 +26,7 @@ resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_confi
         ignore_changes          = []
     }
 
-    depends_on  = [
+    depends_on          = [
         aws_elastic_beanstalk_environment.elastic_beanstalk_environment,
         aws_elastic_beanstalk_application.elastic_beanstalk_application
     ]

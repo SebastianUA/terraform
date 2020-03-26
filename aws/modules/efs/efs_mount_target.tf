@@ -14,7 +14,7 @@ resource "aws_efs_mount_target" "efs_mount_target" {
         ignore_changes          = []
     }
 
-    depends_on = [
+    depends_on      = [
         aws_efs_file_system.efs_file_system
     ]
 }

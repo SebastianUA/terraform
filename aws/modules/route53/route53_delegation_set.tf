@@ -11,6 +11,6 @@ resource "aws_route53_delegation_set" "route53_delegation_set" {
         ignore_changes          = []
     }
 
-    depends_on  = []
+    depends_on      = []
 
 }

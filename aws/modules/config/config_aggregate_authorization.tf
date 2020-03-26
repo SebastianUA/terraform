@@ -9,7 +9,7 @@ resource "aws_config_aggregate_authorization" "config_aggregate_authorization" {
 
     tags            = merge(
         {
-            "Name"          = var.config_aggregate_authorization_name != "" ? lower(var.config_aggregate_authorization_name) : "${lower(var.name)}-config-aggregate-auth-${lower(var.environment)}"
+            "Name"  = var.config_aggregate_authorization_name != "" ? lower(var.config_aggregate_authorization_name) : "${lower(var.name)}-config-aggregate-auth-${lower(var.environment)}"
         },
         var.tags,
     )
@@ -19,5 +19,5 @@ resource "aws_config_aggregate_authorization" "config_aggregate_authorization" {
         ignore_changes          = []
     }
 
-    depends_on          = []
+    depends_on      = []
 }
