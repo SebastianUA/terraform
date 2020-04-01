@@ -353,3 +353,191 @@ variable "public_route_tables_name" {
   description   = "Set name for public route tables"
   default       = ""
 }
+
+#---------------------------------------------------
+# AWS VPC flow log
+#---------------------------------------------------
+variable "enable_flow_log" {
+  description = "Enable VPC flow log usage"
+  default     = false
+}
+
+variable "flow_log_name" {
+  description = "Set name for VPC flow log"
+  default     = ""
+}
+
+variable "flow_log_traffic_type" {
+  description = "(Required) The type of traffic to capture. Valid values: ACCEPT,REJECT, ALL."
+  default     = "ALL"
+}
+
+variable "flow_log_eni_id" {
+  description = "(Optional) Elastic Network Interface ID to attach to"
+  default     = null
+}
+
+variable "flow_log_iam_role_arn" {
+  description = "(Optional) The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group"
+  default     = null
+}
+
+variable "flow_log_log_destination_type" {
+  description = "(Optional) The type of the logging destination. Valid values: cloud-watch-logs, s3. Default: cloud-watch-logs"
+  default     = "cloud-watch-logs"
+}
+
+variable "flow_log_log_destination" {
+  description = "(Optional) The ARN of the logging destination."
+  default     = null
+}
+
+variable "flow_log_subnet_id" {
+  description = "(Optional) Subnet ID to attach to"
+  default     = null
+}
+
+variable "flow_log_log_format" {
+  description = "(Optional) The fields to include in the flow log record, in the order in which they should appear."
+  default     = null
+}
+
+variable "flow_log_max_aggregation_interval" {
+  description = "(Optional) The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: 60 seconds (1 minute) or 600 seconds (10 minutes). Default: 600."
+  default     = 600
+}
+
+#---------------------------------------------------
+# AWS VPC network acl
+#---------------------------------------------------
+variable "enable_network_acl" {
+  description = "Enable network acl for VPC usage"
+  default     = false
+}
+
+variable "network_acl_subnet_ids" {
+  description = "(Optional) A list of Subnet IDs to apply the ACL to"
+  default     = null
+}
+
+variable "network_acl_name" {
+  description = "Set name for VPC network acl"
+  default     = ""
+}
+
+variable "network_acl_ingress" {
+  description = "(Optional) Specifies an ingress rule. Parameters defined below. This argument is processed in attribute-as-blocks mode."
+  default     = []
+}
+
+variable "network_acl_egress" {
+  description = "(Optional) Specifies an egress rule. Parameters defined below. This argument is processed in attribute-as-blocks mode."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS VPC network acl rule
+#---------------------------------------------------
+variable "enable_network_acl_rule" {
+  description = "Enable VPC network acl rule usage"
+  default     = false
+}
+
+variable "network_acl_rule_network_acl_id" {
+  description = "The ID of the network ACL."
+  default     = ""
+}
+
+variable "network_acl_rule_rule_number" {
+  description = "(Required) The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number."
+  default     = 100
+}
+
+variable "network_acl_rule_protocol" {
+  description = "(Required) The protocol. A value of -1 means all protocols."
+  default     = "all"
+}
+
+variable "network_acl_rule_rule_action" {
+  description = "(Required) Indicates whether to allow or deny the traffic that matches the rule. Accepted values: allow | deny"
+  default     = "allow"
+}
+
+variable "network_acl_rule_egress" {
+  description = "(Optional, bool) Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet). Default false."
+  default     = false
+}
+
+variable "network_acl_rule_cidr_block" {
+  description = "(Optional) The network range to allow or deny, in CIDR notation (for example 172.16.0.0/24 )."
+  default     = null
+}
+
+variable "network_acl_rule_ipv6_cidr_block" {
+  description = "(Optional) The IPv6 CIDR block to allow or deny."
+  default     = null
+}
+
+variable "network_acl_rule_from_port" {
+  description = "(Optional) The from port to match."
+  default     = null
+}
+
+variable "network_acl_rule_to_port" {
+  description = "(Optional) The to port to match."
+  default     = null
+}
+
+variable "network_acl_rule_icmp_type" {
+  description = "(Optional) ICMP protocol: The ICMP type. Required if specifying ICMP for the protocol. e.g. -1"
+  default     = null
+}
+
+variable "network_acl_rule_icmp_code" {
+  description = "(Optional) ICMP protocol: The ICMP code. Required if specifying ICMP for the protocol. e.g. -1"
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS VPC ipv4 cidr block association
+#---------------------------------------------------
+variable "enable_vpc_ipv4_cidr_block_association" {
+  description = "Enable VPC IPv4 cidr block association usage."
+  default     = false
+}
+
+variable "vpc_ipv4_cidr_block_association_cidr_block" {
+  description = "(Required) The additional IPv4 CIDR block to associate with the VPC."
+  default     = ""
+}
+
+variable "vpc_ipv4_cidr_block_association_timeouts_create" {
+  description = "(Default 10 minutes) Used for creating the association"
+  default     = "10m"
+}
+
+variable "vpc_ipv4_cidr_block_association_timeouts_delete" {
+  description = "(Default 10 minutes) Used for destroying the association"
+  default     = "10m"
+}
+
+#---------------------------------------------------
+# AWS egress only internet gateway
+#---------------------------------------------------
+variable "enable_egress_only_internet_gateway" {
+  description = "Enable VPC egress only internet gateway usage. Creates an egress-only Internet gateway for your VPC. An egress-only Internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the Internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance."
+  default     = false
+}
+
+#---------------------------------------------------
+# AWS VPC main route table association
+#---------------------------------------------------
+variable "enable_main_route_table_association" {
+  description = "Enable VPC main route table association usage."
+  default     = false
+}
+
+variable "main_route_table_association_route_table_id" {
+  description = "(Required) The ID of the Route Table to set as the new main route table for the target VPC"
+  default     = ""
+}

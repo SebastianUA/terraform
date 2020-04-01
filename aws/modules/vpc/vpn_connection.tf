@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS VPN connection
+# AWS VPN connection
 #---------------------------------------------------
 
 # resource "aws_vpn_connection" "example" {

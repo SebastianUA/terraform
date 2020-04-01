@@ -280,3 +280,61 @@ output "public_route_table_associations_id" {
     description = "The ID of the association"
     value       = element(concat(aws_route_table_association.public_route_table_associations.*.id, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS VPC flow log
+#---------------------------------------------------
+output "flow_log_id" {
+    description = "The Flow Log ID"
+    value       = element(concat(aws_flow_log.flow_log.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS VPC network acl
+#---------------------------------------------------
+output "network_acl_id" {
+    description = "The ID of the network ACL"
+    value       = element(concat(aws_network_acl.network_acl.*.id, [""]), 0)
+}
+
+output "network_acl_owner_id" {
+    description = "The ID of the AWS account that owns the network ACL."
+    value       = element(concat(aws_network_acl.network_acl.*.owner_id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS VPC network acl rule
+#---------------------------------------------------
+output "network_acl_rule_id" {
+    description = "The ID of the network ACL Rule"
+    value       = element(concat(aws_network_acl_rule.network_acl_rule.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS VPC ipv4 cidr block association
+#---------------------------------------------------
+output "vpc_ipv4_cidr_block_association_id" {
+    description = "The ID of the VPC CIDR association"
+    value       = element(concat(aws_vpc_ipv4_cidr_block_association.vpc_ipv4_cidr_block_association.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS egress only internet gateway
+#---------------------------------------------------
+output "egress_only_internet_gateway_id" {
+    description = "The ID of the egress-only Internet gateway."
+    value       = element(concat(aws_egress_only_internet_gateway.egress_only_internet_gateway.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS VPC main route table association
+#---------------------------------------------------
+output "main_route_table_association_id" {
+    description = "The ID of the Route Table Association"
+    value       = element(concat(main_route_table_association.main_route_table_association.*.id, [""]), 0)
+}
+
+output "main_route_table_association_original_route_table_id" {
+    description = "Used internally"
+    value       = element(concat(main_route_table_association.main_route_table_association.*.original_route_table_id, [""]), 0)
+}

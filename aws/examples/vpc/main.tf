@@ -44,5 +44,41 @@ module "vpc" {
     # EIP
     enable_eip                          = false
 
+    # VPC flow log
+    enable_flow_log                     = false
+    flow_log_name                       = ""
+    flow_log_traffic_type               = "ALL"
+    flow_log_iam_role_arn               = "arn:aws:iam::167127734783:role/vpc-flow-log"
+    flow_log_log_destination            = "arn:aws:logs:us-east-1:167127734783:log-group:vpc-flow-log-test"
+
+    # VPC network ACLs
+    enable_network_acl                  = true
+    network_acl_name                    = ""
+    network_acl_subnet_ids              = []
+
+    network_acl_ingress                 = [{
+        from_port       = 0
+        to_port         = 0
+        rule_no         = 100
+        action          = "allow"
+        protocol        = -1
+        cidr_block      = "0.0.0.0/0"
+        ipv6_cidr_block = null
+        icmp_type       = 0
+        icmp_code       = 0
+    }]
+
+    network_acl_egress                  = [{
+        from_port       = 0
+        to_port         = 0
+        rule_no         = 100
+        action          = "allow"
+        protocol        = -1
+        cidr_block      = "0.0.0.0/0"
+        ipv6_cidr_block = null
+        icmp_type       = 0
+        icmp_code       = 0
+    }]
+
     tags                                = map("Env", "stage", "Orchestration", "Terraform")
 }

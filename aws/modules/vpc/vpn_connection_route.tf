@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS VPN connection route
+# AWS VPN connection route
 #---------------------------------------------------
 # resource "aws_vpn_connection_route" "office" {
 #   destination_cidr_block = "192.168.10.0/24"
