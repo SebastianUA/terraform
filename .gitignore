@@ -1,6 +1,7 @@
 **/.DS_Store
-Icon*
+**/Icon*
 **/.terraform
+**/*_BK
 !.gitignore
 !.pre-commit-config.yaml
 !.github
