@@ -2,6 +2,8 @@
 **/Icon*
 **/.terraform
 **/*_BK
+**/terraform.tfstate
+**/terraform.tfstate.backup
 !.gitignore
 !.pre-commit-config.yaml
 !.github

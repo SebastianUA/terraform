@@ -167,11 +167,6 @@ variable "enable_vpn_gateway" {
     default     = false
 }
 
-#variable "vpn_gw_vpc_id" {
-#  description   = "The VPC ID to create in."
-#  default       = ""
-#}
-
 variable "vpn_gw_availability_zone" {
   description   = "(Optional) The Availability Zone for the virtual private gateway."
   default       = null
@@ -198,9 +193,98 @@ variable "vpn_gw_attachment_vpn_gateway_id" {
 #---------------------------------------------------------------
 # AWS VPN gateway route propagation
 #---------------------------------------------------------------
-variable "vpn_gateway_route_propagation_route_table_id" {
+variable "vpn_gw_route_propagation_route_table_id" {
   description   = "The id of the aws_route_table to propagate routes into."
   default       = ""
+}
+
+#---------------------------------------------------
+# AWS VPN connection
+#---------------------------------------------------
+variable "vpn_connection_customer_gateway_id" {
+  description = "The ID of the customer gateway."
+  default     = ""
+}
+
+variable "vpn_connection_name" {
+  description = "Set name for VPC vpn connection"
+  default     = ""
+}
+
+variable "vpn_connection_type" {
+  description = "(Required) The type of VPN connection. The only type AWS supports at this time is 'ipsec.1'."
+  default     = "ipsec.1"
+}
+
+variable "vpn_connection_transit_gateway_id" {
+  description = "(Optional) The ID of the EC2 Transit Gateway."
+  default     = null
+}
+
+variable "vpn_connection_vpn_gateway_id" {
+  description = "(Optional) The ID of the Virtual Private Gateway."
+  default     = null
+}
+
+variable "vpn_connection_static_routes_only" {
+  description = "(Optional, Default false) Whether the VPN connection uses static routes exclusively. Static routes must be used for devices that don't support BGP."
+  default     = false
+}
+
+variable "vpn_connection_tunnel1_inside_cidr" {
+  description = "(Optional) The CIDR block of the inside IP addresses for the first VPN tunnel."
+  default     = null
+}
+
+variable "vpn_connection_tunnel2_inside_cidr" {
+  description = "(Optional) The CIDR block of the inside IP addresses for the second VPN tunnel."
+  default     = null
+}
+
+variable "vpn_connection_tunnel1_preshared_key" {
+  description = "(Optional) The preshared key of the first VPN tunnel."
+  default     = null
+}
+
+variable "vpn_connection_tunnel2_preshared_key" {
+  description = "(Optional) The preshared key of the second VPN tunnel."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS VPN connection route
+#---------------------------------------------------
+variable "vpn_connection_route_cidr_block" {
+  description = "(Required) The CIDR block associated with the local subnet of the customer network."
+  default     = null
+}
+
+variable "vpn_connection_route_vpn_connection_id" {
+  description = "The ID of the VPN connection."
+  default     = ""
+}
+
+#---------------------------------------------------------------
+# AWS customer gateway
+#---------------------------------------------------------------
+variable "customer_gateway_bgp_asn" {
+  description = "(Required) The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN)."
+  default     = 65000
+}
+
+variable "customer_gateway_name" {
+  description = "Set name for VPC customer gateway"
+  default     = ""
+}
+
+variable "customer_gateway_ip_address" {
+  description = "(Required) The IP address of the gateway's Internet-routable external interface."
+  default     = ""
+}
+
+variable "customer_gateway_type" {
+  description = "(Required) The type of customer gateway. The only type AWS supports at this time is 'ipsec.1'."
+  default     = "ipsec.1"
 }
 
 #---------------------------------------------------------------
@@ -540,4 +624,291 @@ variable "enable_main_route_table_association" {
 variable "main_route_table_association_route_table_id" {
   description = "(Required) The ID of the Route Table to set as the new main route table for the target VPC"
   default     = ""
+}
+
+#---------------------------------------------------
+# AWS VPC peering connection
+#---------------------------------------------------
+variable "enable_vpc_peering" {
+  description   = "Enable VPC peering usage"
+  default       = false
+}
+
+variable "vpc_peering_connection_name" {
+  description   = "Set name for VPC peering connection"
+  default       = ""
+}
+
+variable "peering_destination_cidr_block" {
+  description = "Set CIDR block for peering"
+  default     = null
+}
+
+variable "peering_gateway_id" {
+  description = "Set Gateway ID of VPC peering"
+  default     = null
+}
+
+variable "vpc_peering_connection_peer_vpc_id" {
+  description   = "(Required) The ID of the VPC with which you are creating the VPC Peering Connection."
+  default       = null
+}
+
+variable "vpc_peering_connection_peer_owner_id" {
+  description   = "(Optional) The AWS account ID of the owner of the peer VPC. Defaults to the account ID the AWS provider is currently connected to."
+  default       = null
+}
+
+variable "vpc_peering_connection_auto_accept" {
+  description   = "(Optional) Accept the peering (both VPCs need to be in the same AWS account)."
+  default       = null
+}
+
+variable "vpc_peering_connection_peer_region" {
+  description   = "(Optional) The region of the accepter VPC of the [VPC Peering Connection]. auto_accept must be false, and use the aws_vpc_peering_connection_accepter to manage the accepter side."
+  default       = null
+}
+
+variable "accepter_allow_remote_vpc_dns_resolution" {
+  description   = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering."
+  default       = true
+}
+
+variable "accepter_allow_classic_link_to_remote_vpc" {
+  description   = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC."
+  default       = null
+}
+
+variable "accepter_allow_vpc_to_remote_classic_link" {
+  description   = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection."
+  default       = null
+}
+
+variable "requester_allow_remote_vpc_dns_resolution" {
+  description   = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering."
+  default       = true
+}
+
+variable "requester_allow_classic_link_to_remote_vpc" {
+  description   = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC."
+  default       = null
+}
+
+variable "requester_allow_vpc_to_remote_classic_link" {
+  description   = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection."
+  default       = null
+}
+
+variable "vpc_peering_connection_timeouts_create" {
+  description   = "(Default 1 minute) Used for creating a peering connection"
+  default       = "1m"
+}
+
+variable "vpc_peering_connection_timeouts_update" {
+  description   = "(Default 1 minute) Used for peering connection modifications"
+  default       = "1m"
+}
+
+variable "vpc_peering_connection_timeouts_delete" {
+  description   = "(Default 1 minute) Used for destroying peering connections"
+  default       = "1m"
+}
+
+#---------------------------------------------------
+# AWS VPC peering connection options
+#---------------------------------------------------
+variable "enable_vpc_peering_connection_options" {
+  description   = "Enable VPC peering connection options usage"
+  default       = false
+}
+
+variable "vpc_peering_connection_id" {
+  description   = "The ID of the requester VPC peering connection."
+  default       = ""
+}
+
+variable "accepter_options_allow_remote_vpc_dns_resolution" {
+  description   = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC."
+  default       = true
+}
+
+variable "accepter_options_allow_classic_link_to_remote_vpc" {
+  description   = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering."
+  default       = null
+}
+
+variable "accepter_options_allow_vpc_to_remote_classic_link" {
+  description   = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering."
+  default       = null
+}
+
+variable "requester_options_allow_remote_vpc_dns_resolution" {
+  description   = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC."
+  default       = true
+}
+
+variable "requester_options_allow_classic_link_to_remote_vpc" {
+  description   = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering."
+  default       = null
+}
+
+variable "requester_options_allow_vpc_to_remote_classic_link" {
+  description   = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering."
+  default       = null
+}
+
+#---------------------------------------------------
+# AWS VPC peering connection accepter
+#---------------------------------------------------
+variable "vpc_peering_connection_accepter_name" {
+  description   = "Set name for VPC peering connection accepter"
+  default       = ""
+}
+
+variable "vpc_peering_connection_accepter_auto_accept" {
+  description   = "(Optional) Whether or not to accept the peering request. Defaults to false."
+  default       = false
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint
+#---------------------------------------------------
+variable "enable_vpc_endpoint" {
+  description = "description"
+  default     = false
+}
+
+variable "vpc_endpoint_name" {
+  description = "Set name for VPC endpoint"
+  default     = ""
+}
+
+variable "vpc_endpoint_service_name" {
+  description = "(Required) The service name. For AWS services the service name is usually in the form com.amazonaws.<region>.<service> (the SageMaker Notebook service is an exception to this rule, the service name is in the form aws.sagemaker.<region>.notebook)."
+  default     = null
+}
+
+variable "vpc_endpoint_auto_accept" {
+  description = "(Optional) Accept the VPC endpoint (the VPC endpoint and service need to be in the same AWS account)."
+  default     = null
+}
+
+variable "vpc_endpoint_policy" {
+  description = "(Optional) A policy to attach to the endpoint that controls access to the service. Defaults to full access. All Gateway and some Interface endpoints support policies - see the relevant AWS documentation for more details. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
+  default     = null
+}
+
+variable "vpc_endpoint_private_dns_enabled" {
+  description = "(Optional; AWS services and AWS Marketplace partner services only) Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type Interface. Defaults to false."
+  default     = false
+}
+
+variable "vpc_endpoint_route_table_ids" {
+  description = "(Optional) One or more route table IDs. Applicable for endpoints of type Gateway."
+  default     = null
+}
+
+variable "vpc_endpoint_subnet_ids" {
+  description = "(Optional) The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type Interface."
+  default     = null
+}
+
+variable "vpc_endpoint_security_group_ids" {
+  description = "(Optional) The ID of one or more security groups to associate with the network interface. Required for endpoints of type Interface."
+  default     = null
+}
+
+variable "vpc_endpoint_vpc_endpoint_type" {
+  description = "(Optional) The VPC endpoint type, Gateway or Interface. Defaults to Gateway."
+  default     = "Gateway"
+}
+
+variable "vpc_endpoint_timeouts_create" {
+  description = "(Default 10 minutes) Used for creating a VPC endpoint"
+  default     = "10m"
+}
+
+variable "vpc_endpoint_timeouts_update" {
+  description = "(Default 10 minutes) Used for VPC endpoint modifications"
+  default     = "10m"
+}
+
+variable "vpc_endpoint_timeouts_delete" {
+  description = "(Default 10 minutes) Used for destroying VPC endpoints"
+  default     = "10m"
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint subnet association
+#---------------------------------------------------
+variable "vpc_endpoint_subnet_association_subnet_id" {
+  description = "The ID of the subnet to be associated with the VPC endpoint."
+  default     = ""
+}
+
+variable "vpc_endpoint_id" {
+  description = "The ID of the VPC endpoint with which the subnet will be associated."
+  default     = ""
+}
+
+variable "vpc_endpoint_subnet_association_timeouts_create" {
+  description = "(Default 10 minutes) Used for creating the association"
+  default     = "10m"
+}
+
+variable "vpc_endpoint_subnet_association_timeouts_delete" {
+  description = "(Default 10 minutes) Used for destroying the association"
+  default     = "10m"
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint route table association
+#---------------------------------------------------
+variable "vpc_endpoint_route_table_association_route_table_id" {
+  description = "Identifier of the EC2 Route Table to be associated with the VPC Endpoint."
+  default     = ""
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint service
+#---------------------------------------------------
+variable "vpc_endpoint_service_acceptance_required" {
+  description = "(Required) Whether or not VPC endpoint connection requests to the service must be accepted by the service owner - true or false."
+  default     = false
+}
+
+variable "vpc_endpoint_service_network_load_balancer_arns" {
+  description = "(Required) The ARNs of one or more Network Load Balancers for the endpoint service."
+  default     = []
+}
+
+variable "vpc_endpoint_service_allowed_principals" {
+  description = "(Optional) The ARNs of one or more principals allowed to discover the endpoint service."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint service allowed principal
+#---------------------------------------------------
+variable "vpc_endpoint_service_allowed_principal_principal_arn" {
+  description = "(Required) The ARN of the principal to allow permissions."
+  default     = ""
+}
+
+variable "vpc_endpoint_service_id" {
+  description = "The ID of the VPC endpoint service to allow permission."
+  default     = ""
+}
+
+#---------------------------------------------------
+# AWS VPC endpoint connection notification
+#---------------------------------------------------
+variable "vpc_endpoint_connection_notification_connection_notification_arn" {
+  description = "(Required) The ARN of the SNS topic for the notifications."
+  default     = ""
+}
+
+variable "vpc_endpoint_connection_notification_connection_events" {
+  description = "(Required) One or more endpoint events for which to receive notifications."
+  default     = ["Accept", "Reject"]
 }

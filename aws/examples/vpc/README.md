@@ -19,9 +19,157 @@ provider "aws" {
     shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
-module "vpc" {
+#---------------------------------------------------------------
+# VPC Endpoint
+#---------------------------------------------------------------
+module "vpc_endpoint" {
     source                              = "../../modules/vpc"
-    name                                = "mytest"
+    name                                = "endpoint"
+    environment                         = "stage"
+
+    # VPC
+    enable_vpc                          = true
+    vpc_name                            = ""
+
+    instance_tenancy                    = "dedicated"
+    enable_dns_support                  = true
+    enable_dns_hostnames                = true
+    assign_generated_ipv6_cidr_block    = false
+    # Dedicated tenancy VPCs cannot be enabled for ClassicLink by default
+    enable_classiclink                  = false
+
+    vpc_cidr                            = "10.11.0.0/16"
+    private_subnet_cidrs                = ["10.11.1.0/24"]
+    public_subnet_cidrs                 = ["10.11.2.0/24", "10.11.3.0/24"]
+    #azs                                 = ["us-east-1a", "us-east-1b"]
+
+    #Internet-GateWay
+    enable_internet_gateway             = true
+    #NAT
+    #enable_nat_gateway                  = true
+    single_nat_gateway                  = true
+    #DHCP
+    enable_dhcp                         = true
+    # EIP
+    enable_eip                          = false
+
+    #VPN
+    enable_vpn_gateway                  = false
+    vpn_gw_name                         = ""
+    vpn_gw_availability_zone            = null
+    vpn_gw_amazon_side_asn              = 64512
+    vpn_connection_static_routes_only   = true
+    vpn_connection_route_cidr_block     = "192.168.113.0/24" # Set IP addr cidr; For example: office's IP subnet.
+
+    customer_gateway_bgp_asn            = 65000
+    customer_gateway_ip_address         = "1.2.3.4" # Set IP addr gateway; For example: office's IP GW.
+
+    # VPC endpoint
+    enable_vpc_endpoint                 = true
+    vpc_endpoint_name                   = ""
+    vpc_endpoint_service_name           = "com.amazonaws.us-east-1.s3"
+    vpc_endpoint_auto_accept            = true
+
+    tags                                = map("Env", "stage", "Orchestration", "Terraform")
+}
+
+#---------------------------------------------------------------
+# VPC VPN
+#---------------------------------------------------------------
+module "vpc_vpn" {
+    source                              = "../../modules/vpc"
+    name                                = "vpn"
+    environment                         = "stage"
+
+    # VPC
+    enable_vpc                          = true
+    vpc_name                            = ""
+
+    instance_tenancy                    = "dedicated"
+    enable_dns_support                  = true
+    enable_dns_hostnames                = true
+    assign_generated_ipv6_cidr_block    = false
+    # Dedicated tenancy VPCs cannot be enabled for ClassicLink by default
+    enable_classiclink                  = false
+
+    vpc_cidr                            = "10.10.0.0/16"
+    private_subnet_cidrs                = ["10.10.1.0/24"]
+    public_subnet_cidrs                 = ["10.10.2.0/24", "10.10.3.0/24"]
+    #azs                                 = ["us-east-1a", "us-east-1b"]
+
+    #Internet-GateWay
+    enable_internet_gateway             = true
+    #NAT
+    #enable_nat_gateway                  = true
+    single_nat_gateway                  = true
+    #DHCP
+    enable_dhcp                         = true
+    # EIP
+    enable_eip                          = false
+
+    #VPN
+    enable_vpn_gateway                  = true
+    vpn_gw_name                         = ""
+    vpn_gw_availability_zone            = null
+    vpn_gw_amazon_side_asn              = 64512
+    vpn_connection_static_routes_only   = true
+    vpn_connection_route_cidr_block     = "192.168.113.0/24" # Set IP addr cidr; For example: office's IP subnet.
+
+    customer_gateway_bgp_asn            = 65000
+    customer_gateway_ip_address         = "1.2.3.4" # Set IP addr gateway; For example: office's IP GW.
+
+    tags                                = map("Env", "stage", "Orchestration", "Terraform")
+}
+
+#---------------------------------------------------------------
+# 1rst VPC for peering
+#---------------------------------------------------------------
+module "vpc_1" {
+    source                              = "../../modules/vpc"
+    name                                = "test"
+    environment                         = "stage"
+
+    # VPC
+    enable_vpc                          = true
+    vpc_name                            = ""
+
+    instance_tenancy                    = "dedicated"
+    enable_dns_support                  = true
+    enable_dns_hostnames                = true
+    assign_generated_ipv6_cidr_block    = false
+    # Dedicated tenancy VPCs cannot be enabled for ClassicLink by default
+    enable_classiclink                  = false
+
+    vpc_cidr                            = "6.6.0.0/16"
+    private_subnet_cidrs                = ["6.6.1.0/24"]
+    public_subnet_cidrs                 = ["6.6.2.0/24", "6.6.3.0/24"]
+    #azs                                 = ["us-east-1a", "us-east-1b"]
+
+    #Internet-GateWay
+    enable_internet_gateway             = true
+    #NAT
+    #enable_nat_gateway                  = true
+    single_nat_gateway                  = true
+    #VPN
+    enable_vpn_gateway                  = false
+    #DHCP
+    enable_dhcp                         = true
+    # EIP
+    enable_eip                          = false
+
+    tags                                = map("Env", "stage", "Orchestration", "Terraform")
+
+    # for peering
+    peering_destination_cidr_block      = "172.32.0.0/16"
+    peering_gateway_id                  = module.vpc_2.vpc_peering_connection_id
+}
+
+#---------------------------------------------------------------
+# 2d VPC for peering with VPC flow log & VPC network ACLs
+#---------------------------------------------------------------
+module "vpc_2" {
+    source                              = "../../modules/vpc"
+    name                                = "test2"
     environment                         = "stage"
 
     # VPC
@@ -52,6 +200,48 @@ module "vpc" {
     enable_dhcp                         = true
     # EIP
     enable_eip                          = false
+
+    # VPC flow log
+    enable_flow_log                     = false
+    flow_log_name                       = ""
+    flow_log_traffic_type               = "ALL"
+    flow_log_iam_role_arn               = "arn:aws:iam::167127734783:role/vpc-flow-log"
+    flow_log_log_destination            = "arn:aws:logs:us-east-1:167127734783:log-group:vpc-flow-log-test"
+
+    # VPC network ACLs
+    enable_network_acl                  = true
+    network_acl_name                    = ""
+    network_acl_subnet_ids              = []
+
+    network_acl_ingress                 = [{
+        from_port       = 0
+        to_port         = 0
+        rule_no         = 100
+        action          = "allow"
+        protocol        = -1
+        cidr_block      = "0.0.0.0/0"
+        ipv6_cidr_block = null
+        icmp_type       = 0
+        icmp_code       = 0
+    }]
+
+    network_acl_egress                  = [{
+        from_port       = 0
+        to_port         = 0
+        rule_no         = 100
+        action          = "allow"
+        protocol        = -1
+        cidr_block      = "0.0.0.0/0"
+        ipv6_cidr_block = null
+        icmp_type       = 0
+        icmp_code       = 0
+    }]
+
+    # VPC peering
+    enable_vpc_peering                  = true
+    vpc_peering_connection_peer_vpc_id  = module.vpc_1.vpc_id
+    vpc_peering_connection_auto_accept  = true
+    peering_destination_cidr_block      = "6.6.0.0/16"
 
     tags                                = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -91,7 +281,23 @@ module "vpc" {
 - `vpn_gw_amazon_side_asn` - (Optional) The Autonomous System Number (ASN) for the Amazon side of the gateway. If you don't specify an ASN, the virtual private gateway is created with the default ASN. (`default = ""`)
 - `vpn_gw_name` - Set name for VPC GW (`default = ""`)
 - `vpn_gw_attachment_vpn_gateway_id` - The ID of the Virtual Private Gateway. (`default = ""`)
-- `vpn_gateway_route_propagation_route_table_id` - The id of the aws_route_table to propagate routes into. (`default = ""`)
+- `vpn_gw_route_propagation_route_table_id` - The id of the aws_route_table to propagate routes into. (`default = ""`)
+- `vpn_connection_customer_gateway_id` - The ID of the customer gateway. (`default = ""`)
+- `vpn_connection_name` - Set name for VPC vpn connection (`default = ""`)
+- `vpn_connection_type` - (Required) The type of VPN connection. The only type AWS supports at this time is 'ipsec.1'. (`default = ipsec.1`)
+- `vpn_connection_transit_gateway_id` - (Optional) The ID of the EC2 Transit Gateway. (`default = ""`)
+- `vpn_connection_vpn_gateway_id` - (Optional) The ID of the Virtual Private Gateway. (`default = ""`)
+- `vpn_connection_static_routes_only` - (Optional, Default false) Whether the VPN connection uses static routes exclusively. Static routes must be used for devices that don't support BGP. (`default = ""`)
+- `vpn_connection_tunnel1_inside_cidr` - (Optional) The CIDR block of the inside IP addresses for the first VPN tunnel. (`default = ""`)
+- `vpn_connection_tunnel2_inside_cidr` - (Optional) The CIDR block of the inside IP addresses for the second VPN tunnel. (`default = ""`)
+- `vpn_connection_tunnel1_preshared_key` - (Optional) The preshared key of the first VPN tunnel. (`default = ""`)
+- `vpn_connection_tunnel2_preshared_key` - (Optional) The preshared key of the second VPN tunnel. (`default = ""`)
+- `vpn_connection_route_cidr_block` - (Required) The CIDR block associated with the local subnet of the customer network. (`default = ""`)
+- `vpn_connection_route_vpn_connection_id` - The ID of the VPN connection. (`default = ""`)
+- `customer_gateway_bgp_asn` - (Required) The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN). (`default = 65000`)
+- `customer_gateway_name` - Set name for VPC customer gateway (`default = ""`)
+- `customer_gateway_ip_address` - (Required) The IP address of the gateway's Internet-routable external interface. (`default = ""`)
+- `customer_gateway_type` - (Required) The type of customer gateway. The only type AWS supports at this time is 'ipsec.1'. (`default = ipsec.1`)
 - `enable_dhcp` - Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type (`default = ""`)
 - `vpc_dhcp_name` - Set name for VPC DHCP (`default = ""`)
 - `dhcp_options_domain_name` - (Optional) the suffix domain name to use by default when resolving non Fully Qualified Domain Names. In other words, this is what ends up being the search value in the /etc/resolv.conf file. (`default = ""`)
@@ -117,6 +323,92 @@ module "vpc" {
 - `private_route_tables_name` - Set name for private route tables (`default = ""`)
 - `public_propagating_vgws` - A list of VGWs the public route table should propagate. (`default = ""`)
 - `public_route_tables_name` - Set name for public route tables (`default = ""`)
+- `enable_flow_log` - Enable VPC flow log usage (`default = ""`)
+- `flow_log_name` - Set name for VPC flow log (`default = ""`)
+- `flow_log_traffic_type` - (Required) The type of traffic to capture. Valid values: ACCEPT,REJECT, ALL. (`default = ALL`)
+- `flow_log_eni_id` - (Optional) Elastic Network Interface ID to attach to (`default = ""`)
+- `flow_log_iam_role_arn` - (Optional) The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group (`default = ""`)
+- `flow_log_log_destination_type` - (Optional) The type of the logging destination. Valid values: cloud-watch-logs, s3. Default: cloud-watch-logs (`default = cloud-watch-logs`)
+- `flow_log_log_destination` - (Optional) The ARN of the logging destination. (`default = ""`)
+- `flow_log_subnet_id` - (Optional) Subnet ID to attach to (`default = ""`)
+- `flow_log_log_format` - (Optional) The fields to include in the flow log record, in the order in which they should appear. (`default = ""`)
+- `flow_log_max_aggregation_interval` - (Optional) The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: 60 seconds (1 minute) or 600 seconds (10 minutes). Default: 600. (`default = 600`)
+- `enable_network_acl` - Enable network acl for VPC usage (`default = ""`)
+- `network_acl_subnet_ids` - (Optional) A list of Subnet IDs to apply the ACL to (`default = ""`)
+- `network_acl_name` - Set name for VPC network acl (`default = ""`)
+- `network_acl_ingress` - (Optional) Specifies an ingress rule. Parameters defined below. This argument is processed in attribute-as-blocks mode. (`default = ""`)
+- `network_acl_egress` - (Optional) Specifies an egress rule. Parameters defined below. This argument is processed in attribute-as-blocks mode. (`default = ""`)
+- `enable_network_acl_rule` - Enable VPC network acl rule usage (`default = ""`)
+- `network_acl_rule_network_acl_id` - The ID of the network ACL. (`default = ""`)
+- `network_acl_rule_rule_number` - (Required) The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. (`default = 100`)
+- `network_acl_rule_protocol` - (Required) The protocol. A value of -1 means all protocols. (`default = all`)
+- `network_acl_rule_rule_action` - (Required) Indicates whether to allow or deny the traffic that matches the rule. Accepted values: allow | deny (`default = allow`)
+- `network_acl_rule_egress` - (Optional, bool) Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet). Default false. (`default = ""`)
+- `network_acl_rule_cidr_block` - (Optional) The network range to allow or deny, in CIDR notation (for example 172.16.0.0/24 ). (`default = ""`)
+- `network_acl_rule_ipv6_cidr_block` - (Optional) The IPv6 CIDR block to allow or deny. (`default = ""`)
+- `network_acl_rule_from_port` - (Optional) The from port to match. (`default = ""`)
+- `network_acl_rule_to_port` - (Optional) The to port to match. (`default = ""`)
+- `network_acl_rule_icmp_type` - (Optional) ICMP protocol: The ICMP type. Required if specifying ICMP for the protocol. e.g. -1 (`default = ""`)
+- `network_acl_rule_icmp_code` - (Optional) ICMP protocol: The ICMP code. Required if specifying ICMP for the protocol. e.g. -1 (`default = ""`)
+- `enable_vpc_ipv4_cidr_block_association` - Enable VPC IPv4 cidr block association usage. (`default = ""`)
+- `vpc_ipv4_cidr_block_association_cidr_block` - (Required) The additional IPv4 CIDR block to associate with the VPC. (`default = ""`)
+- `vpc_ipv4_cidr_block_association_timeouts_create` - (Default 10 minutes) Used for creating the association (`default = 10m`)
+- `vpc_ipv4_cidr_block_association_timeouts_delete` - (Default 10 minutes) Used for destroying the association (`default = 10m`)
+- `enable_egress_only_internet_gateway` - Enable VPC egress only internet gateway usage. Creates an egress-only Internet gateway for your VPC. An egress-only Internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the Internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance. (`default = ""`)
+- `enable_main_route_table_association` - Enable VPC main route table association usage. (`default = ""`)
+- `main_route_table_association_route_table_id` - (Required) The ID of the Route Table to set as the new main route table for the target VPC (`default = ""`)
+- `enable_vpc_peering` - Enable VPC peering usage (`default = ""`)
+- `vpc_peering_connection_name` - Set name for VPC peering connection (`default = ""`)
+- `peering_destination_cidr_block` - Set CIDR block for peering (`default = ""`)
+- `peering_gateway_id` - Set Gateway ID of VPC peering (`default = ""`)
+- `vpc_peering_connection_peer_vpc_id` - (Required) The ID of the VPC with which you are creating the VPC Peering Connection. (`default = ""`)
+- `vpc_peering_connection_peer_owner_id` - (Optional) The AWS account ID of the owner of the peer VPC. Defaults to the account ID the AWS provider is currently connected to. (`default = ""`)
+- `vpc_peering_connection_auto_accept` - (Optional) Accept the peering (both VPCs need to be in the same AWS account). (`default = ""`)
+- `vpc_peering_connection_peer_region` - (Optional) The region of the accepter VPC of the [VPC Peering Connection]. auto_accept must be false, and use the aws_vpc_peering_connection_accepter to manage the accepter side. (`default = ""`)
+- `accepter_allow_remote_vpc_dns_resolution` - (Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering. (`default = True`)
+- `accepter_allow_classic_link_to_remote_vpc` - (Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. (`default = ""`)
+- `accepter_allow_vpc_to_remote_classic_link` - (Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. (`default = ""`)
+- `requester_allow_remote_vpc_dns_resolution` - (Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering. (`default = True`)
+- `requester_allow_classic_link_to_remote_vpc` - (Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. (`default = ""`)
+- `requester_allow_vpc_to_remote_classic_link` - (Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. (`default = ""`)
+- `vpc_peering_connection_timeouts_create` - (Default 1 minute) Used for creating a peering connection (`default = 1m`)
+- `vpc_peering_connection_timeouts_update` - (Default 1 minute) Used for peering connection modifications (`default = 1m`)
+- `vpc_peering_connection_timeouts_delete` - (Default 1 minute) Used for destroying peering connections (`default = 1m`)
+- `enable_vpc_peering_connection_options` - Enable VPC peering connection options usage (`default = ""`)
+- `vpc_peering_connection_id` - The ID of the requester VPC peering connection. (`default = ""`)
+- `accepter_options_allow_remote_vpc_dns_resolution` - (Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. (`default = True`)
+- `accepter_options_allow_classic_link_to_remote_vpc` - (Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering. (`default = ""`)
+- `accepter_options_allow_vpc_to_remote_classic_link` - (Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering. (`default = ""`)
+- `requester_options_allow_remote_vpc_dns_resolution` - (Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. (`default = True`)
+- `requester_options_allow_classic_link_to_remote_vpc` - (Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering. (`default = ""`)
+- `requester_options_allow_vpc_to_remote_classic_link` - (Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering. (`default = ""`)
+- `vpc_peering_connection_accepter_name` - Set name for VPC peering connection accepter (`default = ""`)
+- `vpc_peering_connection_accepter_auto_accept` - (Optional) Whether or not to accept the peering request. Defaults to false. (`default = ""`)
+- `enable_vpc_endpoint` - description (`default = ""`)
+- `vpc_endpoint_name` - Set name for VPC endpoint (`default = ""`)
+- `vpc_endpoint_service_name` - (Required) The service name. For AWS services the service name is usually in the form com.amazonaws.<region>.<service> (the SageMaker Notebook service is an exception to this rule, the service name is in the form aws.sagemaker.<region>.notebook). (`default = ""`)
+- `vpc_endpoint_auto_accept` - (Optional) Accept the VPC endpoint (the VPC endpoint and service need to be in the same AWS account). (`default = ""`)
+- `vpc_endpoint_policy` - (Optional) A policy to attach to the endpoint that controls access to the service. Defaults to full access. All Gateway and some Interface endpoints support policies - see the relevant AWS documentation for more details. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = ""`)
+- `vpc_endpoint_private_dns_enabled` - (Optional; AWS services and AWS Marketplace partner services only) Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type Interface. Defaults to false. (`default = ""`)
+- `vpc_endpoint_route_table_ids` - (Optional) One or more route table IDs. Applicable for endpoints of type Gateway. (`default = ""`)
+- `vpc_endpoint_subnet_ids` - (Optional) The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type Interface. (`default = ""`)
+- `vpc_endpoint_security_group_ids` - (Optional) The ID of one or more security groups to associate with the network interface. Required for endpoints of type Interface. (`default = ""`)
+- `vpc_endpoint_vpc_endpoint_type` - (Optional) The VPC endpoint type, Gateway or Interface. Defaults to Gateway. (`default = Gateway`)
+- `vpc_endpoint_timeouts_create` - (Default 10 minutes) Used for creating a VPC endpoint (`default = 10m`)
+- `vpc_endpoint_timeouts_update` - (Default 10 minutes) Used for VPC endpoint modifications (`default = 10m`)
+- `vpc_endpoint_timeouts_delete` - (Default 10 minutes) Used for destroying VPC endpoints (`default = 10m`)
+- `vpc_endpoint_subnet_association_subnet_id` - The ID of the subnet to be associated with the VPC endpoint. (`default = ""`)
+- `vpc_endpoint_id` - The ID of the VPC endpoint with which the subnet will be associated. (`default = ""`)
+- `vpc_endpoint_subnet_association_timeouts_create` - (Default 10 minutes) Used for creating the association (`default = 10m`)
+- `vpc_endpoint_subnet_association_timeouts_delete` - (Default 10 minutes) Used for destroying the association (`default = 10m`)
+- `vpc_endpoint_route_table_association_route_table_id` - Identifier of the EC2 Route Table to be associated with the VPC Endpoint. (`default = ""`)
+- `vpc_endpoint_service_acceptance_required` - (Required) Whether or not VPC endpoint connection requests to the service must be accepted by the service owner - true or false. (`default = ""`)
+- `vpc_endpoint_service_network_load_balancer_arns` - (Required) The ARNs of one or more Network Load Balancers for the endpoint service. (`default = ""`)
+- `vpc_endpoint_service_allowed_principals` - (Optional) The ARNs of one or more principals allowed to discover the endpoint service. (`default = ""`)
+- `vpc_endpoint_service_allowed_principal_principal_arn` - (Required) The ARN of the principal to allow permissions. (`default = ""`)
+- `vpc_endpoint_service_id` - The ID of the VPC endpoint service to allow permission. (`default = ""`)
+- `vpc_endpoint_connection_notification_connection_notification_arn` - (Required) The ARN of the SNS topic for the notifications. (`default = ""`)
+- `vpc_endpoint_connection_notification_connection_events` - (Required) One or more endpoint events for which to receive notifications. (`default = ['Accept', 'Reject']`)
 
 ## Module Output Variables
 ----------------------
@@ -146,6 +438,33 @@ module "vpc" {
 - `vpn_gateway_attachment_id` - The ID of the VPN Gateway attachment.
 - `vpn_gateway_attachment_vpc_id` - The ID of the VPC that Virtual Private Gateway is attached to.
 - `vpn_gateway_attachment_vpn_gateway_id` - The ID of the Virtual Private Gateway.
+- `vpn_connection_id` - The amazon-assigned ID of the VPN connection.
+- `vpn_connection_customer_gateway_configuration` - The configuration information for the VPN connection's customer gateway (in the native XML format).
+- `vpn_connection_customer_gateway_id` - The ID of the customer gateway to which the connection is attached.
+- `vpn_connection_static_routes_only` - Whether the VPN connection uses static routes exclusively.
+- `vpn_connection_tags` - Tags applied to the connection.
+- `vpn_connection_transit_gateway_attachment_id` - When associated with an EC2 Transit Gateway (transit_gateway_id argument), the attachment ID.
+- `vpn_connection_tunnel1_address` - The public IP address of the first VPN tunnel.
+- `vpn_connection_tunnel1_cgw_inside_address` - The RFC 6890 link-local address of the first VPN tunnel (Customer Gateway Side).
+- `vpn_connection_tunnel1_vgw_inside_address` - The RFC 6890 link-local address of the first VPN tunnel (VPN Gateway Side).
+- `vpn_connection_tunnel1_preshared_key` - The preshared key of the first VPN tunnel.
+- `vpn_connection_tunnel1_bgp_asn` - The bgp asn number of the first VPN tunnel.
+- `vpn_connection_tunnel1_bgp_holdtime` - The bgp holdtime of the first VPN tunnel.
+- `vpn_connection_tunnel2_address` - The public IP address of the second VPN tunnel.
+- `vpn_connection_tunnel2_cgw_inside_address` - The RFC 6890 link-local address of the second VPN tunnel (Customer Gateway Side).
+- `vpn_connection_tunnel2_vgw_inside_address` - The RFC 6890 link-local address of the second VPN tunnel (VPN Gateway Side).
+- `vpn_connection_tunnel2_preshared_key` - The preshared key of the second VPN tunnel.
+- `vpn_connection_tunnel2_bgp_asn` - The bgp asn number of the second VPN tunnel.
+- `vpn_connection_tunnel2_bgp_holdtime` - The bgp holdtime of the second VPN tunnel.
+- `vpn_connection_type` - The type of VPN connection.
+- `vpn_connection_vpn_gateway_id` - The ID of the virtual private gateway to which the connection is attached.
+- `vpn_connection_route_destination_cidr_block` - The CIDR block associated with the local subnet of the customer network.
+- `vpn_connection_route_vpn_connection_id` - The ID of the VPN connection.
+- `customer_gateway_id` - The amazon-assigned ID of the gateway.
+- `customer_gateway_bgp_asn` - The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
+- `customer_gateway_ip_address` - The IP address of the gateway's Internet-routable external interface.
+- `customer_gateway_type` - The type of customer gateway.
+- `customer_gateway_tags` - Tags applied to the gateway.
 - `vpc_dhcp_options_id` - The ID of the DHCP Options Set.
 - `vpc_dhcp_options_owner_id` - The ID of the AWS account that owns the DHCP options set.
 - `vpc_dhcp_options_association_id` - The ID of the DHCP Options Set Association.
@@ -170,6 +489,32 @@ module "vpc" {
 - `public_route_tables_owner_id` - The ID of the AWS account that owns the route table.
 - `private_route_table_associations_id` - The ID of the association
 - `public_route_table_associations_id` - The ID of the association
+- `flow_log_id` - The Flow Log ID
+- `network_acl_id` - The ID of the network ACL
+- `network_acl_owner_id` - The ID of the AWS account that owns the network ACL.
+- `network_acl_rule_id` - The ID of the network ACL Rule
+- `vpc_ipv4_cidr_block_association_id` - The ID of the VPC CIDR association
+- `egress_only_internet_gateway_id` - The ID of the egress-only Internet gateway.
+- `main_route_table_association_id` - The ID of the Route Table Association
+- `main_route_table_association_original_route_table_id` - Used internally
+- `vpc_peering_connection_id` - The ID of the VPC Peering Connection.
+- `vpc_peering_connection_accept_status` - The status of the VPC Peering Connection request.
+- `vpc_peering_connection_options_id` - The ID of the VPC Peering Connection Options.
+- `vpc_peering_connection_accepter_id` - The ID of the VPC Peering Connection.
+- `vpc_endpoint_subnet_association_id` - The ID of the association.
+- `vpc_endpoint_route_table_association_id` - A hash of the EC2 Route Table and VPC Endpoint identifiers.
+- `vpc_endpoint_service_id` - The ID of the VPC endpoint service.
+- `vpc_endpoint_service_availability_zones` - The Availability Zones in which the service is available.
+- `vpc_endpoint_service_base_endpoint_dns_names` - The DNS names for the service.
+- `vpc_endpoint_service_manages_vpc_endpoints` - Whether or not the service manages its VPC endpoints - true or false.
+- `vpc_endpoint_service_private_dns_name` - The private DNS name for the service.
+- `vpc_endpoint_service_service_name` - The service name.
+- `vpc_endpoint_service_service_type` - The service type, Gateway or Interface.
+- `vpc_endpoint_service_state` - The state of the VPC endpoint service.
+- `vpc_endpoint_service_allowed_principal_id` - The ID of the association.
+- `vpc_endpoint_connection_notification_id` - The ID of the VPC connection notification.
+- `vpc_endpoint_connection_notification_state` - The state of the notification.
+- `vpc_endpoint_connection_notification_notification_type` - The type of notification.
 
 
 ## Authors
