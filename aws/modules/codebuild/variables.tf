@@ -26,7 +26,7 @@ variable "enable_codebuild_project" {
 }
 
 variable "codebuild_project_name" {
-  description   = "description"
+  description   = "Set name for CodeBuild project"
   default       = ""
 }
 
@@ -195,13 +195,8 @@ variable "codebuild_project_encryption_key" {
   default       = null
 }
 
-variable "codebuild_project_s3_logs_config" {
-  description   = "(Optional) Configuration for the builds to store log data to S3."
-  default       = []
-}
-
-variable "codebuild_project_cw_logs_config" {
-  description   = "(Optional) Configuration for the builds to store log data to CloudWatch."
+variable "codebuild_project_logs_config" {
+  description   = "(Optional) Configuration for the builds to store log data to S3 or CloudWatch."
   default       = []
 }
 
@@ -216,7 +211,7 @@ variable "codebuild_project_vpc_config" {
 }
 
 variable "codebuild_project_secondary_artifacts" {
-  description   = "description"
+  description   = "(Optional) A set of secondary artifacts to be used inside the build."
   default       = []
 }
 

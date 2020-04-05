@@ -88,25 +88,19 @@ resource "aws_codebuild_project" "codebuild_project" {
     }
 
     dynamic "logs_config" {
-        iterator = cwlogsconfig
-        for_each = var.codebuild_project_cw_logs_config
+        iterator = logsconfig
+        for_each = var.codebuild_project_logs_config
         content {
             cloudwatch_logs {
-                status      = lookup(cwlogsconfig.value, "status", null)
-                group_name  = lookup(cwlogsconfig.value, "group_name", null)
-                stream_name = lookup(cwlogsconfig.value, "stream_name", null)
+                status      = lookup(logsconfig.value, "cw_status", null)
+                group_name  = lookup(logsconfig.value, "cw_group_name", null)
+                stream_name = lookup(logsconfig.value, "cw_stream_name", null)
             }
-        }
-    }
 
-    dynamic "logs_config" {
-        iterator = s3logsconfig
-        for_each = var.codebuild_project_s3_logs_config
-        content {
             s3_logs {
-                status              = lookup(s3logsconfig.value, "status", null)
-                location            = lookup(s3logsconfig.value, "location", null)
-                encryption_disabled = lookup(s3logsconfig.value, "status", false)
+                status              = lookup(logsconfig.value, "s3_status", null)
+                location            = lookup(logsconfig.value, "s3_location", null)
+                encryption_disabled = lookup(logsconfig.value, "s3_status", false)
             }
         }
     }

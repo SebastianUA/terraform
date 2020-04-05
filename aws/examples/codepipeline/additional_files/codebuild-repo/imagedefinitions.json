@@ -1,0 +1,24 @@
+[
+	{
+		"taskDefinition":
+		{
+			"family": "hello-world",
+    		"containerDefinitions": [
+    			{
+    				"name": "hello-world",
+			        "image": "docker.io/nginx:latest",
+			        "cpu": 100,
+			        "portMappings": [
+			        	{
+			        		"protocol": "tcp",
+				            "containerPort": 80,
+				            "hostPort": 80
+				        }
+				    ],
+				    "memory": 128,
+				    "essential": true
+				}
+			]
+    	}
+    }
+]
