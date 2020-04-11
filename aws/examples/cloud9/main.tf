@@ -11,7 +11,13 @@ provider "aws" {
 }
 
 module "cloud9" {
-    source                          = "../../modules/cloud9"
-    name                            = "TEST"
-    environment                     = "stage"
+    source                                  = "../../modules/cloud9"
+    name                                    = "TEST"
+    environment                             = "stage"
+
+    enable_cloud9_environment_ec2           = true
+    cloud9_environment_ec2_name             = ""
+    cloud9_environment_ec2_instance_type    = "t2.micro"
+
+    tags                                    = map("Env", "stage", "Orchestration", "Terraform")
 }
