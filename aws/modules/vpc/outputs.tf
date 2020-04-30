@@ -76,42 +76,42 @@ output "vpc_owner_id" {
 #---------------------------------------------------------------
 output "private_subnets_id" {
     description = "The ID of the subnet"
-    value       = element(concat(aws_vpc.vpc.*.id, [""]), 0)
+    value       = element(concat(aws_subnet.private_subnets.*.id, [""]), 0)
 }
 
 output "private_subnets_ids" {
     description = "The IDs of the subnet"
-    value       = aws_vpc.vpc.*.id
+    value       = aws_subnet.private_subnets.*.id
 }
 
 output "private_subnets_arn" {
     description = "The ARN of the subnet."
-    value       = element(concat(aws_vpc.vpc.*.arn, [""]), 0)
+    value       = element(concat(aws_subnet.private_subnets.*.arn, [""]), 0)
 }
 
 output "private_subnets_owner_id" {
     description = "The ID of the AWS account that owns the subnet."
-    value       = element(concat(aws_vpc.vpc.*.owner_id, [""]), 0)
+    value       = element(concat(aws_subnet.private_subnets.*.owner_id, [""]), 0)
 }
 
 output "public_subnets_id" {
     description = "The ID of the subnet"
-    value       = element(concat(aws_vpc.vpc.*.id, [""]), 0)
+    value       = element(concat(aws_subnet.public_subnets.*.id, [""]), 0)
 }
 
 output "public_subnets_ids" {
     description = "The IDs of the subnet"
-    value       = aws_vpc.vpc.*.id
+    value       = aws_subnet.public_subnets.*.id
 }
 
 output "public_subnets_arn" {
     description = "The ARN of the subnet."
-    value       = element(concat(aws_vpc.vpc.*.arn, [""]), 0)
+    value       = element(concat(aws_subnet.public_subnets.*.arn, [""]), 0)
 }
 
 output "public_subnets_owner_id" {
     description = "The ID of the AWS account that owns the subnet."
-    value       = element(concat(aws_vpc.vpc.*.owner_id, [""]), 0)
+    value       = element(concat(aws_subnet.public_subnets.*.owner_id, [""]), 0)
 }
 
 #---------------------------------------------------------------
