@@ -1,0 +1,6 @@
+{
+  "instanceAwsClientConfiguration": {
+    "proxyPort": 8099,
+    "proxyHost": "myproxy.example.com"
+  }
+}

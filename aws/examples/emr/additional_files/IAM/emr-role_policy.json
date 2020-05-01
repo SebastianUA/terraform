@@ -1,0 +1,83 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/spot.amazonaws.com/AWSServiceRoleForEC2Spot*",
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": "spot.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:DescribeInstances",
+                "cloudwatch:DeleteAlarms",
+                "s3:Get*",
+                "s3:CreateBucket",
+                "sqs:GetQueue*",
+                "s3:List*",
+                "ec2:DeleteVolume",
+                "ec2:DescribeVolumeStatus",
+                "ec2:RevokeSecurityGroupEgress",
+                "sqs:Delete*",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeAccountAttributes",
+                "iam:ListRolePolicies",
+                "ec2:DescribeKeyPairs",
+                "ec2:DescribeNetworkAcls",
+                "ec2:DescribeRouteTables",
+                "sdb:BatchPutAttributes",
+                "ec2:DetachVolume",
+                "iam:GetRole",
+                "application-autoscaling:RegisterScalableTarget",
+                "ec2:CreateTags",
+                "ec2:DeleteNetworkInterface",
+                "ec2:RunInstances",
+                "application-autoscaling:DeleteScalingPolicy",
+                "ec2:DescribePrefixLists",
+                "ec2:CreateNetworkInterface",
+                "ec2:CancelSpotInstanceRequests",
+                "cloudwatch:DescribeAlarms",
+                "application-autoscaling:PutScalingPolicy",
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribeSubnets",
+                "iam:GetRolePolicy",
+                "ec2:RequestSpotInstances",
+                "ec2:DeleteTags",
+                "ec2:DescribeDhcpOptions",
+                "ec2:DescribeVpcEndpointServices",
+                "ec2:DescribeSpotInstanceRequests",
+                "ec2:ModifyImageAttribute",
+                "ec2:DescribeVpcAttribute",
+                "ec2:DescribeSpotPriceHistory",
+                "iam:PassRole",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:CreateSecurityGroup",
+                "ec2:ModifyInstanceAttribute",
+                "ec2:DescribeInstanceStatus",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:TerminateInstances",
+                "ec2:DetachNetworkInterface",
+                "application-autoscaling:Describe*",
+                "ec2:DescribeTags",
+                "iam:ListInstanceProfiles",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeImages",
+                "cloudwatch:PutMetricAlarm",
+                "ec2:DescribeVpcs",
+                "ec2:DeleteSecurityGroup",
+                "sdb:Select",
+                "application-autoscaling:DeregisterScalableTarget"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
