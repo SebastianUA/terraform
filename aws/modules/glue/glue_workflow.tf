@@ -1,5 +1,18 @@
 #---------------------------------------------------
-# AWS glue workflow
+# AWS Glue workflow
 #---------------------------------------------------
+resource "aws_glue_workflow" "glue_workflow" {
+    count                   = var.enable_glue_workflow ? 1 : 0
 
-# https://www.terraform.io/docs/providers/aws/r/glue_workflow.html
+    name                    = var.glue_workflow_name != "" ? var.glue_workflow_name : "${lower(var.name)}-glue-workflow-${lower(var.environment)}"
+
+    description             = var.glue_workflow_description
+    default_run_properties  = var.glue_workflow_default_run_properties
+
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+
+    depends_on              = []
+}
