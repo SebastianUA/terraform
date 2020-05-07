@@ -13,11 +13,11 @@ provider "aws" {
 module "sg" {
     source                                  = "../../modules/sg"
     name                                    = "test"
-    environment                             = "NonPROD"
+    environment                             = "dev"
 
     enable_security_group                   = true
     security_group_name                     = "my-test-sg-here"
-    security_group_vpc_id                   = "vpc-56af732c"
+    security_group_vpc_id                   = "vpc-07a6b45ca3c842212"
 
     # Using ingress
     enable_sg_rule_ingress_ports            = true
@@ -32,7 +32,9 @@ module "sg" {
         "22" = [
             "159.224.217.0/24",
             "10.0.0.0/8",
-            "172.16.0.0/12"
+            "172.16.0.0/12",
+            "1.2.3.4/32",
+            "4.3.2.1/32"
         ],
         "7199" = [
             "10.0.0.0/8",

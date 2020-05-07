@@ -22,11 +22,11 @@ provider "aws" {
 module "sg" {
     source                                  = "../../modules/sg"
     name                                    = "test"
-    environment                             = "NonPROD"
+    environment                             = "dev"
 
     enable_security_group                   = true
     security_group_name                     = "my-test-sg-here"
-    security_group_vpc_id                   = "vpc-56af732c"
+    security_group_vpc_id                   = "vpc-07a6b45ca3c842212"
 
     # Using ingress
     enable_sg_rule_ingress_ports            = true
@@ -41,7 +41,9 @@ module "sg" {
         "22" = [
             "159.224.217.0/24",
             "10.0.0.0/8",
-            "172.16.0.0/12"
+            "172.16.0.0/12",
+            "1.2.3.4/32",
+            "4.3.2.1/32"
         ],
         "7199" = [
             "10.0.0.0/8",
@@ -65,7 +67,7 @@ module "sg" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `tags` - A list of tag blocks. (`default = ""`)
 - `enable_security_group` - Enable SG usage (`default = ""`)
 - `security_group_name` - (Optional, Forces new resource) The name of the security group. If omitted, Terraform will assign a random, unique name (`default = ""`)
 - `security_group_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with security_group_name. (`default = ""`)

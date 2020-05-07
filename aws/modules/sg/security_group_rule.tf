@@ -17,7 +17,7 @@ resource "aws_security_group_rule" "ingress_ports" {
     description                 = var.ingress_ports_description != null ? var.ingress_ports_description : null
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -42,7 +42,7 @@ resource "aws_security_group_rule" "ingress_ports_all" {
     description                 = var.ingress_ports_description != null ? var.ingress_ports_description : null
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -67,7 +67,7 @@ resource "aws_security_group_rule" "egress_ports" {
     description                 = var.egress_ports_description != null ? var.egress_ports_description : null
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -92,7 +92,7 @@ resource "aws_security_group_rule" "egress_ports_all" {
     description                 = var.egress_ports_description != null ? var.egress_ports_description : null
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -117,7 +117,7 @@ resource "aws_security_group_rule" "custom_ports" {
     description                 = var.custom_ports_description != null ? var.custom_ports_description : null
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
