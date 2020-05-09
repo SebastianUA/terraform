@@ -2,6 +2,7 @@
 
 A terraform module for making X-ray.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -48,7 +49,7 @@ module "xray" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = ""`)
+- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = False`)
 - `xray_sampling_rule_name` - The name of the sampling rule. (`default = ""`)
 - `xray_sampling_rule_priority` - (Required) The priority of the sampling rule. (`default = 1000`)
 - `xray_sampling_rule_version` - (Required) The version of the sampling rule format (1 ) (`default = 1`)
@@ -60,7 +61,7 @@ module "xray" {
 - `xray_sampling_rule_service_type` - (Required) Matches the origin that the service uses to identify its type in segments. (`default = *`)
 - `xray_sampling_rule_service_name` - (Required) Matches the name that the service uses to identify itself in segments. (`default = *`)
 - `xray_sampling_rule_resource_arn` - (Required) Matches the ARN of the AWS resource on which the service runs. (`default = *`)
-- `xray_sampling_rule_attributes` - (Optional) Matches attributes derived from the request. (`default = ""`)
+- `xray_sampling_rule_attributes` - (Optional) Matches attributes derived from the request. (`default = null`)
 
 ## Module Output Variables
 ----------------------

@@ -2,6 +2,7 @@
 
 A terraform module for making CodeStarNotifications.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -39,14 +40,14 @@ module "codestarnotifications" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_codestarnotifications_notification_rule` - Enable codestarnotifications notification rule usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_codestarnotifications_notification_rule` - Enable codestarnotifications notification rule usage (`default = False`)
 - `codestarnotifications_notification_rule_name` - The name of notification rule. (`default = ""`)
 - `codestarnotifications_notification_rule_resource` - (Required) The ARN of the resource to associate with the notification rule. For exapmle: aws_codecommit_repository.codecommit_repository.arn (`default = ""`)
 - `codestarnotifications_notification_rule_detail_type` - (Required) The level of detail to include in the notifications for this resource. Possible values are BASIC and FULL (`default = FULL`)
 - `codestarnotifications_notification_rule_event_type_ids` - (Required) A list of event types associated with this notification rule. (`default = ['codecommit-repository-comments-on-commits']`)
 - `codestarnotifications_notification_rule_status` - (Optional) The status of the notification rule. Possible values are ENABLED and DISABLED, default is ENABLED. (`default = ENABLED`)
-- `codestarnotifications_notification_rule_target` - (Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation. (`default = ""`)
+- `codestarnotifications_notification_rule_target` - (Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation. (`default = []`)
 
 ## Module Output Variables
 ----------------------

@@ -2,6 +2,7 @@
 
 A terraform module for making manages AWS Managed Streaming for Kafka.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -57,21 +58,21 @@ module "msk" {
 
 ## Module Input Variables
 ----------------------
-- `name` - Name to be used on all resources as prefix (`default = TEST-MSK`)
+- `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. (`default = ""`)
-- `enable_msk_cluster` - Enable AWS MSK usage (`default = ""`)
+- `tags` - A list of tag blocks. (`default = {}`)
+- `enable_msk_cluster` - Enable AWS MSK usage (`default = False`)
 - `cluster_name` - (Required) Name of the MSK cluster. (`default = ""`)
 - `kafka_version` - (Required) Specify the desired Kafka software version. (`default = 2.3.1`)
 - `number_of_broker_nodes` - (Required) The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets. (`default = 3`)
-- `broker_node_group_info` - (Required) Configuration block for the broker nodes of the Kafka cluster. (`default = ""`)
+- `broker_node_group_info` - (Required) Configuration block for the broker nodes of the Kafka cluster. (`default = []`)
 - `encryption_in_transit_client_broker` - (Optional) Encryption setting for data in transit between clients and brokers. Valid values: TLS, TLS_PLAINTEXT, and PLAINTEXT. Default value: TLS_PLAINTEXT. (`default = TLS_PLAINTEXT`)
 - `encryption_in_transit_in_cluster` - (Optional) Whether data communication among broker nodes is encrypted. Default value: true. (`default = True`)
 - `encryption_info_encryption_at_rest_kms_key_arn` - (Optional) You may specify a KMS key short ID or ARN (it will always output an ARN) to use for encrypting your data at rest. If no key is specified, an AWS managed KMS ('aws/msk' managed service) key will be used for encrypting the data at rest. (`default = ""`)
-- `client_authentication_certificate_authority_arns` - (Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs). (`default = ""`)
-- `configuration_info` - (Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers. (`default = ""`)
+- `client_authentication_certificate_authority_arns` - (Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs). (`default = []`)
+- `configuration_info` - (Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers. (`default = []`)
 - `enhanced_monitoring` - (Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER] (`default = DEFAULT`)
-- `enable_msk_configuration` - Enable mask configuration usage (`default = ""`)
+- `enable_msk_configuration` - Enable mask configuration usage (`default = False`)
 - `msk_configuration_name` - Name of the configuration. (`default = ""`)
 - `kafka_versions` - (Required) List of Apache Kafka versions which can use this configuration. (`default = ['2.1.0']`)
 - `msk_configuration_description` - (Optional) Description of the configuration. (`default = ""`)

@@ -2,6 +2,7 @@
 
 A terraform module for making Cloud9.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -36,14 +37,14 @@ module "cloud9" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = False`)
 - `cloud9_environment_ec2_name` - The name of the environment. (`default = ""`)
 - `cloud9_environment_ec2_instance_type` - (Required) The type of instance to connect to the environment, e.g. t2.micro. (`default = t2.micro`)
-- `cloud9_environment_ec2_automatic_stop_time_minutes` - (Optional) The number of minutes until the running instance is shut down after the environment has last been used. (`default = ""`)
-- `cloud9_environment_ec2_description` - (Optional) The description of the environment. (`default = ""`)
-- `cloud9_environment_ec2_owner_arn` - (Optional) The ARN of the environment owner. This can be ARN of any AWS IAM principal. Defaults to the environment's creator. (`default = ""`)
-- `cloud9_environment_ec2_subnet_id` - (Optional) The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance. (`default = ""`)
+- `cloud9_environment_ec2_automatic_stop_time_minutes` - (Optional) The number of minutes until the running instance is shut down after the environment has last been used. (`default = null`)
+- `cloud9_environment_ec2_description` - (Optional) The description of the environment. (`default = null`)
+- `cloud9_environment_ec2_owner_arn` - (Optional) The ARN of the environment owner. This can be ARN of any AWS IAM principal. Defaults to the environment's creator. (`default = null`)
+- `cloud9_environment_ec2_subnet_id` - (Optional) The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance. (`default = null`)
 
 ## Module Output Variables
 ----------------------

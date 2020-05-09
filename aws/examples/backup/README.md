@@ -2,6 +2,7 @@
 
 A terraform module for making Backup.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -51,20 +52,20 @@ module "backup" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_backup_vault` - Enable backup vault usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_backup_vault` - Enable backup vault usage (`default = False`)
 - `backup_vault_name` - Name of the backup vault to create. (`default = ""`)
-- `backup_vault_kms_key_arn` - (Optional) The server-side encryption key that is used to protect your backups. (`default = ""`)
-- `enable_backup_plan` - Enable backup plan usage (`default = ""`)
+- `backup_vault_kms_key_arn` - (Optional) The server-side encryption key that is used to protect your backups. (`default = null`)
+- `enable_backup_plan` - Enable backup plan usage (`default = False`)
 - `backup_plan_name` - The display name of a backup plan. (`default = ""`)
-- `backup_plan_rule` - (Required) A rule object that specifies a scheduled task that is used to back up a selection of resources. (`default = ""`)
-- `backup_plan_rule_copy_action` - (Required) A rule object that specifies a scheduled task that is used to back up a selection of resources with copy_action usage. (`default = ""`)
-- `enable_backup_selection` - Enable backup selection usage (`default = ""`)
+- `backup_plan_rule` - (Required) A rule object that specifies a scheduled task that is used to back up a selection of resources. (`default = []`)
+- `backup_plan_rule_copy_action` - (Required) A rule object that specifies a scheduled task that is used to back up a selection of resources with copy_action usage. (`default = []`)
+- `enable_backup_selection` - Enable backup selection usage (`default = False`)
 - `backup_selection_name` - The display name of a resource selection document. (`default = ""`)
-- `backup_selection_iam_role_arn` - The ARN of the IAM role that AWS Backup uses to authenticate when restoring and backing up the target resource. See the AWS Backup Developer Guide for additional information about using AWS managed policies or creating custom policies attached to the IAM role. (`default = ""`)
+- `backup_selection_iam_role_arn` - The ARN of the IAM role that AWS Backup uses to authenticate when restoring and backing up the target resource. See the AWS Backup Developer Guide for additional information about using AWS managed policies or creating custom policies attached to the IAM role. (`default = null`)
 - `backup_selection_plan_id` - The backup plan ID to be associated with the selection of resources. (`default = ""`)
-- `backup_selection_resources` - (Optional) An array of strings that either contain Amazon Resource Names (ARNs) or match patterns of resources to assign to a backup plan.. (`default = ""`)
-- `backup_selection_selection_tag` - (Optional) Tag-based conditions used to specify a set of resources to assign to a backup plan. (`default = ""`)
+- `backup_selection_resources` - (Optional) An array of strings that either contain Amazon Resource Names (ARNs) or match patterns of resources to assign to a backup plan.. (`default = null`)
+- `backup_selection_selection_tag` - (Optional) Tag-based conditions used to specify a set of resources to assign to a backup plan. (`default = []`)
 
 ## Module Output Variables
 ----------------------

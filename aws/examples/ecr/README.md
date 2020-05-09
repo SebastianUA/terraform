@@ -2,6 +2,7 @@
 
 A terraform module for ECR.
 
+
 ## Usage
 ----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
@@ -37,14 +38,14 @@ module "ecr" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = ""`)
-- `enable_ecr_repository` - Enable ecr repo creating (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = {}`)
+- `enable_ecr_repository` - Enable ecr repo creating (`default = False`)
 - `ecr_repository_name` - Name of the repository. (`default = ""`)
 - `timeouts_delete` - (Default 20 minutes) How long to wait for a repository to be deleted. (`default = 20m`)
-- `enable_ecr_repository_policy` - Enable ecr repo policy usage (`default = ""`)
+- `enable_ecr_repository_policy` - Enable ecr repo policy usage (`default = False`)
 - `repository` - (Required) Name of the repository to apply the policy. (`default = ""`)
 - `policy_json_file` - Json file with policy (`default = ""`)
-- `enable_ecr_lifecycle_policy` - Enable ecr lifecycle policy (`default = ""`)
+- `enable_ecr_lifecycle_policy` - Enable ecr lifecycle policy (`default = False`)
 - `lifecycle_policy_json_file` - Json file with lifecycle policy (`default = ""`)
 
 ## Module Output Variables

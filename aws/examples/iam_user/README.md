@@ -1,7 +1,7 @@
 # Work with AWS IAM for user using via terraform
-=======================
 
 A terraform module for making IAM user.
+
 
 ## Usage
 ----------------------
@@ -63,32 +63,32 @@ module "iam_user" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys (`default = ""`)
-- `enable_iam_user` - Enable iam_user usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys (`default = {}`)
+- `enable_iam_user` - Enable iam_user usage (`default = False`)
 - `iam_user_name` - (Required) The user's name. The name must consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-_.. User names are not distinguished by case. For example, you cannot create users named both 'TESTUSER' and 'testuser'. (`default = ""`)
 - `iam_user_path` - (Optional, default '/') Path in which to create the user. (`default = /`)
-- `permissions_boundary` - (Optional) The ARN of the policy that is used to set the permissions boundary for the user. (`default = ""`)
-- `force_destroy` - (Optional, default false) When destroying this user, destroy even if it has non-Terraform-managed IAM access keys, login profile or MFA devices. Without force_destroy a user with non-Terraform-managed access keys and login profile will fail to be destroyed. (`default = ""`)
-- `enable_iam_user_policy` - Enable iam user policy usage (`default = ""`)
+- `permissions_boundary` - (Optional) The ARN of the policy that is used to set the permissions boundary for the user. (`default = null`)
+- `force_destroy` - (Optional, default false) When destroying this user, destroy even if it has non-Terraform-managed IAM access keys, login profile or MFA devices. Without force_destroy a user with non-Terraform-managed access keys and login profile will fail to be destroyed. (`default = False`)
+- `enable_iam_user_policy` - Enable iam user policy usage (`default = False`)
 - `iam_user_policy_name` - (Optional) The name of the policy. If omitted, Terraform will assign a random, unique name. (`default = ""`)
 - `iam_user_policy_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name. (`default = ""`)
 - `iam_user_policy_user` - (Required) IAM user to which to attach this policy. (`default = ""`)
 - `iam_user_policy_policy` - (Required) IAM user to which to attach this policy. (`default = ""`)
-- `enable_iam_user_policy_attachment` - Enable iam_user_policy_attachment usage (`default = ""`)
+- `enable_iam_user_policy_attachment` - Enable iam_user_policy_attachment usage (`default = False`)
 - `iam_user_policy_attachment_policy_arn` - (Required) - The ARN of the policy you want to apply (`default = ""`)
-- `enable_iam_user_ssh_key` - Enable iam_user_ssh_key usage (`default = ""`)
+- `enable_iam_user_ssh_key` - Enable iam_user_ssh_key usage (`default = False`)
 - `iam_user_ssh_key_username` - (Required) The name of the IAM user to associate the SSH public key with. (`default = ""`)
 - `iam_user_ssh_key_encoding` - (Required) Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM. (`default = SSH`)
 - `iam_user_ssh_key_public_key` - (Required) The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. (`default = ""`)
 - `iam_user_ssh_key_status` - (Optional) The status to assign to the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used. Default is Active. (`default = Active`)
-- `enable_iam_user_login_profile` - Enable iam_user_login_profile usage (`default = ""`)
-- `iam_user_login_profile_user` - (Required) The IAM user's name. (`default = ""`)
-- `iam_user_login_profile_pgp_key` - (Required) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:username. Only applies on resource creation. Drift detection is not possible with this argument. Ex - keybase:captainua (`default = ""`)
+- `enable_iam_user_login_profile` - Enable iam_user_login_profile usage (`default = False`)
+- `iam_user_login_profile_user` - (Required) The IAM user's name. (`default = null`)
+- `iam_user_login_profile_pgp_key` - (Required) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:username. Only applies on resource creation. Drift detection is not possible with this argument. Ex - keybase:captainua (`default = null`)
 - `iam_user_login_profile_password_length` - (Optional, default 20) The length of the generated password on resource creation. Only applies on resource creation. Drift detection is not possible with this argument. (`default = 20`)
 - `iam_user_login_profile_password_reset_required` -  (Optional, default 'true') Whether the user should be forced to reset the generated password on resource creation. Only applies on resource creation. Drift detection is not possible with this argument. (`default = True`)
-- `enable_iam_user_group_membership` - Enable iam_user_group_membership usage (`default = ""`)
+- `enable_iam_user_group_membership` - Enable iam_user_group_membership usage (`default = False`)
 - `iam_user_group_membership_user` - (Required) The name of the IAM User to add to groups (`default = ""`)
-- `iam_user_group_membership_groups` - (Required) A list of IAM Groups to add the user to (`default = ""`)
+- `iam_user_group_membership_groups` - (Required) A list of IAM Groups to add the user to (`default = []`)
 
 ## Module Output Variables
 ----------------------

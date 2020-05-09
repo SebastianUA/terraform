@@ -1,7 +1,7 @@
 # Work with AWS IAM for account using via terraform
-=======================
 
 A terraform module for making IAM accont.
+
 
 ## Usage
 ----------------------
@@ -53,22 +53,22 @@ module "iam_account" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_iam_access_key` - Enable IAM access key usage (`default = ""`)
-- `iam_access_key_user` - (Required) The IAM user to associate with this access key. (`default = ""`)
-- `iam_access_key_pgp_key` - (Optional) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:some_person_that_exists. (`default = ""`)
+- `enable_iam_access_key` - Enable IAM access key usage (`default = False`)
+- `iam_access_key_user` - (Required) The IAM user to associate with this access key. (`default = null`)
+- `iam_access_key_pgp_key` - (Optional) Either a base-64 encoded PGP public key, or a keybase username in the form keybase:some_person_that_exists. (`default = null`)
 - `iam_access_key_status` - (Optional) The access key status to apply. Defaults to Active. Valid values are Active and Inactive. (`default = Active`)
-- `enable_iam_account_alias` - Enable IAM account alias usage (`default = ""`)
+- `enable_iam_account_alias` - Enable IAM account alias usage (`default = False`)
 - `account_alias` - (Required) The account alias (`default = ""`)
-- `enable_iam_account_password_policy` - Enable IAM account password policy usage (`default = ""`)
+- `enable_iam_account_password_policy` - Enable IAM account password policy usage (`default = False`)
 - `minimum_password_length` - (Optional) Minimum length to require for user passwords. (`default = 8`)
 - `require_lowercase_characters` - (Optional) Whether to require lowercase characters for user passwords. (`default = True`)
 - `require_numbers` - (Optional) Whether to require numbers for user passwords. (`default = True`)
 - `require_uppercase_characters` - (Optional) Whether to require uppercase characters for user passwords. (`default = True`)
 - `require_symbols` - (Optional) Whether to require symbols for user passwords. (`default = True`)
 - `allow_users_to_change_password` - (Optional) Whether to allow users to change their own password (`default = True`)
-- `hard_expiry` - (Optional) Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) (`default = ""`)
-- `max_password_age` - (Optional) The number of days that an user password is valid. (`default = ""`)
-- `password_reuse_prevention` - (Optional) The number of previous passwords that users are prevented from reusing. (`default = ""`)
+- `hard_expiry` - (Optional) Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset) (`default = null`)
+- `max_password_age` - (Optional) The number of days that an user password is valid. (`default = null`)
+- `password_reuse_prevention` - (Optional) The number of previous passwords that users are prevented from reusing. (`default = null`)
 
 ## Module Output Variables
 ----------------------

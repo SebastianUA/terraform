@@ -1,6 +1,7 @@
 # Work with AWS Appmesh via terraform
 
-A terraform module for making Appmesh.
+A terraform module for making Application Mesh.
+
 
 ## Usage
 ----------------------
@@ -101,39 +102,39 @@ module "appmesh" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_appmesh_mesh` - Enable appmesh mesh usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_appmesh_mesh` - Enable appmesh mesh usage (`default = False`)
 - `appmesh_mesh_name` - The name to use for the service mesh. (`default = ""`)
 - `appmesh_mesh_spec_egress_filter_type` - (Optional) The egress filter type. By default, the type is DROP_ALL. Valid values are ALLOW_ALL and DROP_ALL. (`default = DROP_ALL`)
-- `enable_appmesh_virtual_node` - Enable appmesh virtual node usage (`default = ""`)
+- `enable_appmesh_virtual_node` - Enable appmesh virtual node usage (`default = False`)
 - `appmesh_virtual_node_name` - The name to use for the virtual node. (`default = ""`)
 - `appmesh_virtual_node_mesh_name` - The name of the service mesh in which to create the virtual node. (`default = ""`)
-- `appmesh_virtual_node_backend` - (Optional) The backends to which the virtual node is expected to send outbound traffic. (`default = ""`)
-- `appmesh_virtual_node_listener` - (Optional) The listeners from which the virtual node is expected to receive inbound traffic. (`default = ""`)
-- `appmesh_virtual_node_listener_hc` - (Optional) The listeners from which the virtual node is expected to receive inbound traffic with health_check. (`default = ""`)
-- `appmesh_virtual_node_service_discovery_dns` - (Optional) The service discovery information for the virtual node for DNS. (`default = ""`)
-- `appmesh_virtual_node_service_discovery_cloud_map` - (Optional) The service discovery information for the virtual node for aws_cloud_map. (`default = ""`)
-- `appmesh_virtual_node_logging` - (Optional) The inbound and outbound access logging information for the virtual node. (`default = ""`)
-- `enable_appmesh_virtual_service` - Enable appmesh virtual service usage (`default = ""`)
+- `appmesh_virtual_node_backend` - (Optional) The backends to which the virtual node is expected to send outbound traffic. (`default = []`)
+- `appmesh_virtual_node_listener` - (Optional) The listeners from which the virtual node is expected to receive inbound traffic. (`default = []`)
+- `appmesh_virtual_node_listener_hc` - (Optional) The listeners from which the virtual node is expected to receive inbound traffic with health_check. (`default = []`)
+- `appmesh_virtual_node_service_discovery_dns` - (Optional) The service discovery information for the virtual node for DNS. (`default = []`)
+- `appmesh_virtual_node_service_discovery_cloud_map` - (Optional) The service discovery information for the virtual node for aws_cloud_map. (`default = []`)
+- `appmesh_virtual_node_logging` - (Optional) The inbound and outbound access logging information for the virtual node. (`default = []`)
+- `enable_appmesh_virtual_service` - Enable appmesh virtual service usage (`default = False`)
 - `appmesh_virtual_service_name` - The name to use for the virtual service. (`default = ""`)
 - `appmesh_virtual_service_mesh_name` - The name of the service mesh in which to create the virtual service. (`default = ""`)
-- `appmesh_virtual_service_spec_provider_virtual_node` - (Optional) The virtual node associated with a virtual service. (`default = ""`)
-- `appmesh_virtual_service_spec_provider_virtual_router` - (Optional) The virtual router associated with a virtual service. (`default = ""`)
-- `enable_appmesh_virtual_router` - Enable appmesh virtual router usage (`default = ""`)
+- `appmesh_virtual_service_spec_provider_virtual_node` - (Optional) The virtual node associated with a virtual service. (`default = []`)
+- `appmesh_virtual_service_spec_provider_virtual_router` - (Optional) The virtual router associated with a virtual service. (`default = []`)
+- `enable_appmesh_virtual_router` - Enable appmesh virtual router usage (`default = False`)
 - `appmesh_virtual_router_name` - The name to use for the virtual router. (`default = ""`)
 - `appmesh_virtual_router_mesh_name` - The name of the service mesh in which to create the virtual router. (`default = ""`)
 - `appmesh_virtual_router_spec_listener_port_mapping_port` - (Required) The port used for the port mapping. (`default = 8080`)
 - `appmesh_virtual_router_spec_listener_port_mapping_protocol` - (Required) The protocol used for the port mapping. Valid values are http and tcp. (`default = http`)
-- `enable_appmesh_route` - Enable appmesh route usage (`default = ""`)
+- `enable_appmesh_route` - Enable appmesh route usage (`default = False`)
 - `appmesh_route_name` - The name to use for the route. (`default = ""`)
 - `appmesh_route_mesh_name` - The name of the service mesh in which to create the route. (`default = ""`)
 - `appmesh_route_virtual_router_name` - The name of the virtual router in which to create the route. (`default = ""`)
-- `appmesh_route_spec_priority` - (Optional) The priority for the route, between 0 and 1000. Routes are matched based on the specified value, where 0 is the highest priority. (`default = ""`)
-- `appmesh_route_http_route` - (Optional) The HTTP routing information for the route. (`default = ""`)
-- `appmesh_route_http_route_header` - (Optional) The HTTP routing information for the route with header supporting (`default = ""`)
-- `appmesh_route_http_route_header_match` - (Optional) The HTTP routing information for the route with header + match supporting (`default = ""`)
-- `appmesh_route_http_route_header_match_range` - (Optional) The HTTP routing information for the route with header + match + range supporting (`default = ""`)
-- `appmesh_route_tcp_route` - (Optional) The TCP routing information for the route. (`default = ""`)
+- `appmesh_route_spec_priority` - (Optional) The priority for the route, between 0 and 1000. Routes are matched based on the specified value, where 0 is the highest priority. (`default = null`)
+- `appmesh_route_http_route` - (Optional) The HTTP routing information for the route. (`default = []`)
+- `appmesh_route_http_route_header` - (Optional) The HTTP routing information for the route with header supporting (`default = []`)
+- `appmesh_route_http_route_header_match` - (Optional) The HTTP routing information for the route with header + match supporting (`default = []`)
+- `appmesh_route_http_route_header_match_range` - (Optional) The HTTP routing information for the route with header + match + range supporting (`default = []`)
+- `appmesh_route_tcp_route` - (Optional) The TCP routing information for the route. (`default = []`)
 
 ## Module Output Variables
 ----------------------
