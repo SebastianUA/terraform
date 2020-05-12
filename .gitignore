@@ -4,6 +4,8 @@
 **/*_BK
 **/terraform.tfstate
 **/terraform.tfstate.backup
+**/.terraform.tfstate.lock.info
+**/.terraform.tfstate.lock
 !.gitignore
 !.pre-commit-config.yaml
 !.github
