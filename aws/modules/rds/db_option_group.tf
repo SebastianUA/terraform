@@ -6,35 +6,35 @@ resource "aws_db_option_group" "db_option_group" {
 
     name                        = var.db_option_group_name != "" && var.db_option_group_name_prefix == "" ? lower(var.db_option_group_name) : null
     name_prefix                 = var.db_option_group_name_prefix != "" && var.db_option_group_name == "" ? lower(var.db_option_group_name_prefix) : null
-    option_group_description    = var.option_group_description
+    option_group_description    = var.db_option_group_option_group_description
 
     engine_name                 = var.db_option_group_engine_name != "" ? lower(var.db_option_group_engine_name) : "${lower(var.name)}-db-option-group-${lower(var.environment)}"
     major_engine_version        = var.db_option_group_major_engine_version
 
-    option {
-        option_name = "Timezone"
+    dynamic "option" {
+        iterator = option
+        for_each = var.db_option_group_options
+        content {
+            option_name                     = lookup(timeouts.value, "option_name", null)
 
-        option_settings {
-            name  = "TIME_ZONE"
-            value = "UTC"
+            port                            = lookup(timeouts.value, "port", null)
+            version                         = lookup(timeouts.value, "version", null)
+            db_security_group_memberships   = lookup(timeouts.value, "db_security_group_memberships", null)
+            vpc_security_group_memberships  = lookup(timeouts.value, "vpc_security_group_memberships", null)
+
+            option_settings {
+                name  = lookup(timeouts.value, "name", null)
+                value = lookup(timeouts.value, "value", null)
+            }
         }
     }
 
-    option {
-        option_name = "SQLSERVER_BACKUP_RESTORE"
-
-        option_settings {
-            name  = "IAM_ROLE_ARN"
-            value = "IAM_ROLE_ARN_HERE"
+    dynamic "timeouts" {
+        iterator = timeouts
+        for_each = var.db_option_group_timeouts
+        content {
+            delete  = lookup(timeouts.value, "delete", "15m")
         }
-    }
-
-    option {
-        option_name = "TDE"
-    }
-
-    timeouts {
-        delete  = var.timeouts_delete
     }
 
     lifecycle {

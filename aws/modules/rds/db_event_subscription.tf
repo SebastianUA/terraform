@@ -4,8 +4,8 @@
 resource "aws_db_event_subscription" "db_event_subscription" {
     count               = var.enable_db_event_subscription ? 1 : 0
 
-    name                = var.db_event_subscription_name != "" && var.db_event_subscription_name_prefix == "" ? var.db_event_subscription_name : null
-    name_prefix         = var.db_event_subscription_name_prefix != "" && var.db_event_subscription_name == "" ? var.db_event_subscription_name_prefix : null
+    name                = var.db_event_subscription_name != "" && var.db_event_subscription_name_prefix == "" ? lower(var.db_event_subscription_name) : null
+    name_prefix         = var.db_event_subscription_name_prefix != "" && var.db_event_subscription_name == "" ? lower(var.db_event_subscription_name_prefix) : null
     sns_topic           = var.db_event_subscription_sns_topic
 
     source_type         = var.db_event_subscription_source_type
@@ -15,15 +15,19 @@ resource "aws_db_event_subscription" "db_event_subscription" {
 
     tags                = merge(
         {
-            "Name"  = var.db_cluster_snapshot_identifier != "" ? lower(var.db_cluster_snapshot_identifier) : "${lower(var.name)}-db-cluster-snapshot-${lower(var.environment)}"
+            "Name"  = var.db_event_subscription_name != "" && var.db_event_subscription_name_prefix == "" ? lower(var.db_event_subscription_name) : lower(var.db_event_subscription_name_prefix)
         },
         var.tags
     )
 
-    timeouts {
-        create  = var.timeouts_create
-        update  = var.timeouts_update
-        delete  = var.timeouts_delete
+    dynamic "timeouts" {
+        iterator = timeouts
+        for_each = var.db_event_subscription_timeouts
+        content {
+            create  = lookup(timeouts.value, "create", "40m")
+            update  = lookup(timeouts.value, "update", "40m")
+            delete  = lookup(timeouts.value, "delete", "40m")
+        }
     }
 
     lifecycle {

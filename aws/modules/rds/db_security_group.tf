@@ -3,6 +3,7 @@
 #---------------------------------------------------
 resource "aws_db_security_group" "db_security_group" {
     count       = var.enable_db_security_group ? 1 : 0
+
     name        = var.db_security_group_name != "" ? lower(var.db_security_group_name) : "${lower(var.name)}-db-sg-${lower(var.environment)}"
     description = var.db_security_group_description != "" ? lower(var.db_security_group_description) : null
 

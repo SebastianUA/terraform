@@ -14,8 +14,12 @@ resource "aws_db_cluster_snapshot" "db_cluster_snapshot" {
         var.tags
     )
 
-    timeouts {
-        create  = var.timeouts_create
+    dynamic "timeouts" {
+        iterator = timeouts
+        for_each = var.db_cluster_snapshot_timeouts
+        content {
+            create  = lookup(timeouts.value, "create", "20m")
+        }
     }
 
     lifecycle {

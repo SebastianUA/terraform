@@ -7,10 +7,10 @@ resource "aws_rds_cluster_parameter_group" "rds_cluster_parameter_group" {
     name            = var.rds_cluster_parameter_group_name != "" ? lower(var.rds_cluster_parameter_group_name) : null
     name_prefix     = var.rds_cluster_parameter_group_name_prefix != "" ? lower(var.rds_cluster_parameter_group_name_prefix) : null
     description     = var.rds_cluster_parameter_group_description
-    family          = var.family != "" ? var.family : lookup(var.db_group_family, var.engine)
+    family          = var.rds_cluster_parameter_group_family != "" ? var.rds_cluster_parameter_group_family : lookup(var.db_group_family, var.rds_cluster_engine)
 
     dynamic "parameter" {
-        for_each = var.parameter
+        for_each = var.rds_cluster_parameter_group_parameters
         content {
             name            = lookup(parameter.value, "name",  null)
             value           = lookup(parameter.value, "value",  null)

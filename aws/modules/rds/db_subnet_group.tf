@@ -7,7 +7,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
     name        = var.db_subnet_group_name != "" && var.db_subnet_group_name_prefix == "" ? lower(var.db_subnet_group_name) : null
     name_prefix = var.db_subnet_group_name_prefix != "" && var.db_subnet_group_name == "" ? lower(var.db_subnet_group_name_prefix) : null
     description = var.db_subnet_group_description
-    subnet_ids  = var.subnet_ids
+    subnet_ids  = var.db_subnet_group_subnet_ids
 
     tags        = merge(
         {
