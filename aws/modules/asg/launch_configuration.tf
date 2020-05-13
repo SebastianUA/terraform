@@ -54,7 +54,7 @@ resource "aws_launch_configuration" "lc" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -114,7 +114,7 @@ resource "aws_launch_configuration" "lc_spot" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -174,7 +174,7 @@ resource "aws_launch_configuration" "lc_prefix" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -233,7 +233,7 @@ resource "aws_launch_configuration" "lc_spot_prefix" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 

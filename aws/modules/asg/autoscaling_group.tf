@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "asg" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -97,7 +97,7 @@ resource "aws_autoscaling_group" "asg_prefix" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -175,7 +175,7 @@ resource "aws_autoscaling_group" "asg_azs" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 
@@ -250,7 +250,7 @@ resource "aws_autoscaling_group" "asg_azs_prefix" {
     }
 
     lifecycle {
-        create_before_destroy   = true
+        create_before_destroy   = false
         ignore_changes          = []
     }
 

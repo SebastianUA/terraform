@@ -89,7 +89,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 
     lifecycle {
         create_before_destroy   = true
-        ignore_changes          = []
+        ignore_changes          = [availability_zones, final_snapshot_identifier, backup_retention_period]
     }
 
     depends_on                          = [
