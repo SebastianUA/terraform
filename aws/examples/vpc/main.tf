@@ -11,6 +11,47 @@ provider "aws" {
 }
 
 #---------------------------------------------------------------
+# VPC custom routing
+#---------------------------------------------------------------
+module "vpc_custom_routings" {
+    source                                          = "../../modules/vpc"
+    name                                            = "vpc_custom_routings"
+    environment                                     = "dev"
+
+    # VPC
+    enable_vpc                                      = true
+    vpc_name                                        = "vpc-custom-routings"
+
+    instance_tenancy                                = "default"
+    enable_dns_support                              = true
+    enable_dns_hostnames                            = true
+    assign_generated_ipv6_cidr_block                = false
+
+    vpc_cidr                                        = "12.11.0.0/16"
+    private_subnet_cidrs                            = ["12.11.1.0/24"]
+    public_subnet_cidrs                             = ["12.11.2.0/24", "12.11.3.0/24"]
+
+    #Internet-GateWay
+    enable_internet_gateway                         = true
+    #NAT
+    enable_nat_gateway                              = false
+    single_nat_gateway                              = false
+
+    #DHCP
+    enable_dhcp                                     = true
+    dhcp_options_domain_name                        = "ec2.internal"
+    dhcp_options_domain_name_servers                = ["AmazonProvidedDNS"]
+
+    # EIP
+    enable_eip                                      = false
+
+    private_custom_peering_destination_cidr_block   = ["1.2.3.4/32", "4.3.2.1/32"]
+    private_custom_gateway_id                       = "tgw-05b56a37c420a2635"
+
+    tags                                            = map("Env", "stage", "Orchestration", "Terraform")
+}
+
+#---------------------------------------------------------------
 # VPC Endpoint
 #---------------------------------------------------------------
 module "vpc_endpoint" {
@@ -55,11 +96,32 @@ module "vpc_endpoint" {
     customer_gateway_bgp_asn            = 65000
     customer_gateway_ip_address         = "1.2.3.4" # Set IP addr gateway; For example: office's IP GW.
 
-    # VPC endpoint
-    enable_vpc_endpoint                 = true
-    vpc_endpoint_name                   = ""
+    # VPC endpoint (S3)
+    enable_vpc_endpoint                 = false
+    vpc_endpoint_name                   = "s3-endpoint-for-emr"
     vpc_endpoint_service_name           = "com.amazonaws.us-east-1.s3"
+    vpc_endpoint_vpc_endpoint_type      = "Gateway"
+    vpc_endpoint_security_group_ids     = ["sg-0ac2ce954f45c8f6a", "sg-0919aabecaea96510"]
     vpc_endpoint_auto_accept            = true
+    vpc_endpoint_private_dns_enabled    = true
+
+    # VPC endpoint (SQS)
+    enable_vpc_endpoint                 = false
+    vpc_endpoint_name                   = "sqs-endpoint-for-emr"
+    vpc_endpoint_service_name           = "com.amazonaws.us-east-1.sqs"
+    vpc_endpoint_vpc_endpoint_type      = "Interface"
+    vpc_endpoint_security_group_ids     = ["sg-0ac2ce954f45c8f6a", "sg-0919aabecaea96510"]
+    vpc_endpoint_auto_accept            = true
+    vpc_endpoint_private_dns_enabled    = true
+
+    # VPC endpoint (SNS)
+    enable_vpc_endpoint                 = false
+    vpc_endpoint_name                   = "sns-endpoint-for-emr"
+    vpc_endpoint_service_name           = "com.amazonaws.us-east-1.sns"
+    vpc_endpoint_vpc_endpoint_type      = "Interface"
+    vpc_endpoint_security_group_ids     = ["sg-0ac2ce954f45c8f6a", "sg-0919aabecaea96510"]
+    vpc_endpoint_auto_accept            = true
+    vpc_endpoint_private_dns_enabled    = true
 
     tags                                = map("Env", "stage", "Orchestration", "Terraform")
 }

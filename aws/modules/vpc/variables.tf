@@ -405,6 +405,26 @@ variable "nat_eip_name" {
 #---------------------------------------------------------------
 # AWS route
 #---------------------------------------------------------------
+variable "private_custom_peering_destination_cidr_block" {
+  description = "Set CIDR block for private custom routing"
+  default     = null
+}
+
+variable "private_custom_gateway_id" {
+  description = "Set gateway ID for private custom routing"
+  default     = null
+}
+
+variable "public_custom_peering_destination_cidr_block" {
+  description = "Set CIDR block for public custom routing"
+  default     = null
+}
+
+variable "public_custom_gateway_id" {
+  description = "Set gateway ID for public custom routing"
+  default     = null
+}
+
 variable "timeouts_create" {
   description   = "(Default 2 minutes) Used for route creation"
   default       = "2m"

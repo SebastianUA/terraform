@@ -389,6 +389,16 @@ output "public_internet_gateway_id" {
     value       = element(concat(aws_route.public_internet_gateway.*.id, [""]), 0)
 }
 
+output "private_custom_route_id" {
+    description = "Route Table identifier and destination for private custom route"
+    value       = element(concat(aws_route.private_custom_route.*.id, [""]), 0)
+}
+
+output "public_custom_route_id" {
+    description = "Route Table identifier and destination for public custom route"
+    value       = element(concat(aws_route.public_custom_route.*.id, [""]), 0)
+}
+
 #---------------------------------------------------
 # AWS Route table
 #---------------------------------------------------
