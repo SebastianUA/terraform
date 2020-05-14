@@ -11,7 +11,14 @@ provider "aws" {
 }
 
 module "swf" {
-    source                          = "../../modules/swf"
-    name                            = "TEST"
-    environment                     = "stage"
+    source                                                  = "../../modules/swf"
+    name                                                    = "TEST"
+    environment                                             = "stage"
+
+    enable_swf_domain                                       = true
+    swf_domain_name                                         = "swf_domain_name"
+    swf_domain_description                                  = "Managing by Terrafrom"
+    swf_domain_workflow_execution_retention_period_in_days  = 0
+
+    tags                                                    = map("Env", "dev", "Createdby", "Vitalii Natarov", "Orchestration", "Terraform")
 }
