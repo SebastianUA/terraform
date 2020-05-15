@@ -12,6 +12,7 @@ provider "aws" {
 
 module "fms" {
     source                          = "../../modules/fms"
-    name                            = "TEST"
-    environment                     = "stage"
+
+    enable_fms_admin_account        = true
+    fms_admin_account_id            = null
 }

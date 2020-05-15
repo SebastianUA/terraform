@@ -1,37 +1,12 @@
-#-----------------------------------------------------------
-# Global or/and default variables
-#-----------------------------------------------------------
-variable "name" {
-  description = "Name to be used on all resources as prefix"
-  default     = "TEST"
-}
-
-variable "region" {
-    description = "The region where to deploy this code (e.g. us-east-1)."
-    default     = "us-east-1"
-}
-
-variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
-}
-
-variable "orchestration" {
-    description = "Type of orchestration"
-    default     = "Terraform"
-}
-
-variable "createdby" {
-    description = "Created by"
-    default     = "Vitaliy Natarov"
-}
-
-variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
-}
-
 #---------------------------------------------------
-# AWS accessanalyzer analyzer
+# AWS fms admin account
 #---------------------------------------------------
+variable "enable_fms_admin_account" {
+  description   = "Enable fms admin account usage"
+  default       = false
+}
+
+variable "fms_admin_account_id" {
+  description   = "(Optional) The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. Defaults to the current account. Must be configured to perform drift detection."
+  default       = null
+}
