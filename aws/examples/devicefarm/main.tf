@@ -13,5 +13,8 @@ provider "aws" {
 module "devicefarm" {
     source                          = "../../modules/devicefarm"
     name                            = "TEST"
-    environment                     = "stage"
+    environment                     = "dev"
+
+    enable_devicefarm_project       = true
+    devicefarm_project_name         = ""
 }
