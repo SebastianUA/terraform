@@ -11,7 +11,13 @@ provider "aws" {
 }
 
 module "datapipeline" {
-    source                          = "../../modules/datapipeline"
-    name                            = "TEST"
-    environment                     = "stage"
+    source                              = "../../modules/datapipeline"
+    name                                = "TEST"
+    environment                         = "dev"
+
+    enable_datapipeline_pipeline        = true
+    datapipeline_pipeline_name          = ""
+    datapipeline_pipeline_description   = null
+
+    tags                                = map("Env", "stage", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
 }
