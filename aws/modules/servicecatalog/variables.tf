@@ -1,31 +1,6 @@
-#-----------------------------------------------------------
-# Global or/and default variables
-#-----------------------------------------------------------
-variable "name" {
-  description = "Name to be used on all resources as prefix"
-  default     = "TEST"
-}
-
-variable "region" {
-    description = "The region where to deploy this code (e.g. us-east-1)."
-    default     = "us-east-1"
-}
-
-variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
-}
-
-variable "orchestration" {
-    description = "Type of orchestration"
-    default     = "Terraform"
-}
-
-variable "createdby" {
-    description = "Created by"
-    default     = "Vitaliy Natarov"
-}
-
+#---------------------------------------------------
+# AWS servicecatalog portfolio
+#---------------------------------------------------
 variable "tags" {
     description = "A list of tag blocks. Each element should have keys named key, value, etc."
     type        = map(string)
@@ -33,5 +8,24 @@ variable "tags" {
 }
 
 #---------------------------------------------------
-# AWS accessanalyzer analyzer
+# AWS servicecatalog portfolio
 #---------------------------------------------------
+variable "enable_servicecatalog_portfolio" {
+  description   = "Enable servicecatalog portfolio usage"
+  default       = false
+}
+
+variable "servicecatalog_portfolio_name" {
+  description   = "The name of the portfolio."
+  default       = ""
+}
+
+variable "servicecatalog_portfolio_description" {
+  description   = "(Required) Description of the portfolio"
+  default       = ""
+}
+
+variable "servicecatalog_portfolio_provider_name" {
+  description   = "(Required) Name of the person or organization who owns the portfolio."
+  default       = null
+}
