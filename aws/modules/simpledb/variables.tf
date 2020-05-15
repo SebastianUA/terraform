@@ -6,32 +6,20 @@ variable "name" {
   default     = "TEST"
 }
 
-variable "region" {
-    description = "The region where to deploy this code (e.g. us-east-1)."
-    default     = "us-east-1"
-}
-
 variable "environment" {
     description = "Environment for service"
     default     = "STAGE"
 }
 
-variable "orchestration" {
-    description = "Type of orchestration"
-    default     = "Terraform"
-}
-
-variable "createdby" {
-    description = "Created by"
-    default     = "Vitaliy Natarov"
-}
-
-variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
-}
-
 #---------------------------------------------------
-# AWS accessanalyzer analyzer
+# AWS simpledb domain
 #---------------------------------------------------
+variable "enable_simpledb_domain" {
+  description   = "Enable simpledb domain usage"
+  default       = false
+}
+
+variable "simpledb_domain_name" {
+  description   = "The name of the SimpleDB domain"
+  default       = ""
+}

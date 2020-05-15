@@ -14,4 +14,7 @@ module "simpledb" {
     source                          = "../../modules/simpledb"
     name                            = "TEST"
     environment                     = "stage"
+
+    enable_simpledb_domain          = true
+    simpledb_domain_name            = ""
 }
