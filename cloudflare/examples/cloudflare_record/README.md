@@ -2,9 +2,9 @@
 
 A terraform module for making cloudflare records.
 
-## Usage
---------
 
+## Usage
+----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
 
 ```
@@ -12,36 +12,63 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+  required_version = "> 0.12.12"
 }
+
 provider "cloudflare" {
-    email = ""
-    token = ""
+    version = "~> 2.0"
+    email   = ""
+    api_key = ""
 }
+
 module "cloudflare_record" {
     source                          = "../../modules/cloudflare_record"
     name                            = "cloudflare_record"
+
+    enable_record                   = "true"
+
+    record_value                    = "192.168.0.11"
+
+    record_data                     = {
+        service  = "_sip"
+        proto    = "_tls"
+        name     = "terraform-srv"
+        priority = 0
+        weight   = 0
+        port     = 443
+        target   = "linux-notes.org"
+  }
 }
 ```
 
-Module Input Variables
+## Module Input Variables
 ----------------------
-- `name` - The name of the record (`default     = "cloudflare_name"`).
-- `domain` - The domain to add the record to (`default     = ""`).
-- `value` - The value of the record. Ex: 192.168.13.113 (`default     = ""`).
-- `type` - The type of the record (`default     = "A"`).
-- `ttl` - The TTL of the record (`default     = 3600`).
-- `priority` - The priority of the record (`default     = "1"`).
-- `proxied` - Whether the record gets Cloudflare's origin protection (`default     = ""`).
+- `enable_record` - Enable cloudflare record usage (`default = False`)
+- `record_name` - The name of the record (`default = cloudflare_name`)
+- `record_zone_id` - (Required) The DNS zone ID to add the record to (`default = ""`)
+- `record_type` - The type of the record (`default = A`)
+- `record_value` - The value of the record. Ex: 192.168.13.113 (`default = null`)
+- `record_data` - description (`default = null`)
+- `record_ttl` - The TTL of the record (`default = 3600`)
+- `record_priority` - The priority of the record (`default = 1`)
+- `record_proxied` - Whether the record gets Cloudflare's origin protection. (`default = False`)
+
+## Module Output Variables
+----------------------
+- `record_id` - ""
+- `record_name` - ""
+- `record_value` - ""
+- `record_type` - ""
+- `record_ttls` - ""
+- `record_prioritys` - ""
+- `record_hostnames` - ""
+- `record_proxieds` - ""
 
 
-Authors
-=======
+## Authors
 
-Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA)
-(vitaliy.natarov@yahoo.com).
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com).
 
-License
-=======
+## License
 
-Apache 2 Licensed. See LICENSE for full details.
+Apache 2 Licensed. See [LICENSE](https://github.com/SebastianUA/terraform/blob/master/LICENSE) for full details.

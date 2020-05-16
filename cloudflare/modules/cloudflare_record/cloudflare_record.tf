@@ -2,27 +2,22 @@
 # Add a record to the domain
 #---------------------------------------------------
 resource "cloudflare_record" "record" {
-    count           = var.enable_cloudflare_record && !var.enable_cloudflare_record_data ? 1 : 0
+    count           = var.enable_record ? 1 : 0
 
-    zone_id         = "var.zone_id"
-    name            = "var.name"
-    type            = "var.type"
+    name            = var.record_name
+    zone_id         = var.record_zone_id
+    type            = var.record_type
 
-    value           = "var.value"
-    ttl             = var.ttl
-    priority        = var.priority
-    proxied         = var.proxied
-}
+    value           = var.record_value
+    data            = var.record_data
+    ttl             = var.record_ttl
+    priority        = var.record_priority
+    proxied         = var.record_proxied
 
-resource "cloudflare_record" "record_with_data" {
-    count           = var.enable_cloudflare_record && var.enable_cloudflare_record_data ? 1 : 0
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
 
-    zone_id         = "var.zone_id"
-    name            = "var.name"
-    type            = "var.type"
-
-    data            = var.data
-    ttl             = var.ttl
-    priority        = var.priority
-    proxied         = var.proxied
+    depends_on      = []
 }
