@@ -25,5 +25,10 @@ resource "tls_self_signed_cert" "self_signed_cert" {
     dns_names               = var.tls_self_signed_cert_dns_names
     ip_addresses            = var.tls_self_signed_cert_ip_addresses
 
-    depends_on  = []
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+
+    depends_on              = []
 }

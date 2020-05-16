@@ -22,5 +22,10 @@ resource "tls_cert_request" "cert_request" {
     dns_names               = var.tls_cert_request_dns_names
     ip_addresses            = var.tls_cert_request_ip_addresses
 
-    depends_on  = []
+    lifecycle {
+        create_before_destroy   = true
+        ignore_changes          = []
+    }
+
+    depends_on              = []
 }

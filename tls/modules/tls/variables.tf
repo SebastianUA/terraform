@@ -7,7 +7,7 @@ variable "name" {
 }
 
 #-----------------------------------------------------------
-# tls_private_key
+# TLS private key
 #-----------------------------------------------------------
 variable "enable_tls_private_key" {
     description = "Enable tls_private_key usage"
@@ -30,7 +30,7 @@ variable "tls_private_key_rsa_bits" {
 }
 
 #-----------------------------------------------------------
-# tls_self_signed_cert
+# TLS self signed cert
 #-----------------------------------------------------------
 variable "enable_self_signed_cert" {
     description = "Enable self_signed_cert usage"
@@ -122,7 +122,7 @@ variable "tls_self_signed_cert_is_ca_certificate" {
 }
 
 #-----------------------------------------------------------
-# tls_locally_signed_cert
+# TLS locally signed cert
 #-----------------------------------------------------------
 variable "enable_locally_signed_cert" {
     description = "Enable tls_locally_signed_cert usage"
@@ -174,7 +174,7 @@ variable "locally_is_ca_certificate" {
 }
 
 #-----------------------------------------------------------
-# tls_cert_request
+# TLS cert request
 #-----------------------------------------------------------
 variable "enable_tls_cert_request" {
     description = "Enable cert_request usage"
