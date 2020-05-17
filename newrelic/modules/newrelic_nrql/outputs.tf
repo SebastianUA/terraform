@@ -3,5 +3,5 @@
 #-----------------------------------------------------------
 output "nrql_alert_condition_id" {
     description = "ID for newrelic_nrql_alert_condition"
-    value       = "${newrelic_nrql_alert_condition.nrql_alert_condition.*.id}"
+    value       = element(concat(newrelic_nrql_alert_condition.nrql_alert_condition.*.id, [""]), 0)
 }

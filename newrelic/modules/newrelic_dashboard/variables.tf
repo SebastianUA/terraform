@@ -16,7 +16,7 @@ variable "environment" {
 #-----------------------------------------------------------
 variable "dashboard" {
     description = "Enable newrelic_dashboard"
-    default     = "false"
+    default     = false
 }
 
 variable "dashboard_title" {
@@ -26,7 +26,7 @@ variable "dashboard_title" {
 
 variable "dashboard_icon" {
     description = "(Optional) The icon for the dashboard. Defaults to bar-chart."
-    default     = "bar-chart"
+    default     = null
 }
 
 variable "dashboard_visibility" {
@@ -71,21 +71,20 @@ variable "dashboard_widget_height" {
 
 variable "dashboard_widget_notes" {
     description = "(Optional) Description of the widget."
-    default     = ""
+    default     = null
 }
 
 variable "dashboard_widget_nrql" {
     description = "(Optional) Valid NRQL query string. See Writing NRQL Queries for help."
-    default     = ""
+    default     = null
 }
 
 variable "dashboard_custom" {
     description = "Enable newrelic_dashboard for custom usage"
-    default     = "false"
+    default     = false
 }
 
 variable "dashboard_custom_widget" {
     description = "(Optional) A widget that describes a visualization. See Widgets below for details."
-    type        = "list"
     default     = []
 }

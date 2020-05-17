@@ -16,7 +16,7 @@ variable "environment" {
 #-----------------------------------------------------------
 variable "infra_alert_condition" {
     description = "Enable newrelic_infra_alert_condition"
-    default     = "false"
+    default     = false
 }
 
 variable "infra_alert_condition_policy_id" {
@@ -51,7 +51,7 @@ variable "infra_alert_condition_comparison" {
 
 variable "infra_alert_condition_enabled" {
     description = "(Optional) Set whether to enable the alert condition. Defaults to true."
-    default     = "true"
+    default     = true
 }
 
 variable "infra_alert_condition_where" {
@@ -61,12 +61,12 @@ variable "infra_alert_condition_where" {
 
 variable "infra_alert_condition_process_where" {
     description = "(Optional) Any filters applied to processes; for example: commandName = 'java'."
-    default     = ""
+    default     = null
 }
 
 variable "infra_alert_condition_integration_provider" {
     description = "(Optional) For alerts on integrations, use this instead of event."
-    default     = ""
+    default     = null
 }
 
 
@@ -90,7 +90,7 @@ variable "infra_alert_condition_critical_time_function" {
 #-----------------------------------------------------------
 variable "infra_alert_condition_with_warning" {
     description = "Enable newrelic_infra_alert_condition with warning usage"
-    default     = "false"
+    default     = false
 }
 
 variable "infra_alert_condition_warning_duration" {

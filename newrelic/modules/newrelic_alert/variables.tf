@@ -16,7 +16,7 @@ variable "environment" {
 #-----------------------------------------------------------
 variable "alert_channel" {
     description = "Enable newrelic alert channel at general"
-    default     = "false"
+    default     = false
 }
 
 #-----------------------------------------------------------
@@ -24,7 +24,7 @@ variable "alert_channel" {
 #-----------------------------------------------------------
 variable "alert_channel_campfire" {
     description = "Enable newrelic alert channel campfire usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_campfire_name" {
@@ -52,7 +52,7 @@ variable "alert_channel_campfire_configuration_token" {
 #-----------------------------------------------------------
 variable "alert_channel_email" {
     description = "Enable newrelic alert channel email usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_email_name" {
@@ -67,7 +67,7 @@ variable "alert_channel_email_configuration_recipients" {
 
 variable "alert_channel_email_configuration_include_json_attachment" {
     description = "Set include_json_attachment"
-    default     = "true"
+    default     = true
 }
 
 #-----------------------------------------------------------
@@ -75,7 +75,7 @@ variable "alert_channel_email_configuration_include_json_attachment" {
 #-----------------------------------------------------------
 variable "alert_channel_opsgenie" {
     description = "Enable newrelic alert channel opsgenie"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_opsgenie_name" {
@@ -95,16 +95,12 @@ variable "alert_channel_opsgenie_configuration_recipients" {
 
 variable "alert_channel_opsgenie_configuration_tags" {
     description = "Set tags"
-    #type        = "list"
-    #default     = ["tag"]
     default     = ""
 }
 
 
 variable "alert_channel_opsgenie_configuration_teams" {
     description = "Set teams"
-    #type        = "list"
-    #default     = []
     default     = ""
 }
 
@@ -113,7 +109,7 @@ variable "alert_channel_opsgenie_configuration_teams" {
 #-----------------------------------------------------------
 variable "alert_channel_pagerduty" {
     description = "Enable newrelic alert channel pagerduty usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_pagerduty_name" {
@@ -131,7 +127,7 @@ variable "alert_channel_pagerduty_configuration_service_key" {
 #-----------------------------------------------------------
 variable "alert_channel_slack" {
     description = "Enable newrelic alert channel slack usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_slack_name" {
@@ -154,7 +150,7 @@ variable "alert_channel_slack_configuration_url" {
 #-----------------------------------------------------------
 variable "alert_channel_user" {
     description = "Enable newrelic alert channel user usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_user_name" {
@@ -172,7 +168,7 @@ variable "alert_channel_user_configuration_user_id" {
 #-----------------------------------------------------------
 variable "alert_channel_victorops" {
     description = "Enable newrelic alert channel victorops usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_victorops_name" {
@@ -195,7 +191,7 @@ variable "alert_channel_victorops_configuration_route_key" {
 #-----------------------------------------------------------
 variable "alert_channel_webhook" {
     description = "Enable newrelic alert channel webhook usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_channel_webhook_name" {
@@ -225,8 +221,6 @@ variable "alert_channel_webhook_configuration_base_url" {
 
 variable "alert_channel_webhook_configuration_headers" {
     description = "Set headers"
-    #type        = "list"
-    #default     = ["headers-here"]
     default     = ""
 }
 
@@ -237,8 +231,6 @@ variable "alert_channel_webhook_configuration_payload_type" {
 
 variable "alert_channel_webhook_configuration_payload" {
     description = ""
-    #type        = "list"
-    #default     = ["payload-here"]
     default     = ""
 }
 
@@ -248,7 +240,7 @@ variable "alert_channel_webhook_configuration_payload" {
 
 variable "alert_policy" {
     description = "Enable newrelic_alert_policy usage"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_policy_name" {
@@ -263,7 +255,7 @@ variable "alert_policy_incident_preference" {
 
 variable "alert_policy_simple_default" {
     description = "Enable newrelic_alert_policy_simple_default"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_policy_simple_default_name" {
@@ -277,7 +269,7 @@ variable "alert_policy_simple_default_name" {
 
 variable "alert_condition" {
     description = "Enable newrelic_alert_condition"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_condition_policy_id" {
@@ -297,7 +289,6 @@ variable "alert_condition_type" {
 
 variable "alert_condition_entities" {
     description = "(Required) The instance IDS associated with this condition."
-    type        = "list"
     default     = ["linux-notes-php"]
 }
 
@@ -385,7 +376,7 @@ variable "alert_condition_condition_scope" {
 
 variable "alert_condition_user_defined_metric" {
     description = "(Optional) A custom metric to be evaluated."
-    default     = ""
+    default     = null
 }
 
 variable "alert_condition_user_defined_value_function" {
@@ -423,7 +414,7 @@ variable "alert_condition_term_time_function" {
 #-----------------------------------------------------------
 variable "alert_policy_channel" {
     description = "Enable newrelic_alert_policy_channel"
-    default     = "false"
+    default     = false
 }
 
 variable "alert_policy_policy_id" {

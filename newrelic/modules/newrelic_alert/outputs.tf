@@ -3,42 +3,42 @@
 #-----------------------------------------------------------
 output "alert_channel_campfire_id" {
     description = "ID for newrelic_alert_channel_campfire"
-    value       = "${newrelic_alert_channel.alert_channel_campfire.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_campfire.*.id, [""]), 0)
 }
 
 output "alert_channel_email_id" {
     description = "ID for newrelic_alert_channel_email"
-    value       = "${newrelic_alert_channel.alert_channel_email.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_email.*.id, [""]), 0)
 }
 
 output "alert_channel_opsgenie_id" {
     description = "ID for newrelic_alert_channel_opsgenie"
-    value       = "${newrelic_alert_channel.alert_channel_opsgenie.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_opsgenie.*.id, [""]), 0)
 }
 
 output "alert_channel_pagerduty_id" {
     description = "ID for newrelic_alert_channel_pagerduty"
-    value       = "${newrelic_alert_channel.alert_channel_pagerduty.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_pagerduty.*.id, [""]), 0)
 }
 
 output "alert_channel_slack_id" {
     description = "ID for newrelic_alert_channel_slack"
-    value       = "${newrelic_alert_channel.alert_channel_slack.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_slack.*.id, [""]), 0)
 }
 
 output "alert_channel_user_id" {
     description = "ID for newrelic_alert_channel_user"
-    value       = "${newrelic_alert_channel.alert_channel_user.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_user.*.id, [""]), 0)
 }
 
 output "alert_channel_victorops_id" {
     description = "ID for newrelic_alert_channel_victorops"
-    value       = "${newrelic_alert_channel.alert_channel_victorops.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_victorops.*.id, [""]), 0)
 }
 
 output "alert_channel_webhook_id" {
     description = "ID for newrelic_alert_channel_webhook"
-    value       = "${newrelic_alert_channel.alert_channel_webhook.*.id}"
+    value       = element(concat(newrelic_alert_channel.alert_channel_webhook.*.id, [""]), 0)
 }
 
 #-----------------------------------------------------------
@@ -46,12 +46,12 @@ output "alert_channel_webhook_id" {
 #-----------------------------------------------------------
 output "alert_policy_id" {
     description = "ID of the policy."
-    value       = "${newrelic_alert_policy.alert_policy.*.id}"
+    value       = element(concat(newrelic_alert_policy.alert_policy.*.id, [""]), 0)
 }
 
 output "simple_default_alert_policy_id" {
     description = "ID of the policy for simple_default"
-    value       = "${newrelic_alert_policy.simple_default.*.id}"
+    value       = element(concat(newrelic_alert_policy.simple_default.*.id, [""]), 0)
 }
 
 #-----------------------------------------------------------
@@ -59,7 +59,7 @@ output "simple_default_alert_policy_id" {
 #-----------------------------------------------------------
 output "alert_condition_id" {
     description = "The ID of the alert condition."
-    value       = "${newrelic_alert_condition.alert_condition.*.id}"
+    value       = element(concat(newrelic_alert_condition.alert_condition.*.id, [""]), 0)
 }
 
 #-----------------------------------------------------------
@@ -67,5 +67,5 @@ output "alert_condition_id" {
 #-----------------------------------------------------------
 output "alert_policy_channel_id" {
     description = "The ID of the alert policy channel"
-    value       = "${newrelic_alert_policy_channel.alert_policy_channel.*.id}"
+    value       = element(concat(newrelic_alert_policy_channel.alert_policy_channel.*.id, [""]), 0)
 }

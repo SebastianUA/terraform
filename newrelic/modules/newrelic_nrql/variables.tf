@@ -16,7 +16,7 @@ variable "environment" {
 #-----------------------------------------------------------
 variable "nrql_alert_condition" {
     description = "Enable newrelic_nrql_alert_condition"
-    default     = "false"
+    default     = false
 }
 
 variable "nrql_alert_condition_name" {
@@ -31,12 +31,12 @@ variable "nrql_alert_condition_policy_id" {
 
 variable "nrql_alert_condition_runbook_url" {
     description = "(Optional) Runbook URL to display in notifications."
-    default     = ""
+    default     = null
 }
 
 variable "nrql_alert_condition_enabled" {
     description = "(Optional) Set whether to enable the alert condition. Defaults to true."
-    default     = "true"
+    default     = true
 }
 
 variable "nrql_alert_condition_value_function" {

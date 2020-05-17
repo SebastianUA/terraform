@@ -3,10 +3,10 @@
 #-----------------------------------------------------------
 output "newrelic_dashboard_id" {
     description = "ID for newrelic_dashboard"
-    value       = "${newrelic_dashboard.dashboard.*.id}"
+    value       = element(concat(newrelic_dashboard.dashboard.*.id, [""]), 0)
 }
 
 output "newrelic_dashboard_custom_id" {
     description = "ID for dashboard_custom"
-    value       = "${newrelic_dashboard.dashboard_custom.*.id}"
+    value       = element(concat(newrelic_dashboard.dashboard_custom.*.id, [""]), 0)
 }

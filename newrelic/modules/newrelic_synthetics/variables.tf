@@ -16,7 +16,7 @@ variable "environment" {
 #-----------------------------------------------------------
 variable "synthetics_alert_condition" {
     description = "Enable synthetics_alert_condition"
-    default     = "false"
+    default     = false
 }
 
 variable "synthetics_alert_condition_name" {
@@ -36,10 +36,10 @@ variable "synthetics_monitor_name" {
 
 variable "synthetics_alert_condition_runbook_url" {
     description = "(Optional) Runbook URL to display in notifications."
-    default     = ""
+    default     = null
 }
 
 variable "synthetics_alert_condition_enabled" {
     description = "(Optional) Set whether to enable the alert condition. Defaults to true."
-    default     = "true"
+    default     = true
 }
