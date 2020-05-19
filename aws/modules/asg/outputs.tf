@@ -12,13 +12,13 @@ output "this_launch_configuration_name" {
 }
 
 output "this_launch_configuration_associate_public_ip_address" {
-    description = "Whether a Public IP address is associated with the instance."
-    value       = element(concat(aws_launch_configuration.lc.*.associate_public_ip_address, aws_launch_configuration.lc_spot.*.associate_public_ip_address, aws_launch_configuration.lc_prefix.*.associate_public_ip_address, aws_launch_configuration.lc_spot_prefix.*.associate_public_ip_address, [""]), 0)
+  description = "Whether a Public IP address is associated with the instance."
+  value       = element(concat(aws_launch_configuration.lc.*.associate_public_ip_address, aws_launch_configuration.lc_spot.*.associate_public_ip_address, aws_launch_configuration.lc_prefix.*.associate_public_ip_address, aws_launch_configuration.lc_spot_prefix.*.associate_public_ip_address, [""]), 0)
 }
 
 output "this_launch_configuration_user_data" {
-    description = "The User Data of the instance."
-    value       = element(concat(aws_launch_configuration.lc.*.user_data, aws_launch_configuration.lc_spot.*.user_data, aws_launch_configuration.lc_prefix.*.user_data, aws_launch_configuration.lc_spot_prefix.*.user_data, [""]), 0)
+  description = "The User Data of the instance."
+  value       = element(concat(aws_launch_configuration.lc.*.user_data, aws_launch_configuration.lc_spot.*.user_data, aws_launch_configuration.lc_prefix.*.user_data, aws_launch_configuration.lc_spot_prefix.*.user_data, [""]), 0)
 }
 #---------------------------------------------------
 # Autoscaling group
