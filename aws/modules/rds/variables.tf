@@ -12,42 +12,42 @@ variable "region" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
 }
 
 #-----------------------------------------------------------
 # AWS RDS Cluster
 #-----------------------------------------------------------
 variable "enable_rds_cluster" {
-    description = "If true, then rds cluster will create"
-    default     = false
+  description = "If true, then rds cluster will create"
+  default     = false
 }
 
 variable "rds_cluster_master_username" {
-    description = "(Required unless a snapshot_identifier or global_cluster_identifier is provided) Username for the master DB user. Please refer to the RDS Naming Constraints. This argument does not support in-place updates and cannot be changed during a restore from snapshot."
-    default     = "root"
+  description = "(Required unless a snapshot_identifier or global_cluster_identifier is provided) Username for the master DB user. Please refer to the RDS Naming Constraints. This argument does not support in-place updates and cannot be changed during a restore from snapshot."
+  default     = "root"
 }
 
 variable "rds_cluster_master_password" {
-  description   = "(Required unless a snapshot_identifier or global_cluster_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the RDS Naming Constraints"
-  default       = "ROot666roOT"
+  description = "(Required unless a snapshot_identifier or global_cluster_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the RDS Naming Constraints"
+  default     = "ROot666roOT"
 }
 
 variable "rds_cluster_cluster_identifier" {
-  description   = "(Optional, Forces new resources) The cluster identifier. If omitted, Terraform will assign a random, unique identifier."
-  default       = ""
+  description = "(Optional, Forces new resources) The cluster identifier. If omitted, Terraform will assign a random, unique identifier."
+  default     = ""
 }
 
 variable "rds_cluster_cluster_identifier_prefix" {
-  description   = "(Optional, Forces new resource) Creates a unique cluster identifier beginning with the specified prefix. Conflicts with cluster_identifier."
-  default       = ""
+  description = "(Optional, Forces new resource) Creates a unique cluster identifier beginning with the specified prefix. Conflicts with cluster_identifier."
+  default     = ""
 }
 
 variable "rds_cluster_global_cluster_identifier" {
@@ -56,28 +56,28 @@ variable "rds_cluster_global_cluster_identifier" {
 }
 
 variable "rds_cluster_engine" {
-    description = "The name of the database engine to be used for this DB cluster. Valid values: `aurora`, `aurora-mysql`, `aurora-postgresql`"
-    default     = "aurora"
+  description = "The name of the database engine to be used for this DB cluster. Valid values: `aurora`, `aurora-mysql`, `aurora-postgresql`"
+  default     = "aurora"
 }
 
 variable "rds_cluster_engine_version" {
-    description = "The engine version to use."
-    default     = null
+  description = "The engine version to use."
+  default     = null
 }
 
 variable "rds_cluster_backup_retention_period" {
-    description = "The backup retention period (in days)"
-    default     = 0
+  description = "The backup retention period (in days)"
+  default     = 0
 }
 
 variable "rds_cluster_backup_window" {
-    description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window."
-    default     = "09:00-09:30"
+  description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window."
+  default     = "09:00-09:30"
 }
 
 variable "rds_cluster_skip_final_snapshot" {
-    description = "Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted, using the value from final_snapshot_identifier. Default is false."
-    default     = false
+  description = "Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted, using the value from final_snapshot_identifier. Default is false."
+  default     = false
 }
 
 variable "rds_cluster_snapshot_identifier" {
@@ -86,23 +86,23 @@ variable "rds_cluster_snapshot_identifier" {
 }
 
 variable "rds_cluster_final_snapshot_identifier" {
-    description = "The name of your final DB snapshot when this DB instance is deleted. If omitted, no final snapshot will be made."
-    default     = ""
+  description = "The name of your final DB snapshot when this DB instance is deleted. If omitted, no final snapshot will be made."
+  default     = ""
 }
 
 variable "rds_cluster_vpc_security_group_ids" {
-    description = "List of VPC security groups to associate."
-    default     = []
+  description = "List of VPC security groups to associate."
+  default     = []
 }
 
 variable "rds_cluster_storage_encrypted" {
-    description = "Specifies whether the DB instance is encrypted. The default is false if not specified."
-    default     = false
+  description = "Specifies whether the DB instance is encrypted. The default is false if not specified."
+  default     = false
 }
 
 variable "rds_cluster_apply_immediately" {
-    description = "Specifies whether any database modifications are applied immediately, or during the next maintenance window. Default is false"
-    default     = false
+  description = "Specifies whether any database modifications are applied immediately, or during the next maintenance window. Default is false"
+  default     = false
 }
 
 variable "rds_cluster_availability_zones" {
@@ -111,69 +111,69 @@ variable "rds_cluster_availability_zones" {
 }
 
 variable "availability_zones" {
-    description = "Availability zones for AWS RDS"
-    default     = {
-        us-east-1      = "us-east-1b,us-east-1a"
-        us-east-2      = "us-east-2a,eu-east-2b,eu-east-2c"
-        us-west-1      = "us-west-1a,us-west-1c"
-        us-west-2      = "us-west-2a,us-west-2b,us-west-2c"
-        ca-central-1   = "ca-central-1a,ca-central-1b"
-        eu-west-1      = "eu-west-1a,eu-west-1b,eu-west-1c"
-        eu-west-2      = "eu-west-2a,eu-west-2b"
-        eu-central-1   = "eu-central-1a,eu-central-1b,eu-central-1c"
-        ap-south-1     = "ap-south-1a,ap-south-1b"
-        sa-east-1      = "sa-east-1a,sa-east-1c"
-        ap-northeast-1 = "ap-northeast-1a,ap-northeast-1c"
-        ap-southeast-1 = "ap-southeast-1a,ap-southeast-1b"
-        ap-southeast-2 = "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
-        ap-northeast-1 = "ap-northeast-1a,ap-northeast-1c"
-        ap-northeast-2 = "ap-northeast-2a,ap-northeast-2c"
-    }
+  description = "Availability zones for AWS RDS"
+  default = {
+    us-east-1      = "us-east-1b,us-east-1a"
+    us-east-2      = "us-east-2a,eu-east-2b,eu-east-2c"
+    us-west-1      = "us-west-1a,us-west-1c"
+    us-west-2      = "us-west-2a,us-west-2b,us-west-2c"
+    ca-central-1   = "ca-central-1a,ca-central-1b"
+    eu-west-1      = "eu-west-1a,eu-west-1b,eu-west-1c"
+    eu-west-2      = "eu-west-2a,eu-west-2b"
+    eu-central-1   = "eu-central-1a,eu-central-1b,eu-central-1c"
+    ap-south-1     = "ap-south-1a,ap-south-1b"
+    sa-east-1      = "sa-east-1a,sa-east-1c"
+    ap-northeast-1 = "ap-northeast-1a,ap-northeast-1c"
+    ap-southeast-1 = "ap-southeast-1a,ap-southeast-1b"
+    ap-southeast-2 = "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
+    ap-northeast-1 = "ap-northeast-1a,ap-northeast-1c"
+    ap-northeast-2 = "ap-northeast-2a,ap-northeast-2c"
+  }
 }
 
 variable "rds_cluster_database_name" {
-  description   = "(Optional) Name for an automatically created database on cluster creation. There are different naming restrictions per database engine: RDS Naming Constraints"
-  default       = "db_name_test"
+  description = "(Optional) Name for an automatically created database on cluster creation. There are different naming restrictions per database engine: RDS Naming Constraints"
+  default     = "db_name_test"
 }
 
 variable "rds_cluster_backtrack_window" {
-  description   = "(Optional) The target backtrack window, in seconds. Only available for aurora engine currently. To disable backtracking, set this value to 0. Defaults to 0. Must be between 0 and 259200 (72 hours)"
-  default       = 0
+  description = "(Optional) The target backtrack window, in seconds. Only available for aurora engine currently. To disable backtracking, set this value to 0. Defaults to 0. Must be between 0 and 259200 (72 hours)"
+  default     = 0
 }
 
 variable "rds_cluster_replication_source_identifier" {
-  description   = "(Optional) ARN of a source DB cluster or DB instance if this DB cluster is to be created as a Read Replica."
-  default       = null
+  description = "(Optional) ARN of a source DB cluster or DB instance if this DB cluster is to be created as a Read Replica."
+  default     = null
 }
 
 variable "rds_cluster_port" {
-  description   = "(Optional) The port on which the DB accepts connections"
-  default       = null
+  description = "(Optional) The port on which the DB accepts connections"
+  default     = null
 }
 
 variable "rds_cluster_kms_key_id" {
-  description   = "(Optional) The ARN for the KMS encryption key. When specifying kms_key_id, storage_encrypted needs to be set to true."
-  default       = null
+  description = "(Optional) The ARN for the KMS encryption key. When specifying kms_key_id, storage_encrypted needs to be set to true."
+  default     = null
 }
 
 variable "rds_cluster_iam_roles" {
-  description   = "(Optional) A List of ARNs for the IAM roles to associate to the RDS Cluster."
-  default       = []
+  description = "(Optional) A List of ARNs for the IAM roles to associate to the RDS Cluster."
+  default     = []
 }
 
 variable "rds_cluster_iam_database_authentication_enabled" {
-    description = "Specifies whether or mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
-    default     = null
+  description = "Specifies whether or mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
+  default     = null
 }
 
 variable "rds_cluster_engine_mode" {
-  description   = "(Optional) The database engine mode. Valid values: global, multimaster, parallelquery, provisioned, serverless. Defaults to: provisioned. See the RDS User Guide for limitations when using serverless."
-  default       = "provisioned"
+  description = "(Optional) The database engine mode. Valid values: global, multimaster, parallelquery, provisioned, serverless. Defaults to: provisioned. See the RDS User Guide for limitations when using serverless."
+  default     = "provisioned"
 }
 
 variable "rds_cluster_source_region" {
-  description   = "(Optional) The source region for an encrypted replica DB cluster."
-  default       = ""
+  description = "(Optional) The source region for an encrypted replica DB cluster."
+  default     = ""
 }
 
 variable "rds_cluster_db_subnet_group_name" {
@@ -187,28 +187,28 @@ variable "rds_cluster_db_cluster_parameter_group_name" {
 }
 
 variable "rds_cluster_preferred_maintenance_window" {
-  description   = "(Optional) The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'."
-  default       = null
+  description = "(Optional) The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'."
+  default     = null
 }
 
 variable "rds_cluster_enabled_cloudwatch_logs_exports" {
-  description   = "(Optional) List of log types to export to cloudwatch. If omitted, no logs will be exported. The following log types are supported: audit, error, general, slowquery, postgresql (PostgreSQL)."
-  default       = []
+  description = "(Optional) List of log types to export to cloudwatch. If omitted, no logs will be exported. The following log types are supported: audit, error, general, slowquery, postgresql (PostgreSQL)."
+  default     = []
 }
 
 variable "rds_cluster_scaling_configuration" {
-  description   = "(Optional) Nested attribute with scaling properties. Only valid when engine_mode is set to serverless."
-  default       = []
+  description = "(Optional) Nested attribute with scaling properties. Only valid when engine_mode is set to serverless."
+  default     = []
 }
 
 variable "rds_cluster_enable_http_endpoint" {
-  description   = "(Optional) Enable HTTP endpoint (data API). Only valid when engine_mode is set to serverless."
-  default       = null
+  description = "(Optional) Enable HTTP endpoint (data API). Only valid when engine_mode is set to serverless."
+  default     = null
 }
 
 variable "rds_cluster_s3_import" {
-  description   = "RDS Aurora Serverless does not support loading data from S3, so its not possible to directly use engine_mode set to serverless with s3_import"
-  default       = []
+  description = "RDS Aurora Serverless does not support loading data from S3, so its not possible to directly use engine_mode set to serverless with s3_import"
+  default     = []
 }
 
 variable "rds_cluster_deletion_protection" {
@@ -230,8 +230,8 @@ variable "rds_cluster_timeouts" {
 # AWS RDS cluster instance
 #-----------------------------------------------------------
 variable "enable_rds_cluster_instance" {
-  description   = "Enable RDS cluster instance usage"
-  default       = false
+  description = "Enable RDS cluster instance usage"
+  default     = false
 }
 
 variable "number_rds_cluster_instances" {
@@ -240,13 +240,13 @@ variable "number_rds_cluster_instances" {
 }
 
 variable "rds_cluster_instance_identifier" {
-  description   = "(Optional, Forces new resource) The identifier for the RDS instance, if omitted, Terraform will assign a random, unique identifier."
-  default       = ""
+  description = "(Optional, Forces new resource) The identifier for the RDS instance, if omitted, Terraform will assign a random, unique identifier."
+  default     = ""
 }
 
 variable "rds_cluster_instance_identifier_prefix" {
-  description   = "(Optional, Forces new resource) Creates a unique identifier beginning with the specified prefix. Conflicts with rds_cluster_instance_identifier."
-  default       = ""
+  description = "(Optional, Forces new resource) Creates a unique identifier beginning with the specified prefix. Conflicts with rds_cluster_instance_identifier."
+  default     = ""
 }
 
 variable "rds_cluster_instance_cluster_identifier" {
@@ -255,13 +255,13 @@ variable "rds_cluster_instance_cluster_identifier" {
 }
 
 variable "rds_cluster_instance_instance_class" {
-    description = "The instance type of the RDS instance."
-    default     = "db.t2.small"
+  description = "The instance type of the RDS instance."
+  default     = "db.t2.small"
 }
 
 variable "rds_cluster_instance_publicly_accessible" {
-  description   = "(Optional) Bool to control if instance is publicly accessible. Default false. See the documentation on Creating DB Instances for more details on controlling this property."
-  default       = false
+  description = "(Optional) Bool to control if instance is publicly accessible. Default false. See the documentation on Creating DB Instances for more details on controlling this property."
+  default     = false
 }
 
 variable "rds_cluster_instance_db_subnet_group_name" {
@@ -275,86 +275,86 @@ variable "rds_cluster_instance_db_parameter_group_name" {
 }
 
 variable "rds_cluster_instance_monitoring_role_arn" {
-  description   = "(Optional) The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. You can find more information on the AWS Documentation what IAM permissions are needed to allow Enhanced Monitoring for RDS Instances."
-  default       = ""
+  description = "(Optional) The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. You can find more information on the AWS Documentation what IAM permissions are needed to allow Enhanced Monitoring for RDS Instances."
+  default     = ""
 }
 
 variable "rds_cluster_instance_monitoring_interval" {
-    description = "To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. Valid Values: 0, 1, 5, 10, 15, 30, 60."
-    default     = 0
+  description = "To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. Valid Values: 0, 1, 5, 10, 15, 30, 60."
+  default     = 0
 }
 
 variable "rds_cluster_instance_promotion_tier" {
-  description   = "(Optional) Default 0. Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoted to writer."
-  default       = 0
+  description = "(Optional) Default 0. Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoted to writer."
+  default     = 0
 }
 
 variable "rds_cluster_instance_availability_zone" {
-  description   = "(Optional, Computed) The EC2 Availability Zone that the DB instance is created in. See docs about the details."
-  default       = null
+  description = "(Optional, Computed) The EC2 Availability Zone that the DB instance is created in. See docs about the details."
+  default     = null
 }
 
 variable "rds_cluster_instance_preferred_backup_window" {
-  description   = "(Optional) The daily time range during which automated backups are created if automated backups are enabled. Eg: '04:00-09:00'"
-  default       = null
+  description = "(Optional) The daily time range during which automated backups are created if automated backups are enabled. Eg: '04:00-09:00'"
+  default     = null
 }
 
 variable "rds_cluster_instance_preferred_maintenance_window" {
-  description   = "(Optional) The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'."
-  default       = null
+  description = "(Optional) The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'."
+  default     = null
 }
 
 variable "rds_cluster_instance_apply_immediately" {
-    description = "Specifies whether any database modifications are applied immediately, or during the next maintenance window. Default is false"
-    default     = false
+  description = "Specifies whether any database modifications are applied immediately, or during the next maintenance window. Default is false"
+  default     = false
 }
 
 variable "rds_cluster_instance_auto_minor_version_upgrade" {
-    description = "Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Defaults to true."
-    default     = false
+  description = "Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Defaults to true."
+  default     = false
 }
 
 variable "rds_cluster_instance_performance_insights_enabled" {
-  description   = "(Optional) Specifies whether Performance Insights is enabled or not."
-  default       = null
+  description = "(Optional) Specifies whether Performance Insights is enabled or not."
+  default     = null
 }
 
 variable "rds_cluster_instance_performance_insights_kms_key_id" {
-  description   = "(Optional) The ARN for the KMS key to encrypt Performance Insights data. When specifying performance_insights_kms_key_id, performance_insights_enabled needs to be set to true."
-  default       = null
+  description = "(Optional) The ARN for the KMS key to encrypt Performance Insights data. When specifying performance_insights_kms_key_id, performance_insights_enabled needs to be set to true."
+  default     = null
 }
 
 variable "rds_cluster_instance_copy_tags_to_snapshot" {
-    description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified). Default is false."
-    default     = false
+  description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified). Default is false."
+  default     = false
 }
 
 variable "rds_cluster_instance_ca_cert_identifier" {
-  description   = "(Optional) The identifier of the CA certificate for the DB instance."
-  default       = ""
+  description = "(Optional) The identifier of the CA certificate for the DB instance."
+  default     = ""
 }
 
 variable "rds_cluster_instance_timeouts" {
-  description   = "Set timeouts for rds_cluster_instance"
-  default       = []
+  description = "Set timeouts for rds_cluster_instance"
+  default     = []
 }
 
 #---------------------------------------------------
 # AWS RDS global cluster
 #---------------------------------------------------
 variable "enable_rds_global_cluster" {
-  description   = "Enable RDS global cluster usage"
-  default       = false
+  description = "Enable RDS global cluster usage"
+  default     = false
 }
 
 variable "rds_global_cluster_global_cluster_identifier" {
-  description   = "The global cluster identifier."
-  default       = ""
+  description = "The global cluster identifier."
+  default     = ""
 }
 
 variable "rds_global_cluster_deletion_protection" {
-  description   = "(Optional) If the Global Cluster should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false."
-  default       = false
+  description = "(Optional) If the Global Cluster should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false."
+  default     = false
 }
 
 variable "rds_global_cluster_database_name" {
@@ -381,8 +381,8 @@ variable "rds_global_cluster_storage_encrypted" {
 # AWS RDS cluster endpoint
 #---------------------------------------------------
 variable "enable_rds_cluster_endpoint" {
-  description   = "Enable RDS global endpoint usage"
-  default       = false
+  description = "Enable RDS global endpoint usage"
+  default     = false
 }
 
 variable "rds_cluster_endpoint_cluster_identifier" {
@@ -391,23 +391,23 @@ variable "rds_cluster_endpoint_cluster_identifier" {
 }
 
 variable "rds_cluster_endpoint_cluster_endpoint_identifier" {
-  description   = "(Required, Forces new resources) The identifier to use for the new endpoint. This parameter is stored as a lowercase string."
-  default       = "reader"
+  description = "(Required, Forces new resources) The identifier to use for the new endpoint. This parameter is stored as a lowercase string."
+  default     = "reader"
 }
 
 variable "rds_cluster_endpoint_custom_endpoint_type" {
-  description   = "(Required) The type of the endpoint. One of: READER , ANY ."
-  default       = "READER"
+  description = "(Required) The type of the endpoint. One of: READER , ANY ."
+  default     = "READER"
 }
 
 variable "rds_cluster_endpoint_excluded_members" {
-  description   = "(Optional) List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. Conflicts with static_members"
-  default       = null
+  description = "(Optional) List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. Conflicts with static_members"
+  default     = null
 }
 
 variable "rds_cluster_endpoint_static_members" {
-  description   = "(Optional) List of DB instance identifiers that are part of the custom endpoint group. Conflicts with excluded_members."
-  default       = null
+  description = "(Optional) List of DB instance identifiers that are part of the custom endpoint group. Conflicts with excluded_members."
+  default     = null
 }
 
 #---------------------------------------------------
@@ -463,7 +463,7 @@ variable "db_instance_engine" {
 
 variable "db_instance_engine_version" {
   description = "(Optional) The engine version to use. If auto_minor_version_upgrade is enabled, you can provide a prefix of the version such as 5.7 (for 5.7.10) and this attribute will ignore differences in the patch version automatically (e.g. 5.7.17). For supported values, see the EngineVersion parameter in API action CreateDBInstance. Note that for Amazon Aurora instances the engine version must match the DB cluster's engine version'."
-  default     = "5.7.17"
+  default     = null
 }
 
 variable "db_instance_instance_class" {
@@ -477,43 +477,43 @@ variable "db_instance_vpc_security_group_ids" {
 }
 
 variable "db_instance_identifier" {
-    description = "The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier."
-    default     = ""
+  description = "The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier."
+  default     = ""
 }
 
 variable "db_instance_identifier_prefix" {
-    description = "Creates a unique identifier beginning with the specified prefix. Conflicts with identifer."
-    default     = ""
+  description = "Creates a unique identifier beginning with the specified prefix. Conflicts with identifer."
+  default     = ""
 }
 
 variable "db_instance_allocated_storage" {
-    description = " (Required unless a snapshot_identifier or replicate_source_db is provided) The allocated storage in gibibytes. If max_allocated_storage is configured, this argument represents the initial storage allocation and differences from the configuration will be ignored automatically when Storage Autoscaling occurs. The allocated storage in gigabytes."
-    default     = 20
+  description = " (Required unless a snapshot_identifier or replicate_source_db is provided) The allocated storage in gibibytes. If max_allocated_storage is configured, this argument represents the initial storage allocation and differences from the configuration will be ignored automatically when Storage Autoscaling occurs. The allocated storage in gigabytes."
+  default     = 20
 }
 
 variable "db_instance_storage_type" {
-    description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'standard' if not. Note that this behaviour is different from the AWS web console, where the default is 'gp2'."
-    default     = "gp2"
+  description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'standard' if not. Note that this behaviour is different from the AWS web console, where the default is 'gp2'."
+  default     = null
 }
 
 variable "db_instance_iops" {
-    description = "The amount of provisioned IOPS. Setting this implies a storage_type of 'io1', default is 0 if rds storage type is not io1"
-    default     = 0
+  description = "The amount of provisioned IOPS. Setting this implies a storage_type of 'io1', default is 0 if rds storage type is not io1"
+  default     = null
 }
 
 variable "db_instance_db_name" {
-    description = "The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Note that this does not apply for Oracle or SQL Server engines."
-    default     = "db_name_test"
+  description = "The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Note that this does not apply for Oracle or SQL Server engines."
+  default     = "db_name_test"
 }
 
 variable "db_instance_db_username" {
-    description = "Username for the master DB user."
-    default     = "root"
+  description = "Username for the master DB user."
+  default     = "root"
 }
 
 variable "db_instance_db_password" {
-    description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
-    default     = "ROot666roOT"
+  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  default     = "ROot666roOT"
 }
 
 variable "db_instance_db_port" {
@@ -522,47 +522,62 @@ variable "db_instance_db_port" {
 }
 
 variable "default_ports" {
-    description = "Default database ports"
-    default     = {
-        mysql             = "3306"
-        aurora-mysql      = "3306"
-        aurora            = "3306"
-        postgres          = "5432"
-        aurora-postgresql = "5432"
-        oracle            = "1521"
-    }
+  description = "Default database ports"
+  default = {
+    aurora              = 3306
+    aurora-mysql        = 3306
+    aurora-postgresql   = 5432
+    mariadb             = 3306
+    mysql               = 3306
+    oracle-se2          = 1521
+    oracle-se1          = 1521
+    oracle-se           = 1521
+    postgres            = 5432
+    sqlserver-ee        = 1433
+    sqlserver-se        = 1433
+    sqlserver-ex        = 1433
+    sqlserver-web       = 1433
+  }
 }
 
 variable "db_group_family" {
-    description = "Set DB group family"
-    default     = {
-        mysql             = "mysql5.7"
-        aurora-mysql      = "aurora-mysql5.7"
-        postgres          = "postgres9.6"
-        aurora-postgres   = "aurora-postgres9.6"
-        oracle            = "oracle-ee-12.1"
-        aurora            = "aurora5.6"
-    }
+  description = "Set DB group family"
+  default = {
+    aurora              = "aurora5.6"
+    aurora-mysql        = "aurora-mysql5.7"
+    aurora-postgresql   = "aurora-postgres9.6"
+    mariadb             = ""
+    mysql               = "mysql5.7"
+    oracle-ee           = "oracle-ee-12.1"
+    oracle-se2          = "oracle-se2-12.1"
+    oracle-se1          = "oracle-se1-12.1"
+    oracle-se           = "oracle-ee-12.1"
+    postgres            = "postgres9.6"
+    sqlserver-ee        = ""
+    sqlserver-se        = ""
+    sqlserver-ex        = ""
+    sqlserver-web       = ""
+  }
 }
 
 variable "db_instance_character_set_name" {
-    description = "The character set name to use for DB encoding in Oracle instances. This can't be changed. For ex: utf8"
-    default     = ""
+  description = "The character set name to use for DB encoding in Oracle instances. This can't be changed. For ex: utf8"
+  default     = ""
 }
 
 variable "db_instance_parameter_group_name" {
-    description = "Name of the DB parameter group to associate. For ex: default.mysql5.6"
-    default     = ""
+  description = "Name of the DB parameter group to associate. For ex: default.mysql5.6"
+  default     = ""
 }
 
 variable "db_instance_maintenance_window" {
-    description = "The daily time range (in UTC) during which maintenance window are enabled. Must not overlap with backup_window. For ex: SUN 12:30AM-01:30AM ET"
-    default = "sun:04:30-sun:05:30"
+  description = "The daily time range (in UTC) during which maintenance window are enabled. Must not overlap with backup_window. For ex: SUN 12:30AM-01:30AM ET"
+  default     = "sun:04:30-sun:05:30"
 }
 
 variable "db_instance_replicate_source_db" {
-    description = "Specifies that this resource is a Replicate database, and to use this value as the source database. This correlates to the identifier of another Amazon RDS Database to replicate."
-    default     = ""
+  description = "Specifies that this resource is a Replicate database, and to use this value as the source database. This correlates to the identifier of another Amazon RDS Database to replicate."
+  default     = ""
 }
 
 variable "db_instance_publicly_accessible" {
@@ -571,8 +586,8 @@ variable "db_instance_publicly_accessible" {
 }
 
 variable "db_instance_multi_az" {
-    description = "If the RDS instance is multi AZ enabled."
-    default     = false
+  description = "If the RDS instance is multi AZ enabled."
+  default     = false
 }
 
 variable "db_instance_availability_zone" {
@@ -641,8 +656,8 @@ variable "db_instance_auto_minor_version_upgrade" {
 }
 
 variable "db_instance_allow_major_version_upgrade" {
-    description = "Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible."
-    default     = true
+  description = "Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible."
+  default     = true
 }
 
 variable "db_instance_domain" {
@@ -734,8 +749,8 @@ variable "enable_db_subnet_group" {
 }
 
 variable "db_subnet_group_name" {
-    description = "Name of DB subnet group. DB instance will be created in the VPC associated with the DB subnet group. If unspecified, will be created in the default VPC, or in EC2 Classic, if available."
-    default     = ""
+  description = "Name of DB subnet group. DB instance will be created in the VPC associated with the DB subnet group. If unspecified, will be created in the default VPC, or in EC2 Classic, if available."
+  default     = ""
 }
 
 variable "db_subnet_group_name_prefix" {
@@ -749,8 +764,8 @@ variable "db_subnet_group_description" {
 }
 
 variable "db_subnet_group_subnet_ids" {
-    description = "subnet IDs"
-    default     = []
+  description = "subnet IDs"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -762,8 +777,8 @@ variable "enable_db_parameter_group" {
 }
 
 variable "db_parameter_group_name" {
-    description = "(Optional) The name of the DB parameter group to associate with this instance."
-    default     = ""
+  description = "(Optional) The name of the DB parameter group to associate with this instance."
+  default     = ""
 }
 
 variable "db_parameter_group_name_prefix" {
@@ -849,7 +864,7 @@ variable "db_event_subscription_enabled" {
 
 variable "db_event_subscription_event_categories" {
   description = " (Optional) A list of event categories for a SourceType that you want to subscribe to. See http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html or run aws rds describe-event-categories."
-  default     = [
+  default = [
     "availability",
     "deletion",
     "failover",
@@ -956,12 +971,12 @@ variable "db_option_group_option_group_description" {
 }
 
 variable "db_option_group_engine_name" {
-  description = "(Required) Specifies the name of the engine that this option group should be associated with."
+  description = "(Required) Specifies the name of the engine that this option group should be associated with. For ex: sqlserver-ee"
   default     = ""
 }
 
 variable "db_option_group_major_engine_version" {
-  description = "(Required) Specifies the major version of the engine that this option group should be associated with."
+  description = "(Required) Specifies the major version of the engine that this option group should be associated with. For ex: 11.00"
   default     = ""
 }
 

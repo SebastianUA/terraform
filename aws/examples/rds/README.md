@@ -20,7 +20,7 @@ provider "aws" {
     shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
-module "rds" {
+module "rds_cluster" {
     source                                  = "../../modules/rds"
     name                                    = "Test"
     region                                  = "us-east-1"
@@ -58,6 +58,70 @@ module "rds" {
 
     tags                                = map("Env", "stage", "Orchestration", "Terraform")
 
+}
+
+# RDS cluster (DB instance - Oracle)
+module "db_instance-rds-oracle" {
+  source      = "../../modules/rds"
+  name        = "rds-oracle"
+  environment = var.environment
+  region      = var.region
+
+  # Enable subnet usage
+  enable_db_subnet_group      = true
+  db_subnet_group_name        = "test-db-instance-rds-oracle-db-subnet-group"
+  db_subnet_group_subnet_ids  = ["sub-fs432fd", "sub-432dfcxr"]
+
+  # Enable db parameter group
+  enable_db_parameter_group       = false
+  db_parameter_group_name         = "test-db-instance-rds-oracle-db-param-group"
+  db_parameter_group_parameters   = []
+  db_parameter_group_family       = ""
+
+  # Enable db option group
+  enable_db_option_group                = false
+  db_option_group_name                  = "test-db-instance-rds-oracle-db-group-name"
+  db_option_group_engine_name           = "oracle-ee"
+  db_option_group_major_engine_version  = "12.1"
+  db_option_group_options               = []
+
+  db_instance_multi_az                  = false
+  db_instance_availability_zone         = null
+
+  db_instance_allocated_storage         = 50
+  db_instance_max_allocated_storage     = null
+  db_instance_storage_type              = null #"gp2"
+  db_instance_iops                      = null
+
+  db_instance_storage_encrypted         = false
+  db_instance_kms_key_id                = null
+
+
+  # Enable db instance
+  enable_db_instance                        = true
+  number_of_instances                       = 1
+  db_instance_identifier                    = "test-db-instance-rds-oracle"
+  db_instance_engine                        = "oracle-se2"
+  #db_instance_engine_version                = "12.1"
+  db_instance_license_model                 = "license-included"
+  db_instance_instance_class                = "db.t3.small"
+  db_instance_vpc_security_group_ids        = []
+  db_instance_performance_insights_enabled  = true
+  db_instance_skip_final_snapshot           = true
+
+
+  db_instance_db_name       = "testdb"
+  db_instance_db_username   = "root"
+  db_instance_db_password   = "ImPassWorD2020"
+
+
+
+  # Enable db instance role association
+  enable_db_instance_role_association       = false
+  db_instance_role_association_feature_name = ""
+  db_instance_role_association_role_arn     = ""
+
+  tags                                      = map("Env", "stage", "Orchestration", "Terraform")
 }
 ```
 
@@ -148,20 +212,20 @@ module "rds" {
 - `enable_db_instance` - Enable DB instance usage (`default = False`)
 - `number_of_instances` - Set number of instances (`default = 1`)
 - `db_instance_engine` - (Required unless a snapshot_identifier or replicate_source_db is provided) The database engine to use. For supported values, see the Engine parameter in API action CreateDBInstance. Note that for Amazon Aurora instances the engine must match the DB cluster's engine'. For information on the difference between the available Aurora MySQL engines see Comparison between Aurora MySQL 1 and Aurora MySQL 2 in the Amazon RDS User Guide. (`default = mysql`)
-- `db_instance_engine_version` - (Optional) The engine version to use. If auto_minor_version_upgrade is enabled, you can provide a prefix of the version such as 5.7 (for 5.7.10) and this attribute will ignore differences in the patch version automatically (e.g. 5.7.17). For supported values, see the EngineVersion parameter in API action CreateDBInstance. Note that for Amazon Aurora instances the engine version must match the DB cluster's engine version'. (`default = 5.7.17`)
+- `db_instance_engine_version` - (Optional) The engine version to use. If auto_minor_version_upgrade is enabled, you can provide a prefix of the version such as 5.7 (for 5.7.10) and this attribute will ignore differences in the patch version automatically (e.g. 5.7.17). For supported values, see the EngineVersion parameter in API action CreateDBInstance. Note that for Amazon Aurora instances the engine version must match the DB cluster's engine version'. (`default = null`)
 - `db_instance_instance_class` - (Required) The instance type of the RDS instance. (`default = db.t2.small`)
 - `db_instance_vpc_security_group_ids` - (Optional) List of VPC security groups to associate. (`default = null`)
 - `db_instance_identifier` - The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier. (`default = ""`)
 - `db_instance_identifier_prefix` - Creates a unique identifier beginning with the specified prefix. Conflicts with identifer. (`default = ""`)
 - `db_instance_allocated_storage` -  (Required unless a snapshot_identifier or replicate_source_db is provided) The allocated storage in gibibytes. If max_allocated_storage is configured, this argument represents the initial storage allocation and differences from the configuration will be ignored automatically when Storage Autoscaling occurs. The allocated storage in gigabytes. (`default = 20`)
-- `db_instance_storage_type` - One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'standard' if not. Note that this behaviour is different from the AWS web console, where the default is 'gp2'. (`default = gp2`)
-- `db_instance_iops` - The amount of provisioned IOPS. Setting this implies a storage_type of 'io1', default is 0 if rds storage type is not io1 (`default = 0`)
+- `db_instance_storage_type` - One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'standard' if not. Note that this behaviour is different from the AWS web console, where the default is 'gp2'. (`default = null`)
+- `db_instance_iops` - The amount of provisioned IOPS. Setting this implies a storage_type of 'io1', default is 0 if rds storage type is not io1 (`default = null`)
 - `db_instance_db_name` - The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Note that this does not apply for Oracle or SQL Server engines. (`default = db_name_test`)
 - `db_instance_db_username` - Username for the master DB user. (`default = root`)
 - `db_instance_db_password` - Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. (`default = ROot666roOT`)
 - `db_instance_db_port` - (Optional) The port on which the DB accepts connections. (`default = null`)
-- `default_ports` - Default database ports (`default = {'mysql': '3306', 'aurora-mysql': '3306', 'aurora': '3306', 'postgres': '5432', 'aurora-postgresql': '5432', 'oracle': '1521'}`)
-- `db_group_family` - Set DB group family (`default = {'mysql': 'mysql5.7', 'aurora-mysql': 'aurora-mysql5.7', 'postgres': 'postgres9.6', 'aurora-postgres': 'aurora-postgres9.6', 'oracle': 'oracle-ee-12.1', 'aurora': 'aurora5.6'}`)
+- `default_ports` - Default database ports (`default = {'aurora': 3306, 'aurora-mysql': 3306, 'aurora-postgresql': 5432, 'mariadb': 3306, 'mysql': 3306, 'oracle-se2': 1521, 'oracle-se1': 1521, 'oracle-se': 1521, 'postgres': 5432, 'sqlserver-ee': 1433, 'sqlserver-se': 1433, 'sqlserver-ex': 1433, 'sqlserver-web': 1433}`)
+- `db_group_family` - Set DB group family (`default = {'aurora': 'aurora5.6', 'aurora-mysql': 'aurora-mysql5.7', 'aurora-postgresql': 'aurora-postgres9.6', 'mariadb': '', 'mysql': 'mysql5.7', 'oracle-ee': 'oracle-ee-12.1', 'oracle-se2': 'oracle-se2-12.1', 'oracle-se1': 'oracle-se1-12.1', 'oracle-se': 'oracle-ee-12.1', 'postgres': 'postgres9.6', 'sqlserver-ee': '', 'sqlserver-se': '', 'sqlserver-ex': '', 'sqlserver-web': ''}`)
 - `db_instance_character_set_name` - The character set name to use for DB encoding in Oracle instances. This can't be changed. For ex: utf8 (`default = ""`)
 - `db_instance_parameter_group_name` - Name of the DB parameter group to associate. For ex: default.mysql5.6 (`default = ""`)
 - `db_instance_maintenance_window` - The daily time range (in UTC) during which maintenance window are enabled. Must not overlap with backup_window. For ex: SUN 12:30AM-01:30AM ET (`default = sun:04:30-sun:05:30`)
@@ -237,8 +301,8 @@ module "rds" {
 - `db_option_group_name` - (Optional, Forces new resource) The name of the option group. If omitted, Terraform will assign a random, unique name. Must be lowercase, to match as it is stored in AWS. (`default = ""`)
 - `db_option_group_name_prefix` - description (`default = ""`)
 - `db_option_group_option_group_description` - (Optional) The description of the option group. Defaults to 'Managed by Terraform'. (`default = Managed by Terraform`)
-- `db_option_group_engine_name` - (Required) Specifies the name of the engine that this option group should be associated with. (`default = ""`)
-- `db_option_group_major_engine_version` - (Required) Specifies the major version of the engine that this option group should be associated with. (`default = ""`)
+- `db_option_group_engine_name` - (Required) Specifies the name of the engine that this option group should be associated with. For ex: sqlserver-ee (`default = ""`)
+- `db_option_group_major_engine_version` - (Required) Specifies the major version of the engine that this option group should be associated with. For ex: 11.00 (`default = ""`)
 - `db_option_group_timeouts` - Set timeouts for db option group (`default = []`)
 - `db_option_group_options` - (Optional) A list of Options to apply. (`default = []`)
 
