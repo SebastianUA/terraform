@@ -109,7 +109,7 @@ module "emr" {
     emr_cluster_release_label                           = "emr-5.29.0"
     emr_cluster_service_role                            = "arn:aws:iam::167127734783:role/emr-service-role"
 
-    emr_cluster_applications                            = ["Spark", "Presto", "Spark"]
+    emr_cluster_applications                            = ["Spark", "Presto", "Hadoop", "Hive", "Zeppelin"]
     emr_cluster_additional_info                         = file("./additional_files/emr-cluster-additional_info.json")
     emr_cluster_termination_protection                  = false
     emr_cluster_keep_job_flow_alive_when_no_steps       = true
@@ -155,11 +155,23 @@ module "emr" {
 
     # it's not working when uses private sabnet;
     # The VPC/subnet configuration was invalid: Your cluster needs access to SQS to enable debugging but subnet does not have route to access SQS. Learn more about private subnet configurations: https://docs.aws.amazon.com/ElasticMapReduce/latest/ManagementGuide/emr-plan-vpc-subnet.html
-    #emr_cluster_bootstrap_action                        = [{
-    #    path = "s3://elasticmapreduce/bootstrap-actions/run-if"
-    #    name = "runif"
-    #    args = ["instance.isMaster=true", "echo running on master node"]
-    #}]
+    #emr_cluster_bootstrap_action                        = [
+    #    {
+    #        path = "s3://elasticmapreduce/bootstrap-actions/run-if"
+    #        name = "runif"
+    #        args = ["instance.isMaster=true", "echo running on master node"]
+    #    },
+    #    {
+    #        path = "s3://alluxio-public/enterprise-emr/2.2.1-1.4/alluxio-emr.sh"
+    #        name = "Install-Alluxio"
+    #        args = [
+    #          "s3://S3_BUCKET_HERE/alluxio-ufs",
+    #          "-d", "https://downloads.alluxio.io/downloads/files/2.2.1/alluxio-2.2.1-bin.tar.gz",
+    #          "-p", "alluxio.user.block.size.bytes.default=122M|alluxio.user.file.writetype.default=CACHE_THROUGH",
+    #          "-s", "|"
+    #        ]
+    #    }
+    #]
 
     #emr_cluster_step                                    = [{
     #    name                = "Setup Hadoop Debugging"

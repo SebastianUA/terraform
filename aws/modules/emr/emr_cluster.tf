@@ -123,7 +123,7 @@ resource "aws_emr_cluster" "emr_cluster" {
             name = lookup(bootstrap_action.value, "name", null)
             path = lookup(bootstrap_action.value, "path", null)
 
-            args = lookup(bootstrap_action.value, "namargse", null)
+            args = lookup(bootstrap_action.value, "args", null)
         }
     }
 
