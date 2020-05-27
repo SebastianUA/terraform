@@ -4,7 +4,7 @@
 resource "aws_glue_connection" "glue_connection" {
     count                   = var.enable_glue_connection ? 1 : 0
 
-    name                    = var.glue_connection_name != "" ? var.glue_connection_name : "${lower(var.name)}-glue-connection-${lower(var.environment)}"
+    name                    = var.glue_connection_name != "" ? lower(var.glue_connection_name) : "${lower(var.name)}-glue-connection-${lower(var.environment)}"
     connection_properties   = var.glue_connection_connection_properties
 
     description             = var.glue_connection_description

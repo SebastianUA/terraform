@@ -4,7 +4,7 @@
 resource "aws_glue_security_configuration" "glue_security_configuration" {
     count                   = var.enable_glue_security_configuration ? 1 : 0
 
-    name                    = var.glue_security_configuration_name != "" ? var.glue_security_configuration_name : "${lower(var.name)}-glue-sec-conf-${lower(var.environment)}"
+    name                    = var.glue_security_configuration_name != "" ? lower(var.glue_security_configuration_name) : "${lower(var.name)}-glue-sec-conf-${lower(var.environment)}"
 
     encryption_configuration {
         cloudwatch_encryption {

@@ -4,7 +4,7 @@
 resource "aws_glue_job" "glue_job" {
     count                   = var.enable_glue_job ? 1 : 0
 
-    name                    = var.glue_job_name != "" ? var.glue_job_name : "${lower(var.name)}-glue-job-${lower(var.environment)}"
+    name                    = var.glue_job_name != "" ? lower(var.glue_job_name) : "${lower(var.name)}-glue-job-${lower(var.environment)}"
     role_arn                = var.glue_job_role_arn
 
     description             = var.glue_job_description
@@ -43,7 +43,7 @@ resource "aws_glue_job" "glue_job" {
 
     tags                    = merge(
         {
-            "Name"  = var.glue_job_name != "" ? var.glue_job_name : "${lower(var.name)}-glue-job-${lower(var.environment)}"
+            "Name"  = var.glue_job_name != "" ? lower(var.glue_job_name) : "${lower(var.name)}-glue-job-${lower(var.environment)}"
         },
         var.tags
     )

@@ -4,8 +4,8 @@
 resource "aws_glue_crawler" "glue_crawler" {
     count                   = var.enable_glue_crawler ? 1 : 0
 
-    name                    = var.glue_crawler_name != "" ? var.glue_crawler_name : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
-    database_name           = var.glue_crawler_database_name != "" && !var.enable_glue_catalog_database ? var.glue_crawler_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.id, [""]), 0)
+    name                    = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
+    database_name           = var.glue_crawler_database_name != "" && !var.enable_glue_catalog_database ? var.glue_crawler_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.name, [""]), 0)
     role                    = var.glue_crawler_role
 
     description             = var.glue_crawler_description
@@ -70,7 +70,7 @@ resource "aws_glue_crawler" "glue_crawler" {
 
     tags                    = merge(
         {
-            "Name"  = var.glue_crawler_name != "" ? var.glue_crawler_name : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
+            "Name"  = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
         },
         var.tags
     )

@@ -4,7 +4,7 @@
 resource "aws_glue_classifier" "glue_classifier" {
     count                   = var.enable_glue_classifier ? 1 : 0
 
-    name                    = var.glue_classifier_name != "" ? var.glue_classifier_name : "${lower(var.name)}-glue-classifier-${lower(var.environment)}"
+    name                    = var.glue_classifier_name != "" ? lower(var.glue_classifier_name) : "${lower(var.name)}-glue-classifier-${lower(var.environment)}"
 
     dynamic "csv_classifier" {
         iterator = csv_classifier

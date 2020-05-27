@@ -4,7 +4,7 @@
 resource "aws_glue_trigger" "glue_trigger" {
     count                   = var.enable_glue_trigger ? 1 : 0
 
-    name                    = var.glue_trigger_name != "" ? var.glue_trigger_name : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
+    name                    = var.glue_trigger_name != "" ? lower(var.glue_trigger_name) : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
     type                    = upper(var.glue_trigger_type)
 
     description             = var.glue_trigger_description
@@ -45,7 +45,7 @@ resource "aws_glue_trigger" "glue_trigger" {
 
     tags                    = merge(
         {
-            "Name"  = var.glue_trigger_name != "" ? var.glue_trigger_name : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
+            "Name"  = var.glue_trigger_name != "" ? lower(var.glue_trigger_name) : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
         },
         var.tags
     )
