@@ -1,0 +1,15 @@
+{
+    "Version":"2012-10-17",
+    "Statement":[
+       {
+          "Sid": "add-read-only-perm",
+          "Principal": "*",
+          "Effect": "Allow",
+          "Action": [
+             "glacier:InitiateJob",
+             "glacier:GetJobOutput"
+          ],
+          "Resource": "arn:aws:glacier:us-east-1:167127734783:vaults/test-glacier-vault-stage"
+       }
+    ]
+}
