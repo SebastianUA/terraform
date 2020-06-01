@@ -6,6 +6,7 @@
 **/terraform.tfstate.backup
 **/.terraform.tfstate.lock.info
 **/.terraform.tfstate.lock
+**/crash.log
 !.gitignore
 !.pre-commit-config.yaml
 !.github
