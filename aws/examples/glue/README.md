@@ -27,27 +27,57 @@ module "glue" {
 
     # AWS Glue catalog DB
     enable_glue_catalog_database                            = true
-    glue_catalog_database_name                              = ""
+    glue_catalog_database_name                              = "test-glue-db-test"
     glue_catalog_database_parameters                        = null
 
     # AWS Glue catalog table
     enable_glue_catalog_table                               = true
-    glue_catalog_table_name                                 = ""
-    glue_catalog_table_description                          = "Creates for test this resource by Terraform"
+    glue_catalog_table_name                                 = "test-glue-table-test"
+    glue_catalog_table_description                          = "Those resources are managed by Terraform. Created by Vitaliy Natarov"
     glue_catalog_table_table_type                           = "EXTERNAL_TABLE"
     glue_catalog_table_parameters                           = {
-        "EXTERNAL"                  = "TRUE"
-        "parquet.compression"       = "SNAPPY"
+        "sizeKey"                           = 493378
+        "tmp"                               = "none"
+        "test"                              = "yes"
+        "classification"                    = "csv"
     }
 
-    glue_catalog_table_storage_descriptor_columns           = [{
-        location                            = "s3://my-bucket/event-streams/my-stream"
-        input_format                        = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
-        output_format                       = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 
-        columns_name                        = "STR"
-        columns_type                        = "string"
-    }]
+    storage_descriptor_location      = "s3://my-test-bucket/test/"
+    storage_descriptor_input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    storage_descriptor_output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    storage_descriptor_columns       = [
+        {
+            columns_name    = "oid"
+            columns_type    = "double"
+            columns_comment = "oid"
+        },
+        {
+            columns_name    = "oid2"
+            columns_type    = "double"
+            columns_comment = "oid2"
+        },
+        {
+            columns_name    = "oid3"
+            columns_type    = "double"
+            columns_comment = "oid3"
+        },
+
+    ]
+
+
+    storage_descriptor_ser_de_info  = []
+    storage_descriptor_sort_columns = []
+    storage_descriptor_skewed_info  = [
+        {
+            ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+            ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+            ser_de_info_parameters            = map("field.delim", ",")
+        }
+
+    ]
+
 
     # AWS Glue connection
     enable_glue_connection                                  = true
@@ -57,21 +87,42 @@ module "glue" {
         USERNAME            = "exampleusername"
     }
 
+    #glue_connection_physical_connection_requirements        = [{
+    #    availability_zone       = "zone_here"
+    #    security_group_id_list  = []
+    #    subnet_id               = "subnet_here"
+    #}]
+
     enable_glue_crawler                                     = true
     glue_crawler_name                                       = ""
-    glue_crawler_role                                       = "arn:aws:iam::167127734783:role/emr-service-role"
+    glue_crawler_role                                       = "arn:aws:iam::167127734783:role/admin-role"
 
-    #glue_crawler_catalog_target                            = map("database_name", "")
-    #glue_crawler_schema_change_policy                      = map("delete_behavior", "LOG", "update_behavior", "LOG")
-
-    enable_glue_security_configuration                      = true
+    enable_glue_security_configuration                      = false
     glue_security_configuration_name                        = ""
-
+    glue_crawler_s3_target  = [{
+        path        = "s3://my-bucket/crowler"
+        exclusions  = []
+    }]
 
     enable_glue_trigger                                     = true
     glue_trigger_name                                       = ""
 
+    enable_glue_job                                         = true
+    glue_job_name                                           = ""
+    glue_job_role_arn                                       = "arn:aws:iam::167127734783:role/admin-role"
+    glue_job_additional_connections                         = []
+    glue_job_execution_property                             = [{
+        max_concurrent_runs = 2
+    }]
 
+    glue_job_command_script_location                        = "s3//test-bucket/jobs"
+    glue_job_command_name                                   = null
+
+    tags = map(
+        "Env", "stage",
+        "Orchestration", "Terraform",
+        "Createdby", "Vitalii Natarov"
+    )
 }
 ```
 
@@ -98,9 +149,18 @@ module "glue" {
 - `glue_catalog_table_view_expanded_text` - (Optional) If the table is a view, the expanded text of the view; otherwise null. (`default = null`)
 - `glue_catalog_table_table_type` - (Optional) The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.). (`default = null`)
 - `glue_catalog_table_parameters` - (Optional) Properties associated with this table, as a list of key-value pairs. (`default = null`)
-- `glue_catalog_table_storage_descriptor` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses without columns and columns_sort blocks inside. (`default = []`)
-- `glue_catalog_table_storage_descriptor_columns` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses with columns block. (`default = []`)
-- `glue_catalog_table_storage_descriptor_sort_columns` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses with columns and columns_sort blocks inside. (`default = []`)
+- `storage_descriptor_location` - (Optional) The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name. (`default = null`)
+- `storage_descriptor_input_format` - (Optional) The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format. (`default = null`)
+- `storage_descriptor_output_format` - (Optional) The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format. (`default = []`)
+- `storage_descriptor_compressed` - (Optional) True if the data in the table is compressed, or False if not. (`default = null`)
+- `storage_descriptor_number_of_buckets` - (Optional) Must be specified if the table contains any dimension columns. (`default = null`)
+- `storage_descriptor_bucket_columns` - (Optional) A list of reducer grouping columns, clustering columns, and bucketing columns in the table. (`default = null`)
+- `storage_descriptor_parameters` - (Optional) User-supplied properties in key-value form. (`default = null`)
+- `storage_descriptor_stored_as_sub_directories` - (Optional) True if the table data is stored in subdirectories, or False if not. (`default = null`)
+- `storage_descriptor_columns` - (Optional) A list of the Columns in the table. (`default = []`)
+- `storage_descriptor_ser_de_info` - (Optional) Serialization/deserialization (SerDe) information. (`default = []`)
+- `storage_descriptor_sort_columns` - (Optional) A list of Order objects specifying the sort order of each bucket in the table. (`default = []`)
+- `storage_descriptor_skewed_info` - (Optional) Information about values that appear very frequently in a column (skewed values). (`default = []`)
 - `enable_glue_classifier` - Enable glue classifier usage (`default = False`)
 - `glue_classifier_name` - The name of the classifier. (`default = ""`)
 - `glue_classifier_csv_classifier` - (Optional) A classifier for Csv content.  (`default = []`)
@@ -150,6 +210,7 @@ module "glue" {
 - `glue_job_command_python_version` - description (`default = null`)
 - `glue_job_description` - (Optional) Description of the job. (`default = null`)
 - `glue_job_connections` - (Optional) The list of connections used for this job. (`default = null`)
+- `glue_job_additional_connections` - (Optional) The list of connections used for the job. (`default = []`)
 - `glue_job_default_arguments` - (Optional) The map of default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide. (`default = {'--job-language': 'python'}`)
 - `glue_job_execution_property` - (Optional) Execution property of the job. (`default = []`)
 - `glue_job_glue_version` - (Optional) The version of glue to use, for example '1.0'. For information about available versions, see the AWS Glue Release Notes. (`default = null`)

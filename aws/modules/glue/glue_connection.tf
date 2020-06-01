@@ -17,7 +17,7 @@ resource "aws_glue_connection" "glue_connection" {
         for_each = var.glue_connection_physical_connection_requirements
         content {
             availability_zone      = lookup(physical_connection_requirements.value, "availability_zone", null)
-            security_group_id_list = lookup(physical_connection_requirements.value, "security_group_id_list", null)
+            security_group_id_list = lookup(physical_connection_requirements.value, "security_group_id_list", [])
             subnet_id              = lookup(physical_connection_requirements.value, "subnet_id", null)
         }
     }

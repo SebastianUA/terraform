@@ -12,16 +12,8 @@ resource "aws_glue_crawler" "glue_crawler" {
     classifiers             = var.glue_crawler_classifiers
     configuration           = var.glue_crawler_configuration
     schedule                = var.glue_crawler_schedule
-    security_configuration  = var.glue_crawler_security_configuration
+    security_configuration  = var.glue_crawler_security_configuration != "" && !var.enable_glue_security_configuration ? var.glue_crawler_security_configuration : element(concat(aws_glue_security_configuration.glue_security_configuration.*.id, [""]), 0)
     table_prefix            = var.glue_crawler_table_prefix
-
-    # dynamic "glue_security_configuration" {
-    #     iterator = glue_security_configuration
-    #     for_each = var.glue_crawler_glue_security_configuration
-    #     content {
-    #         #
-    #     }
-    # }
 
     dynamic "dynamodb_target" {
         iterator = dynamodb_target
@@ -82,6 +74,7 @@ resource "aws_glue_crawler" "glue_crawler" {
 
     depends_on              = [
         aws_glue_catalog_database.glue_catalog_database,
+        aws_glue_security_configuration.glue_security_configuration,
         aws_glue_catalog_table.glue_catalog_table
     ]
 }

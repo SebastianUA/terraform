@@ -113,19 +113,64 @@ variable "glue_catalog_table_parameters" {
   default       = null
 }
 
-variable "glue_catalog_table_storage_descriptor" {
-  description   = "(Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses without columns and columns_sort blocks inside."
-  default       = []
+variable "storage_descriptor_location" {
+  description = "(Optional) The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name."
+  default     = null
 }
 
-variable "glue_catalog_table_storage_descriptor_columns" {
-  description   = "(Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses with columns block."
-  default       = []
+variable "storage_descriptor_input_format" {
+  description = "(Optional) The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format."
+  default     = null
 }
 
-variable "glue_catalog_table_storage_descriptor_sort_columns" {
-  description   = "(Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. Uses with columns and columns_sort blocks inside."
-  default       = []
+variable "storage_descriptor_output_format" {
+  description = "(Optional) The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format."
+  default     = []
+}
+
+variable "storage_descriptor_compressed" {
+  description = "(Optional) True if the data in the table is compressed, or False if not."
+  default     = null
+}
+
+variable "storage_descriptor_number_of_buckets" {
+  description = "(Optional) Must be specified if the table contains any dimension columns."
+  default     = null
+}
+
+variable "storage_descriptor_bucket_columns" {
+  description = "(Optional) A list of reducer grouping columns, clustering columns, and bucketing columns in the table."
+  default     = null
+}
+
+variable "storage_descriptor_parameters" {
+  description = "(Optional) User-supplied properties in key-value form."
+  default     = null
+}
+
+variable "storage_descriptor_stored_as_sub_directories" {
+  description = "(Optional) True if the table data is stored in subdirectories, or False if not."
+  default     = null
+}
+
+variable "storage_descriptor_columns" {
+  description = "(Optional) A list of the Columns in the table."
+  default     = []
+}
+
+variable "storage_descriptor_ser_de_info" {
+  description = "(Optional) Serialization/deserialization (SerDe) information."
+  default     = []
+}
+
+variable "storage_descriptor_sort_columns" {
+  description = "(Optional) A list of Order objects specifying the sort order of each bucket in the table."
+  default     = []
+}
+
+variable "storage_descriptor_skewed_info" {
+  description = "(Optional) Information about values that appear very frequently in a column (skewed values)."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -389,6 +434,11 @@ variable "glue_job_description" {
 variable "glue_job_connections" {
   description = "(Optional) The list of connections used for this job."
   default     = null
+}
+
+variable "glue_job_additional_connections" {
+  description = "(Optional) The list of connections used for the job."
+  default     = []
 }
 
 variable "glue_job_default_arguments" {
