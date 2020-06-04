@@ -83,15 +83,9 @@ module "glue" {
     #    subnet_id               = "subnet_here"
     #}]
 
-<<<<<<< HEAD
-    enable_glue_crawler                                     = false
-    glue_crawler_name                                       = ""
-    glue_crawler_role                                       = "arn:aws:iam::167127734783:role/emr-service-role"
-=======
     enable_glue_crawler                                     = true
     glue_crawler_name                                       = ""
     glue_crawler_role                                       = "arn:aws:iam::167127734783:role/admin-role"
->>>>>>> b1df645... Refactor Glue module
 
     enable_glue_security_configuration                      = false
     glue_security_configuration_name                        = ""
@@ -105,11 +99,7 @@ module "glue" {
 
     enable_glue_job                                         = true
     glue_job_name                                           = ""
-<<<<<<< HEAD
-    glue_job_role_arn                                       = "arn:aws:iam::167127734783:role/emr-service-role"
-=======
     glue_job_role_arn                                       = "arn:aws:iam::167127734783:role/admin-role"
->>>>>>> b1df645... Refactor Glue module
     glue_job_additional_connections                         = []
     glue_job_execution_property                             = [{
         max_concurrent_runs = 2

@@ -11,7 +11,15 @@ provider "aws" {
 }
 
 module "access_analyzer" {
-    source                          = "../../modules/access_analyzer"
-    name                            = "TEST"
-    environment                     = "stage"
+    source                              = "../../modules/access_analyzer"
+    name                                = "TEST"
+    environment                         = "dev"
+
+    enable_accessanalyzer_analyzer      = true
+    accessanalyzer_analyzer_name        = ""
+
+    tags                                = map(
+        "ENV", "dev",
+        "Createdby", "Vitalii Natarov",
+    )
 }
