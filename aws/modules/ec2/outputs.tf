@@ -63,8 +63,3 @@ output "tags" {
   description = "List of tags of instances"
   value       = aws_instance.instance.*.tags
 }
-
-output "key_pair_id" {
-    description = "get key pair id"
-    value       = element(concat(aws_key_pair.key_pair.id, [""], ), 0)
-}

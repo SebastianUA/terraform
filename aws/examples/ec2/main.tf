@@ -18,7 +18,7 @@ module "ec2" {
     enable_instance                     = true
     environment                         = "dev"
     instance_type                       = "t2.micro"
-    enable_associate_public_ip_address  = true
+    associate_public_ip_address         = true
     disk_size                           = 8
     tenancy                             = "default"
     iam_instance_profile                = ""
