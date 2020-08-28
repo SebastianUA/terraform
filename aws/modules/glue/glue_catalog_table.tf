@@ -45,7 +45,7 @@ resource "aws_glue_catalog_table" "glue_catalog_table" {
         }
 
         dynamic "ser_de_info" {
-            iterator = columns
+            iterator = ser_de_info
             for_each = var.storage_descriptor_ser_de_info
             content {
                 name                    = lookup(ser_de_info.value, "ser_de_info_name", null)
