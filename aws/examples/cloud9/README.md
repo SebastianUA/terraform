@@ -1,6 +1,6 @@
-# Work with AWS Cloud9 via terraform
+# Work with AWS CLOUD9 via terraform
 
-A terraform module for making Cloud9.
+A terraform module for making CLOUD9.
 
 
 ## Usage
@@ -12,24 +12,24 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "cloud9" {
-    source                                  = "../../modules/cloud9"
-    name                                    = "TEST"
-    environment                             = "stage"
+  source      = "../../modules/cloud9"
+  name        = "TEST"
+  environment = "stage"
 
-    enable_cloud9_environment_ec2           = true
-    cloud9_environment_ec2_name             = ""
-    cloud9_environment_ec2_instance_type    = "t2.micro"
+  enable_cloud9_environment_ec2        = true
+  cloud9_environment_ec2_name          = ""
+  cloud9_environment_ec2_instance_type = "t2.micro"
 
-    tags                                    = map("Env", "stage", "Orchestration", "Terraform")
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 }
 ```
 
@@ -37,8 +37,8 @@ module "cloud9" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
-- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = False`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = ""`)
 - `cloud9_environment_ec2_name` - The name of the environment. (`default = ""`)
 - `cloud9_environment_ec2_instance_type` - (Required) The type of instance to connect to the environment, e.g. t2.micro. (`default = t2.micro`)
 - `cloud9_environment_ec2_automatic_stop_time_minutes` - (Optional) The number of minutes until the running instance is shut down after the environment has last been used. (`default = null`)
@@ -48,9 +48,6 @@ module "cloud9" {
 
 ## Module Output Variables
 ----------------------
-- `cloud9_environment_ec2_id` - The ID of the environment.
-- `cloud9_environment_ec2_arn` - The ARN of the environment.
-- `cloud9_environment_ec2_type` - The type of the environment (e.g. ssh or ec2)
 
 
 ## Authors

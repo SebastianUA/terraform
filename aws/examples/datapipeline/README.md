@@ -1,6 +1,6 @@
-# Work with AWS DataPipeline via terraform
+# Work with AWS DATAPIPELINE via terraform
 
-A terraform module for making DataPipeline.
+A terraform module for making DATAPIPELINE.
 
 
 ## Usage
@@ -12,24 +12,24 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13.5"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "datapipeline" {
-    source                              = "../../modules/datapipeline"
-    name                                = "TEST"
-    environment                         = "dev"
+  source      = "../../modules/datapipeline"
+  name        = "TEST"
+  environment = "dev"
 
-    enable_datapipeline_pipeline        = true
-    datapipeline_pipeline_name          = ""
-    datapipeline_pipeline_description   = null
+  enable_datapipeline_pipeline      = true
+  datapipeline_pipeline_name        = ""
+  datapipeline_pipeline_description = null
 
-    tags                                = map("Env", "stage", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
+  tags = map("Env", "stage", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
 }
 ```
 
@@ -37,14 +37,13 @@ module "datapipeline" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
-- `enable_datapipeline_pipeline` - Enable datapipeline pipeline usage (`default = False`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `enable_datapipeline_pipeline` - Enable datapipeline pipeline usage (`default = ""`)
 - `datapipeline_pipeline_name` - The name of Pipeline. (`default = ""`)
 - `datapipeline_pipeline_description` - (Optional) The description of Pipeline. (`default = null`)
 
 ## Module Output Variables
 ----------------------
-- `datapipeline_pipeline_id` - The identifier of the client certificate.
 
 
 ## Authors

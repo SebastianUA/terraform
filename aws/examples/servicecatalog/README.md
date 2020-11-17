@@ -1,6 +1,6 @@
-# Work with AWS ServiceCatalog via terraform
+# Work with AWS SERVICECATALOG via terraform
 
-A terraform module for making ServiceCatalog.
+A terraform module for making SERVICECATALOG.
 
 
 ## Usage
@@ -12,35 +12,34 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "servicecatalog" {
-    source                                  = "../../modules/servicecatalog"
+  source = "../../modules/servicecatalog"
 
-    enable_servicecatalog_portfolio         = true
-    servicecatalog_portfolio_name           = "servicecatalog"
-    servicecatalog_portfolio_description    = ""
-    servicecatalog_portfolio_provider_name  = "captain"
+  enable_servicecatalog_portfolio        = true
+  servicecatalog_portfolio_name          = "servicecatalog"
+  servicecatalog_portfolio_description   = ""
+  servicecatalog_portfolio_provider_name = "captain"
 }
 ```
 
 ## Module Input Variables
 ----------------------
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
-- `enable_servicecatalog_portfolio` - Enable servicecatalog portfolio usage (`default = False`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `enable_servicecatalog_portfolio` - Enable servicecatalog portfolio usage (`default = ""`)
 - `servicecatalog_portfolio_name` - The name of the portfolio. (`default = ""`)
 - `servicecatalog_portfolio_description` - (Required) Description of the portfolio (`default = ""`)
 - `servicecatalog_portfolio_provider_name` - (Required) Name of the person or organization who owns the portfolio. (`default = null`)
 
 ## Module Output Variables
 ----------------------
-- `servicecatalog_portfolio_id` - The ID of the Service Catalog Portfolio.
 
 
 ## Authors

@@ -1,6 +1,6 @@
-# Work with AWS macie via terraform
+# Work with AWS MACIE via terraform
 
-A terraform module for making macie.
+A terraform module for making MACIE.
 
 
 ## Usage
@@ -12,45 +12,43 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "macie" {
-    source                                              = "../../modules/macie"
+  source = "../../modules/macie"
 
-    enable_macie_member_account_association             = true
-    macie_member_account_association_member_account_id  = "123456789012"
+  enable_macie_member_account_association            = true
+  macie_member_account_association_member_account_id = "123456789012"
 
-    enable_macie_s3_bucket_association                  = true
-    macie_s3_bucket_association_bucket_name             = "s3-bucket-here"
-    macie_s3_bucket_association_prefix                  = "data"
-    macie_s3_bucket_association_classification_type     = [{
-        continuous  = "FULL"
-        one_time    = "NONE"
-    }]
+  enable_macie_s3_bucket_association      = true
+  macie_s3_bucket_association_bucket_name = "s3-bucket-here"
+  macie_s3_bucket_association_prefix      = "data"
+  macie_s3_bucket_association_classification_type = [{
+    continuous = "FULL"
+    one_time   = "NONE"
+  }]
 
 }
 ```
 
 ## Module Input Variables
 ----------------------
-- `enable_macie_member_account_association` - Enable macie member account association usage (`default = False`)
+- `enable_macie_member_account_association` - Enable macie member account association usage (`default = ""`)
 - `macie_member_account_association_member_account_id` - (Required) The ID of the AWS account that you want to associate with Amazon Macie as a member account. (`default = null`)
-- `enable_macie_s3_bucket_association` - Enable macie s3 bucket association usage (`default = False`)
+- `enable_macie_s3_bucket_association` - Enable macie s3 bucket association usage (`default = ""`)
 - `macie_s3_bucket_association_bucket_name` - (Required) The name of the S3 bucket that you want to associate with Amazon Macie. (`default = null`)
 - `macie_s3_bucket_association_member_account_id` - (Optional) The ID of the Amazon Macie member account whose S3 resources you want to associate with Macie. If member_account_id isn't specified, the action associates specified S3 resources with Macie for the current master account. (`default = null`)
 - `macie_s3_bucket_association_prefix` - (Optional) Object key prefix identifying one or more S3 objects to which the association applies. (`default = null`)
-- `macie_s3_bucket_association_classification_type` - (Optional) The configuration of how Amazon Macie classifies the S3 objects. (`default = []`)
+- `macie_s3_bucket_association_classification_type` - (Optional) The configuration of how Amazon Macie classifies the S3 objects. (`default = ""`)
 
 ## Module Output Variables
 ----------------------
-- `macie_member_account_association_id` - The ID of the association.
-- `macie_s3_bucket_association_id` - The ID of the association.
 
 
 ## Authors

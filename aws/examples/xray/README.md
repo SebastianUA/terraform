@@ -1,6 +1,6 @@
-# Work with AWS X-ray via terraform
+# Work with AWS XRAY via terraform
 
-A terraform module for making X-ray.
+A terraform module for making XRAY.
 
 
 ## Usage
@@ -12,36 +12,36 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "xray" {
-    source                                  = "../../modules/xray"
-    name                                    = "TEST"
-    environment                             = "stage"
+  source      = "../../modules/xray"
+  name        = "TEST"
+  environment = "stage"
 
-    enable_xray_sampling_rule               = true
-    xray_sampling_rule_name                 = "xray-test-sampling-rule"
-    xray_sampling_rule_priority             = 1000
-    xray_sampling_rule_version              = 1
-    xray_sampling_rule_reservoir_size       = 1
-    xray_sampling_rule_fixed_rate           = 0.05
-    xray_sampling_rule_url_path             = "*"
-    xray_sampling_rule_host                 = "*"
-    xray_sampling_rule_http_method          = "*"
-    xray_sampling_rule_service_type         = "*"
-    xray_sampling_rule_service_name         = "*"
-    xray_sampling_rule_resource_arn         = "*"
+  enable_xray_sampling_rule         = true
+  xray_sampling_rule_name           = "xray-test-sampling-rule"
+  xray_sampling_rule_priority       = 1000
+  xray_sampling_rule_version        = 1
+  xray_sampling_rule_reservoir_size = 1
+  xray_sampling_rule_fixed_rate     = 0.05
+  xray_sampling_rule_url_path       = "*"
+  xray_sampling_rule_host           = "*"
+  xray_sampling_rule_http_method    = "*"
+  xray_sampling_rule_service_type   = "*"
+  xray_sampling_rule_service_name   = "*"
+  xray_sampling_rule_resource_arn   = "*"
 
-    xray_sampling_rule_attributes           = map(
-        "This", "is",
-        "Vitaliy", "Natarov"
-    )
+  xray_sampling_rule_attributes = map(
+    "This", "is",
+    "Vitaliy", "Natarov"
+  )
 }
 ```
 
@@ -49,7 +49,7 @@ module "xray" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = False`)
+- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = ""`)
 - `xray_sampling_rule_name` - The name of the sampling rule. (`default = ""`)
 - `xray_sampling_rule_priority` - (Required) The priority of the sampling rule. (`default = 1000`)
 - `xray_sampling_rule_version` - (Required) The version of the sampling rule format (1 ) (`default = 1`)
@@ -65,8 +65,6 @@ module "xray" {
 
 ## Module Output Variables
 ----------------------
-- `xray_sampling_rule_id` - The name of the sampling rule.
-- `xray_sampling_rule_arn` - The ARN of the sampling rule.
 
 
 ## Authors

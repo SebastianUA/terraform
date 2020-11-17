@@ -1,6 +1,6 @@
-# Work with AWS swf via terraform
+# Work with AWS SWF via terraform
 
-A terraform module for making swf.
+A terraform module for making SWF.
 
 
 ## Usage
@@ -12,41 +12,37 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "swf" {
-    source                                                  = "../../modules/swf"
-    name                                                    = "TEST"
-    environment                                             = "stage"
+  source = "../../modules/swf"
 
-    enable_swf_domain                                       = true
-    swf_domain_name                                         = "swf_domain_name"
-    swf_domain_description                                  = "Managing by Terrafrom"
-    swf_domain_workflow_execution_retention_period_in_days  = 0
+  enable_swf_domain                                      = true
+  swf_domain_name                                        = "name"
+  swf_domain_description                                 = "Managing by Terrafrom"
+  swf_domain_workflow_execution_retention_period_in_days = 0
 
-    tags                                                    = map("Env", "dev", "Createdby", "Vitalii Natarov", "Orchestration", "Terraform")
+  tags = map("Env", "dev", "Createdby", "Vitalii Natarov", "Orchestration", "Terraform")
 }
 ```
 
 ## Module Input Variables
 ----------------------
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
-- `enable_swf_domain` - Enable swf domain usage (`default = False`)
-- `swf_domain_name` - (Optional, Forces new resource) The name of the domain. If omitted, Terraform will assign a random, unique name. (`default = null`)
-- `swf_domain_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with swf_domain_name. (`default = null`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `enable_swf_domain` - Enable swf domain usage (`default = ""`)
+- `swf_domain_name` - (Optional, Forces new resource) The name of the domain. If omitted, Terraform will assign a random, unique name. (`default = ""`)
+- `swf_domain_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with swf_domain_name. (`default = ""`)
 - `swf_domain_description` - (Optional, Forces new resource) The domain description. (`default = null`)
-- `swf_domain_workflow_execution_retention_period_in_days` - (Required, Forces new resource) Length of time that SWF will continue to retain information about the workflow execution after the workflow execution is complete, must be between 0 and 90 days. (`default = 0`)
+- `swf_domain_workflow_execution_retention_period_in_days` - (Required, Forces new resource) Length of time that SWF will continue to retain information about the workflow execution after the workflow execution is complete, must be between 0 and 90 days. (`default = ""`)
 
 ## Module Output Variables
 ----------------------
-- `swf_domain_id` - The name of the domain.
-- `swf_domain_arn` - Amazon Resource Name (ARN)
 
 
 ## Authors
