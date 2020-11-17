@@ -7,13 +7,13 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-  description   = "Add additional tags"
-  default       = {}
+  description = "Add additional tags"
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -352,8 +352,8 @@ variable "default_cache_behavior_target_origin_id" {
 }
 
 variable "default_cache_behavior_viewer_protocol_policy" {
- description = "Use this element to specify the protocol that users can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. One of allow-all, https-only, or redirect-to-https."
- default     = ""
+  description = "Use this element to specify the protocol that users can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. One of allow-all, https-only, or redirect-to-https."
+  default     = ""
 }
 
 variable "default_cache_behavior_compress" {

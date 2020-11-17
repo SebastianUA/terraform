@@ -153,7 +153,7 @@ variable "ecs_cluster_id" {
 
 variable "task_definition" {
   description = "(Required) The family and revision (family:revision) or full ARN of the task definition that you want to run in your service."
-  default = ""
+  default     = ""
 }
 
 variable "desired_count" {

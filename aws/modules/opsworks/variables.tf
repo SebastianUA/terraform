@@ -12,13 +12,13 @@ variable "region" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks."
-    default     = {}
+  description = "A list of tag blocks."
+  default     = {}
 }
 
 #---------------------------------------------------

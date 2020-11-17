@@ -7,52 +7,52 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
 }
 
 #---------------------------------------------------
 # AWS codepipeline
 #---------------------------------------------------
 variable "enable_codepipeline" {
-  description   = "Enable codepipeline usage"
-  default       = false
+  description = "Enable codepipeline usage"
+  default     = false
 }
 
 variable "codepipeline_name" {
-  description   = " The name of the pipeline."
-  default       = ""
+  description = " The name of the pipeline."
+  default     = ""
 }
 
 variable "codepipeline_role_arn" {
-  description   = "(Required) A service role Amazon Resource Name (ARN) that grants AWS CodePipeline permission to make calls to AWS services on your behalf."
-  default       = ""
+  description = "(Required) A service role Amazon Resource Name (ARN) that grants AWS CodePipeline permission to make calls to AWS services on your behalf."
+  default     = ""
 }
 
 variable "codepipeline_artifact_store_location" {
-  description   = "(Required) The location where AWS CodePipeline stores artifacts for a pipeline; currently only S3 is supported."
-  default       = ""
+  description = "(Required) The location where AWS CodePipeline stores artifacts for a pipeline; currently only S3 is supported."
+  default     = ""
 }
 
 variable "codepipeline_artifact_store_type" {
-  description   = "(Required) The type of the artifact store, such as Amazon S3"
-  default       = "S3"
+  description = "(Required) The type of the artifact store, such as Amazon S3"
+  default     = "S3"
 }
 
 variable "codepipeline_artifact_store_region" {
-  description   = "(Optional) The region where the artifact store is located. Required for a cross-region CodePipeline, do not provide for a single-region CodePipeline."
-  default       = null
+  description = "(Optional) The region where the artifact store is located. Required for a cross-region CodePipeline, do not provide for a single-region CodePipeline."
+  default     = null
 }
 
 variable "codepipeline_artifact_store_encryption_key" {
-  description   = "(Optional) The encryption key block AWS CodePipeline uses to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If you don't specify a key, AWS CodePipeline uses the default key for Amazon Simple Storage Service (Amazon S3)."
-  default       = []
+  description = "(Optional) The encryption key block AWS CodePipeline uses to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If you don't specify a key, AWS CodePipeline uses the default key for Amazon Simple Storage Service (Amazon S3)."
+  default     = []
 }
 
 #--------- state 1
@@ -242,33 +242,33 @@ variable "codepipeline_stage3_action_region" {
 # AWS codepipeline webhook
 #---------------------------------------------------
 variable "enable_codepipeline_webhook" {
-  description   = "Enable codepipeline webhook usage"
-  default       = false
+  description = "Enable codepipeline webhook usage"
+  default     = false
 }
 
 variable "codepipeline_webhook_name" {
-  description   = "The name of the webhook."
-  default       = ""
+  description = "The name of the webhook."
+  default     = ""
 }
 
 variable "codepipeline_webhook_authentication" {
-  description   = "(Required) The type of authentication to use. One of IP, GITHUB_HMAC, or UNAUTHENTICATED."
-  default       = "GITHUB_HMAC"
+  description = "(Required) The type of authentication to use. One of IP, GITHUB_HMAC, or UNAUTHENTICATED."
+  default     = "GITHUB_HMAC"
 }
 
 variable "codepipeline_webhook_target_action" {
-  description   = "(Required) The name of the action in a pipeline you want to connect to the webhook. The action must be from the source (first) stage of the pipeline."
-  default       = ""
+  description = "(Required) The name of the action in a pipeline you want to connect to the webhook. The action must be from the source (first) stage of the pipeline."
+  default     = ""
 }
 
 variable "codepipeline_webhook_target_pipeline" {
-  description   = "The name of the pipeline."
-  default       = ""
+  description = "The name of the pipeline."
+  default     = ""
 }
 
 variable "codepipeline_webhook_authentication_configuration" {
-  description   = "(Optional) An auth block. Required for IP and GITHUB_HMAC."
-  default       = []
+  description = "(Optional) An auth block. Required for IP and GITHUB_HMAC."
+  default     = []
 }
 
 variable "codepipeline_webhook_filter1_json_path" {

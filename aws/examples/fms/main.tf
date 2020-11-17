@@ -2,17 +2,17 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13.5"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "fms" {
-    source                          = "../../modules/fms"
+  source = "../../modules/fms"
 
-    enable_fms_admin_account        = true
-    fms_admin_account_id            = null
+  enable_fms_admin_account = true
+  fms_admin_account_id     = null
 }

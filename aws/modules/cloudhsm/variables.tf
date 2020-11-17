@@ -7,13 +7,13 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-  description   = "Add additional tags"
-  default       = {}
+  description = "Add additional tags"
+  default     = {}
 }
 
 #---------------------------------------------------

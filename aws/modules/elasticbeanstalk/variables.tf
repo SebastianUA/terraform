@@ -2,8 +2,8 @@
 # Global or/and default variables
 #-----------------------------------------------------------
 variable "name" {
-   description = "Name to be used on all resources as prefix"
-   default     = "TEST"
+  description = "Name to be used on all resources as prefix"
+  default     = "TEST"
 }
 
 variable "environment" {
@@ -12,8 +12,8 @@ variable "environment" {
 }
 
 variable "tags" {
-  description   = "Add additional tags"
-  default       = {}
+  description = "Add additional tags"
+  default     = {}
 }
 
 #-----------------------------------------------------------
@@ -25,19 +25,19 @@ variable "enable_elastic_beanstalk_application" {
 }
 
 variable "elastic_beanstalk_application_name" {
-  description   = "The name of the application, must be unique within your account"
-  default       = ""
+  description = "The name of the application, must be unique within your account"
+  default     = ""
 }
 
 variable "elastic_beanstalk_application_description" {
-  description   = "(Optional) Short description of the application"
-  default       = ""
+  description = "(Optional) Short description of the application"
+  default     = ""
 }
 
 variable "appversion_lifecycle" {
-  description   = "Application version lifecycle (appversion_lifecycle) supports the following settings. Only one of either max_count or max_age_in_days can be provided"
-  type          = list(object({}))
-  default       = []
+  description = "Application version lifecycle (appversion_lifecycle) supports the following settings. Only one of either max_count or max_age_in_days can be provided"
+  type        = list(object({}))
+  default     = []
 }
 
 #-----------------------------------------------------------
@@ -80,12 +80,12 @@ variable "tier" {
 
 variable "setting" {
   description = "(Optional) Option settings to configure the new Environment. These override specific values that are set as defaults. The format is detailed below in Option Settings."
-  default     = [
+  default = [
     {
-        namespace = "aws:autoscaling:asg"
-        #resource = "AWSEBAutoScalingGroup"
-        name = "MaxSize"
-        value = "1"
+      namespace = "aws:autoscaling:asg"
+      #resource = "AWSEBAutoScalingGroup"
+      name  = "MaxSize"
+      value = "1"
     }
   ]
 }
