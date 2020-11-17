@@ -2,30 +2,30 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = ">= 0.12.12"
+  required_version = ">= 0.13.5"
 }
 
 provider "aws" {
-    region                  = "us-west-2"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
-    profile                 = "default"
+  region                  = "us-west-2"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
+  profile                 = "default"
 }
 
 module "elasticbeanstalk" {
-    source                                      = "../../modules/elasticbeanstalk"
-    name                                        = "TESTmeNow"
-    environment                                 = "stage"
+  source      = "../../modules/elasticbeanstalk"
+  name        = "TESTmeNow"
+  environment = "stage"
 
-    enable_elastic_beanstalk_application        = true
-    elastic_beanstalk_application_name          = ""
-    elastic_beanstalk_application_description   = ""
-    appversion_lifecycle                        = []
+  enable_elastic_beanstalk_application      = true
+  elastic_beanstalk_application_name        = ""
+  elastic_beanstalk_application_description = ""
+  appversion_lifecycle                      = []
 
-    enable_elastic_beanstalk_environment        = true
-    elastic_beanstalk_environment_name          = ""
-    elastic_beanstalk_environment_description   = ""
-    application_name                            = ""
+  enable_elastic_beanstalk_environment      = true
+  elastic_beanstalk_environment_name        = ""
+  elastic_beanstalk_environment_description = ""
+  application_name                          = ""
 
-    tags                                        = map("Env", "stage", "Orchestration", "Terraform")
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 
 }

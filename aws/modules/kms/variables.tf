@@ -7,57 +7,57 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks."
+  type        = map(string)
+  default     = {}
 }
 
 #-----------------------------------------------------------
 # KMS
 #-----------------------------------------------------------
 variable "enable_kms_key" {
-    description = "Allow to create kms_key"
-    default     = false
+  description = "Allow to create kms_key"
+  default     = false
 }
 
 variable "kms_key_name" {
-  description   = "Name for KMS"
-  default       = ""
+  description = "Name for KMS"
+  default     = ""
 }
 
 variable "deletion_window_in_days" {
-    description = "Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Defaults to 30 days."
-    default     = 10
+  description = "Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Defaults to 30 days."
+  default     = 10
 }
 
 variable "description" {
-    description = "The description of the key as viewed in AWS console."
-    default     = "This key is used to encrypt <___> AWS service"
+  description = "The description of the key as viewed in AWS console."
+  default     = "This key is used to encrypt <___> AWS service"
 }
 
 variable "key_usage" {
-    description = "Specifies the intended use of the key. Defaults to ENCRYPT_DECRYPT, and only symmetric encryption and decryption are supported"
-    default     = "ENCRYPT_DECRYPT"
+  description = "Specifies the intended use of the key. Defaults to ENCRYPT_DECRYPT, and only symmetric encryption and decryption are supported"
+  default     = "ENCRYPT_DECRYPT"
 }
 
 variable "is_enabled" {
-    description = "Specifies whether the key is enabled. Defaults to true."
-    default     = true
+  description = "Specifies whether the key is enabled. Defaults to true."
+  default     = true
 }
 
 variable "enable_key_rotation" {
-    description = "Specifies whether key rotation is enabled. Defaults to false."
-    default     = false
+  description = "Specifies whether key rotation is enabled. Defaults to false."
+  default     = false
 }
 
 variable "policy" {
-  description   = "Set policy"
-  default       = ""
+  description = "Set policy"
+  default     = ""
 }
 
 
@@ -65,21 +65,21 @@ variable "policy" {
 # KMS alias
 #-----------------------------------------------------------
 variable "enable_kms_alias" {
-    description = "Allow to create kms_alias"
-    default     = false
+  description = "Allow to create kms_alias"
+  default     = false
 }
 
 variable "kms_alias_name" {
-  description   = "(Optional) The display name of the alias. The name must start with the word 'alias' followed by a forward slash (alias/)"
-  default       = null
+  description = "(Optional) The display name of the alias. The name must start with the word 'alias' followed by a forward slash (alias/)"
+  default     = null
 }
 
 variable "name_prefix" {
-        description = "(Optional) Creates an unique alias beginning with the specified prefix. The name must start with the word 'alias' followed by a forward slash (alias/). Conflicts with name."
-        default     = null
+  description = "(Optional) Creates an unique alias beginning with the specified prefix. The name must start with the word 'alias' followed by a forward slash (alias/). Conflicts with name."
+  default     = null
 }
 
 variable "target_key_id" {
-        description = "(Required) Identifier for the key for which the alias is for, can be either an ARN or key_id."
-        default     = ""
+  description = "(Required) Identifier for the key for which the alias is for, can be either an ARN or key_id."
+  default     = ""
 }

@@ -1,6 +1,6 @@
-# Work with AWS IAM for server using via terraform
+# Work with AWS IAM_SERVER via terraform
 
-A terraform module for making IAM server.
+A terraform module for making IAM_SERVER.
 
 
 ## Usage
@@ -12,27 +12,27 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = ">= 0.12.12"
+  required_version = ">= 0.13"
 }
 
 provider "aws" {
-    region  = "us-east-1"
-    profile = "default"
+  region  = "us-east-1"
+  profile = "default"
 }
 
 module "iam_server" {
-    source                                      = "../../modules/iam_server"
-    name                                        = "TEST-iam-server"
-    environment                                 = "stage"
+  source      = "../../modules/iam_server"
+  name        = "TEST-iam-server"
+  environment = "stage"
 
-    enable_iam_server_certificate               = true
-    iam_server_certificate_name                 = "my-cert"
+  enable_iam_server_certificate = true
+  iam_server_certificate_name   = "my-cert"
 
-    iam_server_certificate_body                 = file("additional_files/self-ca-cert.pem")
-    iam_server_certificate_private_key          = file("additional_files/test-key.pem")
+  iam_server_certificate_body        = file("additional_files/self-ca-cert.pem")
+  iam_server_certificate_private_key = file("additional_files/test-key.pem")
 
-    iam_server_certificate_chain                = null
-    iam_server_certificate_path                 = "/"
+  iam_server_certificate_chain = null
+  iam_server_certificate_path  = "/"
 }
 ```
 
@@ -40,7 +40,7 @@ module "iam_server" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_iam_server_certificate` - Allow upload server certificate (`default = False`)
+- `enable_iam_server_certificate` - Allow upload server certificate (`default = ""`)
 - `iam_server_certificate_name` - Set custom iam server cert name (`default = ""`)
 - `iam_server_certificate_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with iam_server_certificate_name. (`default = ""`)
 - `iam_server_certificate_body` - (Required) The contents of the public key certificate in PEM-encoded format. (`default = ""`)
@@ -50,9 +50,6 @@ module "iam_server" {
 
 ## Module Output Variables
 ----------------------
-- `iam_server_certificate_id` - The unique Server Certificate name
-- `iam_server_certificate_arn` - The Amazon Resource Name (ARN) specifying the server certificate.
-- `iam_server_certificate_name` - The name of the Server Certificate
 
 
 ## Authors

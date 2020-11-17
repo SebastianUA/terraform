@@ -7,110 +7,110 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
 }
 
 #---------------------------------------------------
 # AWS Glue catalog database
 #---------------------------------------------------
 variable "enable_glue_catalog_database" {
-  description   = "Enable glue catalog database usage"
-  default       = false
+  description = "Enable glue catalog database usage"
+  default     = false
 }
 
 variable "glue_catalog_database_name" {
-  description   = "The name of the database."
-  default       = ""
+  description = "The name of the database."
+  default     = ""
 }
 
 variable "glue_catalog_database_description" {
-  description   = "(Optional) Description of the database."
-  default       = null
+  description = "(Optional) Description of the database."
+  default     = null
 }
 
 variable "glue_catalog_database_catalog_id" {
-  description   = "(Optional) ID of the Glue Catalog to create the database in. If omitted, this defaults to the AWS Account ID."
-  default       = null
+  description = "(Optional) ID of the Glue Catalog to create the database in. If omitted, this defaults to the AWS Account ID."
+  default     = null
 }
 
 variable "glue_catalog_database_location_uri" {
-  description   = "(Optional) The location of the database (for example, an HDFS path)."
-  default       = null
+  description = "(Optional) The location of the database (for example, an HDFS path)."
+  default     = null
 }
 
 variable "glue_catalog_database_parameters" {
-  description   = "(Optional) A list of key-value pairs that define parameters and properties of the database."
-  default       = null
+  description = "(Optional) A list of key-value pairs that define parameters and properties of the database."
+  default     = null
 }
 
 #---------------------------------------------------
 # AWS Glue catalog table
 #---------------------------------------------------
 variable "enable_glue_catalog_table" {
-  description   = "Enable glue catalog table usage"
-  default       = false
+  description = "Enable glue catalog table usage"
+  default     = false
 }
 
 variable "glue_catalog_table_name" {
-  description   = "Name of the table. For Hive compatibility, this must be entirely lowercase."
-  default       = ""
+  description = "Name of the table. For Hive compatibility, this must be entirely lowercase."
+  default     = ""
 }
 
 variable "glue_catalog_table_database_name" {
-  description   = "Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase."
-  default       = ""
+  description = "Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase."
+  default     = ""
 }
 
 variable "glue_catalog_table_description" {
-  description   = "(Optional) Description of the table."
-  default       = null
+  description = "(Optional) Description of the table."
+  default     = null
 }
 
 variable "glue_catalog_table_catalog_id" {
-  description   = "(Optional) ID of the Glue Catalog and database to create the table in. If omitted, this defaults to the AWS Account ID plus the database name."
-  default       = null
+  description = "(Optional) ID of the Glue Catalog and database to create the table in. If omitted, this defaults to the AWS Account ID plus the database name."
+  default     = null
 }
 
 variable "glue_catalog_table_owner" {
-  description   = "(Optional) Owner of the table."
-  default       = null
+  description = "(Optional) Owner of the table."
+  default     = null
 }
 
 variable "glue_catalog_table_retention" {
-  description   = "(Optional) Retention time for this table."
-  default       = null
+  description = "(Optional) Retention time for this table."
+  default     = null
 }
 
 variable "glue_catalog_table_partition_keys" {
-  description   = "(Optional) A list of columns by which the table is partitioned. Only primitive types are supported as partition keys."
-  default       = []
+  description = "(Optional) A list of columns by which the table is partitioned. Only primitive types are supported as partition keys."
+  default     = []
 }
 
 variable "glue_catalog_table_view_original_text" {
-  description   = "(Optional) If the table is a view, the original text of the view; otherwise null."
-  default       = null
+  description = "(Optional) If the table is a view, the original text of the view; otherwise null."
+  default     = null
 }
 
 variable "glue_catalog_table_view_expanded_text" {
-  description   = "(Optional) If the table is a view, the expanded text of the view; otherwise null."
-  default       = null
+  description = "(Optional) If the table is a view, the expanded text of the view; otherwise null."
+  default     = null
 }
 
 variable "glue_catalog_table_table_type" {
-  description   = "(Optional) The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.)."
-  default       = null
+  description = "(Optional) The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.)."
+  default     = null
 }
 
 variable "glue_catalog_table_parameters" {
-  description   = "(Optional) Properties associated with this table, as a list of key-value pairs."
-  default       = null
+  description = "(Optional) Properties associated with this table, as a list of key-value pairs."
+  default     = null
 }
 
 variable "storage_descriptor_location" {
@@ -177,192 +177,192 @@ variable "storage_descriptor_skewed_info" {
 # AWS Glue classifier
 #---------------------------------------------------
 variable "enable_glue_classifier" {
-  description   = "Enable glue classifier usage"
-  default       = false
+  description = "Enable glue classifier usage"
+  default     = false
 }
 
 variable "glue_classifier_name" {
-  description   = "The name of the classifier."
-  default       = ""
+  description = "The name of the classifier."
+  default     = ""
 }
 
 variable "glue_classifier_csv_classifier" {
-  description   = "(Optional) A classifier for Csv content. "
-  default       = []
+  description = "(Optional) A classifier for Csv content. "
+  default     = []
 }
 
 variable "glue_classifier_grok_classifier" {
-  description   = "(Optional) A classifier for grok content. "
-  default       = []
+  description = "(Optional) A classifier for grok content. "
+  default     = []
 }
 
 variable "glue_classifier_json_classifier" {
-  description   = "(Optional) A classifier for json content. "
-  default       = []
+  description = "(Optional) A classifier for json content. "
+  default     = []
 }
 
 variable "glue_classifier_xml_classifier" {
-  description   = "(Optional) A classifier for xml content. "
-  default       = []
+  description = "(Optional) A classifier for xml content. "
+  default     = []
 }
 
 #---------------------------------------------------
 # AWS Glue connection
 #---------------------------------------------------
 variable "enable_glue_connection" {
-  description   = "Enable glue connection usage"
-  default       = false
+  description = "Enable glue connection usage"
+  default     = false
 }
 
 variable "glue_connection_name" {
-  description   = "The name of the connection."
-  default       = ""
+  description = "The name of the connection."
+  default     = ""
 }
 
 variable "glue_connection_connection_properties" {
-  description   = "(Required) A map of key-value pairs used as parameters for this connection."
-  default       = {}
+  description = "(Required) A map of key-value pairs used as parameters for this connection."
+  default     = {}
 }
 
 variable "glue_connection_description" {
-  description   = "(Optional) Description of the connection."
-  default       = null
+  description = "(Optional) Description of the connection."
+  default     = null
 }
 
 variable "glue_connection_catalog_id" {
-  description   = "(Optional) The ID of the Data Catalog in which to create the connection. If none is supplied, the AWS account ID is used by default."
-  default       = null
+  description = "(Optional) The ID of the Data Catalog in which to create the connection. If none is supplied, the AWS account ID is used by default."
+  default     = null
 }
 
 variable "glue_connection_connection_type" {
-  description   = "(Optional) The type of the connection. Supported are: JDBC, MONGODB. Defaults to JDBC."
-  default       = "JDBC"
+  description = "(Optional) The type of the connection. Supported are: JDBC, MONGODB. Defaults to JDBC."
+  default     = "JDBC"
 }
 
 variable "glue_connection_match_criteria" {
-  description   = "(Optional) A list of criteria that can be used in selecting this connection."
-  default       = null
+  description = "(Optional) A list of criteria that can be used in selecting this connection."
+  default     = null
 }
 
 variable "glue_connection_physical_connection_requirements" {
-  description   = "(Optional) A map of physical connection requirements, such as VPC and SecurityGroup. "
-  default       = []
+  description = "(Optional) A map of physical connection requirements, such as VPC and SecurityGroup. "
+  default     = []
 }
 
 #---------------------------------------------------
 # AWS Glue crawler
 #---------------------------------------------------
 variable "enable_glue_crawler" {
-  description   = "Enable glue crawler usage"
-  default       = false
+  description = "Enable glue crawler usage"
+  default     = false
 }
 
 variable "glue_crawler_name" {
-  description   = "Name of the crawler."
-  default       = ""
+  description = "Name of the crawler."
+  default     = ""
 }
 
 variable "glue_crawler_database_name" {
-  description   = "Glue database where results are written."
-  default       = ""
+  description = "Glue database where results are written."
+  default     = ""
 }
 
 variable "glue_crawler_role" {
-  description   = "(Required) The IAM role friendly name (including path without leading slash), or ARN of an IAM role, used by the crawler to access other resources."
-  default       = ""
+  description = "(Required) The IAM role friendly name (including path without leading slash), or ARN of an IAM role, used by the crawler to access other resources."
+  default     = ""
 }
 
 variable "glue_crawler_description" {
-  description   = "(Optional) Description of the crawler."
-  default       = null
+  description = "(Optional) Description of the crawler."
+  default     = null
 }
 
 variable "glue_crawler_classifiers" {
-  description   = "(Optional) List of custom classifiers. By default, all AWS classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification."
-  default       = null
+  description = "(Optional) List of custom classifiers. By default, all AWS classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification."
+  default     = null
 }
 
 variable "glue_crawler_configuration" {
-  description   = "(Optional) JSON string of configuration information."
-  default       = null
+  description = "(Optional) JSON string of configuration information."
+  default     = null
 }
 
 variable "glue_crawler_schedule" {
-  description   = "(Optional) A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *)."
-  default       = null
+  description = "(Optional) A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *)."
+  default     = null
 }
 
 variable "glue_crawler_security_configuration" {
-  description   = "(Optional) The name of Security Configuration to be used by the crawler"
-  default       = null
+  description = "(Optional) The name of Security Configuration to be used by the crawler"
+  default     = null
 }
 
 variable "glue_crawler_table_prefix" {
-  description   = "(Optional) The table prefix used for catalog tables that are created."
-  default       = null
+  description = "(Optional) The table prefix used for catalog tables that are created."
+  default     = null
 }
 
 variable "glue_crawler_dynamodb_target" {
-  description   = "(Optional) List of nested DynamoDB target arguments."
-  default       = []
+  description = "(Optional) List of nested DynamoDB target arguments."
+  default     = []
 }
 
 variable "glue_crawler_jdbc_target" {
-  description   = "(Optional) List of nested JBDC target arguments. "
-  default       = []
+  description = "(Optional) List of nested JBDC target arguments. "
+  default     = []
 }
 
 variable "glue_crawler_s3_target" {
-  description   = "(Optional) List nested Amazon S3 target arguments."
-  default       = []
+  description = "(Optional) List nested Amazon S3 target arguments."
+  default     = []
 }
 
 variable "glue_crawler_catalog_target" {
-  description   = "(Optional) List nested Amazon catalog target arguments."
-  default       = []
+  description = "(Optional) List nested Amazon catalog target arguments."
+  default     = []
 }
 
 variable "glue_crawler_schema_change_policy" {
-  description   = "(Optional) Policy for the crawler's update and deletion behavior."
-  default       = []
+  description = "(Optional) Policy for the crawler's update and deletion behavior."
+  default     = []
 }
 
 #---------------------------------------------------
 # AWS glue security configuration
 #---------------------------------------------------
 variable "enable_glue_security_configuration" {
-  description   = "Enable glue security configuration usage"
-  default       = false
+  description = "Enable glue security configuration usage"
+  default     = false
 }
 
 variable "glue_security_configuration_name" {
-  description   = "Name of the security configuration."
-  default       = ""
+  description = "Name of the security configuration."
+  default     = ""
 }
 
 variable "glue_security_configuration_cloudwatch_encryption_mode" {
-  description   = "(Optional) Encryption mode to use for CloudWatch data. Valid values: DISABLED, SSE-KMS. Default value: DISABLED."
-  default       = "DISABLED"
+  description = "(Optional) Encryption mode to use for CloudWatch data. Valid values: DISABLED, SSE-KMS. Default value: DISABLED."
+  default     = "DISABLED"
 }
 
 variable "glue_security_configuration_cloudwatch_encryption_kms_key_arn" {
-  description   = "(Optional) Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data."
-  default       = null
+  description = "(Optional) Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data."
+  default     = null
 }
 
 variable "glue_security_configuration_job_bookmarks_encryption_job_bookmarks_encryption_mode" {
-  description   = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
-  default       = "DISABLED"
+  description = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
+  default     = "DISABLED"
 }
 
 variable "glue_security_configuration_job_bookmarks_encryption_kms_key_arn" {
-  description   = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
-  default       = null
+  description = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
+  default     = null
 }
 
 variable "glue_security_configuration_s3_encryption_s3_encryption_mode" {
-  description   = "(Optional) Encryption mode to use for S3 data. Valid values: DISABLED, SSE-KMS, SSE-S3. Default value: DISABLED."
-  default       = "DISABLED"
+  description = "(Optional) Encryption mode to use for S3 data. Valid values: DISABLED, SSE-KMS, SSE-S3. Default value: DISABLED."
+  default     = "DISABLED"
 }
 
 variable "glue_security_configuration_s3_encryption_kms_key_arn" {
@@ -443,7 +443,7 @@ variable "glue_job_additional_connections" {
 
 variable "glue_job_default_arguments" {
   description = "(Optional) The map of default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide."
-  default     = {
+  default = {
     "--job-language" = "python"
   }
 }

@@ -2,24 +2,24 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "access_analyzer" {
-    source                              = "../../modules/access_analyzer"
-    name                                = "TEST"
-    environment                         = "dev"
+  source      = "../../modules/access_analyzer"
+  name        = "TEST"
+  environment = "dev"
 
-    enable_accessanalyzer_analyzer      = true
-    accessanalyzer_analyzer_name        = ""
+  enable_accessanalyzer_analyzer = true
+  accessanalyzer_analyzer_name   = ""
 
-    tags                                = map(
-        "ENV", "dev",
-        "Createdby", "Vitalii Natarov",
-    )
+  tags = map(
+    "ENV", "dev",
+    "Createdby", "Vitalii Natarov",
+  )
 }

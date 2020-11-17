@@ -2,210 +2,200 @@
 # Global or/and default variables
 #-----------------------------------------------------------
 variable "name" {
-    description = "Name to be used on all resources as prefix"
-    default     = "TEST"
+  description = "Name to be used on all resources as prefix"
+  default     = "TEST"
 }
 
 variable "region" {
-    description = "The region where to deploy this code (e.g. us-east-1)."
-    default     = "us-east-1"
+  description = "The region where to deploy this code (e.g. us-east-1)."
+  default     = "us-east-1"
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch."
+  type        = map(string)
+  default     = {}
 }
 
 #-----------------------------------------------------------
 # AWS EC2
 #-----------------------------------------------------------
 variable "enable_instance" {
-    description   = "Enable instance usage"
-    default       = false
+  description = "Enable instance usage"
+  default     = false
 }
 
 variable "instance_name" {
-    description   = "Name for AWS EC2 node(s)"
-    default       = ""
+  description = "Name for AWS EC2 node(s)"
+  default     = ""
 }
 
 variable "ami" {
-    description = "I added only 3 regions to show the map feature but you can add all"
-    default     = {
-        us-east-1 = "ami-46c1b650"
-        us-west-2 = "ami-50d1d929"
-        eu-west-1 = "ami-6e28b517"
-    }
+  description = "I added only 3 regions to show the map feature but you can add all"
+  default = {
+    us-east-1 = "ami-46c1b650"
+    us-west-2 = "ami-50d1d929"
+    eu-west-1 = "ami-6e28b517"
+  }
 }
 
 variable "availability_zone" {
-    description   = "(Optional) The AZ to start the instance in."
-    default       = ""
+  description = "(Optional) The AZ to start the instance in."
+  default     = null
 }
 
 variable "instance_type" {
-    description = "Type of instance t2.micro, m1.xlarge, c1.medium etc"
-    default     = "t2.micro"
+  description = "Type of instance t2.micro, m1.xlarge, c1.medium etc"
+  default     = "t2.micro"
 }
 
 variable "disk_size" {
-    description = "disk size for EC2 instance"
-    default     = 8
+  description = "disk size for EC2 instance"
+  default     = 8
 }
 
 variable "tenancy" {
-    description = "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host."
-    default     = "default"
+  description = "(Optional) The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the import-instance command. Available values: default, dedicated, host."
+  default     = "default"
 }
 
 variable "host_id" {
-    description   = "(optional) The Id of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host."
-    default       = ""
+  description = "(Optional) The Id of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host."
+  default     = null
 }
 
 variable "cpu_core_count" {
-    description   = "(Optional) Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options CPU Cores and Threads Per CPU Core Per Instance Type - specifying this option for unsupported instance types will return an error from the EC2 API."
-    default       = 0
+  description = "(Optional) Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options CPU Cores and Threads Per CPU Core Per Instance Type - specifying this option for unsupported instance types will return an error from the EC2 API."
+  default     = null
 }
 
 variable "cpu_threads_per_core" {
-    description   = "(Optional - has no effect unless cpu_core_count is also set) If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See Optimizing CPU Options for more information."
-    default       = 2
+  description = "(Optional - has no effect unless cpu_core_count is also set) If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See Optimizing CPU Options for more information."
+  default     = 2
 }
 
 variable "ebs_optimized" {
-    description = "If true, the launched EC2 instance will be EBS-optimized"
-    default     = false
+  description = "(Optional) If true, the launched EC2 instance will be EBS-optimized. Note that if this is not set on an instance type that is optimized by default then this will show as disabled but if the instance type is optimized by default then there is no need to set this and there is no effect to disabling it. See the EBS Optimized section of the AWS User Guide for more information. If true, the launched EC2 instance will be EBS-optimized"
+  default     = null
 }
 
 variable "disable_api_termination" {
-    description = "If true, enables EC2 Instance Termination Protection"
-    default     = false
+  description = " (Optional) If true, enables EC2 Instance Termination Protection"
+  default     = null
 }
 
 variable "instance_initiated_shutdown_behavior" {
-    description = "Shutdown behavior for the instance"
-    default     = ""
+  description = "(Optional) Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instances. See Shutdown Behavior for more information."
+  default     = null
 }
 
 variable "key_name" {
-    description = "(Optional) The name for the key pair."
-    default     = ""
+  description = "(Optional) The key name of the instance"
+  default     = null
 }
 
 variable "get_password_data" {
-    description = "(Optional) If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the password_data attribute. See GetPasswordData for more information."
-    default     = false
+  description = "(Optional) If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the password_data attribute. See GetPasswordData for more information."
+  default     = null
 }
 
 variable "security_groups" {
-    description   = "(Optional, EC2-Classic and default VPC only) A list of security group names (EC2-Classic) or IDs (default VPC) to associate with."
-    default       = []
+  description = "(Optional, EC2-Classic and default VPC only) A list of security group names (EC2-Classic) or IDs (default VPC) to associate with."
+  default     = []
 }
 
-variable "enable_associate_public_ip_address" {
-    description = "Enabling associate public ip address (Associate a public ip address with an instance in a VPC)"
-    default     = true
+variable "associate_public_ip_address" {
+  description = "(Optional) Associate a public ip address with an instance in a VPC."
+  default     = null
 }
 
 variable "source_dest_check" {
-    description = " (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true."
-    default     = false
+  description = "(Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true."
+  default     = true
 }
 
 variable "subnet_id" {
-    description = "Public subnet ID"
-    default     = ""
+  description = "(Optional) The VPC Subnet ID to launch in."
+  default     = null
 }
 
 variable "vpc_security_group_ids" {
-    description = " SG for EC2"
-    default     = []
+  description = "The associated security groups in non-default VPC"
+  default     = []
 }
 
 variable "monitoring" {
-    description = "If true, the launched EC2 instance will have detailed monitoring enabled"
-    default     = false
+  description = "(Optional) If true, the launched EC2 instance will have detailed monitoring enabled. If true, the launched EC2 instance will have detailed monitoring enabled"
+  default     = null
 }
 
 variable "user_data" {
-    description = "The user data to provide when launching the instance"
-    default     = ""
+  description = "(Optional) The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead."
+  default     = null
 }
 
-#variable "user_data_base64" {
-#  description   = "(Optional) Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption."
-#  default       = ""
-#}
+variable "user_data_base64" {
+  description = "(Optional) Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption."
+  default     = null
+}
 
 variable "iam_instance_profile" {
-    description = "The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile."
-    default     = ""
+  description = "(Optional) The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the EC2 documentation, notably iam:PassRole."
+  default     = null
 }
 
 variable "placement_group" {
-    description = "The Placement Group to start the instance in"
-    default     = ""
+  description = "(Optional) The Placement Group to start the instance in."
+  default     = null
 }
 
 variable "private_ip" {
-    description = "Private IP address to associate with the instance in a VPC"
-    default     = ""
+  description = "(Optional) Private IP address to associate with the instance in a VPC."
+  default     = null
 }
 
 variable "ipv6_address_count" {
-    description = "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet."
-    default     = 0
+  description = "(Optional) A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet."
+  default     = null
 }
 
 variable "ipv6_addresses" {
-    description = "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface"
-    default     = []
+  description = "(Optional) Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface"
+  default     = null
 }
 
 variable "volume_tags" {
-    description = "A mapping of tags to assign to the devices created by the instance at launch time"
-    type        = map(string)
-    default     = {}
+  description = "A mapping of tags to assign to the devices created by the instance at launch time"
+  type        = map(string)
+  default     = {}
 }
 
 variable "root_block_device" {
-    description = "Customize details about the root block device of the instance. See Block Devices below for details"
-    default     = []
+  description = "Customize details about the root block device of the instance. See Block Devices below for details"
+  default     = []
 }
 
 variable "ebs_block_device" {
-    description = "Additional EBS block devices to attach to the instance"
-    default     = []
+  description = "Additional EBS block devices to attach to the instance"
+  default     = []
 }
 
 variable "ephemeral_block_device" {
-    description = "Customize Ephemeral (also known as Instance Store) volumes on the instance"
-    default     = []
+  description = "Customize Ephemeral (also known as Instance Store) volumes on the instance"
+  default     = []
 }
 
 variable "network_interface" {
-    description = "Customize network interfaces to be attached at instance boot time"
-    default     = []
+  description = "Customize network interfaces to be attached at instance boot time"
+  default     = []
 }
 
-variable "timeouts_create" {
-    description   = "(Defaults to 10 mins) Used when launching the instance (until it reaches the initial running state)"
-    default       = "10m"
-}
-
-variable "timeouts_update" {
-    description   = "(Defaults to 10 mins) Used when stopping and starting the instance when necessary during update - e.g. when changing instance type"
-    default       = "10m"
-}
-
-variable "timeouts_delete" {
-    description   = "(Defaults to 20 mins) Used when terminating the instance"
-    default       = "20m"
+variable "instance_timeouts" {
+  description = "Set timeout f or EC2 instance"
+  default     = []
 }

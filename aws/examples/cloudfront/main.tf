@@ -2,32 +2,31 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "s3" {
-    source                                  = "../../modules/s3"
-    name                                    = "TEST"
-    environment                             = "NonPROD"
-    region                                  = "us-east-1"
+  source      = "../../modules/s3"
+  name        = "TEST"
+  environment = "NonPROD"
 
-    enable_s3_bucket                        = true
-    s3_bucket_name                          = "natarov-cloudfront-bucket"
+  enable_s3_bucket = true
+  s3_bucket_name   = "natarov-cloudfront-bucket"
 
-    s3_bucket_acl                           = "private"
-    s3_bucket_cors_rule                     = []
+  s3_bucket_acl       = "private"
+  s3_bucket_cors_rule = []
 
-    s3_bucket_versioning                    = []
-    enable_lifecycle_rule                   = true
+  s3_bucket_versioning  = []
+  enable_lifecycle_rule = true
 
-    # Add policy to the bucket
-    enable_s3_bucket_policy                 = true
-    s3_bucket_policy                        = <<POLICY
+  # Add policy to the bucket
+  enable_s3_bucket_policy = true
+  s3_bucket_policy        = <<POLICY
 {
   "Version": "2012-10-17",
   "Id": "MYBUCKETPOLICY",
@@ -49,17 +48,17 @@ POLICY
 }
 
 module "cloudfront" {
-    source                                              = "../../modules/cloudfront"
-    name                                                = "TEST"
-    environment                                         = "stage"
+  source      = "../../modules/cloudfront"
+  name        = "TEST"
+  environment = "stage"
 
-    enable_cloudfront_distribution                      = true
-    domain_name                                         = module.s3.s3_bucket_bucket_bucket_regional_domain_name
-    origin_id                                           = "cloudfront"
+  enable_cloudfront_distribution = true
+  domain_name                    = module.s3.s3_bucket_bucket_bucket_regional_domain_name
+  origin_id                      = "cloudfront"
 
-    default_cache_behavior_target_origin_id             = "cloudfront"
-    logging_config_bucket                               = module.s3.s3_bucket_bucket_bucket_regional_domain_name
+  default_cache_behavior_target_origin_id = "cloudfront"
+  logging_config_bucket                   = module.s3.s3_bucket_bucket_bucket_regional_domain_name
 
-    tags                                                = map("Env", "stage", "Orchestration", "Terraform")
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 
 }

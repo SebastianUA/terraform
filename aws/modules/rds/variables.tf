@@ -524,39 +524,39 @@ variable "db_instance_db_port" {
 variable "default_ports" {
   description = "Default database ports"
   default = {
-    aurora              = 3306
-    aurora-mysql        = 3306
-    aurora-postgresql   = 5432
-    mariadb             = 3306
-    mysql               = 3306
-    oracle-se2          = 1521
-    oracle-se1          = 1521
-    oracle-se           = 1521
-    postgres            = 5432
-    sqlserver-ee        = 1433
-    sqlserver-se        = 1433
-    sqlserver-ex        = 1433
-    sqlserver-web       = 1433
+    aurora            = 3306
+    aurora-mysql      = 3306
+    aurora-postgresql = 5432
+    mariadb           = 3306
+    mysql             = 3306
+    oracle-se2        = 1521
+    oracle-se1        = 1521
+    oracle-se         = 1521
+    postgres          = 5432
+    sqlserver-ee      = 1433
+    sqlserver-se      = 1433
+    sqlserver-ex      = 1433
+    sqlserver-web     = 1433
   }
 }
 
 variable "db_group_family" {
   description = "Set DB group family"
   default = {
-    aurora              = "aurora5.6"
-    aurora-mysql        = "aurora-mysql5.7"
-    aurora-postgresql   = "aurora-postgres9.6"
-    mariadb             = ""
-    mysql               = "mysql5.7"
-    oracle-ee           = "oracle-ee-12.1"
-    oracle-se2          = "oracle-se2-12.1"
-    oracle-se1          = "oracle-se1-12.1"
-    oracle-se           = "oracle-ee-12.1"
-    postgres            = "postgres9.6"
-    sqlserver-ee        = ""
-    sqlserver-se        = ""
-    sqlserver-ex        = ""
-    sqlserver-web       = ""
+    aurora            = "aurora5.6"
+    aurora-mysql      = "aurora-mysql5.7"
+    aurora-postgresql = "aurora-postgres9.6"
+    mariadb           = ""
+    mysql             = "mysql5.7"
+    oracle-ee         = "oracle-ee-12.1"
+    oracle-se2        = "oracle-se2-12.1"
+    oracle-se1        = "oracle-se1-12.1"
+    oracle-se         = "oracle-ee-12.1"
+    postgres          = "postgres9.6"
+    sqlserver-ee      = ""
+    sqlserver-se      = ""
+    sqlserver-ex      = ""
+    sqlserver-web     = ""
   }
 }
 

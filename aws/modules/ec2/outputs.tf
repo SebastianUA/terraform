@@ -1,7 +1,7 @@
 # Output the IDs of the EC2 instances created
 output "instance_ids" {
-    description = ""
-    value       = element(concat(aws_instance.instance.*.id, [""], ), 0)
+  description = ""
+  value       = element(concat(aws_instance.instance.*.id, [""], ), 0)
 }
 
 output "availability_zone" {
@@ -24,10 +24,10 @@ output "public_ip" {
   value       = element(concat(aws_instance.instance.*.public_ip, [""], ), 0)
 }
 
-output "network_interface_id" {
-  description = "List of IDs of the network interface of instances"
-  value       = element(concat(aws_instance.instance.*.network_interface_id, [""], ), 0)
-}
+// output "network_interface_id" {
+//   description = "List of IDs of the network interface of instances"
+//   value       = element(concat(aws_instance.instance.*.network_interface_id, [""], ), 0)
+// }
 
 output "primary_network_interface_id" {
   description = "List of IDs of the primary network interface of instances"
@@ -62,9 +62,4 @@ output "subnet_id" {
 output "tags" {
   description = "List of tags of instances"
   value       = aws_instance.instance.*.tags
-}
-
-output "key_pair_id" {
-    description = "get key pair id"
-    value       = element(concat(aws_key_pair.key_pair.id, [""], ), 0)
 }

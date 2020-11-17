@@ -2,25 +2,25 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13.5"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "codestarnotifications" {
-    source                                                  = "../../modules/codestarnotifications"
-    name                                                    = "TEST"
-    environment                                             = "stage"
+  source      = "../../modules/codestarnotifications"
+  name        = "TEST"
+  environment = "stage"
 
-    enable_codestarnotifications_notification_rule          = true
-    codestarnotifications_notification_rule_name            = ""
-    codestarnotifications_notification_rule_resource        = "arn:aws:codecommit:us-east-2:111111111111:MyDemoRepo"
-    codestarnotifications_notification_rule_detail_type     = "FULL"
-    codestarnotifications_notification_rule_event_type_ids  = ["codecommit-repository-comments-on-commits"]
-    codestarnotifications_notification_rule_status          = "ENABLED"
+  enable_codestarnotifications_notification_rule         = true
+  codestarnotifications_notification_rule_name           = ""
+  codestarnotifications_notification_rule_resource       = "arn:aws:codecommit:us-east-2:111111111111:MyDemoRepo"
+  codestarnotifications_notification_rule_detail_type    = "FULL"
+  codestarnotifications_notification_rule_event_type_ids = ["codecommit-repository-comments-on-commits"]
+  codestarnotifications_notification_rule_status         = "ENABLED"
 
-    tags                                                    = map("Env", "stage", "Orchestration", "Terrafrom")
+  tags = map("Env", "stage", "Orchestration", "Terrafrom")
 }

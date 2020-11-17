@@ -7,50 +7,50 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks. Each element should have keys named key, value, etc."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
 }
 
 #---------------------------------------------------
 # AWS Appmesh mesh
 #---------------------------------------------------
 variable "enable_appmesh_mesh" {
-  description   = "Enable appmesh mesh usage"
-  default       = false
+  description = "Enable appmesh mesh usage"
+  default     = false
 }
 
 variable "appmesh_mesh_name" {
-  description   = "The name to use for the service mesh."
-  default       = ""
+  description = "The name to use for the service mesh."
+  default     = ""
 }
 
 variable "appmesh_mesh_spec_egress_filter_type" {
-  description   = "(Optional) The egress filter type. By default, the type is DROP_ALL. Valid values are ALLOW_ALL and DROP_ALL."
-  default       = "DROP_ALL"
+  description = "(Optional) The egress filter type. By default, the type is DROP_ALL. Valid values are ALLOW_ALL and DROP_ALL."
+  default     = "DROP_ALL"
 }
 
 #---------------------------------------------------
 # AWS Appmesh virtual node
 #---------------------------------------------------
 variable "enable_appmesh_virtual_node" {
-  description   = "Enable appmesh virtual node usage"
-  default       = false
+  description = "Enable appmesh virtual node usage"
+  default     = false
 }
 
 variable "appmesh_virtual_node_name" {
-  description   = "The name to use for the virtual node."
-  default       = ""
+  description = "The name to use for the virtual node."
+  default     = ""
 }
 
 variable "appmesh_virtual_node_mesh_name" {
-  description   = "The name of the service mesh in which to create the virtual node."
-  default       = ""
+  description = "The name of the service mesh in which to create the virtual node."
+  default     = ""
 }
 
 variable "appmesh_virtual_node_backend" {

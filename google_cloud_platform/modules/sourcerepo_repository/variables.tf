@@ -1,6 +1,6 @@
 variable "name" {
-    description = "(Required) The name of the repository that will be created."
-    default     = "TEST"
+  description = "(Required) The name of the repository that will be created."
+  default     = "TEST"
 }
 
 variable "project" {
@@ -9,6 +9,6 @@ variable "project" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }

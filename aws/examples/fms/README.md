@@ -1,6 +1,6 @@
 # Work with AWS FMS via terraform
 
-A terraform module for making Firewall Manager.
+A terraform module for making FMS.
 
 
 ## Usage
@@ -12,32 +12,29 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13.5"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "fms" {
-    source                          = "../../modules/fms"
-    name                            = "TEST"
-    environment                     = "dev"
+  source = "../../modules/fms"
 
-    enable_fms_admin_account        = true
-    fms_admin_account_id            = null
+  enable_fms_admin_account = true
+  fms_admin_account_id     = null
 }
 ```
 
 ## Module Input Variables
 ----------------------
-- `enable_fms_admin_account` - Enable fms admin account usage (`default = False`)
+- `enable_fms_admin_account` - Enable fms admin account usage (`default = ""`)
 - `fms_admin_account_id` - (Optional) The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. Defaults to the current account. Must be configured to perform drift detection. (`default = null`)
 
 ## Module Output Variables
 ----------------------
-- `fms_admin_account_id` - The AWS account ID of the AWS Firewall Manager administrator account.
 
 
 ## Authors

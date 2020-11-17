@@ -7,57 +7,57 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 variable "tags" {
-    description = "A list of tag blocks."
-    type        = map(string)
-    default     = {}
+  description = "A list of tag blocks."
+  type        = map(string)
+  default     = {}
 }
 
 #---------------------------------------------------------------
 # Security group's variables
 #---------------------------------------------------------------
 variable "enable_security_group" {
-    description = "Enable SG usage"
-    default     = false
+  description = "Enable SG usage"
+  default     = false
 }
 
 variable "security_group_name" {
-  description   = "(Optional, Forces new resource) The name of the security group. If omitted, Terraform will assign a random, unique name"
-  default       = ""
+  description = "(Optional, Forces new resource) The name of the security group. If omitted, Terraform will assign a random, unique name"
+  default     = ""
 }
 
 variable "security_group_name_prefix" {
-  description   = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with security_group_name."
-  default       = ""
+  description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with security_group_name."
+  default     = ""
 }
 
 variable "security_group_description" {
-  description   = "(Optional, Forces new resource) The security group description. Defaults to 'Managed by Terraform'. Cannot be ''. NOTE: This field maps to the AWS GroupDescription attribute, for which there is no Update API. If you'd like to classify your security groups in a way that can be updated, use tags."
-  default       = "Managed by Terraform"
+  description = "(Optional, Forces new resource) The security group description. Defaults to 'Managed by Terraform'. Cannot be ''. NOTE: This field maps to the AWS GroupDescription attribute, for which there is no Update API. If you'd like to classify your security groups in a way that can be updated, use tags."
+  default     = "Managed by Terraform"
 }
 
 variable "security_group_vpc_id" {
-  description   = "(Optional, Forces new resource) The VPC ID."
-  default       = null
+  description = "(Optional, Forces new resource) The VPC ID."
+  default     = null
 }
 
 variable "security_group_revoke_rules_on_delete" {
-  description   = "(Optional) Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed, however certain AWS services such as Elastic Map Reduce may automatically add required rules to security groups used with the service, and those rules may contain a cyclic dependency that prevent the security groups from being destroyed without removing the dependency first. Default false"
-  default       = false
+  description = "(Optional) Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed, however certain AWS services such as Elastic Map Reduce may automatically add required rules to security groups used with the service, and those rules may contain a cyclic dependency that prevent the security groups from being destroyed without removing the dependency first. Default false"
+  default     = false
 }
 
 variable "security_group_ingress" {
-  description   = "(Optional) Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in attribute-as-blocks mode."
-  default       = []
+  description = "(Optional) Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in attribute-as-blocks mode."
+  default     = []
 }
 
 variable "security_group_egress" {
-  description   = "(Optional, VPC only) Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in attribute-as-blocks mode."
-  default       = []
+  description = "(Optional, VPC only) Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in attribute-as-blocks mode."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -69,17 +69,17 @@ variable "security_group_id" {
 }
 
 variable "allowed_ports" {
-    description = "Allowed ports from/to host"
-    default     = []
+  description = "Allowed ports from/to host"
+  default     = []
 }
 
 variable "cidr_blocks" {
-    description = "(Optional) List of CIDR blocks. Cannot be specified with source_security_group_id."
-    default     = null
-      #{
-        #80        = ["0.0.0.0/0"]
-        #443       = ["0.0.0.0/0"]
-      #}
+  description = "(Optional) List of CIDR blocks. Cannot be specified with source_security_group_id."
+  default     = null
+  #{
+  #80        = ["0.0.0.0/0"]
+  #443       = ["0.0.0.0/0"]
+  #}
 }
 
 # ingress

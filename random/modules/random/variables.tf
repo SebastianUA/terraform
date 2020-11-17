@@ -2,13 +2,13 @@
 # Random uuid
 #---------------------------------------------------
 variable "enable_uuid" {
-    description = "Enable uuid usage"
-    default     = false
+  description = "Enable uuid usage"
+  default     = false
 }
 
 variable "uuid_keepers" {
-  description   = "(Optional) Arbitrary map of values that, when changed, will trigger a new uuid to be generated. See the main provider documentation for more information."
-  default       = null
+  description = "(Optional) Arbitrary map of values that, when changed, will trigger a new uuid to be generated. See the main provider documentation for more information."
+  default     = null
 }
 
 #---------------------------------------------------

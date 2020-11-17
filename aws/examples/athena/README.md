@@ -1,6 +1,6 @@
-# Work with AWS Athena via terraform
+# Work with AWS ATHENA via terraform
 
-A terraform module for making AWS Athena.
+A terraform module for making ATHENA.
 
 
 ## Usage
@@ -13,67 +13,66 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    profile                 = "default"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  profile                 = "default"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "s3" {
-    source                                  = "../../modules/s3"
-    name                                    = "TEST"
-    environment                             = "NonPROD"
-    region                                  = "us-east-1"
+  source      = "../../modules/s3"
+  name        = "TEST"
+  environment = "NonPROD"
 
-    enable_s3_bucket                        = true
-    s3_bucket_name                          = "my-test-bucket"
-    s3_bucket_acl                           = "private"
-    s3_bucket_cors_rule                     = []
+  enable_s3_bucket    = true
+  s3_bucket_name      = "my-test-bucket"
+  s3_bucket_acl       = "private"
+  s3_bucket_cors_rule = []
 
-    s3_bucket_versioning                    = []
-    enable_lifecycle_rule                   = true
+  s3_bucket_versioning  = []
+  enable_lifecycle_rule = true
 
-    # Add policy to the bucket
-    enable_s3_bucket_policy                 = false
+  # Add policy to the bucket
+  enable_s3_bucket_policy = false
 
 }
 
 data "template_file" "kms_key_policy" {
-    template = file("policies/kms_key_policy.json.tpl")
+  template = file("policies/kms_key_policy.json.tpl")
 }
 
 module "kms" {
-    source              = "../../modules/kms"
+  source = "../../modules/kms"
 
-    enable_kms_key      = true
-    name                = "TESTKMS"
-    environment         = "stage"
-    key_usage           = "ENCRYPT_DECRYPT"
+  enable_kms_key = true
+  name           = "TESTKMS"
+  environment    = "stage"
+  key_usage      = "ENCRYPT_DECRYPT"
 
-    policy              = data.template_file.kms_key_policy.rendered
+  policy = data.template_file.kms_key_policy.rendered
 
 }
 
 module "athena" {
-    source                                      = "../../modules/athena"
+  source = "../../modules/athena"
 
-    enable_athena_database                      = true
-    athena_database_name                        = ""
-    athena_database_bucket                      = module.s3.s3_bucket_id
-    #athena_database_encryption_configuration    = ["encryption_option", "test", "kms_key", "kms_key"]
+  enable_athena_database = true
+  athena_database_name   = ""
+  athena_database_bucket = module.s3.s3_bucket_id
+  #athena_database_encryption_configuration    = ["encryption_option", "test", "kms_key", "kms_key"]
 
-    enable_athena_workgroup                     = true
-    athena_workgroup_name                       = ""
-    athena_workgroup_encryption_option          = "SSE_KMS"
-    athena_workgroup_kms_key_arn                = module.kms.kms_key_arn
-    tags                                        = map("Env", "stage", "Orchestration", "Terraform")
+  enable_athena_workgroup            = true
+  athena_workgroup_name              = ""
+  athena_workgroup_encryption_option = "SSE_KMS"
+  athena_workgroup_kms_key_arn       = module.kms.kms_key_arn
+  tags                               = map("Env", "stage", "Orchestration", "Terraform")
 
-    enable_athena_named_query                   = true
-    athena_named_query_name                     = ""
-    athena_named_query_query                    = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
+  enable_athena_named_query = true
+  athena_named_query_name   = ""
+  athena_named_query_query  = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
 
 }
 ```
@@ -82,18 +81,18 @@ module "athena" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = {}`)
-- `enable_athena_database` - Enable athena DB usage (`default = False`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = ""`)
+- `enable_athena_database` - Enable athena DB usage (`default = ""`)
 - `athena_database_name` - Name of the database to create. (`default = ""`)
 - `athena_database_bucket` - (Required) Name of s3 bucket to save the results of the query execution. (`default = ""`)
-- `force_destroy` - (Optional, Default: false) A boolean that indicates all tables should be deleted from the database so that the database can be destroyed without error. The tables are not recoverable. (`default = False`)
-- `enable_athena_named_query` - Enable athena named query usage (`default = False`)
+- `force_destroy` - (Optional, Default: false) A boolean that indicates all tables should be deleted from the database so that the database can be destroyed without error. The tables are not recoverable. (`default = ""`)
+- `enable_athena_named_query` - Enable athena named query usage (`default = ""`)
 - `athena_named_query_name` - The plain language name for the query. Maximum length of 128. (`default = ""`)
 - `athena_named_query_workgroup` - (Optional) The workgroup to which the query belongs. Defaults to primary (`default = primary`)
 - `athena_named_query_database` - The database to which the query belongs. (`default = ""`)
 - `athena_named_query_description` - (Optional) A brief explanation of the query. Maximum length of 1024. (`default = ""`)
 - `athena_named_query_query` - (Required) The text of the query itself. In other words, all query statements. Maximum length of 262144. (`default = ""`)
-- `enable_athena_workgroup` - Enable athena workgroup usage (`default = False`)
+- `enable_athena_workgroup` - Enable athena workgroup usage (`default = ""`)
 - `athena_workgroup_name` - Name of the workgroup. (`default = ""`)
 - `athena_workgroup_description` - (Optional) Description of the workgroup. (`default = null`)
 - `athena_workgroup_state` - (Optional) State of the workgroup. Valid values are DISABLED or ENABLED. Defaults to ENABLED. (`default = ENABLED`)
@@ -106,10 +105,6 @@ module "athena" {
 
 ## Module Output Variables
 ----------------------
-- `athena_database_id` - The database name
-- `athena_named_query_id` - The unique ID of the query.
-- `athena_workgroup_id` - The workgroup name
-- `athena_workgroup_arn` - Amazon Resource Name (ARN) of the workgroup
 
 
 ## Authors

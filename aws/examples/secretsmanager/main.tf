@@ -2,38 +2,38 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-    required_version = "~> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "aws" {
-    region                  = "us-east-1"
-    shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
 module "secretsmanager" {
-    source                                      = "../../modules/secretsmanager"
+  source = "../../modules/secretsmanager"
 
-    # AWS secretsmanager secret
-    enable_secretsmanager_secret                = true
-    secretsmanager_secret_name                  = "test-secretmanager-secret"
-    secretsmanager_secret_description           = "Managing by Terrafrom"
-    secretsmanager_secret_rotation_rules        = [{
-        automatically_after_days    = 7
-    }]
+  # AWS secretsmanager secret
+  enable_secretsmanager_secret      = true
+  secretsmanager_secret_name        = "test-secretmanager-secret"
+  secretsmanager_secret_description = "Managing by Terrafrom"
+  secretsmanager_secret_rotation_rules = [{
+    automatically_after_days = 7
+  }]
 
-    # AWS secretsmanager secret version
-    enable_secretsmanager_secret_version        = true
-    secretsmanager_secret_version_secret_string = jsonencode(
-        {
-            key1 = "value1"
-            key2 = "value2"
-            test = "test"
-            test2 = "test2"
-        }
-    )
+  # AWS secretsmanager secret version
+  enable_secretsmanager_secret_version = true
+  secretsmanager_secret_version_secret_string = jsonencode(
+    {
+      key1  = "value1"
+      key2  = "value2"
+      test  = "test"
+      test2 = "test2"
+    }
+  )
 
-    tags                                        = map(
-        "ENV", "dev",
-        "Createdby", "Vitalii Natarov",
-    )
+  tags = map(
+    "ENV", "dev",
+    "Createdby", "Vitalii Natarov",
+  )
 }

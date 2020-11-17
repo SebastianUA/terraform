@@ -7,21 +7,21 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 #-----------------------------------------------------------
 # IAM certificate
 #-----------------------------------------------------------
 variable "enable_iam_server_certificate" {
-    description = "Allow upload server certificate"
-    default     = false
+  description = "Allow upload server certificate"
+  default     = false
 }
 
 variable "iam_server_certificate_name" {
-    description = "Set custom iam server cert name"
-    default     = ""
+  description = "Set custom iam server cert name"
+  default     = ""
 }
 
 variable "iam_server_certificate_name_prefix" {
@@ -30,13 +30,13 @@ variable "iam_server_certificate_name_prefix" {
 }
 
 variable "iam_server_certificate_body" {
-    description = "(Required) The contents of the public key certificate in PEM-encoded format."
-    default     = ""
+  description = "(Required) The contents of the public key certificate in PEM-encoded format."
+  default     = ""
 }
 
 variable "iam_server_certificate_private_key" {
-    description = "(Required) The contents of the private key in PEM-encoded format."
-    default     = ""
+  description = "(Required) The contents of the private key in PEM-encoded format."
+  default     = ""
 }
 
 variable "iam_server_certificate_chain" {

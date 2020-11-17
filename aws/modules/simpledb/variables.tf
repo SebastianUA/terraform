@@ -7,19 +7,19 @@ variable "name" {
 }
 
 variable "environment" {
-    description = "Environment for service"
-    default     = "STAGE"
+  description = "Environment for service"
+  default     = "STAGE"
 }
 
 #---------------------------------------------------
 # AWS simpledb domain
 #---------------------------------------------------
 variable "enable_simpledb_domain" {
-  description   = "Enable simpledb domain usage"
-  default       = false
+  description = "Enable simpledb domain usage"
+  default     = false
 }
 
 variable "simpledb_domain_name" {
-  description   = "The name of the SimpleDB domain"
-  default       = ""
+  description = "The name of the SimpleDB domain"
+  default     = ""
 }
