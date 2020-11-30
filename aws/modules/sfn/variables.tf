@@ -6,24 +6,9 @@ variable "name" {
   default     = "TEST"
 }
 
-variable "region" {
-  description = "The region where to deploy this code (e.g. us-east-1)."
-  default     = "us-east-1"
-}
-
 variable "environment" {
   description = "Environment for service"
   default     = "STAGE"
-}
-
-variable "orchestration" {
-  description = "Type of orchestration"
-  default     = "Terraform"
-}
-
-variable "createdby" {
-  description = "Created by"
-  default     = "Vitaliy Natarov"
 }
 
 variable "tags" {
@@ -33,5 +18,37 @@ variable "tags" {
 }
 
 #---------------------------------------------------
-# AWS accessanalyzer analyzer
+# AWS sfn activity
 #---------------------------------------------------
+variable "enable_sfn_activity" {
+  description = "Enable sfn activity"
+  default     = false
+}
+
+variable "sfn_activity_name" {
+  description = "The name of the activity to create."
+  default     = ""
+}
+
+#---------------------------------------------------
+# AWS sfn state machine
+#---------------------------------------------------
+variable "enable_sfn_state_machine" {
+  description = "Enable sfn state machine"
+  default     = false
+}
+
+variable "sfn_state_machine_name" {
+  description = "The name of the state machine."
+  default     = ""
+}
+
+variable "sfn_state_machine_definition" {
+  description = "(Required) The Amazon States Language definition of the state machine."
+  default     = null
+}
+
+variable "sfn_state_machine_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) of the IAM role to use for this state machine."
+  default     = null
+}
