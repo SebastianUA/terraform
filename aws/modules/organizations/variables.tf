@@ -66,7 +66,7 @@ variable "organizations_organization_aws_service_access_principals" {
 
 variable "organizations_organization_enabled_policy_types" {
   description = "(Optional) List of Organizations policy types to enable in the Organization Root. Organization must have feature_set set to ALL. For additional information about valid policy types (e.g. BACKUP_POLICY, SERVICE_CONTROL_POLICY, and TAG_POLICY), see the AWS Organizations API Reference."
-  default     = ["SERVICE_CONTROL_POLICY", "BACKUP_POLICY", ""]
+  default     = ["SERVICE_CONTROL_POLICY", "BACKUP_POLICY", "TAG_POLICY"]
 }
 
 variable "organizations_organization_feature_set" {
