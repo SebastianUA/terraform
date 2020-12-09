@@ -9,35 +9,35 @@ module "helm_release" {
   source = "../../modules/release"
 
   enable_release     = true
-  release_name       = "redis-dev"
-  release_chart      = "redis"
-  release_repository = "https://kubernetes-charts.storage.googleapis.com"
-  release_version    = "6.0.1"
+  release_name       = "argocd-dev"
+  release_chart      = "argo-cd"
+  release_repository = "https://argoproj.github.io/argo-helm"
+  release_version    = "v1.7.6"
 
-  release_namespace        = "redis-dev"
+  release_namespace        = "argocd-dev"
   release_create_namespace = true
   release_values           = []
 
   release_set = [
+  #  {
+  #    name  = "global.image.repository"
+  #    value = "argoproj/argocd"
+  #  },
+  #  {
+  #    name  = "global.image.repository"
+  #    value = "v1.7.10"
+  #  },
     {
-      name  = "cluster.enabled"
-      value = "true"
-    },
-    {
-      name  = "metrics.enabled"
-      value = "true"
-    },
-    {
-      name  = "service.annotations.prometheus\\.io/port"
-      value = "9127"
+      name  = "server.service.type"
+      value = "LoadBalancer"
     }
   ]
   release_set_sensitive = []
   release_postrender    = []
 
-  release_timeout       = 300
+  release_timeout       = 600
   release_force_update  = false
-  release_recreate_pods = false
+  release_recreate_pods = true
   release_lint          = false
 
 }
