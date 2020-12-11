@@ -38,3 +38,29 @@ output "secretsmanager_secret_version_secret_string" {
   description = "Get secret string"
   value       = concat(aws_secretsmanager_secret_version.secretsmanager_secret_version.*.secret_string, [""])
 }
+
+#---------------------------------------------------
+# AWS secretsmanager secret rotation
+#---------------------------------------------------
+output "secretsmanager_secret_rotation_id" {
+  description = "Amazon Resource Name (ARN) of the secret."
+  value       = element(concat(aws_secretsmanager_secret_rotation.secretsmanager_secret_rotation.*.id, [""]), 0)
+}
+
+output "secretsmanager_secret_rotation_arn" {
+  description = "Amazon Resource Name (ARN) of the secret."
+  value       = element(concat(aws_secretsmanager_secret_rotation.secretsmanager_secret_rotation.*.arn, [""]), 0)
+}
+
+output "secretsmanager_secret_rotation_rotation_enabled" {
+  description = "Specifies whether automatic rotation is enabled for this secret."
+  value       = concat(aws_secretsmanager_secret_rotation.secretsmanager_secret_rotation.*.rotation_enabled, [""])
+}
+
+#---------------------------------------------------
+# AWS secretsmanager secret policy
+#---------------------------------------------------
+output "secretsmanager_secret_policy_id" {
+  description = "Amazon Resource Name (ARN) of the secret."
+  value       = element(concat(aws_secretsmanager_secret_policy.secretsmanager_secret_policy.*.id, [""]), 0)
+}

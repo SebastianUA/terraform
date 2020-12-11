@@ -19,14 +19,14 @@ module "helm_release" {
   release_values           = []
 
   release_set = [
-  #  {
-  #    name  = "global.image.repository"
-  #    value = "argoproj/argocd"
-  #  },
-  #  {
-  #    name  = "global.image.repository"
-  #    value = "v1.7.10"
-  #  },
+    #  {
+    #    name  = "global.image.repository"
+    #    value = "argoproj/argocd"
+    #  },
+    #  {
+    #    name  = "global.image.repository"
+    #    value = "v1.7.10"
+    #  },
     {
       name  = "server.service.type"
       value = "LoadBalancer"
