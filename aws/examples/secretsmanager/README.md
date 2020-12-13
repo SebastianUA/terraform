@@ -66,6 +66,14 @@ module "secretsmanager" {
 - `secretsmanager_secret_version_secret_string` - (Optional) Specifies text data that you want to encrypt and store in this version of the secret. This is required if secret_binary is not set. (`default = null`)
 - `secretsmanager_secret_version_secret_binary` - (Optional) Specifies binary data that you want to encrypt and store in this version of the secret. This is required if secret_string is not set. Needs to be encoded to base64. (`default = null`)
 - `secretsmanager_secret_version_version_stages` - (Optional) Specifies a list of staging labels that are attached to this version of the secret. A staging label must be unique to a single version of the secret. If you specify a staging label that's already associated with a different version of the same secret then that staging label is automatically removed from the other version and attached to this version. If you do not specify a value, then AWS Secrets Manager automatically moves the staging label AWSCURRENT to this new version on creation. (`default = null`)
+- `enable_secretsmanager_secret_rotation` - Enable secretsmanager secret rotation usage (`default = ""`)
+- `secretsmanager_secret_rotation_secret_id` - Specifies the secret to which you want to add a new version. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. The secret must already exist. (`default = ""`)
+- `secretsmanager_secret_rotation_rotation_lambda_arn` - (Required) Specifies the ARN of the Lambda function that can rotate the secret. (`default = null`)
+- `secretsmanager_secret_rotation_rotation_rules_automatically_after_days` - (Required) Specifies the number of days between automatic scheduled rotations of the secret. (`default = 30`)
+- `enable_secretsmanager_secret_policy` - Enable secretsmanager secret policy usage (`default = ""`)
+- `secretsmanager_secret_policy_secret_arn` - Secret ARN. (`default = ""`)
+- `secretsmanager_secret_policy_policy` - (Required) A valid JSON document representing a resource policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = null`)
+- `secretsmanager_secret_policy_block_public_policy` - (Optional) Makes an optional API call to Zelkova to validate the Resource Policy to prevent broad access to your secret. (`default = null`)
 
 ## Module Output Variables
 ----------------------
