@@ -106,15 +106,16 @@ module "k8s_namespace_multiple_suffixes" {
 ----------------------
 - `name` - The name for helm release resources (`default = test`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_namespace` - Enable ns for kubernetes usage (`default = ""`)
+- `enable_namespace` - Enable ns for kubernetes usage (`default = False`)
 - `namespace_name` - (Optional) Name of the namespace, must be unique. Cannot be updated. For more info see Kubernetes reference (`default = ""`)
 - `namespace_generate_name` - (Optional) Prefix, used by the server, to generate a unique name ONLY IF the name field has not been provided. This value will also be combined with a unique suffix. Read more about name idempotency. (`default = null`)
-- `namespace_annotations` - (Optional) An unstructured key value map stored with the namespace that may be used to store arbitrary metadata. (`default = ""`)
-- `namespace_labels` - (Optional) Map of string keys and values that can be used to organize and categorize (scope and select) namespaces. May match selectors of replication controllers and services. (`default = ""`)
-- `timeouts` - kubernetes_namespace provides the following Timeouts configuration (`default = ""`)
+- `namespace_annotations` - (Optional) An unstructured key value map stored with the namespace that may be used to store arbitrary metadata. (`default = {}`)
+- `namespace_labels` - (Optional) Map of string keys and values that can be used to organize and categorize (scope and select) namespaces. May match selectors of replication controllers and services. (`default = {}`)
+- `timeouts` - kubernetes_namespace provides the following Timeouts configuration (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `namespace_id` - ID of Kubernetes namespace
 
 
 ## Authors

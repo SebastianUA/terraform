@@ -121,7 +121,7 @@ All other commands:
     state              Advanced state management``` 
 ```
 
-## Tfswitch
+## Auto-switching Terraform version
 
 ---------
 
@@ -204,6 +204,12 @@ terraform {
 ```
 
 I really like this tool and it can be used for your locally run as well as for CI/CD.
+
+## Auto-generate documentation for Terraform modules
+
+---------
+
+I have a python script to generate the `README.md` file-based on Terraform modules and examples that I'm supporting. The code can be found here:  [generate-tf-docs](https://github.com/SebastianUA/generate-tf-docs).
 
 ## Authors
 
