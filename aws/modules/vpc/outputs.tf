@@ -115,6 +115,24 @@ output "public_subnets_owner_id" {
 }
 
 #---------------------------------------------------------------
+# AWS Internet gateway (IGW)
+#---------------------------------------------------------------
+output "internet_gw_id" {
+  description = "The ID of the Internet Gateway."
+  value       = element(concat(aws_internet_gateway.internet_gw.*.id, [""]), 0)
+}
+
+output "internet_gw_arn" {
+  description = "The ARN of the Internet Gateway."
+  value       = element(concat(aws_internet_gateway.internet_gw.*.arn, [""]), 0)
+}
+
+output "internet_gw_owner_id" {
+  description = "The ID of the AWS account that owns the internet gateway."
+  value       = element(concat(aws_internet_gateway.internet_gw.*.owner_id, [""]), 0)
+}
+
+#---------------------------------------------------------------
 # AWS VPN gateway
 #---------------------------------------------------------------
 output "vpn_gw_id" {

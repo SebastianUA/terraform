@@ -435,6 +435,71 @@ variable "timeouts_delete" {
   default     = "5m"
 }
 
+variable "enable_custom_route" {
+  description = "Enable custom route"
+  default     = false
+}
+
+variable "custom_route_route_table_id" {
+  description = "(Required) The ID of the routing table."
+  default     = null
+}
+
+variable "custom_route_destination_cidr_block" {
+  description = "(Optional) The destination CIDR block."
+  default     = null
+}
+
+variable "custom_route_destination_ipv6_cidr_block" {
+  description = "(Optional) The destination IPv6 CIDR block."
+  default     = null
+}
+
+variable "custom_route_vpc_peering_connection_id" {
+  description = "(Optional) Identifier of a VPC peering connection."
+  default     = null
+}
+
+variable "custom_route_egress_only_gateway_id" {
+  description = "(Optional) Identifier of a VPC Egress Only Internet Gateway."
+  default     = null
+}
+
+variable "custom_route_gateway_id" {
+  description = "(Optional) Identifier of a VPC internet gateway or a virtual private gateway."
+  default     = null
+}
+
+variable "custom_route_instance_id" {
+  description = "(Optional) Identifier of an EC2 instance."
+  default     = null
+}
+
+variable "custom_route_nat_gateway_id" {
+  description = "(Optional) Identifier of a VPC NAT gateway."
+  default     = null
+}
+
+variable "custom_route_local_gateway_id" {
+  description = "(Optional) Identifier of a Outpost local gateway."
+  default     = null
+}
+
+variable "custom_route_network_interface_id" {
+  description = "(Optional) Identifier of an EC2 network interface."
+  default     = null
+}
+
+variable "custom_route_transit_gateway_id" {
+  description = "(Optional) Identifier of an EC2 Transit Gateway."
+  default     = null
+}
+
+variable "custom_route_vpc_endpoint_id" {
+  description = "(Optional) Identifier of a VPC Endpoint."
+  default     = null
+}
+
 #---------------------------------------------------------------
 # AWS route table
 #---------------------------------------------------------------
@@ -456,6 +521,36 @@ variable "public_propagating_vgws" {
 variable "public_route_tables_name" {
   description = "Set name for public route tables"
   default     = ""
+}
+
+variable "enable_custom_route_table" {
+  description = "Enable custom RT"
+  default     = false
+}
+
+variable "custom_route_table_name" {
+  description = "Set name for custom RT"
+  default     = ""
+}
+
+variable "custom_route_table_vpc_id" {
+  description = "The VPC ID."
+  default     = ""
+}
+
+variable "custom_route_table_public_propagating_vgws" {
+  description = "(Optional) A list of virtual gateways for propagation."
+  default     = null
+}
+
+variable "custom_route_table_route_ipv4" {
+  description = "The CIDR block of the route for IPv4."
+  default     = []
+}
+
+variable "custom_route_table_route_ipv6" {
+  description = "(Optional) The Ipv6 CIDR block of the route."
+  default     = []
 }
 
 #---------------------------------------------------
