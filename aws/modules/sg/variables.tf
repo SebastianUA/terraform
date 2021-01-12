@@ -60,6 +60,11 @@ variable "security_group_egress" {
   default     = []
 }
 
+variable "security_group_timeouts" {
+  description = "(Optional, allowing add custom timeouts for VPC"
+  default     = []
+}
+
 #---------------------------------------------------
 # Security group rules
 #---------------------------------------------------

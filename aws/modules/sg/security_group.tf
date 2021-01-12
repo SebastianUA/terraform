@@ -12,38 +12,51 @@ resource "aws_security_group" "security_group" {
   revoke_rules_on_delete = var.security_group_revoke_rules_on_delete
 
   dynamic "ingress" {
+    iterator = ingress
     for_each = var.security_group_ingress
     content {
-      cidr_blocks      = lookup(security_group_ingress.value, "cidr_blocks", null)
-      ipv6_cidr_blocks = lookup(security_group_ingress.value, "ipv6_cidr_blocks", null)
-      prefix_list_ids  = lookup(security_group_ingress.value, "prefix_list_ids", null)
-      from_port        = lookup(security_group_ingress.value, "from_port", null)
-      to_port          = lookup(security_group_ingress.value, "to_port", null)
-      protocol         = lookup(security_group_ingress.value, "protocol", null)
-      description      = lookup(security_group_ingress.value, "description", null)
-      security_groups  = lookup(security_group_ingress.value, "security_groups", null)
-      self             = lookup(security_group_ingress.value, "self", null)
+      protocol  = lookup(ingress.value, "protocol", null)
+      from_port = lookup(ingress.value, "from_port", null)
+      to_port   = lookup(ingress.value, "to_port", null)
+
+      cidr_blocks      = lookup(ingress.value, "cidr_blocks", null)
+      ipv6_cidr_blocks = lookup(ingress.value, "ipv6_cidr_blocks", null)
+      prefix_list_ids  = lookup(ingress.value, "prefix_list_ids", null)
+      description      = lookup(ingress.value, "description", null)
+      security_groups  = lookup(ingress.value, "security_groups", null)
+      self             = lookup(ingress.value, "self", null)
     }
   }
 
   dynamic "egress" {
+    iterator = egress
     for_each = var.security_group_egress
     content {
-      cidr_blocks      = lookup(security_group_egress.value, "cidr_blocks", null)
-      ipv6_cidr_blocks = lookup(security_group_egress.value, "ipv6_cidr_blocks", null)
-      prefix_list_ids  = lookup(security_group_egress.value, "prefix_list_ids", null)
-      from_port        = lookup(security_group_egress.value, "from_port", null)
-      to_port          = lookup(security_group_egress.value, "to_port", null)
-      protocol         = lookup(security_group_egress.value, "protocol", null)
-      description      = lookup(security_group_egress.value, "description", null)
-      security_groups  = lookup(security_group_egress.value, "security_groups", null)
-      self             = lookup(security_group_egress.value, "self", null)
+      protocol  = lookup(egress.value, "protocol", null)
+      from_port = lookup(egress.value, "from_port", null)
+      to_port   = lookup(egress.value, "to_port", null)
+
+      cidr_blocks      = lookup(egress.value, "cidr_blocks", null)
+      ipv6_cidr_blocks = lookup(egress.value, "ipv6_cidr_blocks", null)
+      prefix_list_ids  = lookup(egress.value, "prefix_list_ids", null)
+      description      = lookup(egress.value, "description", null)
+      security_groups  = lookup(egress.value, "security_groups", null)
+      self             = lookup(egress.value, "self", null)
+    }
+  }
+
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.security_group_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
   tags = merge(
     {
-      "Name" = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : lower(var.security_group_name_prefix)
+      Name = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : lower(var.security_group_name_prefix)
     },
     var.tags
   )

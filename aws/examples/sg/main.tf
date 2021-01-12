@@ -17,7 +17,7 @@ module "sg" {
 
   enable_security_group = true
   security_group_name   = "my-test-sg-here"
-  security_group_vpc_id = "vpc-07a6b45ca3c842212"
+  security_group_vpc_id = "vpc-0ea8873ab2bf7900d"
 
   # Using ingress
   enable_sg_rule_ingress_ports     = true
