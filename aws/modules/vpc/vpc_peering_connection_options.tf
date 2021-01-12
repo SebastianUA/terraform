@@ -6,16 +6,24 @@ resource "aws_vpc_peering_connection_options" "vpc_peering_connection_options" {
 
   vpc_peering_connection_id = var.vpc_peering_connection_id != "" ? var.vpc_peering_connection_id : element(concat(aws_vpc_peering_connection.vpc_peering_connection.*.id, [""]), 0)
 
-  accepter {
-    allow_remote_vpc_dns_resolution  = var.accepter_options_allow_remote_vpc_dns_resolution
-    allow_classic_link_to_remote_vpc = var.accepter_options_allow_classic_link_to_remote_vpc
-    allow_vpc_to_remote_classic_link = var.accepter_options_allow_vpc_to_remote_classic_link
+  dynamic "accepter" {
+    iterator = accepter
+    for_each = var.vpc_peering_connection_options_accepter
+    content {
+      allow_remote_vpc_dns_resolution  = lookup(accepter.value, "allow_remote_vpc_dns_resolution", null)
+      allow_classic_link_to_remote_vpc = lookup(accepter.value, "allow_classic_link_to_remote_vpc", null)
+      allow_vpc_to_remote_classic_link = lookup(accepter.value, "allow_vpc_to_remote_classic_link", null)
+    }
   }
 
-  requester {
-    allow_remote_vpc_dns_resolution  = var.requester_options_allow_remote_vpc_dns_resolution
-    allow_classic_link_to_remote_vpc = var.requester_options_allow_classic_link_to_remote_vpc
-    allow_vpc_to_remote_classic_link = var.requester_options_allow_vpc_to_remote_classic_link
+  dynamic "requester" {
+    iterator = requester
+    for_each = var.vpc_peering_connection_options_requester
+    content {
+      allow_remote_vpc_dns_resolution  = lookup(requester.value, "allow_remote_vpc_dns_resolution", null)
+      allow_classic_link_to_remote_vpc = lookup(requester.value, "allow_classic_link_to_remote_vpc", null)
+      allow_vpc_to_remote_classic_link = lookup(requester.value, "allow_vpc_to_remote_classic_link", null)
+    }
   }
 
   lifecycle {

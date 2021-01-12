@@ -8,7 +8,7 @@ resource "aws_internet_gateway" "internet_gw" {
 
   tags = merge(
     {
-      "Name" = var.internet_gw_name != "" ? lower(var.internet_gw_name) : "${lower(var.name)}-internet-gw-${lower(var.environment)}"
+      Name = var.internet_gw_name != "" ? lower(var.internet_gw_name) : "${lower(var.name)}-internet-gw-${lower(var.environment)}"
     },
     var.tags
   )

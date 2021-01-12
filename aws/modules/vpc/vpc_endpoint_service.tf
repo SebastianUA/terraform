@@ -11,7 +11,7 @@ resource "aws_vpc_endpoint_service" "vpc_endpoint_service" {
 
   tags = merge(
     {
-      "Name" = var.vpc_endpoint_service_name != "" ? lower(var.vpc_endpoint_service_name) : "${lower(var.name)}-vpc-endpoint-svc-${lower(var.environment)}"
+      Name = var.vpc_endpoint_service_name != "" ? lower(var.vpc_endpoint_service_name) : "${lower(var.name)}-vpc-endpoint-svc-${lower(var.environment)}"
     },
     var.tags
   )

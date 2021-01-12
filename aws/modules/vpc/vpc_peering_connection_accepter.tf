@@ -9,7 +9,7 @@ resource "aws_vpc_peering_connection_accepter" "vpc_peering_connection_accepter"
 
   tags = merge(
     {
-      "Name" = var.vpc_peering_connection_accepter_name != "" ? lower(var.vpc_peering_connection_accepter_name) : "${lower(var.name)}-vpc-peer-accepter-${lower(var.environment)}"
+      Name = var.vpc_peering_connection_accepter_name != "" ? lower(var.vpc_peering_connection_accepter_name) : "${lower(var.name)}-vpc-peer-accepter-${lower(var.environment)}"
     },
     var.tags
   )

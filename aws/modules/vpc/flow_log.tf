@@ -17,7 +17,7 @@ resource "aws_flow_log" "flow_log" {
 
   tags = merge(
     {
-      "Name" = var.flow_log_name != "" ? lower(var.flow_log_name) : "${lower(var.name)}-flow-log-${lower(var.environment)}"
+      Name = var.flow_log_name != "" ? lower(var.flow_log_name) : "${lower(var.name)}-flow-log-${lower(var.environment)}"
     },
     var.tags
   )

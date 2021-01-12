@@ -11,7 +11,7 @@ resource "aws_route_table" "private_route_tables" {
 
   tags = merge(
     {
-      "Name" = var.private_route_tables_name != "" ? lower(var.private_route_tables_name) : "${lower(var.name)}-${lower(var.environment)}-private-route-tables"
+      Name = var.private_route_tables_name != "" ? lower(var.private_route_tables_name) : "${lower(var.name)}-${lower(var.environment)}-private-route-tables"
     },
     var.tags
   )
@@ -35,7 +35,7 @@ resource "aws_route_table" "public_route_tables" {
 
   tags = merge(
     {
-      "Name" = var.public_route_tables_name != "" ? lower(var.public_route_tables_name) : "${lower(var.name)}-${lower(var.environment)}-public-route-tables"
+      Name = var.public_route_tables_name != "" ? lower(var.public_route_tables_name) : "${lower(var.name)}-${lower(var.environment)}-public-route-tables"
     },
     var.tags
   )

@@ -10,7 +10,7 @@ resource "aws_customer_gateway" "customer_gateway" {
 
   tags = merge(
     {
-      "Name" = var.customer_gateway_name != "" ? lower(var.customer_gateway_name) : "${lower(var.name)}-customer-gw-${lower(var.environment)}"
+      Name = var.customer_gateway_name != "" ? lower(var.customer_gateway_name) : "${lower(var.name)}-customer-gw-${lower(var.environment)}"
     },
     var.tags
   )

@@ -149,14 +149,9 @@ variable "public_subnets_name" {
   default     = ""
 }
 
-variable "subnet_timeouts_create" {
-  description = "(Default 10m) How long to wait for a subnet to be created."
-  default     = "10m"
-}
-
-variable "subnet_timeouts_delete" {
-  description = "(Default 20m) How long to retry on DependencyViolation errors during subnet deletion from lingering ENIs left by certain AWS services such as Elastic Load Balancing. NOTE: Lambda ENIs can take up to 45 minutes to delete, which is not affected by changing this customizable timeout (in version 2.31.0 and later of the Terraform AWS Provider) unless it is increased above 45 minutes."
-  default     = "20m"
+variable "subnet_timeouts" {
+  description = "Set to how long to wait for a subnet to be created or deleted."
+  default     = []
 }
 
 #---------------------------------------------------------------
@@ -425,14 +420,9 @@ variable "public_custom_gateway_id" {
   default     = null
 }
 
-variable "timeouts_create" {
-  description = "(Default 2 minutes) Used for route creation"
-  default     = "2m"
-}
-
-variable "timeouts_delete" {
-  description = "(Default 5 minutes) Used for route deletion"
-  default     = "5m"
+variable "route_timeouts" {
+  description = "Set timeouts for route"
+  default     = []
 }
 
 variable "enable_custom_route" {
@@ -710,14 +700,9 @@ variable "vpc_ipv4_cidr_block_association_cidr_block" {
   default     = ""
 }
 
-variable "vpc_ipv4_cidr_block_association_timeouts_create" {
-  description = "(Default 10 minutes) Used for creating the association"
-  default     = "10m"
-}
-
-variable "vpc_ipv4_cidr_block_association_timeouts_delete" {
-  description = "(Default 10 minutes) Used for destroying the association"
-  default     = "10m"
+variable "vpc_ipv4_cidr_block_association_timeouts" {
+  description = "Set timeouts used for creating the association"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -784,49 +769,19 @@ variable "vpc_peering_connection_peer_region" {
   default     = null
 }
 
-variable "accepter_allow_remote_vpc_dns_resolution" {
-  description = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering."
-  default     = true
+variable "vpc_peering_connection_accepter" {
+  description = "(Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one)."
+  default     = []
 }
 
-variable "accepter_allow_classic_link_to_remote_vpc" {
-  description = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC."
-  default     = null
+variable "vpc_peering_connection_requester" {
+  description = "(Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one)."
+  default     = []
 }
 
-variable "accepter_allow_vpc_to_remote_classic_link" {
-  description = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection."
-  default     = null
-}
-
-variable "requester_allow_remote_vpc_dns_resolution" {
-  description = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. This is not supported for inter-region VPC peering."
-  default     = true
-}
-
-variable "requester_allow_classic_link_to_remote_vpc" {
-  description = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC."
-  default     = null
-}
-
-variable "requester_allow_vpc_to_remote_classic_link" {
-  description = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection."
-  default     = null
-}
-
-variable "vpc_peering_connection_timeouts_create" {
-  description = "(Default 1 minute) Used for creating a peering connection"
-  default     = "1m"
-}
-
-variable "vpc_peering_connection_timeouts_update" {
-  description = "(Default 1 minute) Used for peering connection modifications"
-  default     = "1m"
-}
-
-variable "vpc_peering_connection_timeouts_delete" {
-  description = "(Default 1 minute) Used for destroying peering connections"
-  default     = "1m"
+variable "vpc_peering_connection_timeouts" {
+  description = "Set timeouts used for creating a peering connection"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -842,34 +797,14 @@ variable "vpc_peering_connection_id" {
   default     = ""
 }
 
-variable "accepter_options_allow_remote_vpc_dns_resolution" {
-  description = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC."
-  default     = true
+variable "vpc_peering_connection_options_accepter" {
+  description = "(Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one)."
+  default     = []
 }
 
-variable "accepter_options_allow_classic_link_to_remote_vpc" {
-  description = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering."
-  default     = null
-}
-
-variable "accepter_options_allow_vpc_to_remote_classic_link" {
-  description = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering."
-  default     = null
-}
-
-variable "requester_options_allow_remote_vpc_dns_resolution" {
-  description = "(Optional) Allow a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC."
-  default     = true
-}
-
-variable "requester_options_allow_classic_link_to_remote_vpc" {
-  description = "(Optional) Allow a local linked EC2-Classic instance to communicate with instances in a peer VPC. This enables an outbound communication from the local ClassicLink connection to the remote VPC. This option is not supported for inter-region VPC peering."
-  default     = null
-}
-
-variable "requester_options_allow_vpc_to_remote_classic_link" {
-  description = "(Optional) Allow a local VPC to communicate with a linked EC2-Classic instance in a peer VPC. This enables an outbound communication from the local VPC to the remote ClassicLink connection. This option is not supported for inter-region VPC peering."
-  default     = null
+variable "vpc_peering_connection_options_requester" {
+  description = "(Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one)."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -938,19 +873,9 @@ variable "vpc_endpoint_vpc_endpoint_type" {
   default     = "Gateway"
 }
 
-variable "vpc_endpoint_timeouts_create" {
-  description = "(Default 10 minutes) Used for creating a VPC endpoint"
-  default     = "10m"
-}
-
-variable "vpc_endpoint_timeouts_update" {
-  description = "(Default 10 minutes) Used for VPC endpoint modifications"
-  default     = "10m"
-}
-
-variable "vpc_endpoint_timeouts_delete" {
-  description = "(Default 10 minutes) Used for destroying VPC endpoints"
-  default     = "10m"
+variable "vpc_endpoint_timeouts" {
+  description = "Set timeouts used for creating a VPC endpoint"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -966,14 +891,9 @@ variable "vpc_endpoint_id" {
   default     = ""
 }
 
-variable "vpc_endpoint_subnet_association_timeouts_create" {
-  description = "(Default 10 minutes) Used for creating the association"
-  default     = "10m"
-}
-
-variable "vpc_endpoint_subnet_association_timeouts_delete" {
-  description = "(Default 10 minutes) Used for destroying the association"
-  default     = "10m"
+variable "vpc_endpoint_subnet_association_timeouts" {
+  description = "Set timeouts used for creating the association"
+  default     = []
 }
 
 #---------------------------------------------------

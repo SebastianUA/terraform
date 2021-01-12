@@ -41,7 +41,7 @@ resource "aws_network_acl" "network_acl" {
 
   tags = merge(
     {
-      "Name" = var.network_acl_name != "" ? lower(var.network_acl_name) : "${lower(var.name)}-network-acl-${lower(var.environment)}"
+      Name = var.network_acl_name != "" ? lower(var.network_acl_name) : "${lower(var.name)}-network-acl-${lower(var.environment)}"
     },
     var.tags
   )

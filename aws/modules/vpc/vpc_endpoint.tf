@@ -15,15 +15,19 @@ resource "aws_vpc_endpoint" "vpc_endpoint" {
   security_group_ids  = var.vpc_endpoint_security_group_ids
   vpc_endpoint_type   = var.vpc_endpoint_vpc_endpoint_type
 
-  timeouts {
-    create = var.vpc_endpoint_timeouts_create
-    update = var.vpc_endpoint_timeouts_update
-    delete = var.vpc_endpoint_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.vpc_endpoint_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   tags = merge(
     {
-      "Name" = var.vpc_endpoint_name != "" ? lower(var.vpc_endpoint_name) : "${lower(var.name)}-vpc-endpoint-${lower(var.environment)}"
+      Name = var.vpc_endpoint_name != "" ? lower(var.vpc_endpoint_name) : "${lower(var.name)}-vpc-endpoint-${lower(var.environment)}"
     },
     var.tags
   )

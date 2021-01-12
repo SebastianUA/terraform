@@ -14,7 +14,7 @@ resource "aws_vpc" "vpc" {
 
   tags = merge(
     {
-      "Name" = var.vpc_name != "" ? lower(var.vpc_name) : "${lower(var.name)}-vpc-${lower(var.environment)}"
+      Name = var.vpc_name != "" ? lower(var.vpc_name) : "${lower(var.name)}-vpc-${lower(var.environment)}"
     },
     var.tags
   )

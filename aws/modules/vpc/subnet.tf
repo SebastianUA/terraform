@@ -13,14 +13,18 @@ resource "aws_subnet" "private_subnets" {
   ipv6_cidr_block                 = var.private_subnet_ipv6_cidrs != null ? var.private_subnet_ipv6_cidrs[count.index] : null
   assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
 
-  timeouts {
-    create = var.subnet_timeouts_create
-    delete = var.subnet_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.subnet_timeouts
+    content {
+      create = lookup(subnet_timeouts.value, "create", null)
+      delete = lookup(subnet_timeouts.value, "delete", null)
+    }
   }
 
   tags = merge(
     {
-      "Name" = var.private_subnets_name != "" ? "${lower(var.private_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-private_subnet-${count.index + 1}"
+      Name = var.private_subnets_name != "" ? "${lower(var.private_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-private_subnet-${count.index + 1}"
     },
     var.tags
   )
@@ -50,14 +54,18 @@ resource "aws_subnet" "public_subnets" {
   ipv6_cidr_block                 = var.public_subnet_ipv6_cidrs != null ? var.public_subnet_ipv6_cidrs[count.index] : null
   assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
 
-  timeouts {
-    create = var.subnet_timeouts_create
-    delete = var.subnet_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.subnet_timeouts
+    content {
+      create = lookup(subnet_timeouts.value, "create", null)
+      delete = lookup(subnet_timeouts.value, "delete", null)
+    }
   }
 
   tags = merge(
     {
-      "Name" = var.public_subnets_name != "" ? "${lower(var.public_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-public_subnet-${count.index + 1}"
+      Name = var.public_subnets_name != "" ? "${lower(var.public_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-public_subnet-${count.index + 1}"
     },
     var.tags
   )

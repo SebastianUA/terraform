@@ -11,27 +11,39 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   auto_accept   = var.vpc_peering_connection_auto_accept
   peer_region   = var.vpc_peering_connection_peer_region
 
-  accepter {
-    allow_remote_vpc_dns_resolution  = var.accepter_allow_remote_vpc_dns_resolution
-    allow_classic_link_to_remote_vpc = var.accepter_allow_classic_link_to_remote_vpc
-    allow_vpc_to_remote_classic_link = var.accepter_allow_vpc_to_remote_classic_link
+  dynamic "accepter" {
+    iterator = accepter
+    for_each = var.vpc_peering_connection_accepter
+    content {
+      allow_remote_vpc_dns_resolution  = lookup(accepter.value, "allow_remote_vpc_dns_resolution", null)
+      allow_classic_link_to_remote_vpc = lookup(accepter.value, "allow_classic_link_to_remote_vpc", null)
+      allow_vpc_to_remote_classic_link = lookup(accepter.value, "allow_vpc_to_remote_classic_link", null)
+    }
   }
 
-  requester {
-    allow_remote_vpc_dns_resolution  = var.requester_allow_remote_vpc_dns_resolution
-    allow_classic_link_to_remote_vpc = var.requester_allow_classic_link_to_remote_vpc
-    allow_vpc_to_remote_classic_link = var.requester_allow_vpc_to_remote_classic_link
+  dynamic "requester" {
+    iterator = requester
+    for_each = var.vpc_peering_connection_requester
+    content {
+      allow_remote_vpc_dns_resolution  = lookup(requester.value, "allow_remote_vpc_dns_resolution", null)
+      allow_classic_link_to_remote_vpc = lookup(requester.value, "allow_classic_link_to_remote_vpc", null)
+      allow_vpc_to_remote_classic_link = lookup(requester.value, "allow_vpc_to_remote_classic_link", null)
+    }
   }
 
-  timeouts {
-    create = var.vpc_peering_connection_timeouts_create
-    update = var.vpc_peering_connection_timeouts_update
-    delete = var.vpc_peering_connection_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.vpc_peering_connection_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   tags = merge(
     {
-      "Name" = var.vpc_peering_connection_name != "" ? lower(var.vpc_peering_connection_name) : "${lower(var.name)}-vpc-peer-con-${lower(var.environment)}"
+      Name = var.vpc_peering_connection_name != "" ? lower(var.vpc_peering_connection_name) : "${lower(var.name)}-vpc-peer-con-${lower(var.environment)}"
     },
     var.tags
   )

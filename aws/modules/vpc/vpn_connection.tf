@@ -18,7 +18,7 @@ resource "aws_vpn_connection" "vpn_connection" {
 
   tags = merge(
     {
-      "Name" = var.vpn_connection_name != "" ? lower(var.vpn_connection_name) : "${lower(var.name)}-vpn-connection-${lower(var.environment)}"
+      Name = var.vpn_connection_name != "" ? lower(var.vpn_connection_name) : "${lower(var.name)}-vpn-connection-${lower(var.environment)}"
     },
     var.tags
   )
