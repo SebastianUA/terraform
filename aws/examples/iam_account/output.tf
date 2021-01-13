@@ -1,4 +1,4 @@
-output "aws_iam_access_key_id" {
+output "data_external_python3_iam_users_result" {
   description = ""
-  value       = module.iam_account.iam_access_key_id
+  value       = data.external.python3_iam_users.result
 }
