@@ -1,4 +1,4 @@
-# Work with Kubernetes via terraform
+# Work with Kubernetes namespaces via terraform
 
 A terraform module for making Kubernetes namespace.
 
