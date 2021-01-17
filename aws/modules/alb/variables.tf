@@ -24,137 +24,90 @@ variable "enable_alb" {
   default     = false
 }
 
-variable "enable_alb_logs" {
-  description = "Enable ALB usage"
-  default     = false
-}
-
-variable "enable_alb_prefix" {
-  description = "Enable ALB with name_prefix usage"
-  default     = false
-}
-
 variable "alb_name" {
   description = "Set ALB name"
   default     = ""
 }
 
-variable "security_groups" {
+variable "alb_name_prefix" {
+  description = "Creates a unique name beginning with the specified prefix. Conflicts with name"
+  default     = ""
+}
+
+variable "alb_security_groups" {
   description = "A list of security group IDs to assign to the ALB. Only valid if creating an ALB within a VPC"
   default     = []
 }
 
-variable "subnets" {
+variable "alb_subnets" {
   description = "A list of subnet IDs to attach to the ALB"
   default     = []
 }
 
-variable "lb_internal" {
+variable "alb_internal" {
   description = "If true, ALB will be an internal ALB"
   default     = false
 }
 
-
-variable "name_prefix" {
-  description = "Creates a unique name beginning with the specified prefix. Conflicts with name"
-  default     = "alb"
-}
-
-variable "enable_cross_zone_load_balancing" {
+variable "alb_enable_cross_zone_load_balancing" {
   description = "(Optional) If true, cross-zone load balancing of the load balancer will be enabled. This is a network load balancer feature. Defaults to false."
   default     = false
 }
 
-variable "enable_deletion_protection" {
+variable "alb_enable_deletion_protection" {
   description = "If true, deletion of the load balancer will be disabled via the AWS API. This will prevent Terraform from deleting the load balancer. Defaults to false."
   default     = false
 }
 
-# Access logs
-variable "access_logs_enabled" {
-  description = "(Optional) Boolean to enable / disable access_logs. Defaults to false, even when bucket is specified."
-  default     = false
-}
-
-variable "access_logs_bucket" {
-  description = "(Required) The S3 bucket name to store the logs in."
-  default     = ""
-}
-
-variable "access_logs_prefix" {
-  description = "(Optional) The S3 bucket prefix. Logs are stored in the root if not configured."
-  default     = ""
-}
-
-variable "load_balancer_type" {
+variable "alb_load_balancer_type" {
   description = "The type of load balancer to create. Possible values are application or network. The default value is application."
   default     = "application"
 }
 
-variable "idle_timeout" {
+variable "alb_idle_timeout" {
   description = "The time in seconds that the connection is allowed to be idle. Default: 60."
   default     = 60
 }
 
-variable "ip_address_type" {
+variable "alb_enable_http2" {
+  description = "(Optional) Indicates whether HTTP/2 is enabled in application load balancers. Defaults to true."
+  default     = true
+}
+
+variable "alb_ip_address_type" {
   description = "The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 and dualstack"
   default     = "ipv4"
 }
 
-variable "timeouts_create" {
-  description = "Used for Creating LB. Default = 10mins"
-  default     = "10m"
+variable "alb_access_logs" {
+  description = "(Optional) An Access Logs block."
+  default     = []
 }
 
-variable "timeouts_update" {
-  description = "Used for LB modifications. Default = 10mins"
-  default     = "10m"
+variable "alb_timeouts" {
+  description = "Set timeouts for ALB"
+  default     = []
 }
 
-variable "timeouts_delete" {
-  description = "Used for LB destroying LB. Default = 10mins"
-  default     = "10m"
+variable "alb_subnet_mapping" {
+  description = "(Optional) A subnet mapping block"
+  default     = []
 }
 
-variable "vpc_id" {
-  description = "Set VPC ID for ?LB"
-  default     = ""
+variable "alb_drop_invalid_header_fields" {
+  description = "(Optional) Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type application."
+  default     = null
 }
 
-variable "alb_protocols" {
-  description = "A comma delimited list of the protocols the ALB accepts. e.g.: HTTPS"
-  default     = "HTTP,HTTPS"
-}
-
-variable "target_type" {
-  description = "The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address) or lambda. The default is instance. Note that you can't specify targets for a target group using both instance IDs and IP addresses. If the target type is ip, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses"
-  default     = "instance"
-}
-
-variable "deregistration_delay" {
-  description = "The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds."
-  default     = 300
-}
-
-variable "enable_http2" {
-  description = "(Optional) Indicates whether HTTP/2 is enabled in application load balancers. Defaults to true."
-  default     = true
+variable "alb_customer_owned_ipv4_pool" {
+  description = "(Optional) The ID of the customer owned ipv4 pool to use for this load balancer."
+  default     = null
 }
 
 #-----------------------------------------------------------
 # ALB target group
 #-----------------------------------------------------------
-variable "tg_name_prefix" {
-  description = "Enable ALB with name_prefix usage"
-  default     = false
-}
-
 variable "enable_alb_target_group" {
-  description = "Enable alb target group"
-  default     = false
-}
-
-variable "enable_alb_target_group_prefix" {
   description = "Enable alb target group"
   default     = false
 }
@@ -164,343 +117,244 @@ variable "alb_target_group_name" {
   default     = ""
 }
 
-variable "backend_port" {
+variable "alb_target_group_name_prefix" {
+  description = "Set name_prefix for ALB"
+  default     = null
+}
+
+variable "alb_target_group_port" {
   description = "The port the service on the EC2 instances listen on."
   default     = 80
 }
 
-variable "backend_protocol" {
+variable "alb_target_group_protocol" {
   description = "The protocol the backend service speaks. Options: HTTP HTTPS TCP TLS UDP TCP_UDP (secure tcp)."
   default     = "HTTP"
 }
 
-variable "slow_start" {
+variable "alb_target_group_vpc_id" {
+  description = "Set VPC ID for ?LB"
+  default     = ""
+}
+
+variable "alb_target_group_target_type" {
+  description = "The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address) or lambda. The default is instance. Note that you can't specify targets for a target group using both instance IDs and IP addresses. If the target type is ip, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses"
+  default     = "instance"
+}
+
+variable "alb_target_group_deregistration_delay" {
+  description = "The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds."
+  default     = 300
+}
+
+variable "alb_target_group_slow_start" {
   description = "(Optional) The amount time for targets to warm up before the load balancer sends them a full share of requests. The range is 30-900 seconds or 0 to disable. The default value is 0 seconds."
   default     = 0
 }
 
-variable "certificate_arn" {
-  description = "The ARN of the SSL Certificate. e.g. 'arn:aws:iam::XXXXXXXXXXX:server-certificate/ProdServerCert'"
-  default     = ""
+variable "alb_target_group_stickiness" {
+  description = "(Optional, Maximum of 1) A Stickiness block."
+  default     = []
 }
 
-variable "ssl_policy" {
-  description = "The ARN of the SSL Certificate. e.g. 'arn:aws:iam::XXXXXXXXXXX:server-certificate/ProdServerCert'"
-  default     = "ELBSecurityPolicy-2016-08"
-}
-
-variable "health_check_healthy_threshold" {
-  description = "Number of consecutive positive health checks before a backend instance is considered healthy."
-  default     = 3
-}
-
-variable "health_check_enabled" {
-  description = "(Optional) Indicates whether health checks are enabled. Defaults to true."
-  default     = true
-}
-
-variable "health_check_interval" {
-  description = "Interval in seconds on which the health check against backend hosts is tried."
-  default     = 10
-}
-
-variable "health_check_path" {
-  description = "The URL the ALB should use for health checks. e.g. /health"
-  default     = "/"
-}
-
-variable "health_check_port" {
-  description = "The port used by the health check if different from the traffic-port."
-  default     = "traffic-port"
-}
-
-variable "health_check_timeout" {
-  description = "Seconds to leave a health check waiting before terminating it and calling the check unhealthy."
-  default     = 5
-}
-
-variable "health_check_unhealthy_threshold" {
-  description = "Number of consecutive positive health checks before a backend instance is considered unhealthy."
-  default     = 3
-}
-
-variable "health_check_matcher" {
-  description = "The HTTP codes that are a success when checking TG health."
-  default     = "200-299"
-}
-
-variable "stickiness_type" {
-  description = "(Required) The type of sticky sessions. The only current possible value is lb_cookie."
-  default     = "lb_cookie"
-}
-
-variable "stickiness_cookie_duration" {
-  description = "If load balancer connection stickiness is desired, set this to the duration in seconds that cookie should be valid (e.g. 300). Otherwise, if no stickiness is desired, leave the default."
-  default     = 1
+variable "alb_target_group_health_check" {
+  description = "(Optional, Maximum of 1) A Health Check block."
+  default     = []
 }
 
 #-----------------------------------------------------------
 # ALB target group attachment
 #-----------------------------------------------------------
-variable "alb_target_group_attachment" {
+variable "enable_alb_target_group_attachment" {
   description = "Enable to use alb_target_group_attachment"
   default     = false
 }
 
-variable "alb_target_group_attachment_prefix" {
-  description = "Enable to use alb_target_group_attachment"
-  default     = false
+variable "alb_target_group_attachment_target_group_arn" {
+  description = "The ARN of the target group with which to register targets"
+  default     = ""
 }
 
-variable "target_ids" {
+variable "alb_target_group_attachment_target_ids" {
   description = "The ID of the target. This is the Instance ID for an instance, or the container ID for an ECS container. If the target type is ip, specify an IP address."
   default     = []
+}
+
+variable "alb_target_group_attachment_port" {
+  description = "(Optional) The port on which targets receive traffic."
+  default     = null
+}
+
+variable "alb_target_group_attachment_availability_zone" {
+  description = "(Optional) The Availability Zone where the IP address of the target is to be registered. If the private ip address is outside of the VPC scope, this value must be set to 'all'."
+  default     = null
 }
 
 #-----------------------------------------------------------
 # ALB listner
 #-----------------------------------------------------------
-variable "frontend_http_port" {
-  description = "The port the service on the EC2 instances listen on."
-  default     = 80
-}
-
-variable "frontend_http_protocol" {
-  description = "The protocol the backend service speaks. Options: HTTP HTTPS TCP TLS UDP TCP_UDP (secure tcp)."
-  default     = "HTTP"
-}
-
-variable "frontend_http_default_action_type" {
-  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc."
-  default     = "forward"
-}
-
-variable "frontend_https_port" {
-  description = "The port the service on the EC2 instances listen on."
-  default     = 443
-}
-
-variable "frontend_https_protocol" {
-  description = "The protocol the backend service speaks. Options: HTTP HTTPS TCP TLS UDP TCP_UDP (secure tcp)."
-  default     = "HTTPS"
-}
-
-variable "frontend_https_default_action_type" {
-  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc."
-  default     = "forward"
-}
-
-#---------------------------------------------------
-# Create AWS LB listener certificate
-#---------------------------------------------------
-variable "enable_lb_listener_certificate" {
-  description = "Enable alb listener certificate"
+variable "enable_alb_listener" {
+  description = "Enable alb_listener usage"
   default     = false
 }
 
-variable "enable_lb_listener_certificate_prefix" {
-  description = "Enable alb listener certificate"
-  default     = false
-}
-
-variable "listener_arn" {
-  description = "(Required, Forces New Resource) The ARN of the listener to which to attach the certificate."
+variable "alb_listener_load_balancer_arn" {
+  description = "(Required, Forces New Resource) The ARN of the load balancer"
   default     = ""
+}
+
+variable "alb_listener_port" {
+  description = "(Optional) The port on which the load balancer is listening. Not valid for Gateway Load Balancers."
+  default     = null
+}
+
+variable "alb_listener_protocol" {
+  description = "(Optional) The protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are HTTP and HTTPS, with a default of HTTP. For Network Load Balancers, valid values are TCP, TLS, UDP, and TCP_UDP. Not valid to use UDP or TCP_UDP if dual-stack mode is enabled. Not valid for Gateway Load Balancers."
+  default     = null
+}
+
+variable "alb_listener_ssl_policy" {
+  description = "(Optional) The name of the SSL Policy for the listener. Required if protocol is HTTPS or TLS."
+  default     = null
+}
+
+variable "alb_listener_certificate_arn" {
+  description = "(Optional) The ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the aws_lb_listener_certificate resource."
+  default     = null
+}
+
+variable "alb_listener_default_action_fixed_response" {
+  description = "Fixed-response Blocks"
+  default     = []
+}
+
+variable "alb_listener_default_action_redirect" {
+  description = "(Optional) Information for creating a redirect action. Required if type is redirect."
+  default     = []
+}
+
+variable "alb_listener_default_action_forward" {
+  description = "(Optional) Information for creating a forward action. Required if type is forward."
+  default     = []
+}
+
+variable "alb_listener_default_action_authenticate_cognito" {
+  description = "Authenticate Cognito Blocks"
+  default     = []
+}
+
+variable "alb_listener_default_action_authenticate_oidc" {
+  description = "Authenticate OIDC Blocks"
+  default     = []
+}
+
+variable "alb_listener_default_action_target_group_arn" {
+  description = "(Optional) The ARN of the Target Group to which to route traffic. Specify only if type is forward and you want to route to a single target group. To route to one or more target groups, use a forward block instead."
+  default     = null
+}
+
+variable "alb_listener_default_action_type" {
+  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc"
+  default     = null
 }
 
 #---------------------------------------------------
 # Create AWS LB listener rule
 #---------------------------------------------------
-variable "enable_lb_listener_rule" {
+variable "enable_alb_listener_rule" {
   description = "Enable alb listener rule"
   default     = false
 }
 
-variable "enable_lb_listener_rule_redirect" {
-  description = "Enable alb listener rule with redirect"
-  default     = false
-}
-
-variable "enable_lb_listener_rule_prefix" {
-  description = "Enable alb listener rule"
-  default     = false
-}
-
-variable "lb_listener_rule_forward" {
-  description = "Enable alb listener rule for forwarding"
-  default     = false
-}
-
-variable "lb_listener_rule_redirect" {
-  description = "Enable alb listener rule for redirecting"
-  default     = false
-}
-
-variable "lb_listener_rule_fixed_response" {
-  description = "Enable alb listener rule for fixed response"
-  default     = false
-}
-
-variable "enable_lb_listener_rule_cognito" {
-  description = "Enable alb listener rule for cognito"
-  default     = false
-}
-
-variable "enable_lb_listener_rule_oidc" {
-  description = "Enable alb listener rule for oidc"
-  default     = false
-}
-
-variable "target_group_arn" {
-  description = "(Optional) The ARN of the Target Group to which to route traffic. Required if type is forward."
+variable "alb_listener_rule_listener_arn" {
+  description = "(Required, Forces New Resource) The ARN of the listener to which to attach the rule."
   default     = ""
 }
 
-variable "priority" {
+variable "alb_listener_rule_priority" {
   description = "(Optional) The priority for the rule between 1 and 50000. Leaving it unset will automatically set the rule with next available priority after currently existing highest rule. A listener can't have multiple rules with the same priority."
-  default     = 100
+  default     = null
 }
 
-variable "condition_values" {
-  description = "(Required) The path patterns to match. A maximum of 1 can be defined."
-  default     = []
-}
-variable "redirect_host" {
-  description = "(Optional) The hostname. This component is not percent-encoded. The hostname can contain #{host}. Defaults to #{host}."
-  default     = "#{host}"
+variable "alb_listener_rule_action_type" {
+  description = "(Required) The type of routing action. Valid values are forward, redirect, fixed-response, authenticate-cognito and authenticate-oidc"
+  default     = null
 }
 
-variable "redirect_port" {
-  description = "(Optional) The port. Specify a value from 1 to 65535 or #{port}. Defaults to #{port}."
-  default     = 443
+variable "alb_listener_rule_action_target_group_arn" {
+  description = "(Optional) The ARN of the Target Group to which to route traffic. Specify only if type is forward and you want to route to a single target group. To route to one or more target groups, use a forward block instead."
+  default     = null
 }
 
-variable "redirect_protocol" {
-  description = "(Optional) The protocol. Valid values are HTTP, HTTPS, or #{protocol}. Defaults to #{protocol}."
-  default     = 443
-}
-
-variable "redirect_status_code" {
-  description = "(Required) The HTTP redirect code. The redirect is either permanent (HTTP_301) or temporary (HTTP_302)."
-  default     = "HTTP_301"
-}
-
-variable "redirect_path" {
-  description = "(Optional) The absolute path, starting with the leading '/'. This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}. Defaults to /#{path}."
-  default     = "/#{path}"
-}
-
-variable "redirect_query" {
-  description = "(Optional) The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading '?'. Defaults to #{query}."
-  default     = "#{query}"
-}
-
-variable "fixed_response_content_type" {
-  description = "(Required) The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json"
-  default     = "text/plain"
-}
-
-variable "fixed_response_message_body" {
-  description = "(Optional) The message body."
-  default     = "HEALTHY"
-}
-
-variable "fixed_response_status_code" {
-  description = "(Optional) The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
-  default     = 200
-}
-
-variable "authenticate_cognito_authentication_request_extra_params" {
-  description = "(Optional) The query parameters to include in the redirect request to the authorization endpoint. Max: 10."
+variable "alb_listener_rule_action_fixed_response" {
+  description = "(Optional) Information for creating an action that returns a custom HTTP response. Required if type is fixed-response"
   default     = []
 }
 
-variable "authenticate_cognito_on_unauthenticated_request" {
-  description = "(Optional) The behavior if the user is not authenticated. Valid values: deny, allow and authenticate"
-  default     = "authenticate"
-}
-
-variable "authenticate_cognito_scope" {
-  description = "(Optional) The set of user claims to be requested from the IdP."
-  default     = ""
-}
-
-variable "authenticate_cognito_session_cookie_name" {
-  description = "(Optional) The name of the cookie used to maintain session information."
-  default     = ""
-}
-
-variable "authenticate_cognito_session_timeout" {
-  description = "(Optional) The maximum duration of the authentication session, in seconds."
-  default     = 60
-}
-
-variable "authenticate_cognito_user_pool_arn" {
-  description = "(Required) The ARN of the Cognito user pool."
-  default     = ""
-}
-
-variable "authenticate_cognito_user_pool_client_id" {
-  description = "(Required) The ID of the Cognito user pool client."
-  default     = ""
-}
-
-variable "authenticate_cognito_user_pool_domain" {
-  description = "description"
-  default     = "(Required) The domain prefix or fully-qualified domain name of the Cognito user pool."
-}
-
-variable "authenticate_oidc_authentication_request_extra_params" {
-  description = "(Optional) The query parameters to include in the redirect request to the authorization endpoint. Max: 10."
+variable "alb_listener_rule_action_forward" {
+  description = "(Optional) Information for creating an action that distributes requests among one or more target groups. Specify only if type is forward. If you specify both forward block and target_group_arn attribute, you can specify only one target group using forward and it must be the same target group specified in target_group_arn."
   default     = []
 }
 
-variable "authenticate_oidc_authorization_endpoint" {
-  description = "(Required) The authorization endpoint of the IdP."
+variable "alb_listener_rule_action_redirect" {
+  description = "(Optional) Information for creating a redirect action. Required if type is redirect."
+  default     = []
+}
+
+variable "alb_listener_rule_action_authenticate_cognito" {
+  description = "(Optional) Information for creating an authenticate action using Cognito. Required if type is authenticate-cognito"
+  default     = []
+}
+
+variable "alb_listener_rule_action_authenticate_oidc" {
+  description = "(Optional) Information for creating an authenticate action using OIDC. Required if type is authenticate-oidc"
+  default     = []
+}
+
+variable "alb_listener_rule_condition_host_header" {
+  description = "(Optional) Contains a single values item which is a list of host header patterns to match. The maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). Only one pattern needs to match for the condition to be satisfied."
+  default     = []
+}
+
+variable "alb_listener_rule_condition_http_request_method" {
+  description = "(Optional) Contains a single values item which is a list of HTTP request methods or verbs to match. Maximum size is 40 characters. Only allowed characters are A-Z, hyphen (-) and underscore (_). Comparison is case sensitive. Wildcards are not supported. Only one needs to match for the condition to be satisfied. AWS recommends that GET and HEAD requests are routed in the same way because the response to a HEAD request may be cached."
+  default     = []
+}
+
+variable "alb_listener_rule_condition_path_pattern" {
+  description = "(Optional) Contains a single values item which is a list of path patterns to match against the request URL. Maximum size of each pattern is 128 characters. Comparison is case sensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). Only one pattern needs to match for the condition to be satisfied. Path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a query_string condition."
+  default     = []
+}
+
+variable "alb_listener_rule_condition_source_ip" {
+  description = "(Optional) Contains a single values item which is a list of source IP CIDR notations to match. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. Condition is satisfied if the source IP address of the request matches one of the CIDR blocks. Condition is not satisfied by the addresses in the X-Forwarded-For header, use http_header condition instead."
+  default     = []
+}
+
+variable "alb_listener_rule_condition_http_header" {
+  description = "(Optional) HTTP headers to match."
+  default     = []
+}
+
+variable "alb_listener_rule_condition_query_string" {
+  description = "(Optional) Query strings to match."
+  default     = []
+}
+
+#---------------------------------------------------
+# Create AWS LB listener certificate
+#---------------------------------------------------
+variable "enable_alb_listener_certificate" {
+  description = "Enable alb listener certificate"
+  default     = false
+}
+
+variable "alb_listener_certificate_listener_arn" {
+  description = "(Required, Forces New Resource) The ARN of the listener to which to attach the certificate."
   default     = ""
 }
 
-variable "authenticate_oidc_client_id" {
-  description = "(Required) The OAuth 2.0 client identifier."
-  default     = ""
-}
-
-variable "authenticate_oidc_client_secret" {
-  description = "(Required) The OAuth 2.0 client secret."
-  default     = ""
-}
-
-variable "authenticate_oidc_issuer" {
-  description = "(Required) The OIDC issuer identifier of the IdP."
-  default     = ""
-}
-
-variable "authenticate_oidc_token_endpoint" {
-  description = "(Required) The token endpoint of the IdP."
-  default     = ""
-}
-
-variable "authenticate_oidc_user_info_endpoint" {
-  description = "(Required) The user info endpoint of the IdP."
-  default     = ""
-}
-
-variable "authenticate_oidc_on_unauthenticated_request" {
-  description = "(Optional) The behavior if the user is not authenticated. Valid values: deny, allow and authenticate"
-  default     = "authenticate"
-}
-
-variable "authenticate_oidc_scope" {
-  description = "(Optional) The set of user claims to be requested from the IdP."
-  default     = ""
-}
-
-variable "authenticate_oidc_session_cookie_name" {
-  description = "(Optional) The name of the cookie used to maintain session information."
-  default     = ""
-}
-
-variable "authenticate_oidc_session_timeout" {
-  description = "(Optional) The maximum duration of the authentication session, in seconds."
-  default     = 60
+variable "alb_listener_certificate_certificate_arn" {
+  description = "(Required, Forces New Resource) The ARN of the certificate to attach to the listener."
+  default     = null
 }

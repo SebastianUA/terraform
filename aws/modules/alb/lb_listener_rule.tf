@@ -1,24 +1,144 @@
 #---------------------------------------------------
 # AWS LB listener rule
 #---------------------------------------------------
+resource "aws_lb_listener_rule" "alb_listener_rule" {
+  count = var.enable_alb_listener_rule ? 1 : 0
 
-# Forward action
-resource "aws_lb_listener_rule" "lb_listener_rule_forward" {
-  count = var.enable_lb_listener_rule && var.lb_listener_rule_forward ? 1 : 0
+  listener_arn = var.alb_listener_rule_listener_arn != "" && ! var.enable_alb_listener ? var.alb_listener_rule_listener_arn : aws_lb_listener.alb_listener[0].arn
 
-  listener_arn = var.listener_arn
-  priority     = var.priority
+  priority = var.alb_listener_rule_priority
 
   action {
-    type             = "forward"
-    target_group_arn = var.target_group_arn
+    target_group_arn = var.alb_listener_rule_action_target_group_arn
+    type             = var.alb_listener_rule_action_type
+
+    dynamic "fixed_response" {
+      iterator = fixed_response
+      for_each = var.alb_listener_rule_action_fixed_response
+      content {
+        content_type = lookup(fixed_response.value, "content_type", null)
+
+        message_body = lookup(fixed_response.value, "message_body", null)
+        status_code  = lookup(fixed_response.value, "status_code", null)
+      }
+    }
+
+    dynamic "forward" {
+      iterator = forward
+      for_each = var.alb_listener_rule_action_forward
+      content {
+        target_group {
+          arn = lookup(forward.value, "target_group_arn", null)
+
+          weight = lookup(forward.value, "target_group_weight", null)
+        }
+        stickiness {
+          enabled  = lookup(forward.value, "stickiness_enabled", null)
+          duration = lookup(forward.value, "stickiness_duration", null)
+        }
+      }
+    }
+
+    dynamic "redirect" {
+      iterator = redirect
+      for_each = var.alb_listener_rule_action_redirect
+      content {
+        status_code = lookup(redirect.value, "status_code", null)
+
+        host     = lookup(redirect.value, "host", null)
+        path     = lookup(redirect.value, "path", null)
+        port     = lookup(redirect.value, "port", null)
+        protocol = lookup(redirect.value, "protocol", null)
+        query    = lookup(redirect.value, "query", null)
+      }
+    }
+
+    dynamic "authenticate_cognito" {
+      iterator = authenticate_cognito
+      for_each = var.alb_listener_rule_action_authenticate_cognito
+      content {
+        user_pool_client_id = lookup(authenticate_cognito.value, "user_pool_client_id", null)
+        user_pool_domain    = lookup(authenticate_cognito.value, "user_pool_domain", null)
+        user_pool_arn       = lookup(authenticate_cognito.value, "user_pool_arn", null)
+
+        authentication_request_extra_params = lookup(authenticate_cognito.value, "authentication_request_extra_params", null)
+        on_unauthenticated_request          = lookup(authenticate_cognito.value, "on_unauthenticated_request", null)
+        scope                               = lookup(authenticate_cognito.value, "scope", null)
+        session_cookie_name                 = lookup(authenticate_cognito.value, "session_cookie_name", null)
+        session_timeout                     = lookup(authenticate_cognito.value, "session_timeout", null)
+      }
+    }
+
+    dynamic "authenticate_oidc" {
+      iterator = authenticate_oidc
+      for_each = var.alb_listener_rule_action_authenticate_oidc
+      content {
+        authorization_endpoint = lookup(authenticate_oidc.value, "authorization_endpoint", null)
+        client_id              = lookup(authenticate_oidc.value, "client_id", null)
+        client_secret          = lookup(authenticate_oidc.value, "client_secret", null)
+        issuer                 = lookup(authenticate_oidc.value, "issuer", null)
+        token_endpoint         = lookup(authenticate_oidc.value, "token_endpoint", null)
+        user_info_endpoint     = lookup(authenticate_oidc.value, "user_info_endpoint", null)
+
+        authentication_request_extra_params = lookup(authenticate_oidc.value, "authentication_request_extra_params", null)
+        on_unauthenticated_request          = lookup(authenticate_oidc.value, "on_unauthenticated_request", null)
+        scope                               = lookup(authenticate_oidc.value, "scope", null)
+        session_cookie_name                 = lookup(authenticate_oidc.value, "session_cookie_name", null)
+        session_timeout                     = lookup(authenticate_oidc.value, "session_timeout", null)
+      }
+    }
   }
 
   condition {
-    // field  = "host-header"
-    http_header {
-      http_header_name = "X-Forwarded-For"
-      values           = var.condition_values
+
+    dynamic "host_header" {
+      iterator = host_header
+      for_each = var.alb_listener_rule_condition_host_header
+      content {
+        values = lookup(host_header.value, "values", null)
+      }
+    }
+
+    dynamic "http_request_method" {
+      iterator = http_request_method
+      for_each = var.alb_listener_rule_condition_http_request_method
+      content {
+        values = lookup(http_request_method.value, "values", null)
+      }
+    }
+
+    dynamic "path_pattern" {
+      iterator = path_pattern
+      for_each = var.alb_listener_rule_condition_path_pattern
+      content {
+        values = lookup(path_pattern.value, "values", null)
+      }
+    }
+
+    dynamic "source_ip" {
+      iterator = source_ip
+      for_each = var.alb_listener_rule_condition_source_ip
+      content {
+        values = lookup(source_ip.value, "values", null)
+      }
+    }
+
+    dynamic "http_header" {
+      iterator = http_header
+      for_each = var.alb_listener_rule_condition_http_header
+      content {
+        http_header_name = lookup(http_header.value, "http_header_name", null)
+        values           = lookup(http_header.value, "values", null)
+      }
+    }
+
+    dynamic "query_string" {
+      iterator = query_string
+      for_each = var.alb_listener_rule_condition_query_string
+      content {
+        key   = lookup(query_string.value, "key", null)
+        value = lookup(query_string.value, "value", null)
+      }
     }
   }
 
@@ -28,177 +148,6 @@ resource "aws_lb_listener_rule" "lb_listener_rule_forward" {
   }
 
   depends_on = [
-    aws_lb_listener.frontend_http,
-    aws_lb_listener.frontend_https
-  ]
-}
-
-# Redirect action
-resource "aws_lb_listener_rule" "lb_listener_rule_redirect" {
-  count = var.enable_lb_listener_rule && var.enable_lb_listener_rule_redirect ? 1 : 0
-
-  listener_arn = var.listener_arn
-
-  action {
-    type = "redirect"
-
-    redirect {
-      host        = var.redirect_host
-      port        = var.redirect_port
-      protocol    = var.redirect_protocol
-      status_code = var.redirect_status_code
-      path        = var.redirect_path
-      query       = var.redirect_query
-    }
-  }
-
-  condition {
-    // field  = "host-header"
-    http_header {
-      http_header_name = "X-Forwarded-For"
-      values           = var.condition_values
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = [
-    aws_lb_listener.frontend_http,
-    aws_lb_listener.frontend_https
-  ]
-}
-
-# Fixed-response action
-resource "aws_lb_listener_rule" "lb_listener_rule_fixed_response" {
-  count = var.enable_lb_listener_rule && var.lb_listener_rule_fixed_response ? 1 : 0
-
-  listener_arn = var.listener_arn
-
-  action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = var.fixed_response_content_type
-      message_body = var.fixed_response_message_body
-      status_code  = var.fixed_response_status_code
-    }
-  }
-
-  condition {
-    query_string {
-      key   = "health"
-      value = "check"
-    }
-    // field  = "path-pattern"
-    // values = var.condition_values
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = [
-    aws_lb_listener.frontend_http,
-    aws_lb_listener.frontend_https
-  ]
-}
-
-# Authenticate-cognito Action
-resource "aws_lb_listener_rule" "lb_listener_rule_cognito" {
-  count = var.enable_lb_listener_rule && var.enable_lb_listener_rule_cognito ? 1 : 0
-
-  listener_arn = var.listener_arn
-
-  action {
-    type = "authenticate-cognito"
-
-    authenticate_cognito {
-      authentication_request_extra_params = var.authenticate_cognito_authentication_request_extra_params
-      on_unauthenticated_request          = var.authenticate_cognito_on_unauthenticated_request
-      scope                               = var.authenticate_cognito_scope
-      session_cookie_name                 = var.authenticate_cognito_session_cookie_name
-      session_timeout                     = var.authenticate_cognito_session_timeout
-
-      user_pool_arn       = var.authenticate_cognito_user_pool_arn
-      user_pool_client_id = var.authenticate_cognito_user_pool_client_id
-      user_pool_domain    = var.authenticate_cognito_user_pool_domain
-    }
-  }
-
-  action {
-    type             = "forward"
-    target_group_arn = var.target_group_arn
-  }
-
-  condition {
-    // field  = "path-pattern"
-    http_header {
-      http_header_name = "X-Forwarded-For"
-      values           = var.condition_values
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = [
-    aws_lb_listener.frontend_http,
-    aws_lb_listener.frontend_https
-  ]
-}
-
-# Authenticate-oidc Action
-resource "aws_lb_listener_rule" "lb_listener_rule_oidc" {
-  count = var.enable_lb_listener_rule && var.enable_lb_listener_rule_oidc ? 1 : 0
-
-  listener_arn = var.listener_arn
-
-  action {
-    type = "authenticate-oidc"
-
-    authenticate_oidc {
-      authentication_request_extra_params = var.authenticate_oidc_authentication_request_extra_params
-      authorization_endpoint              = var.authenticate_oidc_authorization_endpoint
-      client_id                           = var.authenticate_oidc_client_id
-      client_secret                       = var.authenticate_oidc_client_secret
-      issuer                              = var.authenticate_oidc_issuer
-      token_endpoint                      = var.authenticate_oidc_token_endpoint
-      user_info_endpoint                  = var.authenticate_oidc_user_info_endpoint
-
-      on_unauthenticated_request = var.authenticate_oidc_on_unauthenticated_request
-      scope                      = var.authenticate_oidc_scope
-      session_cookie_name        = var.authenticate_oidc_session_cookie_name
-      session_timeout            = var.authenticate_oidc_session_timeout
-
-    }
-  }
-
-  action {
-    type             = "forward"
-    target_group_arn = var.target_group_arn
-  }
-
-  condition {
-    // field  = "path-pattern"
-    http_header {
-      http_header_name = "X-Forwarded-For"
-      values           = var.condition_values
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = [
-    aws_lb_listener.frontend_http,
-    aws_lb_listener.frontend_https
+    aws_lb_listener.alb_listener
   ]
 }

@@ -6,7 +6,6 @@ output "lb_name" {
   value = element(
     concat(
       aws_lb.alb.*.name,
-      aws_lb.alb_prefix.*.name,
       [""],
     ),
     0,
@@ -18,7 +17,6 @@ output "lb_arn" {
   value = element(
     concat(
       aws_lb.alb.*.arn,
-      aws_lb.alb_prefix.*.arn,
       [""],
     ),
     0,
@@ -30,7 +28,6 @@ output "lb_arn_suffix" {
   value = element(
     concat(
       aws_lb.alb.*.arn_suffix,
-      aws_lb.alb_prefix.*.arn_suffix,
       [""],
     ),
     0,
@@ -42,7 +39,6 @@ output "lb_dns_name" {
   value = element(
     concat(
       aws_lb.alb.*.dns_name,
-      aws_lb.alb_prefix.*.dns_name,
       [""],
     ),
     0,
@@ -54,7 +50,6 @@ output "lb_id" {
   value = element(
     concat(
       aws_lb.alb.*.id,
-      aws_lb.alb_prefix.*.id,
       [""],
     ),
     0,
@@ -66,7 +61,6 @@ output "lb_zone_id" {
   value = element(
     concat(
       aws_lb.alb.*.zone_id,
-      aws_lb.alb_prefix.*.zone_id,
       [""],
     ),
     0,
@@ -81,7 +75,6 @@ output "lb_tg_id" {
   value = element(
     concat(
       aws_lb_target_group.alb_target_group.*.id,
-      aws_lb_target_group.alb_target_group_prefix.*.id,
       [""],
     ),
     0,
@@ -93,7 +86,6 @@ output "lb_tg_arn" {
   value = element(
     concat(
       aws_lb_target_group.alb_target_group.*.arn,
-      aws_lb_target_group.alb_target_group_prefix.*.arn,
       [""],
     ),
     0,
@@ -105,7 +97,6 @@ output "lb_tg_arn_suffix" {
   value = element(
     concat(
       aws_lb_target_group.alb_target_group.*.arn_suffix,
-      aws_lb_target_group.alb_target_group_prefix.*.arn_suffix,
       [""],
     ),
     0,
@@ -117,7 +108,20 @@ output "lb_tg_name" {
   value = element(
     concat(
       aws_lb_target_group.alb_target_group.*.name,
-      aws_lb_target_group.alb_target_group_prefix.*.name,
+      [""],
+    ),
+    0,
+  )
+}
+
+#---------------------------------------------------
+# AWS ALB target group attachment
+#---------------------------------------------------
+output "lb_tg_attachment_id" {
+  description = "A unique identifier for the attachment"
+  value = element(
+    concat(
+      aws_lb_target_group_attachment.alb_target_group_attachment.*.id,
       [""],
     ),
     0,
@@ -127,48 +131,47 @@ output "lb_tg_name" {
 #---------------------------------------------------
 # AWS ALB listener
 #---------------------------------------------------
-output "lb_listener_https_arn" {
+output "alb_listener_arn" {
   description = "The ARN of the HTTPS lb Listener we created."
   value = element(
     concat(
-      aws_lb_listener.frontend_https.*.arn,
-      aws_lb_listener.frontend_https_prefix.*.arn,
+      aws_lb_listener.alb_listener.*.arn,
       [""],
     ),
     0,
   )
 }
 
-output "lb_listener_http_arn" {
-  description = "The ARN of the HTTP lb Listener we created."
-  value = element(
-    concat(
-      aws_lb_listener.frontend_http.*.arn,
-      aws_lb_listener.frontend_http_prefix.*.arn,
-      [""],
-    ),
-    0,
-  )
-}
-
-output "lb_listener_https_id" {
+output "alb_listener_id" {
   description = "The ID of the lb Listener we created."
   value = element(
     concat(
-      aws_lb_listener.frontend_https.*.id,
-      aws_lb_listener.frontend_https_prefix.*.id,
+      aws_lb_listener.alb_listener.*.id,
       [""],
     ),
     0,
   )
 }
 
-output "lb_listener_http_id" {
-  description = "The ID of the lb Listener we created."
+#---------------------------------------------------
+# AWS LB listener rule
+#---------------------------------------------------
+output "alb_listener_rule_arn" {
+  description = "The ARN of the rule (matches id)"
   value = element(
     concat(
-      aws_lb_listener.frontend_http.*.id,
-      aws_lb_listener.frontend_http_prefix.*.id,
+      aws_lb_listener_rule.alb_listener_rule.*.id,
+      [""],
+    ),
+    0,
+  )
+}
+
+output "alb_listener_rule_id" {
+  description = "The ARN of the rule (matches arn)"
+  value = element(
+    concat(
+      aws_lb_listener_rule.alb_listener_rule.*.id,
       [""],
     ),
     0,

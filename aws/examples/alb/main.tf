@@ -17,28 +17,97 @@ module "alb" {
   name        = "App-Load-Balancer"
   environment = "staging"
 
-  enable_alb                 = true
-  load_balancer_type         = "application"
-  alb_name                   = "MyfirstLB"
-  security_groups            = ["sg-aed75fe1"]
-  subnets                    = ["subnet-ea58d88d", "subnet-cb5581f5"]
-  enable_deletion_protection = false
+  # Create a new ALB
+  enable_alb                     = true
+  alb_load_balancer_type         = "application"
+  alb_name                       = "MyfirstLB"
+  alb_security_groups            = ["sg-0cfb43249902af8f2"]
+  alb_subnets                    = ["subnet-087ab3540e1a1ace4", "subnet-03212d250885f6986", "subnet-02b0ff71a1d00deb2"]
+  alb_internal                   = false
+  alb_enable_deletion_protection = false
 
-  enable_alb_target_group = true
-  alb_target_group_name   = "myFirstLB"
-  backend_protocol        = "HTTP"
-  alb_protocols           = "HTTP"
-  vpc_id                  = "vpc-56af732c"
+  # Create ALB target group
+  enable_alb_target_group   = true
+  alb_target_group_name     = "myFirstLB"
+  alb_target_group_protocol = "HTTP"
+  alb_target_group_vpc_id   = "vpc-0ea8873ab2bf7900d"
 
-  frontend_http_port                 = 80
-  frontend_http_protocol             = "HTTP"
-  frontend_http_default_action_type  = "forward"
-  frontend_https_port                = 443
-  frontend_https_protocol            = "HTTPS"
-  frontend_https_default_action_type = "forward"
+  alb_target_group_health_check = [
+    {
+      enabled             = true
+      port                = 80
+      protocol            = "HTTP"
+      interval            = 10
+      path                = "/"
+      healthy_threshold   = 3
+      unhealthy_threshold = 3
+      timeout             = 5
+      matcher             = "200-299"
+    }
+  ]
 
-  #alb_target_group_attachment         = true
-  #target_ids                          = ["test", "test2"]
+  alb_target_group_stickiness = [
+    {
+      enabled         = true
+      type            = "lb_cookie"
+      cookie_duration = 300
+    }
+  ]
+
+  # Create ALB target group attachment
+  enable_alb_target_group_attachment     = false
+  alb_target_group_attachment_port       = 80
+  alb_target_group_attachment_target_ids = ["id-43243cxfd4", "id-32rxcer34"]
+
+  # Create ALB listener
+  enable_alb_listener              = true
+  alb_listener_port                = 80
+  alb_listener_protocol            = "HTTP"
+  alb_listener_default_action_type = "fixed-response"
+  alb_listener_default_action_fixed_response = [
+    {
+      content_type = "text/plain"
+      message_body = null
+      status_code  = "200"
+    }
+  ]
+
+  # listener rule rule
+  enable_alb_listener_rule      = true
+  alb_listener_rule_action_type = "fixed-response"
+  alb_listener_rule_action_fixed_response = [
+    {
+      content_type = "text/plain"
+      message_body = null
+      status_code  = "200"
+    }
+  ]
+  alb_listener_rule_condition_http_header = [
+    {
+      http_header_name = "X-Forwarded-For"
+      values           = ["0.0.0.0/0"]
+    }
+  ]
+
+  tags = map("Env", "stage")
+
+}
+
+
+module "alb_name_prefix" {
+  source      = "../../modules/alb"
+  name        = "App-Load-Balancer"
+  environment = "staging"
+
+  # Create a new ALB
+  enable_alb                     = false
+  alb_load_balancer_type         = "application"
+  alb_name_prefix                = "alb-"
+  alb_security_groups            = ["sg-0cfb43249902af8f2"]
+  alb_subnets                    = ["subnet-087ab3540e1a1ace4", "subnet-03212d250885f6986", "subnet-02b0ff71a1d00deb2"]
+  alb_internal                   = false
+  alb_enable_deletion_protection = false
+
 
   tags = map("Env", "stage")
 

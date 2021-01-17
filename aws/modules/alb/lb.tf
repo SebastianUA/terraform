@@ -2,36 +2,53 @@
 # AWS ALB
 #---------------------------------------------------
 resource "aws_lb" "alb" {
-  count = var.enable_alb && ! var.enable_alb_prefix ? 1 : 0
+  count = var.enable_alb ? 1 : 0
 
-  name            = var.alb_name != "" ? lower(var.alb_name) : "${lower(var.name)}-alb-${lower(var.environment)}"
-  security_groups = var.security_groups
-  subnets         = var.subnets
-  internal        = var.lb_internal
+  name        = var.alb_name != "" ? var.alb_name : (var.alb_name_prefix == null ? "${lower(var.name)}-alb-${lower(var.environment)}" : null)
+  name_prefix = var.alb_name_prefix != null ? (var.alb_name == "" ? var.alb_name_prefix : null) : null
 
-  enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
-  enable_deletion_protection       = var.enable_deletion_protection
-  load_balancer_type               = var.load_balancer_type
-  idle_timeout                     = var.idle_timeout
-  enable_http2                     = var.enable_http2
-  ip_address_type                  = var.ip_address_type
+  security_groups = var.alb_security_groups
+  subnets         = var.alb_subnets
+  internal        = var.alb_internal
 
-  access_logs {
-    enabled = var.access_logs_enabled
-    bucket  = var.access_logs_bucket
-    prefix  = var.access_logs_prefix
+  enable_cross_zone_load_balancing = var.alb_enable_cross_zone_load_balancing
+  enable_deletion_protection       = var.alb_enable_deletion_protection
+  load_balancer_type               = var.alb_load_balancer_type
+  idle_timeout                     = var.alb_idle_timeout
+  enable_http2                     = var.alb_enable_http2
+  ip_address_type                  = var.alb_ip_address_type
+  drop_invalid_header_fields       = var.alb_drop_invalid_header_fields
+  customer_owned_ipv4_pool         = var.alb_customer_owned_ipv4_pool
+
+  dynamic "access_logs" {
+    iterator = access_logs
+    for_each = var.alb_access_logs
+    content {
+      enabled = lookup(access_logs.value, "enabled", null)
+      bucket  = lookup(access_logs.value, "bucket", null)
+      prefix  = lookup(access_logs.value, "prefix", null)
+    }
   }
 
   # not working with subnets
-  #subnet_mapping {
-  #    subnet_id       = ""
-  #    allocation_id   = ""
-  #}
+  dynamic "subnet_mapping" {
+    iterator = subnet_mapping
+    for_each = var.alb_subnet_mapping
+    content {
+      subnet_id            = lookup(subnet_mapping.value, "subnet_id", null)
+      allocation_id        = lookup(subnet_mapping.value, "allocation_id", null)
+      private_ipv4_address = lookup(subnet_mapping.value, "private_ipv4_address", null)
+    }
+  }
 
-  timeouts {
-    create = var.timeouts_create
-    update = var.timeouts_update
-    delete = var.timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.alb_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   lifecycle {
@@ -41,55 +58,7 @@ resource "aws_lb" "alb" {
 
   tags = merge(
     {
-      "Name" = var.alb_name != "" ? lower(var.alb_name) : "${lower(var.name)}-alb-${lower(var.environment)}"
-    },
-    var.tags
-  )
-
-  depends_on = []
-}
-
-resource "aws_lb" "alb_prefix" {
-  count = var.enable_alb && var.enable_alb_prefix ? 1 : 0
-
-  name_prefix     = var.name_prefix != "" ? lower(var.name_prefix) : "${lower(var.name)}-alb-"
-  security_groups = var.security_groups
-  subnets         = var.subnets
-  internal        = var.lb_internal
-
-  enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
-  enable_deletion_protection       = var.enable_deletion_protection
-  load_balancer_type               = var.load_balancer_type
-  idle_timeout                     = var.idle_timeout
-  enable_http2                     = var.enable_http2
-  ip_address_type                  = var.ip_address_type
-
-  access_logs {
-    enabled = var.access_logs_enabled
-    bucket  = var.access_logs_bucket
-    prefix  = var.access_logs_prefix
-  }
-
-  # not working with subnets
-  #subnet_mapping {
-  #    subnet_id       = ""
-  #    allocation_id   = ""
-  #}
-
-  timeouts {
-    create = var.timeouts_create
-    update = var.timeouts_update
-    delete = var.timeouts_delete
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  tags = merge(
-    {
-      "Name" = var.name_prefix != "" ? lower(var.name_prefix) : "${lower(var.name)}-alb-"
+      Name = var.alb_name != "" ? var.alb_name : (var.alb_name_prefix == null ? "${lower(var.name)}-alb-${lower(var.environment)}" : var.alb_name_prefix)
     },
     var.tags
   )
