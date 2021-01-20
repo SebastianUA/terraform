@@ -10,12 +10,16 @@ provider "aws" {
   region                  = "us-east-1"
   shared_credentials_file = pathexpand("/Users/captain/.aws/credentials")
   profile                 = "default"
+
+  alias = "test"
 }
 
 module "alb" {
   source      = "../../modules/alb"
   name        = "App-Load-Balancer"
   environment = "staging"
+
+  provider = aws.test1
 
   # Create a new ALB
   enable_alb                     = true
