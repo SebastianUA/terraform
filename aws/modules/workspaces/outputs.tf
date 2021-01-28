@@ -58,3 +58,26 @@ output "workspaces_ip_group_id" {
   description = "The IP group identifier."
   value       = element(concat(aws_workspaces_ip_group.workspaces_ip_group.*.id, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS Workspaces workspace
+#---------------------------------------------------
+output "workspaces_workspace_id" {
+  description = "The workspaces ID."
+  value       = element(concat(aws_workspaces_workspace.workspaces_workspace.*.id, [""]), 0)
+}
+
+output "workspaces_workspace_ip_address" {
+  description = "The IP address of the WorkSpace."
+  value       = element(concat(aws_workspaces_workspace.workspaces_workspace.*.ip_address, [""]), 0)
+}
+
+output "workspaces_workspace_computer_name" {
+  description = "The name of the WorkSpace, as seen by the operating system."
+  value       = element(concat(aws_workspaces_workspace.workspaces_workspace.*.computer_name, [""]), 0)
+}
+
+output "workspaces_workspace_state" {
+  description = "The operational state of the WorkSpace."
+  value       = element(concat(aws_workspaces_workspace.workspaces_workspace.*.state, [""]), 0)
+}
