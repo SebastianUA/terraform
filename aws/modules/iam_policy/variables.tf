@@ -36,14 +36,13 @@ variable "iam_policy_name" {
 
 variable "iam_policy_name_prefix" {
   description = "Enable IAM policy with name_prefix usage"
-  default     = false
+  default     = null
 }
 
 variable "iam_policy_description" {
   description = "(Optional, Forces new resource) Description of the IAM policy."
   default     = ""
 }
-
 
 #-----------------------------------------------------------
 # IAM Policy Attachment

@@ -106,11 +106,6 @@ variable "policy_arns" {
   default     = []
 }
 
-#variable "iam_role_policy_attachment_policy_arn" {
-#  description = "(Required) - The ARN of the policy you want to apply"
-#  default     = ""
-#}
-
 #-----------------------------------------------------------
 # IAM Instance Profile
 #-----------------------------------------------------------

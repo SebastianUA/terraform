@@ -6,21 +6,6 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
 
   enabled = var.cloudfront_distribution_enabled
 
-  restrictions {
-    geo_restriction {
-      restriction_type = var.geo_restriction_restriction_type
-      locations        = var.geo_restriction_locations
-    }
-  }
-
-  viewer_certificate {
-    cloudfront_default_certificate = var.viewer_certificate_acm_certificate_arn == "" ? (var.viewer_certificate_cloudfront_default_certificate != null ? var.viewer_certificate_cloudfront_default_certificate : true) : false
-    acm_certificate_arn            = var.viewer_certificate_acm_certificate_arn
-    iam_certificate_id             = var.viewer_certificate_iam_certificate_id
-    minimum_protocol_version       = var.viewer_certificate_minimum_protocol_version
-    ssl_support_method             = var.viewer_certificate_acm_certificate_arn == "" ? var.viewer_certificate_ssl_support_method : "https"
-  }
-
   default_cache_behavior {
     allowed_methods = var.default_cache_behavior_allowed_methods
     cached_methods  = var.default_cache_behavior_cached_methods
@@ -83,25 +68,52 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     }
   }
 
-  default_root_object = var.cloudfront_distribution_default_root_object
-  aliases             = var.cloudfront_distribution_aliases
-  comment             = var.cloudfront_distribution_comment
-  is_ipv6_enabled     = var.cloudfront_distribution_is_ipv6_enabled
-  http_version        = var.cloudfront_distribution_http_version
-
-  custom_error_response {
-    error_code = var.custom_error_response_error_code
-
-    error_caching_min_ttl = var.custom_error_response_error_caching_min_ttl
-    response_code         = var.custom_error_response_response_code
-    response_page_path    = var.custom_error_response_response_page_path
+  restrictions {
+    geo_restriction {
+      restriction_type = var.geo_restriction_restriction_type
+      locations        = var.geo_restriction_locations
+    }
   }
 
-  logging_config {
-    bucket = var.logging_config_bucket
+  viewer_certificate {
+    cloudfront_default_certificate = var.viewer_certificate_acm_certificate_arn == "" ? (var.viewer_certificate_cloudfront_default_certificate != null ? var.viewer_certificate_cloudfront_default_certificate : true) : false
+    acm_certificate_arn            = var.viewer_certificate_acm_certificate_arn
+    iam_certificate_id             = var.viewer_certificate_iam_certificate_id
+    minimum_protocol_version       = var.viewer_certificate_minimum_protocol_version
+    ssl_support_method             = var.viewer_certificate_acm_certificate_arn == "" ? var.viewer_certificate_ssl_support_method : "https"
+  }
 
-    include_cookies = var.logging_config_include_cookies
-    prefix          = var.logging_config_prefix
+  aliases             = var.cloudfront_distribution_aliases
+  comment             = var.cloudfront_distribution_comment
+  default_root_object = var.cloudfront_distribution_default_root_object
+  is_ipv6_enabled     = var.cloudfront_distribution_is_ipv6_enabled
+  http_version        = var.cloudfront_distribution_http_version
+  price_class         = var.cloudfront_distribution_price_class
+  web_acl_id          = var.cloudfront_distribution_web_acl_id
+  retain_on_delete    = var.cloudfront_distribution_retain_on_delete
+  wait_for_deployment = var.cloudfront_distribution_wait_for_deployment
+
+  dynamic "custom_error_response" {
+    iterator = custom_error_response
+    for_each = var.cloudfront_distribution_custom_error_response
+    content {
+      error_code = lookup(custom_error_response.value, "error_code", null)
+
+      error_caching_min_ttl = lookup(custom_error_response.value, "error_caching_min_ttl", null)
+      response_code         = lookup(custom_error_response.value, "response_code", null)
+      response_page_path    = lookup(custom_error_response.value, "response_page_path", null)
+    }
+  }
+
+  dynamic "logging_config" {
+    iterator = logging_config
+    for_each = var.cloudfront_distribution_logging_config
+    content {
+      bucket = lookup(logging_config.value, "bucket", null)
+
+      include_cookies = lookup(logging_config.value, "include_cookies", null)
+      prefix          = lookup(logging_config.value, "prefix", null)
+    }
   }
 
   # Cache behavior with precedence 1
@@ -142,14 +154,9 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     }
   }
 
-  price_class         = var.cloudfront_distribution_price_class
-  web_acl_id          = var.cloudfront_distribution_web_acl_id
-  retain_on_delete    = var.cloudfront_distribution_retain_on_delete
-  wait_for_deployment = var.cloudfront_distribution_wait_for_deployment
-
   tags = merge(
     {
-      "Name" = var.cloudfront_distribution_name != "" ? lower(var.cloudfront_distribution_name) : "${lower(var.name)}-cloudfront-distribution-${lower(var.environment)}"
+      Name = var.cloudfront_distribution_name != "" ? lower(var.cloudfront_distribution_name) : "${lower(var.name)}-cloudfront-distribution-${lower(var.environment)}"
     },
     var.tags,
   )

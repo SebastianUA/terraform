@@ -78,29 +78,24 @@ module "cloudfront" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - Add additional tags (`default = ""`)
-- `enable_cloudfront_distribution` - Enable cloudfront distribution usage (`default = ""`)
+- `tags` - Add additional tags (`default = {}`)
+- `enable_cloudfront_distribution` - Enable cloudfront distribution usage (`default = False`)
 - `cloudfront_distribution_name` - Set name for cloudfront distribution (`default = ""`)
 - `cloudfront_distribution_enabled` - (Required) - Whether the distribution is enabled to accept end user requests for content. (`default = True`)
 - `cloudfront_distribution_default_root_object` - (Optional) - The object that you want CloudFront to return (for example, index.html) when an end user requests the root URL. (`default = null`)
 - `cloudfront_distribution_aliases` - (Optional) - Extra CNAMEs (alternate domain names), if any, for this distribution. (`default = null`)
 - `cloudfront_distribution_comment` - (Optional) - Any comments you want to include about the distribution. (`default = null`)
-- `custom_error_response_error_code` - (Required) - The 4xx or 5xx HTTP status code that you want to customize. (`default = 404`)
-- `custom_error_response_error_caching_min_ttl` - (Optional) - The minimum amount of time you want HTTP error codes to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. (`default = null`)
-- `custom_error_response_response_code` - (Optional) - The HTTP status code that you want CloudFront to return with the custom error page to the viewer. (`default = null`)
-- `custom_error_response_response_page_path` - (Optional) - The path of the custom error page (for example, /custom_404.html). (`default = null`)
+- `cloudfront_distribution_custom_error_response` - (Optional) - One or more custom error response elements (multiples allowed). (`default = []`)
 - `cloudfront_distribution_is_ipv6_enabled` - (Optional) - Whether the IPv6 is enabled for the distribution. (`default = null`)
 - `cloudfront_distribution_http_version` - (Optional) - The maximum HTTP version to support on the distribution. Allowed values are http1.1 and http2. The default is http2. (`default = http2`)
-- `logging_config_bucket` - (Required) - The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com. (`default = null`)
-- `logging_config_include_cookies` - (Optional) - Specifies whether you want CloudFront to include cookies in access logs (default: false). (`default = ""`)
-- `logging_config_prefix` - (Optional) - An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. (`default = null`)
+- `cloudfront_distribution_logging_config` - (Optional) - The logging configuration that controls how logs are written to your distribution (maximum one). (`default = []`)
 - `ordered_cache_behavior_path_pattern` - (Required) - The pattern (for example, images/*.jpg) that specifies which requests you want this cache behavior to apply to. (`default = /content/*`)
 - `ordered_cache_behavior_allowed_methods` - (Required) - Controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. (`default = ['GET', 'HEAD', 'OPTIONS']`)
 - `ordered_cache_behavior_cached_methods` - (Required) - Controls whether CloudFront caches the response to requests using the specified HTTP methods. (`default = ['GET', 'HEAD']`)
 - `ordered_cache_behavior_target_origin_id` - (Required) - The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior. (`default = groupS3`)
-- `ordered_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = ""`)
+- `ordered_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = False`)
 - `ordered_cache_behavior_cookies_forward` - (Required) - Specifies whether you want CloudFront to forward cookies to the origin that is associated with this cache behavior. You can specify all, none or whitelist. If whitelist, you must include the subsequent whitelisted_names (`default = none`)
-- `ordered_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = ""`)
+- `ordered_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = 0`)
 - `ordered_cache_behavior_default_ttl` - (Optional) - The default amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request in the absence of an Cache-Control max-age or Expires header. Defaults to 1 day. (`default = 3600`)
 - `ordered_cache_behavior_max_ttl` - (Optional) - The maximum amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request to your origin to determine whether the object has been updated. Only effective in the presence of Cache-Control max-age, Cache-Control s-maxage, and Expires headers. Defaults to 365 days. (`default = 86400`)
 - `ordered_cache_behavior_compress` - (Optional) - Whether you want CloudFront to automatically compress content for web requests that include Accept-Encoding: gzip in the request header (default: false). (`default = True`)
@@ -111,10 +106,10 @@ module "cloudfront" {
 - `origin_group_member_origin_id_2` - (Required) - The unique identifier of the member origin (`default = ""`)
 - `cloudfront_distribution_price_class` - (Optional) - The price class for this distribution. One of PriceClass_All, PriceClass_200, PriceClass_100 (`default = null`)
 - `cloudfront_distribution_web_acl_id` - (Optional) - If you're using AWS WAF to filter CloudFront requests, the Id of the AWS WAF web ACL that is associated with the distribution. The WAF Web ACL must exist in the WAF Global (CloudFront) region and the credentials configuring this argument must have waf:GetWebACL permissions assigned. (`default = null`)
-- `cloudfront_distribution_retain_on_delete` - Optional) - Disables the distribution instead of deleting it when destroying the resource through Terraform. If this is set, the distribution needs to be deleted manually afterwards. Default: false. (`default = ""`)
+- `cloudfront_distribution_retain_on_delete` - Optional) - Disables the distribution instead of deleting it when destroying the resource through Terraform. If this is set, the distribution needs to be deleted manually afterwards. Default: false. (`default = False`)
 - `cloudfront_distribution_wait_for_deployment` - (Optional) - If enabled, the resource will wait for the distribution status to change from InProgress to Deployed. Setting this tofalse will skip the process. Default: true. (`default = True`)
 - `geo_restriction_restriction_type` - (Required) - The method that you want to use to restrict distribution of your content by country: none, whitelist, or blacklist. (`default = none`)
-- `geo_restriction_locations` - (Optional) - The ISO 3166-1-alpha-2 codes for which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist) (`default = ""`)
+- `geo_restriction_locations` - (Optional) - The ISO 3166-1-alpha-2 codes for which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist) (`default = []`)
 - `viewer_certificate_cloudfront_default_certificate` - cloudfront_default_certificate - true if you want viewers to use HTTPS to request your objects and you're using the CloudFront domain name for your distribution. Specify this, acm_certificate_arn, or iam_certificate_id. (`default = True`)
 - `viewer_certificate_acm_certificate_arn` - The ARN of the AWS Certificate Manager certificate that you wish to use with this distribution. Specify this, cloudfront_default_certificate, or iam_certificate_id. The ACM certificate must be in US-EAST-1. (`default = ""`)
 - `viewer_certificate_iam_certificate_id` - The IAM certificate identifier of the custom viewer certificate for this distribution if you are using a custom domain. Specify this, acm_certificate_arn, or cloudfront_default_certificate. (`default = null`)
@@ -134,28 +129,46 @@ module "cloudfront" {
 - `domain_name` - (Required) - The DNS domain name of either the S3 bucket, or web site of your custom origin. (`default = ""`)
 - `default_cache_behavior_cookies_forward` - (Required) - Specifies whether you want CloudFront to forward cookies to the origin that is associated with this cache behavior. You can specify all, none or whitelist. If whitelist, you must include the subsequent whitelisted_names (`default = none`)
 - `default_cache_behavior_cookies_whitelisted_names` - (Optional) - If you have specified whitelist to forward, the whitelisted cookies that you want CloudFront to forward to your origin. (`default = null`)
-- `default_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = ""`)
-- `default_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = ""`)
+- `default_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = False`)
+- `default_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = 0`)
 - `default_cache_behavior_default_ttl` - (Optional) - The default amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request in the absence of an Cache-Control max-age or Expires header. Defaults to 1 day. (`default = 86400`)
 - `default_cache_behavior_max_ttl` - (Optional) - The maximum amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request to your origin to determine whether the object has been updated. Only effective in the presence of Cache-Control max-age, Cache-Control s-maxage, and Expires headers. Defaults to 365 days. (`default = 31536000`)
 - `default_cache_behavior_target_origin_id` - (Required) - The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior. (`default = ""`)
 - `default_cache_behavior_viewer_protocol_policy` - Use this element to specify the protocol that users can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. One of allow-all, https-only, or redirect-to-https. (`default = ""`)
-- `default_cache_behavior_compress` - (Optional) - Whether you want CloudFront to automatically compress content for web requests that include Accept-Encoding: gzip in the request header (default: false). (`default = ""`)
+- `default_cache_behavior_compress` - (Optional) - Whether you want CloudFront to automatically compress content for web requests that include Accept-Encoding: gzip in the request header (default: false). (`default = False`)
 - `default_cache_behavior_field_level_encryption_id` - (Optional) - Field level encryption configuration ID (`default = null`)
 - `default_cache_behavior_smooth_streaming` - (Optional) - Indicates whether you want to distribute media files in Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. (`default = null`)
 - `default_cache_behavior_trusted_signers` - (Optional) - The AWS accounts, if any, that you want to allow to create signed URLs for private content. (`default = null`)
 - `default_cache_behavior_forwarded_values_headers` - (Optional) - Specifies the Headers, if any, that you want CloudFront to vary upon for this cache behavior. Specify * to include all headers. (`default = null`)
 - `default_cache_behavior_forwarded_values_query_string_cache_keys` - (Optional) - When specified, along with a value of true for query_string, all query strings are forwarded, however only the query string keys listed in this argument are cached. When omitted with a value of true for query_string, all query string keys are cached. (`default = null`)
-- `enable_cloudfront_public_key` - Enable cloudfront public key usage (`default = ""`)
+- `enable_cloudfront_public_key` - Enable cloudfront public key usage (`default = False`)
 - `cloudfront_public_key_encoded_key` - (Required) The encoded public key that you want to add to CloudFront to use with features like field-level encryption. (`default = ""`)
 - `cloudfront_public_key_comment` - (Optional) An optional comment about the public key. (`default = null`)
 - `cloudfront_public_key_name` - (Optional) The name for the public key. By default generated by Terraform. (`default = null`)
 - `cloudfront_public_key_name_prefix` - (Optional) The name for the public key. Conflicts with cloudfront_public_key_name. (`default = null`)
-- `enable_cloudfront_origin_access_identity` - Enable cloudfront origin access identity usage (`default = ""`)
-- `cloudfront_origin_access_identity` - (Optional) - An optional comment for the origin access identity. (`default = null`)
+- `enable_cloudfront_origin_access_identity` - Enable cloudfront origin access identity usage (`default = False`)
+- `cloudfront_origin_access_identity_comment` - (Optional) - An optional comment for the origin access identity. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `cloudfront_distribution_id` - The identifier for the distribution. For example: EDFDVBD632BHDS5.
+- `cloudfront_distribution_arn` - The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+- `cloudfront_distribution_caller_reference` - Internal value used by CloudFront to allow future updates to the distribution configuration.
+- `cloudfront_distribution_status` - The current status of the distribution. Deployed if the distribution's information is fully propagated throughout the Amazon CloudFront system.
+- `cloudfront_distribution_domain_name` - The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net.
+- `cloudfront_distribution_last_modified_time` - The date and time the distribution was last modified.
+- `cloudfront_distribution_in_progress_validation_batches` - The number of invalidation batches currently in progress.
+- `cloudfront_distribution_etag` - The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
+- `cloudfront_distribution_hosted_zone_id` - The CloudFront Route 53 zone ID that can be used to route an Alias Resource Record Set to. This attribute is simply an alias for the zone ID Z2FDTNDATAQYW2.
+- `cloudfront_public_key_id` - The identifier for the public key. For example: K3D5EWEUDCCXON.
+- `cloudfront_public_key_caller_reference` - Internal value used by CloudFront to allow future updates to the public key configuration.
+- `cloudfront_public_key_etag` - The current version of the public key. For example: E2QWRUHAPOMQZL.
+- `cloudfront_origin_access_identity_id` - The identifier for the distribution. For example: EDFDVBD632BHDS5.
+- `cloudfront_origin_access_identity_caller_reference` - Internal value used by CloudFront to allow future updates to the origin access identity.
+- `cloudfront_origin_access_identity_cloudfront_access_identity_path` - A shortcut to the full path for the origin access identity to use in CloudFront, see below.
+- `cloudfront_origin_access_identity_etag` - The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
+- `cloudfront_origin_access_identity_iam_arn` - A pre-generated ARN for use in S3 bucket policies (see below). Example: arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2QWRUHAPOMQZL.
+- `cloudfront_origin_access_identity_s3_canonical_user_id` - The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
 
 
 ## Authors

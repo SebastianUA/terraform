@@ -49,29 +49,9 @@ variable "cloudfront_distribution_comment" {
   default     = null
 }
 
-#variable "cloudfront_distribution_custom_error_response" {
-#  description = "(Optional) - One or more custom error response elements (multiples allowed)."
-#  default     = null
-#}
-
-variable "custom_error_response_error_code" {
-  description = "(Required) - The 4xx or 5xx HTTP status code that you want to customize."
-  default     = 404
-}
-
-variable "custom_error_response_error_caching_min_ttl" {
-  description = "(Optional) - The minimum amount of time you want HTTP error codes to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated."
-  default     = null
-}
-
-variable "custom_error_response_response_code" {
-  description = "(Optional) - The HTTP status code that you want CloudFront to return with the custom error page to the viewer."
-  default     = null
-}
-
-variable "custom_error_response_response_page_path" {
-  description = "(Optional) - The path of the custom error page (for example, /custom_404.html)."
-  default     = null
+variable "cloudfront_distribution_custom_error_response" {
+  description = "(Optional) - One or more custom error response elements (multiples allowed)."
+  default     = []
 }
 
 variable "cloudfront_distribution_is_ipv6_enabled" {
@@ -84,24 +64,9 @@ variable "cloudfront_distribution_http_version" {
   default     = "http2"
 }
 
-#variable "cloudfront_distribution_logging_config" {
-#  description = "(Optional) - The logging configuration that controls how logs are written to your distribution (maximum one)."
-#  default     = null
-#}
-
-variable "logging_config_bucket" {
-  description = "(Required) - The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com."
-  default     = null
-}
-
-variable "logging_config_include_cookies" {
-  description = "(Optional) - Specifies whether you want CloudFront to include cookies in access logs (default: false)."
-  default     = false
-}
-
-variable "logging_config_prefix" {
-  description = "(Optional) - An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/."
-  default     = null
+variable "cloudfront_distribution_logging_config" {
+  description = "(Optional) - The logging configuration that controls how logs are written to your distribution (maximum one)."
+  default     = []
 }
 
 variable "ordered_cache_behavior_path_pattern" {
@@ -442,7 +407,7 @@ variable "enable_cloudfront_origin_access_identity" {
   default     = false
 }
 
-variable "cloudfront_origin_access_identity" {
+variable "cloudfront_origin_access_identity_comment" {
   description = "(Optional) - An optional comment for the origin access identity."
   default     = null
 }
