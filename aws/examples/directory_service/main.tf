@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 module "directory_service" {
-  source      = "../../modules/directory_service"
+  source = "../../modules/directory_service"
 
   # directory service directory
   enable_directory_service_directory   = true
