@@ -6,11 +6,11 @@ terraform {
 
   required_providers {
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "~> 1.13.3"
     }
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "~> 1.3.2"
     }
   }
@@ -22,7 +22,7 @@ module "k8s_namespace" {
   enable_namespace = true
 
   # Set name for your NS
-  namespace_name          = "k8s-ns"
+  namespace_name = "k8s-ns"
 
   namespace_annotations = {
     name = "example-annotation"
@@ -60,7 +60,7 @@ module "k8s_namespace_multiple_names" {
   enable_namespace = true
 
   # Set name for your NS
-  namespace_name          = count.index
+  namespace_name = count.index
 
   namespace_annotations = {
     name = "example-annotation"

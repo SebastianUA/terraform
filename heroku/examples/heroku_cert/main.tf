@@ -19,9 +19,9 @@ provider "heroku" {
   headers = []
 
   delays {
-    post_app_create_delay     = "5s"
-    post_space_create_delay   = "5s"
-    post_domain_create_delay  = "5s"
+    post_app_create_delay    = "5s"
+    post_space_create_delay  = "5s"
+    post_domain_create_delay = "5s"
   }
 
   timeouts {
