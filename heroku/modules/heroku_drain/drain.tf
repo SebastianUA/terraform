@@ -1,5 +1,16 @@
 #---------------------------------------------------
 # Heroku drain
 #---------------------------------------------------
+resource "heroku_drain" "drain" {
+  count = var.enable_drain ? 1 : 0
 
-# https://registry.terraform.io/providers/heroku/heroku/latest/docs/resources/drain
+  app = var.drain_app
+  url = var.drain_url
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
+
+  depends_on = []
+}
