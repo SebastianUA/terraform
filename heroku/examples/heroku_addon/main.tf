@@ -5,31 +5,46 @@ terraform {
   required_version = "~> 0.13"
 
   required_providers {
-    vault = {
-      source  = "hashicorp/vault"
-      version = "~> 2.17.0"
+    heroku = {
+      source  = "heroku/heroku"
+      version = "~> 3.2.0"
     }
   }
 }
 
 provider "heroku" {
-  email   = "your_email_here"
-  api_key = "api_key_here"
+  email   = null
+  api_key = null
 
-  headers = []
+  headers = null
 
   delays {
-    post_app_create_delay    = "5s"
-    post_space_create_delay  = "5s"
-    post_domain_create_delay = "5s"
+    post_app_create_delay    = 5
+    post_space_create_delay  = 5
+    post_domain_create_delay = 5
   }
 
   timeouts {
-    addon_create_timeout = "20m"
+    addon_create_timeout = 20
   }
 }
 
 module "heroku_addon" {
   source = "../../modules/heroku_addon"
 
+  # Heroku Addon
+  enable_addon = true
+  addon_name   = "your-addon"
+  addon_app    = "your-app-here"
+  addon_plan   = "heroku-postgresql:hobby-basic"
+
+  addon_config = {
+    url = "http://google.com"
+  }
+
+  # Heroku Addon attachment
+  enable_addon_attachment    = true
+  addon_attachment_name      = "addon-attach"
+  addon_attachment_app_id    = "your-app-id-here"
+  addon_attachment_namespace = "credential: cred_name_here"
 }
