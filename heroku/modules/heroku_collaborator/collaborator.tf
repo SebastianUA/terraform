@@ -1,5 +1,16 @@
 #---------------------------------------------------
 # Heroku collaborator
 #---------------------------------------------------
+resource "heroku_collaborator" "collaborator" {
+  count = var.enable_collaborator ? 1 : 0
 
-# https://registry.terraform.io/providers/heroku/heroku/latest/docs/resources/collaborator
+  app   = var.collaborator_app
+  email = var.collaborator_email
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
+
+  depends_on = []
+}
