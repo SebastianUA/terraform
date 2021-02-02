@@ -45,7 +45,9 @@ resource "aws_directory_service_directory" "directory_service_directory" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = []
+    ignore_changes        = [
+      id
+    ]
   }
 
   depends_on = []
