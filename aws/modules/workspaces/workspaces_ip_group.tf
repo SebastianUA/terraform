@@ -4,7 +4,7 @@
 resource "aws_workspaces_ip_group" "workspaces_ip_group" {
   count = var.enable_workspaces_ip_group ? 1 : 0
 
-  name = var.workspaces_ip_group_name != "" ? lower(var.workspaces_ip_group_name) : "${lower(var.name)}-workspaces-ip-group-${lower(var.environment)}"
+  name = var.workspaces_ip_group_name != "" ? var.workspaces_ip_group_name : "${lower(var.name)}-workspaces-ip-group-${lower(var.environment)}"
 
   description = var.workspaces_ip_group_description
 
