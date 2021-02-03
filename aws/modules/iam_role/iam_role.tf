@@ -4,8 +4,8 @@
 resource "aws_iam_role" "iam_role" {
   count = var.enable_iam_role ? 1 : 0
 
-  name        = var.iam_role_name != "" && var.iam_role_name_prefix == "" ? lower(var.iam_role_name) : null
-  name_prefix = var.iam_role_name_prefix != "" && var.iam_role_name == "" ? lower(var.iam_role_name_prefix) : null
+  name        = var.iam_role_name != "" && var.iam_role_name_prefix == "" ? var.iam_role_name : null
+  name_prefix = var.iam_role_name_prefix != "" && var.iam_role_name == "" ? var.iam_role_name_prefix : null
   description = var.iam_role_description
 
   assume_role_policy = var.assume_role_policy
@@ -17,7 +17,7 @@ resource "aws_iam_role" "iam_role" {
 
   tags = merge(
     {
-      "Name" = var.iam_role_name != "" && var.iam_role_name_prefix == "" ? lower(var.iam_role_name) : lower(var.iam_role_name_prefix)
+      Name = var.iam_role_name != "" && var.iam_role_name_prefix == "" ? var.iam_role_name : var.iam_role_name_prefix
     },
     var.tags
   )
