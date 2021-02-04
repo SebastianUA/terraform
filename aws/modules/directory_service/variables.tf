@@ -52,12 +52,12 @@ variable "directory_service_directory_enable_sso" {
 
 variable "directory_service_directory_type" {
   description = "(Optional) - The directory type (SimpleAD, ADConnector or MicrosoftAD are accepted values). Defaults to SimpleAD"
-  default     = "SimpleAD"
+  default     = null
 }
 
 variable "directory_service_directory_edition" {
   description = "Optional) The MicrosoftAD edition (Standard or Enterprise). Defaults to Enterprise (applies to MicrosoftAD type only)."
-  default     = "Enterprise"
+  default     = null
 }
 
 variable "directory_service_directory_vpc_settings" {
