@@ -43,7 +43,7 @@ resource "aws_workspaces_workspace" "workspaces_workspace" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = []
+    ignore_changes        = [volume_encryption_key]
   }
 
   depends_on = []
