@@ -18,6 +18,13 @@ resource "aws_xray_sampling_rule" "xray_sampling_rule" {
 
   attributes = var.xray_sampling_rule_attributes
 
+  tags = merge(
+    {
+      Name = var.xray_sampling_rule_name != "" ? lower(var.xray_sampling_rule_name) : "${lower(var.name)}-xray-sampling-rule-${lower(var.environment)}"
+    },
+    var.tags
+  )
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = []

@@ -11,6 +11,12 @@ variable "environment" {
   default     = "STAGE"
 }
 
+variable "tags" {
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
+}
+
 #---------------------------------------------------
 # AWS xray sampling rule
 #---------------------------------------------------
@@ -76,5 +82,41 @@ variable "xray_sampling_rule_resource_arn" {
 
 variable "xray_sampling_rule_attributes" {
   description = "(Optional) Matches attributes derived from the request."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS xray encryption config
+#---------------------------------------------------
+variable "enable_xray_encryption_config" {
+  description = "Enable xray encryption config usage"
+  default     = false
+}
+
+variable "xray_encryption_config_type" {
+  description = "(Required) The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption."
+  default     = "NONE"
+}
+
+variable "xray_encryption_config_key_id" {
+  description = "(Optional) An AWS KMS customer master key (CMK) ARN."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS xray group
+#---------------------------------------------------
+variable "enable_xray_group" {
+  description = "Enable xray group usage"
+  default     = false
+}
+
+variable "xray_group_name" {
+  description = "The name of the group."
+  default     = ""
+}
+
+variable "xray_group_filter_expression" {
+  description = "(Required) The filter expression defining criteria by which to group traces. more info can be found in official docs."
   default     = null
 }

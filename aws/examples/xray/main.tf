@@ -32,4 +32,17 @@ module "xray" {
     "This", "is",
     "Vitaliy", "Natarov"
   )
+
+  # 
+  enable_xray_encryption_config = true
+  xray_encryption_config_type   = "NONE"
+
+  # 
+  enable_xray_group            = true
+  xray_group_name              = "zray-group"
+  xray_group_filter_expression = "responsetime > 5"
+
+  tags = map(
+    "createdby", "Vitaliy Natarov"
+  )
 }

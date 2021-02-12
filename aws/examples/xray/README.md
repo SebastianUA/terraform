@@ -1,6 +1,6 @@
-# Work with AWS XRAY via terraform
+# Work with AWS xray via terraform
 
-A terraform module for making XRAY.
+A terraform module for making xray.
 
 
 ## Usage
@@ -42,6 +42,19 @@ module "xray" {
     "This", "is",
     "Vitaliy", "Natarov"
   )
+
+  # 
+  enable_xray_encryption_config = true
+  xray_encryption_config_type   = "NONE"
+
+  # 
+  enable_xray_group            = true
+  xray_group_name              = "zray-group"
+  xray_group_filter_expression = "responsetime > 5"
+
+  tags = map(
+    "createdby", "Vitaliy Natarov"
+  )
 }
 ```
 
@@ -49,7 +62,8 @@ module "xray" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_xray_sampling_rule` - Enable xray sampling rule usage (`default = False`)
 - `xray_sampling_rule_name` - The name of the sampling rule. (`default = ""`)
 - `xray_sampling_rule_priority` - (Required) The priority of the sampling rule. (`default = 1000`)
 - `xray_sampling_rule_version` - (Required) The version of the sampling rule format (1 ) (`default = 1`)
@@ -62,9 +76,20 @@ module "xray" {
 - `xray_sampling_rule_service_name` - (Required) Matches the name that the service uses to identify itself in segments. (`default = *`)
 - `xray_sampling_rule_resource_arn` - (Required) Matches the ARN of the AWS resource on which the service runs. (`default = *`)
 - `xray_sampling_rule_attributes` - (Optional) Matches attributes derived from the request. (`default = null`)
+- `enable_xray_encryption_config` - Enable xray encryption config usage (`default = False`)
+- `xray_encryption_config_type` - (Required) The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption. (`default = NONE`)
+- `xray_encryption_config_key_id` - (Optional) An AWS KMS customer master key (CMK) ARN. (`default = null`)
+- `enable_xray_group` - Enable xray group usage (`default = False`)
+- `xray_group_name` - The name of the group. (`default = ""`)
+- `xray_group_filter_expression` - (Required) The filter expression defining criteria by which to group traces. more info can be found in official docs. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `xray_sampling_rule_id` - The name of the sampling rule.
+- `xray_sampling_rule_arn` - The ARN of the sampling rule.
+- `xray_encryption_config_id` - Region name.
+- `xray_group_id` - The ID of the Group.
+- `xray_group_arn` - The ARN of the Group.
 
 
 ## Authors

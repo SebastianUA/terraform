@@ -1,12 +1,16 @@
-**/.DS_Store
-**/Icon*
+# Terraform files & folders
 **/.terraform
-**/*_BK
 **/terraform.tfstate
 **/terraform.tfstate.backup
-**/.terraform.tfstate.lock.info
-**/.terraform.tfstate.lock
+**/.terraform.*
+
+# Other 
+**/*_BK
+**/.DS_Store
+**/Icon*
 **/crash.log
+
+# Ignoring
 !.gitignore
 !.pre-commit-config.yaml
 !.github
