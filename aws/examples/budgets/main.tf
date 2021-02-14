@@ -36,6 +36,16 @@ module "budgets" {
     use_blended                = false
   }]
 
+  budgets_budget_cost_filters = {
+    AZ            = ""
+    LinkedAccount = ""
+    Operation     = ""
+    PurchaseType  = ""
+    Service       = ""
+    TagKeyValue   = ""
+
+  }
+
   budgets_budget_notification = [{
     comparison_operator        = "GREATER_THAN"
     threshold                  = 100

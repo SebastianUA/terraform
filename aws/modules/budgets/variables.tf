@@ -1,16 +1,3 @@
-#-----------------------------------------------------------
-# Global or/and default variables
-#-----------------------------------------------------------
-# variable "name" {
-#   description = "Name to be used on all resources as prefix"
-#   default     = "TEST"
-# }
-
-# variable "environment" {
-#     description = "Environment for service"
-#     default     = "STAGE"
-# }
-
 #---------------------------------------------------
 # AWS budgets budget
 #---------------------------------------------------
@@ -69,10 +56,10 @@ variable "budgets_budget_cost_types" {
   default     = []
 }
 
-# variable "budgets_budget_cost_filters" {
-#   description   = "(Optional) Map of CostFilters key/value pairs to apply to the budget."
-#   default       = []
-# }
+variable "budgets_budget_cost_filters" {
+  description = "(Optional) Map of CostFilters key/value pairs to apply to the budget."
+  default     = null
+}
 
 variable "budgets_budget_notification" {
   description = "(Optional) Object containing Budget Notifications. Can be used multiple times to define more than one budget notification"

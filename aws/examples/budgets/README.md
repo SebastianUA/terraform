@@ -46,6 +46,16 @@ module "budgets" {
     use_blended                = false
   }]
 
+  budgets_budget_cost_filters = {
+    AZ            = ""
+    LinkedAccount = ""
+    Operation     = ""
+    PurchaseType  = ""
+    Service       = ""
+    TagKeyValue   = ""
+
+  }
+
   budgets_budget_notification = [{
     comparison_operator        = "GREATER_THAN"
     threshold                  = 100
@@ -59,7 +69,7 @@ module "budgets" {
 
 ## Module Input Variables
 ----------------------
-- `enable_budgets_budget` - Enable budgets budget usage (`default = ""`)
+- `enable_budgets_budget` - Enable budgets budget usage (`default = False`)
 - `budgets_budget_budget_type` - (Required) Whether this budget tracks monetary cost or usage. (`default = COST`)
 - `budgets_budget_limit_amount` - (Required) The amount of cost or usage being measured for a budget. (`default = 10`)
 - `budgets_budget_limit_unit` - (Required) The unit of measurement used for the budget forecast, actual spend, or budget threshold, such as dollars or GB. See Spend documentation. (`default = USD`)
@@ -69,11 +79,13 @@ module "budgets" {
 - `budgets_budget_name_prefix` - (Optional) The prefix of the name of a budget. Unique within accounts. (`default = null`)
 - `budgets_budget_account_id` - (Optional) The ID of the target account for budget. Will use current user's account_id by default if omitted. (`default = null`)
 - `budgets_budget_time_period_end` - (Optional) The end of the time period covered by the budget. There are no restrictions on the end date. Format: 2017-01-01_12:00 (`default = null`)
-- `budgets_budget_cost_types` - (Optional) Object containing CostTypes The types of cost included in a budget, such as tax and subscriptions.. (`default = ""`)
-- `budgets_budget_notification` - (Optional) Object containing Budget Notifications. Can be used multiple times to define more than one budget notification (`default = ""`)
+- `budgets_budget_cost_types` - (Optional) Object containing CostTypes The types of cost included in a budget, such as tax and subscriptions.. (`default = []`)
+- `budgets_budget_cost_filters` - (Optional) Map of CostFilters key/value pairs to apply to the budget. (`default = null`)
+- `budgets_budget_notification` - (Optional) Object containing Budget Notifications. Can be used multiple times to define more than one budget notification (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `budgets_budget_id` - id of resource.
 
 
 ## Authors

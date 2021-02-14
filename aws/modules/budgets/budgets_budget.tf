@@ -14,37 +14,25 @@ resource "aws_budgets_budget" "budgets_budget" {
   name_prefix     = var.budgets_budget_name_prefix != null && var.budgets_budget_name == null ? lower(var.budgets_budget_name_prefix) : null
   account_id      = var.budgets_budget_account_id
   time_period_end = var.budgets_budget_time_period_end
+  cost_filters    = var.budgets_budget_cost_filters
 
   dynamic "cost_types" {
-    iterator = costtypes
+    iterator = cost_types
     for_each = var.budgets_budget_cost_types
     content {
-      include_credit             = lookup(costtypes.value, "include_credit", true)
-      include_discount           = lookup(costtypes.value, "include_discount", true)
-      include_other_subscription = lookup(costtypes.value, "include_other_subscription", true)
-      include_recurring          = lookup(costtypes.value, "include_recurring", true)
-      include_refund             = lookup(costtypes.value, "include_refund", true)
-      include_subscription       = lookup(costtypes.value, "include_subscription", true)
-      include_support            = lookup(costtypes.value, "include_support", true)
-      include_tax                = lookup(costtypes.value, "include_tax", true)
-      include_upfront            = lookup(costtypes.value, "include_upfront", true)
-      use_amortized              = lookup(costtypes.value, "use_amortized", false)
-      use_blended                = lookup(costtypes.value, "use_blended", false)
+      include_credit             = lookup(cost_types.value, "include_credit", true)
+      include_discount           = lookup(cost_types.value, "include_discount", true)
+      include_other_subscription = lookup(cost_types.value, "include_other_subscription", true)
+      include_recurring          = lookup(cost_types.value, "include_recurring", true)
+      include_refund             = lookup(cost_types.value, "include_refund", true)
+      include_subscription       = lookup(cost_types.value, "include_subscription", true)
+      include_support            = lookup(cost_types.value, "include_support", true)
+      include_tax                = lookup(cost_types.value, "include_tax", true)
+      include_upfront            = lookup(cost_types.value, "include_upfront", true)
+      use_amortized              = lookup(cost_types.value, "use_amortized", false)
+      use_blended                = lookup(cost_types.value, "use_blended", false)
     }
   }
-
-  # dynamic "cost_filters" {
-  #     iterator = costfilters
-  #     for_each = var.budgets_budget_cost_filters
-  #     content {
-  #         AZ              = lookup(costfilters.value, "AZ", null)
-  #         LinkedAccount   = lookup(costfilters.value, "LinkedAccount", null)
-  #         Operation       = lookup(costfilters.value, "Operation", null)
-  #         PurchaseType    = lookup(costfilters.value, "PurchaseType", null)
-  #         Service         = lookup(costfilters.value, "Service", null)
-  #         TagKeyValue     = lookup(costfilters.value, "TagKeyValue", null)
-  #     }
-  # }
 
   dynamic "notification" {
     iterator = notification
