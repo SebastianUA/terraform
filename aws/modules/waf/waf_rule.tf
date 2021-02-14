@@ -18,7 +18,7 @@ resource "aws_waf_rule" "waf_rule" {
 
   tags = merge(
     {
-      "Name" = var.waf_rule_name != "" ? lower(var.waf_rule_name) : "${lower(var.name)}-${var.waf_rule_metric_name}-rule-${lower(var.environment)}"
+      Name = var.waf_rule_name != "" ? lower(var.waf_rule_name) : "${lower(var.name)}-${var.waf_rule_metric_name}-rule-${lower(var.environment)}"
     },
     var.tags
   )

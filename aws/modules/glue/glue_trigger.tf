@@ -39,14 +39,14 @@ resource "aws_glue_trigger" "glue_trigger" {
     iterator = timeouts
     for_each = var.glue_trigger_timeouts
     content {
-      create = lookup(timeouts.value, "create", "5m")
-      delete = lookup(timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
   tags = merge(
     {
-      "Name" = var.glue_trigger_name != "" ? lower(var.glue_trigger_name) : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
+      Name = var.glue_trigger_name != "" ? lower(var.glue_trigger_name) : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
     },
     var.tags
   )

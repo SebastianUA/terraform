@@ -10,7 +10,7 @@ resource "aws_default_vpc" "default_vpc" {
 
   tags = merge(
     {
-      "Name" = var.default_vpc_name != "" ? var.default_vpc_name : "Default VPC"
+      Name = var.default_vpc_name != "" ? var.default_vpc_name : "Default VPC"
     },
     var.tags
   )

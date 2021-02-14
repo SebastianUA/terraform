@@ -22,7 +22,7 @@ resource "aws_default_security_group" "default_security_group" {
 
   tags = merge(
     {
-      "Name" = var.default_security_group_name != "" ? lower(var.default_security_group_name) : "default"
+      Name = var.default_security_group_name != "" ? lower(var.default_security_group_name) : "default"
     },
     var.tags
   )

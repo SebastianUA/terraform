@@ -9,7 +9,7 @@ resource "aws_default_subnet" "default_subnet" {
 
   tags = merge(
     {
-      "Name" = var.default_vpc_name != "" ? lower(var.default_vpc_name) : "Default subnet for ${length(var.azs) > 0 ? var.azs[count.index] : element(lookup(var.availability_zones, var.region), count.index)}"
+      Name = var.default_vpc_name != "" ? lower(var.default_vpc_name) : "Default subnet for ${length(var.azs) > 0 ? var.azs[count.index] : element(lookup(var.availability_zones, var.region), count.index)}"
     },
     var.tags
   )

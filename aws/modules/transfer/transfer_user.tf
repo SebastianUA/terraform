@@ -13,7 +13,7 @@ resource "aws_transfer_user" "transfer_user" {
 
   tags = merge(
     {
-      "Name" = var.transfer_user_name != "" ? lower(var.transfer_user_name) : "${lower(var.name)}-transfer-user-${lower(var.environment)}"
+      Name = var.transfer_user_name != "" ? lower(var.transfer_user_name) : "${lower(var.name)}-transfer-user-${lower(var.environment)}"
     },
     var.tags
   )

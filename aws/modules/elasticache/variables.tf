@@ -289,17 +289,7 @@ variable "kms_key_id" {
   default     = null
 }
 
-variable "timeouts_create" {
-  description = "(Default 60m) How long to wait for a replication group to be created."
-  default     = "60m"
-}
-
-variable "timeouts_update" {
-  description = "(Default 40m) How long to wait for replication group settings to be updated. This is also separately used for adding/removing replicas and online resize operation completion, if necessary."
-  default     = "40m"
-}
-
-variable "timeouts_delete" {
-  description = "(Default 40m) How long to wait for a replication group to be deleted."
-  default     = "40m"
+variable "elasticache_replication_group_timeouts" {
+  description = "Set timeouts for elasticache replication group"
+  default     = []
 }

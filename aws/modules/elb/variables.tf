@@ -131,19 +131,9 @@ variable "app_cookie_stickiness_policy_http_name" {
   default     = ""
 }
 
-variable "app_cookie_stickiness_policy_https_name" {
-  description = "Name for app_cookie_stickiness_policy_http"
-  default     = ""
-}
-
 variable "http_lb_port" {
   description = "Set http lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
   default     = 80
-}
-
-variable "https_lb_port" {
-  description = "Set https lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
-  default     = 443
 }
 
 variable "cookie_expiration_period" {
@@ -154,4 +144,19 @@ variable "cookie_expiration_period" {
 variable "cookie_name" {
   description = "Set cookie name"
   default     = "SessionID"
+}
+
+variable "enable_app_cookie_stickiness_policy_https" {
+  description = "Enable app cookie stickiness policy https"
+  default     = false
+}
+
+variable "app_cookie_stickiness_policy_https_name" {
+  description = "Name for app_cookie_stickiness_policy_http"
+  default     = ""
+}
+
+variable "https_lb_port" {
+  description = "Set https lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
+  default     = 443
 }

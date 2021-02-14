@@ -19,7 +19,7 @@ resource "aws_app_cookie_stickiness_policy" "app_cookie_stickiness_policy_http" 
   ]
 }
 resource "aws_app_cookie_stickiness_policy" "app_cookie_stickiness_policy_https" {
-  count = var.enable_app_cookie_stickiness_policy_http ? 0 : 1
+  count = var.enable_app_cookie_stickiness_policy_https ? 0 : 1
 
   name          = var.app_cookie_stickiness_policy_https_name != "" ? var.app_cookie_stickiness_policy_https_name : "${lower(var.name)}-app-cookie-stickiness-policy-https-${lower(var.environment)}"
   load_balancer = var.elb_id != "" ? var.elb_id : element(concat(aws_elb.elb.*.id, [""]), 0)

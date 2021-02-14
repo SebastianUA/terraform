@@ -11,7 +11,7 @@ resource "aws_swf_domain" "swf_domain" {
 
   tags = merge(
     {
-      "Name" = var.swf_domain_name != "" && var.swf_domain_name_prefix == "" ? lower(var.swf_domain_name) : lower(var.swf_domain_name_prefix)
+      Name = var.swf_domain_name != "" && var.swf_domain_name_prefix == "" ? lower(var.swf_domain_name) : lower(var.swf_domain_name_prefix)
     },
     var.tags
   )

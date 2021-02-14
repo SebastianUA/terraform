@@ -26,7 +26,7 @@ resource "aws_default_network_acl" "default_network_acl" {
 
   tags = merge(
     {
-      "Name" = var.default_network_acl_name != "" ? lower(var.default_network_acl_name) : "default"
+      Name = var.default_network_acl_name != "" ? lower(var.default_network_acl_name) : "default"
     },
     var.tags
   )

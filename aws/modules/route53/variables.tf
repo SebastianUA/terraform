@@ -314,19 +314,9 @@ variable "route53_resolver_endpoint_ip_address" {
   default     = []
 }
 
-variable "timeouts_create" {
-  description = "(Default 10 minutes) Used for creating Route 53 Resolver endpoint"
-  default     = "10m"
-}
-
-variable "timeouts_update" {
-  description = "(Default 10 minutes) Used for updating Route 53 Resolver endpoint"
-  default     = "10m"
-}
-
-variable "timeouts_delete" {
-  description = "(Default 10 minutes) Used for destroying Route 53 Resolver endpoint"
-  default     = "10m"
+variable "route53_resolver_endpoint_timeouts" {
+  description = "Set timeouts for route53 resolver endpoint"
+  default     = []
 }
 
 #---------------------------------------------------

@@ -82,7 +82,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   tags = merge(
     {
-      "Name" = var.rds_cluster_cluster_identifier != "" && var.rds_cluster_cluster_identifier_prefix == "" ? lower(var.rds_cluster_cluster_identifier) : lower(var.rds_cluster_cluster_identifier_prefix)
+      Name = var.rds_cluster_cluster_identifier != "" && var.rds_cluster_cluster_identifier_prefix == "" ? lower(var.rds_cluster_cluster_identifier) : lower(var.rds_cluster_cluster_identifier_prefix)
     },
     var.tags
   )

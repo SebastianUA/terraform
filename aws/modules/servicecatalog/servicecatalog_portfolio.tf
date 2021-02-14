@@ -10,7 +10,7 @@ resource "aws_servicecatalog_portfolio" "servicecatalog_portfolio" {
 
   tags = merge(
     {
-      "Name" = var.servicecatalog_portfolio_name != "" ? lower(var.servicecatalog_portfolio_name) : "servicecatalog-portfolio"
+      Name = var.servicecatalog_portfolio_name != "" ? lower(var.servicecatalog_portfolio_name) : "servicecatalog-portfolio"
     },
     var.tags
   )

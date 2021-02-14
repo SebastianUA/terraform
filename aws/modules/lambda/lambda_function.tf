@@ -64,7 +64,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   tags = merge(
     {
-      "Name" = var.lambda_function_name != "" ? var.lambda_function_name : "${lower(var.name)}-lambda-fun-${lower(var.environment)}"
+      Name = var.lambda_function_name != "" ? var.lambda_function_name : "${lower(var.name)}-lambda-fun-${lower(var.environment)}"
     },
     var.tags
   )

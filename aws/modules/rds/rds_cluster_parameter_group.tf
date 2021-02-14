@@ -20,7 +20,7 @@ resource "aws_rds_cluster_parameter_group" "rds_cluster_parameter_group" {
 
   tags = merge(
     {
-      "Name" = var.rds_cluster_parameter_group_name != "" && var.rds_cluster_parameter_group_name_prefix == "" ? lower(var.rds_cluster_parameter_group_name) : lower(var.rds_cluster_parameter_group_name_prefix)
+      Name = var.rds_cluster_parameter_group_name != "" && var.rds_cluster_parameter_group_name_prefix == "" ? lower(var.rds_cluster_parameter_group_name) : lower(var.rds_cluster_parameter_group_name_prefix)
     },
     var.tags
   )

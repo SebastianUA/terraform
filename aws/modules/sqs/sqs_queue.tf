@@ -26,7 +26,7 @@ resource "aws_sqs_queue" "sqs_queue" {
 
   tags = merge(
     {
-      "Name" = var.sqs_queue_name != "" && var.name_prefix == "" ? var.sqs_queue_name : var.name_prefix
+      Name = var.sqs_queue_name != "" && var.name_prefix == "" ? var.sqs_queue_name : var.name_prefix
     },
     var.tags
   )

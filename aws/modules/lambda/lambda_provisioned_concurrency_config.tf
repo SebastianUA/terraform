@@ -12,8 +12,8 @@ resource "aws_lambda_provisioned_concurrency_config" "lambda_provisioned_concurr
     iterator = timeouts
     for_each = var.lambda_provisioned_concurrency_config_timeouts
     content {
-      create = lookup(timeouts.value, "create", "15m")
-      update = lookup(timeouts.value, "update", "15m")
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
     }
   }
 

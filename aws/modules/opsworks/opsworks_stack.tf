@@ -13,18 +13,6 @@ resource "aws_opsworks_stack" "opsworks_stack" {
   configuration_manager_version = var.opsworks_stack_configuration_manager_version
   agent_version                 = var.opsworks_stack_agent_version
 
-  dynamic "custom_cookbooks_source" {
-    for_each = var.opsworks_stack_custom_cookbooks_source
-    content {
-      type     = lookup(opsworks_stack_custom_cookbooks_source.value, "type", null)
-      url      = lookup(opsworks_stack_custom_cookbooks_source.value, "url", null)
-      username = lookup(opsworks_stack_custom_cookbooks_source.value, "username", null)
-      password = lookup(opsworks_stack_custom_cookbooks_source.value, "password", null)
-      ssh_key  = lookup(opsworks_stack_custom_cookbooks_source.value, "ssh_key", null)
-      revision = lookup(opsworks_stack_custom_cookbooks_source.value, "revision", null)
-    }
-  }
-
   custom_json = var.opsworks_stack_custom_json
 
   default_availability_zone = var.opsworks_stack_default_availability_zone
@@ -43,9 +31,21 @@ resource "aws_opsworks_stack" "opsworks_stack" {
   color          = var.opsworks_stack_color
   vpc_id         = var.opsworks_stack_vpc_id
 
+  dynamic "custom_cookbooks_source" {
+    for_each = var.opsworks_stack_custom_cookbooks_source
+    content {
+      type     = lookup(opsworks_stack_custom_cookbooks_source.value, "type", null)
+      url      = lookup(opsworks_stack_custom_cookbooks_source.value, "url", null)
+      username = lookup(opsworks_stack_custom_cookbooks_source.value, "username", null)
+      password = lookup(opsworks_stack_custom_cookbooks_source.value, "password", null)
+      ssh_key  = lookup(opsworks_stack_custom_cookbooks_source.value, "ssh_key", null)
+      revision = lookup(opsworks_stack_custom_cookbooks_source.value, "revision", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.opsworks_stack_name != "" ? lower(var.opsworks_stack_name) : "${lower(var.name)}-opsworks-stack-${lower(var.environment)}"
+      Name = var.opsworks_stack_name != "" ? lower(var.opsworks_stack_name) : "${lower(var.name)}-opsworks-stack-${lower(var.environment)}"
     },
     var.tags
   )

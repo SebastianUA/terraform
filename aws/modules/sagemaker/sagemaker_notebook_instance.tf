@@ -16,7 +16,7 @@ resource "aws_sagemaker_notebook_instance" "sagemaker_notebook_instance" {
 
   tags = merge(
     {
-      "Name" = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-sagemaker-notebook-instance-${lower(var.environment)}"
+      Name = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-sagemaker-notebook-instance-${lower(var.environment)}"
     },
     var.tags
   )

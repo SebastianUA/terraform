@@ -31,7 +31,7 @@ resource "aws_elasticache_cluster" "elasticache_cluster" {
 
   tags = merge(
     {
-      "Name" = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
+      Name = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
     },
     var.tags
   )

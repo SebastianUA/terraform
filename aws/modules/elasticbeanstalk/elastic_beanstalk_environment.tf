@@ -40,7 +40,7 @@ resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment" {
 
   tags = merge(
     {
-      "Name" = var.elastic_beanstalk_environment_name != "" ? lower(var.elastic_beanstalk_environment_name) : "${lower(var.name)}-eb-env-${lower(var.environment)}"
+      Name = var.elastic_beanstalk_environment_name != "" ? lower(var.elastic_beanstalk_environment_name) : "${lower(var.name)}-eb-env-${lower(var.environment)}"
     },
     var.tags
   )

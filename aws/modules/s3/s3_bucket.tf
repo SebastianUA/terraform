@@ -70,7 +70,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 
     tags = merge(
       {
-        "Name" = "${lower(var.name)}-lc_rule-${lower(var.environment)}"
+        Name = "${lower(var.name)}-lc_rule-${lower(var.environment)}"
       },
       var.tags
     )
@@ -159,7 +159,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 
   tags = merge(
     {
-      "Name" = var.s3_bucket_name != null && var.s3_bucket_prefix == null ? lower(var.s3_bucket_name) : lower(var.s3_bucket_prefix)
+      Name = var.s3_bucket_name != null && var.s3_bucket_prefix == null ? lower(var.s3_bucket_name) : lower(var.s3_bucket_prefix)
     },
     var.tags
   )

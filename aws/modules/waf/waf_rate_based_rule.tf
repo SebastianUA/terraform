@@ -21,7 +21,7 @@ resource "aws_waf_rate_based_rule" "waf_rate_based_rule" {
 
   tags = merge(
     {
-      "Name" = var.waf_rate_based_rule_name != "" ? lower(var.waf_rate_based_rule_name) : "${lower(var.name)}-rate-based-rule-${lower(var.environment)}"
+      Name = var.waf_rate_based_rule_name != "" ? lower(var.waf_rate_based_rule_name) : "${lower(var.name)}-rate-based-rule-${lower(var.environment)}"
     },
     var.tags
   )

@@ -54,10 +54,14 @@ resource "aws_opsworks_instance" "opsworks_instance" {
     }
   }
 
-  timeouts {
-    create = var.opsworks_instance_timeouts_create
-    update = var.opsworks_instance_timeouts_update
-    delete = var.opsworks_instance_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.opsworks_instance_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   lifecycle {

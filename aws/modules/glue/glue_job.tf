@@ -43,7 +43,7 @@ resource "aws_glue_job" "glue_job" {
 
   tags = merge(
     {
-      "Name" = var.glue_job_name != "" ? lower(var.glue_job_name) : "${lower(var.name)}-glue-job-${lower(var.environment)}"
+      Name = var.glue_job_name != "" ? lower(var.glue_job_name) : "${lower(var.name)}-glue-job-${lower(var.environment)}"
     },
     var.tags
   )

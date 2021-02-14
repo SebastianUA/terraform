@@ -20,7 +20,7 @@ resource "aws_db_parameter_group" "db_parameter_group" {
 
   tags = merge(
     {
-      "Name" = var.db_parameter_group_name != "" && var.db_parameter_group_name_prefix == "" ? lower(var.db_parameter_group_name) : lower(var.db_parameter_group_name_prefix)
+      Name = var.db_parameter_group_name != "" && var.db_parameter_group_name_prefix == "" ? lower(var.db_parameter_group_name) : lower(var.db_parameter_group_name_prefix)
     },
     var.tags
   )

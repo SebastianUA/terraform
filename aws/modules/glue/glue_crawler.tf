@@ -62,7 +62,7 @@ resource "aws_glue_crawler" "glue_crawler" {
 
   tags = merge(
     {
-      "Name" = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
+      Name = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
     },
     var.tags
   )

@@ -14,7 +14,7 @@ resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_applicat
 
   tags = merge(
     {
-      "Name" = var.elastic_beanstalk_environment_name != "" ? var.elastic_beanstalk_environment_name : "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
+      Name = var.elastic_beanstalk_environment_name != "" ? var.elastic_beanstalk_environment_name : "${lower(var.name)}-eb-app-ver-${lower(var.environment)}"
     },
     var.tags
   )

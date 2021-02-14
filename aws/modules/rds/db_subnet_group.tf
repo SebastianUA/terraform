@@ -11,7 +11,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 
   tags = merge(
     {
-      "Name" = var.db_subnet_group_name != "" ? lower(var.db_subnet_group_name) : lower(var.db_subnet_group_name_prefix)
+      Name = var.db_subnet_group_name != "" ? lower(var.db_subnet_group_name) : lower(var.db_subnet_group_name_prefix)
     },
     var.tags
   )

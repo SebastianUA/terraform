@@ -12,7 +12,7 @@ resource "aws_mq_configuration" "mq_configuration" {
 
   tags = merge(
     {
-      "Name" = var.mq_configuration_name != "" ? var.mq_configuration_name : "${lower(var.name)}-mq-broker-configuration-${lower(var.environment)}"
+      Name = var.mq_configuration_name != "" ? var.mq_configuration_name : "${lower(var.name)}-mq-broker-configuration-${lower(var.environment)}"
     },
     var.tags
   )
@@ -26,6 +26,7 @@ resource "aws_mq_configuration" "mq_configuration" {
     data.template_file.mq_configuration_data
   ]
 }
+
 #---------------------------------------------------
 # Create data for AWS MQ broker configuration
 #---------------------------------------------------

@@ -74,22 +74,22 @@ resource "aws_db_instance" "db_instance" {
     }
   }
 
-  tags = merge(
-    {
-      "Name" = var.db_instance_identifier != "" && var.db_instance_identifier_prefix == "" ? lower(var.db_instance_identifier) : lower(var.db_instance_identifier_prefix)
-    },
-    var.tags
-  )
-
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.db_instance_timeouts
     content {
-      create = lookup(timeouts.value, "create", "120m")
-      update = lookup(timeouts.value, "update", "120m")
-      delete = lookup(timeouts.value, "delete", "120m")
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
+
+  tags = merge(
+    {
+      Name = var.db_instance_identifier != "" && var.db_instance_identifier_prefix == "" ? lower(var.db_instance_identifier) : lower(var.db_instance_identifier_prefix)
+    },
+    var.tags
+  )
 
   lifecycle {
     create_before_destroy = true

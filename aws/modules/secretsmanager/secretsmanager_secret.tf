@@ -22,7 +22,7 @@ resource "aws_secretsmanager_secret" "secretsmanager_secret" {
 
   tags = merge(
     {
-      "Name" = var.secretsmanager_secret_name != null && var.secretsmanager_secret_name_prefix == null ? lower(var.secretsmanager_secret_name) : lower(var.secretsmanager_secret_name_prefix)
+      Name = var.secretsmanager_secret_name != null && var.secretsmanager_secret_name_prefix == null ? lower(var.secretsmanager_secret_name) : lower(var.secretsmanager_secret_name_prefix)
     },
     var.tags
   )

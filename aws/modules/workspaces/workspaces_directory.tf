@@ -49,7 +49,7 @@ resource "aws_workspaces_directory" "workspaces_directory" {
 
   tags = merge(
     {
-      "Name" = var.workspaces_directory_name != "" ? lower(var.workspaces_directory_name) : "${lower(var.name)}-workspaces-directory-${lower(var.environment)}-${count.index + 1}"
+      Name = var.workspaces_directory_name != "" ? lower(var.workspaces_directory_name) : "${lower(var.name)}-workspaces-directory-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )

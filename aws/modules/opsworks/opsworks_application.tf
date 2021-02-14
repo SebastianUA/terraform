@@ -12,6 +12,17 @@ resource "aws_opsworks_application" "opsworks_application" {
   type     = var.opsworks_application_type
   domains  = var.opsworks_application_domains
 
+  data_source_arn           = var.opsworks_application_data_source_arn
+  data_source_type          = var.opsworks_application_data_source_type
+  data_source_database_name = var.opsworks_application_data_source_database_name
+
+  enable_ssl = var.opsworks_application_enable_ssl
+
+  document_root          = var.opsworks_application_document_root
+  auto_bundle_on_deploy  = var.opsworks_application_auto_bundle_on_deploy
+  rails_env              = var.opsworks_application_rails_env
+  aws_flow_ruby_settings = var.opsworks_application_aws_flow_ruby_settings
+
   dynamic "environment" {
     for_each = var.opsworks_application_environment
     content {
@@ -33,12 +44,6 @@ resource "aws_opsworks_application" "opsworks_application" {
     }
   }
 
-  data_source_arn           = var.opsworks_application_data_source_arn
-  data_source_type          = var.opsworks_application_data_source_type
-  data_source_database_name = var.opsworks_application_data_source_database_name
-
-  enable_ssl = var.opsworks_application_enable_ssl
-
   dynamic "ssl_configuration" {
     for_each = var.opsworks_application_ssl_configuration
     content {
@@ -47,12 +52,6 @@ resource "aws_opsworks_application" "opsworks_application" {
       chain       = lookup(opsworks_application_ssl_configuration.value, "chain", null)
     }
   }
-
-  document_root          = var.opsworks_application_document_root
-  auto_bundle_on_deploy  = var.opsworks_application_auto_bundle_on_deploy
-  rails_env              = var.opsworks_application_rails_env
-  aws_flow_ruby_settings = var.opsworks_application_aws_flow_ruby_settings
-
 
   lifecycle {
     create_before_destroy = true

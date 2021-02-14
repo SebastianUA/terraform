@@ -33,7 +33,7 @@ resource "aws_route53_health_check" "route53_health_check" {
 
   tags = merge(
     {
-      "Name" = var.route53_health_check_name != "" ? lower(var.route53_health_check_name) : "${lower(var.name)}-route53_hc-${lower(var.environment)}"
+      Name = var.route53_health_check_name != "" ? lower(var.route53_health_check_name) : "${lower(var.name)}-route53_hc-${lower(var.environment)}"
     },
     var.tags
   )

@@ -14,6 +14,8 @@ resource "aws_route53_record" "route53_record" {
   multivalue_answer_routing_policy = var.multivalue_answer_routing_policy
   allow_overwrite                  = var.allow_overwrite
 
+  set_identifier = var.set_identifier != null ? lower(var.set_identifier) : null
+
   dynamic "failover_routing_policy" {
     for_each = var.failover_routing_policy
     content {
@@ -52,8 +54,6 @@ resource "aws_route53_record" "route53_record" {
       evaluate_target_health = lookup(route53_record_alias.value, "evaluate_target_health", null)
     }
   }
-
-  set_identifier = var.set_identifier != null ? lower(var.set_identifier) : null
 
   lifecycle {
     create_before_destroy = true

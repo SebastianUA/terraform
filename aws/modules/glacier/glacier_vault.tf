@@ -19,7 +19,7 @@ resource "aws_glacier_vault" "glacier_vault" {
 
   tags = merge(
     {
-      "Name" = var.glacier_vault_name != "" ? lower(var.glacier_vault_name) : "${lower(var.name)}-glacier-vault-${lower(var.environment)}"
+      Name = var.glacier_vault_name != "" ? lower(var.glacier_vault_name) : "${lower(var.name)}-glacier-vault-${lower(var.environment)}"
     },
     var.tags
   )

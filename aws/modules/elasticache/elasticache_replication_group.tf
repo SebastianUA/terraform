@@ -41,18 +41,22 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
     }
   }
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.elasticache_replication_group_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
+      Name = var.replication_group_id != "" ? var.replication_group_id : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.timeouts_create
-    update = var.timeouts_update
-    delete = var.timeouts_delete
-  }
 
   lifecycle {
     create_before_destroy = true

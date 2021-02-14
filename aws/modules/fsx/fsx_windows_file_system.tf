@@ -35,14 +35,14 @@ resource "aws_fsx_windows_file_system" "fsx_windows_file_system" {
     iterator = timeouts
     for_each = var.fsx_windows_file_system_timeouts
     content {
-      create = lookup(timeouts.value, "create", "30m")
-      delete = lookup(timeouts.value, "delete", "30m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
   tags = merge(
     {
-      "Name" = var.fsx_windows_file_system_name != "" ? lower(var.fsx_windows_file_system_name) : "${lower(var.name)}-fsx-windows-file-system-${lower(var.environment)}"
+      Name = var.fsx_windows_file_system_name != "" ? lower(var.fsx_windows_file_system_name) : "${lower(var.name)}-fsx-windows-file-system-${lower(var.environment)}"
     },
     var.tags
   )

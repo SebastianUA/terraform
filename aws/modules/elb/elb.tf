@@ -49,7 +49,7 @@ resource "aws_elb" "elb" {
 
   tags = merge(
     {
-      "Name" = var.elb_name != "" ? var.elb_name : "${lower(var.name)}-elb-${lower(var.environment)}"
+      Name = var.elb_name != "" ? var.elb_name : "${lower(var.name)}-elb-${lower(var.environment)}"
     },
     var.tags
   )

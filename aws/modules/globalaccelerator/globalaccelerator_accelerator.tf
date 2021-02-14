@@ -21,7 +21,7 @@ resource "aws_globalaccelerator_accelerator" "globalaccelerator_accelerator" {
 
   tags = merge(
     {
-      "Name" = var.globalaccelerator_accelerator_name != "" ? lower(var.globalaccelerator_accelerator_name) : "${lower(var.name)}-globalaccelerator-accelerator-${lower(var.environment)}"
+      Name = var.globalaccelerator_accelerator_name != "" ? lower(var.globalaccelerator_accelerator_name) : "${lower(var.name)}-globalaccelerator-accelerator-${lower(var.environment)}"
     },
     var.tags
   )

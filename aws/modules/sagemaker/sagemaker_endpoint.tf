@@ -9,7 +9,7 @@ resource "aws_sagemaker_endpoint" "sagemaker_endpoint" {
 
   tags = merge(
     {
-      "Name" = var.sagemaker_endpoint_name != "" ? lower(var.sagemaker_endpoint_name) : "${lower(var.name)}-sagemaker-endpoint-${lower(var.environment)}"
+      Name = var.sagemaker_endpoint_name != "" ? lower(var.sagemaker_endpoint_name) : "${lower(var.name)}-sagemaker-endpoint-${lower(var.environment)}"
     },
     var.tags
   )

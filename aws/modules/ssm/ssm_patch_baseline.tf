@@ -32,7 +32,7 @@ resource "aws_ssm_patch_baseline" "ssm_patch_baseline" {
 
   tags = merge(
     {
-      "Name" = var.ssm_patch_baseline_name != "" ? lower(var.ssm_patch_baseline_name) : "${lower(var.name)}-patch-baseline-${lower(var.environment)}"
+      Name = var.ssm_patch_baseline_name != "" ? lower(var.ssm_patch_baseline_name) : "${lower(var.name)}-patch-baseline-${lower(var.environment)}"
     },
     var.tags
   )

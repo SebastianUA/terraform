@@ -19,7 +19,7 @@ resource "aws_db_security_group" "db_security_group" {
 
   tags = merge(
     {
-      "Name" = var.db_security_group_name != "" ? lower(var.db_security_group_name) : "${lower(var.name)}-db-sg-${lower(var.environment)}"
+      Name = var.db_security_group_name != "" ? lower(var.db_security_group_name) : "${lower(var.name)}-db-sg-${lower(var.environment)}"
     },
     var.tags
   )

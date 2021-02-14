@@ -22,7 +22,7 @@ resource "aws_transfer_server" "transfer_server" {
 
   tags = merge(
     {
-      "Name" = var.transfer_server_name != "" ? lower(var.transfer_server_name) : "${lower(var.name)}-transfer-server-${lower(var.environment)}"
+      Name = var.transfer_server_name != "" ? lower(var.transfer_server_name) : "${lower(var.name)}-transfer-server-${lower(var.environment)}"
     },
     var.tags
   )

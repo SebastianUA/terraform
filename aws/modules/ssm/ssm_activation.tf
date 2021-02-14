@@ -13,7 +13,7 @@ resource "aws_ssm_activation" "ssm_activation" {
 
   tags = merge(
     {
-      "Name" = var.ssm_activation_name != "" ? lower(var.ssm_activation_name) : "${lower(var.name)}-activation-${lower(var.environment)}"
+      Name = var.ssm_activation_name != "" ? lower(var.ssm_activation_name) : "${lower(var.name)}-activation-${lower(var.environment)}"
     },
     var.tags
   )

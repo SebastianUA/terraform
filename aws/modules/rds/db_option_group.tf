@@ -33,7 +33,7 @@ resource "aws_db_option_group" "db_option_group" {
     iterator = timeouts
     for_each = var.db_option_group_timeouts
     content {
-      delete = lookup(timeouts.value, "delete", "15m")
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 

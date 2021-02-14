@@ -145,7 +145,7 @@ resource "aws_emr_cluster" "emr_cluster" {
 
   tags = merge(
     {
-      "Name" = var.emr_cluster_name != "" ? var.emr_cluster_name : "${lower(var.name)}-emr-cluster-${lower(var.environment)}"
+      Name = var.emr_cluster_name != "" ? var.emr_cluster_name : "${lower(var.name)}-emr-cluster-${lower(var.environment)}"
     },
     var.tags
   )

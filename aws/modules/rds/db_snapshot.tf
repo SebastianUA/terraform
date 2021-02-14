@@ -9,7 +9,7 @@ resource "aws_db_snapshot" "db_snapshot" {
 
   tags = merge(
     {
-      "Name" = var.db_snapshot_db_snapshot_identifier != "" ? lower(var.db_snapshot_db_snapshot_identifier) : "${lower(var.name)}-db-snapshot-${lower(var.environment)}"
+      Name = var.db_snapshot_db_snapshot_identifier != "" ? lower(var.db_snapshot_db_snapshot_identifier) : "${lower(var.name)}-db-snapshot-${lower(var.environment)}"
     },
     var.tags
   )

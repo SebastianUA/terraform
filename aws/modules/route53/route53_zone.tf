@@ -20,7 +20,7 @@ resource "aws_route53_zone" "route53_zone" {
 
   tags = merge(
     {
-      "Name" = var.route53_zone_name != "" ? lower(var.route53_zone_name) : "${lower(var.name)}-route53_zone-${lower(var.environment)}"
+      Name = var.route53_zone_name != "" ? lower(var.route53_zone_name) : "${lower(var.name)}-route53_zone-${lower(var.environment)}"
     },
     var.tags
   )

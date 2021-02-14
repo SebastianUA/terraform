@@ -32,22 +32,22 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
 
   copy_tags_to_snapshot = var.rds_cluster_instance_copy_tags_to_snapshot
 
-  tags = merge(
-    {
-      "Name" = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier) : lower(var.rds_cluster_instance_identifier_prefix)
-    },
-    var.tags
-  )
-
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.rds_cluster_instance_timeouts
     content {
-      create = lookup(timeouts.value, "create", "90m")
-      update = lookup(timeouts.value, "update", "90m")
-      delete = lookup(timeouts.value, "delete", "90m")
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
+
+  tags = merge(
+    {
+      Name = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? lower(var.rds_cluster_instance_identifier) : lower(var.rds_cluster_instance_identifier_prefix)
+    },
+    var.tags
+  )
 
   lifecycle {
     create_before_destroy = true

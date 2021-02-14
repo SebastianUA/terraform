@@ -13,7 +13,7 @@ resource "aws_eks_fargate_profile" "eks_fargate_profile" {
     namespace = var.eks_fargate_profile_selector_namespace
     labels    = var.eks_fargate_profile_selector_labels
   }
-  
+
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.eks_fargate_profile_timeouts

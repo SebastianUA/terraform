@@ -1539,19 +1539,9 @@ variable "opsworks_instance_ephemeral_block_device" {
   default     = []
 }
 
-variable "opsworks_instance_timeouts_create" {
-  description = "(Default 10 minutes) Used when the instance is created. It should cover the time needed for the instance to start successfully."
-  default     = "10m"
-}
-
-variable "opsworks_instance_timeouts_update" {
-  description = "(Default 10 minutes) Used when the instance is changed. It should cover the time needed to either start or stop the instance."
-  default     = "10m"
-}
-
-variable "opsworks_instance_timeouts_delete" {
-  description = "(Default 10 minutes) Used when the instance is deleted. It should cover the time needed for the instance to stop successfully."
-  default     = "10m"
+variable "opsworks_instance_timeouts" {
+  description = "Set timeouts for opsworks instance"
+  default     = []
 }
 
 #---------------------------------------------------

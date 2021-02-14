@@ -14,7 +14,7 @@ resource "aws_kms_key" "kms_key" {
 
   tags = merge(
     {
-      "Name" = var.kms_key_name != "" ? var.kms_key_name : "${lower(var.name)}-kms-${lower(var.environment)}"
+      Name = var.kms_key_name != "" ? var.kms_key_name : "${lower(var.name)}-kms-${lower(var.environment)}"
     },
     var.tags
   )

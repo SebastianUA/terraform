@@ -16,18 +16,22 @@ resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
     }
   }
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.route53_resolver_endpoint_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.route53_resolver_endpoint_name != "" ? lower(var.route53_resolver_endpoint_name) : "${lower(var.name)}-route53_resolve-endpoint-${lower(var.environment)}"
+      Name = var.route53_resolver_endpoint_name != "" ? lower(var.route53_resolver_endpoint_name) : "${lower(var.name)}-route53_resolve-endpoint-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.timeouts_create
-    update = var.timeouts_update
-    delete = var.timeouts_delete
-  }
 
   lifecycle {
     create_before_destroy = true

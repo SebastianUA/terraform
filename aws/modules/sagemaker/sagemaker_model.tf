@@ -44,7 +44,7 @@ resource "aws_sagemaker_model" "sagemaker_model" {
 
   tags = merge(
     {
-      "Name" = var.sagemaker_model_name != "" ? lower(var.sagemaker_model_name) : "${lower(var.name)}-sagemaker-model-${lower(var.environment)}"
+      Name = var.sagemaker_model_name != "" ? lower(var.sagemaker_model_name) : "${lower(var.name)}-sagemaker-model-${lower(var.environment)}"
     },
     var.tags
   )

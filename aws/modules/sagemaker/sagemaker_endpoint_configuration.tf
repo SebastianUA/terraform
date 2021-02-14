@@ -24,7 +24,7 @@ resource "aws_sagemaker_endpoint_configuration" "sagemaker_endpoint_configuratio
 
   tags = merge(
     {
-      "Name" = var.sagemaker_endpoint_configuration_name != "" ? lower(var.sagemaker_endpoint_configuration_name) : "${lower(var.name)}-sagemaker-endpoint-conf-${lower(var.environment)}"
+      Name = var.sagemaker_endpoint_configuration_name != "" ? lower(var.sagemaker_endpoint_configuration_name) : "${lower(var.name)}-sagemaker-endpoint-conf-${lower(var.environment)}"
     },
     var.tags
   )
