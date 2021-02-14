@@ -4,21 +4,27 @@
 resource "aws_athena_workgroup" "athena_workgroup" {
   count = var.enable_athena_workgroup ? 1 : 0
 
-  name        = var.athena_workgroup_name != "" ? lower(var.athena_workgroup_name) : "${lower(var.name)}-athena-workgroup-${lower(var.environment)}"
-  description = var.athena_workgroup_description
-  state       = upper(var.athena_workgroup_state)
+  name = var.athena_workgroup_name != "" ? lower(var.athena_workgroup_name) : "${lower(var.name)}-athena-workgroup-${lower(var.environment)}"
 
-  configuration {
-    bytes_scanned_cutoff_per_query     = var.athena_workgroup_bytes_scanned_cutoff_per_query
-    enforce_workgroup_configuration    = var.athena_workgroup_enforce_workgroup_configuration
-    publish_cloudwatch_metrics_enabled = var.athena_workgroup_publish_cloudwatch_metrics_enabled
+  description   = var.athena_workgroup_description
+  state         = upper(var.athena_workgroup_state)
+  force_destroy = var.athena_workgroup_force_destroy
 
-    result_configuration {
-      output_location = var.athena_workgroup_output_location != null ? var.athena_workgroup_output_location : null
+  dynamic "configuration" {
+    iterator = configuration
+    for_each = var.athena_workgroup_configuration
+    content {
+      bytes_scanned_cutoff_per_query     = lookup(configuration.value, "bytes_scanned_cutoff_per_query", null)
+      enforce_workgroup_configuration    = lookup(configuration.value, "enforce_workgroup_configuration", null)
+      publish_cloudwatch_metrics_enabled = lookup(configuration.value, "publish_cloudwatch_metrics_enabled", null)
 
-      encryption_configuration {
-        encryption_option = var.athena_workgroup_encryption_option
-        kms_key_arn       = var.athena_workgroup_kms_key_arn
+      result_configuration {
+        output_location = lookup(configuration.value, "output_location", null)
+
+        encryption_configuration {
+          encryption_option = lookup(configuration.value, "encryption_option", null)
+          kms_key_arn       = lookup(configuration.value, "kms_key_arn", null)
+        }
       }
     }
   }
@@ -37,3 +43,4 @@ resource "aws_athena_workgroup" "athena_workgroup" {
 
   depends_on = []
 }
+

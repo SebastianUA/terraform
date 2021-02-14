@@ -40,10 +40,10 @@ variable "force_destroy" {
   default     = false
 }
 
-# variable "athena_database_encryption_configuration" {
-#   description = "(Optional) The encryption key block AWS Athena uses to decrypt the data in S3, such as an AWS Key Management Service (AWS KMS) key. An encryption_configuration block is documented below."
-#   default     = []
-#}
+variable "athena_database_encryption_configuration" {
+  description = "(Optional) The encryption key block AWS Athena uses to decrypt the data in S3, such as an AWS Key Management Service (AWS KMS) key. An encryption_configuration block is documented below."
+  default     = []
+}
 
 #---------------------------------------------------
 # ASW athena named query
@@ -98,35 +98,15 @@ variable "athena_workgroup_description" {
 
 variable "athena_workgroup_state" {
   description = "(Optional) State of the workgroup. Valid values are DISABLED or ENABLED. Defaults to ENABLED."
-  default     = "ENABLED"
-}
-
-variable "athena_workgroup_bytes_scanned_cutoff_per_query" {
-  description = "(Optional) Integer for the upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan. Must be at least 10485760."
-  default     = 10485760
-}
-
-variable "athena_workgroup_enforce_workgroup_configuration" {
-  description = "(Optional) Boolean whether the settings for the workgroup override client-side settings. For more information, see Workgroup Settings Override Client-Side Settings. Defaults to true."
-  default     = true
-}
-
-variable "athena_workgroup_publish_cloudwatch_metrics_enabled" {
-  description = "(Optional) Boolean whether Amazon CloudWatch metrics are enabled for the workgroup. Defaults to true."
-  default     = true
-}
-
-variable "athena_workgroup_output_location" {
-  description = "(Optional) The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files."
   default     = null
 }
 
-variable "athena_workgroup_encryption_option" {
-  description = "(Required) Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup."
+variable "athena_workgroup_force_destroy" {
+  description = "(Optional) The option to delete the workgroup and its contents even if the workgroup contains any named queries."
   default     = null
 }
 
-variable "athena_workgroup_kms_key_arn" {
-  description = "(Optional) For SSE-KMS and CSE-KMS, this is the KMS key Amazon Resource Name (ARN)."
-  default     = null
+variable "athena_workgroup_configuration" {
+  description = "(Optional) Configuration block with various settings for the workgroup."
+  default     = []
 }
