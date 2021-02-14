@@ -82,7 +82,7 @@ resource "aws_codepipeline" "codepipeline" {
 
   tags = merge(
     {
-      "Name" = var.codepipeline_name != "" ? lower(var.codepipeline_name) : "${lower(var.name)}-codepipeline-${lower(var.environment)}"
+      Name = var.codepipeline_name != "" ? lower(var.codepipeline_name) : "${lower(var.name)}-codepipeline-${lower(var.environment)}"
     },
     var.tags
   )

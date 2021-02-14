@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 
   tags = merge(
     {
-      "Name" = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-td-${lower(var.environment)}"
+      Name = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-td-${lower(var.environment)}"
     },
     var.tags
   )

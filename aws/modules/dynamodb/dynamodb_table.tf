@@ -81,15 +81,15 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     iterator = timeouts
     for_each = var.dynamodb_table_timeouts
     content {
-      create = lookup(timeouts.value, "create", "10m")
-      update = lookup(timeouts.value, "update", "60m")
-      delete = lookup(timeouts.value, "delete", "10m")
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
   tags = merge(
     {
-      "Name" = var.dynamodb_table_name != "" ? lower(var.dynamodb_table_name) : "${lower(var.name)}-dynamodb-table-${lower(var.environment)}"
+      Name = var.dynamodb_table_name != "" ? lower(var.dynamodb_table_name) : "${lower(var.name)}-dynamodb-table-${lower(var.environment)}"
     },
     var.tags
   )

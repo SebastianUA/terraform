@@ -30,17 +30,21 @@ resource "aws_eks_node_group" "eks_node_group" {
     }
   }
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.eks_node_group_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.eks_node_group_node_group_name != "" ? lower(var.eks_node_group_node_group_name) : "${lower(var.name)}-node-group-${lower(var.environment)}"
+      Name = var.eks_node_group_node_group_name != "" ? lower(var.eks_node_group_node_group_name) : "${lower(var.name)}-node-group-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.eks_fargate_profile_create
-    delete = var.eks_fargate_profile_delete
-  }
 
   lifecycle {
     create_before_destroy = true

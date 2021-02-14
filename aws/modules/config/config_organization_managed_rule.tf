@@ -16,10 +16,14 @@ resource "aws_config_organization_managed_rule" "config_organization_managed_rul
   tag_key_scope               = var.config_organization_managed_rule_tag_key_scope != null ? var.config_organization_managed_rule_tag_key_scope : null
   tag_value_scope             = var.config_organization_managed_rule_tag_value_scope != null ? var.config_organization_managed_rule_tag_value_scope : null
 
-  timeouts {
-    create = var.config_organization_managed_rule_timeouts_create
-    update = var.config_organization_managed_rule_timeouts_update
-    delete = var.config_organization_managed_rule_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.config_organization_managed_rule_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   lifecycle {

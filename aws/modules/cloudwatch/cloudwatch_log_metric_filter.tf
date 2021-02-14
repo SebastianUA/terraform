@@ -8,11 +8,16 @@ resource "aws_cloudwatch_log_metric_filter" "cw_log_metric_filter" {
   pattern        = var.cw_log_metric_filter_pattern
   log_group_name = var.cw_log_group_name != "" ? var.cw_log_group_name : element(concat(aws_cloudwatch_log_group.cw_log_group.*.id, [""]), 0)
 
-  metric_transformation {
-    name          = var.metric_transformation_name
-    namespace     = var.metric_transformation_namespace
-    value         = var.metric_transformation_value
-    default_value = var.metric_transformation_default_value
+  dynamic "metric_transformation" {
+    iterator = metric_transformation
+    for_each = var.cw_log_metric_filter_metric_transformation
+    content {
+      name      = lookup(metric_transformation.value, "name", null)
+      namespace = lookup(metric_transformation.value, "namespace", null)
+      value     = lookup(metric_transformation.value, "value", null)
+
+      default_value = lookup(metric_transformation.value, "default_value", null)
+    }
   }
 
   lifecycle {

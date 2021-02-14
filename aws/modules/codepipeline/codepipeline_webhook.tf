@@ -25,7 +25,7 @@ resource "aws_codepipeline_webhook" "codepipeline_webhook" {
 
   tags = merge(
     {
-      "Name" = var.codepipeline_webhook_name != "" ? lower(var.codepipeline_webhook_name) : "${lower(var.name)}-codepipeline-webhook-${lower(var.environment)}"
+      Name = var.codepipeline_webhook_name != "" ? lower(var.codepipeline_webhook_name) : "${lower(var.name)}-codepipeline-webhook-${lower(var.environment)}"
     },
     var.tags
   )

@@ -13,7 +13,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
   tags = merge(
     {
-      "Name" = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-cluster-${lower(var.environment)}"
+      Name = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-cluster-${lower(var.environment)}"
     },
     var.tags
   )

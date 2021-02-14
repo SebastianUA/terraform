@@ -107,7 +107,7 @@ resource "aws_appsync_graphql_api" "appsync_graphql_api" {
 
   tags = merge(
     {
-      "Name" = var.appsync_graphql_api_name != "" ? lower(var.appsync_graphql_api_name) : "${lower(var.name)}-appsync-graphql-api-${lower(var.environment)}"
+      Name = var.appsync_graphql_api_name != "" ? lower(var.appsync_graphql_api_name) : "${lower(var.name)}-appsync-graphql-api-${lower(var.environment)}"
     },
     var.tags
   )

@@ -37,7 +37,7 @@ resource "aws_dax_cluster" "dax_cluster" {
 
   tags = merge(
     {
-      "Name" = var.dax_cluster_name != "" ? lower(var.dax_cluster_name) : "${lower(var.name)}-dax-cluster-${lower(var.environment)}"
+      Name = var.dax_cluster_name != "" ? lower(var.dax_cluster_name) : "${lower(var.name)}-dax-cluster-${lower(var.environment)}"
     },
     var.tags
   )

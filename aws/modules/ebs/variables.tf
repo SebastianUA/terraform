@@ -142,14 +142,9 @@ variable "ebs_snapshot_name" {
   default     = ""
 }
 
-variable "timeouts_create" {
-  description = "(Default 10 minutes) Used for creating the ebs snapshot"
-  default     = "10m"
-}
-
-variable "timeouts_delete" {
-  description = "(Default 10 minutes) Used for deleting the ebs snapshot"
-  default     = "10m"
+variable "ebs_snapshot_timeouts" {
+  description = "Set timeouts for ebs snapshot"
+  default     = []
 }
 
 variable "enable_ebs_snapshot_copy" {

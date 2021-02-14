@@ -19,18 +19,22 @@ resource "aws_eks_cluster" "eks_cluster" {
   enabled_cluster_log_types = var.eks_enabled_cluster_log_types
   version                   = var.eks_version
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.eks_cluster_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
+      Name = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.eks_timeouts_create
-    update = var.eks_timeouts_update
-    delete = var.eks_timeouts_delete
-  }
 
   lifecycle {
     create_before_destroy = true
@@ -65,18 +69,22 @@ resource "aws_eks_cluster" "eks_cluster_encryption" {
     resources = var.encryption_config_resources
   }
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.eks_cluster_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
+      Name = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.eks_timeouts_create
-    update = var.eks_timeouts_update
-    delete = var.eks_timeouts_delete
-  }
 
   lifecycle {
     create_before_destroy = true

@@ -28,7 +28,7 @@ resource "aws_appmesh_virtual_service" "appmesh_virtual_service" {
 
   tags = merge(
     {
-      "Name" = var.appmesh_virtual_service_name != "" ? lower(var.appmesh_virtual_service_name) : "${lower(var.name)}-appmesh-virt-service-${lower(var.environment)}"
+      Name = var.appmesh_virtual_service_name != "" ? lower(var.appmesh_virtual_service_name) : "${lower(var.name)}-appmesh-virt-service-${lower(var.environment)}"
     },
     var.tags
   )

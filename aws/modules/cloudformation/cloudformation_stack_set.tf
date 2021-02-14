@@ -14,16 +14,20 @@ resource "aws_cloudformation_stack_set" "cloudformation_stack_set" {
   template_body       = var.cloudformation_stack_set_template_body
   template_url        = var.cloudformation_stack_set_template_url
 
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.cloudformation_stack_set_timeouts
+    content {
+      update = lookup(timeouts.value, "update", null)
+    }
+  }
+
   tags = merge(
     {
-      "Name" = var.cloudformation_stack_set_name != "" ? lower(var.cloudformation_stack_set_name) : "${lower(var.name)}-cloudformation-stack-set-${lower(var.environment)}"
+      Name = var.cloudformation_stack_set_name != "" ? lower(var.cloudformation_stack_set_name) : "${lower(var.name)}-cloudformation-stack-set-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    update = var.cloudformation_stack_set_timeouts_update
-  }
 
   lifecycle {
     create_before_destroy = true

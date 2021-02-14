@@ -14,7 +14,7 @@ resource "aws_cloud9_environment_ec2" "cloud9_environment_ec2" {
 
   tags = merge(
     {
-      "Name" = var.cloud9_environment_ec2_name != "" ? lower(var.cloud9_environment_ec2_name) : "${lower(var.name)}-cloud9-env-ec2-${lower(var.environment)}"
+      Name = var.cloud9_environment_ec2_name != "" ? lower(var.cloud9_environment_ec2_name) : "${lower(var.name)}-cloud9-env-ec2-${lower(var.environment)}"
     },
     var.tags
   )

@@ -10,9 +10,9 @@ resource "aws_backup_vault" "backup_vault" {
 
   tags = merge(
     {
-      "Name" = var.backup_vault_name != "" ? lower(var.backup_vault_name) : "${lower(var.name)}-backup-vault-${lower(var.environment)}"
+      Name = var.backup_vault_name != "" ? lower(var.backup_vault_name) : "${lower(var.name)}-backup-vault-${lower(var.environment)}"
     },
-    var.tags,
+    var.tags
   )
 
   lifecycle {

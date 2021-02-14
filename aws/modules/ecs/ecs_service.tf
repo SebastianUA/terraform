@@ -71,7 +71,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   tags = merge(
     {
-      "Name" = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
+      Name = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
     },
     var.tags
   )
@@ -83,7 +83,6 @@ resource "aws_ecs_service" "ecs_service" {
 
   depends_on = []
 }
-
 
 resource "aws_ecs_service" "ecs_service_daemon" {
   count = var.enable_ecs_service && var.enable_ecs_service_daemon ? 1 : 0
@@ -98,7 +97,7 @@ resource "aws_ecs_service" "ecs_service_daemon" {
 
   tags = merge(
     {
-      "Name" = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
+      Name = var.ecs_cluster_name != "" ? var.ecs_cluster_name : "${lower(var.name)}-ecs-service-${lower(var.environment)}"
     },
     var.tags
   )

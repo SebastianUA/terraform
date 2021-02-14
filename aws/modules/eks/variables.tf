@@ -90,19 +90,9 @@ variable "encryption_config_resources" {
   default     = ["secrets"]
 }
 
-variable "eks_timeouts_create" {
-  description = "(Default 30 minutes) How long to wait for the EKS Cluster to be created."
-  default     = "30m"
-}
-
-variable "eks_timeouts_update" {
-  description = "(Default 60 minutes) How long to wait for the EKS Cluster to be updated. Note that the update timeout is used separately for both version and vpc_config update timeouts."
-  default     = "60m"
-}
-
-variable "eks_timeouts_delete" {
-  description = "(Default 15 minutes) How long to wait for the EKS Cluster to be deleted."
-  default     = "15m"
+variable "eks_cluster_timeouts" {
+  description = "Set timeouts for EKS cluster"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -144,14 +134,9 @@ variable "eks_fargate_profile_selector_labels" {
   default     = {}
 }
 
-variable "eks_fargate_profile_create" {
-  description = "(Default 10 minutes) How long to wait for the EKS Fargate Profile to be created."
-  default     = "10m"
-}
-
-variable "eks_fargate_profile_delete" {
-  description = "(Default 10 minutes) How long to wait for the EKS Fargate Profile to be deleted."
-  default     = "10m"
+variable "eks_fargate_profile_timeouts" {
+  description = "Set timeouts for EKS fargate profile"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -230,5 +215,10 @@ variable "eks_node_group_version" {
 
 variable "eks_node_group_remote_access" {
   description = "(Optional) Configuration block with remote access settings."
+  default     = []
+}
+
+variable "eks_node_group_timeouts" {
+  description = "Set timeouts for EKS node group"
   default     = []
 }

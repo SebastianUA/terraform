@@ -11,9 +11,9 @@ resource "aws_cloudhsm_v2_cluster" "cloudhsm_v2_cluster" {
 
   tags = merge(
     {
-      "Name" = var.cloudhsm_v2_cluster_name != "" ? lower(var.cloudhsm_v2_cluster_name) : "${lower(var.name)}-cloudhsm-v2-cluster-${lower(var.environment)}"
+      Name = var.cloudhsm_v2_cluster_name != "" ? lower(var.cloudhsm_v2_cluster_name) : "${lower(var.name)}-cloudhsm-v2-cluster-${lower(var.environment)}"
     },
-    var.tags,
+    var.tags
   )
 
   lifecycle {

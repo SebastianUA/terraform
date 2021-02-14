@@ -240,24 +240,9 @@ variable "cw_log_metric_filter_pattern" {
   default     = ""
 }
 
-variable "metric_transformation_name" {
-  description = "The name of the CloudWatch metric to which the monitored log information should be published (e.g. ErrorCount)"
-  default     = "ErrorCount"
-}
-
-variable "metric_transformation_namespace" {
-  description = "The destination namespace of the CloudWatch metric."
-  default     = "NameSpace"
-}
-
-variable "metric_transformation_value" {
-  description = "What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event."
-  default     = 1
-}
-
-variable "metric_transformation_default_value" {
-  description = "What to publish to the metric. For example, if you're counting the occurrences of a particular term like 'Error', the value will be '1' for each occurrence. If you're counting the bytes transferred the published value will be the value in the log event."
-  default     = null
+variable "cw_log_metric_filter_metric_transformation" {
+  description = "(Required) A block defining collection of information needed to define how metric data gets emitted."
+  default     = []
 }
 
 variable "cloudwatch_log_stream_name" {

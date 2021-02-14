@@ -14,7 +14,7 @@ resource "aws_appmesh_mesh" "appmesh_mesh" {
 
   tags = merge(
     {
-      "Name" = var.appmesh_mesh_name != "" ? lower(var.appmesh_mesh_name) : "${lower(var.name)}-appmesh-mesh-${lower(var.environment)}"
+      Name = var.appmesh_mesh_name != "" ? lower(var.appmesh_mesh_name) : "${lower(var.name)}-appmesh-mesh-${lower(var.environment)}"
     },
     var.tags
   )

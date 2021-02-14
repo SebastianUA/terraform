@@ -134,7 +134,7 @@ resource "aws_appmesh_route" "appmesh_route" {
 
   tags = merge(
     {
-      "Name" = var.appmesh_route_name != "" ? lower(var.appmesh_route_name) : "${lower(var.name)}-appmesh-route-${lower(var.environment)}"
+      Name = var.appmesh_route_name != "" ? lower(var.appmesh_route_name) : "${lower(var.name)}-appmesh-route-${lower(var.environment)}"
     },
     var.tags
   )

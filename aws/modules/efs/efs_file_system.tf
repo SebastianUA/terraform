@@ -21,7 +21,7 @@ resource "aws_efs_file_system" "efs_file_system" {
 
   tags = merge(
     {
-      "Name" = var.efs_file_system_name != "" ? var.efs_file_system_name : "${lower(var.name)}-efs-${lower(var.environment)}"
+      Name = var.efs_file_system_name != "" ? var.efs_file_system_name : "${lower(var.name)}-efs-${lower(var.environment)}"
     },
     var.tags
   )

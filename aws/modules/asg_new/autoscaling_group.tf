@@ -90,7 +90,7 @@ resource "aws_autoscaling_group" "asg" {
     iterator = timeouts
     for_each = var.asg_timeouts
     content {
-      delete = lookup(timeouts.value, "delete", "10m")
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 

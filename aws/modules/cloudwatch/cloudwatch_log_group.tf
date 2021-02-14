@@ -10,7 +10,7 @@ resource "aws_cloudwatch_log_group" "cw_log_group" {
 
   tags = merge(
     {
-      "Name" = var.cw_log_group_name != "" ? var.cw_log_group_name : "${lower(var.name)}-cw_log_group-${lower(var.environment)}"
+      Name = var.cw_log_group_name != "" ? var.cw_log_group_name : "${lower(var.name)}-cw_log_group-${lower(var.environment)}"
     },
     var.tags
   )

@@ -25,9 +25,9 @@ resource "aws_athena_workgroup" "athena_workgroup" {
 
   tags = merge(
     {
-      "Name" = var.athena_workgroup_name != "" ? lower(var.athena_workgroup_name) : "${lower(var.name)}-athena-workgroup-${lower(var.environment)}"
+      Name = var.athena_workgroup_name != "" ? lower(var.athena_workgroup_name) : "${lower(var.name)}-athena-workgroup-${lower(var.environment)}"
     },
-    var.tags,
+    var.tags
   )
 
   lifecycle {

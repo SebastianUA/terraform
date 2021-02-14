@@ -96,15 +96,15 @@ resource "aws_instance" "instance" {
     iterator = timeouts
     for_each = var.instance_timeouts
     content {
-      create = lookup(timeouts.value, "create", "10m")
-      update = lookup(timeouts.value, "update", "10m")
-      delete = lookup(timeouts.value, "delete", "10m")
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
   tags = merge(
     {
-      "Name" = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
+      Name = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
     },
     var.tags
   )

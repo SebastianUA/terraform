@@ -13,18 +13,22 @@ resource "aws_eks_fargate_profile" "eks_fargate_profile" {
     namespace = var.eks_fargate_profile_selector_namespace
     labels    = var.eks_fargate_profile_selector_labels
   }
+  
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.eks_fargate_profile_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
 
   tags = merge(
     {
-      "Name" = var.fargate_profile_name != "" ? lower(var.fargate_profile_name) : "${lower(var.name)}-fargate-profile-${lower(var.environment)}"
+      Name = var.fargate_profile_name != "" ? lower(var.fargate_profile_name) : "${lower(var.name)}-fargate-profile-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.eks_fargate_profile_create
-    delete = var.eks_fargate_profile_delete
-  }
 
   lifecycle {
     create_before_destroy = true

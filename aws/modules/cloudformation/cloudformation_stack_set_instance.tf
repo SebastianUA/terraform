@@ -11,10 +11,14 @@ resource "aws_cloudformation_stack_set_instance" "cloudformation_stack_set_insta
   region              = var.region
   retain_stack        = var.cloudformation_stack_set_instance_retain_stack
 
-  timeouts {
-    create = var.cloudformation_stack_set_instance_timeouts_create
-    update = var.cloudformation_stack_set_instance_timeouts_update
-    delete = var.cloudformation_stack_set_instance_timeouts_delete
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.cloudformation_stack_set_instance_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+      update = lookup(timeouts.value, "update", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
   }
 
   lifecycle {

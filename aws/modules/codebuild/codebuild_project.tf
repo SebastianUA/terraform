@@ -100,7 +100,7 @@ resource "aws_codebuild_project" "codebuild_project" {
       s3_logs {
         status              = lookup(logsconfig.value, "s3_status", null)
         location            = lookup(logsconfig.value, "s3_location", null)
-        encryption_disabled = lookup(logsconfig.value, "s3_status", false)
+        encryption_disabled = lookup(logsconfig.value, "s3_status", null)
       }
     }
   }
@@ -158,7 +158,7 @@ resource "aws_codebuild_project" "codebuild_project" {
 
   tags = merge(
     {
-      "Name" = var.codebuild_project_name != "" ? lower(var.codebuild_project_name) : "${lower(var.name)}-codebuild-project-${lower(var.environment)}"
+      Name = var.codebuild_project_name != "" ? lower(var.codebuild_project_name) : "${lower(var.name)}-codebuild-project-${lower(var.environment)}"
     },
     var.tags
   )

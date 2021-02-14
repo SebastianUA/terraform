@@ -11,7 +11,7 @@ resource "aws_codecommit_repository" "codecommit_repository" {
 
   tags = merge(
     {
-      "Name" = var.codecommit_repository_name != "" ? lower(var.codecommit_repository_name) : "${lower(var.name)}-codecommit-repo-${lower(var.environment)}"
+      Name = var.codecommit_repository_name != "" ? lower(var.codecommit_repository_name) : "${lower(var.name)}-codecommit-repo-${lower(var.environment)}"
     },
     var.tags
   )

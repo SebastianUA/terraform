@@ -55,7 +55,7 @@ resource "aws_backup_plan" "backup_plan" {
 
   tags = merge(
     {
-      "Name" = var.backup_plan_name != "" ? lower(var.backup_plan_name) : "${lower(var.name)}-backup-plan-${lower(var.environment)}"
+      Name = var.backup_plan_name != "" ? lower(var.backup_plan_name) : "${lower(var.name)}-backup-plan-${lower(var.environment)}"
     },
     var.tags,
   )

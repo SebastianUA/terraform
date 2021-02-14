@@ -10,9 +10,9 @@ resource "aws_datapipeline_pipeline" "datapipeline_pipeline" {
 
   tags = merge(
     {
-      "Name" = var.datapipeline_pipeline_name != "" ? lower(var.datapipeline_pipeline_name) : "${lower(var.name)}-datapipeline-pipeline-${lower(var.environment)}"
+      Name = var.datapipeline_pipeline_name != "" ? lower(var.datapipeline_pipeline_name) : "${lower(var.name)}-datapipeline-pipeline-${lower(var.environment)}"
     },
-    var.tags,
+    var.tags
   )
 
   lifecycle {

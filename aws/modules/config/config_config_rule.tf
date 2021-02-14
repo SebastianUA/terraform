@@ -29,9 +29,9 @@ resource "aws_config_config_rule" "config_config_rule" {
 
   tags = merge(
     {
-      "Name" = var.config_config_rule_name != "" ? lower(var.config_config_rule_name) : "${lower(var.name)}-config-rule-${lower(var.environment)}"
+      Name = var.config_config_rule_name != "" ? lower(var.config_config_rule_name) : "${lower(var.name)}-config-rule-${lower(var.environment)}"
     },
-    var.tags,
+    var.tags
   )
 
   lifecycle {

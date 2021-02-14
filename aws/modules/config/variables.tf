@@ -149,19 +149,9 @@ variable "config_organization_managed_rule_tag_value_scope" {
   default     = null
 }
 
-variable "config_organization_managed_rule_timeouts_create" {
-  description = "(Default 5m) How long to wait for the rule to be created."
-  default     = "5m"
-}
-
-variable "config_organization_managed_rule_timeouts_update" {
-  description = "(Default 5m) How long to wait for the rule to be updated."
-  default     = "5m"
-}
-
-variable "config_organization_managed_rule_timeouts_delete" {
-  description = "(Default 5m) How long to wait for the rule to be deleted."
-  default     = "5m"
+variable "config_organization_managed_rule_timeouts" {
+  description = "Set timeouts for config organization managed rule"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -227,19 +217,9 @@ variable "config_organization_custom_rule_tag_value_scope" {
   default     = null
 }
 
-variable "config_organization_custom_rule_timeouts_create" {
-  description = "(Default 5m) How long to wait for the rule to be created."
-  default     = "5m"
-}
-
-variable "config_organization_custom_rule_timeouts_update" {
-  description = "(Default 5m) How long to wait for the rule to be updated."
-  default     = "5m"
-}
-
-variable "config_organization_custom_rule_timeouts_delete" {
-  description = "(Default 5m) How long to wait for the rule to be deleted."
-  default     = "5m"
+variable "config_organization_custom_rule_timeouts" {
+  description = "Set timeouts for config organization custom rule timeouts"
+  default     = []
 }
 
 #---------------------------------------------------

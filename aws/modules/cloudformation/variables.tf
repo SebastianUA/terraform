@@ -137,9 +137,9 @@ variable "cloudformation_stack_set_template_url" {
   default     = null
 }
 
-variable "cloudformation_stack_set_timeouts_update" {
-  description = "(Default 30m) How long to wait for a Stack Set to be updated."
-  default     = "30m"
+variable "cloudformation_stack_set_timeouts" {
+  description = "Set timeouts for cloudformation stack set"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -170,17 +170,7 @@ variable "cloudformation_stack_set_instance_retain_stack" {
   default     = false
 }
 
-variable "cloudformation_stack_set_instance_timeouts_create" {
-  description = "(Default 30m) How long to wait for a Stack to be created."
-  default     = "30m"
-}
-
-variable "cloudformation_stack_set_instance_timeouts_update" {
-  description = "(Default 30m) How long to wait for a Stack to be updated."
-  default     = "30m"
-}
-
-variable "cloudformation_stack_set_instance_timeouts_delete" {
-  description = "(Default 30m) How long to wait for a Stack to be deleted."
-  default     = "30m"
+variable "cloudformation_stack_set_instance_timeouts" {
+  description = "Set timeouts for cloudformation stack set instance"
+  default     = []
 }

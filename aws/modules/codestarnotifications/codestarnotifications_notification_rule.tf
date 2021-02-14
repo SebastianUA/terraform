@@ -22,7 +22,7 @@ resource "aws_codestarnotifications_notification_rule" "codestarnotifications_no
 
   tags = merge(
     {
-      "Name" = var.codestarnotifications_notification_rule_name != "" ? lower(var.codestarnotifications_notification_rule_name) : "${lower(var.name)}-codestarnotifications-rule-${lower(var.environment)}"
+      Name = var.codestarnotifications_notification_rule_name != "" ? lower(var.codestarnotifications_notification_rule_name) : "${lower(var.name)}-codestarnotifications-rule-${lower(var.environment)}"
     },
     var.tags
   )

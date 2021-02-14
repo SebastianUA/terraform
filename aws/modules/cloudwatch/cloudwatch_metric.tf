@@ -32,26 +32,25 @@ resource "aws_cloudwatch_metric_alarm" "cw_metric_alarm" {
 
   # conflicts with metric_name
   dynamic "metric_query" {
+    iterator = metric_query
     for_each = var.metric_query
     content {
-      id          = lookup(metric_query.value, "id")
+      id = lookup(metric_query.value, "id", null)
+
+      expression  = lookup(metric_query.value, "expression", null)
       label       = lookup(metric_query.value, "label", null)
       return_data = lookup(metric_query.value, "return_data", null)
-      expression  = lookup(metric_query.value, "expression", null)
+
+      metric {
+        metric_name = lookup(metric_query.value, "metric_name", null)
+        namespace   = lookup(metric_query.value, "namespace", null)
+        period      = lookup(metric_query.value, "period", null)
+        stat        = lookup(metric_query.value, "stat", null)
+        unit        = lookup(metric_query.value, "unit", null)
+        dimensions  = lookup(memetric_querytric.value, "dimensions", null)
+      }
     }
   }
-
-  # dynamic "metric" {
-  #     for_each = var.metric_query
-  #     content {
-  #         metric_name = lookup(metric.value, "metric_name")
-  #         namespace   = lookup(metric.value, "namespace")
-  #         period      = lookup(metric.value, "period")
-  #         stat        = lookup(metric.value, "stat")
-  #         unit        = lookup(metric.value, "unit", null)
-  #         dimensions  = lookup(metric.value, "dimensions", null)
-  #     }
-  # }
 
   lifecycle {
     create_before_destroy = true

@@ -26,7 +26,7 @@ resource "aws_dlm_lifecycle_policy" "dlm_lifecycle_policy" {
 
       tags_to_add = merge(
         {
-          "Name" = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
+          Name = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
         },
         var.tags_to_add
       )
@@ -36,7 +36,7 @@ resource "aws_dlm_lifecycle_policy" "dlm_lifecycle_policy" {
 
     target_tags = merge(
       {
-        "Name" = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
+        Name = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
       },
       var.target_tags
     )
@@ -44,7 +44,7 @@ resource "aws_dlm_lifecycle_policy" "dlm_lifecycle_policy" {
 
   tags = merge(
     {
-      "Name" = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
+      Name = var.dlm_lifecycle_policy_name != "" ? lower(var.dlm_lifecycle_policy_name) : "${lower(var.name)}-dlm-lifecycle-policy-${lower(var.environment)}"
     },
     var.tags
   )
