@@ -4,10 +4,10 @@
 
 terraform {
   required_version = ">= 0.13.0"
-  
+
   required_providers {
     argocd = {
-      source = "oboukili/argocd"
+      source  = "oboukili/argocd"
       version = "0.4.7"
     }
   }
@@ -18,7 +18,7 @@ provider "argocd" {
   auth_token  = "1234..."          # env ARGOCD_AUTH_TOKEN
   # username  = "admin"            # env ARGOCD_AUTH_USERNAME
   # password  = "foo"              # env ARGOCD_AUTH_PASSWORD
-  insecure    = false              # env ARGOCD_INSECURE
+  insecure = false # env ARGOCD_INSECURE
 }
 
 module "argocd_project" {

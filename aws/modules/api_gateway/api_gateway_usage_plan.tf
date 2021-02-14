@@ -39,7 +39,7 @@ resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
 
   tags = merge(
     {
-      "Name" = var.api_gateway_usage_plan_name != "" ? var.api_gateway_usage_plan_name : "${lower(var.name)}-api-gw-usage-plan-${lower(var.environment)}"
+      Name = var.api_gateway_usage_plan_name != "" ? var.api_gateway_usage_plan_name : "${lower(var.name)}-api-gw-usage-plan-${lower(var.environment)}"
     },
     var.tags
   )

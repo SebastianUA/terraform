@@ -25,7 +25,7 @@ resource "aws_api_gateway_rest_api" "api_gateway_rest_api" {
 
   tags = merge(
     {
-      "Name" = var.api_gateway_rest_api_name != "" ? var.api_gateway_rest_api_name : "${lower(var.name)}-api-gw-rest-api-${lower(var.environment)}"
+      Name = var.api_gateway_rest_api_name != "" ? var.api_gateway_rest_api_name : "${lower(var.name)}-api-gw-rest-api-${lower(var.environment)}"
     },
     var.tags
   )

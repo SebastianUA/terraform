@@ -1,100 +1,65 @@
 #---------------------------------------------------
 # Create AWS Certificate Manager Private Certificate Authorities (ACM PCA Certificate Authorities)
 #---------------------------------------------------
-resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority_default" {
-  count = var.enable_acmpca_certificate_authority_default && ! var.enable_acmpca_certificate_authority_revocation_configuration ? 1 : 0
+resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
+  count = var.enable_acmpca_certificate_authority ? 1 : 0
 
   enabled = var.acmpca_certificate_authority_enabled
-
-  certificate_authority_configuration {
-    key_algorithm     = var.certificate_authority_configuration_key_algorithm
-    signing_algorithm = var.certificate_authority_configuration_signing_algorithm
-
-    subject {
-      common_name                  = var.certificate_authority_configuration_subject_common_name
-      country                      = var.certificate_authority_configuration_subject_country
-      distinguished_name_qualifier = var.certificate_authority_configuration_subject_distinguished_name_qualifier
-      generation_qualifier         = var.certificate_authority_configuration_subject_generation_qualifier
-      given_name                   = var.certificate_authority_configuration_subject_given_name
-      initials                     = var.certificate_authority_configuration_subject_initials
-      locality                     = var.certificate_authority_configuration_subject_locality
-      organization                 = var.certificate_authority_configuration_subject_organization
-      organizational_unit          = var.certificate_authority_configuration_subject_organizational_unit
-      pseudonym                    = var.certificate_authority_configuration_subject_pseudonym
-      state                        = var.certificate_authority_configuration_subject_state
-      surname                      = var.certificate_authority_configuration_subject_surname
-      title                        = var.certificate_authority_configuration_subject_title
-    }
-  }
 
   permanent_deletion_time_in_days = var.acmpca_certificate_authority_permanent_deletion_time_in_days
 
-  tags = merge(
-    {
-      "Name" = var.acmpca_certificate_authority_name != "" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
-    },
-    var.tags
-  )
-
-  timeouts {
-    create = var.acmpca_certificate_authority_timeouts_create
-  }
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = []
-}
-
-resource "aws_acmpca_certificate_authority" "acmpca_cert_authority_revocation_configuration" {
-  count = ! var.enable_acmpca_certificate_authority_default && var.enable_acmpca_certificate_authority_revocation_configuration ? 1 : 0
-
-  enabled = var.acmpca_certificate_authority_enabled
-
   certificate_authority_configuration {
     key_algorithm     = var.certificate_authority_configuration_key_algorithm
     signing_algorithm = var.certificate_authority_configuration_signing_algorithm
 
-    subject {
-      common_name                  = var.certificate_authority_configuration_subject_common_name
-      country                      = var.certificate_authority_configuration_subject_country
-      distinguished_name_qualifier = var.certificate_authority_configuration_subject_distinguished_name_qualifier
-      generation_qualifier         = var.certificate_authority_configuration_subject_generation_qualifier
-      given_name                   = var.certificate_authority_configuration_subject_given_name
-      initials                     = var.certificate_authority_configuration_subject_initials
-      locality                     = var.certificate_authority_configuration_subject_locality
-      organization                 = var.certificate_authority_configuration_subject_organization
-      organizational_unit          = var.certificate_authority_configuration_subject_organizational_unit
-      pseudonym                    = var.certificate_authority_configuration_subject_pseudonym
-      state                        = var.certificate_authority_configuration_subject_state
-      surname                      = var.certificate_authority_configuration_subject_surname
-      title                        = var.certificate_authority_configuration_subject_title
+    dynamic "subject" {
+      iterator = subject
+      for_each = var.acmpca_certificate_authority_certificate_authority_configuration_subject
+      content {
+        common_name                  = lookup(subject.value, "common_name", null)
+        country                      = lookup(subject.value, "country", null)
+        distinguished_name_qualifier = lookup(subject.value, "distinguished_name_qualifier", null)
+        generation_qualifier         = lookup(subject.value, "generation_qualifier", null)
+        given_name                   = lookup(subject.value, "given_name", null)
+        initials                     = lookup(subject.value, "initials", null)
+        locality                     = lookup(subject.value, "locality", null)
+        organization                 = lookup(subject.value, "organization", null)
+        organizational_unit          = lookup(subject.value, "organizational_unit", null)
+        pseudonym                    = lookup(subject.value, "pseudonym", null)
+        state                        = lookup(subject.value, "state", null)
+        surname                      = lookup(subject.value, "surname", null)
+        title                        = lookup(subject.value, "title", null)
+      }
     }
   }
 
   revocation_configuration {
-    crl_configuration {
-      custom_cname       = var.revocation_configuration_crl_configuration_custom_cname
-      enabled            = var.revocation_configuration_crl_configuration_enabled
-      expiration_in_days = var.revocation_configuration_crl_configuration_expiration_in_days
-      s3_bucket_name     = var.revocation_configuration_crl_configuration_s3_bucket_name
+    dynamic "crl_configuration" {
+      iterator = crl_configuration
+      for_each = var.acmpca_certificate_authority_crl_configuration
+      content {
+        custom_cname       = lookup(crl_configuration.value, "custom_cname", null)
+        enabled            = lookup(crl_configuration.value, "enabled", null)
+        expiration_in_days = lookup(crl_configuration.value, "expiration_in_days", null)
+        s3_bucket_name     = lookup(crl_configuration.value, "s3_bucket_name", null)
+      }
     }
   }
 
-  permanent_deletion_time_in_days = var.acmpca_certificate_authority_permanent_deletion_time_in_days
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = var.acmpca_certificate_authority_timeouts
+    content {
+      create = lookup(timeouts.value, "create", null)
+    }
+  }
 
   tags = merge(
     {
-      "Name" = var.acmpca_certificate_authority_name != "" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
+      Name = var.acmpca_certificate_authority_name != "" ? var.acmpca_certificate_authority_name : "${lower(var.name)}-acmpca-${lower(var.environment)}"
     },
     var.tags
   )
-
-  timeouts {
-    create = var.acmpca_certificate_authority_timeouts_create
-  }
 
   lifecycle {
     create_before_destroy = true

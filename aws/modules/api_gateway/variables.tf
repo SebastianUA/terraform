@@ -620,29 +620,9 @@ variable "api_gateway_documentation_part_properties" {
   default     = null
 }
 
-variable "api_gateway_documentation_part_location_type" {
-  description = "(Required) The type of API entity to which the documentation content applies. e.g. API, METHOD or REQUEST_BODY"
-  default     = "METHOD"
-}
-
-variable "api_gateway_documentation_part_location_method" {
-  description = "(Optional) The HTTP verb of a method. The default value is * for any method."
-  default     = null
-}
-
-variable "api_gateway_documentation_part_location_name" {
-  description = "(Optional) The name of the targeted API entity."
-  default     = null
-}
-
-variable "api_gateway_documentation_part_location_path" {
-  description = "(Optional) The URL path of the target. The default value is / for the root resource."
-  default     = null
-}
-
-variable "api_gateway_documentation_part_location_status_code" {
-  description = "(Optional) The HTTP status code of a response. The default value is * for any status code."
-  default     = null
+variable "api_gateway_documentation_part_location" {
+  description = "(Required) The location of the targeted API entity of the to-be-created documentation part."
+  default     = []
 }
 
 #---------------------------------------------------

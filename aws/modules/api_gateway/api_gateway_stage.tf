@@ -27,7 +27,7 @@ resource "aws_api_gateway_stage" "api_gateway_stage" {
 
   tags = merge(
     {
-      "Name" = var.api_gateway_stage_stage_name != "" ? var.api_gateway_stage_stage_name : "${lower(var.name)}-api-gw-state-${lower(var.environment)}"
+      Name = var.api_gateway_stage_stage_name != "" ? var.api_gateway_stage_stage_name : "${lower(var.name)}-api-gw-state-${lower(var.environment)}"
     },
     var.tags
   )

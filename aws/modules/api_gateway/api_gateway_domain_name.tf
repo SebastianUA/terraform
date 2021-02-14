@@ -26,7 +26,7 @@ resource "aws_api_gateway_domain_name" "api_gateway_domain_name" {
 
   tags = merge(
     {
-      "Name" = var.api_gateway_domain_name_domain_name != "" ? var.api_gateway_domain_name_domain_name : "${lower(var.name)}-api-gw-domain-name-${lower(var.environment)}"
+      Name = var.api_gateway_domain_name_domain_name != "" ? var.api_gateway_domain_name_domain_name : "${lower(var.name)}-api-gw-domain-name-${lower(var.environment)}"
     },
     var.tags
   )

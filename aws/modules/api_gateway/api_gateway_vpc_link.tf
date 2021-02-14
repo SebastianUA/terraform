@@ -11,7 +11,7 @@ resource "aws_api_gateway_vpc_link" "api_gateway_vpc_link" {
 
   tags = merge(
     {
-      "Name" = var.api_gateway_vpc_link_name != "" ? var.api_gateway_vpc_link_name : "${lower(var.name)}-api-gw-vpc-link-${lower(var.environment)}"
+      Name = var.api_gateway_vpc_link_name != "" ? var.api_gateway_vpc_link_name : "${lower(var.name)}-api-gw-vpc-link-${lower(var.environment)}"
     },
     var.tags
   )

@@ -23,7 +23,7 @@ resource "aws_network_interface" "network_interface" {
 
   tags = merge(
     {
-      "Name" = var.network_interface_name != "" ? lower(var.network_interface_name) : "${lower(var.name)}-eni-${lower(var.environment)}"
+      Name = var.network_interface_name != "" ? lower(var.network_interface_name) : "${lower(var.name)}-eni-${lower(var.environment)}"
     },
     var.tags
   )

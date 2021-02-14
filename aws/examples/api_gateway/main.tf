@@ -27,4 +27,16 @@ module "api_gateway" {
   enable_api_gateway_method        = true
   api_gateway_method_http_method   = "ANY"
   api_gateway_method_authorization = "NONE"
+
+  # API gateway method
+  enable_api_gateway_documentation_part     = true
+  api_gateway_documentation_part_properties = "{\"description\":\"Example description\"}"
+
+  api_gateway_documentation_part_location = [
+    {
+      type   = "METHOD"
+      method = "GET"
+      path   = "/example"
+    }
+  ]
 }

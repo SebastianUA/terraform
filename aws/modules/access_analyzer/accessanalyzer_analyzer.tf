@@ -10,7 +10,7 @@ resource "aws_accessanalyzer_analyzer" "accessanalyzer_analyzer" {
 
   tags = merge(
     {
-      "Name" = var.accessanalyzer_analyzer_name != "" ? var.accessanalyzer_analyzer_name : "${lower(var.name)}-accessanalyzer-analyzer-${lower(var.environment)}"
+      Name = var.accessanalyzer_analyzer_name != "" ? var.accessanalyzer_analyzer_name : "${lower(var.name)}-accessanalyzer-analyzer-${lower(var.environment)}"
     },
     var.tags
   )
