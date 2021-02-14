@@ -56,9 +56,13 @@ module "glue" {
 
   ]
 
-
-  storage_descriptor_ser_de_info  = []
-  storage_descriptor_sort_columns = []
+  storage_descriptor_ser_de_info  = [
+    {
+      ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+      ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+      ser_de_info_parameters            = map("field.delim", ",")
+    }
+  ]
   storage_descriptor_skewed_info = [
     {
       ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
@@ -68,6 +72,7 @@ module "glue" {
 
   ]
 
+  storage_descriptor_sort_columns = []
 
   # AWS Glue connection
   enable_glue_connection = true

@@ -1,6 +1,11 @@
 #---------------------------------------------------
 # AWS Glue catalog database
 #---------------------------------------------------
+output "glue_catalog_database_arn" {
+  description = "ARN for glue catalog database"
+  value       = element(concat(aws_glue_catalog_database.glue_catalog_database.*.arn, [""]), 0)
+}
+
 output "glue_catalog_database_id" {
   description = "ID for glue catalog database"
   value       = element(concat(aws_glue_catalog_database.glue_catalog_database.*.id, [""]), 0)
@@ -14,6 +19,11 @@ output "glue_catalog_database_name" {
 #---------------------------------------------------
 # AWS Glue catalog table
 #---------------------------------------------------
+output "glue_catalog_table_arn" {
+  description = "ARN for glue catalog table"
+  value       = element(concat(aws_glue_catalog_table.glue_catalog_table.*.arn, [""]), 0)
+}
+
 output "glue_catalog_table_id" {
   description = "ID for glue catalog table"
   value       = element(concat(aws_glue_catalog_table.glue_catalog_table.*.id, [""]), 0)
