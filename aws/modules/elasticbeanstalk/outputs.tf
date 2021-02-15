@@ -1,6 +1,11 @@
 #-----------------------------------------------------------------
 # EB APP
 #-----------------------------------------------------------------
+output "elastic_beanstalk_application_id" {
+  description = "ID for elastic_beanstalk_application"
+  value       = element(concat(aws_elastic_beanstalk_application.elastic_beanstalk_application.*.id, [""]), 0)
+}
+
 output "elastic_beanstalk_application_name" {
   description = "Name for elastic_beanstalk_application"
   value       = element(concat(aws_elastic_beanstalk_application.elastic_beanstalk_application.*.name, [""]), 0)
@@ -9,6 +14,24 @@ output "elastic_beanstalk_application_name" {
 output "elastic_beanstalk_application_arn" {
   description = "Name for elastic_beanstalk_application"
   value       = element(concat(aws_elastic_beanstalk_application.elastic_beanstalk_application.*.arn, [""]), 0)
+}
+
+#-----------------------------------------------------------------
+# EB App version
+#-----------------------------------------------------------------
+output "elastic_beanstalk_application_version_name" {
+  description = "The Application Version name."
+  value       = element(concat(aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version.*.name, [""]), 0)
+}
+
+output "elastic_beanstalk_application_version_arn" {
+  description = "The ARN assigned by AWS for this Elastic Beanstalk Application."
+  value       = element(concat(aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version.*.arn, [""]), 0)
+}
+
+output "elastic_beanstalk_application_version_id" {
+  description = "The ID assigned by AWS for this Elastic Beanstalk Application."
+  value       = element(concat(aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version.*.id, [""]), 0)
 }
 
 #-----------------------------------------------------------------
@@ -74,12 +97,19 @@ output "elastic_beanstalk_environment_triggers" {
   value       = aws_elastic_beanstalk_environment.elastic_beanstalk_environment.*.triggers
 }
 
-#-----------------------------------------------------------------
-# EB App version
-#-----------------------------------------------------------------
-output "elastic_beanstalk_application_version_name" {
-  description = "The Application Version name."
-  value       = element(concat(aws_elastic_beanstalk_application_version.elastic_beanstalk_application_version.*.name, [""]), 0)
+output "elastic_beanstalk_environment_description" {
+  description = "Description of the Elastic Beanstalk Environment."
+  value       = element(concat(aws_elastic_beanstalk_environment.elastic_beanstalk_environment.*.description, [""]), 0)
+}
+
+output "elastic_beanstalk_environment_tier" {
+  description = "The environment tier specified."
+  value       = element(concat(aws_elastic_beanstalk_environment.elastic_beanstalk_environment.*.tier, [""]), 0)
+}
+
+output "elastic_beanstalk_environment_endpoint_url" {
+  description = "The URL to the Load Balancer for this Environment"
+  value       = element(concat(aws_elastic_beanstalk_environment.elastic_beanstalk_environment.*.endpoint_url, [""]), 0)
 }
 
 #-----------------------------------------------------------------

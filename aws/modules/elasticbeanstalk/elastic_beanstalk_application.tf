@@ -8,7 +8,8 @@ resource "aws_elastic_beanstalk_application" "elastic_beanstalk_application" {
   description = var.elastic_beanstalk_application_description != "" ? var.elastic_beanstalk_application_description : "Elactic beanstalk application for ${lower(var.name)}-eb-app-${lower(var.environment)}"
 
   dynamic "appversion_lifecycle" {
-    for_each = var.appversion_lifecycle
+    iterator = appversion_lifecycle
+    for_each = var.elastic_beanstalk_application_appversion_lifecycle
     content {
       service_role          = lookup(appversion_lifecycle.value, "service_role", null)
       max_count             = lookup(appversion_lifecycle.value, "max_count", null)

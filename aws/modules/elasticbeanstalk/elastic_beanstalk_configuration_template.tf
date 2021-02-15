@@ -4,15 +4,15 @@
 resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_configuration_template" {
   count = var.enable_elastic_beanstalk_configuration_template ? 1 : 0
 
-  name        = var.configuration_template_name != "" ? var.configuration_template_name : "${lower(var.name)}-conf-template-${lower(var.environment)}"
-  description = var.configuration_template_description != "" ? var.configuration_template_description : null
+  name        = var.elastic_beanstalk_configuration_template_name != "" ? var.elastic_beanstalk_configuration_template_name : "${lower(var.name)}-conf-template-${lower(var.environment)}"
+  description = var.elastic_beanstalk_configuration_template_description != "" ? var.elastic_beanstalk_configuration_template_description : null
 
-  environment_id      = var.environment_id != "" ? var.environment_id : aws_elastic_beanstalk_environment.elastic_beanstalk_environment.0.id
-  application         = var.elastic_beanstalk_application_name != "" ? var.elastic_beanstalk_application_name : aws_elastic_beanstalk_application.elastic_beanstalk_application.0.name
-  solution_stack_name = var.solution_stack_name
+  environment_id      = var.elastic_beanstalk_configuration_template_environment_id != "" ? var.elastic_beanstalk_configuration_template_environment_id : (var.enable_elastic_beanstalk_environment ? aws_elastic_beanstalk_environment.elastic_beanstalk_environment.0.id : null)
+  application         = var.elastic_beanstalk_configuration_template_application != "" ? var.elastic_beanstalk_configuration_template_application : (var.enable_elastic_beanstalk_application_version ? aws_elastic_beanstalk_application.elastic_beanstalk_application.0.name : null)
+  solution_stack_name = var.elastic_beanstalk_configuration_template_solution_stack_name
 
   dynamic "setting" {
-    for_each = var.setting
+    for_each = var.elastic_beanstalk_configuration_template_setting
     content {
       name      = lookup(setting.value, "name", null)
       value     = lookup(setting.value, "value", null)
