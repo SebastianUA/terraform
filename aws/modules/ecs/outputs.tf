@@ -56,3 +56,16 @@ output "ecs_task_definition_revision" {
   description = "The revision of the task in a particular family."
   value       = element(concat(aws_ecs_task_definition.ecs_task_definition.*.revision, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS ECS capacity provider
+#---------------------------------------------------
+output "ecs_capacity_provider_id" {
+  description = "The Amazon Resource Name (ID) that identifies the capacity provider."
+  value       = element(concat(aws_ecs_capacity_provider.ecs_capacity_provider.*.id, [""]), 0)
+}
+
+output "ecs_capacity_provider_arn" {
+  description = "The Amazon Resource Name (ARN) that identifies the capacity provider."
+  value       = element(concat(aws_ecs_capacity_provider.ecs_capacity_provider.*.arn, [""]), 0)
+}

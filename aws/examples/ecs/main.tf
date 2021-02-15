@@ -21,7 +21,7 @@ module "ecs_cluster" {
 
   enable_ecs_cluster = true
   ecs_cluster_name   = "jenkins-slave-nonprod"
-  setting = [
+  ecs_cluster_setting = [
     {
       name  = "containerInsights",
       value = "enabled"
@@ -39,24 +39,46 @@ module "ecs_task_definition" {
   environment = "nonprod"
   name        = "jenkins-slave"
 
-  enable_ecs_task_definition = true
-  family                     = "jenkins-slave-service-nonprod"
-  container_definitions      = file("./additional_files/ecs/container_definitions.json")
+  enable_ecs_task_definition                = true
+  ecs_task_definition_family                = "jenkins-slave-service-nonprod"
+  ecs_task_definition_container_definitions = file("./additional_files/ecs/container_definitions.json")
 
-  task_role_arn      = "arn:aws:iam::666666666666:role/jenkins-master-nonprod"
-  execution_role_arn = "arn:aws:iam::666666666666:role/jenkins-slave-nonprod"
-  network_mode       = "bridge"
-  ipc_mode           = "host"
-  pid_mode           = "task"
+  ecs_task_definition_task_role_arn      = "arn:aws:iam::666666666666:role/jenkins-master-nonprod"
+  ecs_task_definition_execution_role_arn = "arn:aws:iam::666666666666:role/jenkins-slave-nonprod"
+  ecs_task_definition_network_mode       = "bridge"
+  ecs_task_definition_ipc_mode           = "host"
+  ecs_task_definition_pid_mode           = "task"
 
-  volume = [
+  ecs_task_definition_volume_name      = "jenkins-slave-volume-nonprod"
+  ecs_task_definition_volume_host_path = "/ecs/jenkins-slave-volume-nonprod"
+
+  ecs_task_definition_volume_docker = [
     {
-      name      = "jenkins-slave-volume-nonprod"
-      host_path = "/ecs/jenkins-slave-volume-nonprod"
-    },
+      scope         = "shared"
+      autoprovision = true
+      driver        = "local"
+
+      driver_opts = {
+        "type"   = "nfs"
+        "device" = "aws_efs_file_system_dns_name:/"
+        "o"      = "addr=aws_efs_file_system_dns_name,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
+      }
+    }
   ]
 
-  placement_constraints = [
+  ecs_task_definition_volume_efs = [
+    {
+      file_system_id          = "aws_efs_file_system_id"
+      root_directory          = "/opt/data"
+      transit_encryption      = "ENABLED"
+      transit_encryption_port = 2999
+
+      access_point_id = "aws_efs_access_point_id"
+      iam             = "ENABLED"
+    }
+  ]
+
+  ecs_task_definition_placement_constraints = [
     {
       type       = "memberOf"
       expression = "attribute:ecs.availability-zone in [us-east-2a, us-east-2b, us-east-2c]"
@@ -76,36 +98,36 @@ module "ecs_service" {
   enable_ecs_service = true
   ecs_service_name   = "jenkins-slave-service-nonprod"
 
-  ecs_cluster_id  = module.ecs_cluster.ecs_cluster_id
-  task_definition = module.ecs_task_definition.ecs_task_definition_arn
-  desired_count   = 3
-  iam_role        = ""
+  ecs_service_cluster         = module.ecs_cluster.ecs_cluster_id
+  ecs_service_task_definition = module.ecs_task_definition.ecs_task_definition_arn
+  ecs_service_desired_count   = 3
+  ecs_service_iam_role        = ""
 
-  launch_type         = "EC2"
-  platform_version    = "LATEST"
-  scheduling_strategy = "REPLICA"
+  ecs_service_launch_type         = "EC2"
+  ecs_service_platform_version    = "LATEST"
+  ecs_service_scheduling_strategy = "REPLICA"
 
-  deployment_controller = [
+  ecs_service_deployment_controller = [
     {
       type = "ECS"
-    },
+    }
   ]
 
-  #load_balancer                       = [
+  #ecs_service_load_balancer                       = [
   #    {
   #        target_group_arn    = "alb"
   #        container_port      = 8080
   #    },
   #]
 
-  ordered_placement_strategy = [
+  ecs_service_ordered_placement_strategy = [
     {
       type  = "binpack"
       field = "cpu"
     },
   ]
 
-  placement_constraints = [
+  ecs_service_placement_constraints = [
     {
       type       = "memberOf"
       expression = "attribute:ecs.availability-zone in [us-east-2a, us-east-2b]"
