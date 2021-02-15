@@ -1,26 +1,20 @@
 #---------------------------------------------------
 # Create AWS key pair
 #---------------------------------------------------
-resource "aws_key_pair" "key_pair_key_name" {
-  count = var.enable_key_pair && var.key_name != "" ? 1 : 0
+resource "aws_key_pair" "key_pair" {
+  count = var.enable_key_pair ? 1 : 0
 
-  key_name   = var.key_name
-  public_key = var.public_key
+  public_key = var.key_pair_public_key
 
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
+  key_name        = var.key_pair_key_name != null && var.key_pair_key_name_prefix == null ? var.key_pair_key_name : null
+  key_name_prefix = var.key_pair_key_name_prefix != null && var.key_pair_key_name == null ? var.key_pair_key_name_prefix : null
 
-  depends_on = []
-
-}
-
-resource "aws_key_pair" "key_pair_key_name_prefix" {
-  count = var.enable_key_pair && length(var.key_name) == 0 ? 1 : 0
-
-  key_name_prefix = var.key_name_prefix != "" ? var.key_name_prefix : element(concat(random_pet.key_pair_key_name_prefix.*.id, [""]), 0)
-  public_key      = var.public_key
+  tags = merge(
+    {
+      Name = var.key_pair_key_name != null && var.key_pair_key_name_prefix == null ? var.key_pair_key_name : var.key_pair_key_name_prefix
+    },
+    var.tags
+  )
 
   lifecycle {
     create_before_destroy = true
@@ -29,18 +23,4 @@ resource "aws_key_pair" "key_pair_key_name_prefix" {
 
   depends_on = []
 
-}
-
-resource "random_pet" "key_pair_key_name_prefix" {
-  count = var.enable_key_pair && length(var.key_name) == 0 ? 1 : 0
-
-  separator = "-"
-  length    = 4
-
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = []
 }

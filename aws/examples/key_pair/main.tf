@@ -12,11 +12,29 @@ provider "aws" {
   shared_credentials_file = pathexpand("/Users/captain/.aws/credentials")
 }
 
-module "key_pair" {
+module "key_pair_name" {
   source = "../../modules/key_pair"
 
-  enable_key_pair = true
-  key_name        = "test"
-  public_key      = file("/Users/captain/.ssh/id_rsa.pub")
+  enable_key_pair          = true
+  key_pair_key_name        = "test"
+  key_pair_key_name_prefix = null
+  key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
 
+  tags = map(
+    "CreatedBy", "Vitaliy Natarov",
+    "Env", "dev"
+  )
+}
+
+module "key_pair_prefix" {
+  source = "../../modules/key_pair"
+
+  enable_key_pair          = true
+  key_pair_key_name_prefix = "kp-"
+  key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
+
+  tags = map(
+    "CreatedBy", "Vitaliy Natarov",
+    "Env", "dev"
+  )
 }
