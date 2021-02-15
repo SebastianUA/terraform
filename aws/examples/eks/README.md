@@ -93,14 +93,54 @@ module "eks" {
   name        = "TEST"
   environment = "NonProd"
 
-  eks_cluster_name = ""
-  eks_role_arn     = module.iam_role.iam_role_arn
-  # enebling aws eks logs
-  eks_enabled_cluster_log_types = ["api", "audit"]
-  eks_version                   = null
-  eks_vpc_config_subnet_ids     = module.vpc.private_subnets_ids
-  # SG
-  # eks_vpc_config_security_group_ids = []
+  # Create AWS EKS cluster
+  enable_eks_cluster   = true
+  eks_cluster_name     = "eks-test-cluster-1"
+  eks_cluster_role_arn = module.iam_role.iam_role_arn
+
+  eks_cluster_enabled_cluster_log_types = ["api", "audit"]
+  eks_cluster_version                   = null
+
+  eks_cluster_vpc_config = [
+    {
+      subnet_ids = module.vpc.private_subnets_ids
+
+      public_access_cidrs     = null
+      endpoint_private_access = null
+      endpoint_public_access  = null
+      security_group_ids      = null
+    }
+  ]
+
+  eks_cluster_encryption_config = []
+
+  # AWS EKS NodeGroup
+  enable_eks_node_group          = true
+  eks_node_group_node_group_name = "dev-1"
+  eks_node_group_node_role_arn   = module.iam_role.iam_role_arn // only as for example!
+  eks_node_group_subnet_ids      = module.vpc.private_subnets_ids
+
+  eks_node_group_scaling_config = [
+    {
+      max_size     = 1
+      desired_size = 1
+      min_size     = 1
+    }
+  ]
+
+  eks_node_group_ami_type       = "AL2_x86_64"
+  eks_node_group_disk_size      = 20
+  eks_node_group_instance_types = ["t3.medium"]
+
+  eks_node_group_remote_access = [
+    {
+      ec2_ssh_key               = null
+      source_security_group_ids = null
+    }
+  ]
+
+  eks_node_group_launch_template = []
+  eks_node_group_timeouts        = []
 
   tags = map("Env", "NonProd", "Orchestration", "Terraform")
 }
@@ -113,58 +153,55 @@ module "eks" {
 - `environment` - Environment for service (`default = STAGE`)
 - `tags` - A list of tag blocks. (`default = {}`)
 - `enable_eks_cluster` - Enable creating AWS EKS cluster (`default = False`)
-- `enable_eks_cluster_encryption` - Enable creating AWS EKS cluster with encryption config (`default = False`)
 - `eks_cluster_name` - Custom name of the cluster. (`default = ""`)
-- `eks_role_arn` - (Required) The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf. (`default = ""`)
-- `eks_enabled_cluster_log_types` - (Optional) A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging (`default = []`)
-- `eks_version` - (Optional) Desired Kubernetes master version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except those automatically triggered by EKS. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by EKS. (`default = null`)
-- `eks_vpc_config_subnet_ids` - (Required) List of subnet IDs. Must be in at least two different availability zones. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane. (`default = []`)
-- `eks_vpc_config_endpoint_private_access` - (Optional) Indicates whether or not the Amazon EKS private API server endpoint is enabled. Default is false. (`default = False`)
-- `eks_vpc_config_endpoint_public_access` - (Optional) Indicates whether or not the Amazon EKS public API server endpoint is enabled. Default is true. (`default = True`)
-- `eks_vpc_config_security_group_ids` - (Optional) List of security group IDs for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. (`default = null`)
-- `eks_vpc_config_public_access_cidrs` - (Optional) List of CIDR blocks. Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. EKS defaults this to a list with 0.0.0.0/0. Terraform will only perform drift detection of its value when present in a configuration. (`default = ['0.0.0.0/0']`)
-- `encryption_config_provider_key_arn` - (Required) Amazon Resource Name (ARN) of the Key Management Service (KMS) customer master key (CMK). The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK. For more information, see Allowing Users in Other Accounts to Use a CMK in the AWS Key Management Service Developer Guide. (`default = ""`)
-- `encryption_config_resources` - (Required) List of strings with resources to be encrypted. Valid values: secrets (`default = ['secrets']`)
+- `eks_cluster_role_arn` - (Required) The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf. (`default = ""`)
+- `eks_cluster_enabled_cluster_log_types` - (Optional) A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging (`default = []`)
+- `eks_cluster_version` - (Optional) Desired Kubernetes master version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except those automatically triggered by EKS. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by EKS. (`default = null`)
+- `eks_cluster_vpc_config` - (Required) Nested argument for the VPC associated with your cluster. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. (`default = []`)
+- `eks_cluster_encryption_config` - (Optional) Configuration block with encryption configuration for the cluster. Only available on Kubernetes 1.13 and above clusters created after March 6, 2020. (`default = []`)
 - `eks_cluster_timeouts` - Set timeouts for EKS cluster (`default = []`)
 - `enable_eks_fargate_profile` - Enable EKS fargate profile usage (`default = False`)
-- `fargate_profile_name` - Name of the EKS Fargate Profile. (`default = ""`)
+- `eks_fargate_profile_name` - Name of the EKS Fargate Profile. (`default = ""`)
 - `eks_fargate_profile_cluster_name` - Name of the EKS Cluster. (`default = ""`)
 - `eks_fargate_profile_pod_execution_role_arn` - (Required) Amazon Resource Name (ARN) of the IAM Role that provides permissions for the EKS Fargate Profile. (`default = ""`)
 - `eks_fargate_profile_subnet_ids` - (Required) Identifiers of private EC2 Subnets to associate with the EKS Fargate Profile. These subnets must have the following resource tag: kubernetes.io/cluster/CLUSTER_NAME (where CLUSTER_NAME is replaced with the name of the EKS Cluster). (`default = []`)
-- `eks_fargate_profile_selector_namespace` - (Required) Kubernetes namespace for selection. (`default = ""`)
-- `eks_fargate_profile_selector_labels` - (Optional) Key-value mapping of Kubernetes labels for selection. (`default = {}`)
+- `eks_fargate_profile_selector` - (Required) Configuration block(s) for selecting Kubernetes Pods to execute with this EKS Fargate Profile.  (`default = []`)
 - `eks_fargate_profile_timeouts` - Set timeouts for EKS fargate profile (`default = []`)
 - `enable_eks_node_group` - Enable EKS node group usage (`default = False`)
 - `eks_node_group_node_group_name` - Name of the EKS Node Group. (`default = ""`)
 - `eks_node_group_cluster_name` - Name of the EKS Cluster. (`default = ""`)
 - `eks_node_group_node_role_arn` - (Required) Amazon Resource Name (ARN) of the IAM Role that provides permissions for the EKS Node Group. (`default = ""`)
 - `eks_node_group_subnet_ids` - (Required) Identifiers of EC2 Subnets to associate with the EKS Node Group. These subnets must have the following resource tag: kubernetes.io/cluster/CLUSTER_NAME (where CLUSTER_NAME is replaced with the name of the EKS Cluster). (`default = []`)
-- `eks_node_group_scaling_config_desired_size` - (Required) Desired number of worker nodes. (`default = 1`)
-- `eks_node_group_scaling_config_max_size` - (Required) Maximum number of worker nodes. (`default = 1`)
-- `eks_node_group_scaling_config_min_size` - (Required) Minimum number of worker nodes. (`default = 1`)
+- `eks_node_group_scaling_config` - "" (`default = [{'max_size': 1, 'desired_size': 1, 'min_size': 1}]`)
 - `eks_node_group_ami_type` - (Optional) Type of Amazon Machine Image (AMI) associated with the EKS Node Group. Defaults to AL2_x86_64. Valid values: AL2_x86_64, AL2_x86_64_GPU. Terraform will only perform drift detection if a configuration value is provided. (`default = AL2_x86_64`)
 - `eks_node_group_disk_size` - (Optional) Disk size in GiB for worker nodes. Defaults to 20. Terraform will only perform drift detection if a configuration value is provided. (`default = 20`)
+- `eks_node_group_force_update_version` - (Optional) Force version update if existing pods are unable to be drained due to a pod disruption budget issue. (`default = null`)
 - `eks_node_group_instance_types` - (Optional) Set of instance types associated with the EKS Node Group. Defaults to ['t3.medium']. Terraform will only perform drift detection if a configuration value is provided. Currently, the EKS API only accepts a single value in the set. (`default = ['t3.medium']`)
 - `eks_node_group_labels` - (Optional) Key-value mapping of Kubernetes labels. Only labels that are applied with the EKS API are managed by this argument. Other Kubernetes labels applied to the EKS Node Group will not be managed. (`default = {}`)
 - `eks_node_group_release_version` - (Optional) AMI version of the EKS Node Group. Defaults to latest version for Kubernetes version. (`default = null`)
 - `eks_node_group_version` - (Optional) Kubernetes version. Defaults to EKS Cluster Kubernetes version. Terraform will only perform drift detection if a configuration value is provided. (`default = null`)
 - `eks_node_group_remote_access` - (Optional) Configuration block with remote access settings. (`default = []`)
+- `eks_node_group_launch_template` - (Optional) Configuration block with Launch Template settings. (`default = []`)
 - `eks_node_group_timeouts` - Set timeouts for EKS node group (`default = []`)
 
 ## Module Output Variables
 ----------------------
-- `aws_eks_id` - The name of the cluster.
-- `aws_eks_arn` - The Amazon Resource Name (ARN) of the cluster.
-- `aws_eks_endpoint` - The endpoint for your Kubernetes API server.
-- `aws_eks_platform_version` - The platform version for the cluster.
-- `aws_eks_status` - TThe status of the EKS cluster. One of CREATING, ACTIVE, DELETING, FAILED.
-- `aws_eks_version` - The Kubernetes server version for the cluster.
+- `eks_cluster_id` - The name of the cluster.
+- `eks_cluster_arn` - The Amazon Resource Name (ARN) of the cluster.
+- `eks_cluster_endpoint` - The endpoint for your Kubernetes API server.
+- `eks_cluster_identity` - Nested attribute containing identity provider information for your cluster. Only available on Kubernetes version 1.13 and 1.14 clusters created or upgraded on or after September 3, 2019.
+- `eks_cluster_platform_version` - The platform version for the cluster.
+- `eks_cluster_status` - TThe status of the EKS cluster. One of CREATING, ACTIVE, DELETING, FAILED.
+- `eks_cluster_version` - The Kubernetes server version for the cluster.
+- `eks_cluster_certificate_authority` - Nested attribute containing certificate-authority-data for your cluster.
+- `eks_cluster_vpc_config` - Additional nested attributes
 - `eks_fargate_profile_arn` - Amazon Resource Name (ARN) of the EKS Fargate Profile.
 - `eks_fargate_profile_id` - EKS Cluster name and EKS Fargate Profile name separated by a colon (:).
 - `eks_fargate_profile_status` - Status of the EKS Fargate Profile.
 - `eks_node_group_arn` - Amazon Resource Name (ARN) of the EKS Node Group.
 - `eks_node_group_id` - EKS Cluster name and EKS Node Group name separated by a colon (:).
 - `eks_node_group_status` - Status of the EKS Node Group.
+- `eks_node_group_resources` - List of objects containing information about underlying resources.
 
 
 ## Authors

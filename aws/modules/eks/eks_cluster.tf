@@ -2,72 +2,46 @@
 # AWS EKS cluster
 #---------------------------------------------------
 resource "aws_eks_cluster" "eks_cluster" {
-  count = var.enable_eks_cluster && ! var.enable_eks_cluster_encryption ? 1 : 0
+  count = var.enable_eks_cluster ? 1 : 0
 
   name     = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
-  role_arn = var.eks_role_arn
+  role_arn = var.eks_cluster_role_arn
 
-  vpc_config {
-    subnet_ids = var.eks_vpc_config_subnet_ids
-
-    public_access_cidrs     = var.eks_vpc_config_public_access_cidrs
-    endpoint_private_access = var.eks_vpc_config_endpoint_private_access
-    endpoint_public_access  = var.eks_vpc_config_endpoint_public_access
-    security_group_ids      = var.eks_vpc_config_security_group_ids
-  }
-
-  enabled_cluster_log_types = var.eks_enabled_cluster_log_types
-  version                   = var.eks_version
-
-  dynamic "timeouts" {
-    iterator = timeouts
-    for_each = var.eks_cluster_timeouts
+  dynamic "vpc_config" {
+    iterator = vpc_config
+    for_each = var.eks_cluster_vpc_config
     content {
-      create = lookup(timeouts.value, "create", null)
-      update = lookup(timeouts.value, "update", null)
-      delete = lookup(timeouts.value, "delete", null)
+      subnet_ids = lookup(vpc_config.value, "subnet_ids", null)
+
+      public_access_cidrs     = lookup(vpc_config.value, "public_access_cidrs", null)
+      endpoint_private_access = lookup(vpc_config.value, "endpoint_private_access", null)
+      endpoint_public_access  = lookup(vpc_config.value, "endpoint_public_access", null)
+      security_group_ids      = lookup(vpc_config.value, "security_group_ids", null)
     }
   }
 
-  tags = merge(
-    {
-      Name = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
-    },
-    var.tags
-  )
+  enabled_cluster_log_types = var.eks_cluster_enabled_cluster_log_types
+  version                   = var.eks_cluster_version
 
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
-  depends_on = []
-}
-
-resource "aws_eks_cluster" "eks_cluster_encryption" {
-  count = var.enable_eks_cluster_encryption && ! var.enable_eks_cluster ? 1 : 0
-
-  name     = var.eks_cluster_name != "" ? lower(var.eks_cluster_name) : "${lower(var.name)}-eks-${lower(var.environment)}"
-  role_arn = var.eks_role_arn
-
-  vpc_config {
-    subnet_ids = var.eks_vpc_config_subnet_ids
-
-    public_access_cidrs     = var.eks_vpc_config_public_access_cidrs
-    endpoint_private_access = var.eks_vpc_config_endpoint_private_access
-    endpoint_public_access  = var.eks_vpc_config_endpoint_public_access
-    security_group_ids      = var.eks_vpc_config_security_group_ids
-  }
-
-  enabled_cluster_log_types = var.eks_enabled_cluster_log_types
-  version                   = var.eks_version
-
-  encryption_config {
-    provider {
-      key_arn = var.encryption_config_provider_key_arn
+  dynamic "encryption_config" {
+    iterator = encryption_config
+    for_each = var.eks_cluster_encryption_config
+    content {
+      provider {
+        key_arn = lookup(encryption_config.value, "key_arn", null)
+      }
+      resources = lookup(encryption_config.value, "resources", null)
     }
-    resources = var.encryption_config_resources
   }
+
+  // Blocks of type "kubernetes_network_config" are not expected here.
+  // dynamic "kubernetes_network_config" {
+  //   iterator = kubernetes_network_config
+  //   for_each = var.eks_cluster_kubernetes_network_config
+  //   content {
+  //     service_ipv4_cidr = lookup(kubernetes_network_config.value, "service_ipv4_cidr", null)
+  //   }
+  // }
 
   dynamic "timeouts" {
     iterator = timeouts

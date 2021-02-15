@@ -4,29 +4,46 @@
 resource "aws_eks_node_group" "eks_node_group" {
   count = var.enable_eks_node_group ? 1 : 0
 
+  cluster_name    = var.eks_node_group_cluster_name != "" ? var.eks_node_group_cluster_name : (var.enable_eks_cluster ? element(aws_eks_cluster.eks_cluster.*.name, 0) : null)
   node_group_name = var.eks_node_group_node_group_name != "" ? lower(var.eks_node_group_node_group_name) : "${lower(var.name)}-node-group-${lower(var.environment)}"
-  cluster_name    = var.eks_node_group_cluster_name != "" ? var.eks_node_group_cluster_name : element(concat(aws_eks_cluster.eks_cluster.*.name, aws_eks_cluster.eks_cluster_encryption.*.name, [""], ), 0)
   node_role_arn   = var.eks_node_group_node_role_arn
   subnet_ids      = var.eks_node_group_subnet_ids
 
-  scaling_config {
-    desired_size = var.eks_node_group_scaling_config_desired_size
-    max_size     = var.eks_node_group_scaling_config_max_size
-    min_size     = var.eks_node_group_scaling_config_min_size
+  dynamic "scaling_config" {
+    iterator = scaling_config
+    for_each = var.eks_node_group_scaling_config
+    content {
+      max_size     = lookup(scaling_config.value, "max_size", null)
+      desired_size = lookup(scaling_config.value, "desired_size", null)
+      min_size     = lookup(scaling_config.value, "min_size", null)
+    }
   }
 
-  ami_type        = var.eks_node_group_ami_type
-  disk_size       = var.eks_node_group_disk_size
-  instance_types  = var.eks_node_group_instance_types
-  labels          = var.eks_node_group_labels
-  release_version = var.eks_node_group_release_version
-  version         = var.eks_node_group_version
+  ami_type = var.eks_node_group_ami_type
+  // capacity_type        = var.eks_node_group_capacity_type
+  disk_size            = var.eks_node_group_disk_size
+  force_update_version = var.eks_node_group_force_update_version
+  instance_types       = var.eks_node_group_instance_types
+  labels               = var.eks_node_group_labels
+  release_version      = var.eks_node_group_release_version
+  version              = var.eks_node_group_version
 
   dynamic "remote_access" {
+    iterator = remote_access
     for_each = var.eks_node_group_remote_access
     content {
-      ec2_ssh_key               = lookup(eks_node_group_remote_access.value, "ec2_ssh_key", null)
-      source_security_group_ids = lookup(eks_node_group_remote_access.value, "source_security_group_ids", null)
+      ec2_ssh_key               = lookup(remote_access.value, "ec2_ssh_key", null)
+      source_security_group_ids = lookup(remote_access.value, "source_security_group_ids", null)
+    }
+  }
+
+  dynamic "launch_template" {
+    iterator = launch_template
+    for_each = var.eks_node_group_launch_template
+    content {
+      id      = lookup(launch_template.value, "id", null)
+      name    = lookup(launch_template.value, "name", null)
+      version = lookup(launch_template.value, "version", null)
     }
   }
 
@@ -52,7 +69,6 @@ resource "aws_eks_node_group" "eks_node_group" {
   }
 
   depends_on = [
-    aws_eks_cluster.eks_cluster,
-    aws_eks_cluster.eks_cluster_encryption
+    aws_eks_cluster.eks_cluster
   ]
 }

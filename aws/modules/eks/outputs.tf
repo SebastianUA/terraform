@@ -1,34 +1,49 @@
 #---------------------------------------------------
 # AWS EKS cluster
 #---------------------------------------------------
-output "aws_eks_id" {
+output "eks_cluster_id" {
   description = "The name of the cluster."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.id, aws_eks_cluster.eks_cluster_encryption.*.id, [""], ), 0)
+  value       = element(concat(aws_eks_cluster.eks_cluster.*.id, [""], ), 0)
 }
 
-output "aws_eks_arn" {
+output "eks_cluster_arn" {
   description = "The Amazon Resource Name (ARN) of the cluster."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.arn, aws_eks_cluster.eks_cluster_encryption.*.arn, [""], ), 0)
+  value       = element(concat(aws_eks_cluster.eks_cluster.*.arn, [""], ), 0)
 }
 
-output "aws_eks_endpoint" {
+output "eks_cluster_endpoint" {
   description = "The endpoint for your Kubernetes API server."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.endpoint, aws_eks_cluster.eks_cluster_encryption.*.endpoint, [""], ), 0)
+  value       = concat(aws_eks_cluster.eks_cluster.*.endpoint, [""], )
 }
 
-output "aws_eks_platform_version" {
+output "eks_cluster_identity" {
+  description = "Nested attribute containing identity provider information for your cluster. Only available on Kubernetes version 1.13 and 1.14 clusters created or upgraded on or after September 3, 2019."
+  value       = concat(aws_eks_cluster.eks_cluster.*.identity, [""], )
+}
+
+output "eks_cluster_platform_version" {
   description = "The platform version for the cluster."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.platform_version, aws_eks_cluster.eks_cluster_encryption.*.platform_version, [""], ), 0)
+  value       = element(concat(aws_eks_cluster.eks_cluster.*.platform_version, [""], ), 0)
 }
 
-output "aws_eks_status" {
+output "eks_cluster_status" {
   description = "TThe status of the EKS cluster. One of CREATING, ACTIVE, DELETING, FAILED."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.status, aws_eks_cluster.eks_cluster_encryption.*.status, [""], ), 0)
+  value       = element(concat(aws_eks_cluster.eks_cluster.*.status, [""], ), 0)
 }
 
-output "aws_eks_version" {
+output "eks_cluster_version" {
   description = "The Kubernetes server version for the cluster."
-  value       = element(concat(aws_eks_cluster.eks_cluster.*.version, aws_eks_cluster.eks_cluster_encryption.*.version, [""], ), 0)
+  value       = element(concat(aws_eks_cluster.eks_cluster.*.version, [""], ), 0)
+}
+
+output "eks_cluster_certificate_authority" {
+  description = "Nested attribute containing certificate-authority-data for your cluster."
+  value       = concat(aws_eks_cluster.eks_cluster.*.certificate_authority, [""], )
+}
+
+output "eks_cluster_vpc_config" {
+  description = "Additional nested attributes"
+  value       = concat(aws_eks_cluster.eks_cluster.*.vpc_config, [""], )
 }
 
 #---------------------------------------------------
@@ -65,4 +80,9 @@ output "eks_node_group_id" {
 output "eks_node_group_status" {
   description = "Status of the EKS Node Group."
   value       = element(concat(aws_eks_node_group.eks_node_group.*.status, [""], ), 0)
+}
+
+output "eks_node_group_resources" {
+  description = "List of objects containing information about underlying resources."
+  value       = concat(aws_eks_node_group.eks_node_group.*.resources, [""], )
 }

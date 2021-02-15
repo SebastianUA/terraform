@@ -30,65 +30,40 @@ variable "enable_eks_cluster" {
   default     = false
 }
 
-variable "enable_eks_cluster_encryption" {
-  description = "Enable creating AWS EKS cluster with encryption config"
-  default     = false
-}
-
 variable "eks_cluster_name" {
   description = "Custom name of the cluster."
   default     = ""
 }
 
-variable "eks_role_arn" {
+variable "eks_cluster_role_arn" {
   description = "(Required) The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf."
   default     = ""
 }
 
-variable "eks_enabled_cluster_log_types" {
+variable "eks_cluster_enabled_cluster_log_types" {
   description = "(Optional) A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging"
   default     = []
 }
 
-variable "eks_version" {
+variable "eks_cluster_version" {
   description = "(Optional) Desired Kubernetes master version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except those automatically triggered by EKS. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by EKS."
   default     = null
 }
 
-variable "eks_vpc_config_subnet_ids" {
-  description = "(Required) List of subnet IDs. Must be in at least two different availability zones. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane."
+variable "eks_cluster_vpc_config" {
+  description = "(Required) Nested argument for the VPC associated with your cluster. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide."
   default     = []
 }
 
-variable "eks_vpc_config_endpoint_private_access" {
-  description = "(Optional) Indicates whether or not the Amazon EKS private API server endpoint is enabled. Default is false."
-  default     = false
+variable "eks_cluster_encryption_config" {
+  description = "(Optional) Configuration block with encryption configuration for the cluster. Only available on Kubernetes 1.13 and above clusters created after March 6, 2020."
+  default     = []
 }
 
-variable "eks_vpc_config_endpoint_public_access" {
-  description = "(Optional) Indicates whether or not the Amazon EKS public API server endpoint is enabled. Default is true."
-  default     = true
-}
-
-variable "eks_vpc_config_security_group_ids" {
-  description = "(Optional) List of security group IDs for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane."
-  default     = null
-}
-
-variable "eks_vpc_config_public_access_cidrs" {
-  description = "(Optional) List of CIDR blocks. Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. EKS defaults this to a list with 0.0.0.0/0. Terraform will only perform drift detection of its value when present in a configuration."
-  default     = ["0.0.0.0/0"]
-}
-
-variable "encryption_config_provider_key_arn" {
-  description = "(Required) Amazon Resource Name (ARN) of the Key Management Service (KMS) customer master key (CMK). The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK. For more information, see Allowing Users in Other Accounts to Use a CMK in the AWS Key Management Service Developer Guide."
-  default     = ""
-}
-
-variable "encryption_config_resources" {
-  description = "(Required) List of strings with resources to be encrypted. Valid values: secrets"
-  default     = ["secrets"]
-}
+// variable "eks_cluster_kubernetes_network_config" {
+//   description = "(Optional) Configuration block with kubernetes network configuration for the cluster. If removed, Terraform will only perform drift detection if a configuration value is provided."
+//   default     = []
+// }
 
 variable "eks_cluster_timeouts" {
   description = "Set timeouts for EKS cluster"
@@ -103,7 +78,7 @@ variable "enable_eks_fargate_profile" {
   default     = false
 }
 
-variable "fargate_profile_name" {
+variable "eks_fargate_profile_name" {
   description = "Name of the EKS Fargate Profile."
   default     = ""
 }
@@ -123,15 +98,9 @@ variable "eks_fargate_profile_subnet_ids" {
   default     = []
 }
 
-variable "eks_fargate_profile_selector_namespace" {
-  description = "(Required) Kubernetes namespace for selection."
-  default     = ""
-}
-
-variable "eks_fargate_profile_selector_labels" {
-  description = "(Optional) Key-value mapping of Kubernetes labels for selection."
-  type        = map(string)
-  default     = {}
+variable "eks_fargate_profile_selector" {
+  description = "(Required) Configuration block(s) for selecting Kubernetes Pods to execute with this EKS Fargate Profile. "
+  default     = []
 }
 
 variable "eks_fargate_profile_timeouts" {
@@ -167,19 +136,15 @@ variable "eks_node_group_subnet_ids" {
   default     = []
 }
 
-variable "eks_node_group_scaling_config_desired_size" {
-  description = "(Required) Desired number of worker nodes."
-  default     = 1
-}
-
-variable "eks_node_group_scaling_config_max_size" {
-  description = "(Required) Maximum number of worker nodes."
-  default     = 1
-}
-
-variable "eks_node_group_scaling_config_min_size" {
-  description = "(Required) Minimum number of worker nodes."
-  default     = 1
+variable "eks_node_group_scaling_config" {
+  description = ""
+  default = [
+    {
+      max_size     = 1
+      desired_size = 1
+      min_size     = 1
+    }
+  ]
 }
 
 variable "eks_node_group_ami_type" {
@@ -187,9 +152,19 @@ variable "eks_node_group_ami_type" {
   default     = "AL2_x86_64"
 }
 
+// variable "eks_node_group_capacity_type" {
+//   description = "(Optional) Type of capacity associated with the EKS Node Group. Valid values: ON_DEMAND, SPOT. Terraform will only perform drift detection if a configuration value is provided."
+//   default     = null
+// }
+
 variable "eks_node_group_disk_size" {
   description = "(Optional) Disk size in GiB for worker nodes. Defaults to 20. Terraform will only perform drift detection if a configuration value is provided."
   default     = 20
+}
+
+variable "eks_node_group_force_update_version" {
+  description = "(Optional) Force version update if existing pods are unable to be drained due to a pod disruption budget issue."
+  default     = null
 }
 
 variable "eks_node_group_instance_types" {
@@ -215,6 +190,11 @@ variable "eks_node_group_version" {
 
 variable "eks_node_group_remote_access" {
   description = "(Optional) Configuration block with remote access settings."
+  default     = []
+}
+
+variable "eks_node_group_launch_template" {
+  description = "(Optional) Configuration block with Launch Template settings."
   default     = []
 }
 
