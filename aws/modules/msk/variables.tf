@@ -25,65 +25,71 @@ variable "enable_msk_cluster" {
   default     = false
 }
 
-variable "cluster_name" {
+variable "msk_cluster_name" {
   description = "(Required) Name of the MSK cluster."
   default     = ""
 }
 
-variable "kafka_version" {
+variable "msk_cluster_kafka_version" {
   description = "(Required) Specify the desired Kafka software version."
   default     = "2.3.1"
 }
 
-variable "number_of_broker_nodes" {
+variable "msk_cluster_number_of_broker_nodes" {
   description = "(Required) The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets."
   default     = 3
 }
 
-variable "broker_node_group_info" {
+variable "msk_cluster_broker_node_group_info" {
   description = "(Required) Configuration block for the broker nodes of the Kafka cluster."
   default     = []
 }
 
-# AWS msk cluster with encryption
-variable "encryption_in_transit_client_broker" {
-  description = "(Optional) Encryption setting for data in transit between clients and brokers. Valid values: TLS, TLS_PLAINTEXT, and PLAINTEXT. Default value: TLS_PLAINTEXT."
-  default     = "TLS_PLAINTEXT"
-}
-
-variable "encryption_in_transit_in_cluster" {
-  description = "(Optional) Whether data communication among broker nodes is encrypted. Default value: true."
-  default     = true
-}
-
-variable "encryption_info_encryption_at_rest_kms_key_arn" {
-  description = "(Optional) You may specify a KMS key short ID or ARN (it will always output an ARN) to use for encrypting your data at rest. If no key is specified, an AWS managed KMS ('aws/msk' managed service) key will be used for encrypting the data at rest."
-  default     = ""
-}
-
-# AWS msk cluster with client authentication
-variable "client_authentication_certificate_authority_arns" {
-  description = "(Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs)."
+variable "msk_cluster_encryption_info" {
+  description = "(Optional) Configuration block for specifying encryption."
   default     = []
 }
 
-# AWS msk cluster with configuration info
-variable "configuration_info" {
+variable "msk_cluster_client_authentication" {
+  description = "(Optional) Configuration block for specifying a client authentication."
+  default     = []
+}
+
+variable "msk_cluster_configuration_info" {
   description = "(Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers."
   default     = []
 }
 
-# AWS enhanced monitoring
-variable "enhanced_monitoring" {
+variable "msk_cluster_open_monitoring" {
+  description = "Configuration block for settings for open monitoring."
+  default     = []
+}
+
+variable "msk_cluster_logging_info_broker_logs_cloudwatch_logs" {
+  description = "Set some settings for cloudwatch logs"
+  default     = []
+}
+
+variable "msk_cluster_logging_info_broker_logs_firehose" {
+  description = "Set some settings for firehose"
+  default     = []
+}
+
+variable "msk_cluster_logging_info_broker_logs_s3" {
+  description = "Set some settings for S3 "
+  default     = []
+}
+
+variable "msk_cluster_enhanced_monitoring" {
   description = "(Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER]"
-  default     = "DEFAULT"
+  default     = null
 }
 
 #-----------------------------------------------------------
 # AWS msk configuration
 #-----------------------------------------------------------
 variable "enable_msk_configuration" {
-  description = "Enable mask configuration usage"
+  description = "Enable msk configuration usage"
   default     = false
 }
 
@@ -92,20 +98,38 @@ variable "msk_configuration_name" {
   default     = ""
 }
 
-variable "kafka_versions" {
+variable "msk_configuration_kafka_versions" {
   description = "(Required) List of Apache Kafka versions which can use this configuration."
   default     = ["2.1.0"]
 }
 
-variable "msk_configuration_description" {
-  description = "(Optional) Description of the configuration."
-  default     = ""
-}
-
-variable "server_properties" {
+variable "msk_configuration_server_properties" {
   description = "(Required) List of Apache Kafka versions which can use this configuration."
   default = [
     "auto.create.topics.enable = true",
     "delete.topic.enable = true"
   ]
+}
+
+variable "msk_configuration_description" {
+  description = "(Optional) Description of the configuration."
+  default     = null
+}
+
+#---------------------------------------------------
+# Create aws msk scram secret association
+#---------------------------------------------------
+variable "enable_msk_scram_secret_association" {
+  description = "Enable msk scram secret association usage"
+  default     = false
+}
+
+variable "msk_scram_secret_association_cluster_arn" {
+  description = "Amazon Resource Name (ARN) of the MSK cluster."
+  default     = ""
+}
+
+variable "msk_scram_secret_association_secret_arn_list" {
+  description = "(Required) List of AWS Secrets Manager secret ARNs."
+  default     = []
 }

@@ -16,31 +16,52 @@ module "msk" {
   source      = "../../modules/msk"
   environment = "stage"
 
-  enable_msk_cluster     = true
-  cluster_name           = ""
-  kafka_version          = "2.3.1"
-  number_of_broker_nodes = 3
+  # AWS MSK cluster
+  enable_msk_cluster                 = true
+  msk_cluster_name                   = ""
+  msk_cluster_kafka_version          = "2.3.1"
+  msk_cluster_number_of_broker_nodes = 3
 
-  broker_node_group_info = [
+  msk_cluster_broker_node_group_info = [
     {
       instance_type   = "kafka.m5.large"
       ebs_volume_size = 100
       client_subnets  = ["subnet-8851dea6", "subnet-c3a5f589", "subnet-1d7df041"]
-      security_groups = ["sg-aed75fe1"]
+      security_groups = ["sg-014100db4cdff3e0a", "sg-038b8bd5f9120f3c3", "sg-044c87b82fc0fa439", "sg-0eb59e471c3d5a87b", "sg-7f501633"]
       az_distribution = "DEFAULT"
     }
   ]
 
-  #broker_node_group_info_instance_type            = "kafka.m5.large"
-  #broker_node_group_info_ebs_volume_size          = "100"
-  #broker_node_group_info_client_subnets           = ["subnet-02697458", "subnet-02e9c549", "subnet-289d9e51"]
-  #broker_node_group_info_security_groups          = ["sg-014100db4cdff3e0a", "sg-038b8bd5f9120f3c3", "sg-044c87b82fc0fa439", "sg-0eb59e471c3d5a87b", "sg-7f501633"]
+  msk_cluster_encryption_info = [
+    {
+      //encryption_at_rest_kms_key_arn = module.kms.kms_id
+      //client_broker = "TLS"
+      //in_cluster = true
+    }
+  ]
 
-  #encryption_in_transit_client_broker              = "TLS"
-  #encryption_in_transit_in_cluster                 = true
-  #encryption_info_encryption_at_rest_kms_key_arn   = "${module.kms.}"
+  msk_cluster_client_authentication = []
+  msk_cluster_configuration_info    = []
+  msk_cluster_open_monitoring = [
+    {
+      prometheus_jmx_exporter_enabled_in_broker  = true
+      prometheus_node_exporter_enabled_in_broker = true
+    }
+  ]
 
-  #client_authenication_certificate_authority_arns = ["${module.acm_certificate.aws_acm_certificate_arn}"]
+  msk_cluster_logging_info_broker_logs_cloudwatch_logs = []
+  msk_cluster_logging_info_broker_logs_firehose        = []
+  msk_cluster_logging_info_broker_logs_s3              = []
+
+  # AWS MSK config
+  enable_msk_configuration         = true
+  msk_configuration_name           = "msk-config"
+  msk_configuration_kafka_versions = ["2.3.1"]
+
+  msk_configuration_server_properties = <<PROPERTIES
+auto.create.topics.enable = true
+delete.topic.enable = true
+PROPERTIES
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

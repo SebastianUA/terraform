@@ -26,31 +26,52 @@ module "msk" {
   source      = "../../modules/msk"
   environment = "stage"
 
-  enable_msk_cluster     = true
-  cluster_name           = ""
-  kafka_version          = "2.3.1"
-  number_of_broker_nodes = 3
+  # AWS MSK cluster
+  enable_msk_cluster                 = true
+  msk_cluster_name                   = ""
+  msk_cluster_kafka_version          = "2.3.1"
+  msk_cluster_number_of_broker_nodes = 3
 
-  broker_node_group_info = [
+  msk_cluster_broker_node_group_info = [
     {
       instance_type   = "kafka.m5.large"
       ebs_volume_size = 100
       client_subnets  = ["subnet-8851dea6", "subnet-c3a5f589", "subnet-1d7df041"]
-      security_groups = ["sg-aed75fe1"]
+      security_groups = ["sg-014100db4cdff3e0a", "sg-038b8bd5f9120f3c3", "sg-044c87b82fc0fa439", "sg-0eb59e471c3d5a87b", "sg-7f501633"]
       az_distribution = "DEFAULT"
     }
   ]
 
-  #broker_node_group_info_instance_type            = "kafka.m5.large"
-  #broker_node_group_info_ebs_volume_size          = "100"
-  #broker_node_group_info_client_subnets           = ["subnet-02697458", "subnet-02e9c549", "subnet-289d9e51"]
-  #broker_node_group_info_security_groups          = ["sg-014100db4cdff3e0a", "sg-038b8bd5f9120f3c3", "sg-044c87b82fc0fa439", "sg-0eb59e471c3d5a87b", "sg-7f501633"]
+  msk_cluster_encryption_info = [
+    {
+      //encryption_at_rest_kms_key_arn = module.kms.kms_id
+      //client_broker = "TLS"
+      //in_cluster = true
+    }
+  ]
 
-  #encryption_in_transit_client_broker              = "TLS"
-  #encryption_in_transit_in_cluster                 = true
-  #encryption_info_encryption_at_rest_kms_key_arn   = "${module.kms.}"
+  msk_cluster_client_authentication = []
+  msk_cluster_configuration_info    = []
+  msk_cluster_open_monitoring = [
+    {
+      prometheus_jmx_exporter_enabled_in_broker  = true
+      prometheus_node_exporter_enabled_in_broker = true
+    }
+  ]
 
-  #client_authenication_certificate_authority_arns = ["${module.acm_certificate.aws_acm_certificate_arn}"]
+  msk_cluster_logging_info_broker_logs_cloudwatch_logs = []
+  msk_cluster_logging_info_broker_logs_firehose        = []
+  msk_cluster_logging_info_broker_logs_s3              = []
+
+  # AWS MSK config
+  enable_msk_configuration         = true
+  msk_configuration_name           = "msk-config"
+  msk_configuration_kafka_versions = ["2.3.1"]
+
+  msk_configuration_server_properties = <<PROPERTIES
+auto.create.topics.enable = true
+delete.topic.enable = true
+PROPERTIES
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -60,26 +81,42 @@ module "msk" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. (`default = ""`)
-- `enable_msk_cluster` - Enable AWS MSK usage (`default = ""`)
-- `cluster_name` - (Required) Name of the MSK cluster. (`default = ""`)
-- `kafka_version` - (Required) Specify the desired Kafka software version. (`default = 2.3.1`)
-- `number_of_broker_nodes` - (Required) The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets. (`default = 3`)
-- `broker_node_group_info` - (Required) Configuration block for the broker nodes of the Kafka cluster. (`default = ""`)
-- `encryption_in_transit_client_broker` - (Optional) Encryption setting for data in transit between clients and brokers. Valid values: TLS, TLS_PLAINTEXT, and PLAINTEXT. Default value: TLS_PLAINTEXT. (`default = TLS_PLAINTEXT`)
-- `encryption_in_transit_in_cluster` - (Optional) Whether data communication among broker nodes is encrypted. Default value: true. (`default = True`)
-- `encryption_info_encryption_at_rest_kms_key_arn` - (Optional) You may specify a KMS key short ID or ARN (it will always output an ARN) to use for encrypting your data at rest. If no key is specified, an AWS managed KMS ('aws/msk' managed service) key will be used for encrypting the data at rest. (`default = ""`)
-- `client_authentication_certificate_authority_arns` - (Optional) List of ACM Certificate Authority Amazon Resource Names (ARNs). (`default = ""`)
-- `configuration_info` - (Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers. (`default = ""`)
-- `enhanced_monitoring` - (Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER] (`default = DEFAULT`)
-- `enable_msk_configuration` - Enable mask configuration usage (`default = ""`)
+- `tags` - A list of tag blocks. (`default = {}`)
+- `enable_msk_cluster` - Enable AWS MSK usage (`default = False`)
+- `msk_cluster_name` - (Required) Name of the MSK cluster. (`default = ""`)
+- `msk_cluster_kafka_version` - (Required) Specify the desired Kafka software version. (`default = 2.3.1`)
+- `msk_cluster_number_of_broker_nodes` - (Required) The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets. (`default = 3`)
+- `msk_cluster_broker_node_group_info` - (Required) Configuration block for the broker nodes of the Kafka cluster. (`default = []`)
+- `msk_cluster_encryption_info` - (Optional) Configuration block for specifying encryption. (`default = []`)
+- `msk_cluster_client_authentication` - (Optional) Configuration block for specifying a client authentication. (`default = []`)
+- `msk_cluster_configuration_info` - (Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers. (`default = []`)
+- `msk_cluster_open_monitoring` - Configuration block for settings for open monitoring. (`default = []`)
+- `msk_cluster_logging_info_broker_logs_cloudwatch_logs` - Set some settings for cloudwatch logs (`default = []`)
+- `msk_cluster_logging_info_broker_logs_firehose` - Set some settings for firehose (`default = []`)
+- `msk_cluster_logging_info_broker_logs_s3` - Set some settings for S3  (`default = []`)
+- `msk_cluster_enhanced_monitoring` - (Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER] (`default = null`)
+- `enable_msk_configuration` - Enable msk configuration usage (`default = False`)
 - `msk_configuration_name` - Name of the configuration. (`default = ""`)
-- `kafka_versions` - (Required) List of Apache Kafka versions which can use this configuration. (`default = ['2.1.0']`)
-- `msk_configuration_description` - (Optional) Description of the configuration. (`default = ""`)
-- `server_properties` - (Required) List of Apache Kafka versions which can use this configuration. (`default = ['auto.create.topics.enable = true', 'delete.topic.enable = true']`)
+- `msk_configuration_kafka_versions` - (Required) List of Apache Kafka versions which can use this configuration. (`default = ['2.1.0']`)
+- `msk_configuration_server_properties` - (Required) List of Apache Kafka versions which can use this configuration. (`default = ['auto.create.topics.enable = true', 'delete.topic.enable = true']`)
+- `msk_configuration_description` - (Optional) Description of the configuration. (`default = null`)
+- `enable_msk_scram_secret_association` - Enable msk scram secret association usage (`default = False`)
+- `msk_scram_secret_association_cluster_arn` - Amazon Resource Name (ARN) of the MSK cluster. (`default = ""`)
+- `msk_scram_secret_association_secret_arn_list` - (Required) List of AWS Secrets Manager secret ARNs. (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `msk_cluster_id` - Amazon Resource Name (ID) of the MSK cluster.
+- `msk_cluster_arn` - Amazon Resource Name (ARN) of the MSK cluster.
+- `msk_cluster_zookeeper_connect_string` - ""
+- `msk_cluster_bootstrap_brokers` - Plaintext connection host:port pairs
+- `msk_cluster_bootstrap_brokers_tls` - TLS connection host:port pairs
+- `msk_cluster_encryption_info` - Outputs list with encryption info
+- `msk_cluster_current_version` - Current version of the MSK Cluster used for updates, e.g. K13V1IB3VIYZZH
+- `msk_configuration_id` - Amazon Resource Name (ID) of the configuration.
+- `msk_configuration_arn` - Amazon Resource Name (ARN) of the configuration.
+- `msk_configuration_latest_revision` - Latest revision of the configuration.
+- `msk_scram_secret_association_id` - Amazon Resource Name (ARN) of the MSK cluster.
 
 
 ## Authors
