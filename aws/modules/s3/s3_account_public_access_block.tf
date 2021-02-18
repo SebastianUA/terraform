@@ -17,3 +17,8 @@ resource "aws_s3_account_public_access_block" "s3_account_public_access_block" {
 
   depends_on = []
 }
+
+
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_account_public_access_block
+

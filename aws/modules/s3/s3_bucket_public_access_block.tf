@@ -19,3 +19,5 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
     aws_s3_bucket.s3_bucket
   ]
 }
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block

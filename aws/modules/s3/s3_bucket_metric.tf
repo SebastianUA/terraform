@@ -27,3 +27,5 @@ resource "aws_s3_bucket_metric" "s3_bucket_metric" {
     aws_s3_bucket.s3_bucket
   ]
 }
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_metric
