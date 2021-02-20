@@ -1,16 +1,17 @@
 #---------------------------------------------------
-# Create AWS KMS key
+# AWS KMS key
 #---------------------------------------------------
 resource "aws_kms_key" "kms_key" {
   count = var.enable_kms_key ? 1 : 0
 
-  description             = var.description
-  deletion_window_in_days = var.deletion_window_in_days
-  key_usage               = upper(var.key_usage)
+  description             = var.kms_key_description
+  deletion_window_in_days = var.kms_key_deletion_window_in_days
+  key_usage               = upper(var.kms_key_key_usage)
 
-  is_enabled          = var.is_enabled
-  policy              = var.policy
-  enable_key_rotation = var.enable_key_rotation
+  is_enabled               = var.kms_key_is_enabled
+  policy                   = var.kms_key_policy
+  enable_key_rotation      = var.kms_key_enable_key_rotation
+  customer_master_key_spec = var.kms_key_customer_master_key_spec
 
   tags = merge(
     {
