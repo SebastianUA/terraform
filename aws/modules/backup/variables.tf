@@ -18,24 +18,6 @@ variable "tags" {
 }
 
 #---------------------------------------------------
-# AWS Backup vault
-#---------------------------------------------------
-variable "enable_backup_vault" {
-  description = "Enable backup vault usage"
-  default     = false
-}
-
-variable "backup_vault_name" {
-  description = "Name of the backup vault to create."
-  default     = ""
-}
-
-variable "backup_vault_kms_key_arn" {
-  description = "(Optional) The server-side encryption key that is used to protect your backups."
-  default     = null
-}
-
-#---------------------------------------------------
 # AWS Backup plan
 #---------------------------------------------------
 variable "enable_backup_plan" {
@@ -89,4 +71,100 @@ variable "backup_selection_resources" {
 variable "backup_selection_selection_tag" {
   description = "(Optional) Tag-based conditions used to specify a set of resources to assign to a backup plan."
   default     = []
+}
+
+#---------------------------------------------------
+# AWS Backup global settings
+#---------------------------------------------------
+variable "enable_backup_global_settings" {
+  description = "Enable backup global settings usage"
+  default     = false
+}
+
+variable "backup_global_settings" {
+  description = "Required) A list of resources along with the opt-in preferences for the account."
+  default = {
+    "isCrossAccountBackupEnabled" = "true"
+  }
+}
+
+#---------------------------------------------------
+# AWS Backup region settings
+#---------------------------------------------------
+variable "enable_backup_region_settings" {
+  description = "Enable backup region settings usage"
+  default     = false
+}
+
+variable "backup_region_settings_resource_type_opt_in_preference" {
+  description = "(Required) A map of services along with the opt-in preferences for the Region."
+  default = {
+    "DynamoDB"        = true
+    "Aurora"          = true
+    "EBS"             = true
+    "EC2"             = true
+    "EFS"             = true
+    "FSx"             = true
+    "RDS"             = true
+    "Storage Gateway" = true
+  }
+}
+
+#---------------------------------------------------
+# AWS Backup vault
+#---------------------------------------------------
+variable "enable_backup_vault" {
+  description = "Enable backup vault usage"
+  default     = false
+}
+
+variable "backup_vault_name" {
+  description = "Name of the backup vault to create."
+  default     = ""
+}
+
+variable "backup_vault_kms_key_arn" {
+  description = "(Optional) The server-side encryption key that is used to protect your backups."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Backup vault policy
+#---------------------------------------------------
+variable "enable_backup_vault_policy" {
+  description = "Enable backup vault policy usage"
+  default     = false
+}
+
+variable "backup_vault_policy_backup_vault_name" {
+  description = "Name of the backup vault to add policy for."
+  default     = ""
+}
+
+variable "backup_vault_policy" {
+  description = "(Required) The backup vault access policy document in JSON format."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Backup vault policy
+#---------------------------------------------------
+variable "enable_backup_vault_policy" {
+  description = "Enable backup vault policy usage"
+  default     = false
+}
+
+variable "backup_vault_notifications_backup_vault_name" {
+  description = "Name of the backup vault to add notifications for."
+  default     = ""
+}
+
+variable "backup_vault_notifications_sns_topic_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events"
+  default     = null
+}
+
+variable "backup_vault_notifications_backup_vault_events" {
+  description = "(Required) An array of events that indicate the status of jobs to back up resources to the backup vault."
+  default     = ["BACKUP_JOB_STARTED", "RESTORE_JOB_COMPLETED"]
 }
