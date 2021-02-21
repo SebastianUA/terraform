@@ -37,7 +37,12 @@ variable "rds_cluster_master_username" {
 
 variable "rds_cluster_master_password" {
   description = "(Required unless a snapshot_identifier or global_cluster_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the RDS Naming Constraints"
+  sensitive   = true
   default     = "ROot666roOT"
+  validation {
+    condition     = length(var.rds_cluster_master_password) >= 9
+    error_message = "The master password must be more than 9 characters!"
+  }
 }
 
 variable "rds_cluster_cluster_identifier" {
@@ -513,7 +518,12 @@ variable "db_instance_db_username" {
 
 variable "db_instance_db_password" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  sensitive   = true
   default     = "ROot666roOT"
+  validation {
+    condition     = length(var.db_instance_db_password) >= 9
+    error_message = "The master password must be more than 9 characters!"
+  }
 }
 
 variable "db_instance_db_port" {
@@ -546,7 +556,7 @@ variable "db_group_family" {
     aurora            = "aurora5.6"
     aurora-mysql      = "aurora-mysql5.7"
     aurora-postgresql = "aurora-postgres9.6"
-    mariadb           = ""
+    mariadb           = "mariadb"
     mysql             = "mysql5.7"
     oracle-ee         = "oracle-ee-12.1"
     oracle-se2        = "oracle-se2-12.1"
@@ -988,4 +998,113 @@ variable "db_option_group_timeouts" {
 variable "db_option_group_options" {
   description = "(Optional) A list of Options to apply."
   default     = []
+}
+
+#---------------------------------------------------
+# AWS DB proxy
+#---------------------------------------------------
+variable "enable_db_proxy" {
+  description = "Enable db proxy usage"
+  default     = false
+}
+
+variable "db_proxy_name" {
+  description = "The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens."
+  default     = ""
+}
+
+variable "db_proxy_engine_family" {
+  description = "(Required, Forces new resource) The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. The engine family applies to MySQL and PostgreSQL for both RDS and Aurora. Valid values are MYSQL and POSTGRESQL"
+  default     = null
+}
+
+variable "db_proxy_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager."
+  default     = null
+}
+
+variable "db_proxy_vpc_subnet_ids" {
+  description = "(Required) One or more VPC subnet IDs to associate with the new proxy."
+  default     = []
+}
+
+variable "db_proxy_auth" {
+  description = "(Required) Configuration block(s) with authorization mechanisms to connect to the associated instances or clusters."
+  default     = []
+}
+
+variable "db_proxy_debug_logging" {
+  description = "(Optional) Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs."
+  default     = null
+}
+
+variable "db_proxy_idle_client_timeout" {
+  description = "(Optional) The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database."
+  default     = null
+}
+
+variable "db_proxy_require_tls" {
+  description = "(Optional) A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy."
+  default     = null
+}
+
+variable "db_proxy_vpc_security_group_ids" {
+  description = "(Optional) One or more VPC security group IDs to associate with the new proxy."
+  default     = null
+}
+
+variable "db_proxy_timeouts" {
+  description = "Set timeouts for DB proxy"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS DB proxy default target group
+#---------------------------------------------------
+variable "enable_db_proxy_default_target_group" {
+  description = "Enable db proxy default target group usage"
+  default     = false
+}
+
+variable "db_proxy_default_target_group_db_proxy_name" {
+  description = "Name of the RDS DB Proxy."
+  default     = ""
+}
+
+variable "db_proxy_default_target_group_timeouts" {
+  description = "Set timeouts for DB proxy default target group"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS DB proxy target
+#---------------------------------------------------
+variable "enable_db_proxy_target" {
+  description = "Enable db proxy target usage"
+  default     = false
+}
+
+variable "db_proxy_target_db_proxy_name" {
+  description = "The name of the DB proxy."
+  default     = ""
+}
+
+variable "db_proxy_default_target_group_connection_pool_config" {
+  description = "(Optional) The settings that determine the size and behavior of the connection pool for the target group."
+  default     = []
+}
+
+variable "db_proxy_target_target_group_name" {
+  description = "The name of the target group."
+  default     = ""
+}
+
+variable "db_proxy_target_db_instance_identifier" {
+  description = "(Optional, Forces new resource) DB instance identifier."
+  default     = null
+}
+
+variable "db_proxy_target_db_cluster_identifier" {
+  description = "(Optional, Forces new resource) DB cluster identifier."
+  default     = null
 }
