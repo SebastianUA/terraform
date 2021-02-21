@@ -1,19 +1,20 @@
 #---------------------------------------------------
-# Create AWS EFS file system
+# AWS EFS file system
 #---------------------------------------------------
 resource "aws_efs_file_system" "efs_file_system" {
   count = var.enable_efs_file_system ? 1 : 0
 
-  creation_token   = var.creation_token
-  encrypted        = var.encrypted
-  kms_key_id       = var.kms_key_id
-  performance_mode = var.performance_mode
+  creation_token   = var.efs_file_system_creation_token
+  encrypted        = var.efs_file_system_encrypted
+  kms_key_id       = var.efs_file_system_kms_key_id
+  performance_mode = var.efs_file_system_performance_mode
 
-  provisioned_throughput_in_mibps = var.provisioned_throughput_in_mibps
-  throughput_mode                 = var.throughput_mode
+  provisioned_throughput_in_mibps = var.efs_file_system_provisioned_throughput_in_mibps
+  throughput_mode                 = var.efs_file_system_throughput_mode
 
   dynamic "lifecycle_policy" {
-    for_each = var.lifecycle_policy
+    iterator = lifecycle_policy
+    for_each = var.efs_file_system_lifecycle_policy
     content {
       transition_to_ia = lookup(lifecycle_policy.value, "transition_to_ia", null)
     }
