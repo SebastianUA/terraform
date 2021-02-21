@@ -407,3 +407,26 @@ variable "lambda_permission_statement_id_prefix" {
   description = "(Optional) A statement identifier prefix. Terraform will generate a unique suffix. Conflicts with statement_id."
   default     = null
 }
+
+#---------------------------------------------------
+# AWS lambda code signing config
+#---------------------------------------------------
+variable "enable_code_signing_config" {
+  description = "Enable code signing config usage"
+  default     = false
+}
+
+variable "code_signing_config_allowed_publishers" {
+  description = "(Required) A configuration block of allowed publishers as signing profiles for this code signing configuration. "
+  default     = []
+}
+
+variable "code_signing_config_description" {
+  description = "(Optional) Descriptive name for this code signing configuration."
+  default     = null
+}
+
+variable "code_signing_config_policies" {
+  description = "(Optional) A configuration block of code signing policies that define the actions to take if the validation checks fail. "
+  default     = []
+}
