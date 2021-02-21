@@ -191,3 +191,99 @@ variable "appmesh_route_tcp_route" {
   description = "(Optional) The TCP routing information for the route."
   default     = []
 }
+
+#---------------------------------------------------
+# AWS Appmesh virtual gateway
+#---------------------------------------------------
+variable "enable_appmesh_virtual_gateway" {
+  description = "Enable appmesh virtual gateway usage"
+  default     = false
+}
+
+variable "appmesh_virtual_gateway_name" {
+  description = "The name to use for the virtual gateway. Must be between 1 and 255 characters in length."
+  default     = ""
+}
+
+variable "appmesh_virtual_gateway_mesh_name" {
+  description = "The name of the service mesh in which to create the virtual gateway. Must be between 1 and 255 characters in length."
+  default     = ""
+}
+
+variable "appmesh_virtual_gateway_mesh_owner" {
+  description = "(Optional) The AWS account ID of the service mesh's owner. Defaults to the account ID the AWS provider is currently connected to."
+  default     = null
+}
+
+variable "appmesh_virtual_gateway_spec_logging" {
+  description = "Set some setting for appmesh virtual gateway spec logging"
+  default     = []
+}
+
+variable "appmesh_virtual_gateway_spec_backend_defaults" {
+  description = "Set some setting for appmesh virtual gateway spec backend_defaults"
+  default     = []
+}
+
+variable "appmesh_virtual_gateway_spec_listener_tls" {
+  description = "Set some setting for appmesh virtual gateway spec listner tls"
+  default     = []
+}
+
+variable "appmesh_virtual_gateway_spec_listener_health_check" {
+  description = "Set some setting for appmesh virtual gateway spec health_check"
+  default     = []
+}
+
+variable "appmesh_virtual_gateway_spec_listener_connection_pool" {
+  description = "Set some setting for appmesh virtual gateway spec listner connection_pool"
+  default     = []
+}
+
+variable "appmesh_virtual_gateway_spec_listener_port_mapping" {
+  description = "Set some setting for appmesh virtual gateway spec listner port_mapping"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Appmesh gateway route
+#---------------------------------------------------
+variable "enable_appmesh_gateway_route" {
+  description = "Enable appmesh gateway route usage"
+  default     = false
+}
+
+variable "appmesh_gateway_route_name" {
+  description = "The name to use for the gateway route. Must be between 1 and 255 characters in length."
+  default     = ""
+}
+
+variable "appmesh_gateway_route_mesh_name" {
+  description = "The name of the service mesh in which to create the gateway route. Must be between 1 and 255 characters in length."
+  default     = ""
+}
+
+variable "appmesh_gateway_route_virtual_gateway_name" {
+  description = "The name of the virtual gateway to associate the gateway route with. Must be between 1 and 255 characters in length."
+  default     = ""
+}
+
+variable "appmesh_gateway_route_mesh_owner" {
+  description = "(Optional) The AWS account ID of the service mesh's owner. Defaults to the account ID the AWS provider is currently connected to."
+  default     = null
+}
+
+variable "appmesh_gateway_route_spec_grpc_route" {
+  description = "Set some settings for appmesh gateway route spec grpc_route"
+  default     = []
+}
+
+variable "appmesh_gateway_route_spec_http_route" {
+  description = "Set some settings for appmesh gateway route spec http_route"
+  default     = []
+}
+
+variable "appmesh_gateway_route_spec_http2_route" {
+  description = "Set some settings for appmesh gateway route spec http2_route"
+  default     = []
+}

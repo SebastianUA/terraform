@@ -112,3 +112,59 @@ output "appmesh_route_last_updated_date" {
   description = "The last update date of the route."
   value       = element(concat(aws_appmesh_route.appmesh_route.*.last_updated_date, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS Appmesh virtual gateway
+#---------------------------------------------------
+output "appmesh_virtual_gateway_id" {
+  description = "The ID of the virtual gateway."
+  value       = element(concat(aws_appmesh_virtual_gateway.appmesh_virtual_gateway.*.id, [""]), 0)
+}
+
+output "appmesh_virtual_gateway_arn" {
+  description = "The ARN of the virtual gateway."
+  value       = element(concat(aws_appmesh_virtual_gateway.appmesh_virtual_gateway.*.arn, [""]), 0)
+}
+
+output "appmesh_virtual_gateway_created_date" {
+  description = "The creation date of the virtual gateway."
+  value       = element(concat(aws_appmesh_virtual_gateway.appmesh_virtual_gateway.*.created_date, [""]), 0)
+}
+
+output "appmesh_virtual_gateway_last_updated_date" {
+  description = "The last update date of the virtual gateway."
+  value       = element(concat(aws_appmesh_virtual_gateway.appmesh_virtual_gateway.*.last_updated_date, [""]), 0)
+}
+
+output "appmesh_virtual_gateway_resource_owner" {
+  description = "The resource owner's AWS account ID."
+  value       = element(concat(aws_appmesh_virtual_gateway.appmesh_virtual_gateway.*.resource_owner, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Appmesh gateway route
+#---------------------------------------------------
+output "appmesh_gateway_route_id" {
+  description = "The ID of the gateway route."
+  value       = element(concat(aws_appmesh_gateway_route.appmesh_gateway_route.*.id, [""]), 0)
+}
+
+output "appmesh_gateway_route_arn" {
+  description = "The ARN of the gateway route."
+  value       = element(concat(aws_appmesh_gateway_route.appmesh_gateway_route.*.arn, [""]), 0)
+}
+
+output "appmesh_gateway_route_created_date" {
+  description = "The creation date of the gateway route."
+  value       = element(concat(aws_appmesh_gateway_route.appmesh_gateway_route.*.created_date, [""]), 0)
+}
+
+output "appmesh_gateway_route_last_updated_date" {
+  description = "The last update date of the gateway route."
+  value       = element(concat(aws_appmesh_gateway_route.appmesh_gateway_route.*.last_updated_date, [""]), 0)
+}
+
+output "appmesh_gateway_route_resource_owner" {
+  description = "The resource owner's AWS account ID."
+  value       = element(concat(aws_appmesh_gateway_route.appmesh_gateway_route.*.resource_owner, [""]), 0)
+}

@@ -85,4 +85,12 @@ module "appmesh" {
   appmesh_route_name       = ""
   appmesh_route_http_route = []
   appmesh_route_tcp_route  = []
+
+  enable_appmesh_virtual_gateway = true
+  appmesh_virtual_gateway_spec_listener_port_mapping = [
+    {
+      port     = 8080
+      protocol = "http"
+    }
+  ]
 }
