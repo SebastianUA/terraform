@@ -12,11 +12,12 @@ resource "aws_ssm_document" "ssm_document" {
   target_type     = var.ssm_document_target_type
 
   dynamic "attachments_source" {
+    iterator = attachments_source
     for_each = var.ssm_document_attachments_source
     content {
-      key    = lookup(ssm_document_attachments_source.value, "key", null)
-      values = lookup(ssm_document_attachments_source.value, "values", null)
-      name   = lookup(ssm_document_attachments_source.value, "name", null)
+      key    = lookup(attachments_source.value, "key", null)
+      values = lookup(attachments_source.value, "values", null)
+      name   = lookup(attachments_source.value, "name", null)
     }
   }
 

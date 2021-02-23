@@ -17,18 +17,20 @@ resource "aws_ssm_association" "ssm_association" {
   automation_target_parameter_name = var.ssm_association_automation_target_parameter_name
 
   dynamic "output_location" {
+    iterator = output_location
     for_each = var.ssm_association_output_location
     content {
-      s3_bucket_name = lookup(ssm_association_output_location.value, "s3_bucket_name", null)
-      s3_key_prefix  = lookup(ssm_association_output_location.value, "s3_key_prefix", null)
+      s3_bucket_name = lookup(output_location.value, "s3_bucket_name", null)
+      s3_key_prefix  = lookup(output_location.value, "s3_key_prefix", null)
     }
   }
 
   dynamic "targets" {
+    iterator = targets
     for_each = var.ssm_association_targets
     content {
-      key    = lookup(ssm_association_targets.value, "key", null)
-      values = lookup(ssm_association_targets.value, "values", [])
+      key    = lookup(targets.value, "key", null)
+      values = lookup(targets.value, "values", [])
     }
   }
 

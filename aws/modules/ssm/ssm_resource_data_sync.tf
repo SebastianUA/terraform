@@ -6,12 +6,16 @@ resource "aws_ssm_resource_data_sync" "ssm_resource_data_sync" {
 
   name = var.ssm_resource_data_sync_name != "" ? lower(var.ssm_resource_data_sync_name) : "${lower(var.name)}-resource-data-sync-${lower(var.environment)}"
 
-  s3_destination {
-    bucket_name = var.s3_destination_bucket_name
-    region      = var.s3_destination_region
-    kms_key_arn = var.s3_destination_kms_key_arn
-    prefix      = var.s3_destination_prefix
-    sync_format = var.s3_destination_sync_format
+  dynamic "s3_destination" {
+    iterator = s3_destination
+    for_each = var.ssm_resource_data_sync_s3_destination
+    content {
+      bucket_name = lookup(s3_destination.value, "bucket_name", null)
+      region      = lookup(s3_destination.value, "region", null)
+      kms_key_arn = lookup(s3_destination.value, "kms_key_arn", null)
+      prefix      = lookup(s3_destination.value, "prefix", null)
+      sync_format = lookup(s3_destination.value, "sync_format", null)
+    }
   }
 
   lifecycle {

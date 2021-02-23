@@ -11,10 +11,11 @@ resource "aws_ssm_maintenance_window_target" "ssm_maintenance_window_target" {
   owner_information = var.ssm_maintenance_window_target_owner_information
 
   dynamic "targets" {
+    iterator = targets
     for_each = length(var.ssm_maintenance_window_target_targets) > 0 ? [var.ssm_maintenance_window_target_targets] : []
     content {
-      key    = lookup(ssm_maintenance_window_target_targets.value, "key", null)
-      values = lookup(ssm_maintenance_window_target_targets.value, "values", null)
+      key    = lookup(targets.value, "key", null)
+      values = lookup(targets.value, "values", null)
     }
   }
 

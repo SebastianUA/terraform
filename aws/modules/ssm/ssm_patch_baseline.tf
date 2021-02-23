@@ -12,21 +12,26 @@ resource "aws_ssm_patch_baseline" "ssm_patch_baseline" {
   approved_patches_compliance_level = upper(var.ssm_patch_baseline_approved_patches_compliance_level)
 
   dynamic "global_filter" {
+    iterator = global_filter
     for_each = var.ssm_patch_baseline_global_filter
     content {
-      key    = lookup(ssm_patch_baseline_global_filter.value, "key", null)
-      values = lookup(ssm_patch_baseline_global_filter.value, "values", null)
+      key    = lookup(global_filter.value, "key", null)
+      values = lookup(global_filter.value, "values", null)
     }
   }
 
-  approval_rule {
-    approve_after_days  = var.ssm_patch_baseline_approval_rule_approve_after_days
-    compliance_level    = upper(var.ssm_patch_baseline_approval_rule_compliance_level)
-    enable_non_security = var.ssm_patch_baseline_approval_rule_enable_non_security
+  dynamic "approval_rule" {
+    iterator = approval_rule
+    for_each = var.ssm_patch_baseline_approval_rule
+    content {
+      approve_after_days  = lookup(approval_rule.value, "approve_after_days", null)
+      compliance_level    = lookup(approval_rule.value, "compliance_level", null)
+      enable_non_security = lookup(approval_rule.value, "enable_non_security", null)
 
-    patch_filter {
-      key    = var.ssm_patch_baseline_patch_filter_key
-      values = var.ssm_patch_baseline_patch_filter_values
+      patch_filter {
+        key    = lookup(approval_rule.value, "key", null)
+        values = lookup(approval_rule.value, "values", null)
+      }
     }
   }
 

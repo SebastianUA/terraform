@@ -270,29 +270,9 @@ variable "ssm_patch_baseline_global_filter" {
   default     = []
 }
 
-variable "ssm_patch_baseline_approval_rule_approve_after_days" {
-  description = "(Required) The number of days after the release date of each patch matched by the rule the patch is marked as approved in the patch baseline. Valid Range: 0 to 100."
-  default     = 50
-}
-
-variable "ssm_patch_baseline_approval_rule_compliance_level" {
-  description = "(Optional) Defines the compliance level for patches approved by this rule. Valid compliance levels include the following: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL, UNSPECIFIED. The default value is UNSPECIFIED."
-  default     = "UNSPECIFIED"
-}
-
-variable "ssm_patch_baseline_approval_rule_enable_non_security" {
-  description = "(Optional) Boolean enabling the application of non-security updates. The default value is 'false'. Valid for Linux instances only."
-  default     = null
-}
-
-variable "ssm_patch_baseline_patch_filter_key" {
-  description = ""
-  default     = "PATCH_SET"
-}
-
-variable "ssm_patch_baseline_patch_filter_values" {
-  description = ""
-  default     = ["APPLICATION"]
+variable "ssm_patch_baseline_approval_rule" {
+  description = "(Optional) A set of rules used to include patches in the baseline. up to 10 approval rules can be specified."
+  default     = []
 }
 
 #-----------------------------------------------------------
@@ -308,29 +288,9 @@ variable "ssm_resource_data_sync_name" {
   default     = ""
 }
 
-variable "s3_destination_bucket_name" {
-  description = "(Required) Name of S3 bucket where the aggregated data is stored."
-  default     = ""
-}
-
-variable "s3_destination_region" {
-  description = "(Required) Region with the bucket targeted by the Resource Data Sync."
-  default     = ""
-}
-
-variable "s3_destination_kms_key_arn" {
-  description = "(Optional) ARN of an encryption key for a destination in Amazon S3."
-  default     = null
-}
-
-variable "s3_destination_prefix" {
-  description = "(Optional) Prefix for the bucket."
-  default     = null
-}
-
-variable "s3_destination_sync_format" {
-  description = "(Optional) A supported sync format. Only JsonSerDe is currently supported. Defaults to JsonSerDe."
-  default     = "JsonSerDe"
+variable "ssm_resource_data_sync_s3_destination" {
+  description = "(Required) Amazon S3 configuration details for the sync."
+  default     = []
 }
 
 #-----------------------------------------------------------
@@ -444,182 +404,29 @@ variable "ssm_maintenance_window_task_description" {
   default     = null
 }
 
-#variable "ssm_maintenance_window_task_targets" {
-#  description = "(Required) The targets (either instances or window target ids). Instances are specified using Key=InstanceIds,Values=instanceid1,instanceid2. Window target ids are specified using Key=WindowTargetIds,Values=window target id1, window target id2."
-#  default     = []
-#}
-
-variable "ssm_maintenance_window_task_targets_key" {
-  description = "Key for targets.The targets (either instances or window target ids). Instances are specified using Key=InstanceIds,Values=instanceid1,instanceid2. Window target ids are specified using Key=WindowTargetIds,Values=window target id1, window target id2."
-  default     = "InstanceIds"
+variable "ssm_maintenance_window_task_targets" {
+  description = "(Required) The targets (either instances or window target ids). Instances are specified using Key=InstanceIds,Values=instanceid1,instanceid2. Window target ids are specified using Key=WindowTargetIds,Values=window target id1, window target id2."
+  default     = []
 }
 
-variable "ssm_maintenance_window_task_targets_values" {
-  description = "Values for targets.The targets (either instances or window target ids). Instances are specified using Key=InstanceIds,Values=instanceid1,instanceid2. Window target ids are specified using Key=WindowTargetIds,Values=window target id1, window target id2."
-  default     = ["instanceid1", "instanceid2"]
+variable "ssm_maintenance_window_task_automation_parameters" {
+  description = "(Optional) The parameters for an AUTOMATION task type"
+  default     = []
 }
 
-
-
-#----
-# variable "ssm_maintenance_window_task_automation_parameters" {
-#   description = "(Optional) The parameters for an AUTOMATION task type"
-#   default     = []
-# }
-
-# variable "ssm_maintenance_window_task_lambda_parameters" {
-#   description = "(Optional) The parameters for a LAMBDA task type."
-#   default     = []
-# }
-
-# variable "ssm_maintenance_window_task_run_command_parameters" {
-#   description = "(Optional) The parameters for a RUN_COMMAND task type."
-#   default     = []
-# }
-
-# variable "ssm_maintenance_window_task_notification_config" {
-#   description = "(Optional) Configurations for sending notifications about command status changes on a per-instance basis."
-#   default     = []
-# }
-
-# variable "ssm_maintenance_window_task_parameter" {
-#   description = "(Optional) The parameters for the RUN_COMMAND task execution."
-#   default     = []
-# }
-
-# variable "ssm_maintenance_window_task_step_functions_parameters" {
-#   description = "(Optional) The parameters for a STEP_FUNCTIONS task type."
-#   default     = []
-#}
-
-variable "enable_automation_parameters" {
-  description = "Enable automation parameters usage block"
-  default     = false
+variable "ssm_maintenance_window_task_lambda_parameters" {
+  description = "(Optional) The parameters for a LAMBDA task type."
+  default     = []
 }
 
-variable "automation_parameters_document_version" {
-  description = "(Optional) The version of an Automation document to use during task execution."
-  default     = ""
+variable "ssm_maintenance_window_task_run_command_parameters" {
+  description = "(Optional) The parameters for a RUN_COMMAND task type."
+  default     = []
 }
 
-variable "automation_parameters_parameter_name" {
-  description = "Param name for automation_parameters block"
-  default     = ""
-}
-
-variable "automation_parameters_parameter_values" {
-  description = "Param values for automation_parameters block"
-  default     = ["instanceid1", "instanceid2"]
-}
-
-variable "enable_lambda_parameters" {
-  description = "Enable lambda parameters usage block"
-  default     = false
-}
-
-variable "lambda_parameters_client_context" {
-  description = "(Optional) Pass client-specific information to the Lambda function that you are invoking."
-  default     = null
-}
-
-variable "lambda_parameters_payload" {
-  description = "(Optional) JSON to provide to your Lambda function as input."
-  default     = null
-}
-
-variable "lambda_parameters_qualifier" {
-  description = "(Optional) Specify a Lambda function version or alias name."
-  default     = null
-}
-
-variable "enable_run_command_parameters" {
-  description = "Enable run command parameters usage block"
-  default     = false
-}
-
-variable "run_command_parameters_comment" {
-  description = "(Optional) Information about the command(s) to execute."
-  default     = null
-}
-
-variable "run_command_parameters_document_hash" {
-  description = "(Optional) The SHA-256 or SHA-1 hash created by the system when the document was created. SHA-1 hashes have been deprecated."
-  default     = null
-}
-
-variable "run_command_parameters_document_hash_type" {
-  description = "(Optional) SHA-256 or SHA-1. SHA-1 hashes have been deprecated. Valid values: Sha256 and Sha1"
-  default     = null
-}
-
-variable "run_command_parameters_output_s3_bucket" {
-  description = "(Optional) The name of the Amazon S3 bucket."
-  default     = null
-}
-
-variable "run_command_parameters_output_s3_key_prefix" {
-  description = "(Optional) The Amazon S3 bucket subfolder."
-  default     = null
-}
-
-variable "run_command_parameters_service_role_arn" {
-  description = "(Optional) The IAM service role to assume during task execution."
-  default     = null
-}
-
-variable "run_command_parameters_timeout_seconds" {
-  description = "(Optional) If this time is reached and the command has not already started executing, it doesn't run."
-  default     = null
-}
-
-variable "enable_notification_config" {
-  description = "Enable notification config usage block"
-  default     = false
-}
-
-variable "notification_config_notification_arn" {
-  description = "(Optional) An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic."
-  default     = null
-}
-
-variable "notification_config_notification_events" {
-  description = "(Optional) The different events for which you can receive notifications. Valid values: All, InProgress, Success, TimedOut, Cancelled, and Failed"
-  default     = null
-}
-
-variable "notification_config_notification_type" {
-  description = "(Optional) When specified with Command, receive notification when the status of a command changes. When specified with Invocation, for commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. Valid values: Command and Invocation"
-  default     = null
-}
-
-variable "enable_run_command_parameters_parameter" {
-  description = "Enable parameter usage for run_command_parameters block"
-  default     = false
-}
-
-variable "run_command_parameters_parameter_name" {
-  description = "Param name for run_command_parameters block"
-  default     = ""
-}
-
-variable "command_parameters_parameter_values" {
-  description = "Param values for run_command_parameters block"
-  default     = ["instanceid1", "instanceid2"]
-}
-
-variable "enable_step_functions_parameters" {
-  description = "Enable step functions parameters usage"
-  default     = false
-}
-
-variable "step_functions_parameters_input" {
-  description = "(Optional) The inputs for the STEP_FUNCTION task."
-  default     = null
-}
-
-variable "step_functions_parameters_name" {
-  description = "(Optional) The name of the STEP_FUNCTION task."
-  default     = null
+variable "ssm_maintenance_window_task_step_functions_parameters" {
+  description = "(Optional) The parameters for a STEP_FUNCTIONS task type."
+  default     = []
 }
 
 #-----------------------------------------------------------
