@@ -76,24 +76,9 @@ variable "waf_rule_group_metric_name" {
   default     = ""
 }
 
-variable "activated_rule_action_type" {
-  description = "(Required) e.g. BLOCK, ALLOW, or COUNT"
-  default     = "COUNT"
-}
-
-variable "activated_rule_priority" {
-  description = "(Required) Specifies the order in which the rules are evaluated. Rules with a lower value are evaluated before rules with a higher value."
-  default     = 50
-}
-
-variable "activated_rule_rule_id" {
-  description = "(Required) The ID of a rule"
-  default     = ""
-}
-
-variable "activated_rule_type" {
-  description = "(Optional) The rule type, either REGULAR, RATE_BASED, or GROUP. Defaults to REGULAR."
-  default     = "REGULAR"
+variable "waf_rule_group_activated_rule" {
+  description = "(Optional) A list of activated rules"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -114,49 +99,19 @@ variable "waf_web_acl_metric_name" {
   default     = ""
 }
 
-variable "waf_web_acl_default_action_type" {
-  description = "(Required) Specifies how you want AWS WAF to respond to requests that don't match the criteria in any of the rules. e.g. ALLOW, BLOCK or COUNT"
-  default     = "COUNT"
+variable "waf_web_acl_default_action" {
+  description = "(Required) Configuration block with action that you want AWS WAF to take when a request doesn't match the criteria in any of the rules that are associated with the web ACL."
+  default     = []
 }
 
-variable "waf_web_acl_rules_action_type" {
-  description = "(Required) valid values are: BLOCK, ALLOW, or COUNT"
-  default     = "COUNT"
+variable "waf_web_acl_rules" {
+  description = "(Optional) Configuration blocks containing rules to associate with the web ACL and the settings for each rule."
+  default     = []
 }
 
-variable "waf_web_acl_rules_override_action_type" {
-  description = "(Required) valid values are: NONE or COUNT"
-  default     = "COUNT"
-}
-
-variable "waf_web_acl_rules_priority" {
-  description = "(Required) Specifies the order in which the rules in a WebACL are evaluated. Rules with a lower value are evaluated before rules with a higher value."
-  default     = 1
-}
-
-variable "waf_web_acl_rules_rule_id" {
-  description = "ID of the associated WAF (Global) rule (e.g. aws_waf_rule). WAF (Regional) rules cannot be used."
-  default     = ""
-}
-
-variable "waf_web_acl_rules_type" {
-  description = "(Optional) The rule type, either REGULAR, as defined by Rule, RATE_BASED, as defined by RateBasedRule, or GROUP, as defined by RuleGroup. The default is REGULAR. If you add a RATE_BASED rule, you need to set type as RATE_BASED. If you add a GROUP rule, you need to set type as GROUP."
-  default     = "REGULAR"
-}
-
-variable "logging_configuration_log_destination" {
-  description = "(Required) Amazon Resource Name (ARN) of Kinesis Firehose Delivery Stream"
-  default     = ""
-}
-
-variable "logging_configuration_redacted_fields_field_to_match_type" {
-  description = "(Required) The part of the web request that you want AWS WAF to search for a specified string. e.g. HEADER or METHOD"
-  default     = "HEADER"
-}
-
-variable "logging_configuration_redacted_fields_field_to_match_data" {
-  description = "(Optional) When the value of type is HEADER, enter the name of the header that you want the WAF to search, for example, User-Agent or Referer. If the value of type is any other value, omit data."
-  default     = null
+variable "waf_web_acl_logging_configuration" {
+  description = "(Optional) Configuration block to enable WAF logging."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -205,29 +160,9 @@ variable "waf_byte_match_set_name" {
   default     = ""
 }
 
-variable "byte_match_tuples_text_transformation" {
-  description = "(Required) Text transformations used to eliminate unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on target_string before inspecting a request for a match. e.g. CMD_LINE, HTML_ENTITY_DECODE or NONE. See docs for all supported values."
-  default     = "NONE"
-}
-
-variable "byte_match_tuples_target_string" {
-  description = "(Optional) The value that you want to search for. e.g. HEADER, METHOD or BODY. See docs for all supported values."
-  default     = null
-}
-
-variable "byte_match_tuples_positional_constraint" {
-  description = "(Required) Within the portion of a web request that you want to search (for example, in the query string, if any), specify where you want to search. e.g. CONTAINS, CONTAINS_WORD or EXACTLY. See docs for all supported values."
-  default     = "CONTAINS"
-}
-
-variable "waf_byte_match_set_field_to_match_type" {
-  description = "(Required) The part of the web request that you want AWS WAF to search for a specified string. e.g. HEADER, METHOD or BODY. See docs for all supported values."
-  default     = "HEADER"
-}
-
-variable "waf_byte_match_set_field_to_match_data" {
-  description = "(Optional) When type is HEADER, enter the name of the header that you want to search, e.g. User-Agent or Referer. If type is any other value, omit this field."
-  default     = null
+variable "waf_byte_match_set_byte_match_tuples" {
+  description = "Specifies the bytes (typically a string that corresponds with ASCII characters) that you want to search for in web requests, the location in requests that you want to search, and other settings."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -261,24 +196,9 @@ variable "waf_regex_match_set_name" {
   default     = ""
 }
 
-variable "regex_match_tuple_field_to_match_data" {
-  description = "(Optional) When type is HEADER, enter the name of the header that you want to search, e.g. User-Agent or Referer. If type is any other value, omit this field."
-  default     = null
-}
-
-variable "regex_match_tuple_field_to_match_type" {
-  description = "(Required) The part of the web request that you want AWS WAF to search for a specified string. e.g. HEADER, METHOD or BODY. See docs for all supported values."
-  default     = "HEADER"
-}
-
-variable "regex_match_tuple_regex_pattern_set_id" {
-  description = "The ID of a Regex Pattern Set."
-  default     = ""
-}
-
-variable "regex_match_tuple_text_transformation" {
-  description = "(Required) Text transformations used to eliminate unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. e.g. CMD_LINE, HTML_ENTITY_DECODE or NONE. See docs for all supported values."
-  default     = "NONE"
+variable "waf_regex_match_set_regex_match_tuple" {
+  description = "(Required) The regular expression pattern that you want AWS WAF to search for in web requests, the location in requests that you want AWS WAF to search, and other settings."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -312,29 +232,9 @@ variable "waf_size_constraint_set_name" {
   default     = ""
 }
 
-variable "size_constraints_text_transformation" {
-  description = "(Required) Text transformations used to eliminate unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on field_to_match before inspecting a request for a match. e.g. CMD_LINE, HTML_ENTITY_DECODE or NONE. See docs for all supported values. Note: if you choose BODY as type, you must choose NONE because CloudFront forwards only the first 8192 bytes for inspection."
-  default     = "NONE"
-}
-
-variable "size_constraints_comparison_operator" {
-  description = "(Required) The type of comparison you want to perform. e.g. EQ, NE, LT, GT. See docs for all supported values."
-  default     = "EQ"
-}
-
-variable "size_constraints_size" {
-  description = "(Required) The size in bytes that you want to compare against the size of the specified field_to_match. Valid values are between 0 - 21474836480 bytes (0 - 20 GB)."
-  default     = 4096
-}
-
-variable "size_constraint_set_field_to_match_type" {
-  description = "(Required) The part of the web request that you want AWS WAF to search for a specified string. e.g. HEADER, METHOD or BODY. See docs for all supported values."
-  default     = "BODY"
-}
-
-variable "size_constraint_set_field_to_match_data" {
-  description = "(Optional) When type is HEADER, enter the name of the header that you want to search, e.g. User-Agent or Referer. If type is any other value, omit this field."
-  default     = null
+variable "waf_size_constraint_set_size_constraints" {
+  description = "(Optional) Specifies the parts of web requests that you want to inspect the size of."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -368,7 +268,7 @@ variable "waf_xss_match_set_name" {
   default     = ""
 }
 
-variable "xss_match_tuples" {
+variable "waf_xss_match_set_xss_match_tuples" {
   description = "(Optional) The parts of web requests that you want to inspect for cross-site scripting attacks."
   default     = []
 }

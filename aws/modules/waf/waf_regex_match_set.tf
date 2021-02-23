@@ -6,14 +6,18 @@ resource "aws_waf_regex_match_set" "waf_regex_match_set" {
 
   name = var.waf_regex_match_set_name != "" ? lower(var.waf_regex_match_set_name) : "${lower(var.name)}-regex-match-set-${lower(var.environment)}"
 
-  regex_match_tuple {
-    field_to_match {
-      data = var.regex_match_tuple_field_to_match_data
-      type = upper(var.regex_match_tuple_field_to_match_type)
-    }
+  dynamic "regex_match_tuple" {
+    iterator = regex_match_tuple
+    for_each = var.waf_regex_match_set_regex_match_tuple
+    content {
+      field_to_match {
+        data = lookup(regex_match_tuple.value, "data", null)
+        type = lookup(regex_match_tuple.value, "type", null)
+      }
 
-    regex_pattern_set_id = var.regex_match_tuple_regex_pattern_set_id != "" ? var.regex_match_tuple_regex_pattern_set_id : element(concat(aws_waf_regex_pattern_set.waf_regex_pattern_set.*.id, [""]), 0)
-    text_transformation  = upper(var.regex_match_tuple_text_transformation)
+      regex_pattern_set_id = lookup(regex_match_tuple.value, "regex_pattern_set_id", element(concat(aws_waf_regex_pattern_set.waf_regex_pattern_set.*.id, [""]), 0))
+      text_transformation  = lookup(regex_match_tuple.value, "text_transformation", null)
+    }
   }
 
   lifecycle {

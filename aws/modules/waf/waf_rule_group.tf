@@ -7,14 +7,18 @@ resource "aws_waf_rule_group" "waf_rule_group" {
   name        = var.waf_rule_group_name != "" ? lower(var.waf_rule_group_name) : "${lower(var.name)}-waf-rule-group-${lower(var.environment)}"
   metric_name = var.waf_rule_group_metric_name
 
-  activated_rule {
-    action {
-      type = upper(var.activated_rule_action_type)
-    }
+  dynamic "activated_rule" {
+    iterator = activated_rule
+    for_each = var.waf_rule_group_activated_rule
+    content {
+      action {
+        type = lookup(activated_rule.value, "action_type", null)
+      }
 
-    priority = var.activated_rule_priority
-    rule_id  = var.activated_rule_rule_id != "" ? var.activated_rule_rule_id : element(concat(aws_waf_rule.waf_rule.*.id, [""]), 0)
-    type     = upper(var.activated_rule_type)
+      priority = lookup(activated_rule.value, "priority", null)
+      rule_id  = lookup(activated_rule.value, "rule_id", element(concat(aws_waf_rule.waf_rule.*.id, [""]), 0))
+      type     = lookup(activated_rule.value, "type", null)
+    }
   }
 
   tags = merge(

@@ -7,31 +7,43 @@ resource "aws_waf_web_acl" "waf_web_acl" {
   name        = var.waf_web_acl_name != "" ? lower(var.waf_web_acl_name) : "${lower(var.name)}-waf-web-acl-${lower(var.environment)}"
   metric_name = var.waf_web_acl_metric_name
 
-  default_action {
-    type = upper(var.waf_web_acl_default_action_type)
+  dynamic "default_action" {
+    iterator = default_action
+    for_each = var.waf_web_acl_default_action
+    content {
+      type = lookup(default_action.value, "type", null)
+    }
   }
 
-  rules {
-    action {
-      type = var.waf_web_acl_rules_action_type
-    }
+  dynamic "rules" {
+    iterator = rules
+    for_each = var.waf_web_acl_rules
+    content {
+      action {
+        type = lookup(rules.value, "action_type", null)
+      }
 
-    override_action {
-      type = var.waf_web_acl_rules_override_action_type
-    }
+      override_action {
+        type = lookup(rules.value, "override_action_type", null)
+      }
 
-    priority = var.waf_web_acl_rules_priority
-    rule_id  = var.waf_web_acl_rules_rule_id != "" ? var.waf_web_acl_rules_rule_id : element(concat(aws_waf_rule.waf_rule.*.id, [""]), 0)
-    type     = upper(var.waf_web_acl_rules_type)
+      priority = lookup(rules.value, "priority", null)
+      rule_id  = lookup(rules.value, "priority", element(concat(aws_waf_rule.waf_rule.*.id, [""]), 0))
+      type     = lookup(rules.value, "type", null)
+    }
   }
 
-  logging_configuration {
-    log_destination = var.logging_configuration_log_destination
+  dynamic "logging_configuration" {
+    iterator = logging_configuration
+    for_each = var.waf_web_acl_logging_configuration
+    content {
+      log_destination = lookup(logging_configuration.value, "log_destination", null)
 
-    redacted_fields {
-      field_to_match {
-        type = upper(var.logging_configuration_redacted_fields_field_to_match_type)
-        data = var.logging_configuration_redacted_fields_field_to_match_data
+      redacted_fields {
+        field_to_match {
+          type = lookup(logging_configuration.value, "type", null)
+          data = lookup(logging_configuration.value, "data", null)
+        }
       }
     }
   }

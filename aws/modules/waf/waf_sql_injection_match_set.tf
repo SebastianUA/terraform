@@ -7,6 +7,7 @@ resource "aws_waf_sql_injection_match_set" "waf_sql_injection_match_set" {
   name = var.waf_sql_injection_match_set_name != "" ? lower(var.waf_sql_injection_match_set_name) : "${lower(var.name)}-sql-injection-match-set-${lower(var.environment)}"
 
   dynamic "sql_injection_match_tuples" {
+    iterator = sql_injection_match_tuples
     for_each = var.sql_injection_match_tuples
     content {
       text_transformation = lookup(sql_injection_match_tuples.value, "text_transformation", null)
@@ -17,46 +18,6 @@ resource "aws_waf_sql_injection_match_set" "waf_sql_injection_match_set" {
       }
     }
   }
-
-  # sql_injection_match_tuples {
-  #     text_transformation = "HTML_ENTITY_DECODE"
-  #     field_to_match {
-  #       type = "QUERY_STRING"
-  #       data = "none"
-  #     }
-  # }
-
-  # sql_injection_match_tuples {
-  #     text_transformation = "URL_DECODE"
-  #     field_to_match {
-  #       type = "BODY"
-  #       data = "none"
-  #     }
-  # }
-
-  # sql_injection_match_tuples {
-  #     text_transformation = "HTML_ENTITY_DECODE"
-  #     field_to_match {
-  #       type = "BODY"
-  #       data = "none"
-  #     }
-  # }
-
-  # sql_injection_match_tuples {
-  #     text_transformation = "URL_DECODE"
-  #     field_to_match {
-  #       type = "URI"
-  #       data = "none"
-  #     }
-  # }
-
-  # sql_injection_match_tuples {
-  #     text_transformation = "HTML_ENTITY_DECODE"
-  #     field_to_match {
-  #       type = "URI"
-  #       data = "none"
-  #     }
-  # }
 
   lifecycle {
     create_before_destroy = true

@@ -6,14 +6,18 @@ resource "aws_waf_byte_match_set" "waf_byte_match_set" {
 
   name = var.waf_byte_match_set_name != "" ? lower(var.waf_byte_match_set_name) : "${lower(var.name)}-byte-match-set-${lower(var.environment)}"
 
-  byte_match_tuples {
-    text_transformation   = upper(var.byte_match_tuples_text_transformation)
-    target_string         = var.byte_match_tuples_target_string
-    positional_constraint = upper(var.byte_match_tuples_positional_constraint)
+  dynamic "byte_match_tuples" {
+    iterator = byte_match_tuples
+    for_each = var.waf_byte_match_set_byte_match_tuples
+    content {
+      text_transformation   = lookup(byte_match_tuples.value, "text_transformation", null)
+      target_string         = lookup(byte_match_tuples.value, "target_string", null)
+      positional_constraint = lookup(byte_match_tuples.value, "positional_constraint", null)
 
-    field_to_match {
-      type = upper(var.waf_byte_match_set_field_to_match_type)
-      data = var.waf_byte_match_set_field_to_match_data
+      field_to_match {
+        type = lookup(byte_match_tuples.value, "type", null)
+        data = lookup(byte_match_tuples.value, "data", null)
+      }
     }
   }
 

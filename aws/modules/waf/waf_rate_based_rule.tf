@@ -11,11 +11,12 @@ resource "aws_waf_rate_based_rule" "waf_rate_based_rule" {
   rate_limit = var.waf_rate_based_rule_rate_limit
 
   dynamic "predicates" {
+    iterator = predicates
     for_each = var.waf_rate_based_rule_predicates
     content {
-      data_id = lookup(waf_rate_based_rule_predicates.value, "data_id", element(concat(aws_waf_ipset.waf_ipset.*.id, [""]), 0))
-      negated = lookup(waf_rate_based_rule_predicates.value, "negated", null)
-      type    = lookup(waf_rate_based_rule_predicates.value, "type", null)
+      data_id = lookup(predicates.value, "data_id", element(concat(aws_waf_ipset.waf_ipset.*.id, [""]), 0))
+      negated = lookup(predicates.value, "negated", null)
+      type    = lookup(predicates.value, "type", null)
     }
   }
 

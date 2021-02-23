@@ -7,10 +7,11 @@ resource "aws_waf_ipset" "waf_ipset" {
   name = var.waf_ipset_name != "" ? lower(var.waf_ipset_name) : "${lower(var.name)}-waf-ipset-${lower(var.environment)}"
 
   dynamic "ip_set_descriptors" {
+    iterator = ip_set_descriptors
     for_each = length(var.waf_ipset_ip_set_descriptors) > 0 ? [var.waf_ipset_ip_set_descriptors] : []
     content {
-      type  = lookup(waf_ipset_ip_set_descriptors.value, "type", null)
-      value = lookup(waf_ipset_ip_set_descriptors.value, "value", null)
+      type  = lookup(ip_set_descriptors.value, "type", null)
+      value = lookup(ip_set_descriptors.value, "value", null)
     }
   }
 

@@ -7,10 +7,11 @@ resource "aws_waf_geo_match_set" "waf_geo_match_set" {
   name = var.waf_geo_match_set_name != "" ? lower(var.waf_geo_match_set_name) : "${lower(var.name)}-geo-match-set-${lower(var.environment)}"
 
   dynamic "geo_match_constraint" {
+    iterator = geo_match_constraint
     for_each = var.waf_geo_match_set_geo_match_constraint
     content {
-      type  = lookup(waf_geo_match_set_geo_match_constraint.value, "type", null)
-      value = lookup(waf_geo_match_set_geo_match_constraint.value, "value", null)
+      type  = lookup(geo_match_constraint.value, "type", null)
+      value = lookup(geo_match_constraint.value, "value", null)
     }
   }
 

@@ -6,14 +6,18 @@ resource "aws_waf_size_constraint_set" "waf_size_constraint_set" {
 
   name = var.waf_size_constraint_set_name != "" ? lower(var.waf_size_constraint_set_name) : "${lower(var.name)}-size-constraint-set-${lower(var.environment)}"
 
-  size_constraints {
-    text_transformation = upper(var.size_constraints_text_transformation)
-    comparison_operator = upper(var.size_constraints_comparison_operator)
-    size                = var.size_constraints_size
+  dynamic "size_constraints" {
+    iterator = size_constraints
+    for_each = var.waf_size_constraint_set_size_constraints
+    content {
+      field_to_match {
+        type = lookup(size_constraints.value, "type", null)
+        data = lookup(size_constraints.value, "data", null)
+      }
 
-    field_to_match {
-      type = upper(var.size_constraint_set_field_to_match_type)
-      data = var.size_constraint_set_field_to_match_data
+      text_transformation = lookup(size_constraints.value, "text_transformation", null)
+      comparison_operator = lookup(size_constraints.value, "comparison_operator", null)
+      size                = lookup(size_constraints.value, "size", null)
     }
   }
 

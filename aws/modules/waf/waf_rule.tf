@@ -8,11 +8,12 @@ resource "aws_waf_rule" "waf_rule" {
   metric_name = var.waf_rule_metric_name
 
   dynamic "predicates" {
+    iterator = predicates
     for_each = var.waf_rule_predicates
     content {
-      data_id = lookup(waf_rule_predicates.value, "data_id", element(concat(aws_waf_ipset.waf_ipset.*.id, [""]), 0))
-      negated = lookup(waf_rule_predicates.value, "negated", null)
-      type    = lookup(waf_rule_predicates.value, "type", null)
+      data_id = lookup(predicates.value, "data_id", element(concat(aws_waf_ipset.waf_ipset.*.id, [""]), 0))
+      negated = lookup(predicates.value, "negated", null)
+      type    = lookup(predicates.value, "type", null)
     }
   }
 
