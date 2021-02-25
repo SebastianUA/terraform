@@ -12,52 +12,6 @@ variable "tags" {
   default     = {}
 }
 
-#---------------------------------------------------------------
-# AWS VPC
-#---------------------------------------------------------------
-variable "enable_default_vpc" {
-  description = "Enable default VPC usage"
-  default     = false
-}
-
-variable "enable_dns_support" {
-  description = "(Optional) A boolean flag to enable/disable DNS support in the VPC. Defaults true."
-  default     = true
-}
-
-variable "enable_dns_hostnames" {
-  description = "(Optional) A boolean flag to enable/disable DNS hostnames in the VPC. Defaults true."
-  default     = true
-}
-
-variable "enable_classiclink" {
-  description = "(Optional) A boolean flag to enable/disable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic. See the ClassicLink documentation for more information. Defaults false."
-  default     = false
-}
-
-variable "default_vpc_name" {
-  description = "Set custom name for default VPC"
-  default     = ""
-}
-
-#---------------------------------------------------------------
-# AWS subnets
-#---------------------------------------------------------------
-variable "map_public_ip_on_launch" {
-  description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address."
-  default     = null
-}
-
-variable "default_subnet_name" {
-  description = "Default subnet name for the region"
-  default     = ""
-}
-
-variable "azs" {
-  description = "A list of Availability zones in the region"
-  default     = []
-}
-
 variable "availability_zones" {
   description = "A list of Availability zones in the region"
   default = {
@@ -79,22 +33,68 @@ variable "availability_zones" {
   }
 }
 
+#---------------------------------------------------------------
+# AWS VPC
+#---------------------------------------------------------------
+variable "enable_default_vpc" {
+  description = "Enable default VPC usage"
+  default     = false
+}
+
+variable "default_vpc_name" {
+  description = "Set custom name for default VPC"
+  default     = ""
+}
+
+variable "default_vpc_enable_dns_support" {
+  description = "(Optional) A boolean flag to enable/disable DNS support in the VPC. Defaults true."
+  default     = true
+}
+
+variable "default_vpc_enable_dns_hostnames" {
+  description = "(Optional) A boolean flag to enable/disable DNS hostnames in the VPC. Defaults true."
+  default     = true
+}
+
+variable "default_vpc_enable_classiclink" {
+  description = "(Optional) A boolean flag to enable/disable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic. See the ClassicLink documentation for more information. Defaults false."
+  default     = false
+}
+
+#---------------------------------------------------------------
+# AWS subnets
+#---------------------------------------------------------------
+variable "default_subnet_name" {
+  description = "Default subnet name for the region"
+  default     = ""
+}
+
+variable "default_subnet_map_public_ip_on_launch" {
+  description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address."
+  default     = null
+}
+
+variable "default_subnet_azs" {
+  description = "A list of Availability zones in the region"
+  default     = []
+}
+
 #---------------------------------------------------
 # AWS default vpc dhcp options
 #---------------------------------------------------
-variable "netbios_name_servers" {
+variable "default_vpc_dhcp_options_name" {
+  description = "Set name for DHCP"
+  default     = ""
+}
+
+variable "default_vpc_dhcp_options_netbios_name_servers" {
   description = "(Optional) List of NETBIOS name servers."
   default     = null
 }
 
-variable "netbios_node_type" {
+variable "default_vpc_dhcp_options_netbios_node_type" {
   description = "(Optional) The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see RFC 2132."
   default     = null
-}
-
-variable "default_vpc_dhcp_options_name" {
-  description = "Set name for DHCP"
-  default     = ""
 }
 
 #---------------------------------------------------
@@ -116,12 +116,12 @@ variable "default_network_acl_name" {
 #---------------------------------------------------
 # AWS default route table
 #---------------------------------------------------
-# variable "default_route_table_name" {
-#     description = "Set default table name"
-#     default     = "default table"
-# }
+variable "default_route_table_name" {
+  description = "Set default table name"
+  default     = "default table"
+}
 
-# variable "propagating_vgws" {
-#     description = "(Optional) A list of virtual gateways for propagation."
-#     default     = null
-# }
+variable "default_route_table_propagating_vgws" {
+  description = "(Optional) A list of virtual gateways for propagation."
+  default     = null
+}

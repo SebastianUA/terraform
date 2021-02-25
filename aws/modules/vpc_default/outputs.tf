@@ -196,12 +196,12 @@ output "default_network_acl_owner_id" {
 #---------------------------------------------------
 # AWS default route table
 #---------------------------------------------------
-# output "default_route_table_id" {
-#     description = "The ID of the routing table"
-#     value       = element(concat(aws_default_route_table.default_route_table.*.id, [""]), 0)
-# }
+output "default_route_table_id" {
+  description = "The ID of the routing table"
+  value       = element(concat(aws_default_route_table.default_route_table.*.id, [""]), 0)
+}
 
-# output "default_route_table_owner_id" {
-#     description = "The ID of the AWS account that owns the route table"
-#     value       = element(concat(aws_default_route_table.default_route_table.*.owner_id, [""]), 0)
-# }
+output "default_route_table_owner_id" {
+  description = "The ID of the AWS account that owns the route table"
+  value       = element(concat(aws_default_route_table.default_route_table.*.owner_id, [""]), 0)
+}

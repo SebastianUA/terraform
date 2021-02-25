@@ -4,8 +4,8 @@
 resource "aws_default_vpc_dhcp_options" "default_vpc_dhcp_options" {
   count = var.enable_default_vpc ? 1 : 0
 
-  netbios_name_servers = var.netbios_name_servers
-  netbios_node_type    = var.netbios_node_type
+  netbios_name_servers = var.default_vpc_dhcp_options_netbios_name_servers
+  netbios_node_type    = var.default_vpc_dhcp_options_netbios_node_type
 
   tags = merge(
     {

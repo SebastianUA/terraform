@@ -13,8 +13,17 @@ provider "aws" {
 module "vpc_default" {
   source = "../../modules/vpc_default"
 
-  enable_default_vpc = true
-  azs                = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e", "us-east-1f"]
+  # Default VPC
+  enable_default_vpc               = true
+  default_vpc_enable_dns_support   = true
+  default_vpc_enable_dns_hostnames = true
+  default_vpc_enable_classiclink   = false
+
+  # Default VPC subnet
+  default_subnet_azs = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e", "us-east-1f"]
+
+  # Default VPC SG
+
 
   tags = map("Orchestration", "Terraform")
 }

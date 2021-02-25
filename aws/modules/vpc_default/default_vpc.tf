@@ -4,9 +4,9 @@
 resource "aws_default_vpc" "default_vpc" {
   count = var.enable_default_vpc ? 1 : 0
 
-  enable_dns_support   = var.enable_dns_support
-  enable_dns_hostnames = var.enable_dns_hostnames
-  enable_classiclink   = var.enable_classiclink
+  enable_dns_support   = var.default_vpc_enable_dns_support
+  enable_dns_hostnames = var.default_vpc_enable_dns_hostnames
+  enable_classiclink   = var.default_vpc_enable_classiclink
 
   tags = merge(
     {
