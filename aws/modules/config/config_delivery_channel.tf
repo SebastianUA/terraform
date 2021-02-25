@@ -11,9 +11,10 @@ resource "aws_config_delivery_channel" "config_delivery_channel" {
   sns_topic_arn = var.config_delivery_channel_sns_topic_arn != null ? var.config_delivery_channel_sns_topic_arn : null
 
   dynamic "snapshot_delivery_properties" {
+    iterator = snapshot_delivery_properties
     for_each = var.config_delivery_channel_snapshot_delivery_properties
     content {
-      delivery_frequency = lookup(config_delivery_channel_snapshot_delivery_properties.value, "delivery_frequency", null)
+      delivery_frequency = lookup(snapshot_delivery_properties.value, "delivery_frequency", null)
     }
   }
 

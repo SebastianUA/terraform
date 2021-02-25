@@ -31,8 +31,5 @@ resource "aws_config_organization_managed_rule" "config_organization_managed_rul
     ignore_changes        = []
   }
 
-  depends_on = [
-    aws_organizations_organization.organizations_organization
-  ]
-
+  depends_on = []
 }

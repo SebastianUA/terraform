@@ -240,7 +240,7 @@ variable "config_configuration_recorder_role_arn" {
   default     = ""
 }
 
-variable "recording_group" {
+variable "config_configuration_recorder_recording_group" {
   description = "(Optional) Recording group"
   default     = []
 }
@@ -251,6 +251,11 @@ variable "recording_group" {
 variable "enable_config_configuration_recorder_status" {
   description = "Enable config configuration recoder status usage"
   default     = false
+}
+
+variable "config_configuration_recorder_status_name" {
+  description = "Set name for config configuration recorder status"
+  default     = ""
 }
 
 variable "config_configuration_recorder_status_is_enabled" {
@@ -271,12 +276,12 @@ variable "config_configuration_aggregator_name" {
   default     = ""
 }
 
-variable "account_aggregation_source" {
+variable "config_configuration_aggregator_account_aggregation_source" {
   description = " (Optional) The account(s) to aggregate config data from"
   default     = []
 }
 
-variable "organization_aggregation_source" {
+variable "config_configuration_aggregator_organization_aggregation_source" {
   description = "(Optional) The organization to aggregate config data from"
   default     = []
 }
@@ -318,3 +323,79 @@ variable "config_config_rule_scope" {
   description = "(Optional) Scope defines which resources can trigger an evaluation for the rule"
   default     = []
 }
+
+// #---------------------------------------------------
+// # AWS config conformance pack
+// #---------------------------------------------------
+// variable "enable_config_conformance_pack" {
+//   description = "Enable config conformance pack usage"
+//   default     = false
+// }
+
+// variable "config_conformance_pack_name" {
+//   description = "The name of the conformance pack. Must begin with a letter and contain from 1 to 256 alphanumeric characters and hyphens."
+//   default     = ""
+// }
+
+// variable "config_conformance_pack_delivery_s3_bucket" {
+//   description = "(Optional) Amazon S3 bucket where AWS Config stores conformance pack templates. Maximum length of 63."
+//   default     = null
+// }
+
+// variable "config_conformance_pack_delivery_s3_key_prefix" {
+//   description = "(Optional) The prefix for the Amazon S3 bucket. Maximum length of 1024."
+//   default     = null
+// }
+
+// variable "config_conformance_pack_template_body" {
+//   description = "(Optional, required if template_s3_uri is not provided) A string containing full conformance pack template body. Maximum length of 51200. Drift detection is not possible with this argument."
+//   default     = null
+// }
+
+// variable "config_conformance_pack_template_s3_uri" {
+//   description = "(Optional, required if template_body is not provided) Location of file, e.g. s3://bucketname/prefix, containing the template body. The uri must point to the conformance pack template that is located in an Amazon S3 bucket in the same region as the conformance pack. Maximum length of 1024. Drift detection is not possible with this argument."
+//   default     = null
+// }
+
+// variable "config_conformance_pack_input_parameter" {
+//   description = "(Optional) Set of configuration blocks describing input parameters passed to the conformance pack template. Documented below. When configured, the parameters must also be included in the template_body or in the template stored in Amazon S3 if using template_s3_uri."
+//   default     = []
+// }
+
+// #---------------------------------------------------
+// # AWS config remediation configuration
+// #---------------------------------------------------
+// variable "enable_config_remediation_configuration" {
+//   description = "Enable config remediation configuration usage"
+//   default     = false
+// }
+
+// variable "config_remediation_configuration_config_rule_name" {
+//   description = "The name of the AWS Config rule"
+//   default     = ""
+// }
+
+// variable "config_remediation_configuration_target_id" {
+//   description = "(Required) Target ID is the name of the public document"
+//   default     = null
+// }
+
+// variable "config_remediation_configuration_target_type" {
+//   description = "(Required) The type of the target. Target executes remediation. For example, SSM document"
+//   default     = null
+// }
+
+// variable "config_remediation_configuration_resource_type" {
+//   description = "(Optional) The type of a resource"
+//   default     = null
+// }
+
+// variable "config_remediation_configuration_target_version" {
+//   description = "(Optional) Version of the target. For example, version of the SSM document"
+//   default     = null
+// }
+
+// variable "config_remediation_configuration_parameter" {
+//   description = "(Optional) Can be specified multiple times for each parameter."
+//   default     = []
+// }

@@ -33,7 +33,5 @@ resource "aws_config_organization_custom_rule" "config_organization_custom_rule"
     ignore_changes        = []
   }
 
-  depends_on = [
-    aws_organizations_organization.organizations_organization
-  ]
+  depends_on = []
 }

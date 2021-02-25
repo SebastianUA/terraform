@@ -13,10 +13,10 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-  required_version = "~> 0.13.5"
+  required_version = "~> 0.13"
 
   required_providers {
-    aws = "~> 2.49"
+    aws = "~> 2.70"
   }
 }
 
@@ -61,10 +61,10 @@ module "config" {
   config_organization_managed_rule_name       = ""
   config_organization_managed_rule_identifier = "IAM_PASSWORD_POLICY"
 
-  enable_config_configuration_recorder   = true
-  config_configuration_recorder_name     = ""
-  config_configuration_recorder_role_arn = "arn:aws:iam::167127734783:role/aws-service-role/organizations.amazonaws.com/AWSServiceRoleForOrganizations"
-  recording_group                        = []
+  enable_config_configuration_recorder          = true
+  config_configuration_recorder_name            = ""
+  config_configuration_recorder_role_arn        = "arn:aws:iam::167127734783:role/aws-service-role/organizations.amazonaws.com/AWSServiceRoleForOrganizations"
+  config_configuration_recorder_recording_group = []
 
   enable_config_configuration_recorder_status     = true
   config_configuration_recorder_status_is_enabled = true
@@ -122,13 +122,14 @@ module "config" {
 - `enable_config_configuration_recorder` - Enable config configuration recoder usage (`default = False`)
 - `config_configuration_recorder_name` - (Optional) The name of the recorder. Defaults to default. Changing it recreates the resource. (`default = default`)
 - `config_configuration_recorder_role_arn` - (Required) Amazon Resource Name (ARN) of the IAM role. used to make read or write requests to the delivery channel and to describe the AWS resources associated with the account. See AWS Docs for more details. (`default = ""`)
-- `recording_group` - (Optional) Recording group (`default = []`)
+- `config_configuration_recorder_recording_group` - (Optional) Recording group (`default = []`)
 - `enable_config_configuration_recorder_status` - Enable config configuration recoder status usage (`default = False`)
+- `config_configuration_recorder_status_name` - Set name for config configuration recorder status (`default = ""`)
 - `config_configuration_recorder_status_is_enabled` - (Required) Whether the configuration recorder should be enabled or disabled. (`default = True`)
 - `enable_config_configuration_aggregator` - Enable config configuration aggregator usage (`default = False`)
 - `config_configuration_aggregator_name` - The name of the configuration aggregator. (`default = ""`)
-- `account_aggregation_source` -  (Optional) The account(s) to aggregate config data from (`default = []`)
-- `organization_aggregation_source` - (Optional) The organization to aggregate config data from (`default = []`)
+- `config_configuration_aggregator_account_aggregation_source` -  (Optional) The account(s) to aggregate config data from (`default = []`)
+- `config_configuration_aggregator_organization_aggregation_source` - (Optional) The organization to aggregate config data from (`default = []`)
 - `enable_config_config_rule` - Enable config config rule usage (`default = False`)
 - `config_config_rule_name` - The name of the rule (`default = ""`)
 - `config_config_rule_description` - (Optional) Description of the rule (`default = ""`)

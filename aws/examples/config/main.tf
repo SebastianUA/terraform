@@ -3,10 +3,10 @@
 #
 
 terraform {
-  required_version = "~> 0.13.5"
+  required_version = "~> 0.13"
 
   required_providers {
-    aws = "~> 2.49"
+    aws = "~> 2.70"
   }
 }
 
@@ -51,10 +51,10 @@ module "config" {
   config_organization_managed_rule_name       = ""
   config_organization_managed_rule_identifier = "IAM_PASSWORD_POLICY"
 
-  enable_config_configuration_recorder   = true
-  config_configuration_recorder_name     = ""
-  config_configuration_recorder_role_arn = "arn:aws:iam::167127734783:role/aws-service-role/organizations.amazonaws.com/AWSServiceRoleForOrganizations"
-  recording_group                        = []
+  enable_config_configuration_recorder          = true
+  config_configuration_recorder_name            = ""
+  config_configuration_recorder_role_arn        = "arn:aws:iam::167127734783:role/aws-service-role/organizations.amazonaws.com/AWSServiceRoleForOrganizations"
+  config_configuration_recorder_recording_group = []
 
   enable_config_configuration_recorder_status     = true
   config_configuration_recorder_status_is_enabled = true

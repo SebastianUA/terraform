@@ -58,3 +58,24 @@ output "config_config_rule_id" {
   description = "The ID of the config rule"
   value       = element(concat(aws_config_config_rule.config_config_rule.*.rule_id, [""], ), 0)
 }
+
+// #---------------------------------------------------
+// # AWS config conformance pack
+// #---------------------------------------------------
+// output "config_conformance_pack_id" {
+//   description = "The ID of the conformance pack"
+//   value       = element(concat(aws_config_conformance_pack.config_conformance_pack.*.id, [""], ), 0)
+// }
+
+// output "config_conformance_pack_arn" {
+//   description = "Amazon Resource Name (ARN) of the conformance pack."
+//   value       = element(concat(aws_config_conformance_pack.config_conformance_pack.*.arn, [""], ), 0)
+// }
+
+// #---------------------------------------------------
+// # AWS config remediation configuration
+// #---------------------------------------------------
+// output "config_remediation_configuration_id" {
+//   description = "The ID of the remediation configuration"
+//   value       = element(concat(aws_config_remediation_configuration.config_remediation_configuration.*.id, [""], ), 0)
+// }
