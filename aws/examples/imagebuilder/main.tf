@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "imagebuilder" {
-  source      = "../../modules/imagebuilder"
+  source = "../../modules/imagebuilder"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

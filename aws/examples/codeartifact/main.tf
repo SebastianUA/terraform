@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "codeartifact" {
-  source      = "../../modules/codeartifact"
+  source = "../../modules/codeartifact"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

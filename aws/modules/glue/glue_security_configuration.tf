@@ -7,19 +7,31 @@ resource "aws_glue_security_configuration" "glue_security_configuration" {
   name = var.glue_security_configuration_name != "" ? lower(var.glue_security_configuration_name) : "${lower(var.name)}-glue-sec-conf-${lower(var.environment)}"
 
   encryption_configuration {
-    cloudwatch_encryption {
-      cloudwatch_encryption_mode = var.glue_security_configuration_cloudwatch_encryption_mode
-      kms_key_arn                = var.glue_security_configuration_cloudwatch_encryption_kms_key_arn
+    dynamic "cloudwatch_encryption" {
+      iterator = cloudwatch_encryption
+      for_each = var.glue_security_configuration_cloudwatch_encryption
+      content {
+        cloudwatch_encryption_mode = lookup(cloudwatch_encryption.value, "cloudwatch_encryption_mode", null)
+        kms_key_arn                = lookup(cloudwatch_encryption.value, "kms_key_arn", null)
+      }
     }
 
-    job_bookmarks_encryption {
-      job_bookmarks_encryption_mode = var.glue_security_configuration_job_bookmarks_encryption_job_bookmarks_encryption_mode
-      kms_key_arn                   = var.glue_security_configuration_job_bookmarks_encryption_kms_key_arn
+    dynamic "job_bookmarks_encryption" {
+      iterator = job_bookmarks_encryption
+      for_each = var.glue_security_configuration_job_bookmarks_encryption
+      content {
+        job_bookmarks_encryption_mode = lookup(job_bookmarks_encryption.value, "job_bookmarks_encryption_mode", null)
+        kms_key_arn                   = lookup(job_bookmarks_encryption.value, "kms_key_arn", null)
+      }
     }
 
-    s3_encryption {
-      s3_encryption_mode = var.glue_security_configuration_s3_encryption_s3_encryption_mode
-      kms_key_arn        = var.glue_security_configuration_s3_encryption_kms_key_arn
+    dynamic "s3_encryption" {
+      iterator = s3_encryption
+      for_each = var.glue_security_configuration_s3_encryption
+      content {
+        s3_encryption_mode = lookup(s3_encryption.value, "s3_encryption_mode", null)
+        kms_key_arn        = lookup(s3_encryption.value, "kms_key_arn", null)
+      }
     }
   }
 

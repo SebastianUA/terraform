@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "docdb" {
-  source      = "../../modules/docdb"
+  source = "../../modules/docdb"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

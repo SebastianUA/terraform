@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "codestarconnections" {
-  source      = "../../modules/codestarconnections"
+  source = "../../modules/codestarconnections"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

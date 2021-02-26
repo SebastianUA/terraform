@@ -32,10 +32,11 @@ module "glue" {
     "classification" = "csv"
   }
 
-
-  storage_descriptor_location      = "s3://my-test-bucket/test/"
-  storage_descriptor_input_format  = "org.apache.hadoop.mapred.TextInputFormat"
-  storage_descriptor_output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+  glue_catalog_table_storage_descriptor = {
+    location      = "s3://my-test-bucket/test/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+  }
 
   storage_descriptor_columns = [
     {
@@ -100,7 +101,11 @@ module "glue" {
   }]
 
   enable_glue_trigger = true
-  glue_trigger_name   = ""
+  glue_trigger_actions = [
+    {
+      trigger_name   = ""
+    }
+  ]
 
   enable_glue_job                 = true
   glue_job_name                   = ""
@@ -110,8 +115,12 @@ module "glue" {
     max_concurrent_runs = 2
   }]
 
-  glue_job_command_script_location = "s3//test-bucket/jobs"
-  glue_job_command_name            = null
+  glue_job_command = [
+    {
+      script_location = "s3//test-bucket/jobs"
+      name            = "jobs"
+    }
+  ]
 
   tags = map(
     "Env", "stage",

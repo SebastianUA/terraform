@@ -18,11 +18,15 @@ resource "aws_glue_job" "glue_job" {
   worker_type            = var.glue_job_worker_type
   number_of_workers      = var.glue_job_number_of_workers
 
-  command {
-    script_location = var.glue_job_command_script_location
+  dynamic "command" {
+    iterator = command
+    for_each = var.glue_job_command
+    content {
+      script_location = lookup(command.value, "script_location", null)
 
-    name           = var.glue_job_command_name
-    python_version = var.glue_job_command_python_version
+      name           = lookup(command.value, "name", null)
+      python_version = lookup(command.value, "python_version", null)
+    }
   }
 
   dynamic "execution_property" {

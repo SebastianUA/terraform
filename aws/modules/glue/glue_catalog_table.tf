@@ -27,14 +27,14 @@ resource "aws_glue_catalog_table" "glue_catalog_table" {
   }
 
   storage_descriptor {
-    location                  = var.storage_descriptor_location
-    input_format              = var.storage_descriptor_input_format
-    output_format             = var.storage_descriptor_output_format
-    compressed                = var.storage_descriptor_compressed
-    number_of_buckets         = var.storage_descriptor_number_of_buckets
-    bucket_columns            = var.storage_descriptor_bucket_columns
-    parameters                = var.storage_descriptor_parameters
-    stored_as_sub_directories = var.storage_descriptor_stored_as_sub_directories
+    location                  = lookup(var.glue_catalog_table_storage_descriptor, "location", null)
+    input_format              = lookup(var.glue_catalog_table_storage_descriptor, "input_format", null)
+    output_format             = lookup(var.glue_catalog_table_storage_descriptor, "output_format", null)
+    compressed                = lookup(var.glue_catalog_table_storage_descriptor, "compressed", null)
+    number_of_buckets         = lookup(var.glue_catalog_table_storage_descriptor, "number_of_buckets", null)
+    bucket_columns            = lookup(var.glue_catalog_table_storage_descriptor, "bucket_columns", null)
+    parameters                = lookup(var.glue_catalog_table_storage_descriptor, "parameters", null)
+    stored_as_sub_directories = lookup(var.glue_catalog_table_storage_descriptor, "stored_as_sub_directories", null)
 
     dynamic "columns" {
       iterator = columns

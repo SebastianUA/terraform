@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "apigatewayv2" {
-  source      = "../../modules/apigatewayv2"
+  source = "../../modules/apigatewayv2"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "s3control" {
-  source      = "../../modules/s3control"
+  source = "../../modules/s3control"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "serverlessapplicationrepository" {
-  source      = "../../modules/serverlessapplicationrepository"
+  source = "../../modules/serverlessapplicationrepository"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

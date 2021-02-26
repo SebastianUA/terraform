@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "wafv2" {
-  source      = "../../modules/wafv2"
+  source = "../../modules/wafv2"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

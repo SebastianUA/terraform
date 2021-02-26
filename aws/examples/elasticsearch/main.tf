@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "elasticsearch" {
-  source      = "../../modules/elasticsearch"
+  source = "../../modules/elasticsearch"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "autoscalingplans" {
-  source      = "../../modules/autoscalingplans"
+  source = "../../modules/autoscalingplans"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

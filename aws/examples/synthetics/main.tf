@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "synthetics" {
-  source      = "../../modules/synthetics"
+  source = "../../modules/synthetics"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

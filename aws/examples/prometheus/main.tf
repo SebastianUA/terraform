@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "prometheus" {
-  source      = "../../modules/prometheus"
+  source = "../../modules/prometheus"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

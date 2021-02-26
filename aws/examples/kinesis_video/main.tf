@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "kinesis_video" {
-  source      = "../../modules/kinesis_video"
+  source = "../../modules/kinesis_video"
 
 
   tags = map("Env", "stage", "Orchestration", "Terraform")

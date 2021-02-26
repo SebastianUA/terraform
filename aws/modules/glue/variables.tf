@@ -113,44 +113,18 @@ variable "glue_catalog_table_parameters" {
   default     = null
 }
 
-variable "storage_descriptor_location" {
-  description = "(Optional) The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name."
-  default     = null
-}
-
-variable "storage_descriptor_input_format" {
-  description = "(Optional) The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format."
-  default     = null
-}
-
-variable "storage_descriptor_output_format" {
-  description = "(Optional) The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format."
-  default     = []
-}
-
-variable "storage_descriptor_compressed" {
-  description = "(Optional) True if the data in the table is compressed, or False if not."
-  default     = null
-}
-
-variable "storage_descriptor_number_of_buckets" {
-  description = "(Optional) Must be specified if the table contains any dimension columns."
-  default     = null
-}
-
-variable "storage_descriptor_bucket_columns" {
-  description = "(Optional) A list of reducer grouping columns, clustering columns, and bucketing columns in the table."
-  default     = null
-}
-
-variable "storage_descriptor_parameters" {
-  description = "(Optional) User-supplied properties in key-value form."
-  default     = null
-}
-
-variable "storage_descriptor_stored_as_sub_directories" {
-  description = "(Optional) True if the table data is stored in subdirectories, or False if not."
-  default     = null
+variable "glue_catalog_table_storage_descriptor" {
+  description = "(Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object."
+  default = {
+    location                  = null
+    input_format              = null
+    output_format             = null
+    compressed                = null
+    number_of_buckets         = null
+    bucket_columns            = null
+    parameters                = null
+    stored_as_sub_directories = null
+  }
 }
 
 variable "storage_descriptor_columns" {
@@ -340,34 +314,19 @@ variable "glue_security_configuration_name" {
   default     = ""
 }
 
-variable "glue_security_configuration_cloudwatch_encryption_mode" {
-  description = "(Optional) Encryption mode to use for CloudWatch data. Valid values: DISABLED, SSE-KMS. Default value: DISABLED."
-  default     = "DISABLED"
+variable "glue_security_configuration_cloudwatch_encryption" {
+  description = "(Required) A cloudwatch_encryption block as described below, which contains encryption configuration for CloudWatch."
+  default     = []
 }
 
-variable "glue_security_configuration_cloudwatch_encryption_kms_key_arn" {
-  description = "(Optional) Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data."
-  default     = null
+variable "glue_security_configuration_job_bookmarks_encryption" {
+  description = "(Required) A job_bookmarks_encryption block as described below, which contains encryption configuration for job bookmarks."
+  default     = []
 }
 
-variable "glue_security_configuration_job_bookmarks_encryption_job_bookmarks_encryption_mode" {
-  description = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
-  default     = "DISABLED"
-}
-
-variable "glue_security_configuration_job_bookmarks_encryption_kms_key_arn" {
-  description = "(Optional) Encryption mode to use for job bookmarks data. Valid values: CSE-KMS, DISABLED. Default value: DISABLED."
-  default     = null
-}
-
-variable "glue_security_configuration_s3_encryption_s3_encryption_mode" {
-  description = "(Optional) Encryption mode to use for S3 data. Valid values: DISABLED, SSE-KMS, SSE-S3. Default value: DISABLED."
-  default     = "DISABLED"
-}
-
-variable "glue_security_configuration_s3_encryption_kms_key_arn" {
-  description = "(Optional) Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data."
-  default     = null
+variable "glue_security_configuration_s3_encryption" {
+  description = "(Required) A s3_encryption block as described below, which contains encryption configuration for S3 data."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -411,19 +370,9 @@ variable "glue_job_role_arn" {
   default     = null
 }
 
-variable "glue_job_command_script_location" {
-  description = "(Required) Specifies the S3 path to a script that executes a job."
-  default     = null
-}
-
-variable "glue_job_command_name" {
-  description = "(Optional) The name of the job command. Defaults to glueetl. Use pythonshell for Python Shell Job Type, max_capacity needs to be set if pythonshell is chosen."
-  default     = null
-}
-
-variable "glue_job_command_python_version" {
-  description = "description"
-  default     = null
+variable "glue_job_command" {
+  description = "(Required) The command of the job."
+  default     = []
 }
 
 variable "glue_job_description" {
@@ -531,24 +480,9 @@ variable "glue_trigger_workflow_name" {
   default     = null
 }
 
-variable "glue_trigger_actions_arguments" {
-  description = "(Optional) Arguments to be passed to the job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes."
-  default     = null
-}
-
-variable "glue_trigger_actions_crawler_name" {
-  description = "(Optional) The name of the crawler to be executed. Conflicts with job_name."
-  default     = null
-}
-
-variable "glue_trigger_actions_job_name" {
-  description = "(Optional) The name of a job to be executed. Conflicts with crawler_name."
-  default     = null
-}
-
-variable "glue_trigger_actions_timeout" {
-  description = "(Optional) The job run timeout in minutes. It overrides the timeout value of the job."
-  default     = null
+variable "glue_trigger_actions" {
+  description = "(Required) List of actions initiated by this trigger when it fires. "
+  default     = []
 }
 
 variable "glue_trigger_timeouts" {
@@ -558,5 +492,348 @@ variable "glue_trigger_timeouts" {
 
 variable "glue_trigger_predicate" {
   description = "(Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Glue data catalog encryption settings
+#---------------------------------------------------
+variable "enable_glue_data_catalog_encryption_settings" {
+  description = "Enable glue data catalog encryption settings usage"
+  default     = false
+}
+
+variable "glue_data_catalog_encryption_settings_connection_password_encryption" {
+  description = "(Required) When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption. see Connection Password Encryption."
+  default     = []
+}
+
+variable "glue_data_catalog_encryption_settings_encryption_at_rest" {
+  description = "(Required) Specifies the encryption-at-rest configuration for the Data Catalog. see Encryption At Rest."
+  default     = []
+}
+
+variable "glue_data_catalog_encryption_settings_catalog_id" {
+  description = "(Optional) The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue dev endpoint
+#---------------------------------------------------
+variable "enable_glue_dev_endpoint" {
+  description = "Enable glue dev endpoint usage"
+  default     = false
+}
+
+variable "glue_dev_endpoint_name" {
+  description = "The name of this endpoint. It must be unique in your account."
+  default     = ""
+}
+
+variable "glue_dev_endpoint_role_arn" {
+  description = "(Required) The IAM role for this endpoint."
+  default     = null
+}
+
+variable "glue_dev_endpoint_arguments" {
+  description = "(Optional) A map of arguments used to configure the endpoint."
+  default     = null
+}
+
+variable "glue_dev_endpoint_extra_jars_s3_path" {
+  description = "(Optional) Path to one or more Java Jars in an S3 bucket that should be loaded in this endpoint."
+  default     = null
+}
+
+variable "glue_dev_endpoint_extra_python_libs_s3_path" {
+  description = "(Optional) Path(s) to one or more Python libraries in an S3 bucket that should be loaded in this endpoint. Multiple values must be complete paths separated by a comma."
+  default     = null
+}
+
+variable "glue_dev_endpoint_glue_version" {
+  description = "(Optional) - Specifies the versions of Python and Apache Spark to use. Defaults to AWS Glue version 0.9."
+  default     = null
+}
+
+variable "glue_dev_endpoint_number_of_nodes" {
+  description = "(Optional) The number of AWS Glue Data Processing Units (DPUs) to allocate to this endpoint. Conflicts with worker_type"
+  default     = null
+}
+
+variable "glue_dev_endpoint_number_of_workers" {
+  description = "(Optional) The number of workers of a defined worker type that are allocated to this endpoint. This field is available only when you choose worker type G.1X or G.2X."
+  default     = null
+}
+
+variable "glue_dev_endpoint_public_key" {
+  description = "(Optional) The public key to be used by this endpoint for authentication."
+  default     = null
+}
+
+variable "glue_dev_endpoint_public_keys" {
+  description = "(Optional) A list of public keys to be used by this endpoint for authentication."
+  default     = null
+}
+
+variable "glue_dev_endpoint_security_configuration" {
+  description = "(Optional) The name of the Security Configuration structure to be used with this endpoint."
+  default     = null
+}
+
+variable "glue_dev_endpoint_security_group_ids" {
+  description = "(Optional) Security group IDs for the security groups to be used by this endpoint."
+  default     = null
+}
+
+variable "glue_dev_endpoint_subnet_id" {
+  description = "(Optional) The subnet ID for the new endpoint to use."
+  default     = null
+}
+
+variable "glue_dev_endpoint_worker_type" {
+  description = "(Optional) The type of predefined worker that is allocated to this endpoint. Accepts a value of Standard, G.1X, or G.2X."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue ml transform
+#---------------------------------------------------
+variable "enable_glue_ml_transform" {
+  description = "Enable glue ml transform usage"
+  default     = false
+}
+
+variable "glue_ml_transform_name" {
+  description = "The name you assign to this ML Transform. It must be unique in your account."
+  default     = ""
+}
+
+variable "glue_ml_transform_role_arn" {
+  description = "(Required) The ARN of the IAM role associated with this ML Transform."
+  default     = null
+}
+
+variable "glue_ml_transform_input_record_tables" {
+  description = "(Required) A list of AWS Glue table definitions used by the transform. see Input Record Tables."
+  default     = []
+}
+
+variable "glue_ml_transform_parameters" {
+  description = "(Required) The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type. see Parameters."
+  default     = []
+}
+
+variable "glue_ml_transform_description" {
+  description = "(Optional) Description of the ML Transform."
+  default     = null
+}
+
+variable "glue_ml_transform_glue_version" {
+  description = "(Optional) The version of glue to use, for example '1.0'. For information about available versions, see the AWS Glue Release Notes."
+  default     = null
+}
+
+variable "glue_ml_transform_max_capacity" {
+  description = "(Optional) The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. max_capacity is a mutually exclusive option with number_of_workers and worker_type."
+  default     = null
+}
+
+variable "glue_ml_transform_max_retries" {
+  description = "(Optional) The maximum number of times to retry this ML Transform if it fails."
+  default     = null
+}
+
+variable "glue_ml_transform_timeout" {
+  description = "(Optional) The ML Transform timeout in minutes. The default is 2880 minutes (48 hours)."
+  default     = null
+}
+
+variable "glue_ml_transform_worker_type" {
+  description = "(Optional) The type of predefined worker that is allocated when an ML Transform runs. Accepts a value of Standard, G.1X, or G.2X. Required with number_of_workers."
+  default     = null
+}
+
+variable "glue_ml_transform_number_of_workers" {
+  description = "(Optional) The number of workers of a defined worker_type that are allocated when an ML Transform runs. Required with worker_type"
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue partition
+#---------------------------------------------------
+variable "enable_glue_partition" {
+  description = "Enable glue partition usage"
+  default     = false
+}
+
+variable "glue_partition_database_name" {
+  description = "Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase."
+  default     = ""
+}
+
+variable "glue_partition_table_name" {
+  description = "Table name"
+  default     = ""
+}
+
+variable "glue_partition_partition_values" {
+  description = "(Required) The values that define the partition."
+  default     = []
+}
+
+variable "glue_partition_catalog_id" {
+  description = "(Optional) ID of the Glue Catalog and database to create the table in. If omitted, this defaults to the AWS Account ID plus the database name."
+  default     = null
+}
+
+variable "glue_partition_parameters" {
+  description = "(Optional) Properties associated with this table, as a list of key-value pairs."
+  default     = null
+}
+
+variable "glue_partition_storage_descriptor_columns" {
+  description = "(Optional) A list of the Columns in the table."
+  default     = []
+}
+
+variable "glue_partition_storage_descriptor_ser_de_info" {
+  description = "(Optional) Serialization/deserialization (SerDe) information."
+  default     = []
+}
+
+variable "glue_partition_storage_descriptor_sort_columns" {
+  description = "(Optional) A list of Order objects specifying the sort order of each bucket in the table."
+  default     = []
+}
+
+variable "glue_partition_storage_descriptor_skewed_info" {
+  description = "(Optional) Information about values that appear very frequently in a column (skewed values)."
+  default     = []
+}
+
+variable "glue_partition_storage_descriptor" {
+  description = "(Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object."
+  default = {
+    location                  = null
+    input_format              = null
+    output_format             = null
+    compressed                = null
+    number_of_buckets         = null
+    bucket_columns            = null
+    parameters                = null
+    stored_as_sub_directories = null
+  }
+}
+
+#---------------------------------------------------
+# AWS Glue registry
+#---------------------------------------------------
+variable "enable_glue_registry" {
+  description = "Enable glue registry usage"
+  default     = false
+}
+
+variable "glue_registry_name" {
+  description = "The Name of the registry."
+  default     = ""
+}
+
+variable "glue_registry_description" {
+  description = "(Optional) A description of the registry."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue resource policy
+#---------------------------------------------------
+variable "enable_glue_resource_policy" {
+  description = "Enable glue resource policy usage"
+  default     = false
+}
+
+variable "glue_resource_policy" {
+  description = "(Required) The policy to be applied to the aws glue data catalog."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue schema
+#---------------------------------------------------
+variable "enable_glue_schema" {
+  description = "Enable glue schema usage"
+  default     = false
+}
+
+variable "glue_schema_name" {
+  description = "The Name of the schema."
+  default     = ""
+}
+
+variable "glue_schema_registry_arn" {
+  description = "The ARN of the Glue Registry to create the schema in."
+  default     = ""
+}
+
+variable "glue_schema_data_format" {
+  description = "(Required) The data format of the schema definition. Currently only AVRO is supported."
+  default     = null
+}
+
+variable "glue_schema_compatibility" {
+  description = "(Required) The compatibility mode of the schema. Values values are: NONE, DISABLED, BACKWARD, BACKWARD_ALL, FORWARD, FORWARD_ALL, FULL, and FULL_ALL."
+  default     = null
+}
+
+variable "glue_schema_schema_definition" {
+  description = "(Required) The schema definition using the data_format setting for schema_name."
+  default     = null
+}
+
+variable "glue_schema_description" {
+  description = "(Optional) A description of the schema."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Glue user defined function
+#---------------------------------------------------
+variable "enable_glue_user_defined_function" {
+  description = "Enable glue user defined function usage"
+  default     = false
+}
+
+variable "glue_user_defined_function_name" {
+  description = "The name of the function."
+  default     = ""
+}
+
+variable "glue_user_defined_function_database_name" {
+  description = "The name of the Database to create the Function."
+  default     = ""
+}
+
+variable "glue_user_defined_function_class_name" {
+  description = "(Required) The Java class that contains the function code."
+  default     = null
+}
+
+variable "glue_user_defined_function_owner_name" {
+  description = "(Required) The owner of the function."
+  default     = null
+}
+
+variable "glue_user_defined_function_owner_type" {
+  description = "(Required) The owner type. can be one of USER, ROLE, and GROUP."
+  default     = null
+}
+
+variable "glue_user_defined_function_catalog_id" {
+  description = "(Optional) ID of the Glue Catalog to create the function in. If omitted, this defaults to the AWS Account ID."
+  default     = null
+}
+
+variable "glue_user_defined_function_resource_uris" {
+  description = "(Optional) The configuration block for Resource URIs. See resource uris below for more details."
   default     = []
 }
