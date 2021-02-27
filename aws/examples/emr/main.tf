@@ -69,7 +69,7 @@ module "emr" {
   # EMR cluster
   enable_emr_cluster        = true
   emr_cluster_name          = "emr-cluster-name"
-  emr_cluster_release_label = "emr-5.29.0"
+  emr_cluster_release_label = "emr-6.2.0"
   emr_cluster_service_role  = "arn:aws:iam::167127734783:role/emr-service-role"
 
   emr_cluster_applications                      = ["Spark", "Presto", "Hadoop", "Hive", "Zeppelin"]
@@ -158,6 +158,60 @@ module "emr" {
   emr_instance_group_autoscaling_policy  = file("./additional_files/emr-cluster-core_instance_group-autoscaling_policy.json")
   emr_instance_group_configurations_json = null
 
+  # EMR instance fleet
+  enable_emr_instance_fleet                    = true
+  emr_instance_fleet_name                      = "emr-task-fleet"
+  emr_instance_fleet_target_on_demand_capacity = 1
+  emr_instance_fleet_target_spot_capacity      = 1
+  emr_instance_fleet_instance_type_configs = {
+    bid_price                                  = null
+    bid_price_as_percentage_of_on_demand_price = 100
+    weighted_capacity                          = 1
+    instance_type                              = "m4.xlarge"
+  }
+
+  emr_instance_fleet_ebs_config = [
+    {
+      size                 = 100
+      type                 = "gp2"
+      volumes_per_instance = 1
+    }
+  ]
+
+  emr_instance_fleet_spot_specification = [
+    {
+      allocation_strategy      = "capacity-optimized"
+      block_duration_minutes   = 0
+      timeout_action           = "TERMINATE_CLUSTER"
+      timeout_duration_minutes = 10
+    }
+  ]
+
+  # EMR managed scaling policy
+  enable_emr_managed_scaling_policy = true
+  emr_managed_scaling_policy_compute_limits = [
+    {
+      unit_type                       = "InstanceFleetUnits"
+      minimum_capacity_units          = 2
+      maximum_capacity_units          = 10
+      maximum_ondemand_capacity_units = 2
+      maximum_core_capacity_units     = 10
+    },
+    {
+      unit_type                       = "Instances"
+      minimum_capacity_units          = 2
+      maximum_capacity_units          = 10
+      maximum_ondemand_capacity_units = 2
+      maximum_core_capacity_units     = 10
+    },
+    {
+      unit_type                       = "VCPU"
+      minimum_capacity_units          = 2
+      maximum_capacity_units          = 10
+      maximum_ondemand_capacity_units = 2
+      maximum_core_capacity_units     = 10
+    }
+  ]
 
   tags = map(
     "Env", "stage",

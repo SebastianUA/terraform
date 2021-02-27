@@ -225,3 +225,79 @@ variable "emr_security_configuration_name_prefix" {
   description = "(Optional) Creates a unique name beginning with the specified prefix. Conflicts with emr_security_configuration_name."
   default     = null
 }
+
+#---------------------------------------------------
+# AWS EMR instance fleet
+#---------------------------------------------------
+variable "enable_emr_instance_fleet" {
+  description = "Enable emr instance fleet usage"
+  default     = false
+}
+
+variable "emr_instance_fleet_cluster_id" {
+  description = "ID of the EMR Cluster to attach to. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "emr_instance_fleet_name" {
+  description = "(Optional) Friendly name given to the instance fleet."
+  default     = ""
+}
+
+variable "emr_instance_fleet_target_on_demand_capacity" {
+  description = "(Optional) The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision."
+  default     = 1
+}
+
+variable "emr_instance_fleet_target_spot_capacity" {
+  description = "(Optional) The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision."
+  default     = 1
+}
+
+variable "emr_instance_fleet_instance_type_configs" {
+  description = "(Optional) Configuration block for instance fleet"
+  default = {
+    bid_price                                  = null
+    bid_price_as_percentage_of_on_demand_price = 100
+    weighted_capacity                          = 1
+    instance_type                              = "m4.xlarge"
+  }
+}
+
+variable "emr_instance_fleet_ebs_config" {
+  description = "(Optional) Configuration block(s) for EBS volumes attached to each instance in the instance group."
+  default     = []
+}
+
+variable "emr_instance_fleet_configurations" {
+  description = "(Optional) A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster. List of configuration blocks."
+  default     = []
+}
+
+variable "emr_instance_fleet_spot_specification" {
+  description = "(Optional) Configuration block for spot instances launch specifications"
+  default     = []
+}
+
+variable "emr_instance_fleet_on_demand_specification" {
+  description = "(Optional) Configuration block for on demand instances launch specifications"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS EMR managed scaling policy
+#---------------------------------------------------
+variable "enable_emr_managed_scaling_policy" {
+  description = "Enable emr managed scaling policy usage"
+  default     = false
+}
+
+variable "emr_managed_scaling_policy_cluster_id" {
+  description = "The id of the EMR cluster"
+  default     = ""
+}
+
+variable "emr_managed_scaling_policy_compute_limits" {
+  description = "(Required) Configuration block with compute limit settings."
+  default     = []
+}

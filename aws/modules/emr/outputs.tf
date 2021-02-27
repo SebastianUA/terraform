@@ -106,3 +106,29 @@ output "emr_security_configuration_creation_date" {
   description = "Date the Security Configuration was created"
   value       = element(concat(aws_emr_security_configuration.emr_security_configuration.*.creation_date, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS EMR instance fleet
+#---------------------------------------------------
+output "emr_instance_fleet_id" {
+  description = "The unique identifier of the instance fleet."
+  value       = element(concat(aws_emr_instance_fleet.emr_instance_fleet.*.id, [""]), 0)
+}
+
+output "emr_instance_fleet_provisioned_spot_capacity" {
+  description = "The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity."
+  value       = element(concat(aws_emr_instance_fleet.emr_instance_fleet.*.provisioned_spot_capacity, [""]), 0)
+}
+
+output "emr_instance_fleet_provisioned_on_demand_capacity" {
+  description = "The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity."
+  value       = element(concat(aws_emr_instance_fleet.emr_instance_fleet.*.provisioned_on_demand_capacity, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS EMR managed scaling policy
+#---------------------------------------------------
+output "emr_managed_scaling_policy_id" {
+  description = "The unique identifier of managed scaling policy"
+  value       = element(concat(aws_emr_managed_scaling_policy.emr_managed_scaling_policy.*.id, [""]), 0)
+}

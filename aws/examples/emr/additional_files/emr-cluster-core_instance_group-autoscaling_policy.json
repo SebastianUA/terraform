@@ -1,31 +1,66 @@
 {
-"Constraints": {
-  "MinCapacity": 1,
-  "MaxCapacity": 2
-},
-"Rules": [
-  {
-    "Name": "ScaleOutMemoryPercentage",
-    "Description": "Scale out if YARNMemoryAvailablePercentage is less than 15",
-    "Action": {
-      "SimpleScalingPolicyConfiguration": {
-        "AdjustmentType": "CHANGE_IN_CAPACITY",
-        "ScalingAdjustment": 1,
-        "CoolDown": 300
+   "Constraints":{
+      "MinCapacity":0,
+      "MaxCapacity":1
+   },
+   "Rules":[
+      {
+         "Name":"ScaleOutContainerPendingRatio",
+         "Description":"Scale out if YARNContainerPendingRatio is >= than 0.1",
+         "Action":{
+            "SimpleScalingPolicyConfiguration":{
+               "ScalingAdjustment":1,
+               "CoolDown":300,
+               "AdjustmentType":"CHANGE_IN_CAPACITY"
+            }
+         },
+         "Trigger":{
+            "CloudWatchAlarmDefinition":{
+               "MetricName":"ContainerPendingRatio",
+               "ComparisonOperator":"GREATER_THAN_OR_EQUAL",
+               "Statistic":"AVERAGE",
+               "Period":300,
+               "Dimensions":[
+                  {
+                     "Value":"${emr.clusterId}",
+                     "Key":"JobFlowId"
+                  }
+               ],
+               "EvaluationPeriods":1,
+               "Unit":"COUNT",
+               "Namespace":"AWS/ElasticMapReduce",
+               "Threshold":0.1
+            }
+         }
+      },
+      {
+         "Name":"ScaleInContainerPendingRatio",
+         "Description":"Scale in if YARNContainerPendingRatio is < than 0.1",
+         "Action":{
+            "SimpleScalingPolicyConfiguration":{
+               "ScalingAdjustment":-1,
+               "CoolDown":300,
+               "AdjustmentType":"CHANGE_IN_CAPACITY"
+            }
+         },
+         "Trigger":{
+            "CloudWatchAlarmDefinition":{
+               "MetricName":"ContainerPendingRatio",
+               "ComparisonOperator":"LESS_THAN",
+               "Statistic":"AVERAGE",
+               "Period":300,
+               "Dimensions":[
+                  {
+                     "Value":"${emr.clusterId}",
+                     "Key":"JobFlowId"
+                  }
+               ],
+               "EvaluationPeriods":1,
+               "Unit":"COUNT",
+               "Namespace":"AWS/ElasticMapReduce",
+               "Threshold":0.1
+            }
+         }
       }
-    },
-    "Trigger": {
-      "CloudWatchAlarmDefinition": {
-        "ComparisonOperator": "LESS_THAN",
-        "EvaluationPeriods": 1,
-        "MetricName": "YARNMemoryAvailablePercentage",
-        "Namespace": "AWS/ElasticMapReduce",
-        "Period": 300,
-        "Statistic": "AVERAGE",
-        "Threshold": 15.0,
-        "Unit": "PERCENT"
-      }
-    }
-  }
-]
+   ]
 }
