@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create S3 account public access block
+# AWS S3 account public access block
 #---------------------------------------------------
 resource "aws_s3_account_public_access_block" "s3_account_public_access_block" {
   count = var.enable_s3_account_public_access_block ? 1 : 0
@@ -17,8 +17,3 @@ resource "aws_s3_account_public_access_block" "s3_account_public_access_block" {
 
   depends_on = []
 }
-
-
-
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_account_public_access_block
-

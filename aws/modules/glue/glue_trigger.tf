@@ -18,8 +18,8 @@ resource "aws_glue_trigger" "glue_trigger" {
     content {
       arguments = lookup(actions.value, "arguments", null)
       # Both JobName or CrawlerName cannot be set together in an action
-      crawler_name = lookup(actions.value, "crawler_name", (var.enable_glue_crawler && ! var.enable_glue_job ? element(concat(aws_glue_crawler.glue_crawler.*.id, [""]), 0) : null) )
-      job_name     = lookup(actions.value, "job_name", (var.enable_glue_job && ! var.enable_glue_crawler ? element(concat(aws_glue_job.glue_job.*.id, [""]), 0) : null) )
+      crawler_name = lookup(actions.value, "crawler_name", (var.enable_glue_crawler && ! var.enable_glue_job ? element(concat(aws_glue_crawler.glue_crawler.*.id, [""]), 0) : null))
+      job_name     = lookup(actions.value, "job_name", (var.enable_glue_job && ! var.enable_glue_crawler ? element(concat(aws_glue_job.glue_job.*.id, [""]), 0) : null))
       timeout      = lookup(actions.value, "timeout", null)
     }
   }

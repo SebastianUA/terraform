@@ -7,35 +7,41 @@ resource "aws_s3_bucket_notification" "s3_bucket_notification" {
   bucket = var.s3_bucket_notification_bucket != "" && ! var.enable_s3_bucket ? var.s3_bucket_notification_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
 
   dynamic "topic" {
+    iterator = topic
     for_each = var.s3_bucket_notification_topic
     content {
-      id            = lookup(s3_bucket_notification_topic.value, "id", null)
-      topic_arn     = lookup(s3_bucket_notification_topic.value, "topic_arn", null)
-      events        = lookup(s3_bucket_notification_topic.value, "events", null)
-      filter_suffix = lookup(s3_bucket_notification_topic.value, "filter_suffix", null)
-      filter_prefix = lookup(s3_bucket_notification_topic.value, "filter_prefix", null)
+      topic_arn = lookup(topic.value, "topic_arn", null)
+      events    = lookup(topic.value, "events", null)
+
+      id            = lookup(topic.value, "id", null)
+      filter_suffix = lookup(topic.value, "filter_suffix", null)
+      filter_prefix = lookup(topic.value, "filter_prefix", null)
     }
   }
 
   dynamic "queue" {
+    iterator = queue
     for_each = var.s3_bucket_notification_queue
     content {
-      id            = lookup(s3_bucket_notification_queue.value, "id", null)
-      queue_arn     = lookup(s3_bucket_notification_queue.value, "queue_arn", null)
-      events        = lookup(s3_bucket_notification_queue.value, "events", null)
-      filter_suffix = lookup(s3_bucket_notification_queue.value, "filter_suffix", null)
-      filter_prefix = lookup(s3_bucket_notification_queue.value, "filter_prefix", null)
+      queue_arn = lookup(queue.value, "queue_arn", null)
+      events    = lookup(queue.value, "events", null)
+
+      id            = lookup(queue.value, "id", null)
+      filter_suffix = lookup(queue.value, "filter_suffix", null)
+      filter_prefix = lookup(queue.value, "filter_prefix", null)
     }
   }
 
   dynamic "lambda_function" {
+    iterator = lambda_function
     for_each = var.s3_bucket_notification_lambda_function
     content {
-      id                  = lookup(s3_bucket_notification_lambda_function.value, "id", null)
-      lambda_function_arn = lookup(s3_bucket_notification_lambda_function.value, "lambda_function_arn", null)
-      events              = lookup(s3_bucket_notification_lambda_function.value, "events", null)
-      filter_suffix       = lookup(s3_bucket_notification_lambda_function.value, "filter_suffix", null)
-      filter_prefix       = lookup(s3_bucket_notification_lambda_function.value, "filter_prefix", null)
+      lambda_function_arn = lookup(lambda_function.value, "lambda_function_arn", null)
+      events              = lookup(lambda_function.value, "events", null)
+
+      id            = lookup(lambda_function.value, "id", null)
+      filter_suffix = lookup(lambda_function.value, "filter_suffix", null)
+      filter_prefix = lookup(lambda_function.value, "filter_prefix", null)
     }
   }
 
@@ -48,5 +54,3 @@ resource "aws_s3_bucket_notification" "s3_bucket_notification" {
     aws_s3_bucket.s3_bucket
   ]
 }
-
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification

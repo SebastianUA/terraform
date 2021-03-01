@@ -19,11 +19,6 @@ variable "enable_iam_policy" {
   default     = false
 }
 
-variable "iam_policy_path" {
-  description = "(Optional, default '/') Path in which to create the policy. See IAM Identifiers for more information."
-  default     = "/"
-}
-
 variable "iam_policy_policy" {
   description = "(Required) The policy document. This is a JSON formatted string. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide"
   default     = ""
@@ -31,7 +26,7 @@ variable "iam_policy_policy" {
 
 variable "iam_policy_name" {
   description = "Set custom policy name"
-  default     = ""
+  default     = null
 }
 
 variable "iam_policy_name_prefix" {
@@ -41,7 +36,12 @@ variable "iam_policy_name_prefix" {
 
 variable "iam_policy_description" {
   description = "(Optional, Forces new resource) Description of the IAM policy."
-  default     = ""
+  default     = null
+}
+
+variable "iam_policy_path" {
+  description = "(Optional, default '/') Path in which to create the policy. See IAM Identifiers for more information."
+  default     = null
 }
 
 #-----------------------------------------------------------
@@ -57,7 +57,7 @@ variable "iam_policy_attachment_name" {
   default     = ""
 }
 
-variable "iam_role_policy_attachment_roles" {
+variable "iam_policy_attachment_roles" {
   description = "(Optional) - The role(s) the policy should be applied to"
   default     = []
 }
