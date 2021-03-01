@@ -20,7 +20,7 @@ module "iam_role" {
   iam_role_name        = "tf-role-for-testing"
   iam_role_description = "It's just a simple IAM role to test TF module"
   # Inside additional_files directory I will add additional policies for assume_role_policy usage in the future....
-  assume_role_policy = file("additional_files/assume_role_policy_with_mfa.json")
+  iam_role_assume_role_policy = file("additional_files/assume_role_policy_with_mfa.json")
 
   iam_role_force_detach_policies = true
   iam_role_path                  = "/"
@@ -32,8 +32,8 @@ module "iam_role" {
   iam_role_policy        = file("additional_files/policy.json")
 
   # Using IAM role policy attachment
-  enable_iam_role_policy_attachment = false
-  policy_arns                       = ["test"]
+  enable_iam_role_policy_attachment      = false
+  iam_role_policy_attachment_policy_arns = ["test"]
 
   # Using IAM instance profile
   enable_iam_instance_profile = true

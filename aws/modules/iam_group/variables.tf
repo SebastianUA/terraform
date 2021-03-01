@@ -70,6 +70,11 @@ variable "iam_group_policy_attachment_policy_arn" {
   default     = ""
 }
 
+variable "iam_group_policy_attachment_group" {
+  description = "Set group for policy attachment"
+  default     = ""
+}
+
 #-----------------------------------------------------------
 # IAM group membership
 #-----------------------------------------------------------
@@ -86,4 +91,9 @@ variable "iam_group_membership_name" {
 variable "iam_group_membership_users" {
   description = "(Required) A list of IAM User names to associate with the Group"
   default     = []
+}
+
+variable "iam_group_membership_group" {
+  description = "Set membership group"
+  default     = ""
 }

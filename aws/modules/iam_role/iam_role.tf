@@ -8,7 +8,7 @@ resource "aws_iam_role" "iam_role" {
   name_prefix = var.iam_role_name_prefix != "" && var.iam_role_name == "" ? var.iam_role_name_prefix : null
   description = var.iam_role_description
 
-  assume_role_policy = var.assume_role_policy
+  assume_role_policy = var.iam_role_assume_role_policy
 
   force_detach_policies = var.iam_role_force_detach_policies
   path                  = var.iam_role_path

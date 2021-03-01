@@ -30,7 +30,7 @@ module "iam_role" {
   iam_role_name        = "tf-role-for-testing"
   iam_role_description = "It's just a simple IAM role to test TF module"
   # Inside additional_files directory I will add additional policies for assume_role_policy usage in the future....
-  assume_role_policy = file("additional_files/assume_role_policy_with_mfa.json")
+  iam_role_assume_role_policy = file("additional_files/assume_role_policy_with_mfa.json")
 
   iam_role_force_detach_policies = true
   iam_role_path                  = "/"
@@ -42,8 +42,8 @@ module "iam_role" {
   iam_role_policy        = file("additional_files/policy.json")
 
   # Using IAM role policy attachment
-  enable_iam_role_policy_attachment = false
-  policy_arns                       = ["test"]
+  enable_iam_role_policy_attachment      = false
+  iam_role_policy_attachment_policy_arns = ["test"]
 
   # Using IAM instance profile
   enable_iam_instance_profile = true
@@ -62,7 +62,7 @@ module "iam_role" {
 - `iam_role_name` - The name of the role (`default = ""`)
 - `iam_role_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with iam_role_name. (`default = ""`)
 - `iam_role_description` - (Optional) The description of the role. (`default = ""`)
-- `assume_role_policy` - File with assume role policy (`default = ""`)
+- `iam_role_assume_role_policy` - File with assume role policy (`default = ""`)
 - `iam_role_force_detach_policies` - (Optional) Specifies to force detaching any policies the role has before destroying it. Defaults to false. (`default = False`)
 - `iam_role_path` - (Optional) The path to the role. See IAM Identifiers for more information. Defaults is '/' (`default = /`)
 - `iam_role_max_session_duration` - (Optional) The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. (`default = 3600`)
@@ -73,7 +73,8 @@ module "iam_role" {
 - `iam_role_policy_role` - (Required) The IAM role to attach to the policy. (`default = ""`)
 - `iam_role_policy` - (Required) The policy document. This is a JSON formatted string. For more information about building IAM policy documents with Terraform, see the AWS IAM Policy Document Guide (`default = ""`)
 - `enable_iam_role_policy_attachment` - Enable IAM role policy attachment usage (`default = False`)
-- `policy_arns` - (Required) - The list of ARNs of the policy you want to apply (`default = []`)
+- `iam_role_policy_attachment_role` - Set role for role policy attachment (`default = ""`)
+- `iam_role_policy_attachment_policy_arns` - (Required) - The list of ARNs of the policy you want to apply (`default = []`)
 - `enable_iam_instance_profile` - Enable IAM instance profile (`default = False`)
 - `iam_instance_profile_name` - The profile's name (`default = ""`)
 - `iam_instance_profile_role` - (Optional) The role name to include in the profile. (`default = null`)

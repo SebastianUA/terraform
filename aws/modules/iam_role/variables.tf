@@ -40,7 +40,7 @@ variable "iam_role_description" {
   default     = ""
 }
 
-variable "assume_role_policy" {
+variable "iam_role_assume_role_policy" {
   description = "File with assume role policy"
   default     = ""
 }
@@ -101,7 +101,12 @@ variable "enable_iam_role_policy_attachment" {
   default     = false
 }
 
-variable "policy_arns" {
+variable "iam_role_policy_attachment_role" {
+  description = "Set role for role policy attachment"
+  default     = ""
+}
+
+variable "iam_role_policy_attachment_policy_arns" {
   description = "(Required) - The list of ARNs of the policy you want to apply"
   default     = []
 }
