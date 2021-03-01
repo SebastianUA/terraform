@@ -14,7 +14,6 @@ resource "aws_organizations_policy_attachment" "organizations_policy_attachment"
 
   depends_on = [
     aws_organizations_policy.organizations_policy,
-    aws_organizations_organization.organizations_organization,
-    aws_organizations_organizational_unit.organizations_organizational_unit
+    aws_organizations_organization.organizations_organization
   ]
 }
