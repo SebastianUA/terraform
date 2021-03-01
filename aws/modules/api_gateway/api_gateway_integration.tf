@@ -4,9 +4,9 @@
 resource "aws_api_gateway_integration" "api_gateway_integration" {
   count = var.enable_api_gateway_integration ? 1 : 0
 
-  rest_api_id = var.api_gateway_integration_rest_api_id != "" && ! var.enable_api_gateway_rest_api ? var.api_gateway_integration_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
-  resource_id = var.api_gateway_integration_resource_id != "" && ! var.enable_api_gateway_resource ? var.api_gateway_integration_resource_id : element(concat(aws_api_gateway_resource.api_gateway_resource.*.id, [""]), 0)
-  http_method = var.api_gateway_integration_http_method != "" && ! var.enable_api_gateway_method ? var.api_gateway_integration_http_method : element(concat(aws_api_gateway_method.api_gateway_method.*.http_method, [""]), 0)
+  rest_api_id = var.api_gateway_integration_rest_api_id != "" && !var.enable_api_gateway_rest_api ? var.api_gateway_integration_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
+  resource_id = var.api_gateway_integration_resource_id != "" && !var.enable_api_gateway_resource ? var.api_gateway_integration_resource_id : element(concat(aws_api_gateway_resource.api_gateway_resource.*.id, [""]), 0)
+  http_method = var.api_gateway_integration_http_method != "" && !var.enable_api_gateway_method ? var.api_gateway_integration_http_method : element(concat(aws_api_gateway_method.api_gateway_method.*.http_method, [""]), 0)
   type        = upper(var.api_gateway_integration_type)
 
   integration_http_method = var.api_gateway_integration_integration_http_method

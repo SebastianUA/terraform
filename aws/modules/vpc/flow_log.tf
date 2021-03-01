@@ -11,7 +11,7 @@ resource "aws_flow_log" "flow_log" {
   log_destination_type     = var.flow_log_log_destination_type
   log_destination          = var.flow_log_log_destination
   subnet_id                = var.flow_log_subnet_id
-  vpc_id                   = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id                   = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   log_format               = var.flow_log_log_format
   max_aggregation_interval = var.flow_log_max_aggregation_interval
 

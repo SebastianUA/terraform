@@ -4,7 +4,7 @@
 resource "aws_globalaccelerator_endpoint_group" "globalaccelerator_endpoint_group" {
   count = var.enable_globalaccelerator_endpoint_group ? 1 : 0
 
-  listener_arn = var.globalaccelerator_endpoint_group_listener_arn != "" && ! var.enable_globalaccelerator_listener ? var.globalaccelerator_endpoint_group_listener_arn : element(concat(aws_globalaccelerator_listener.globalaccelerator_listener.*.id, [""]), 0)
+  listener_arn = var.globalaccelerator_endpoint_group_listener_arn != "" && !var.enable_globalaccelerator_listener ? var.globalaccelerator_endpoint_group_listener_arn : element(concat(aws_globalaccelerator_listener.globalaccelerator_listener.*.id, [""]), 0)
 
   endpoint_group_region         = var.globalaccelerator_endpoint_group_endpoint_group_region
   health_check_interval_seconds = var.globalaccelerator_endpoint_group_health_check_interval_seconds

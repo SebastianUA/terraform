@@ -4,7 +4,7 @@
 resource "aws_vpc_endpoint" "vpc_endpoint" {
   count = var.enable_vpc_endpoint ? 1 : 0
 
-  vpc_id       = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id       = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   service_name = var.vpc_endpoint_service_name
 
   auto_accept         = var.vpc_endpoint_auto_accept

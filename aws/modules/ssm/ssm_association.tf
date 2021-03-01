@@ -4,7 +4,7 @@
 resource "aws_ssm_association" "ssm_association" {
   count = var.enable_ssm_association ? 1 : 0
 
-  name = var.ssm_association_name != "" && ! var.enable_ssm_document ? (var.ssm_document_name != "" ? lower(var.ssm_document_name) : "${lower(var.name)}-association-${lower(var.environment)}") : element(concat(aws_ssm_document.ssm_document.*.name, [""]), 0)
+  name = var.ssm_association_name != "" && !var.enable_ssm_document ? (var.ssm_document_name != "" ? lower(var.ssm_document_name) : "${lower(var.name)}-association-${lower(var.environment)}") : element(concat(aws_ssm_document.ssm_document.*.name, [""]), 0)
 
   association_name                 = var.ssm_association_association_name
   document_version                 = var.ssm_association_document_version

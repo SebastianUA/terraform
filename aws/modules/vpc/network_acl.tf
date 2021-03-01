@@ -4,7 +4,7 @@
 resource "aws_network_acl" "network_acl" {
   count = var.enable_network_acl ? 1 : 0
 
-  vpc_id     = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id     = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   subnet_ids = var.network_acl_subnet_ids
 
   dynamic "ingress" {

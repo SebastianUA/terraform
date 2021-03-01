@@ -6,7 +6,7 @@
 resource "aws_route_table" "private_route_tables" {
   count = length(var.private_subnet_cidrs) > 0 ? 1 : 0
 
-  vpc_id           = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id           = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   propagating_vgws = var.private_propagating_vgws
 
   tags = merge(
@@ -30,7 +30,7 @@ resource "aws_route_table" "private_route_tables" {
 resource "aws_route_table" "public_route_tables" {
   count = length(var.public_subnet_cidrs) > 0 ? 1 : 0
 
-  vpc_id           = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id           = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   propagating_vgws = var.public_propagating_vgws
 
   tags = merge(
@@ -54,7 +54,7 @@ resource "aws_route_table" "public_route_tables" {
 resource "aws_route_table" "custom_route_table" {
   count = var.enable_custom_route_table ? 1 : 0
 
-  vpc_id           = var.custom_route_table_vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id           = var.custom_route_table_vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   propagating_vgws = var.custom_route_table_public_propagating_vgws
 
   dynamic "route" {

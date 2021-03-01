@@ -6,7 +6,7 @@ resource "aws_backup_selection" "backup_selection" {
 
   name         = var.backup_selection_name != "" ? lower(var.backup_selection_name) : "${lower(var.name)}-backup-selection-${lower(var.environment)}"
   iam_role_arn = var.backup_selection_iam_role_arn
-  plan_id      = var.backup_selection_plan_id != "" && ! var.enable_backup_plan ? var.backup_selection_plan_id : element(concat(aws_backup_plan.backup_plan.*.id, [""]), 0)
+  plan_id      = var.backup_selection_plan_id != "" && !var.enable_backup_plan ? var.backup_selection_plan_id : element(concat(aws_backup_plan.backup_plan.*.id, [""]), 0)
 
   resources = var.backup_selection_resources
 

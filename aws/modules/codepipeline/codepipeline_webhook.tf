@@ -7,7 +7,7 @@ resource "aws_codepipeline_webhook" "codepipeline_webhook" {
   name            = var.codepipeline_webhook_name != "" ? lower(var.codepipeline_webhook_name) : "${lower(var.name)}-codepipeline-webhook-${lower(var.environment)}"
   authentication  = upper(var.codepipeline_webhook_authentication)
   target_action   = var.codepipeline_webhook_target_action
-  target_pipeline = var.codepipeline_webhook_target_pipeline != "" && ! var.enable_codepipeline ? var.codepipeline_webhook_target_pipeline : element(concat(aws_codepipeline.codepipeline.*.name, [""]), 0)
+  target_pipeline = var.codepipeline_webhook_target_pipeline != "" && !var.enable_codepipeline ? var.codepipeline_webhook_target_pipeline : element(concat(aws_codepipeline.codepipeline.*.name, [""]), 0)
 
   filter {
     json_path    = var.codepipeline_webhook_filter1_json_path

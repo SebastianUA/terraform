@@ -4,7 +4,7 @@
 resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   count = var.enable_vpc_peering ? 1 : 0
 
-  vpc_id      = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id      = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   peer_vpc_id = var.vpc_peering_connection_peer_vpc_id
 
   peer_owner_id = var.vpc_peering_connection_peer_owner_id

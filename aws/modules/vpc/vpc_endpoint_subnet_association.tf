@@ -4,7 +4,7 @@
 resource "aws_vpc_endpoint_subnet_association" "vpc_endpoint_subnet_association" {
   count = var.enable_vpc_endpoint && var.vpc_endpoint_vpc_endpoint_type != "Gateway" ? length(var.private_subnet_cidrs) : 0
 
-  vpc_endpoint_id = var.vpc_endpoint_id != "" && ! var.enable_vpc_endpoint ? var.vpc_endpoint_id : element(concat(aws_vpc_endpoint.vpc_endpoint.*.id, [""]), 0)
+  vpc_endpoint_id = var.vpc_endpoint_id != "" && !var.enable_vpc_endpoint ? var.vpc_endpoint_id : element(concat(aws_vpc_endpoint.vpc_endpoint.*.id, [""]), 0)
   subnet_id       = var.vpc_endpoint_subnet_association_subnet_id != "" ? var.vpc_endpoint_subnet_association_subnet_id : element(aws_subnet.private_subnets.*.id, count.index)
 
   dynamic "timeouts" {

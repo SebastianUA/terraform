@@ -10,15 +10,15 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   cluster_identifier        = var.rds_cluster_cluster_identifier != "" ? lower(var.rds_cluster_cluster_identifier) : null
   cluster_identifier_prefix = var.rds_cluster_cluster_identifier_prefix != "" ? lower(var.rds_cluster_cluster_identifier_prefix) : null
-  global_cluster_identifier = var.rds_cluster_global_cluster_identifier != "" && ! var.enable_rds_global_cluster ? var.rds_cluster_global_cluster_identifier : element(concat(aws_rds_global_cluster.rds_global_cluster.*.id, [""]), 0)
+  global_cluster_identifier = var.rds_cluster_global_cluster_identifier != "" && !var.enable_rds_global_cluster ? var.rds_cluster_global_cluster_identifier : element(concat(aws_rds_global_cluster.rds_global_cluster.*.id, [""]), 0)
 
   engine         = var.rds_cluster_engine
   engine_version = var.rds_cluster_engine_version
   engine_mode    = lower(var.rds_cluster_engine_mode)
   source_region  = var.rds_cluster_source_region != "" ? var.rds_cluster_source_region : var.region
 
-  db_subnet_group_name            = var.rds_cluster_db_subnet_group_name != "" && ! var.enable_db_subnet_group ? var.rds_cluster_db_subnet_group_name : element(aws_db_subnet_group.db_subnet_group.*.id, 0)
-  db_cluster_parameter_group_name = var.rds_cluster_db_cluster_parameter_group_name != "" && ! var.enable_rds_cluster_parameter_group ? var.rds_cluster_db_cluster_parameter_group_name : element(concat(aws_rds_cluster_parameter_group.rds_cluster_parameter_group.*.id, [""]), 0)
+  db_subnet_group_name            = var.rds_cluster_db_subnet_group_name != "" && !var.enable_db_subnet_group ? var.rds_cluster_db_subnet_group_name : element(aws_db_subnet_group.db_subnet_group.*.id, 0)
+  db_cluster_parameter_group_name = var.rds_cluster_db_cluster_parameter_group_name != "" && !var.enable_rds_cluster_parameter_group ? var.rds_cluster_db_cluster_parameter_group_name : element(concat(aws_rds_cluster_parameter_group.rds_cluster_parameter_group.*.id, [""]), 0)
   vpc_security_group_ids          = var.rds_cluster_vpc_security_group_ids
   availability_zones              = length(var.rds_cluster_availability_zones) > 0 ? var.rds_cluster_availability_zones : split(",", (lookup(var.availability_zones, var.region)))
   port                            = var.rds_cluster_port != null ? var.rds_cluster_port : lookup(var.default_ports, var.rds_cluster_engine)

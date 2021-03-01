@@ -5,7 +5,7 @@
 resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group" {
   count = var.enable_deployment_group_deployment ? 1 : 0
 
-  app_name              = var.codedeploy_deployment_group_app_name != "" && ! var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
+  app_name              = var.codedeploy_deployment_group_app_name != "" && !var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
   deployment_group_name = var.codedeploy_deployment_group_deployment_group_name != "" ? lower(var.codedeploy_deployment_group_deployment_group_name) : "${lower(var.name)}-deployment-group-${lower(var.environment)}"
   service_role_arn      = var.codedeploy_deployment_group_service_role_arn
 
@@ -31,7 +31,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group" {
 resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_notify" {
   count = var.enable_deployment_group_notify_deployment ? 1 : 0
 
-  app_name              = var.codedeploy_deployment_group_app_name != "" && ! var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
+  app_name              = var.codedeploy_deployment_group_app_name != "" && !var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
   deployment_group_name = var.codedeploy_deployment_group_deployment_group_name != "" ? lower(var.codedeploy_deployment_group_deployment_group_name) : "${lower(var.name)}-deployment-group-${lower(var.environment)}"
   service_role_arn      = var.codedeploy_deployment_group_service_role_arn
 
@@ -63,7 +63,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_notify" 
 resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag" {
   count = var.enable_deployment_group_ec2tag ? 1 : 0
 
-  app_name              = var.codedeploy_deployment_group_app_name != "" && ! var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
+  app_name              = var.codedeploy_deployment_group_app_name != "" && !var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
   deployment_group_name = var.codedeploy_deployment_group_deployment_group_name != "" ? lower(var.codedeploy_deployment_group_deployment_group_name) : "${lower(var.name)}-deployment-group-${lower(var.environment)}"
   service_role_arn      = var.codedeploy_deployment_group_service_role_arn
 
@@ -95,7 +95,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag" 
 resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag_notify" {
   count = var.enable_deployment_group_ec2tag_notify ? 1 : 0
 
-  app_name              = var.codedeploy_deployment_group_app_name != "" && ! var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
+  app_name              = var.codedeploy_deployment_group_app_name != "" && !var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
   deployment_group_name = var.codedeploy_deployment_group_deployment_group_name != "" ? lower(var.codedeploy_deployment_group_deployment_group_name) : "${lower(var.name)}-deployment-group-${lower(var.environment)}"
   service_role_arn      = var.codedeploy_deployment_group_service_role_arn
 
@@ -133,7 +133,7 @@ resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_ec2tag_n
 resource "aws_codedeploy_deployment_group" "codedeploy_deployment_group_blue_green" {
   count = var.enable_deployment_group_blue_green ? 1 : 0
 
-  app_name              = var.codedeploy_deployment_group_app_name != "" && ! var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
+  app_name              = var.codedeploy_deployment_group_app_name != "" && !var.enable_codedeploy_app ? var.codedeploy_deployment_group_app_name : element(concat(aws_codedeploy_app.codedeploy_app.*.name, [""]), 0)
   deployment_group_name = var.codedeploy_deployment_group_deployment_group_name != "" ? lower(var.codedeploy_deployment_group_deployment_group_name) : "${lower(var.name)}-deployment-group-${lower(var.environment)}"
   service_role_arn      = var.codedeploy_deployment_group_service_role_arn
 

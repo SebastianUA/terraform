@@ -4,7 +4,7 @@
 resource "aws_codecommit_trigger" "codecommit_trigger" {
   count = var.enable_codecommit_trigger ? 1 : 0
 
-  repository_name = var.codecommit_repository_name != "" && ! var.enable_codecommit_repository ? var.codecommit_repository_name : element(concat(aws_codecommit_repository.codecommit_repository.*.repository_name, [""]), 0)
+  repository_name = var.codecommit_repository_name != "" && !var.enable_codecommit_repository ? var.codecommit_repository_name : element(concat(aws_codecommit_repository.codecommit_repository.*.repository_name, [""]), 0)
 
   // Maybe can be used dynamic here
   trigger {

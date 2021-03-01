@@ -7,7 +7,7 @@ resource "aws_iam_user_policy" "iam_user_policy" {
   name        = var.iam_user_policy_name != "" && var.iam_user_policy_name_prefix == "" ? var.iam_user_policy_name : null
   name_prefix = var.iam_user_policy_name_prefix != "" && var.iam_user_policy_name == "" ? var.iam_user_policy_name_prefix : null
 
-  user   = var.iam_user_policy_user != "" && ! var.enable_iam_user ? var.iam_user_policy_user : element(concat(aws_iam_user.iam_user.*.id, [""]), 0)
+  user   = var.iam_user_policy_user != "" && !var.enable_iam_user ? var.iam_user_policy_user : element(concat(aws_iam_user.iam_user.*.id, [""]), 0)
   policy = var.iam_user_policy_policy
 
   lifecycle {

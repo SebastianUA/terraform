@@ -4,7 +4,7 @@
 resource "aws_codebuild_webhook" "codebuild_webhook" {
   count = var.enable_codebuild_webhook ? 1 : 0
 
-  project_name = var.codebuild_webhook_project_name != "" && ! var.enable_codebuild_project ? var.codebuild_webhook_project_name : element(concat(aws_codebuild_project.codebuild_project.*.name, [""]), 0)
+  project_name = var.codebuild_webhook_project_name != "" && !var.enable_codebuild_project ? var.codebuild_webhook_project_name : element(concat(aws_codebuild_project.codebuild_project.*.name, [""]), 0)
 
   branch_filter = var.codebuild_webhook_branch_filter
 

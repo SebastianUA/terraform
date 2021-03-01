@@ -20,9 +20,9 @@ resource "aws_db_instance" "db_instance" {
   timezone           = var.db_instance_timezone
 
   vpc_security_group_ids = var.db_instance_vpc_security_group_ids
-  db_subnet_group_name   = var.db_instance_db_subnet_group_name != "" && ! var.enable_db_subnet_group ? lower(var.db_instance_db_subnet_group_name) : element(concat(aws_db_subnet_group.db_subnet_group.*.id, [""]), 0)
-  parameter_group_name   = var.db_instance_parameter_group_name != "" && ! var.enable_db_parameter_group ? lower(var.db_instance_parameter_group_name) : element(concat(aws_db_parameter_group.db_parameter_group.*.id, [""]), 0)
-  option_group_name      = var.db_instance_option_group_name != "" && ! var.enable_db_option_group ? lower(var.db_instance_option_group_name) : element(concat(aws_db_option_group.db_option_group.*.id, [""]), 0)
+  db_subnet_group_name   = var.db_instance_db_subnet_group_name != "" && !var.enable_db_subnet_group ? lower(var.db_instance_db_subnet_group_name) : element(concat(aws_db_subnet_group.db_subnet_group.*.id, [""]), 0)
+  parameter_group_name   = var.db_instance_parameter_group_name != "" && !var.enable_db_parameter_group ? lower(var.db_instance_parameter_group_name) : element(concat(aws_db_parameter_group.db_parameter_group.*.id, [""]), 0)
+  option_group_name      = var.db_instance_option_group_name != "" && !var.enable_db_option_group ? lower(var.db_instance_option_group_name) : element(concat(aws_db_option_group.db_option_group.*.id, [""]), 0)
 
   publicly_accessible = var.db_instance_publicly_accessible
   multi_az            = var.db_instance_multi_az

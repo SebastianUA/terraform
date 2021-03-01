@@ -4,8 +4,8 @@
 resource "aws_lambda_provisioned_concurrency_config" "lambda_provisioned_concurrency_config" {
   count = var.enable_lambda_provisioned_concurrency_config ? 1 : 0
 
-  function_name                     = var.lambda_provisioned_concurrency_config_function_name != "" && ! var.enable_lambda_function && ! var.enable_lambda_alias ? var.lambda_provisioned_concurrency_config_function_name : (var.enable_lambda_function && ! var.enable_lambda_alias ? element(concat(aws_lambda_function.lambda_function.*.function_name, [""]), 0) : element(concat(aws_lambda_alias.lambda_alias.*.function_name, [""]), 0))
-  qualifier                         = var.lambda_provisioned_concurrency_config_qualifier != "" && ! var.enable_lambda_function && ! var.enable_lambda_alias ? var.lambda_provisioned_concurrency_config_qualifier : (var.enable_lambda_function && ! var.enable_lambda_alias ? element(concat(aws_lambda_function.lambda_function.*.version, [""]), 0) : element(concat(aws_lambda_alias.lambda_alias.*.name, [""]), 0))
+  function_name                     = var.lambda_provisioned_concurrency_config_function_name != "" && !var.enable_lambda_function && !var.enable_lambda_alias ? var.lambda_provisioned_concurrency_config_function_name : (var.enable_lambda_function && !var.enable_lambda_alias ? element(concat(aws_lambda_function.lambda_function.*.function_name, [""]), 0) : element(concat(aws_lambda_alias.lambda_alias.*.function_name, [""]), 0))
+  qualifier                         = var.lambda_provisioned_concurrency_config_qualifier != "" && !var.enable_lambda_function && !var.enable_lambda_alias ? var.lambda_provisioned_concurrency_config_qualifier : (var.enable_lambda_function && !var.enable_lambda_alias ? element(concat(aws_lambda_function.lambda_function.*.version, [""]), 0) : element(concat(aws_lambda_alias.lambda_alias.*.name, [""]), 0))
   provisioned_concurrent_executions = var.lambda_provisioned_concurrency_config_provisioned_concurrent_executions
 
   dynamic "timeouts" {

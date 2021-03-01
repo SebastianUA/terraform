@@ -7,7 +7,7 @@ resource "aws_iam_group_membership" "iam_group_membership" {
   name = var.iam_group_membership_name != "" ? var.iam_group_membership_name : "${lower(var.name)}-group-membership-${lower(var.environment)}"
 
   users = var.iam_group_membership_users
-  group = var.iam_group_policy_group != "" && ! var.enable_iam_group ? var.iam_group_policy_group : element(concat(aws_iam_group.iam_group.*.name, [""]), 0)
+  group = var.iam_group_policy_group != "" && !var.enable_iam_group ? var.iam_group_policy_group : element(concat(aws_iam_group.iam_group.*.name, [""]), 0)
 
   lifecycle {
     create_before_destroy = true

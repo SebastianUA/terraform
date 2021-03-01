@@ -10,7 +10,28 @@ provider "aws" {
   profile = "default"
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# A check to understand if the user inside AWS is already exist or not
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+data "external" "python3_iam_users" {
+  program = ["python3", "additional_files/iam_user.py"]
+
+  query = {
+    client       = "iam"
+    region       = "us-east-1"
+    profile_name = "default"
+    role_name    = "None"
+    role_session = "None"
+    user_name    = "captain2"
+  }
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# iam user
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 module "iam_user" {
+  count = data.external.python3_iam_users.result["User"] == "None" && data.external.python3_iam_users.result["exit_code"] == "1" ? 1 : 0
+
   source      = "../../modules/iam_user"
   name        = "TEST-iam-user"
   environment = "stage"
@@ -19,7 +40,7 @@ module "iam_user" {
   enable_iam_user = true
   iam_user_name   = ""
   iam_user_path   = "/"
-  force_destroy   = true
+  iam_user_force_destroy   = true
 
   # Using user SSH key
   enable_iam_user_ssh_key     = true
@@ -42,8 +63,12 @@ module "iam_user" {
 
   # Using IAM user login profile
   enable_iam_user_login_profile                  = true
-  iam_user_login_profile_pgp_key                 = "keybase:captain"
+  iam_user_login_profile_pgp_key                 = "keybase:${data.external.python3_iam_users.result["User"]}"
   iam_user_login_profile_password_length         = 20
   iam_user_login_profile_password_reset_required = true
 
+
+  depends_on = [
+  	data.external.python3_iam_users
+  ]
 }

@@ -5,7 +5,7 @@ resource "aws_appsync_datasource" "appsync_datasource" {
   count = var.enable_appsync_datasource ? 1 : 0
 
   name   = var.appsync_datasource_name != "" ? lower(var.appsync_datasource_name) : "${lower(var.name)}-appsync-datasource-${lower(var.environment)}"
-  api_id = var.appsync_datasource_api_id != "" && ! var.enable_appsync_graphql_api ? lower(var.appsync_datasource_api_id) : element(concat(aws_appsync_graphql_api.appsync_graphql_api.*.id, [""]), 0)
+  api_id = var.appsync_datasource_api_id != "" && !var.enable_appsync_graphql_api ? lower(var.appsync_datasource_api_id) : element(concat(aws_appsync_graphql_api.appsync_graphql_api.*.id, [""]), 0)
   type   = upper(var.appsync_datasource_type)
 
   description      = var.appsync_datasource_description

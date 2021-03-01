@@ -32,17 +32,17 @@ variable "iam_user_name" {
 
 variable "iam_user_path" {
   description = "(Optional, default '/') Path in which to create the user."
-  default     = "/"
+  default     = null
 }
 
-variable "permissions_boundary" {
+variable "iam_user_permissions_boundary" {
   description = "(Optional) The ARN of the policy that is used to set the permissions boundary for the user."
   default     = null
 }
 
-variable "force_destroy" {
+variable "iam_user_force_destroy" {
   description = "(Optional, default false) When destroying this user, destroy even if it has non-Terraform-managed IAM access keys, login profile or MFA devices. Without force_destroy a user with non-Terraform-managed access keys and login profile will fail to be destroyed."
-  default     = false
+  default     = null
 }
 
 #-----------------------------------------------------------
@@ -86,6 +86,11 @@ variable "iam_user_policy_attachment_policy_arn" {
   default     = ""
 }
 
+variable "iam_user_policy_attachment_user" {
+  description = "(Required) - The user the policy should be applied to"
+  default     = ""
+}
+
 #-----------------------------------------------------------
 # IAM  user ssh key
 #-----------------------------------------------------------
@@ -111,7 +116,7 @@ variable "iam_user_ssh_key_public_key" {
 
 variable "iam_user_ssh_key_status" {
   description = "(Optional) The status to assign to the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used. Default is Active."
-  default     = "Active"
+  default     = null
 }
 
 #-----------------------------------------------------------

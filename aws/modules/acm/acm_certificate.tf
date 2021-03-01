@@ -2,7 +2,7 @@
 # Create AWS ACM (Amazon Certificate Manager) certificate
 #---------------------------------------------------
 resource "aws_acm_certificate" "acm_certificate" {
-  count = var.enable_acm_certificate && ! var.enable_acm_certificate_private_ca && ! var.enable_import_existing_certificate ? 1 : 0
+  count = var.enable_acm_certificate && !var.enable_acm_certificate_private_ca && !var.enable_import_existing_certificate ? 1 : 0
 
   domain_name       = var.acm_certificate_domain_name != "" ? var.acm_certificate_domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
   validation_method = upper(var.acm_certificate_validation_method)
@@ -33,7 +33,7 @@ resource "aws_acm_certificate" "acm_certificate" {
 }
 
 resource "aws_acm_certificate" "acm_certificate_private_ca" {
-  count = var.enable_acm_certificate_private_ca && ! var.enable_acm_certificate && ! var.enable_import_existing_certificate ? 1 : 0
+  count = var.enable_acm_certificate_private_ca && !var.enable_acm_certificate && !var.enable_import_existing_certificate ? 1 : 0
 
   domain_name               = var.acm_certificate_domain_name != "" ? var.acm_certificate_domain_name : "${lower(var.name)}-acm-cert-${lower(var.environment)}"
   certificate_authority_arn = var.acm_certificate_certificate_authority_arn
@@ -56,7 +56,7 @@ resource "aws_acm_certificate" "acm_certificate_private_ca" {
 }
 
 resource "aws_acm_certificate" "acm_certificate_exist" {
-  count = var.enable_import_existing_certificate && ! var.enable_acm_certificate && ! var.enable_acm_certificate_private_ca ? 1 : 0
+  count = var.enable_import_existing_certificate && !var.enable_acm_certificate && !var.enable_acm_certificate_private_ca ? 1 : 0
 
   private_key       = var.acm_certificate_private_key
   certificate_body  = var.acm_certificate_certificate_body

@@ -6,7 +6,7 @@ resource "aws_appmesh_route" "appmesh_route" {
 
   name                = var.appmesh_route_name != "" ? lower(var.appmesh_route_name) : "${lower(var.name)}-appmesh-route-${lower(var.environment)}"
   mesh_name           = var.appmesh_route_mesh_name != "" ? var.appmesh_route_mesh_name : element(concat(aws_appmesh_mesh.appmesh_mesh.*.id, [""]), 0)
-  virtual_router_name = var.appmesh_route_virtual_router_name != "" && ! var.enable_appmesh_virtual_router ? var.appmesh_route_virtual_router_name : element(concat(aws_appmesh_virtual_router.appmesh_virtual_router.*.name, [""]), 0)
+  virtual_router_name = var.appmesh_route_virtual_router_name != "" && !var.enable_appmesh_virtual_router ? var.appmesh_route_virtual_router_name : element(concat(aws_appmesh_virtual_router.appmesh_virtual_router.*.name, [""]), 0)
 
   spec {
     priority = var.appmesh_route_spec_priority

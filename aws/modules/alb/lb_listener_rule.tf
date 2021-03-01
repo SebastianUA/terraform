@@ -4,7 +4,7 @@
 resource "aws_lb_listener_rule" "alb_listener_rule" {
   count = var.enable_alb_listener_rule ? 1 : 0
 
-  listener_arn = var.alb_listener_rule_listener_arn != "" && ! var.enable_alb_listener ? var.alb_listener_rule_listener_arn : aws_lb_listener.alb_listener[0].arn
+  listener_arn = var.alb_listener_rule_listener_arn != "" && !var.enable_alb_listener ? var.alb_listener_rule_listener_arn : aws_lb_listener.alb_listener[0].arn
 
   priority = var.alb_listener_rule_priority
 

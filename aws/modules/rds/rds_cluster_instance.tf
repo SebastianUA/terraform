@@ -6,15 +6,15 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
 
   identifier         = var.rds_cluster_instance_identifier != "" && var.rds_cluster_instance_identifier_prefix == "" ? "${lower(var.rds_cluster_instance_identifier)}-${count.index + 1}" : null
   identifier_prefix  = var.rds_cluster_instance_identifier_prefix != "" && var.rds_cluster_instance_identifier == "" ? "${lower(var.rds_cluster_instance_identifier_prefix)}-${count.index + 1}" : null
-  cluster_identifier = var.rds_cluster_instance_cluster_identifier != "" && ! var.enable_rds_cluster ? lower(var.rds_cluster_instance_cluster_identifier) : element(concat(aws_rds_cluster.rds_cluster.*.id, [""]), 0)
+  cluster_identifier = var.rds_cluster_instance_cluster_identifier != "" && !var.enable_rds_cluster ? lower(var.rds_cluster_instance_cluster_identifier) : element(concat(aws_rds_cluster.rds_cluster.*.id, [""]), 0)
   instance_class     = var.rds_cluster_instance_instance_class
 
   engine         = var.rds_cluster_engine
   engine_version = var.rds_cluster_engine_version
 
   publicly_accessible     = var.rds_cluster_instance_publicly_accessible
-  db_subnet_group_name    = var.rds_cluster_instance_db_subnet_group_name != "" && ! var.enable_db_subnet_group ? lower(var.rds_cluster_instance_db_subnet_group_name) : element(concat(aws_db_subnet_group.db_subnet_group.*.id, [""]), 0)
-  db_parameter_group_name = var.rds_cluster_instance_db_parameter_group_name != "" && ! var.enable_db_parameter_group ? var.rds_cluster_instance_db_parameter_group_name : element(concat(aws_rds_cluster_parameter_group.rds_cluster_parameter_group.*.id, [""]), 0)
+  db_subnet_group_name    = var.rds_cluster_instance_db_subnet_group_name != "" && !var.enable_db_subnet_group ? lower(var.rds_cluster_instance_db_subnet_group_name) : element(concat(aws_db_subnet_group.db_subnet_group.*.id, [""]), 0)
+  db_parameter_group_name = var.rds_cluster_instance_db_parameter_group_name != "" && !var.enable_db_parameter_group ? var.rds_cluster_instance_db_parameter_group_name : element(concat(aws_rds_cluster_parameter_group.rds_cluster_parameter_group.*.id, [""]), 0)
   promotion_tier          = var.rds_cluster_instance_promotion_tier
   availability_zone       = var.rds_cluster_instance_availability_zone
   ca_cert_identifier      = var.rds_cluster_instance_ca_cert_identifier
