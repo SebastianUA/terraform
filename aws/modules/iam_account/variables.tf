@@ -31,7 +31,7 @@ variable "iam_access_key_pgp_key" {
 
 variable "iam_access_key_status" {
   description = "(Optional) The access key status to apply. Defaults to Active. Valid values are Active and Inactive."
-  default     = "Active"
+  default     = null
 }
 
 #-----------------------------------------------------------
@@ -42,7 +42,7 @@ variable "enable_iam_account_alias" {
   default     = false
 }
 
-variable "account_alias" {
+variable "iam_account_alias" {
   description = "(Required) The account alias"
   default     = ""
 }
@@ -55,47 +55,47 @@ variable "enable_iam_account_password_policy" {
   default     = false
 }
 
-variable "minimum_password_length" {
+variable "iam_account_password_policy_minimum_password_length" {
   description = "(Optional) Minimum length to require for user passwords."
   default     = 8
 }
 
-variable "require_lowercase_characters" {
+variable "iam_account_password_policy_require_lowercase_characters" {
   description = "(Optional) Whether to require lowercase characters for user passwords."
   default     = true
 }
 
-variable "require_numbers" {
+variable "iam_account_password_policy_require_numbers" {
   description = "(Optional) Whether to require numbers for user passwords."
   default     = true
 }
 
-variable "require_uppercase_characters" {
+variable "iam_account_password_policy_require_uppercase_characters" {
   description = "(Optional) Whether to require uppercase characters for user passwords."
   default     = true
 }
 
-variable "require_symbols" {
+variable "iam_account_password_policy_require_symbols" {
   description = "(Optional) Whether to require symbols for user passwords."
   default     = true
 }
 
-variable "allow_users_to_change_password" {
+variable "iam_account_password_policy_allow_users_to_change_password" {
   description = "(Optional) Whether to allow users to change their own password"
   default     = true
 }
 
-variable "hard_expiry" {
+variable "iam_account_password_policy_hard_expiry" {
   description = "(Optional) Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset)"
   default     = null
 }
 
-variable "max_password_age" {
+variable "iam_account_password_policy_max_password_age" {
   description = "(Optional) The number of days that an user password is valid."
   default     = null
 }
 
-variable "password_reuse_prevention" {
+variable "iam_account_password_policy_password_reuse_prevention" {
   description = "(Optional) The number of previous passwords that users are prevented from reusing."
   default     = null
 }
