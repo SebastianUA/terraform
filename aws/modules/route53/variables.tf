@@ -20,25 +20,24 @@ variable "tags" {
 #---------------------------------------------------
 # Route53 zone
 #---------------------------------------------------
-# Route53
 variable "enable_route53_zone" {
-  description = " If true, then create route53 zone;"
+  description = "If true, then create route53 zone"
   default     = false
 }
 
 variable "route53_zone_name" {
-  description = " Domain name for route53_zone"
+  description = "Domain name for route53_zone"
   default     = "domain.localdomain"
 }
 
 variable "route53_zone_comment" {
   description = "(Optional) A comment for the hosted zone. Defaults to 'Managed by Terraform'."
-  default     = "Managed by Terraform"
+  default     = null
 }
 
 variable "route53_zone_force_destroy" {
   description = "(Optional) Whether to destroy all records (possibly managed outside of Terraform) in the zone when destroying the zone."
-  default     = true
+  default     = null
 }
 
 variable "route53_zone_delegation_set_id" {
@@ -95,7 +94,7 @@ variable "set_identifier" {
 }
 
 variable "weighted_routing_policy" {
-  description = " (Optional) A block indicating a weighted routing policy. Conflicts with any other routing policy."
+  description = "(Optional) A block indicating a weighted routing policy. Conflicts with any other routing policy."
   default     = []
 }
 
@@ -142,6 +141,21 @@ variable "route53_health_check_name" {
   default     = ""
 }
 
+variable "route53_health_check_type" {
+  description = "(Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC."
+  default     = "HTTP"
+}
+
+variable "route53_health_check_failure_threshold" {
+  description = "(Required) Failure threshold for http route53 health check"
+  default     = null
+}
+
+variable "route53_health_check_request_interval" {
+  description = "(Required) Request interval for http route53 health check"
+  default     = null
+}
+
 variable "route53_health_check_fqdn" {
   description = "FQDN for http route53 health check"
   default     = null
@@ -152,28 +166,13 @@ variable "route53_health_check_port" {
   default     = null
 }
 
-variable "route53_health_check_type" {
-  description = "(Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC."
-  default     = "HTTP"
-}
-
 variable "route53_health_check_resource_path" {
-  description = " Resource path for http route53 health check"
-  default     = null
-}
-
-variable "route53_health_check_failure_threshold" {
-  description = "Failure threshold for http route53 health check"
-  default     = null
-}
-
-variable "route53_health_check_request_interval" {
-  description = " Request interval for http route53 health check"
+  description = "(Optional) Resource path for http route53 health check"
   default     = null
 }
 
 variable "route53_health_check_measure_latency" {
-  description = "measure latency for http route53 health check"
+  description = "(Optional) measure latency for http route53 health check"
   default     = null
 }
 
@@ -202,27 +201,32 @@ variable "route53_health_check_insufficient_data_health_status" {
   default     = null
 }
 
+variable "route53_health_check_disabled" {
+  description = "(Optional) A boolean value that stops Route 53 from performing health checks. "
+  default     = null
+}
+
 variable "route53_health_check_reference_name" {
   description = "(Optional) This is a reference name used in Caller Reference (helpful for identifying single health_check set amongst others)"
   default     = null
 }
 
-variable "ip_address" {
+variable "route53_health_check_ip_address" {
   description = "(Optional) The IP address of the endpoint to be checked."
   default     = null
 }
 
-variable "search_string" {
+variable "route53_health_check_search_string" {
   description = "(Optional) String searched in the first 5120 bytes of the response body for check to be considered healthy. Only valid with HTTP_STR_MATCH and HTTPS_STR_MATCH."
   default     = null
 }
 
-variable "invert_healthcheck" {
+variable "route53_health_check_invert_healthcheck" {
   description = "(Optional) A boolean value that indicates whether the status of health check should be inverted. For example, if a health check is healthy but Inverted is True , then Route 53 considers the health check to be unhealthy."
   default     = null
 }
 
-variable "enable_sni" {
+variable "route53_health_check_enable_sni" {
   description = "(Optional) A boolean value that indicates whether Route53 should send the fqdn to the endpoint when performing the health check. This defaults to AWS' defaults: when the type is 'HTTPS' enable_sni defaults to true, when type is anything else enable_sni defaults to false."
   default     = null
 }
@@ -240,9 +244,9 @@ variable "enable_route53_delegation_set" {
   default     = false
 }
 
-variable "reference_name" {
+variable "route53_delegation_set_reference_name" {
   description = "(Optional) This is a reference name used in Caller Reference (helpful for identifying single delegation set amongst others)"
-  default     = "DynDNS"
+  default     = null
 }
 
 #---------------------------------------------------
@@ -276,7 +280,7 @@ variable "enable_route53_query_log" {
   default     = false
 }
 
-variable "cloudwatch_log_group_arn" {
+variable "route53_query_log_cloudwatch_log_group_arn" {
   description = "(Required) CloudWatch log group ARN to send query logs."
   default     = ""
 }
@@ -332,7 +336,6 @@ variable "route53_resolver_rule_association_name" {
   default     = ""
 }
 
-
 variable "route53_resolver_rule_association_resolver_rule_id" {
   description = "The ID of the resolver rule that you want to associate with the VPC."
   default     = ""
@@ -374,4 +377,99 @@ variable "route53_resolver_rule_resolver_endpoint_id" {
 variable "route53_resolver_rule_target_ip" {
   description = "(Optional) Configuration block(s) indicating the IPs that you want Resolver to forward DNS queries to (documented below). This argument should only be specified for FORWARD type rules."
   default     = []
+}
+
+#---------------------------------------------------
+# AWS route53 vpc association authorization
+#---------------------------------------------------
+variable "enable_route53_vpc_association_authorization" {
+  description = "Enable route53 vpc association authorization usage"
+  default     = false
+}
+
+variable "route53_vpc_association_authorization_zone_id" {
+  description = "(Required) The private hosted zone to associate."
+  default     = ""
+}
+
+variable "route53_vpc_association_authorization_vpc_id" {
+  description = "(Required) The VPC to associate with the private hosted zone."
+  default     = ""
+}
+
+#---------------------------------------------------
+# AWS Route53 key signing key
+#---------------------------------------------------
+variable "enable_route53_key_signing_key" {
+  description = "Enable Route53 key signing key usage"
+  default     = false
+}
+
+variable "route53_key_signing_key_name" {
+  description = "Name of the key-signing key (KSK). Must be unique for each key-singing key in the same hosted zone."
+  default     = ""
+}
+
+variable "route53_key_signing_key_hosted_zone_id" {
+  description = "Identifier of the Route 53 Hosted Zone."
+  default     = ""
+}
+
+variable "route53_key_signing_key_key_management_service_arn" {
+  description = "(Required) Amazon Resource Name (ARN) of the Key Management Service (KMS) Key. This must be unique for each key-signing key (KSK) in a single hosted zone. This key must be in the us-east-1 Region and meet certain requirements, which are described in the Route 53 Developer Guide and Route 53 API Reference."
+  default     = null
+}
+
+variable "route53_key_signing_key_status" {
+  description = "(Optional) Status of the key-signing key (KSK). Valid values: ACTIVE, INACTIVE. Defaults to ACTIVE"
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS route53 resolver dnssec config
+#---------------------------------------------------
+variable "enable_route53_resolver_dnssec_config" {
+  description = "Enable route53 resolver dnssec config usage"
+  default     = false
+}
+
+variable "route53_resolver_dnssec_config_resource_id" {
+  description = "(Required) The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS route53 resolver query log config
+#---------------------------------------------------
+variable "enable_route53_resolver_query_log_config" {
+  description = "Enable route53 resolver query log config usage"
+  default     = false
+}
+
+variable "route53_resolver_query_log_config_name" {
+  description = "The name of the Route 53 Resolver query logging configuration."
+  default     = ""
+}
+
+variable "route53_resolver_query_log_config_destination_arn" {
+  description = "(Required) The ARN of the resource that you want Route 53 Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS route53 resolver query log config association
+#---------------------------------------------------
+variable "enable_route53_resolver_query_log_config_association" {
+  description = "Enable route53 resolver query log config association usage"
+  default     = false
+}
+
+variable "route53_resolver_query_log_config_association_resolver_query_log_config_id" {
+  description = "The ID of the Route 53 Resolver query logging configuration that you want to associate a VPC with."
+  default     = ""
+}
+
+variable "route53_resolver_query_log_config_association_resource_id" {
+  description = "(Required) The ID of a VPC that you want this query logging configuration to log queries for."
+  default     = null
 }

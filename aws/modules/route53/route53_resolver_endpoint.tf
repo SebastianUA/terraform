@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create route53 resolver endpoint
+# AWS route53 resolver endpoint
 #---------------------------------------------------
 resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
   count = var.enable_route53_resolver_endpoint ? 1 : 0
@@ -9,7 +9,9 @@ resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
   security_group_ids = var.route53_resolver_endpoint_security_group_ids
 
   dynamic "ip_address" {
+    iterator = ip_address
     for_each = var.route53_resolver_endpoint_ip_address
+
     content {
       subnet_id = lookup(ip_address.value, "subnet_id", null)
       ip        = lookup(ip_address.value, "ip", null)
@@ -19,6 +21,7 @@ resource "aws_route53_resolver_endpoint" "route53_resolver_endpoint" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route53_resolver_endpoint_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)
