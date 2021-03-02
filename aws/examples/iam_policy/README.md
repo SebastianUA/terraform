@@ -58,7 +58,7 @@ module "iam_policy" {
 - `iam_policy_attachment_roles` - (Optional) - The role(s) the policy should be applied to (`default = []`)
 - `iam_policy_attachment_users` - (Optional) - The user(s) the policy should be applied to (`default = []`)
 - `iam_policy_attachment_groups` - (Optional) - The group(s) the policy should be applied to (`default = []`)
-- `iam_role_policy_attachment_policy_arn` - The ARN of the policy you want to apply (`default = ""`)
+- `iam_policy_attachment_policy_arn` - The ARN of the policy you want to apply (`default = ""`)
 
 ## Module Output Variables
 ----------------------

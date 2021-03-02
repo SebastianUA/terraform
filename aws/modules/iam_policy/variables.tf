@@ -72,7 +72,7 @@ variable "iam_policy_attachment_groups" {
   default     = []
 }
 
-variable "iam_role_policy_attachment_policy_arn" {
+variable "iam_policy_attachment_policy_arn" {
   description = "The ARN of the policy you want to apply"
   default     = ""
 }
