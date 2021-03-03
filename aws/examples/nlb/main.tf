@@ -15,19 +15,19 @@ module "nlb" {
   source = "../../modules/nlb"
 
   # NLB
-  enable_nlb                 = true
-  nlb_name                   = "Network-Load-Balancer"
-  subnets                    = ["subnet-8851dea6", "subnet-c3a5f589", "subnet-1d7df041"]
-  enable_deletion_protection = false
-  lb_internal                = false
+  enable_nlb                     = true
+  nlb_name                       = "Network-Load-Balancer"
+  nlb_subnets                    = ["subnet-8851dea6", "subnet-c3a5f589", "subnet-1d7df041"]
+  nlb_enable_deletion_protection = false
+  nlb_internal                   = false
 
   # NLB target group
-  enable_nlb_target_group = true
-  nlb_target_group_name   = "Network-Load-Balancer"
-  vpc_id                  = "vpc-56af732c"
-  backend_protocol        = "TCP"
-  backend_port            = 80
-  health_check = [
+  enable_nlb_target_group   = true
+  nlb_target_group_name     = "Network-Load-Balancer"
+  nlb_target_group_vpc_id   = "vpc-56af732c"
+  nlb_target_group_protocol = "TCP"
+  nlb_target_group_port     = 80
+  nlb_target_group_health_check = [
     {
       enabled  = true
       interval = 10
@@ -38,18 +38,18 @@ module "nlb" {
   ]
 
   # NLB target group attachment
-  enable_nlb_target_group_attachment = true
-  target_ids                         = []
+  enable_nlb_target_group_attachment     = true
+  nlb_target_group_attachment_target_ids = []
 
-  # NLB listeners
-  enable_nlb_listener1   = true
-  alb_protocols          = "TCP"
-  nlb_listener1_port     = 80
-  nlb_listener1_protocol = "TCP"
-
-  enable_nlb_listener2   = false
-  nlb_listener2_port     = 443
-  nlb_listener2_protocol = "TCP"
+  # NLB listener
+  enable_nlb_listener   = true
+  nlb_listener_protocol = "TCP"
+  nlb_listener_rule_action_redirect = [
+    {
+      protocol = "TCP"
+      port     = 80
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

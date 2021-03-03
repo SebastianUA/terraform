@@ -31,29 +31,6 @@ output "nlb_zone_id" {
   value       = element(concat(aws_lb.nlb.*.zone_id, [""]), 0)
 }
 
-#
-#
-#
-output "nlb_listener1_arn" {
-  description = "The ARN of the HTTPS lb Listener we created."
-  value       = element(concat(aws_lb_listener.nlb_listener1.*.arn, [""]), 0)
-}
-
-output "nlb_listener2_arn" {
-  description = "The ARN of the HTTP lb Listener we created."
-  value       = element(concat(aws_lb_listener.nlb_listener2.*.arn, [""]), 0)
-}
-
-output "nlb_listener1_id" {
-  description = "The ID of the lb Listener we created."
-  value       = element(concat(aws_lb_listener.nlb_listener1.*.id, [""]), 0)
-}
-
-output "nlb_listener2_id" {
-  description = "The ID of the lb Listener we created."
-  value       = element(concat(aws_lb_listener.nlb_listener2.*.id, [""]), 0)
-}
-
 #---------------------------------------------------
 # NLB target group
 #---------------------------------------------------
@@ -78,5 +55,47 @@ output "nlb_target_group_name" {
 }
 
 #---------------------------------------------------
-# NLB listeners
+# NLB Listener
 #---------------------------------------------------
+output "nlb_listener_arn" {
+  description = "The ARN of the HTTPS lb Listener we created."
+  value       = element(aws_lb_listener.nlb_listener.*.arn, 0)
+}
+
+output "nlb_listener_id" {
+  description = "The ID of the lb Listener we created."
+  value       = element(aws_lb_listener.nlb_listener.*.id, 0)
+}
+
+#---------------------------------------------------
+# AWS LB listener rule
+#---------------------------------------------------
+output "nlb_listener_rule_arn" {
+  description = "The ARN of the rule (matches id)"
+  value = element(
+    concat(
+      aws_lb_listener_rule.nlb_listener_rule.*.id,
+      [""],
+    ),
+    0,
+  )
+}
+
+output "nlb_listener_rule_id" {
+  description = "The ARN of the rule (matches arn)"
+  value = element(
+    concat(
+      aws_lb_listener_rule.nlb_listener_rule.*.id,
+      [""],
+    ),
+    0,
+  )
+}
+
+#---------------------------------------------------
+# AWS NLB listener certificate
+#---------------------------------------------------
+output "lb_listener_certificate_id" {
+  description = "The listener_arn and certificate_arn separated by a."
+  value       = element(concat(aws_lb_listener_certificate.nlb_listener_certificate.*.id, [""]), 0)
+}
