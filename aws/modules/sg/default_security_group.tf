@@ -1,19 +1,15 @@
 #---------------------------------------------------
-# AWS security group
+# AWS security group (default)
 #---------------------------------------------------
-resource "aws_security_group" "security_group" {
-  count = var.enable_security_group ? 1 : 0
+resource "aws_default_security_group" "default_security_group" {
+  count = var.enable_default_security_group ? 1 : 0
 
-  name        = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : null
-  name_prefix = var.security_group_name_prefix != "" && var.security_group_name == "" ? lower(var.security_group_name_prefix) : null
-
-  description            = var.security_group_description
-  vpc_id                 = var.security_group_vpc_id
-  revoke_rules_on_delete = var.security_group_revoke_rules_on_delete
+  vpc_id = var.default_security_group_vpc_id
 
   dynamic "ingress" {
     iterator = ingress
-    for_each = var.security_group_ingress
+    for_each = length(keys(var.default_security_group_ingress)) > 0 ? [var.default_security_group_ingress] : []
+
     content {
       protocol  = lookup(ingress.value, "protocol", null)
       from_port = lookup(ingress.value, "from_port", null)
@@ -30,7 +26,8 @@ resource "aws_security_group" "security_group" {
 
   dynamic "egress" {
     iterator = egress
-    for_each = var.security_group_egress
+    for_each = length(keys(var.default_security_group_egress)) > 0 ? [var.default_security_group_egress] : []
+
     content {
       protocol  = lookup(egress.value, "protocol", null)
       from_port = lookup(egress.value, "from_port", null)
@@ -45,18 +42,9 @@ resource "aws_security_group" "security_group" {
     }
   }
 
-  dynamic "timeouts" {
-    iterator = timeouts
-    for_each = var.security_group_timeouts
-    content {
-      create = lookup(timeouts.value, "create", null)
-      delete = lookup(timeouts.value, "delete", null)
-    }
-  }
-
   tags = merge(
     {
-      Name = var.security_group_name != "" && var.security_group_name_prefix == "" ? lower(var.security_group_name) : lower(var.security_group_name_prefix)
+      Name = var.default_security_group_name != "" ? lower(var.default_security_group_name) : "default"
     },
     var.tags
   )

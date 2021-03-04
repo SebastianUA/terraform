@@ -29,40 +29,117 @@ module "sg" {
   security_group_name   = "my-test-sg-here"
   security_group_vpc_id = "vpc-0ea8873ab2bf7900d"
 
-  # Using ingress
-  enable_sg_rule_ingress_ports     = true
-  enable_sg_rule_ingress_ports_all = false
 
-  # Using egress
-  enable_sg_rule_egress_ports     = false
-  enable_sg_rule_egress_ports_all = true
+  security_group_ingress = [
+    {
+      from_port = 443
+      to_port   = 443
+      protocol  = "tcp"
 
-  allowed_ports = ["22", "7199"]
-  cidr_blocks = {
-    "22" = [
-      "159.224.217.0/24",
-      "10.0.0.0/8",
-      "172.16.0.0/12",
-      "1.2.3.4/32",
-      "4.3.2.1/32"
-    ],
-    "7199" = [
-      "10.0.0.0/8",
-      "172.16.0.0/12"
-    ],
-  }
+      cidr_blocks      = null
+      ipv6_cidr_blocks = null
+      prefix_list_ids  = null
+      description      = "TLS from VPC"
+      security_groups  = null
+      self             = null
+    },
+    {
+      from_port = 80
+      to_port   = 80
+      protocol  = "http"
 
-  # Using custom SG rule
-  enable_sg_rule_custom_ports = true
-  custom_ports_type           = "ingress"
-  custom_ports_protocol       = "icmp"
-  custom_ports_from_port      = -1
-  custom_ports_to_port        = -1
-  custom_ports_self           = true
-  #custom_ports_source_security_group_id   = "sg-aed75fe1"
-  custom_ports_description = "Allow ICMP pkgs"
+      cidr_blocks      = null
+      ipv6_cidr_blocks = null
+      prefix_list_ids  = null
+      description      = "HTTP from VPC"
+      security_groups  = null
+      self             = null
+    }
+  ]
+
+
+  security_group_egress = [
+    {
+      from_port = 443
+      to_port   = 443
+      protocol  = "tcp"
+
+      cidr_blocks      = null
+      ipv6_cidr_blocks = null
+      prefix_list_ids  = null
+      description      = "TLS to VPC"
+      security_groups  = null
+      self             = null
+    },
+    {
+      from_port = 80
+      to_port   = 80
+      protocol  = "http"
+
+      cidr_blocks      = null
+      ipv6_cidr_blocks = null
+      prefix_list_ids  = null
+      description      = "HTTP from VPC"
+      security_groups  = null
+      self             = null
+    }
+  ]
+
+  # Using sg rule (ingress)
+  enable_sg_rule_ingress_ports = true
+
+  ingress_ports_stack = [
+    {
+      from_port   = 444
+      to_port     = 444
+      protocol    = "tcp"
+      description = "444"
+    },
+    {
+      from_port   = 445
+      to_port     = 445
+      protocol    = "tcp"
+      description = "445"
+    }
+  ]
+
+  # Using sg rule (egress)
+  enable_sg_rule_egress_ports = true
+
+  egress_ports_stack = [
+    {
+      from_port   = 444
+      to_port     = 444
+      protocol    = "tcp"
+      description = "444"
+    },
+    {
+      from_port   = 445
+      to_port     = 445
+      protocol    = "tcp"
+      description = "445"
+    }
+  ]
+
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 }
-```
+
+
+module "sg_allow_all" {
+  source      = "../../modules/sg"
+  name        = "test"
+  environment = "dev"
+
+  enable_security_group = true
+  security_group_name   = "sg-allow-all"
+  security_group_vpc_id = "vpc-0ea8873ab2bf7900d"
+
+  # Using ingress
+  enable_sg_rule_ingress_ports_all = true
+  enable_sg_rule_egress_ports_all  = true
+
+  tags = map("Env", "stage", "Orchestration", "Terraform")
+}```
 
 ## Module Input Variables
 ----------------------
@@ -78,37 +155,19 @@ module "sg" {
 - `security_group_ingress` - (Optional) Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default = []`)
 - `security_group_egress` - (Optional, VPC only) Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default = []`)
 - `security_group_timeouts` - (Optional, allowing add custom timeouts for VPC (`default = []`)
-- `security_group_id` - The security group to apply this rule to. (`default = ""`)
-- `allowed_ports` - Allowed ports from/to host (`default = []`)
-- `cidr_blocks` - (Optional) List of CIDR blocks. Cannot be specified with source_security_group_id. (`default = null`)
 - `enable_sg_rule_ingress_ports` - Enable SG rule with ingress ports usage (`default = False`)
-- `ingress_ports_from_port` - The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default = null`)
-- `ingress_ports_to_port` - The end port (or ICMP code if protocol is 'icmp'). (`default = null`)
-- `ingress_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default = tcp`)
-- `ingress_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default = null`)
-- `ingress_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with ingress_ports_ipv6_cidr_blocks and ingress_ports_self. (`default = null`)
-- `ingress_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with ingress_ports_source_security_group_id. (`default = null`)
-- `ingress_ports_description` - (Optional) Description of the rule. (`default = null`)
+- `ingress_ports_stack` - Set list of the values for ingress (`default = []`)
 - `enable_sg_rule_egress_ports` - Enable SG rule with egress ports usage (`default = False`)
-- `egress_ports_from_port` - The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default = null`)
-- `egress_ports_to_port` - The end port (or ICMP code if protocol is 'icmp'). (`default = null`)
-- `egress_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default = tcp`)
-- `egress_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default = null`)
-- `egress_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with egress_ports_ipv6_cidr_blocks and egress_ports_self. (`default = null`)
-- `egress_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with egress_ports_source_security_group_id. (`default = null`)
-- `egress_ports_description` - (Optional) Description of the rule. (`default = null`)
-- `enable_sg_rule_custom_ports` - Enable SG rule for custom ports usage (`default = False`)
-- `custom_ports_type` - (Required) The type of rule being created. Valid options are ingress (inbound) or egress (outbound). (`default = ingress`)
-- `custom_ports_from_port` - (Required) The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6'). (`default = ${-1}`)
-- `custom_ports_to_port` - (Required) The end port (or ICMP code if protocol is 'icmp'). (`default = ${-1}`)
-- `custom_ports_protocol` - (Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number (`default = icmp`)
-- `custom_ports_cidr_blocks` - (Optional) List of CIDR blocks. Cannot be specified with custom_ports_source_security_group_id. (`default = null`)
-- `custom_ports_ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. (`default = null`)
-- `custom_ports_source_security_group_id` - (Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with custom_ports_ipv6_cidr_blocks and custom_ports_self. (`default = null`)
-- `custom_ports_self` - (Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with custom_ports_source_security_group_id. (`default = null`)
-- `custom_ports_description` - (Optional) Description of the rule. (`default = null`)
+- `egress_ports_stack` - Set list of the values for engress (`default = []`)
 - `enable_sg_rule_ingress_ports_all` - Enable SG rule with ingress to open all ports usage (`default = False`)
+- `ingress_ports_all_stack` - Set list of the values for engress (`default = [{'from_port': 0, 'to_port': 0, 'protocol': '${-1}', 'cidr_blocks': None, 'prefix_list_ids': None, 'ipv6_cidr_blocks': None, 'source_security_group_id': None, 'self': None, 'description': None}]`)
 - `enable_sg_rule_egress_ports_all` - Enable SG rule with egress to open all ports usage (`default = False`)
+- `egress_ports_all_stack` - Set list of the values for engress (`default = [{'from_port': 0, 'to_port': 0, 'protocol': '${-1}', 'cidr_blocks': None, 'prefix_list_ids': None, 'ipv6_cidr_blocks': None, 'source_security_group_id': None, 'self': None, 'description': None}]`)
+- `enable_default_security_group` - Enable default security group usage (`default = False`)
+- `default_security_group_name` - Set name for default SG (`default = ""`)
+- `default_security_group_vpc_id` - (Optional, Forces new resource) VPC ID. Note that changing the vpc_id will not restore any default security group rules that were modified, added, or removed. It will be left in its current state. (`default = ""`)
+- `default_security_group_ingress` - (Optional) Configuration block. (`default = {}`)
+- `default_security_group_egress` - (Optional, VPC only) Configuration block.  (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -120,6 +179,17 @@ module "sg" {
 - `security_group_description` - The description of the security group
 - `security_group_ingress` - The ingress rules. See above for more.
 - `security_group_egress` - The egress rules. See above for more.
+- `security_group_rule_id` - The ID of the security group rules
+- `security_group_rule_type` - The type of rule, ingress or egress
+- `security_group_rule_from_port` - The start port (or ICMP type number if protocol is 'icmp')
+- `security_group_rule_to_port` - The end port (or ICMP code if protocol is 'icmp')
+- `security_group_rule_protocol` - The protocol used
+- `security_group_rule_description` - Description of the rule
+- `default_security_group_id` - ID of the security group.
+- `default_security_group_arn` - ARN of the security group.
+- `default_security_group_description` - Description of the security group.
+- `default_security_group_name` - Name of the security group.
+- `default_security_group_owner_id` - Owner ID.
 
 
 ## Authors

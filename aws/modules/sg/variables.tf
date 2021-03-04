@@ -68,24 +68,6 @@ variable "security_group_timeouts" {
 #---------------------------------------------------
 # Security group rules
 #---------------------------------------------------
-variable "security_group_id" {
-  description = "The security group to apply this rule to."
-  default     = ""
-}
-
-variable "allowed_ports" {
-  description = "Allowed ports from/to host"
-  default     = []
-}
-
-variable "cidr_blocks" {
-  description = "(Optional) List of CIDR blocks. Cannot be specified with source_security_group_id."
-  default     = null
-  #{
-  #80        = ["0.0.0.0/0"]
-  #443       = ["0.0.0.0/0"]
-  #}
-}
 
 # ingress
 variable "enable_sg_rule_ingress_ports" {
@@ -93,39 +75,9 @@ variable "enable_sg_rule_ingress_ports" {
   default     = false
 }
 
-variable "ingress_ports_from_port" {
-  description = "The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6')."
-  default     = null
-}
-
-variable "ingress_ports_to_port" {
-  description = "The end port (or ICMP code if protocol is 'icmp')."
-  default     = null
-}
-
-variable "ingress_ports_protocol" {
-  description = "(Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
-  default     = "tcp"
-}
-
-variable "ingress_ports_ipv6_cidr_blocks" {
-  description = "(Optional) List of IPv6 CIDR blocks."
-  default     = null
-}
-
-variable "ingress_ports_source_security_group_id" {
-  description = "(Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with ingress_ports_ipv6_cidr_blocks and ingress_ports_self."
-  default     = null
-}
-
-variable "ingress_ports_self" {
-  description = "(Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with ingress_ports_source_security_group_id."
-  default     = null
-}
-
-variable "ingress_ports_description" {
-  description = "(Optional) Description of the rule."
-  default     = null
+variable "ingress_ports_stack" {
+  description = "Set list of the values for ingress"
+  default     = []
 }
 
 # egress
@@ -134,91 +86,9 @@ variable "enable_sg_rule_egress_ports" {
   default     = false
 }
 
-variable "egress_ports_from_port" {
-  description = "The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6')."
-  default     = null
-}
-
-variable "egress_ports_to_port" {
-  description = "The end port (or ICMP code if protocol is 'icmp')."
-  default     = null
-}
-
-variable "egress_ports_protocol" {
-  description = "(Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
-  default     = "tcp"
-}
-
-variable "egress_ports_ipv6_cidr_blocks" {
-  description = "(Optional) List of IPv6 CIDR blocks."
-  default     = null
-}
-
-variable "egress_ports_source_security_group_id" {
-  description = "(Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with egress_ports_ipv6_cidr_blocks and egress_ports_self."
-  default     = null
-}
-
-variable "egress_ports_self" {
-  description = "(Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with egress_ports_source_security_group_id."
-  default     = null
-}
-
-variable "egress_ports_description" {
-  description = "(Optional) Description of the rule."
-  default     = null
-}
-
-# custom
-variable "enable_sg_rule_custom_ports" {
-  description = "Enable SG rule for custom ports usage"
-  default     = false
-}
-
-variable "custom_ports_type" {
-  description = "(Required) The type of rule being created. Valid options are ingress (inbound) or egress (outbound)."
-  default     = "ingress"
-}
-
-variable "custom_ports_from_port" {
-  description = "(Required) The start port (or ICMP type number if protocol is 'icmp' or 'icmpv6')."
-  default     = -1
-}
-
-variable "custom_ports_to_port" {
-  description = "(Required) The end port (or ICMP code if protocol is 'icmp')."
-  default     = -1
-}
-
-variable "custom_ports_protocol" {
-  description = "(Required) The protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
-  default     = "icmp"
-}
-
-variable "custom_ports_cidr_blocks" {
-  description = "(Optional) List of CIDR blocks. Cannot be specified with custom_ports_source_security_group_id."
-  default     = null
-}
-
-
-variable "custom_ports_ipv6_cidr_blocks" {
-  description = "(Optional) List of IPv6 CIDR blocks."
-  default     = null
-}
-
-variable "custom_ports_source_security_group_id" {
-  description = "(Optional) The security group id to allow access to/from, depending on the type. Cannot be specified with custom_ports_ipv6_cidr_blocks and custom_ports_self."
-  default     = null
-}
-
-variable "custom_ports_self" {
-  description = "(Optional) If true, the security group itself will be added as a source to this ingress rule. Cannot be specified with custom_ports_source_security_group_id."
-  default     = null
-}
-
-variable "custom_ports_description" {
-  description = "(Optional) Description of the rule."
-  default     = null
+variable "egress_ports_stack" {
+  description = "Set list of the values for engress"
+  default     = []
 }
 
 # Ingress all ports
@@ -227,8 +97,74 @@ variable "enable_sg_rule_ingress_ports_all" {
   default     = false
 }
 
+variable "ingress_ports_all_stack" {
+  description = "Set list of the values for engress"
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = ["0.0.0.0/0"]
+
+      cidr_blocks              = null
+      prefix_list_ids          = null
+      ipv6_cidr_blocks         = null
+      source_security_group_id = null
+      self                     = null
+      description              = null
+    }
+  ]
+}
+
 # Egress all ports
 variable "enable_sg_rule_egress_ports_all" {
   description = "Enable SG rule with egress to open all ports usage"
   default     = false
+}
+
+variable "egress_ports_all_stack" {
+  description = "Set list of the values for engress"
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = ["0.0.0.0/0"]
+
+      cidr_blocks              = null
+      prefix_list_ids          = null
+      ipv6_cidr_blocks         = null
+      source_security_group_id = null
+      self                     = null
+      description              = null
+    }
+  ]
+}
+
+#---------------------------------------------------
+# AWS security group (default)
+#---------------------------------------------------
+variable "enable_default_security_group" {
+  description = "Enable default security group usage"
+  default     = false
+}
+
+variable "default_security_group_name" {
+  description = "Set name for default SG"
+  default     = ""
+}
+
+variable "default_security_group_vpc_id" {
+  description = "(Optional, Forces new resource) VPC ID. Note that changing the vpc_id will not restore any default security group rules that were modified, added, or removed. It will be left in its current state."
+  default     = ""
+}
+
+variable "default_security_group_ingress" {
+  description = "(Optional) Configuration block."
+  default     = {}
+}
+
+variable "default_security_group_egress" {
+  description = "(Optional, VPC only) Configuration block. "
+  default     = {}
 }
