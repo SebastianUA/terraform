@@ -1,7 +1,7 @@
 #---------------------------------------------------
-# Create NAT
+# AWS NAT GW
 #---------------------------------------------------
-resource "aws_nat_gateway" "nat_gw" {
+resource "aws_nat_gateway" "nat_gateway" {
   count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
 
   allocation_id = element(aws_eip.nat_eip.*.id, (var.single_nat_gateway ? 0 : count.index))

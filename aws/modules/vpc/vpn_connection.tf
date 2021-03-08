@@ -2,13 +2,13 @@
 # AWS VPN connection
 #---------------------------------------------------
 resource "aws_vpn_connection" "vpn_connection" {
-  count = var.enable_vpn_gateway ? 1 : 0
+  count = var.enable_vpn_connection ? 1 : 0
 
-  customer_gateway_id = var.vpn_connection_customer_gateway_id != "" && !var.enable_vpn_gateway ? var.vpn_connection_customer_gateway_id : element(concat(aws_customer_gateway.customer_gateway.*.id, [""]), 0)
+  customer_gateway_id = var.vpn_connection_customer_gateway_id != "" ? var.vpn_connection_customer_gateway_id : (var.enable_customer_gateway ? element(aws_customer_gateway.customer_gateway.*.id, count.index) : null)
   type                = var.vpn_connection_type
 
   transit_gateway_id = var.vpn_connection_transit_gateway_id
-  vpn_gateway_id     = var.vpn_connection_vpn_gateway_id != null && !var.enable_vpn_gateway ? var.vpn_connection_vpn_gateway_id : element(concat(aws_vpn_gateway.vpn_gw.*.id, [""]), 0)
+  vpn_gateway_id     = var.vpn_connection_vpn_gateway_id != null ? var.vpn_connection_vpn_gateway_id : (var.enable_vpn_gateway ? element(aws_vpn_gateway.vpn_gateway.*.id, count.index) : null)
   static_routes_only = var.vpn_connection_static_routes_only
 
   tunnel1_inside_cidr   = var.vpn_connection_tunnel1_inside_cidr
@@ -30,6 +30,6 @@ resource "aws_vpn_connection" "vpn_connection" {
 
   depends_on = [
     aws_customer_gateway.customer_gateway,
-    aws_vpn_gateway.vpn_gw
+    aws_vpn_gateway.vpn_gateway
   ]
 }

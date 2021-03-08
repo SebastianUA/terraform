@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create EIP
+# AWS EIP
 #---------------------------------------------------
 resource "aws_eip" "nat_eip" {
   count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
@@ -13,7 +13,7 @@ resource "aws_eip" "nat_eip" {
 
   tags = merge(
     {
-      Name = var.nat_eip_name != "" ? lower(var.nat_eip_name) : "${lower(var.name)}-nat-eip-${lower(var.environment)}"
+      Name = var.nat_eip_name != "" ? lower(var.nat_eip_name) : "${lower(var.name)}-nat-eip-${count.index + 1}-${lower(var.environment)}"
     },
     var.tags
   )

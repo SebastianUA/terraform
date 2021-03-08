@@ -2,9 +2,9 @@
 # AWS VPC peering connection
 #---------------------------------------------------
 resource "aws_vpc_peering_connection" "vpc_peering_connection" {
-  count = var.enable_vpc_peering ? 1 : 0
+  count = var.enable_vpc_peering_connection ? 1 : 0
 
-  vpc_id      = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id      = var.vpc_peering_connection_vpc_id != "" ? var.vpc_peering_connection_vpc_id : (var.enable_vpc ? element(aws_vpc.vpc.*.id, count.index) : null)
   peer_vpc_id = var.vpc_peering_connection_peer_vpc_id
 
   peer_owner_id = var.vpc_peering_connection_peer_owner_id
@@ -14,6 +14,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   dynamic "accepter" {
     iterator = accepter
     for_each = var.vpc_peering_connection_accepter
+
     content {
       allow_remote_vpc_dns_resolution  = lookup(accepter.value, "allow_remote_vpc_dns_resolution", null)
       allow_classic_link_to_remote_vpc = lookup(accepter.value, "allow_classic_link_to_remote_vpc", null)
@@ -24,6 +25,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   dynamic "requester" {
     iterator = requester
     for_each = var.vpc_peering_connection_requester
+
     content {
       allow_remote_vpc_dns_resolution  = lookup(requester.value, "allow_remote_vpc_dns_resolution", null)
       allow_classic_link_to_remote_vpc = lookup(requester.value, "allow_classic_link_to_remote_vpc", null)
@@ -34,6 +36,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.vpc_peering_connection_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

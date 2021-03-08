@@ -1,11 +1,11 @@
 #---------------------------------------------------------------
-# Create AWS VPN gateway route propagation
+# AWS VPN gateway route propagation
 #---------------------------------------------------------------
-resource "aws_vpn_gateway_route_propagation" "vpn_gw_route_propagation" {
-  count = var.enable_vpn_gateway ? 1 : 0
+resource "aws_vpn_gateway_route_propagation" "vpn_gateway_route_propagation" {
+  count = var.enable_vpn_gateway_route_propagation ? 1 : 0
 
-  vpn_gateway_id = var.vpn_gw_attachment_vpn_gateway_id != "" && !var.enable_vpn_gateway ? var.vpn_gw_attachment_vpn_gateway_id : element(concat(aws_vpn_gateway.vpn_gw.*.id, [""]), 0)
-  route_table_id = var.vpn_gw_route_propagation_route_table_id != "" && !var.enable_vpn_gateway ? var.vpn_gw_route_propagation_route_table_id : element(concat(aws_route_table.private_route_tables.*.id, [""]), 0)
+  vpn_gateway_id = var.vpn_gateway_route_propagation_vpn_gateway_id != "" ? var.vpn_gateway_route_propagation_vpn_gateway_id : (var.enable_vpn_gateway ? element(aws_vpn_gateway.vpn_gateway.*.id, count.index) : null)
+  route_table_id = var.vpn_gateway_route_propagation_route_table_id != "" ? var.vpn_gateway_route_propagation_route_table_id : (length(var.public_subnet_cidrs) > 0 ? element(aws_route_table.public_route_tables.*.id, count.index) : null)
 
   lifecycle {
     create_before_destroy = true
@@ -13,6 +13,6 @@ resource "aws_vpn_gateway_route_propagation" "vpn_gw_route_propagation" {
   }
 
   depends_on = [
-    aws_vpn_gateway.vpn_gw
+    aws_vpn_gateway.vpn_gateway
   ]
 }

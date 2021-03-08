@@ -2,7 +2,7 @@
 # AWS customer gateway
 #---------------------------------------------------------------
 resource "aws_customer_gateway" "customer_gateway" {
-  count = var.enable_vpn_gateway ? 1 : 0
+  count = var.enable_customer_gateway ? 1 : 0
 
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address

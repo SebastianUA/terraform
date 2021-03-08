@@ -9,14 +9,15 @@ resource "aws_route" "private_nat_gateway" {
 
   route_table_id         = element(aws_route_table.private_route_tables.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.nat_gw.*.id, count.index)
+  nat_gateway_id         = element(aws_nat_gateway.nat_gateway.*.id, count.index)
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", "2m")
-      delete = lookup(route_timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
@@ -27,7 +28,7 @@ resource "aws_route" "private_nat_gateway" {
 
   depends_on = [
     aws_route_table.private_route_tables,
-    aws_nat_gateway.nat_gw
+    aws_nat_gateway.nat_gateway
   ]
 }
 
@@ -35,16 +36,17 @@ resource "aws_route" "private_nat_gateway" {
 resource "aws_route" "public_internet_gateway" {
   count = var.enable_internet_gateway && length(var.public_subnet_cidrs) > 0 ? 1 : 0
 
-  route_table_id         = element(concat(aws_route_table.public_route_tables.*.id, [""]), 0)
+  route_table_id         = element(aws_route_table.public_route_tables.*.id, 0)
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = element(concat(aws_internet_gateway.internet_gw.*.id, [""]), 0)
+  gateway_id             = element(aws_internet_gateway.internet_gateway.*.id, 0)
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", "2m")
-      delete = lookup(route_timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
@@ -55,7 +57,7 @@ resource "aws_route" "public_internet_gateway" {
 
   depends_on = [
     aws_route_table.public_route_tables,
-    aws_internet_gateway.internet_gw
+    aws_internet_gateway.internet_gateway
   ]
 }
 
@@ -63,16 +65,17 @@ resource "aws_route" "public_internet_gateway" {
 resource "aws_route" "vpc_peering" {
   count = var.peering_destination_cidr_block != null && length(var.public_subnet_cidrs) > 0 ? 1 : 0
 
-  route_table_id         = element(concat(aws_route_table.public_route_tables.*.id, [""]), 0)
+  route_table_id         = element(aws_route_table.public_route_tables.*.id, count.index)
   destination_cidr_block = var.peering_destination_cidr_block
-  gateway_id             = var.peering_gateway_id != null ? var.peering_gateway_id : element(concat(aws_vpc_peering_connection.vpc_peering_connection.*.id, [""]), 0)
+  gateway_id             = var.peering_gateway_id != null ? var.peering_gateway_id : element(aws_vpc_peering_connection.vpc_peering_connection.*.id, 0)
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", "2m")
-      delete = lookup(route_timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
@@ -108,9 +111,10 @@ resource "aws_route" "custom_route" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", null)
-      delete = lookup(route_timeouts.value, "delete", null)
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
@@ -126,16 +130,17 @@ resource "aws_route" "custom_route" {
 resource "aws_route" "public_custom_route" {
   count = var.public_custom_peering_destination_cidr_block != null && var.public_custom_gateway_id != null ? length(var.public_custom_peering_destination_cidr_block) : 0
 
-  route_table_id         = element(concat(aws_route_table.public_route_tables.*.id, [""]), 0)
+  route_table_id         = element(aws_route_table.public_route_tables.*.id, 0)
   destination_cidr_block = var.public_custom_peering_destination_cidr_block[count.index]
   gateway_id             = var.public_custom_gateway_id
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", "2m")
-      delete = lookup(route_timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 
@@ -153,16 +158,17 @@ resource "aws_route" "public_custom_route" {
 resource "aws_route" "private_custom_route" {
   count = var.private_custom_peering_destination_cidr_block != null && var.private_custom_gateway_id != null ? length(var.private_custom_peering_destination_cidr_block) : 0
 
-  route_table_id         = element(concat(aws_route_table.private_route_tables.*.id, [""]), 0)
+  route_table_id         = element(aws_route_table.private_route_tables.*.id, 0)
   destination_cidr_block = var.private_custom_peering_destination_cidr_block[count.index]
   gateway_id             = var.private_custom_gateway_id
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.route_timeouts
+
     content {
-      create = lookup(route_timeouts.value, "create", "2m")
-      delete = lookup(route_timeouts.value, "delete", "5m")
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 

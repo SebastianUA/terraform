@@ -57,6 +57,7 @@ resource "aws_subnet" "public_subnets" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.subnet_timeouts
+
     content {
       create = lookup(subnet_timeouts.value, "create", null)
       delete = lookup(subnet_timeouts.value, "delete", null)

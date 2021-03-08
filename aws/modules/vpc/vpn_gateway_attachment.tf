@@ -1,11 +1,11 @@
 #---------------------------------------------------------------
-# Create AWS VPN gateway attachment
+# AWS VPN gateway attachment
 #---------------------------------------------------------------
 resource "aws_vpn_gateway_attachment" "vpn_gateway_attachment" {
-  count = var.enable_vpn_gateway ? 1 : 0
+  count = var.enable_vpn_gateway_attachment ? 1 : 0
 
-  vpc_id         = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
-  vpn_gateway_id = var.vpn_gw_attachment_vpn_gateway_id != "" && !var.enable_vpc ? var.vpn_gw_attachment_vpn_gateway_id : element(concat(aws_vpn_gateway.vpn_gw.*.id, [""]), 0)
+  vpc_id         = var.vpn_gateway_attachment_vpc_id != "" ? var.vpn_gateway_attachment_vpc_id : (var.enable_vpc ? element(aws_vpc.vpc.*.id, count.index) : null)
+  vpn_gateway_id = var.vpn_gateway_attachment_vpn_gateway_id != "" ? var.vpn_gateway_attachment_vpn_gateway_id : (var.enable_vpn_gateway ? element(aws_vpn_gateway.vpn_gateway.*.id, 0) : null)
 
   lifecycle {
     create_before_destroy = true
@@ -14,6 +14,6 @@ resource "aws_vpn_gateway_attachment" "vpn_gateway_attachment" {
 
   depends_on = [
     aws_vpc.vpc,
-    aws_vpn_gateway.vpn_gw
+    aws_vpn_gateway.vpn_gateway
   ]
 }

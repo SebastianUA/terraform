@@ -117,27 +117,27 @@ output "public_subnets_owner_id" {
 #---------------------------------------------------------------
 # AWS Internet gateway (IGW)
 #---------------------------------------------------------------
-output "internet_gw_id" {
+output "internet_gateway_id" {
   description = "The ID of the Internet Gateway."
-  value       = element(concat(aws_internet_gateway.internet_gw.*.id, [""]), 0)
+  value       = element(concat(aws_internet_gateway.internet_gateway.*.id, [""]), 0)
 }
 
-output "internet_gw_arn" {
+output "internet_gateway_arn" {
   description = "The ARN of the Internet Gateway."
-  value       = element(concat(aws_internet_gateway.internet_gw.*.arn, [""]), 0)
+  value       = element(concat(aws_internet_gateway.internet_gateway.*.arn, [""]), 0)
 }
 
-output "internet_gw_owner_id" {
+output "internet_gateway_owner_id" {
   description = "The ID of the AWS account that owns the internet gateway."
-  value       = element(concat(aws_internet_gateway.internet_gw.*.owner_id, [""]), 0)
+  value       = element(concat(aws_internet_gateway.internet_gateway.*.owner_id, [""]), 0)
 }
 
 #---------------------------------------------------------------
 # AWS VPN gateway
 #---------------------------------------------------------------
-output "vpn_gw_id" {
+output "vpn_gateway_id" {
   description = "The ID of the VPN Gateway."
-  value       = element(concat(aws_vpn_gateway.vpn_gw.*.id, [""]), 0)
+  value       = element(concat(aws_vpn_gateway.vpn_gateway.*.id, [""]), 0)
 }
 
 #---------------------------------------------------------------
@@ -156,6 +156,14 @@ output "vpn_gateway_attachment_vpc_id" {
 output "vpn_gateway_attachment_vpn_gateway_id" {
   description = "The ID of the Virtual Private Gateway."
   value       = element(concat(aws_vpn_gateway_attachment.vpn_gateway_attachment.*.vpn_gateway_id, [""]), 0)
+}
+
+#---------------------------------------------------------------
+# AWS VPN gateway route propagation
+#---------------------------------------------------------------
+output "vpn_gateway_route_propagation_id" {
+  description = "The ID of the VPN Gateway route propagation."
+  value       = element(concat(aws_vpn_gateway_route_propagation.vpn_gateway_route_propagation.*.id, [""]), 0)
 }
 
 #---------------------------------------------------
@@ -326,34 +334,34 @@ output "vpc_dhcp_options_association_id" {
 #---------------------------------------------------
 # AWS NAT gw
 #---------------------------------------------------
-output "nat_gw_id" {
+output "nat_gateway_id" {
   description = "The ID of the NAT Gateway."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.id, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.id, [""]), 0)
 }
 
-output "nat_gw_allocation_id" {
+output "nat_gateway_allocation_id" {
   description = "The Allocation ID of the Elastic IP address for the gateway."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.allocation_id, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.allocation_id, [""]), 0)
 }
 
-output "nat_gw_subnet_id" {
+output "nat_gateway_subnet_id" {
   description = "The Subnet ID of the subnet in which the NAT gateway is placed."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.subnet_id, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.subnet_id, [""]), 0)
 }
 
-output "nat_gw_network_interface_id" {
+output "nat_gateway_network_interface_id" {
   description = "The ENI ID of the network interface created by the NAT gateway."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.network_interface_id, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.network_interface_id, [""]), 0)
 }
 
-output "nat_gw_private_ip" {
+output "nat_gateway_private_ip" {
   description = "The private IP address of the NAT Gateway."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.private_ip, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.private_ip, [""]), 0)
 }
 
-output "nat_gw_public_ip" {
+output "nat_gateway_public_ip" {
   description = "The public IP address of the NAT Gateway."
-  value       = element(concat(aws_nat_gateway.nat_gw.*.public_ip, [""]), 0)
+  value       = element(concat(aws_nat_gateway.nat_gateway.*.public_ip, [""]), 0)
 }
 
 #---------------------------------------------------

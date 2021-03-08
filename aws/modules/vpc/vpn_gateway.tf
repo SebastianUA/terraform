@@ -1,17 +1,16 @@
 #---------------------------------------------------------------
-# Create AWS VPN gateway
+# AWS VPN gateway
 #---------------------------------------------------------------
-resource "aws_vpn_gateway" "vpn_gw" {
+resource "aws_vpn_gateway" "vpn_gateway" {
   count = var.enable_vpn_gateway ? 1 : 0
 
-  vpc_id = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
-
-  availability_zone = var.vpn_gw_availability_zone
-  amazon_side_asn   = var.vpn_gw_amazon_side_asn
+  vpc_id            = var.vpn_gateway_vpc_id != "" ? var.vpn_gateway_vpc_id : (var.enable_vpc ? element(aws_vpc.vpc.*.id, count.index) : null)
+  availability_zone = var.vpn_gateway_availability_zone
+  amazon_side_asn   = var.vpn_gateway_amazon_side_asn
 
   tags = merge(
     {
-      Name = var.vpn_gw_name != "" ? lower(var.vpn_gw_name) : "${lower(var.name)}-vpn-gw-${lower(var.environment)}"
+      Name = var.vpn_gateway_name != "" ? lower(var.vpn_gateway_name) : "${lower(var.name)}-vpn-gw-${lower(var.environment)}"
     },
     var.tags
   )
