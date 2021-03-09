@@ -29,7 +29,7 @@ module "s3_flow_logs" {
 #---------------------------------------------------------------
 module "vpc" {
   source      = "../../modules/vpc"
-  name        = "vpc"
+  name        = "tmp"
   environment = "dev"
 
   # VPC
@@ -69,7 +69,7 @@ module "vpc" {
       traffic_type = "REJECT"
       iam_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vpc-flow-log"
 
-      log_destination = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
+      log_destination = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
     },
     {
       name                 = "vpc-flow-log-s3"
@@ -243,7 +243,16 @@ module "vpc" {
 - `vpc_peering_connection_accepter_vpc_peering_connection_id` - (Optional) Whether or not to accept the peering request. Defaults to false. (`default = False`)
 - `vpc_peering_connection_accepter_auto_accept` - (Optional) Whether or not to accept the peering request. Defaults to false. (`default = False`)
 - `enable_vpc_endpoint` - Enable VPC endpoint usage (`default = False`)
-- `vpc_endpoint_stack` - Set list of endpoints settings (`default = []`)
+- `vpc_endpoint_name` - Set name for VPC endpoint (`default = ""`)
+- `vpc_endpoint_vpc_id` - Set vpc_id for endpoint (`default = ""`)
+- `vpc_endpoint_service_name` - (Required) The service name. For AWS services the service name is usually in the form com.amazonaws.<region>.<service> (the SageMaker Notebook service is an exception to this rule, the service name is in the form aws.sagemaker.<region>.notebook). (`default = null`)
+- `vpc_endpoint_auto_accept` - (Optional) Accept the VPC endpoint (the VPC endpoint and service need to be in the same AWS account). (`default = null`)
+- `vpc_endpoint_policy` - (Optional) A policy to attach to the endpoint that controls access to the service. Defaults to full access. All Gateway and some Interface endpoints support policies - see the relevant AWS documentation for more details. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = null`)
+- `vpc_endpoint_private_dns_enabled` - (Optional; AWS services and AWS Marketplace partner services only) Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type Interface. Defaults to false. (`default = False`)
+- `vpc_endpoint_route_table_ids` - (Optional) One or more route table IDs. Applicable for endpoints of type Gateway. (`default = null`)
+- `vpc_endpoint_subnet_ids` - (Optional) The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type Interface. (`default = []`)
+- `vpc_endpoint_security_group_ids` - (Optional) The ID of one or more security groups to associate with the network interface. Required for endpoints of type Interface. (`default = null`)
+- `vpc_endpoint_vpc_endpoint_type` - (Optional) The VPC endpoint type, Gateway or Interface. Defaults to Gateway. (`default = Gateway`)
 - `vpc_endpoint_timeouts` - Set timeouts used for creating a VPC endpoint (`default = []`)
 - `enable_vpc_endpoint_subnet_association` - Enable VPC endpoint subnet association usage (`default = False`)
 - `vpc_endpoint_subnet_association_subnet_id` - The ID of the subnet to be associated with the VPC endpoint. (`default = ""`)

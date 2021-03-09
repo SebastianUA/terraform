@@ -19,7 +19,7 @@ module "s3_flow_logs" {
 #---------------------------------------------------------------
 module "vpc" {
   source      = "../../modules/vpc"
-  name        = "vpc"
+  name        = "tmp"
   environment = "dev"
 
   # VPC
@@ -59,7 +59,7 @@ module "vpc" {
       traffic_type = "REJECT"
       iam_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vpc-flow-log"
 
-      log_destination = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
+      log_destination = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
     },
     {
       name                 = "vpc-flow-log-s3"

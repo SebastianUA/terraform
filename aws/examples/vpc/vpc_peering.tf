@@ -8,7 +8,7 @@ module "vpc_1" {
 
   # VPC
   enable_vpc                           = true
-  vpc_name                             = "vpc_1"
+  vpc_name                             = "vpc_1_peering"
   vpc_instance_tenancy                 = "dedicated"
   vpc_enable_dns_support               = true
   vpc_enable_dns_hostnames             = true
@@ -19,7 +19,6 @@ module "vpc_1" {
 
   private_subnet_cidrs = ["6.6.1.0/24"]
   public_subnet_cidrs  = ["6.6.2.0/24", "6.6.3.0/24"]
-  #azs                                 = ["us-east-1a", "us-east-1b"]
 
   # Internet-GateWay
   enable_internet_gateway = true
@@ -60,7 +59,7 @@ module "vpc_2" {
 
   # VPC
   enable_vpc                           = true
-  vpc_name                             = "vpc_2"
+  vpc_name                             = "vpc_2_peering"
   vpc_instance_tenancy                 = "dedicated"
   vpc_enable_dns_support               = true
   vpc_enable_dns_hostnames             = true
@@ -98,7 +97,7 @@ module "vpc_2" {
       traffic_type = "REJECT"
       iam_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vpc-flow-log"
 
-      log_destination = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
+      log_destination = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:vpc-flow-log-test"
     },
     {
       name                 = "vpc-flow-log-s3"

@@ -4,7 +4,11 @@
 resource "aws_vpc_endpoint_service_allowed_principal" "vpc_endpoint_service_allowed_principal" {
   count = var.enable_vpc_endpoint_service_allowed_principal ? 1 : 0
 
-  vpc_endpoint_service_id = var.vpc_endpoint_service_allowed_principal_vpc_endpoint_service_id != "" ? var.vpc_endpoint_service_allowed_principal_vpc_endpoint_service_id : (var.enable_vpc_endpoint ? element(aws_vpc_endpoint_service.vpc_endpoint_service.*.id, 0) : null)
+  // Not working fine...
+  // count = var.enable_vpc_endpoint_service_allowed_principal ? length(var.vpc_endpoint_service_stack) : 0
+  //
+
+  vpc_endpoint_service_id = var.vpc_endpoint_service_allowed_principal_vpc_endpoint_service_id != "" ? var.vpc_endpoint_service_allowed_principal_vpc_endpoint_service_id : (var.enable_vpc_endpoint ? element(aws_vpc_endpoint_service.vpc_endpoint_service.*.id, count.index) : null)
   principal_arn           = var.vpc_endpoint_service_allowed_principal_principal_arn
 
   lifecycle {

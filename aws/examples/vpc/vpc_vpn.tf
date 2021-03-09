@@ -19,7 +19,7 @@ module "vpc_vpn" {
 
   private_subnet_cidrs = ["10.10.1.0/24"]
   public_subnet_cidrs  = ["10.10.2.0/24", "10.10.3.0/24"]
-  azs                  = ["us-east-1a", "us-east-1b"]
+  azs                  = ["${data.aws_region.current.name}a", "${data.aws_region.current.name}b"]
 
   # Internet-GateWay
   enable_internet_gateway = true

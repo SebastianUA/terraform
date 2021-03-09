@@ -885,9 +885,59 @@ variable "enable_vpc_endpoint" {
   default     = false
 }
 
-variable "vpc_endpoint_stack" {
-  description = "Set list of endpoints settings"
+// variable "vpc_endpoint_stack" {
+//   description = "Set list of endpoints settings"
+//   default     = []
+// }
+
+variable "vpc_endpoint_name" {
+  description = "Set name for VPC endpoint"
+  default     = ""
+}
+
+variable "vpc_endpoint_vpc_id" {
+  description = "Set vpc_id for endpoint"
+  default     = ""
+}
+
+variable "vpc_endpoint_service_name" {
+  description = "(Required) The service name. For AWS services the service name is usually in the form com.amazonaws.<region>.<service> (the SageMaker Notebook service is an exception to this rule, the service name is in the form aws.sagemaker.<region>.notebook)."
+  default     = null
+}
+
+variable "vpc_endpoint_auto_accept" {
+  description = "(Optional) Accept the VPC endpoint (the VPC endpoint and service need to be in the same AWS account)."
+  default     = null
+}
+
+variable "vpc_endpoint_policy" {
+  description = "(Optional) A policy to attach to the endpoint that controls access to the service. Defaults to full access. All Gateway and some Interface endpoints support policies - see the relevant AWS documentation for more details. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
+  default     = null
+}
+
+variable "vpc_endpoint_private_dns_enabled" {
+  description = "(Optional; AWS services and AWS Marketplace partner services only) Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type Interface. Defaults to false."
+  default     = false
+}
+
+variable "vpc_endpoint_route_table_ids" {
+  description = "(Optional) One or more route table IDs. Applicable for endpoints of type Gateway."
+  default     = null
+}
+
+variable "vpc_endpoint_subnet_ids" {
+  description = "(Optional) The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type Interface."
   default     = []
+}
+
+variable "vpc_endpoint_security_group_ids" {
+  description = "(Optional) The ID of one or more security groups to associate with the network interface. Required for endpoints of type Interface."
+  default     = null
+}
+
+variable "vpc_endpoint_vpc_endpoint_type" {
+  description = "(Optional) The VPC endpoint type, Gateway or Interface. Defaults to Gateway."
+  default     = "Gateway"
 }
 
 variable "vpc_endpoint_timeouts" {
