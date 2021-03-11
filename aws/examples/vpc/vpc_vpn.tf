@@ -38,7 +38,7 @@ module "vpc_vpn" {
 
   # VPN
   enable_vpn_gateway            = true
-  vpn_gateway_name              = ""
+  vpn_gateway_name              = "tmp-vpn"
   vpn_gateway_availability_zone = null
   vpn_gateway_amazon_side_asn   = 64512
 
