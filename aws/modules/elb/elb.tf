@@ -1,22 +1,23 @@
 #---------------------------------------------------
-# Create AWS ELB
+# AWS ELB
 #---------------------------------------------------
 resource "aws_elb" "elb" {
   count = var.enable_elb ? 1 : 0
 
   name               = var.elb_name != "" ? var.elb_name : "${lower(var.name)}-elb-${lower(var.environment)}"
-  availability_zones = var.availability_zones
-  subnets            = var.subnets
-  security_groups    = var.security_groups
+  availability_zones = var.elb_availability_zones
+  subnets            = var.elb_subnets
+  security_groups    = var.elb_security_groups
   internal           = var.elb_internal
 
-  cross_zone_load_balancing   = var.cross_zone_load_balancing
-  idle_timeout                = var.idle_timeout
-  connection_draining         = var.connection_draining
-  connection_draining_timeout = var.connection_draining_timeout
+  cross_zone_load_balancing   = var.elb_cross_zone_load_balancing
+  idle_timeout                = var.elb_idle_timeout
+  connection_draining         = var.elb_connection_draining
+  connection_draining_timeout = var.elb_connection_draining_timeout
 
   dynamic "access_logs" {
-    for_each = var.access_logs
+    iterator = access_logs
+    for_each = var.elb_access_logs
     content {
       bucket        = lookup(access_logs.value, "bucket", null)
       bucket_prefix = lookup(access_logs.value, "bucket_prefix", null)
@@ -26,7 +27,8 @@ resource "aws_elb" "elb" {
   }
 
   dynamic "listener" {
-    for_each = var.listener
+    iterator = listener
+    for_each = var.elb_listener
     content {
       instance_port      = lookup(listener.value, "instance_port", null)
       instance_protocol  = lookup(listener.value, "instance_protocol", null)
@@ -37,7 +39,8 @@ resource "aws_elb" "elb" {
   }
 
   dynamic "health_check" {
-    for_each = var.health_check
+    iterator = health_check
+    for_each = var.elb_health_check
     content {
       healthy_threshold   = lookup(health_check.value, "healthy_threshold", null)
       unhealthy_threshold = lookup(health_check.value, "unhealthy_threshold", null)

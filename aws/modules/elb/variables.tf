@@ -30,17 +30,17 @@ variable "elb_name" {
   default     = ""
 }
 
-variable "availability_zones" {
+variable "elb_availability_zones" {
   description = "Availability zones for AWS ASG"
   default     = null
 }
 
-variable "security_groups" {
+variable "elb_security_groups" {
   description = "A list of security group IDs to assign to the ELB. Only valid if creating an ELB within a VPC"
   default     = []
 }
 
-variable "subnets" {
+variable "elb_subnets" {
   description = "A list of subnet IDs to attach to the ELB"
   default     = null
 }
@@ -50,37 +50,37 @@ variable "elb_internal" {
   default     = false
 }
 
-variable "cross_zone_load_balancing" {
+variable "elb_cross_zone_load_balancing" {
   description = "Enable cross-zone load balancing. Default: true"
   default     = true
 }
 
-variable "idle_timeout" {
+variable "elb_idle_timeout" {
   description = "The time in seconds that the connection is allowed to be idle. Default: 60"
   default     = 60
 }
 
-variable "connection_draining" {
+variable "elb_connection_draining" {
   description = "Boolean to enable connection draining. Default: false"
   default     = false
 }
 
-variable "connection_draining_timeout" {
+variable "elb_connection_draining_timeout" {
   description = "The time in seconds to allow for connections to drain. Default: 300"
   default     = 300
 }
 
-variable "access_logs" {
+variable "elb_access_logs" {
   description = "An access logs block. Uploads access logs to S3 bucket"
   default     = []
 }
 
-variable "listener" {
+variable "elb_listener" {
   description = "A list of Listener block"
   default     = []
 }
 
-variable "health_check" {
+variable "elb_health_check" {
   description = " Health check"
   default     = []
 }
@@ -93,70 +93,158 @@ variable "enable_elb_attachment" {
   default     = false
 }
 
-variable "instances" {
+variable "elb_attachment_instances" {
   description = " Instances ID to add them to ELB"
   default     = []
 }
 
-variable "elb_id" {
+variable "elb_attachment_elb_id" {
   description = "ID of ELB"
   default     = ""
 }
 
 #-----------------------------------------------------------
-# ELB cookie_stickiness_policy
+# AWS ELB app cookie stickiness policy
 #-----------------------------------------------------------
-variable "enable_lb_cookie_stickiness_policy_http" {
-  description = "Enable lb cookie stickiness policy http. If set true, will add it, else will use https"
-  default     = true
-}
-
-variable "lb_cookie_stickiness_policy_http_name" {
-  description = "Name for lb_cookie_stickiness_policy_http"
-  default     = ""
-}
-
-variable "lb_cookie_stickiness_policy_https_name" {
-  description = "Name for lb_cookie_stickiness_policy_https"
-  default     = ""
-}
-
-variable "enable_app_cookie_stickiness_policy_http" {
-  description = "Enable app cookie stickiness policy http. If set true, will add it, else will use https"
-  default     = true
-}
-
-variable "app_cookie_stickiness_policy_http_name" {
-  description = "Name for app_cookie_stickiness_policy_http"
-  default     = ""
-}
-
-variable "http_lb_port" {
-  description = "Set http lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
-  default     = 80
-}
-
-variable "cookie_expiration_period" {
-  description = "Set cookie expiration period"
-  default     = 600
-}
-
-variable "cookie_name" {
-  description = "Set cookie name"
-  default     = "SessionID"
-}
-
-variable "enable_app_cookie_stickiness_policy_https" {
-  description = "Enable app cookie stickiness policy https"
+variable "enable_app_cookie_stickiness_policy" {
+  description = "Enable app cookie stickiness policy usage"
   default     = false
 }
 
-variable "app_cookie_stickiness_policy_https_name" {
-  description = "Name for app_cookie_stickiness_policy_http"
+variable "app_cookie_stickiness_policy_stack" {
+  description = "Set stack settings for app cookie stickness policy"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS ELB lb cookie stickiness policy
+#---------------------------------------------------
+variable "enable_lb_cookie_stickiness_policy" {
+  description = "Enable lb cookie stickiness policy usage"
+  default     = false
+}
+
+variable "lb_cookie_stickiness_policy_stack" {
+  description = "Set stack settings for lb cookie stickness policy"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS ELB proxy protocol policy
+#---------------------------------------------------
+variable "enable_proxy_protocol_policy" {
+  description = "Enable proxy protocol policy usage"
+  default     = false
+}
+
+variable "proxy_protocol_policy_load_balancer" {
+  description = "The name of the ELB."
   default     = ""
 }
 
-variable "https_lb_port" {
-  description = "Set https lb port for lb_cookie_stickiness_policy_http|app_cookie_stickiness_policy_http policies"
-  default     = 443
+variable "proxy_protocol_policy_instance_ports" {
+  description = "(Required) Instance ID to place in the ELB pool."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS ELB lb ssl negotiation policy
+#---------------------------------------------------
+variable "enable_lb_ssl_negotiation_policy" {
+  description = "Enable lb ssl negotiation policy"
+  default     = false
+}
+
+variable "lb_ssl_negotiation_policy_name" {
+  description = "The name of the SSL negotiation policy."
+  default     = ""
+}
+
+variable "lb_ssl_negotiation_policy_load_balancer" {
+  description = "The load balancer to which the policy should be attached."
+  default     = ""
+}
+
+variable "lb_ssl_negotiation_policy_lb_port" {
+  description = "(Required) The load balancer port to which the policy should be applied. This must be an active listener on the load balancer."
+  default     = null
+}
+
+variable "lb_ssl_negotiation_policy_attribute" {
+  description = "(Optional) An SSL Negotiation policy attribute"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS load balancer policy
+#---------------------------------------------------
+variable "enable_load_balancer_policy" {
+  description = "Enable load balancer policy usage"
+  default     = false
+}
+
+variable "load_balancer_policy_load_balancer_name" {
+  description = "(Required) The load balancer on which the policy is defined."
+  default     = ""
+}
+
+variable "load_balancer_policy_policy_name" {
+  description = "The name of the load balancer policy."
+  default     = ""
+}
+
+variable "load_balancer_policy_policy_type_name" {
+  description = "(Required) The policy type."
+  default     = null
+}
+
+variable "load_balancer_policy_policy_attribute" {
+  description = "(Optional) Policy attribute to apply to the policy."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS load balancer backend server policy
+#---------------------------------------------------
+variable "enable_load_balancer_backend_server_policy" {
+  description = "Enable load balancer backend server policy usage"
+  default     = false
+}
+
+variable "load_balancer_backend_server_policy_load_balancer_name" {
+  description = "The load balancer to attach the policy to."
+  default     = ""
+}
+
+variable "load_balancer_backend_server_policy_instance_port" {
+  description = "(Required) The instance port to apply the policy to."
+  default     = null
+}
+
+variable "load_balancer_backend_server_policy_policy_names" {
+  description = "(Required) List of Policy Names to apply to the backend server."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS load balancer listener policy
+#---------------------------------------------------
+variable "enable_load_balancer_listener_policy" {
+  description = "Enable load balancer listener policy"
+  default     = false
+}
+
+variable "load_balancer_listener_policy_load_balancer_name" {
+  description = "The load balancer to attach the policy to."
+  default     = ""
+}
+
+variable "load_balancer_listener_policy_load_balancer_port" {
+  description = "(Required) The load balancer listener port to apply the policy to."
+  default     = null
+}
+
+variable "load_balancer_listener_policy_policy_names" {
+  description = "(Required) List of Policy Names to apply to the backend server."
+  default     = []
 }
