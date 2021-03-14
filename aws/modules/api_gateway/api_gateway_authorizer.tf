@@ -5,7 +5,7 @@ resource "aws_api_gateway_authorizer" "api_gateway_authorizer" {
   count = var.enable_api_gateway_authorizer ? 1 : 0
 
   name        = var.api_gateway_authorizer_name != "" ? var.api_gateway_authorizer_name : "${lower(var.name)}-api-gw-authorizer-${lower(var.environment)}"
-  rest_api_id = var.api_gateway_authorizer_rest_api_id != "" && !var.enable_api_gateway_rest_api ? var.api_gateway_authorizer_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
+  rest_api_id = var.api_gateway_authorizer_rest_api_id != "" && ! var.enable_api_gateway_rest_api ? var.api_gateway_authorizer_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
 
   authorizer_uri                   = var.api_gateway_authorizer_authorizer_uri
   authorizer_credentials           = var.api_gateway_authorizer_authorizer_credentials

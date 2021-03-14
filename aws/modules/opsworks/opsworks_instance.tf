@@ -4,8 +4,8 @@
 resource "aws_opsworks_instance" "opsworks_instance" {
   count = var.enable_opsworks_instance ? 1 : 0
 
-  stack_id      = var.opsworks_instance_stack_id != "" && !var.enable_opsworks_stack ? var.opsworks_instance_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
-  layer_ids     = length(var.opsworks_instance_layer_ids) > 0 && !var.enable_opsworks_custom_layer ? var.opsworks_instance_layer_ids : [element(concat(aws_opsworks_custom_layer.opsworks_custom_layer.*.id, [""]), 0)]
+  stack_id      = var.opsworks_instance_stack_id != "" && ! var.enable_opsworks_stack ? var.opsworks_instance_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
+  layer_ids     = length(var.opsworks_instance_layer_ids) > 0 && ! var.enable_opsworks_custom_layer ? var.opsworks_instance_layer_ids : [element(concat(aws_opsworks_custom_layer.opsworks_custom_layer.*.id, [""]), 0)]
   instance_type = var.opsworks_instance_instance_type
 
   state                   = var.opsworks_instance_state

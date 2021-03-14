@@ -4,7 +4,7 @@
 resource "aws_lb_listener_rule" "nlb_listener_rule" {
   count = var.enable_nlb_listener_rule ? 1 : 0
 
-  listener_arn = var.nlb_listener_rule_listener_arn != "" && !var.enable_nlb_listener ? var.nlb_listener_rule_listener_arn : aws_lb_listener.nlb_listener[0].arn
+  listener_arn = var.nlb_listener_rule_listener_arn != "" && ! var.enable_nlb_listener ? var.nlb_listener_rule_listener_arn : aws_lb_listener.nlb_listener[0].arn
 
   priority = var.nlb_listener_rule_priority
 

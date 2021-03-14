@@ -4,7 +4,7 @@
 resource "aws_cloudformation_stack_set_instance" "cloudformation_stack_set_instance" {
   count = var.enable_cloudformation_stack_set_instance ? 1 : 0
 
-  stack_set_name = var.cloudformation_stack_set_instance_stack_set_name != "" && !var.enable_cloudformation_stack_set ? var.cloudformation_stack_set_instance_stack_set_name : element(concat(aws_cloudformation_stack_set.cloudformation_stack_set.*.name, [""]), 0)
+  stack_set_name = var.cloudformation_stack_set_instance_stack_set_name != "" && ! var.enable_cloudformation_stack_set ? var.cloudformation_stack_set_instance_stack_set_name : element(concat(aws_cloudformation_stack_set.cloudformation_stack_set.*.name, [""]), 0)
 
   account_id          = var.cloudformation_stack_set_instance_account_id
   parameter_overrides = var.cloudformation_stack_set_instance_parameter_overrides

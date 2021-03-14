@@ -5,7 +5,7 @@ resource "aws_s3_access_point" "s3_access_point" {
   count = var.enable_s3_access_point ? 1 : 0
 
   name   = var.s3_access_point_name != "" ? lower(var.s3_access_point_name) : "${lower(var.name)}-s3-access-point-${lower(var.environment)}"
-  bucket = var.s3_access_point_bucket != "" && !var.enable_s3_bucket ? var.s3_access_point_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+  bucket = var.s3_access_point_bucket != "" && ! var.enable_s3_bucket ? var.s3_access_point_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
 
   account_id = var.s3_access_point_account_id
   policy     = var.s3_access_point_policy

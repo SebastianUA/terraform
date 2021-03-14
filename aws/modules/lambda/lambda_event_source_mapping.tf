@@ -5,7 +5,7 @@ resource "aws_lambda_event_source_mapping" "lambda_event_source_mapping" {
   count = var.enable_lambda_event_source_mapping ? 1 : 0
 
   event_source_arn = var.lambda_event_source_mapping_event_source_arn
-  function_name    = var.lambda_event_source_mapping_function_name != "" && !var.enable_lambda_function ? var.lambda_event_source_mapping_function_name : element(concat(aws_lambda_function.lambda_function.*.arn, [""]), 0)
+  function_name    = var.lambda_event_source_mapping_function_name != "" && ! var.enable_lambda_function ? var.lambda_event_source_mapping_function_name : element(concat(aws_lambda_function.lambda_function.*.arn, [""]), 0)
 
   starting_position = var.lambda_event_source_mapping_starting_position
 

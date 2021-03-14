@@ -13,16 +13,20 @@ provider "aws" {
 module "codecommit" {
   source      = "../../modules/codecommit"
   name        = "TEST"
-  environment = "stage"
+  environment = "dev"
 
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
-  enable_codecommit_trigger          = false
-  codecommit_trigger_name            = ""
-  codecommit_trigger_destination_arn = ""
-  codecommit_trigger_branches        = []
-  codecommit_trigger_events          = ["all"]
+  enable_codecommit_trigger = false
+  codecommit_trigger = [
+    {
+      name            = ""
+      destination_arn = ""
+      branches        = []
+      events          = ["all"]
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

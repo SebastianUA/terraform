@@ -4,7 +4,7 @@
 resource "aws_globalaccelerator_listener" "globalaccelerator_listener" {
   count = var.enable_globalaccelerator_listener ? 1 : 0
 
-  accelerator_arn = var.globalaccelerator_listener_accelerator_arn != "" && !var.enable_globalaccelerator_accelerator ? var.globalaccelerator_listener_accelerator_arn : element(concat(aws_globalaccelerator_accelerator.globalaccelerator_accelerator.*.id, [""]), 0)
+  accelerator_arn = var.globalaccelerator_listener_accelerator_arn != "" && ! var.enable_globalaccelerator_accelerator ? var.globalaccelerator_listener_accelerator_arn : element(concat(aws_globalaccelerator_accelerator.globalaccelerator_accelerator.*.id, [""]), 0)
 
   client_affinity = upper(var.globalaccelerator_listener_client_affinity)
   protocol        = upper(var.globalaccelerator_listener_protocol)

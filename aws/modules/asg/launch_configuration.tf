@@ -14,7 +14,7 @@ resource "aws_launch_configuration" "lc" {
   user_data = data.template_file.user_data.rendered
 
   #associate_public_ip_address = var.enable_associate_public_ip_address
-  associate_public_ip_address = !var.enable_asg_azs ? var.enable_associate_public_ip_address : null
+  associate_public_ip_address = ! var.enable_asg_azs ? var.enable_associate_public_ip_address : null
   enable_monitoring           = var.enable_monitoring
   placement_tenancy           = var.placement_tenancy
 
@@ -74,7 +74,7 @@ resource "aws_launch_configuration" "lc_spot" {
   user_data = data.template_file.user_data.rendered
 
   #associate_public_ip_address = var.enable_associate_public_ip_address
-  associate_public_ip_address = !var.enable_asg_azs ? var.enable_associate_public_ip_address : null
+  associate_public_ip_address = ! var.enable_asg_azs ? var.enable_associate_public_ip_address : null
   enable_monitoring           = var.enable_monitoring
   spot_price                  = var.spot_price
 
@@ -133,7 +133,7 @@ resource "aws_launch_configuration" "lc_prefix" {
   key_name  = var.key_name
   user_data = data.template_file.user_data.rendered
 
-  associate_public_ip_address = !var.enable_asg_azs ? var.enable_associate_public_ip_address : null
+  associate_public_ip_address = ! var.enable_asg_azs ? var.enable_associate_public_ip_address : null
 
   enable_monitoring = var.enable_monitoring
   placement_tenancy = var.placement_tenancy
@@ -193,7 +193,7 @@ resource "aws_launch_configuration" "lc_spot_prefix" {
   key_name  = var.key_name
   user_data = data.template_file.user_data.rendered
 
-  associate_public_ip_address = !var.enable_asg_azs ? var.enable_associate_public_ip_address : null
+  associate_public_ip_address = ! var.enable_asg_azs ? var.enable_associate_public_ip_address : null
   enable_monitoring           = var.enable_monitoring
   spot_price                  = var.spot_price
 

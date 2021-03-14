@@ -12,10 +12,10 @@ resource "aws_dax_cluster" "dax_cluster" {
   availability_zones     = var.dax_cluster_availability_zones
   description            = var.dax_cluster_description
   notification_topic_arn = var.dax_cluster_notification_topic_arn
-  parameter_group_name   = var.dax_cluster_parameter_group_name != "" && !var.enable_dax_parameter_group ? var.dax_cluster_parameter_group_name : element(concat(aws_dax_parameter_group.dax_parameter_group.*.id, [""]), 0)
+  parameter_group_name   = var.dax_cluster_parameter_group_name != "" && ! var.enable_dax_parameter_group ? var.dax_cluster_parameter_group_name : element(concat(aws_dax_parameter_group.dax_parameter_group.*.id, [""]), 0)
   maintenance_window     = var.dax_cluster_maintenance_window
   security_group_ids     = var.dax_cluster_security_group_ids
-  subnet_group_name      = var.dax_cluster_subnet_group_name != "" && !var.enable_dax_subnet_group ? var.dax_cluster_subnet_group_name : element(concat(aws_dax_subnet_group.dax_subnet_group.*.id, [""]), 0)
+  subnet_group_name      = var.dax_cluster_subnet_group_name != "" && ! var.enable_dax_subnet_group ? var.dax_cluster_subnet_group_name : element(concat(aws_dax_subnet_group.dax_subnet_group.*.id, [""]), 0)
 
   dynamic "server_side_encryption" {
     iterator = serversideenc

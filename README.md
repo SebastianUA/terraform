@@ -1,6 +1,6 @@
 # Terraform usage
 ----------------
-![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg)|![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg)|![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)|![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)|![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg)![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg)![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 ## Install Terraform
 
@@ -204,6 +204,81 @@ terraform {
 ```
 
 I really like this tool and it can be used for your locally run as well as for CI/CD.
+
+## Using Terraform for multiple AWS accounts
+
+You can optionally define multiple configurations for the same provider, and select which one to use on a per-resource or per-module basis. The primary reason for this is to support multiple regions for a cloud platform; other examples include targeting multiple Docker hosts, multiple Consul hosts, etc.
+
+To create multiple configurations for a given provider, include multiple provider blocks with the same provider name. For each additional non-default configuration, use the alias meta-argument to provide an extra name segment. For example:
+```
+#
+# MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
+#
+terraform {
+  required_version = "~> 0.13"
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Account from resoure will be shared (owner)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+provider "aws" {
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
+  profile                 = "owner"
+
+  alias = "owner"
+}
+
+module "ram_owner" {
+  source      = "git@github.com:SebastianUA/terraform.git//aws/modules/ram?ref=dev"
+  name        = "tmp"
+  environment = "dev"
+
+  providers = {
+    aws = aws.owner
+  }
+
+  # RAM resource share
+  enable_ram_resource_share                    = true
+  ram_resource_share_name                      = "test-ram-shared-resource-1"
+  ram_resource_share_allow_external_principals = true
+
+  # RAM resource association
+  enable_ram_resource_association       = true
+  ram_resource_association_resource_arn = "arn:aws:ec2:YOUR_REGION_HERE:YOUR_AWSID_HERE:transit-gateway/tgw-095a7bb025f42d2b0"
+
+  tags = map("Env", "stage", "Orchestration", "Terraform")
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Account to resoure will be shared (main)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+provider "aws" {
+  region                  = "us-east-1"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
+  profile                 = "main"
+}
+
+module "ram_main_accepter" {
+  source      = "git@github.com:SebastianUA/terraform.git//aws/modules/ram?ref=dev"
+  name        = "tmp"
+  environment = "dev"
+
+  # RAM principal association
+  enable_ram_principal_association             = true
+  ram_principal_association_resource_share_arn = module.ram_owner.ram_resource_share_id
+  ram_principal_association_principal          = data.aws_caller_identity.current.account_id
+
+  # RAM resource share accepter
+  enable_ram_resource_share_accepter    = true
+  ram_resource_share_accepter_share_arn = module.ram_owner.ram_principal_association_id
+
+  depends_on = [
+    module.ram_owner
+  ]
+}
+```
+The official documentation is https://www.terraform.io/docs/language/providers/configuration.html#provider-versions.
 
 ## Auto-generate documentation for Terraform modules
 

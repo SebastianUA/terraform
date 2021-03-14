@@ -4,7 +4,7 @@
 resource "aws_lb_listener" "nlb_listener" {
   count = var.enable_nlb_listener ? 1 : 0
 
-  load_balancer_arn = var.nlb_listener_load_balancer_arn != "" && !var.enable_nlb ? var.nlb_listener_load_balancer_arn : element(aws_lb.nlb.*.arn, 0)
+  load_balancer_arn = var.nlb_listener_load_balancer_arn != "" && ! var.enable_nlb ? var.nlb_listener_load_balancer_arn : element(aws_lb.nlb.*.arn, 0)
   port              = var.nlb_listener_port
   protocol          = upper(var.nlb_listener_protocol)
 
@@ -12,7 +12,7 @@ resource "aws_lb_listener" "nlb_listener" {
   certificate_arn = var.nlb_listener_certificate_arn
 
   default_action {
-    target_group_arn = var.nlb_listener_default_action_target_group_arn != null && !var.enable_nlb_target_group ? var.nlb_listener_default_action_target_group_arn : element(aws_lb_target_group.nlb_target_group.*.arn, 0)
+    target_group_arn = var.nlb_listener_default_action_target_group_arn != null && ! var.enable_nlb_target_group ? var.nlb_listener_default_action_target_group_arn : element(aws_lb_target_group.nlb_target_group.*.arn, 0)
     type             = var.nlb_listener_default_action_type
 
     dynamic "fixed_response" {

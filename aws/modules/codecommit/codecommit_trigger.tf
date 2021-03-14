@@ -4,16 +4,19 @@
 resource "aws_codecommit_trigger" "codecommit_trigger" {
   count = var.enable_codecommit_trigger ? 1 : 0
 
-  repository_name = var.codecommit_repository_name != "" && !var.enable_codecommit_repository ? var.codecommit_repository_name : element(concat(aws_codecommit_repository.codecommit_repository.*.repository_name, [""]), 0)
+  repository_name = var.codecommit_repository_name != "" ? var.codecommit_repository_name : (var.enable_codecommit_repository ? element(aws_codecommit_repository.codecommit_repository.*.repository_name, 0) : null)
 
-  // Maybe can be used dynamic here
-  trigger {
-    name            = var.codecommit_trigger_name != "" ? lower(var.codecommit_trigger_name) : "${lower(var.name)}-codecommit-trigger-${lower(var.environment)}"
-    destination_arn = var.codecommit_trigger_destination_arn
+  dynamic "trigger" {
+    iterator = trigger
+    for_each = var.codecommit_trigger
+    content {
+      name            = lookup(trigger.value, "name", "${lower(var.name)}-codecommit-trigger-${lower(var.environment)}")
+      destination_arn = lookup(trigger.value, "destination_arn", null)
 
-    branches    = var.codecommit_trigger_branches
-    events      = var.codecommit_trigger_events
-    custom_data = var.codecommit_trigger_custom_data
+      branches    = lookup(trigger.value, "branches", null)
+      events      = lookup(trigger.value, "events", null)
+      custom_data = lookup(trigger.value, "custom_data", null)
+    }
   }
 
   lifecycle {

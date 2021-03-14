@@ -5,7 +5,7 @@ resource "aws_emr_instance_group" "emr_instance_group" {
   count = var.enable_emr_instance_group ? 1 : 0
 
   name          = var.emr_instance_group_name != "" ? var.emr_instance_group_name : "${lower(var.name)}-emr-instance-group-${lower(var.environment)}"
-  cluster_id    = var.emr_instance_group_cluster_id != "" && !var.enable_emr_cluster ? var.emr_instance_group_cluster_id : element(concat(aws_emr_cluster.emr_cluster.*.id, [""]), 0)
+  cluster_id    = var.emr_instance_group_cluster_id != "" && ! var.enable_emr_cluster ? var.emr_instance_group_cluster_id : element(concat(aws_emr_cluster.emr_cluster.*.id, [""]), 0)
   instance_type = var.emr_instance_group_instance_type
 
   instance_count      = var.emr_instance_group_instance_count

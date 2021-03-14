@@ -13,16 +13,20 @@ provider "aws" {
 module "codecommit" {
   source      = "../../modules/codecommit"
   name        = "TEST"
-  environment = "stage"
+  environment = "dev"
 
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
-  enable_codecommit_trigger          = false
-  codecommit_trigger_name            = ""
-  codecommit_trigger_destination_arn = ""
-  codecommit_trigger_branches        = []
-  codecommit_trigger_events          = ["all"]
+  enable_codecommit_trigger = false
+  codecommit_trigger = [
+    {
+      name            = ""
+      destination_arn = ""
+      branches        = []
+      events          = ["all"]
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -41,14 +45,20 @@ module "codebuild" {
   codebuild_project_queued_timeout = 480
 
   ## artifacts
-  codebuild_project_artifacts_name = null
-  codebuild_project_artifacts_type = "NO_ARTIFACTS" #CODEPIPELINE
+  codebuild_project_artifacts = [
+    {
+      name = null
+      type = "NO_ARTIFACTS" #CODEPIPELINE
+    }
+  ]
 
   ## source
-  codebuild_project_source_type            = "CODECOMMIT"
-  codebuild_project_source_location        = module.codecommit.codecommit_repository_clone_url_http #https://git-codecommit.us-east-1.amazonaws.com/v1/repos/myrepo.git
-  codebuild_project_source_git_clone_depth = 1
-  codebuild_project_source_version         = "master"
+  codebuild_project_source = {
+    type            = "CODECOMMIT"
+    location        = module.codecommit.codecommit_repository_clone_url_http #https://git-codecommit.us-east-1.amazonaws.com/v1/repos/myrepo.git
+    git_clone_depth = 1
+    version         = "master"
+  }
 
   ## caches
   codebuild_project_cache = [{
@@ -57,10 +67,13 @@ module "codebuild" {
   }]
 
   ## environment
-  codebuild_project_environment_compute_type    = "BUILD_GENERAL1_SMALL"
-  codebuild_project_environment_image           = "aws/codebuild/standard:4.0"
-  codebuild_project_environment_type            = "LINUX_CONTAINER"
-  codebuild_project_environment_privileged_mode = false
+  codebuild_project_environment = {
+    compute_type    = "BUILD_GENERAL1_SMALL"
+    image           = "aws/codebuild/standard:4.0"
+    type            = "LINUX_CONTAINER"
+    privileged_mode = false
+  }
+  
 
   # Creds
   enable_codebuild_source_credential      = false
@@ -69,17 +82,43 @@ module "codebuild" {
   codebuild_source_credential_token       = "token_here"
 
   # Webhook
-  enable_codebuild_webhook = false
+  enable_codebuild_webhook = true
   codebuild_webhook_filter_group = [
     {
-      type                    = "EVENT"
-      pattern                 = "PUSH"
-      exclude_matched_pattern = false
+      filter = {
+        type                    = "EVENT"
+        pattern                 = "PUSH"
+        exclude_matched_pattern = false
+      }
     },
     {
-      type                    = "HEAD_REF"
-      pattern                 = "master"
-      exclude_matched_pattern = false
+      filter = {
+        type                    = "HEAD_REF"
+        pattern                 = "master"
+        exclude_matched_pattern = false
+      }
+    }
+  ]
+
+  # codebuild report group
+  enable_codebuild_report_group = false
+  codebuild_report_group_stack = [
+    {
+      name           = "test"
+      type           = "TEST"
+      delete_reports = false
+
+      export_config = {
+        type = "S3"
+
+        s3_destination = {
+          bucket              = "bucket_id"
+          encryption_disabled = false
+          encryption_key      = "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+          packaging           = "NONE"
+          path                = "/some"
+        }
+      }
     }
   ]
 

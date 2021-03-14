@@ -48,27 +48,7 @@ variable "enable_codecommit_trigger" {
   default     = false
 }
 
-variable "codecommit_trigger_name" {
-  description = "The name of the trigger."
-  default     = ""
-}
-
-variable "codecommit_trigger_destination_arn" {
-  description = "(Required) The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS)."
-  default     = null
-}
-
-variable "codecommit_trigger_custom_data" {
-  description = "(Optional) Any custom data associated with the trigger that will be included in the information sent to the target of the trigger."
-  default     = null
-}
-
-variable "codecommit_trigger_branches" {
-  description = "(Optional) The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches."
-  default     = null
-}
-
-variable "codecommit_trigger_events" {
-  description = "(Required) The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS). If no events are specified, the trigger will run for all repository events. Event types include: all, updateReference, createReference, deleteReference."
-  default     = null
+variable "codecommit_trigger" {
+  description = "Set codecommit trigger params"
+  default     = []
 }

@@ -1,5 +1,5 @@
 resource "aws_cloudtrail" "cloudtrail" {
-  count = var.enable_cloudtrail && !var.enable_cloudtrail_event_selector ? 1 : 0
+  count = var.enable_cloudtrail && ! var.enable_cloudtrail_event_selector ? 1 : 0
 
   name           = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-${lower(var.environment)}"
   s3_bucket_name = var.s3_bucket_name

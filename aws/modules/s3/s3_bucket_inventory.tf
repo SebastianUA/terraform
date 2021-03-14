@@ -5,7 +5,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
   count = var.enable_s3_bucket_inventory ? 1 : 0
 
   name                     = var.s3_bucket_inventory_name != "" ? lower(var.s3_bucket_inventory_name) : "${lower(var.name)}-s3-inventory-${lower(var.environment)}"
-  bucket                   = var.s3_bucket_inventory_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_inventory_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+  bucket                   = var.s3_bucket_inventory_bucket != "" && ! var.enable_s3_bucket ? var.s3_bucket_inventory_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
   included_object_versions = var.s3_bucket_inventory_included_object_versions
 
   dynamic "schedule" {

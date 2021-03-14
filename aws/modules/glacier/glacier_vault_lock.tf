@@ -6,7 +6,7 @@ resource "aws_glacier_vault_lock" "glacier_vault_lock" {
 
   complete_lock = var.glacier_vault_lock_complete_lock
   policy        = var.glacier_vault_lock_policy
-  vault_name    = var.glacier_vault_lock_vault_name != "" && !var.enable_glacier_vault ? var.glacier_vault_lock_vault_name : element(concat(aws_glacier_vault.glacier_vault.*.id, [""]), 0)
+  vault_name    = var.glacier_vault_lock_vault_name != "" && ! var.enable_glacier_vault ? var.glacier_vault_lock_vault_name : element(concat(aws_glacier_vault.glacier_vault.*.id, [""]), 0)
 
   ignore_deletion_error = var.glacier_vault_lock_ignore_deletion_error
 

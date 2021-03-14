@@ -5,14 +5,14 @@ resource "aws_glue_crawler" "glue_crawler" {
   count = var.enable_glue_crawler ? 1 : 0
 
   name          = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"
-  database_name = var.glue_crawler_database_name != "" && !var.enable_glue_catalog_database ? var.glue_crawler_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.name, [""]), 0)
+  database_name = var.glue_crawler_database_name != "" && ! var.enable_glue_catalog_database ? var.glue_crawler_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.name, [""]), 0)
   role          = var.glue_crawler_role
 
   description            = var.glue_crawler_description
   classifiers            = var.glue_crawler_classifiers
   configuration          = var.glue_crawler_configuration
   schedule               = var.glue_crawler_schedule
-  security_configuration = var.glue_crawler_security_configuration != "" && !var.enable_glue_security_configuration ? var.glue_crawler_security_configuration : element(concat(aws_glue_security_configuration.glue_security_configuration.*.id, [""]), 0)
+  security_configuration = var.glue_crawler_security_configuration != "" && ! var.enable_glue_security_configuration ? var.glue_crawler_security_configuration : element(concat(aws_glue_security_configuration.glue_security_configuration.*.id, [""]), 0)
   table_prefix           = var.glue_crawler_table_prefix
 
   dynamic "dynamodb_target" {

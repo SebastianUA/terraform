@@ -5,7 +5,7 @@ resource "aws_s3_bucket_analytics_configuration" "s3_bucket_analytics_configurat
   count = var.enable_s3_bucket_analytics_configuration ? 1 : 0
 
   name   = var.s3_bucket_analytics_configuration_name != "" ? lower(var.s3_bucket_analytics_configuration_name) : "${lower(var.name)}-s3-bucket-analytics-configuration-${lower(var.environment)}"
-  bucket = var.s3_bucket_analytics_configuration_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_analytics_configuration_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+  bucket = var.s3_bucket_analytics_configuration_bucket != "" && ! var.enable_s3_bucket ? var.s3_bucket_analytics_configuration_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
 
   dynamic "filter" {
     iterator = filter

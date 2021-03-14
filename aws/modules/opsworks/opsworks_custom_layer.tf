@@ -5,7 +5,7 @@ resource "aws_opsworks_custom_layer" "opsworks_custom_layer" {
   count = var.enable_opsworks_custom_layer ? 1 : 0
 
   name     = var.opsworks_custom_layer_name != "" ? lower(var.opsworks_custom_layer_name) : "${lower(var.name)}-opsworks-custom-layer-${lower(var.environment)}"
-  stack_id = var.opsworks_custom_layer_stack_id != "" && !var.enable_opsworks_stack ? var.opsworks_custom_layer_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
+  stack_id = var.opsworks_custom_layer_stack_id != "" && ! var.enable_opsworks_stack ? var.opsworks_custom_layer_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
 
   auto_assign_elastic_ips     = var.opsworks_custom_layer_auto_assign_elastic_ips
   auto_assign_public_ips      = var.opsworks_custom_layer_auto_assign_public_ips

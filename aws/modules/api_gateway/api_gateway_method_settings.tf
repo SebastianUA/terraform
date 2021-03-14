@@ -4,9 +4,9 @@
 resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
   count = var.enable_api_gateway_method_settings ? 1 : 0
 
-  rest_api_id = var.api_gateway_method_settings_rest_api_id != "" && !var.enable_api_gateway_rest_api ? var.api_gateway_method_settings_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
-  stage_name  = var.api_gateway_method_settings_stage_name != "" && !var.enable_api_gateway_stage ? var.api_gateway_method_settings_stage_name : element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.stage_name, [""]), 0)
-  method_path = var.api_gateway_method_settings_method_path != "" && !var.enable_api_gateway_method ? var.api_gateway_method_settings_method_path : "${element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.path_part, [""]), 0)}/${element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.http_method, [""]), 0)}"
+  rest_api_id = var.api_gateway_method_settings_rest_api_id != "" && ! var.enable_api_gateway_rest_api ? var.api_gateway_method_settings_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
+  stage_name  = var.api_gateway_method_settings_stage_name != "" && ! var.enable_api_gateway_stage ? var.api_gateway_method_settings_stage_name : element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.stage_name, [""]), 0)
+  method_path = var.api_gateway_method_settings_method_path != "" && ! var.enable_api_gateway_method ? var.api_gateway_method_settings_method_path : "${element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.path_part, [""]), 0)}/${element(concat(aws_api_gateway_deployment.api_gateway_deployment.*.http_method, [""]), 0)}"
 
   dynamic "settings" {
     iterator = settings

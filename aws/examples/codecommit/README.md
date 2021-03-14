@@ -23,16 +23,20 @@ provider "aws" {
 module "codecommit" {
   source      = "../../modules/codecommit"
   name        = "TEST"
-  environment = "stage"
+  environment = "dev"
 
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
-  enable_codecommit_trigger          = false
-  codecommit_trigger_name            = ""
-  codecommit_trigger_destination_arn = ""
-  codecommit_trigger_branches        = []
-  codecommit_trigger_events          = ["all"]
+  enable_codecommit_trigger = false
+  codecommit_trigger = [
+    {
+      name            = ""
+      destination_arn = ""
+      branches        = []
+      events          = ["all"]
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -42,20 +46,21 @@ module "codecommit" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_codecommit_repository` - Enable codecommit repository usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_codecommit_repository` - Enable codecommit repository usage (`default = False`)
 - `codecommit_repository_name` - Set name for codecommit repository. The name for the repository. This needs to be less than 100 characters. (`default = ""`)
 - `codecommit_repository_description` - (Optional) The description of the repository. This needs to be less than 1000 characters (`default = null`)
 - `codecommit_repository_default_branch` - (Optional) The default branch of the repository. The branch specified here needs to exist. (`default = null`)
-- `enable_codecommit_trigger` - Enable codecommit trigger usage (`default = ""`)
-- `codecommit_trigger_name` - The name of the trigger. (`default = ""`)
-- `codecommit_trigger_destination_arn` - (Required) The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS). (`default = null`)
-- `codecommit_trigger_custom_data` - (Optional) Any custom data associated with the trigger that will be included in the information sent to the target of the trigger. (`default = null`)
-- `codecommit_trigger_branches` - (Optional) The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches. (`default = null`)
-- `codecommit_trigger_events` - (Required) The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS). If no events are specified, the trigger will run for all repository events. Event types include: all, updateReference, createReference, deleteReference. (`default = null`)
+- `enable_codecommit_trigger` - Enable codecommit trigger usage (`default = False`)
+- `codecommit_trigger` - Set codecommit trigger params (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `codecommit_repository_id` - The ID of the repository
+- `codecommit_repository_name` - The name of the repository
+- `codecommit_repository_arn` - The ARN of the repository
+- `codecommit_repository_clone_url_http` - The URL to use for cloning the repository over HTTPS.
+- `codecommit_repository_clone_url_ssh` - The URL to use for cloning the repository over SSH.
 
 
 ## Authors
