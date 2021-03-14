@@ -7,7 +7,7 @@ resource "aws_codebuild_report_group" "codebuild_report_group" {
   name = lookup(var.codebuild_report_group_stack[count.index], "name", "${var.name}-codebuild-report-group-${count.index + 1}-${var.environment}")
   type = lookup(var.codebuild_report_group_stack[count.index], "type", null)
 
-  delete_reports = lookup(var.codebuild_report_group_stack[count.index], "delete_reports", null)
+  //delete_reports = lookup(var.codebuild_report_group_stack[count.index], "delete_reports", null)
 
   dynamic "export_config" {
     iterator = export_config

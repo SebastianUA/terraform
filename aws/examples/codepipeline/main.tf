@@ -14,21 +14,14 @@ provider "aws" {
 module "s3" {
   source      = "../../modules/s3"
   name        = "TEST"
-  environment = "stage"
+  environment = "dev"
 
-  enable_s3_bucket    = true
-  s3_bucket_name      = "codepipeline-artifacts-bucket"
-  s3_bucket_acl       = "private"
-  s3_bucket_cors_rule = []
-
-  s3_bucket_versioning  = []
-  enable_lifecycle_rule = true
-
-  # Add policy to the bucket
-  enable_s3_bucket_policy = false
+  # AWS S3 bucket
+  enable_s3_bucket = true
+  s3_bucket_name   = "codepipeline-artifacts-bucket"
+  s3_bucket_acl    = "private"
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
-
 }
 
 module "kms" {
@@ -43,16 +36,20 @@ module "kms" {
 module "codecommit" {
   source      = "../../modules/codecommit"
   name        = "TEST"
-  environment = "stage"
+  environment = "dev"
 
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
-  enable_codecommit_trigger          = false
-  codecommit_trigger_name            = ""
-  codecommit_trigger_destination_arn = ""
-  codecommit_trigger_branches        = []
-  codecommit_trigger_events          = ["all"]
+  enable_codecommit_trigger = false
+  codecommit_trigger = [
+    {
+      name            = ""
+      destination_arn = ""
+      branches        = []
+      events          = ["all"]
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -66,21 +63,25 @@ module "codebuild" {
   enable_codebuild_project         = true
   codebuild_project_name           = ""
   codebuild_project_description    = "My first codebuild project"
-  codebuild_project_service_role   = "arn:aws:iam::167127734783:role/admin-role"
+  codebuild_project_service_role   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
   codebuild_project_build_timeout  = 60
   codebuild_project_queued_timeout = 480
 
   ## artifacts
-  codebuild_project_artifacts_name                   = null
-  codebuild_project_artifacts_override_artifact_name = true
-  codebuild_project_artifacts_type                   = "S3" #NO_ARTIFACTS or CODEPIPELINE
-  codebuild_project_artifacts_location               = module.s3.s3_bucket_id
+  codebuild_project_artifacts = [
+    {
+      name = null
+      type = "NO_ARTIFACTS" #CODEPIPELINE
+    }
+  ]
 
   ## source
-  codebuild_project_source_type            = "CODECOMMIT"
-  codebuild_project_source_location        = module.codecommit.codecommit_repository_clone_url_http
-  codebuild_project_source_git_clone_depth = 1
-  codebuild_project_source_version         = null # will be latest
+  codebuild_project_source = {
+    type            = "CODECOMMIT"
+    location        = module.codecommit.codecommit_repository_clone_url_http #https://git-codecommit.us-east-1.amazonaws.com/v1/repos/myrepo.git
+    git_clone_depth = 1
+    version         = "master"
+  }
 
   ## caches
   codebuild_project_cache = [{
@@ -89,10 +90,59 @@ module "codebuild" {
   }]
 
   ## environment
-  codebuild_project_environment_compute_type    = "BUILD_GENERAL1_SMALL"
-  codebuild_project_environment_image           = "aws/codebuild/standard:4.0"
-  codebuild_project_environment_type            = "LINUX_CONTAINER"
-  codebuild_project_environment_privileged_mode = false
+  codebuild_project_environment = {
+    compute_type    = "BUILD_GENERAL1_SMALL"
+    image           = "aws/codebuild/standard:4.0"
+    type            = "LINUX_CONTAINER"
+    privileged_mode = false
+  }
+
+
+  # Creds
+  enable_codebuild_source_credential      = false
+  codebuild_source_credential_auth_type   = "PERSONAL_ACCESS_TOKEN"
+  codebuild_source_credential_server_type = "GITHUB" #GITHUB BITBUCKET GITHUB_ENTERPRISE
+  codebuild_source_credential_token       = "token_here"
+
+  # Webhook
+  enable_codebuild_webhook = true
+  codebuild_webhook_filter_group = [
+    {
+      filter = {
+        type                    = "EVENT"
+        pattern                 = "PUSH"
+        exclude_matched_pattern = false
+      }
+    },
+    {
+      filter = {
+        type                    = "HEAD_REF"
+        pattern                 = "master"
+        exclude_matched_pattern = false
+      }
+    }
+  ]
+
+  # codebuild report group
+  enable_codebuild_report_group = false
+  codebuild_report_group_stack = [
+    {
+      name = "test"
+      type = "TEST"
+
+      export_config = {
+        type = "S3"
+
+        s3_destination = {
+          bucket              = "bucket_id"
+          encryption_disabled = false
+          encryption_key      = module.kms.kms_key_arn
+          packaging           = "NONE"
+          path                = "/some"
+        }
+      }
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -103,69 +153,98 @@ module "codepipeline" {
   environment = "stage"
 
   # Pipeline
-  enable_codepipeline   = true
-  codepipeline_name     = ""
-  codepipeline_role_arn = "arn:aws:iam::167127734783:role/admin-role"
+  enable_codepipeline = true
+  codepipeline_stack = [
+    {
+      name     = "pipeline-1"
+      role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
 
-  ## artifact
-  codepipeline_artifact_store_type     = "S3"
-  codepipeline_artifact_store_location = module.s3.s3_bucket_id
-  codepipeline_artifact_store_encryption_key = [{
-    id   = module.kms.kms_key_arn
-    type = "KMS"
-  }]
+      ## artifact
+      artifact_store = {
+        type     = "S3"
+        location = module.s3.s3_bucket_id
 
-  ## stages & actions
-  ### stage 1
-  codepipeline_stage1_name            = "Source"
-  codepipeline_stage1_action_name     = "Source"
-  codepipeline_stage1_action_category = "Source"
-  codepipeline_stage1_action_owner    = "AWS"
-  codepipeline_stage1_action_provider = "CodeCommit"
-  codepipeline_stage1_action_version  = 1
-  codepipeline_stage1_action_configuration = {
-    RepositoryName = module.codecommit.codecommit_repository_name
-    BranchName     = "master"
-  }
-  codepipeline_stage1_action_output_artifacts = ["Source"]
+        encryption_key = {
+          id   = module.kms.kms_key_arn
+          type = "KMS"
+        }
+      }
 
-  ### stage 2
-  codepipeline_stage2_name            = "Build"
-  codepipeline_stage2_action_name     = "Build"
-  codepipeline_stage2_action_category = "Build"
-  codepipeline_stage2_action_owner    = "AWS"
-  codepipeline_stage2_action_provider = "CodeBuild"
-  codepipeline_stage2_action_version  = "1"
-  codepipeline_stage2_action_configuration = {
-    ProjectName = module.codebuild.codebuild_project_id
-  }
-  codepipeline_stage2_action_input_artifacts  = ["Source"]
-  codepipeline_stage2_action_output_artifacts = ["Build"]
+      ## stages & actions
+      stage = [
+        {
+          name = "Source"
 
-  ### stage 3
-  codepipeline_stage3_name            = "Deploy"
-  codepipeline_stage3_action_name     = "Deploy"
-  codepipeline_stage3_action_category = "Deploy"
-  codepipeline_stage3_action_owner    = "AWS"
-  codepipeline_stage3_action_provider = "ECS"
-  codepipeline_stage3_action_version  = "1"
-  codepipeline_stage3_action_configuration = {
-    ClusterName = "ecs-cluster-name"
-    ServiceName = "ecs-service-name"
-  }
-  codepipeline_stage3_action_input_artifacts = ["Build"]
+          action = {
+            name     = "Source"
+            category = "Source"
+            owner    = "AWS"
+            provider = "CodeCommit"
+            version  = 1
+            configuration = {
+              RepositoryName = module.codecommit.codecommit_repository_name
+              BranchName     = "master"
+            }
+            output_artifacts = ["Source"]
+          }
+        },
+        {
+          name = "Build"
+
+          action = {
+            name     = "Build"
+            category = "Build"
+            owner    = "AWS"
+            provider = "CodeBuild"
+            version  = 1
+            configuration = {
+              ProjectName = module.codebuild.codebuild_project_id
+            }
+            input_artifacts  = ["Source"]
+            output_artifacts = ["Build"]
+          }
+        },
+        {
+          name = "Deploy"
+
+          action = {
+            name     = "Deploy"
+            category = "Deploy"
+            owner    = "AWS"
+            provider = "ECS"
+            version  = 1
+            configuration = {
+              ClusterName = "ecs-cluster-name"
+              ServiceName = "ecs-service-name"
+            }
+            input_artifacts = ["Build"]
+          }
+        }
+      ]
+    }
+  ]
+
 
   # Pipeline webhook
-  enable_codepipeline_webhook         = false
-  codepipeline_webhook_name           = ""
-  codepipeline_webhook_authentication = "GITHUB_HMAC"
-  codepipeline_webhook_target_action  = "Source"
-  codepipeline_webhook_authentication_configuration = [{
-    secret_token = "mysecret_here"
-  }]
+  enable_codepipeline_webhook = true
+  codepipeline_webhook_stack = [
+    {
+      name           = ""
+      authentication = "GITHUB_HMAC"
+      target_action  = "Source"
 
-  codepipeline_webhook_filter1_json_path    = "$.ref"
-  codepipeline_webhook_filter1_match_equals = "refs/heads/{Branch}"
+      filter = {
+        json_path    = "$.ref"
+        match_equals = "refs/heads/{Branch}"
+      }
+
+      authentication_configuration = [
+        {
+          secret_token = "mysecret_here"
+        }
+      ]
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

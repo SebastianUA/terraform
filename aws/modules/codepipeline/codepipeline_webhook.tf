@@ -2,21 +2,27 @@
 # AWS codepipeline webhook
 #---------------------------------------------------
 resource "aws_codepipeline_webhook" "codepipeline_webhook" {
-  count = var.enable_codepipeline_webhook ? 1 : 0
+  count = var.enable_codepipeline_webhook ? length(var.codepipeline_stack) : 0
 
-  name            = var.codepipeline_webhook_name != "" ? lower(var.codepipeline_webhook_name) : "${lower(var.name)}-codepipeline-webhook-${lower(var.environment)}"
-  authentication  = upper(var.codepipeline_webhook_authentication)
-  target_action   = var.codepipeline_webhook_target_action
-  target_pipeline = var.codepipeline_webhook_target_pipeline != "" && ! var.enable_codepipeline ? var.codepipeline_webhook_target_pipeline : element(concat(aws_codepipeline.codepipeline.*.name, [""]), 0)
+  name            = lookup(var.codepipeline_webhook_stack[count.index], "name", "${lower(var.name)}-codepipeline-webhook-${count.index + 1}-${lower(var.environment)}")
+  authentication  = lookup(var.codepipeline_webhook_stack[count.index], "authentication", null)
+  target_action   = lookup(var.codepipeline_webhook_stack[count.index], "target_action", null)
+  target_pipeline = lookup(var.codepipeline_webhook_stack[count.index], "authentication", (var.enable_codepipeline ? aws_codepipeline.codepipeline[count.index].name : null))
 
-  filter {
-    json_path    = var.codepipeline_webhook_filter1_json_path
-    match_equals = var.codepipeline_webhook_filter1_match_equals
+  dynamic "filter" {
+    iterator = filter
+    for_each = length(keys(lookup(var.codepipeline_webhook_stack[count.index], "filter", {}))) > 0 ? [lookup(var.codepipeline_webhook_stack[count.index], "filter", {})] : []
+
+    content {
+      json_path    = lookup(filter.value, "json_path", null)
+      match_equals = lookup(filter.value, "match_equals", null)
+    }
   }
 
   dynamic "authentication_configuration" {
     iterator = authconf
-    for_each = var.codepipeline_webhook_authentication_configuration
+    for_each = lookup(var.codepipeline_webhook_stack[count.index], "authentication_configuration", [])
+
     content {
       secret_token     = lookup(authconf.value, "secret_token", null)
       allowed_ip_range = lookup(authconf.value, "allowed_ip_range", null)
@@ -25,7 +31,7 @@ resource "aws_codepipeline_webhook" "codepipeline_webhook" {
 
   tags = merge(
     {
-      Name = var.codepipeline_webhook_name != "" ? lower(var.codepipeline_webhook_name) : "${lower(var.name)}-codepipeline-webhook-${lower(var.environment)}"
+      Name = lookup(var.codepipeline_webhook_stack[count.index], "name", "${lower(var.name)}-codepipeline-webhook-${count.index + 1}-${lower(var.environment)}")
     },
     var.tags
   )

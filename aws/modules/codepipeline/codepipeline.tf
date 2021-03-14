@@ -2,87 +2,65 @@
 # AWS codepipeline
 #---------------------------------------------------
 resource "aws_codepipeline" "codepipeline" {
-  count = var.enable_codepipeline ? 1 : 0
+  count = var.enable_codepipeline ? length(var.codepipeline_stack) : 0
 
-  name     = var.codepipeline_name != "" ? lower(var.codepipeline_name) : "${lower(var.name)}-codepipeline-${lower(var.environment)}"
-  role_arn = var.codepipeline_role_arn
+  name     = lookup(var.codepipeline_stack[count.index], "name", "${lower(var.name)}-codepipeline-${count.index + 1}-${lower(var.environment)}")
+  role_arn = lookup(var.codepipeline_stack[count.index], "name", null)
 
-  artifact_store {
-    type     = upper(var.codepipeline_artifact_store_type)
-    location = var.codepipeline_artifact_store_location
+  dynamic "artifact_store" {
+    iterator = artifact_store
+    for_each = length(keys(lookup(var.codepipeline_stack[count.index], "artifact_store", {}))) > 0 ? [lookup(var.codepipeline_stack[count.index], "artifact_store", {})] : []
 
-    region = var.codepipeline_artifact_store_region
+    content {
+      type     = lookup(artifact_store.value, "type", null)
+      location = lookup(artifact_store.value, "location", null)
 
-    dynamic "encryption_key" {
-      iterator = encrptkey
-      for_each = var.codepipeline_artifact_store_encryption_key
-      content {
-        id   = lookup(encrptkey.value, "id", null)
-        type = lookup(encrptkey.value, "type", null)
+      region = lookup(artifact_store.value, "region", null)
+
+      dynamic "encryption_key" {
+        iterator = encryption_key
+        for_each = length(keys(lookup(artifact_store.value, "encryption_key", {}))) > 0 ? [lookup(artifact_store.value, "encryption_key", {})] : []
+
+        content {
+          id   = lookup(encryption_key.value, "id", null)
+          type = lookup(encryption_key.value, "type", null)
+        }
       }
     }
   }
 
-  stage {
-    name = var.codepipeline_stage1_name != "" ? var.codepipeline_stage1_name : "Source"
+  dynamic "stage" {
+    iterator = stage
+    for_each = lookup(var.codepipeline_stack[count.index], "stage", [])
 
-    action {
-      name     = var.codepipeline_stage1_action_name != "" ? var.codepipeline_stage1_action_name : "Source"
-      category = var.codepipeline_stage1_action_category != "" ? var.codepipeline_stage1_action_category : "Source"
-      owner    = var.codepipeline_stage1_action_owner != "" ? var.codepipeline_stage1_action_owner : "AWS"
-      provider = var.codepipeline_stage1_action_provider != "" ? var.codepipeline_stage1_action_provider : "CodeCommit"
-      version  = var.codepipeline_stage1_action_version
+    content {
+      name = lookup(stage.value, "name", "${lower(var.name)}-stage-${count.index + 1}-${lower(var.environment)}")
 
-      configuration    = var.codepipeline_stage1_action_configuration
-      input_artifacts  = var.codepipeline_stage1_action_input_artifacts
-      output_artifacts = var.codepipeline_stage1_action_output_artifacts
-      role_arn         = var.codepipeline_stage1_action_role_arn
-      run_order        = var.codepipeline_stage1_action_run_order
-      region           = var.codepipeline_stage1_action_region
-    }
-  }
+      dynamic "action" {
+        iterator = action
+        for_each = length(keys(lookup(stage.value, "action", {}))) > 0 ? [lookup(stage.value, "action", {})] : []
 
-  stage {
-    name = var.codepipeline_stage2_name != "" ? var.codepipeline_stage2_name : "Build"
+        content {
+          name     = lookup(action.value, "name", null)
+          category = lookup(action.value, "category", null)
+          owner    = lookup(action.value, "owner", null)
+          provider = lookup(action.value, "provider", null)
+          version  = lookup(action.value, "version", null)
 
-    action {
-      name     = var.codepipeline_stage2_action_name != "" ? var.codepipeline_stage2_action_name : "Build"
-      category = var.codepipeline_stage2_action_category != "" ? var.codepipeline_stage2_action_category : "Build"
-      owner    = var.codepipeline_stage2_action_owner != "" ? var.codepipeline_stage2_action_owner : "AWS"
-      provider = var.codepipeline_stage2_action_provider != "" ? var.codepipeline_stage2_action_provider : "CodeBuild"
-      version  = var.codepipeline_stage2_action_version
-
-      configuration    = var.codepipeline_stage2_action_configuration
-      input_artifacts  = var.codepipeline_stage2_action_input_artifacts
-      output_artifacts = var.codepipeline_stage2_action_output_artifacts
-      role_arn         = var.codepipeline_stage2_action_role_arn
-      run_order        = var.codepipeline_stage2_action_run_order
-      region           = var.codepipeline_stage2_action_region
-    }
-  }
-
-  stage {
-    name = var.codepipeline_stage3_name != "" ? var.codepipeline_stage3_name : "Deploy"
-
-    action {
-      name     = var.codepipeline_stage3_action_name != "" ? var.codepipeline_stage3_action_name : "Deploy"
-      category = var.codepipeline_stage3_action_category != "" ? var.codepipeline_stage3_action_category : "Deploy"
-      owner    = var.codepipeline_stage3_action_owner != "" ? var.codepipeline_stage3_action_owner : "AWS"
-      provider = var.codepipeline_stage3_action_provider != "" ? var.codepipeline_stage3_action_provider : "ECS"
-      version  = var.codepipeline_stage3_action_version
-
-      configuration    = var.codepipeline_stage3_action_configuration
-      input_artifacts  = var.codepipeline_stage3_action_input_artifacts
-      output_artifacts = var.codepipeline_stage3_action_output_artifacts
-      role_arn         = var.codepipeline_stage3_action_role_arn
-      run_order        = var.codepipeline_stage3_action_run_order
-      region           = var.codepipeline_stage3_action_region
+          configuration    = lookup(action.value, "configuration", null)
+          input_artifacts  = lookup(action.value, "input_artifacts", null)
+          output_artifacts = lookup(action.value, "output_artifacts", null)
+          role_arn         = lookup(action.value, "role_arn", null)
+          run_order        = lookup(action.value, "run_order", null)
+          region           = lookup(action.value, "region", null)
+        }
+      }
     }
   }
 
   tags = merge(
     {
-      Name = var.codepipeline_name != "" ? lower(var.codepipeline_name) : "${lower(var.name)}-codepipeline-${lower(var.environment)}"
+      Name = lookup(var.codepipeline_stack[count.index], "name", "${lower(var.name)}-codepipeline-${count.index + 1}-${lower(var.environment)}")
     },
     var.tags
   )
