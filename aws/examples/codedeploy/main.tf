@@ -21,13 +21,88 @@ module "codedeploy" {
   codedeploy_app_name             = ""
   codedeploy_app_compute_platform = "Server"
 
-  # Canary
-  enable_codedeploy_deployment_config_canary = true
+  # CodeDeploy deployment configs
+  enable_codedeploy_deployment_config = true
+  codedeploy_deployment_config_stack = [
+    {
+      compute_platform       = "Server"
+      deployment_config_name = "deployment_config-1"
 
-  # Liner
-  enable_codedeploy_deployment_config_linear = false
+      minimum_healthy_hosts = {
+        type  = "HOST_COUNT"
+        value = 2
+      }
 
-  enable_deployment_group_deployment           = true
-  codedeploy_deployment_group_service_role_arn = "arn:aws:iam::167127734783:role/admin-role"
+      traffic_routing_config = {
+        type = "TimeBasedLinear"
 
+        time_based_linear = {
+          interval   = 10
+          percentage = 10
+        }
+      }
+    },
+    {
+      compute_platform       = "Server"
+      deployment_config_name = "deployment_config-2"
+
+      minimum_healthy_hosts = {
+        type  = "HOST_COUNT"
+        value = 2
+      }
+
+      traffic_routing_config = {
+        type = "TimeBasedCanary"
+
+        time_based_canary = {
+          interval   = 10
+          percentage = 10
+        }
+      }
+    },
+    {
+      compute_platform       = "Server"
+      deployment_config_name = "deployment_config-3"
+
+      minimum_healthy_hosts = {
+        type  = "HOST_COUNT"
+        value = 2
+      }
+
+      traffic_routing_config = {
+        type = "AllAtOnce"
+      }
+    }
+  ]
+
+  enable_codedeploy_deployment_group = true
+  codedeploy_deployment_group_stack = [
+    {
+      deployment_group_name = "deployment-group-1"
+      service_role_arn      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+
+      auto_rollback_configuration = {
+        enabled = true
+        events  = ["DEPLOYMENT_STOP_ON_ALARM"]
+      }
+
+      ec2_tag_filter = {
+        key   = "filterkey"
+        type  = "KEY_AND_VALUE"
+        value = "filtervalue"
+      }
+
+      trigger_configuration = {
+        trigger_events     = ["DeploymentFailure"]
+        trigger_name       = "foo-trigger"
+        trigger_target_arn = "foo-topic-arn"
+      }
+
+      alarm_configuration = {
+        alarms  = ["my-alarm-name"]
+        enabled = true
+      }
+
+    }
+  ]
 }

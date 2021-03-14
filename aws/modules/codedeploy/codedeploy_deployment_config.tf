@@ -1,51 +1,48 @@
 #---------------------------------------------------
 # AWS codedeploy deployment config
 #---------------------------------------------------
-resource "aws_codedeploy_deployment_config" "codedeploy_deployment_config_canary" {
-  count = var.enable_codedeploy_deployment_config_canary ? 1 : 0
+resource "aws_codedeploy_deployment_config" "codedeploy_deployment_config" {
+  count = var.enable_codedeploy_deployment_config ? length(var.codedeploy_deployment_config_stack) : 0
 
-  deployment_config_name = var.codedeploy_deployment_config_canary_deployment_config_name != "" ? lower(var.codedeploy_deployment_config_canary_deployment_config_name) : "${lower(var.name)}-deployment-config-canary-${lower(var.environment)}"
-  compute_platform       = var.codedeploy_deployment_config_canary_compute_platform
+  deployment_config_name = lookup(var.codedeploy_deployment_config_stack[count.index], "deployment_config_name", "${lower(var.name)}-deployment-config-${count.index + 1}-${lower(var.environment)}")
+  compute_platform       = lookup(var.codedeploy_deployment_config_stack[count.index], "compute_platform", null)
 
-  minimum_healthy_hosts {
-    type  = upper(var.minimum_healthy_hosts_canary_type)
-    value = var.minimum_healthy_hosts_canary_value
-  }
+  dynamic "minimum_healthy_hosts" {
+    iterator = minimum_healthy_hosts
+    for_each = length(keys(lookup(var.codedeploy_deployment_config_stack[count.index], "minimum_healthy_hosts", {}))) > 0 ? [lookup(var.codedeploy_deployment_config_stack[count.index], "minimum_healthy_hosts", {})] : []
 
-  traffic_routing_config {
-    type = var.traffic_routing_config_canary_type
-
-    time_based_canary {
-      interval   = var.traffic_routing_config_canary_time_based_canary_interval
-      percentage = var.traffic_routing_config_canary_time_based_canary_percentage
+    content {
+      type  = lookup(minimum_healthy_hosts.value, "type", null)
+      value = lookup(minimum_healthy_hosts.value, "value", null)
     }
   }
 
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
+  dynamic "traffic_routing_config" {
+    iterator = traffic_routing_config
+    for_each = length(keys(lookup(var.codedeploy_deployment_config_stack[count.index], "traffic_routing_config", {}))) > 0 ? [lookup(var.codedeploy_deployment_config_stack[count.index], "traffic_routing_config", {})] : []
 
-  depends_on = []
-}
+    content {
+      type = lookup(traffic_routing_config.value, "type", null)
 
-resource "aws_codedeploy_deployment_config" "codedeploy_deployment_config_linear" {
-  count = var.enable_codedeploy_deployment_config_linear ? 1 : 0
+      dynamic "time_based_canary" {
+        iterator = time_based_canary
+        for_each = length(keys(lookup(traffic_routing_config.value, "time_based_canary", {}))) > 0 ? [lookup(traffic_routing_config.value, "time_based_canary", {})] : []
 
-  deployment_config_name = var.codedeploy_deployment_config_linear_deployment_config_name != "" ? lower(var.codedeploy_deployment_config_linear_deployment_config_name) : "${lower(var.name)}-deployment-config-linear-${lower(var.environment)}"
-  compute_platform       = var.codedeploy_deployment_config_linear_compute_platform
+        content {
+          interval   = lookup(time_based_canary.value, "interval", null)
+          percentage = lookup(time_based_canary.value, "percentage", null)
+        }
+      }
 
-  minimum_healthy_hosts {
-    type  = upper(var.minimum_healthy_hosts_linear_type)
-    value = var.minimum_healthy_hosts_linear_value
-  }
+      dynamic "time_based_linear" {
+        iterator = time_based_linear
+        for_each = length(keys(lookup(traffic_routing_config.value, "time_based_linear", {}))) > 0 ? [lookup(traffic_routing_config.value, "time_based_linear", {})] : []
 
-  traffic_routing_config {
-    type = var.traffic_routing_config_linear_type
-
-    time_based_linear {
-      interval   = var.traffic_routing_config_linear_time_based_linear_interval
-      percentage = var.traffic_routing_config_linear_time_based_linear_percentage
+        content {
+          interval   = lookup(time_based_linear.value, "interval", null)
+          percentage = lookup(time_based_linear.value, "percentage", null)
+        }
+      }
     }
   }
 
