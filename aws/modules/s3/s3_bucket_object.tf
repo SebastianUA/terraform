@@ -5,7 +5,7 @@
 resource "aws_s3_bucket_object" "s3_bucket_object" {
   count = var.enable_s3_bucket_object ? length(var.s3_bucket_object_source) : 0
 
-  bucket = var.s3_bucket_object_bucket != "" && ! var.enable_s3_bucket ? var.s3_bucket_object_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+  bucket = var.s3_bucket_object_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_object_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
   key    = var.s3_bucket_object_key != "" ? lower(var.s3_bucket_object_key) : var.s3_bucket_object_source[count.index]
 
   source              = var.s3_bucket_object_source[count.index]

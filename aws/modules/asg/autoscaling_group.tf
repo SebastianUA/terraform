@@ -2,7 +2,7 @@
 # Create AWS ASG
 #---------------------------------------------------
 resource "aws_autoscaling_group" "asg" {
-  count = var.enable_asg && var.name_prefix == "" && ! var.enable_asg_azs ? 1 : 0
+  count = var.enable_asg && var.name_prefix == "" && !var.enable_asg_azs ? 1 : 0
 
   name                 = var.asg_name != "" ? var.asg_name : "${lower(var.name)}-asg-${lower(var.environment)}"
   launch_configuration = var.launch_configuration != "" ? var.launch_configuration : element(concat(aws_launch_configuration.lc.*.name, aws_launch_configuration.lc_spot.*.name, [""]), 0)
@@ -55,7 +55,7 @@ resource "aws_autoscaling_group" "asg" {
 }
 
 resource "aws_autoscaling_group" "asg_prefix" {
-  count = var.enable_asg && var.name_prefix != "" && ! var.enable_asg_azs ? 1 : 0
+  count = var.enable_asg && var.name_prefix != "" && !var.enable_asg_azs ? 1 : 0
 
   launch_configuration = var.launch_configuration != "" ? var.launch_configuration : element(concat(aws_launch_configuration.lc_prefix.*.name, aws_launch_configuration.lc_spot_prefix.*.name, [""]), 0)
   name_prefix          = var.name_prefix

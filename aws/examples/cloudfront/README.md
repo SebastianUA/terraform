@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.13"
+  required_version = "~> 0.14"
 }
 
 provider "aws" {
@@ -25,14 +25,10 @@ module "s3" {
   name        = "TEST"
   environment = "NonPROD"
 
+  # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-cloudfront-bucket"
-
-  s3_bucket_acl       = "private"
-  s3_bucket_cors_rule = []
-
-  s3_bucket_versioning  = []
-  enable_lifecycle_rule = true
+  s3_bucket_acl    = "private"
 
   # Add policy to the bucket
   enable_s3_bucket_policy = true
@@ -55,22 +51,135 @@ module "s3" {
 }
 POLICY
 
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 }
+
 
 module "cloudfront" {
   source      = "../../modules/cloudfront"
   name        = "TEST"
   environment = "stage"
 
+  # AWS cloudfront distribution
   enable_cloudfront_distribution = true
-  domain_name                    = module.s3.s3_bucket_bucket_bucket_regional_domain_name
-  origin_id                      = "cloudfront"
+  cloudfront_distribution_stack = [
+    {
+      // Requireds
+      name    = "cloudfront-distribution-1"
+      enabled = true
 
-  default_cache_behavior_target_origin_id = "cloudfront"
-  logging_config_bucket                   = module.s3.s3_bucket_bucket_bucket_regional_domain_name
+      origin = {
+        origin_id   = "origin_id"
+        domain_name = "domain_name"
+
+        origin_path = ""
+
+        custom_header = [
+          {
+            name  = "X-Forwarded-Scheme"
+            value = "https"
+          },
+          {
+            name  = "X-Frame-Options"
+            value = "SAMEORIGIN"
+          }
+        ]
+
+        custom_origin_config = {
+          origin_protocol_policy   = "match-viewer"
+          http_port                = 80
+          https_port               = 443
+          origin_ssl_protocols     = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+          origin_keepalive_timeout = 60
+          origin_read_timeout      = 60
+        }
+
+        s3_origin_config = {
+          origin_access_identity = ""
+        }
+      }
+
+      restrictions = {
+        geo_restriction = {
+          restriction_type = "whitelist"
+          locations        = ["UA", "USA", "NL"]
+        }
+      }
+
+      viewer_certificate = {
+        cloudfront_default_certificate = true
+        acm_certificate_arn            = ""
+        iam_certificate_id             = ""
+        minimum_protocol_version       = "TLSv1"
+        ssl_support_method             = "sni-only"
+      }
+
+      default_cache_behavior = {
+        allowed_methods = ["GET", "HEAD", "OPTIONS"]
+        cached_methods  = ["GET", "HEAD"]
+      }
+
+      // Optionals 
+      comment             = "test cloudfront"
+      aliases             = ["cloudfront.linux-notes.org", "linux-notes.org"]
+      default_root_object = "index.html"
+      is_ipv6_enabled     = true
+      http_version        = "http2"
+      price_class         = "PriceClass_200"
+      web_acl_id          = null
+      retain_on_delete    = false
+      wait_for_deployment = true
+
+      custom_error_response  = {}
+      logging_config         = {}
+      ordered_cache_behavior = []
+      origin_group           = {}
+    }
+  ]
+
+  # AWS cloudfront cache policy
+  enable_cloudfront_cache_policy = true
+  cloudfront_cache_policy_stack = [
+    {
+      name        = "cloudfront-cache-policy-1"
+      comment     = "cloudfront-cache-policy-1"
+      default_ttl = 50
+      max_ttl     = 100
+      min_ttl     = 60
+
+      parameters_in_cache_key_and_forwarded_to_origin = {
+        cookies_config = {
+          cookie_behavior = "whitelist"
+          cookies = {
+            items = ["example"]
+          }
+        }
+
+        query_strings_config = {
+          query_string_behavior = "whitelist"
+          query_strings = {
+            items = ["example"]
+          }
+        }
+
+        headers_config = {
+          header_behavior = "whitelist"
+          headers = {
+            items = ["example"]
+          }
+        }
+
+        query_string_behavior = {
+          query_string_behavior = "whitelist"
+          query_strings = {
+            items = ["example"]
+          }
+        }
+      }
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
-
 }
 ```
 
@@ -80,67 +189,7 @@ module "cloudfront" {
 - `environment` - Environment for service (`default = STAGE`)
 - `tags` - Add additional tags (`default = {}`)
 - `enable_cloudfront_distribution` - Enable cloudfront distribution usage (`default = False`)
-- `cloudfront_distribution_name` - Set name for cloudfront distribution (`default = ""`)
-- `cloudfront_distribution_enabled` - (Required) - Whether the distribution is enabled to accept end user requests for content. (`default = True`)
-- `cloudfront_distribution_default_root_object` - (Optional) - The object that you want CloudFront to return (for example, index.html) when an end user requests the root URL. (`default = null`)
-- `cloudfront_distribution_aliases` - (Optional) - Extra CNAMEs (alternate domain names), if any, for this distribution. (`default = null`)
-- `cloudfront_distribution_comment` - (Optional) - Any comments you want to include about the distribution. (`default = null`)
-- `cloudfront_distribution_custom_error_response` - (Optional) - One or more custom error response elements (multiples allowed). (`default = []`)
-- `cloudfront_distribution_is_ipv6_enabled` - (Optional) - Whether the IPv6 is enabled for the distribution. (`default = null`)
-- `cloudfront_distribution_http_version` - (Optional) - The maximum HTTP version to support on the distribution. Allowed values are http1.1 and http2. The default is http2. (`default = http2`)
-- `cloudfront_distribution_logging_config` - (Optional) - The logging configuration that controls how logs are written to your distribution (maximum one). (`default = []`)
-- `ordered_cache_behavior_path_pattern` - (Required) - The pattern (for example, images/*.jpg) that specifies which requests you want this cache behavior to apply to. (`default = /content/*`)
-- `ordered_cache_behavior_allowed_methods` - (Required) - Controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. (`default = ['GET', 'HEAD', 'OPTIONS']`)
-- `ordered_cache_behavior_cached_methods` - (Required) - Controls whether CloudFront caches the response to requests using the specified HTTP methods. (`default = ['GET', 'HEAD']`)
-- `ordered_cache_behavior_target_origin_id` - (Required) - The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior. (`default = groupS3`)
-- `ordered_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = False`)
-- `ordered_cache_behavior_cookies_forward` - (Required) - Specifies whether you want CloudFront to forward cookies to the origin that is associated with this cache behavior. You can specify all, none or whitelist. If whitelist, you must include the subsequent whitelisted_names (`default = none`)
-- `ordered_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = 0`)
-- `ordered_cache_behavior_default_ttl` - (Optional) - The default amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request in the absence of an Cache-Control max-age or Expires header. Defaults to 1 day. (`default = 3600`)
-- `ordered_cache_behavior_max_ttl` - (Optional) - The maximum amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request to your origin to determine whether the object has been updated. Only effective in the presence of Cache-Control max-age, Cache-Control s-maxage, and Expires headers. Defaults to 365 days. (`default = 86400`)
-- `ordered_cache_behavior_compress` - (Optional) - Whether you want CloudFront to automatically compress content for web requests that include Accept-Encoding: gzip in the request header (default: false). (`default = True`)
-- `ordered_cache_behavior_viewer_protocol_policy` - (Required) - Use this element to specify the protocol that users can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. One of allow-all, https-only, or redirect-to-https. (`default = redirect-to-https`)
-- `origin_group_origin_id` - description (`default = ""`)
-- `origin_group_failover_criteria_status_codes` - (Required) - A list of HTTP status codes for the origin group (`default = [403, 404, 500, 502]`)
-- `origin_group_member_origin_id_1` - (Required) - The unique identifier of the member origin (`default = ""`)
-- `origin_group_member_origin_id_2` - (Required) - The unique identifier of the member origin (`default = ""`)
-- `cloudfront_distribution_price_class` - (Optional) - The price class for this distribution. One of PriceClass_All, PriceClass_200, PriceClass_100 (`default = null`)
-- `cloudfront_distribution_web_acl_id` - (Optional) - If you're using AWS WAF to filter CloudFront requests, the Id of the AWS WAF web ACL that is associated with the distribution. The WAF Web ACL must exist in the WAF Global (CloudFront) region and the credentials configuring this argument must have waf:GetWebACL permissions assigned. (`default = null`)
-- `cloudfront_distribution_retain_on_delete` - Optional) - Disables the distribution instead of deleting it when destroying the resource through Terraform. If this is set, the distribution needs to be deleted manually afterwards. Default: false. (`default = False`)
-- `cloudfront_distribution_wait_for_deployment` - (Optional) - If enabled, the resource will wait for the distribution status to change from InProgress to Deployed. Setting this tofalse will skip the process. Default: true. (`default = True`)
-- `geo_restriction_restriction_type` - (Required) - The method that you want to use to restrict distribution of your content by country: none, whitelist, or blacklist. (`default = none`)
-- `geo_restriction_locations` - (Optional) - The ISO 3166-1-alpha-2 codes for which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist) (`default = []`)
-- `viewer_certificate_cloudfront_default_certificate` - cloudfront_default_certificate - true if you want viewers to use HTTPS to request your objects and you're using the CloudFront domain name for your distribution. Specify this, acm_certificate_arn, or iam_certificate_id. (`default = True`)
-- `viewer_certificate_acm_certificate_arn` - The ARN of the AWS Certificate Manager certificate that you wish to use with this distribution. Specify this, cloudfront_default_certificate, or iam_certificate_id. The ACM certificate must be in US-EAST-1. (`default = ""`)
-- `viewer_certificate_iam_certificate_id` - The IAM certificate identifier of the custom viewer certificate for this distribution if you are using a custom domain. Specify this, acm_certificate_arn, or cloudfront_default_certificate. (`default = null`)
-- `viewer_certificate_minimum_protocol_version` - The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections. Can only be set if cloudfront_default_certificate = false. One of SSLv3, TLSv1, TLSv1_2016, TLSv1.1_2016 or TLSv1.2_2018. Default: TLSv1. NOTE: If you are using a custom certificate (specified with acm_certificate_arn or iam_certificate_id), and have specified sni-only in ssl_support_method, TLSv1 or later must be specified. If you have specified vip in ssl_support_method, only SSLv3 or TLSv1 can be specified. If you have specified cloudfront_default_certificate, TLSv1 must be specified. (`default = TLSv1`)
-- `viewer_certificate_ssl_support_method` - Specifies how you want CloudFront to serve HTTPS requests. One of vip or sni-only. Required if you specify acm_certificate_arn or iam_certificate_id. NOTE: vip causes CloudFront to use a dedicated IP address and may incur extra charges. (`default = null`)
-- `default_cache_behavior_allowed_methods` - (Required) - Controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. (`default = ['GET', 'HEAD', 'DELETE', 'OPTIONS', 'PATCH', 'POST', 'PUT']`)
-- `default_cache_behavior_cached_methods` - (Required) - Controls whether CloudFront caches the response to requests using the specified HTTP methods. (`default = ['GET', 'HEAD']`)
-- `custom_origin_config_origin_protocol_policy` - (Required) - The origin protocol policy to apply to your origin. One of http-only, https-only, or match-viewer. (`default = http-only`)
-- `custom_origin_config_http_port` - (Required) - The HTTP port the custom origin listens on. (`default = 80`)
-- `custom_origin_config_https_port` - (Required) - The HTTPS port the custom origin listens on. (`default = 443`)
-- `custom_origin_config_origin_ssl_protocols` - (Required) - The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS. A list of one or more of SSLv3, TLSv1, TLSv1.1, and TLSv1.2. (`default = ['TLSv1']`)
-- `custom_origin_config_origin_keepalive_timeout` - (Optional) The Custom KeepAlive timeout, in seconds. By default, AWS enforces a limit of 60. But you can request an increase. (`default = 60`)
-- `custom_origin_config_origin_read_timeout` - (Optional) The Custom Read timeout, in seconds. By default, AWS enforces a limit of 60. But you can request an increase. (`default = 60`)
-- `origin_path` - (Optional) - An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. (`default = null`)
-- `s3_origin_config_origin_access_identity` - (Optional) - The CloudFront origin access identity to associate with the origin. (`default = ""`)
-- `origin_id` - (Required) - A unique identifier for the origin. (`default = ""`)
-- `domain_name` - (Required) - The DNS domain name of either the S3 bucket, or web site of your custom origin. (`default = ""`)
-- `default_cache_behavior_cookies_forward` - (Required) - Specifies whether you want CloudFront to forward cookies to the origin that is associated with this cache behavior. You can specify all, none or whitelist. If whitelist, you must include the subsequent whitelisted_names (`default = none`)
-- `default_cache_behavior_cookies_whitelisted_names` - (Optional) - If you have specified whitelist to forward, the whitelisted cookies that you want CloudFront to forward to your origin. (`default = null`)
-- `default_cache_behavior_forwarded_values_query_string` - (Required) - Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior. (`default = False`)
-- `default_cache_behavior_min_ttl` - (Optional) - The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront queries your origin to see whether the object has been updated. Defaults to 0 seconds. (`default = 0`)
-- `default_cache_behavior_default_ttl` - (Optional) - The default amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request in the absence of an Cache-Control max-age or Expires header. Defaults to 1 day. (`default = 86400`)
-- `default_cache_behavior_max_ttl` - (Optional) - The maximum amount of time (in seconds) that an object is in a CloudFront cache before CloudFront forwards another request to your origin to determine whether the object has been updated. Only effective in the presence of Cache-Control max-age, Cache-Control s-maxage, and Expires headers. Defaults to 365 days. (`default = 31536000`)
-- `default_cache_behavior_target_origin_id` - (Required) - The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior. (`default = ""`)
-- `default_cache_behavior_viewer_protocol_policy` - Use this element to specify the protocol that users can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. One of allow-all, https-only, or redirect-to-https. (`default = ""`)
-- `default_cache_behavior_compress` - (Optional) - Whether you want CloudFront to automatically compress content for web requests that include Accept-Encoding: gzip in the request header (default: false). (`default = False`)
-- `default_cache_behavior_field_level_encryption_id` - (Optional) - Field level encryption configuration ID (`default = null`)
-- `default_cache_behavior_smooth_streaming` - (Optional) - Indicates whether you want to distribute media files in Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. (`default = null`)
-- `default_cache_behavior_trusted_signers` - (Optional) - The AWS accounts, if any, that you want to allow to create signed URLs for private content. (`default = null`)
-- `default_cache_behavior_forwarded_values_headers` - (Optional) - Specifies the Headers, if any, that you want CloudFront to vary upon for this cache behavior. Specify * to include all headers. (`default = null`)
-- `default_cache_behavior_forwarded_values_query_string_cache_keys` - (Optional) - When specified, along with a value of true for query_string, all query strings are forwarded, however only the query string keys listed in this argument are cached. When omitted with a value of true for query_string, all query string keys are cached. (`default = null`)
+- `cloudfront_distribution_stack` - Set properties for cloudfront distribution (`default = []`)
 - `enable_cloudfront_public_key` - Enable cloudfront public key usage (`default = False`)
 - `cloudfront_public_key_encoded_key` - (Required) The encoded public key that you want to add to CloudFront to use with features like field-level encryption. (`default = ""`)
 - `cloudfront_public_key_comment` - (Optional) An optional comment about the public key. (`default = null`)
@@ -148,6 +197,19 @@ module "cloudfront" {
 - `cloudfront_public_key_name_prefix` - (Optional) The name for the public key. Conflicts with cloudfront_public_key_name. (`default = null`)
 - `enable_cloudfront_origin_access_identity` - Enable cloudfront origin access identity usage (`default = False`)
 - `cloudfront_origin_access_identity_comment` - (Optional) - An optional comment for the origin access identity. (`default = null`)
+- `enable_cloudfront_realtime_log_config` - Enable cloudfront realtime log config usage (`default = False`)
+- `cloudfront_realtime_log_config_name` - The unique name to identify this real-time log configuration. (`default = ""`)
+- `cloudfront_realtime_log_config_sampling_rate` - (Required) The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. An integer between 1 and 100, inclusive. (`default = 1`)
+- `cloudfront_realtime_log_config_fields` - (Required) The fields that are included in each real-time log record. (`default = []`)
+- `cloudfront_realtime_log_config_endpoints` - (Required) The Amazon Kinesis data streams where real-time log data is sent. (`default = {}`)
+- `enable_cloudfront_origin_request_policy` - Enable cloudfront origin request policy usage (`default = False`)
+- `cloudfront_origin_request_policy_name` - Unique name to identify the origin request policy. (`default = ""`)
+- `cloudfront_origin_request_policy_comment` - (Optional) Comment to describe the origin request policy. (`default = null`)
+- `cloudfront_origin_request_policy_cookies_config` - (Required) Object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the origin request key and automatically included in requests that CloudFront sends to the origin. See Cookies Config for more information. (`default = {}`)
+- `cloudfront_origin_request_policy_headers_config` - (Required) Object that determines whether any HTTP headers (and if so, which headers) are included in the origin request key and automatically included in requests that CloudFront sends to the origin. See Headers Config for more information. (`default = {}`)
+- `cloudfront_origin_request_policy_query_strings_config` - (Required) Object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the origin request key and automatically included in requests that CloudFront sends to the origin. See Query Strings Config for more information. (`default = {}`)
+- `enable_cloudfront_cache_policy` - Enable cloudfront cache policy usage (`default = False`)
+- `cloudfront_cache_policy_stack` - Set properties for cloudfront cache policy (`default = []`)
 
 ## Module Output Variables
 ----------------------
@@ -169,6 +231,12 @@ module "cloudfront" {
 - `cloudfront_origin_access_identity_etag` - The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
 - `cloudfront_origin_access_identity_iam_arn` - A pre-generated ARN for use in S3 bucket policies (see below). Example: arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2QWRUHAPOMQZL.
 - `cloudfront_origin_access_identity_s3_canonical_user_id` - The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
+- `cloudfront_realtime_log_config_id` - The ID of the CloudFront real-time log configuration.
+- `cloudfront_realtime_log_config_arn` - The ARN (Amazon Resource Name) of the CloudFront real-time log configuration.
+- `cloudfront_origin_request_policy_id` - The identifier for the origin request policy.
+- `cloudfront_origin_request_policy_etag` - The current version of the origin request policy.
+- `cloudfront_cache_policy_id` - The identifier for the cache policy.
+- `cloudfront_cache_policy_etag` - The current version of the cache policy.
 
 
 ## Authors

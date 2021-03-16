@@ -2,7 +2,7 @@
 # AWS security group rules
 #---------------------------------------------------
 resource "aws_security_group_rule" "ingress_ports" {
-  count = var.enable_sg_rule_ingress_ports && ! var.enable_sg_rule_ingress_ports_all ? length(var.ingress_ports_stack) : 0
+  count = var.enable_sg_rule_ingress_ports && !var.enable_sg_rule_ingress_ports_all ? length(var.ingress_ports_stack) : 0
 
   type              = "ingress"
   protocol          = lookup(var.ingress_ports_stack[count.index], "protocol", null)
@@ -28,7 +28,7 @@ resource "aws_security_group_rule" "ingress_ports" {
 }
 
 resource "aws_security_group_rule" "egress_ports" {
-  count = var.enable_sg_rule_egress_ports && ! var.enable_sg_rule_egress_ports_all ? length(var.egress_ports_stack) : 0
+  count = var.enable_sg_rule_egress_ports && !var.enable_sg_rule_egress_ports_all ? length(var.egress_ports_stack) : 0
 
   type              = "egress"
   protocol          = lookup(var.egress_ports_stack[count.index], "protocol", null)
@@ -54,7 +54,7 @@ resource "aws_security_group_rule" "egress_ports" {
 }
 
 resource "aws_security_group_rule" "ingress_ports_all" {
-  count = var.enable_sg_rule_ingress_ports_all && ! var.enable_sg_rule_ingress_ports ? length(var.ingress_ports_all_stack) : 0
+  count = var.enable_sg_rule_ingress_ports_all && !var.enable_sg_rule_ingress_ports ? length(var.ingress_ports_all_stack) : 0
 
   type              = "ingress"
   security_group_id = lookup(var.ingress_ports_all_stack[count.index], "to_port", (var.enable_security_group ? element(concat(aws_security_group.security_group.*.id, [""]), 0) : null))
@@ -80,7 +80,7 @@ resource "aws_security_group_rule" "ingress_ports_all" {
 }
 
 resource "aws_security_group_rule" "egress_ports_all" {
-  count = var.enable_sg_rule_egress_ports_all && ! var.enable_sg_rule_egress_ports ? length(var.egress_ports_all_stack) : 0
+  count = var.enable_sg_rule_egress_ports_all && !var.enable_sg_rule_egress_ports ? length(var.egress_ports_all_stack) : 0
 
   type              = "egress"
   security_group_id = lookup(var.egress_ports_all_stack[count.index], "to_port", (var.enable_security_group ? element(concat(aws_security_group.security_group.*.id, [""]), 0) : null))

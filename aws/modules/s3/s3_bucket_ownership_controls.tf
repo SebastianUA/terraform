@@ -4,7 +4,7 @@
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
   count = var.enable_s3_bucket_ownership_controls ? 1 : 0
 
-  bucket = var.s3_bucket_ownership_controls_bucket != "" && ! var.enable_s3_bucket ? var.s3_bucket_ownership_controls_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+  bucket = var.s3_bucket_ownership_controls_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_ownership_controls_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
 
   dynamic "rule" {
     iterator = rule

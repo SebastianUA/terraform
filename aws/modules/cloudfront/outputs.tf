@@ -22,8 +22,8 @@ output "cloudfront_distribution_status" {
 }
 
 // output "cloudfront_distribution_active_trusted_signers" {
-// 	description = "The key pair IDs that CloudFront is aware of for each trusted signer, if the distribution is set up to serve private content with signed URLs."
-//     value       = element(concat(aws_cloudfront_distribution.cloudfront_distribution.*.active_trusted_signers, [""]), 0)
+//   description = "The key pair IDs that CloudFront is aware of for each trusted signer, if the distribution is set up to serve private content with signed URLs."
+//   value       = concat(aws_cloudfront_distribution.cloudfront_distribution.*.active_trusted_signers, [""])
 // }
 
 output "cloudfront_distribution_domain_name" {
@@ -100,4 +100,43 @@ output "cloudfront_origin_access_identity_iam_arn" {
 output "cloudfront_origin_access_identity_s3_canonical_user_id" {
   description = "The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3."
   value       = element(concat(aws_cloudfront_origin_access_identity.cloudfront_origin_access_identity.*.s3_canonical_user_id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS cloudfront realtime log config
+#---------------------------------------------------
+output "cloudfront_realtime_log_config_id" {
+  description = "The ID of the CloudFront real-time log configuration."
+  value       = element(concat(aws_cloudfront_realtime_log_config.cloudfront_realtime_log_config.*.id, [""]), 0)
+}
+
+output "cloudfront_realtime_log_config_arn" {
+  description = "The ARN (Amazon Resource Name) of the CloudFront real-time log configuration."
+  value       = element(concat(aws_cloudfront_realtime_log_config.cloudfront_realtime_log_config.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS cloudfront origin request policy
+#---------------------------------------------------
+output "cloudfront_origin_request_policy_id" {
+  description = "The identifier for the origin request policy."
+  value       = element(concat(aws_cloudfront_origin_request_policy.cloudfront_origin_request_policy.*.id, [""]), 0)
+}
+
+output "cloudfront_origin_request_policy_etag" {
+  description = "The current version of the origin request policy."
+  value       = element(concat(aws_cloudfront_origin_request_policy.cloudfront_origin_request_policy.*.etag, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS cloudfront cache policy
+#---------------------------------------------------
+output "cloudfront_cache_policy_id" {
+  description = "The identifier for the cache policy."
+  value       = element(concat(aws_cloudfront_cache_policy.cloudfront_cache_policy.*.id, [""]), 0)
+}
+
+output "cloudfront_cache_policy_etag" {
+  description = "The current version of the cache policy."
+  value       = element(concat(aws_cloudfront_cache_policy.cloudfront_cache_policy.*.etag, [""]), 0)
 }

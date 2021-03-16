@@ -5,12 +5,12 @@ resource "aws_route53_record" "route53_record" {
   count = var.enable_route53_record ? 1 : 0
 
   name    = var.route53_record_name
-  zone_id = var.parent_zone_id != "" && ! var.enable_route53_zone ? var.parent_zone_id : element(aws_route53_zone.route53_zone.*.id, 0)
+  zone_id = var.parent_zone_id != "" && !var.enable_route53_zone ? var.parent_zone_id : element(aws_route53_zone.route53_zone.*.id, 0)
   type    = var.route53_record_type
   ttl     = var.route53_record_ttl
   records = var.route53_record_records
 
-  health_check_id                  = var.health_check_id != null && ! var.enable_route53_health_check ? var.health_check_id : element(concat(aws_route53_health_check.route53_health_check.*.id, [""]), 0)
+  health_check_id                  = var.health_check_id != null && !var.enable_route53_health_check ? var.health_check_id : element(concat(aws_route53_health_check.route53_health_check.*.id, [""]), 0)
   multivalue_answer_routing_policy = var.multivalue_answer_routing_policy
   allow_overwrite                  = var.allow_overwrite
 

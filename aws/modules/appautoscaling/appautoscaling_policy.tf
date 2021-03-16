@@ -6,9 +6,9 @@ resource "aws_appautoscaling_policy" "appautoscaling_policy" {
 
   name               = var.appautoscaling_policy_name != "" ? lower(var.appautoscaling_policy_name) : "${lower(var.name)}-appautoscaling-policy-${lower(var.environment)}"
   policy_type        = var.appautoscaling_policy_policy_type
-  resource_id        = var.appautoscaling_policy_resource_id != "" && ! var.enable_appautoscaling_target ? var.appautoscaling_policy_resource_id : element(concat(aws_appautoscaling_target.appautoscaling_target.*.resource_id, [""]), 0)
-  scalable_dimension = var.appautoscaling_policy_scalable_dimension != "" && ! var.enable_appautoscaling_target ? var.appautoscaling_policy_scalable_dimension : element(concat(aws_appautoscaling_target.appautoscaling_target.*.scalable_dimension, [""]), 0)
-  service_namespace  = var.appautoscaling_policy_service_namespace != "" && ! var.enable_appautoscaling_target ? var.appautoscaling_policy_service_namespace : element(concat(aws_appautoscaling_target.appautoscaling_target.*.service_namespace, [""]), 0)
+  resource_id        = var.appautoscaling_policy_resource_id != "" && !var.enable_appautoscaling_target ? var.appautoscaling_policy_resource_id : element(concat(aws_appautoscaling_target.appautoscaling_target.*.resource_id, [""]), 0)
+  scalable_dimension = var.appautoscaling_policy_scalable_dimension != "" && !var.enable_appautoscaling_target ? var.appautoscaling_policy_scalable_dimension : element(concat(aws_appautoscaling_target.appautoscaling_target.*.scalable_dimension, [""]), 0)
+  service_namespace  = var.appautoscaling_policy_service_namespace != "" && !var.enable_appautoscaling_target ? var.appautoscaling_policy_service_namespace : element(concat(aws_appautoscaling_target.appautoscaling_target.*.service_namespace, [""]), 0)
 
   dynamic "step_scaling_policy_configuration" {
     iterator = stepscalingpolicy

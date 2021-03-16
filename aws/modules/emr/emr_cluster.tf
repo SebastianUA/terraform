@@ -10,7 +10,7 @@ resource "aws_emr_cluster" "emr_cluster" {
 
   scale_down_behavior               = var.emr_cluster_scale_down_behavior
   additional_info                   = var.emr_cluster_additional_info
-  security_configuration            = var.emr_cluster_security_configuration != "" && ! var.enable_emr_security_configuration ? var.emr_cluster_security_configuration : element(concat(aws_emr_security_configuration.emr_security_configuration.*.id, [""]), 0)
+  security_configuration            = var.emr_cluster_security_configuration != "" && !var.enable_emr_security_configuration ? var.emr_cluster_security_configuration : element(concat(aws_emr_security_configuration.emr_security_configuration.*.id, [""]), 0)
   log_uri                           = var.emr_cluster_log_uri
   applications                      = var.emr_cluster_applications
   termination_protection            = var.emr_cluster_termination_protection

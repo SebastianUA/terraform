@@ -5,7 +5,7 @@ resource "aws_glue_catalog_table" "glue_catalog_table" {
   count = var.enable_glue_catalog_table ? 1 : 0
 
   name          = var.glue_catalog_table_name != "" ? lower(var.glue_catalog_table_name) : "${lower(var.name)}-glue-catalog-table-${lower(var.environment)}"
-  database_name = var.glue_catalog_table_database_name != "" && ! var.enable_glue_catalog_database ? var.glue_catalog_table_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.name, [""]), 0)
+  database_name = var.glue_catalog_table_database_name != "" && !var.enable_glue_catalog_database ? var.glue_catalog_table_database_name : element(concat(aws_glue_catalog_database.glue_catalog_database.*.name, [""]), 0)
 
   description        = var.glue_catalog_table_description
   catalog_id         = var.glue_catalog_table_catalog_id

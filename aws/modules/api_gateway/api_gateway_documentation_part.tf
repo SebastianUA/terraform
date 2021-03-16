@@ -4,7 +4,7 @@
 resource "aws_api_gateway_documentation_part" "api_gateway_documentation_part" {
   count = var.enable_api_gateway_documentation_part ? 1 : 0
 
-  rest_api_id = var.api_gateway_documentation_part_rest_api_id != "" && ! var.enable_api_gateway_rest_api ? var.api_gateway_documentation_part_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
+  rest_api_id = var.api_gateway_documentation_part_rest_api_id != "" && !var.enable_api_gateway_rest_api ? var.api_gateway_documentation_part_rest_api_id : element(concat(aws_api_gateway_rest_api.api_gateway_rest_api.*.id, [""]), 0)
   properties  = var.api_gateway_documentation_part_properties
 
   dynamic "location" {

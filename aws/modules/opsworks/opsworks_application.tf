@@ -8,7 +8,7 @@ resource "aws_opsworks_application" "opsworks_application" {
   short_name  = var.opsworks_application_short_name != "" ? lower(var.opsworks_application_short_name) : "opsworks-app"
   description = var.opsworks_application_description != "" ? var.opsworks_application_description : "This is simple opsworks app"
 
-  stack_id = var.opsworks_application_stack_id != "" && ! var.enable_opsworks_stack ? var.opsworks_application_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
+  stack_id = var.opsworks_application_stack_id != "" && !var.enable_opsworks_stack ? var.opsworks_application_stack_id : element(concat(aws_opsworks_stack.opsworks_stack.*.id, [""]), 0)
   type     = var.opsworks_application_type
   domains  = var.opsworks_application_domains
 

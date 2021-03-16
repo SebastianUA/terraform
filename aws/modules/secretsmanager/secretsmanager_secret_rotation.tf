@@ -4,7 +4,7 @@
 resource "aws_secretsmanager_secret_rotation" "secretsmanager_secret_rotation" {
   count = var.enable_secretsmanager_secret_rotation ? 1 : 0
 
-  secret_id           = var.secretsmanager_secret_rotation_secret_id != "" && ! var.enable_secretsmanager_secret ? var.secretsmanager_secret_rotation_secret_id : (var.enable_secretsmanager_secret ? element(aws_secretsmanager_secret.secretsmanager_secret.*.id, 0) : null)
+  secret_id           = var.secretsmanager_secret_rotation_secret_id != "" && !var.enable_secretsmanager_secret ? var.secretsmanager_secret_rotation_secret_id : (var.enable_secretsmanager_secret ? element(aws_secretsmanager_secret.secretsmanager_secret.*.id, 0) : null)
   rotation_lambda_arn = var.secretsmanager_secret_rotation_rotation_lambda_arn
 
   rotation_rules {

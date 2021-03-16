@@ -5,7 +5,7 @@ resource "aws_subnet" "private_subnets" {
   count = length(var.private_subnet_cidrs)
 
   cidr_block              = var.private_subnet_cidrs[count.index]
-  vpc_id                  = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id                  = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   map_public_ip_on_launch = false
   availability_zone       = length(var.azs) > 0 ? var.azs[count.index] : element(lookup(var.availability_zones, var.region), count.index)
 
@@ -46,7 +46,7 @@ resource "aws_subnet" "public_subnets" {
   count = length(var.public_subnet_cidrs)
 
   cidr_block              = var.public_subnet_cidrs[count.index]
-  vpc_id                  = var.vpc_id != "" && ! var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
+  vpc_id                  = var.vpc_id != "" && !var.enable_vpc ? var.vpc_id : element(concat(aws_vpc.vpc.*.id, [""]), 0)
   map_public_ip_on_launch = var.map_public_ip_on_launch
   availability_zone       = length(var.azs) > 0 ? var.azs[count.index] : element(lookup(var.availability_zones, var.region), count.index)
 
