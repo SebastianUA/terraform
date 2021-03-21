@@ -2,7 +2,7 @@
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.13.5"
+  required_version = "~> 0.14"
 }
 
 provider "aws" {
@@ -153,7 +153,36 @@ module "s3" {
 
   # Add files to bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_source = ["additional_files/test.txt", "additional_files/test2.txt"]
+  s3_bucket_object_stack  = [
+    {
+      key    = "additional_files/test.txt"
+    },
+    {
+      key    = "additional_files/test2.txt"
+      source              = null
+      content_type        = null
+      content             = null
+      content_base64      = null
+      content_disposition = null
+      content_encoding    = null
+      content_language    = null
+
+      acl              = null
+      cache_control    = null
+      website_redirect = null
+      storage_class    = null
+      etag             = null
+      metadata         = null
+      force_destroy    = null
+
+      server_side_encryption = null
+      kms_key_id             = null
+
+      object_lock_legal_hold_status = null
+      object_lock_mode              = null
+      object_lock_retain_until_date = null
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

@@ -61,6 +61,8 @@ resource "aws_glue_trigger" "glue_trigger" {
   }
 
   depends_on = [
-    aws_glue_workflow.glue_workflow
+    aws_glue_workflow.glue_workflow,
+    aws_glue_crawler.glue_crawler,
+    aws_glue_job.glue_job
   ]
 }

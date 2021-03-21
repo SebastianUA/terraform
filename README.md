@@ -1,6 +1,6 @@
 # Terraform usage
 ----------------
-![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg)![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg)![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg)![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg)![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)  ![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 ## Install Terraform
 
@@ -204,6 +204,81 @@ terraform {
 ```
 
 I really like this tool and it can be used for your locally run as well as for CI/CD.
+
+## Module Sources
+
+The source argument in a module block tells Terraform where to find the source code for the desired child module.
+
+Terraform uses this during the module installation step of terraform init to download the source code to a directory on local disk so that it can be used by other Terraform commands.
+
+### Local Paths
+Local path references allow for factoring out portions of a configuration within a single source repository:
+```
+module "vpc" {
+  source = "../aws/modules/vpc"
+}
+```
+
+A local path must begin with either ./ or ../ to indicate that a local path is intended, to distinguish from a module registry address.
+
+Local paths are special in that they are not "installed" in the same sense that other sources are: the files are already present on local disk (possibly as a result of installing a parent module) and so can just be used directly. Their source code is automatically updated if the parent module is upgraded.
+
+### Terraform Registry
+A module registry is the native way of distributing Terraform modules for use across multiple configurations, using a Terraform-specific protocol that has full support for module versioning.
+
+Terraform Registry is an index of modules shared publicly using this protocol. This public registry is the easiest way to get started with Terraform and find modules created by others in the community:
+```
+module "consul" {
+  source = "hashicorp/consul/aws"
+  version = "0.1.0"
+}
+```
+
+### GitHub
+
+Terraform will recognize unprefixed github.com URLs and interpret them automatically as Git repository sources:
+```
+module "consul" {
+  source = "github.com/hashicorp/example"
+}
+```
+
+Or:
+```
+module "ram" {
+  source = "git@github.com:SebastianUA/terraform.git//aws/modules/ram?ref=dev"
+}
+```
+Arbitrary Git repositories can be used by prefixing the address with the special git:: prefix. After this prefix, any valid Git URL can be specified to select one of the protocols supported by Git.
+
+For example, to use HTTPS or SSH:
+```
+module "vpc" {
+  source = "git::https://example.com/vpc.git"
+}
+
+module "storage" {
+  source = "git::ssh://username@example.com/storage.git"
+}
+```
+
+### Fetching archives over HTTP
+As a special case, if Terraform detects that the URL has a common file extension associated with an archive file format then it will bypass the special terraform-get=1 redirection described above and instead just use the contents of the referenced archive as the module source code:
+```
+module "vpc" {
+  source = "https://example.com/vpc-module.zip"
+}
+```
+
+### S3 Bucket
+You can use archives stored in S3 as module sources using the special s3:: prefix, followed by an S3 bucket object URL:
+```
+module "consul" {
+  source = "s3::https://s3-eu-west-1.amazonaws.com/examplecorp-terraform-modules/vpc.zip"
+}
+```
+
+And others.
 
 ## Using Terraform for multiple AWS accounts
 

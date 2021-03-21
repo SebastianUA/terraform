@@ -132,49 +132,9 @@ variable "enable_s3_bucket_object" {
   default     = false
 }
 
-variable "s3_bucket_object_bucket" {
-  description = "The name of the bucket to put the file in."
-  default     = ""
-}
-
-variable "s3_bucket_object_key" {
-  description = "(Required) The name of the object once it is in the bucket."
-  default     = ""
-}
-
-variable "s3_bucket_object_source" {
-  description = "(Required unless content or content_base64 is set) The path to a file that will be read and uploaded as raw bytes for the object content."
-  default     = null
-}
-
-variable "s3_bucket_object_content_type" {
-  description = "(Optional) A standard MIME type describing the format of the object data, e.g. application/octet-stream. All Valid MIME Types are valid for this input."
-  default     = null
-}
-
-variable "s3_bucket_object_content" {
-  description = "(Optional, conflicts with source and content_base64) Literal string value to use as the object content, which will be uploaded as UTF-8-encoded text."
-  default     = null
-}
-
-variable "s3_bucket_object_content_base64" {
-  description = "(Optional, conflicts with source and content) Base64-encoded data that will be decoded and uploaded as raw bytes for the object content. This allows safely uploading non-UTF8 binary data, but is recommended only for small content such as the result of the gzipbase64 function with small text strings. For larger objects, use source to stream the content from a disk file."
-  default     = null
-}
-
-variable "s3_bucket_object_content_disposition" {
-  description = "(Optional) Specifies presentational information for the object. Read w3c content_disposition for further information."
-  default     = null
-}
-
-variable "s3_bucket_object_content_encoding" {
-  description = "(Optional) Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. Read w3c content encoding for further information."
-  default     = null
-}
-
-variable "s3_bucket_object_content_language" {
-  description = "(Optional) The language the content is in e.g. en-US or en-GB."
-  default     = null
+variable "s3_bucket_object_stack" {
+  description = "Set properties for s3 bucket object"
+  default     = []
 }
 
 // variable "mime_types" {
@@ -241,66 +201,6 @@ variable "s3_bucket_object_content_language" {
 //   description = "The type that will be used for mime_types"
 //   default     = "zip"
 // }
-
-variable "s3_bucket_object_server_side_encryption" {
-  description = "(Optional) Specifies server-side encryption of the object in S3. Valid values are 'AES256' and 'aws:kms'."
-  default     = null
-}
-
-variable "s3_bucket_object_kms_key_id" {
-  description = "(Optional) Specifies the AWS KMS Key ARN to use for object encryption. This value is a fully qualified ARN of the KMS Key. If using aws_kms_key, use the exported arn attribute: kms_key_id = aws_kms_key.foo.arn"
-  default     = null
-}
-
-variable "s3_bucket_object_acl" {
-  description = "(Optional) The canned ACL to apply. Defaults to 'private'."
-  default     = null
-}
-
-variable "s3_bucket_object_cache_control" {
-  description = "(Optional) Specifies caching behavior along the request/reply chain Read w3c cache_control for further details."
-  default     = null
-}
-
-variable "s3_bucket_object_website_redirect" {
-  description = "(Optional) Specifies a target URL for website redirect."
-  default     = null
-}
-
-variable "s3_bucket_object_storage_class" {
-  description = "(Optional) Specifies the desired Storage Class for the object. Can be either 'STANDARD', 'REDUCED_REDUNDANCY', 'ONEZONE_IA', 'INTELLIGENT_TIERING', 'GLACIER', 'DEEP_ARCHIVE', or 'STANDARD_IA'. Defaults to 'STANDARD'."
-  default     = null
-}
-
-variable "s3_bucket_object_etag" {
-  description = "(Optional) Used to trigger updates. The only meaningful value is filemd5('path/to/file'). This attribute is not compatible with KMS encryption, kms_key_id or server_side_encryption = 'aws:kms'"
-  default     = null
-}
-
-variable "s3_bucket_object_metadata" {
-  description = "(Optional) A mapping of keys/values to provision metadata (will be automatically prefixed by x-amz-meta-, note that only lowercase label are currently supported by the AWS Go API)."
-  default     = null
-}
-
-variable "s3_bucket_object_force_destroy" {
-  description = "(Optional) Allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled."
-  default     = null
-}
-
-variable "s3_bucket_object_object_lock_legal_hold_status" {
-  description = "(Optional) The legal hold status that you want to apply to the specified object. Valid values are ON and OFF."
-  default     = null
-}
-
-variable "s3_bucket_object_object_lock_mode" {
-  description = "(Optional) The object lock retention mode that you want to apply to this object. Valid values are GOVERNANCE and COMPLIANCE."
-  default     = null
-}
-
-variable "s3_bucket_object_object_lock_retain_until_date" {
-  description = "(Optional) The date and time, in RFC3339 format, when this object's object lock will expire."
-  default     = null
-}
 
 #-----------------------------------------------------------
 # S3 bucket notification

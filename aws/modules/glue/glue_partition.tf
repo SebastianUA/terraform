@@ -2,10 +2,10 @@
 # AWS Glue partition
 #---------------------------------------------------
 resource "aws_glue_partition" "glue_partition" {
-  count = var.enable_glue_partition ? 1 : 1
+  count = var.enable_glue_partition ? 1 : 0
 
-  database_name    = var.glue_partition_database_name != "" ? var.glue_partition_database_name : (var.enable_glue_catalog_database ? aws_glue_catalog_database.glue_catalog_database.0.name : null)
-  table_name       = var.glue_partition_table_name != "" ? var.glue_partition_table_name : (var.enable_glue_catalog_table ? aws_glue_catalog_table.glue_catalog_table.0.name : null)
+  database_name    = var.glue_partition_database_name != "" ? var.glue_partition_database_name : (var.enable_glue_catalog_database ? aws_glue_catalog_database.glue_catalog_database[0].name : null)
+  table_name       = var.glue_partition_table_name != "" ? var.glue_partition_table_name : (var.enable_glue_catalog_table ? aws_glue_catalog_table.glue_catalog_table[0].name : null)
   partition_values = var.glue_partition_partition_values
 
   catalog_id = var.glue_partition_catalog_id

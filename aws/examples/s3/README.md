@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.13.5"
+  required_version = "~> 0.14"
 }
 
 provider "aws" {
@@ -163,7 +163,36 @@ module "s3" {
 
   # Add files to bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_source = ["additional_files/test.txt", "additional_files/test2.txt"]
+  s3_bucket_object_stack  = [
+    {
+      key    = "additional_files/test.txt"
+    },
+    {
+      key    = "additional_files/test2.txt"
+      source              = null
+      content_type        = null
+      content             = null
+      content_base64      = null
+      content_disposition = null
+      content_encoding    = null
+      content_language    = null
+
+      acl              = null
+      cache_control    = null
+      website_redirect = null
+      storage_class    = null
+      etag             = null
+      metadata         = null
+      force_destroy    = null
+
+      server_side_encryption = null
+      kms_key_id             = null
+
+      object_lock_legal_hold_status = null
+      object_lock_mode              = null
+      object_lock_retain_until_date = null
+    }
+  ]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -216,27 +245,7 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_policy_bucket` - The name of the bucket to which to apply the policy. (`default = ""`)
 - `s3_bucket_policy_policy` - (Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = ""`)
 - `enable_s3_bucket_object` - Enable s3 bucket object (`default = False`)
-- `s3_bucket_object_bucket` - The name of the bucket to put the file in. (`default = ""`)
-- `s3_bucket_object_key` - (Required) The name of the object once it is in the bucket. (`default = ""`)
-- `s3_bucket_object_source` - (Required unless content or content_base64 is set) The path to a file that will be read and uploaded as raw bytes for the object content. (`default = null`)
-- `s3_bucket_object_content_type` - (Optional) A standard MIME type describing the format of the object data, e.g. application/octet-stream. All Valid MIME Types are valid for this input. (`default = null`)
-- `s3_bucket_object_content` - (Optional, conflicts with source and content_base64) Literal string value to use as the object content, which will be uploaded as UTF-8-encoded text. (`default = null`)
-- `s3_bucket_object_content_base64` - (Optional, conflicts with source and content) Base64-encoded data that will be decoded and uploaded as raw bytes for the object content. This allows safely uploading non-UTF8 binary data, but is recommended only for small content such as the result of the gzipbase64 function with small text strings. For larger objects, use source to stream the content from a disk file. (`default = null`)
-- `s3_bucket_object_content_disposition` - (Optional) Specifies presentational information for the object. Read w3c content_disposition for further information. (`default = null`)
-- `s3_bucket_object_content_encoding` - (Optional) Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. Read w3c content encoding for further information. (`default = null`)
-- `s3_bucket_object_content_language` - (Optional) The language the content is in e.g. en-US or en-GB. (`default = null`)
-- `s3_bucket_object_server_side_encryption` - (Optional) Specifies server-side encryption of the object in S3. Valid values are 'AES256' and 'aws:kms'. (`default = null`)
-- `s3_bucket_object_kms_key_id` - (Optional) Specifies the AWS KMS Key ARN to use for object encryption. This value is a fully qualified ARN of the KMS Key. If using aws_kms_key, use the exported arn attribute: kms_key_id = aws_kms_key.foo.arn (`default = null`)
-- `s3_bucket_object_acl` - (Optional) The canned ACL to apply. Defaults to 'private'. (`default = null`)
-- `s3_bucket_object_cache_control` - (Optional) Specifies caching behavior along the request/reply chain Read w3c cache_control for further details. (`default = null`)
-- `s3_bucket_object_website_redirect` - (Optional) Specifies a target URL for website redirect. (`default = null`)
-- `s3_bucket_object_storage_class` - (Optional) Specifies the desired Storage Class for the object. Can be either 'STANDARD', 'REDUCED_REDUNDANCY', 'ONEZONE_IA', 'INTELLIGENT_TIERING', 'GLACIER', 'DEEP_ARCHIVE', or 'STANDARD_IA'. Defaults to 'STANDARD'. (`default = null`)
-- `s3_bucket_object_etag` - (Optional) Used to trigger updates. The only meaningful value is filemd5('path/to/file'). This attribute is not compatible with KMS encryption, kms_key_id or server_side_encryption = 'aws:kms' (`default = null`)
-- `s3_bucket_object_metadata` - (Optional) A mapping of keys/values to provision metadata (will be automatically prefixed by x-amz-meta-, note that only lowercase label are currently supported by the AWS Go API). (`default = null`)
-- `s3_bucket_object_force_destroy` - (Optional) Allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled. (`default = null`)
-- `s3_bucket_object_object_lock_legal_hold_status` - (Optional) The legal hold status that you want to apply to the specified object. Valid values are ON and OFF. (`default = null`)
-- `s3_bucket_object_object_lock_mode` - (Optional) The object lock retention mode that you want to apply to this object. Valid values are GOVERNANCE and COMPLIANCE. (`default = null`)
-- `s3_bucket_object_object_lock_retain_until_date` - (Optional) The date and time, in RFC3339 format, when this object's object lock will expire. (`default = null`)
+- `s3_bucket_object_stack` - Set properties for s3 bucket object (`default = []`)
 - `enable_s3_bucket_notification` - Enable s3 bucket notification usage (`default = False`)
 - `s3_bucket_notification_bucket` - The name of the bucket to put notification configuration. (`default = ""`)
 - `s3_bucket_notification_topic` - (Optional) The notification configuration to SNS Topic (`default = []`)
