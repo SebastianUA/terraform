@@ -1,4 +1,4 @@
-# Work with Kubernetes storage class via terraform
+# Work with AWS K8S_STORAGE_CLASS via terraform
 
 A terraform module for making K8S_STORAGE_CLASS.
 

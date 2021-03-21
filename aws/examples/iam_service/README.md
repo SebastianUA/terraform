@@ -36,13 +36,19 @@ module "iam_service" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_iam_service_linked_role` - Enable IAM service linked role (`default = ""`)
+- `enable_iam_service_linked_role` - Enable IAM service linked role (`default = False`)
 - `iam_service_linked_role_aws_service_name` - (Required, Forces new resource) The AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com. To find the full list of services that support service-linked roles, check the docs. (`default = ""`)
 - `iam_service_linked_role_custom_suffix` - (Optional, forces new resource) Additional string appended to the role name. Not all AWS services support custom suffixes. (`default = null`)
 - `iam_service_linked_role_description` - (Optional) The description of the role. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `iam_service_linked_role_id` - The Amazon Resource Name (ARN) of the role.
+- `iam_service_linked_role_arn` - The Amazon Resource Name (ARN) specifying the role.
+- `iam_service_linked_role_create_date` - The creation date of the IAM role.
+- `iam_service_linked_role_name` - The name of the role.
+- `iam_service_linked_role_path` - The path of the role.
+- `iam_service_linked_role_unique_id` - The stable and unique string identifying the role.
 
 
 ## Authors

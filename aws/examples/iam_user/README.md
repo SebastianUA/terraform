@@ -79,7 +79,7 @@ module "iam_user" {
 
 
   depends_on = [
-    data.external.python3_iam_users
+  	data.external.python3_iam_users
   ]
 }
 ```

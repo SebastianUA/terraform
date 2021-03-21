@@ -1,4 +1,4 @@
-# Work with Vault generic via terraform
+# Work with AWS VAULT_GENERIC via terraform
 
 A terraform module for making VAULT_GENERIC.
 

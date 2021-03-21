@@ -1,4 +1,4 @@
-# Work with Heroku space via terraform
+# Work with AWS HEROKU_SPACE via terraform
 
 A terraform module for making HEROKU_SPACE.
 

@@ -34,11 +34,13 @@ module "devicefarm" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_devicefarm_project` - Enable devicefarm project usage (`default = ""`)
+- `enable_devicefarm_project` - Enable devicefarm project usage (`default = False`)
 - `devicefarm_project_name` - The name of the project (`default = ""`)
 
 ## Module Output Variables
 ----------------------
+- `devicefarm_project_id` - The ID of this project
+- `devicefarm_project_arn` - The Amazon Resource Name of this project
 
 
 ## Authors

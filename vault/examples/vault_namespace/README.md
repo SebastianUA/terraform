@@ -1,4 +1,4 @@
-# Work with Vault namespace via terraform
+# Work with AWS VAULT_NAMESPACE via terraform
 
 A terraform module for making VAULT_NAMESPACE.
 

@@ -1,4 +1,4 @@
-# Work with Heroku account via terraform
+# Work with AWS HEROKU_ACCOUNT via terraform
 
 A terraform module for making HEROKU_ACCOUNT.
 

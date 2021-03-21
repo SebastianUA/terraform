@@ -1,4 +1,4 @@
-# Work with Heroku config via terraform
+# Work with AWS HEROKU_CONFIG via terraform
 
 A terraform module for making HEROKU_CONFIG.
 

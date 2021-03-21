@@ -32,14 +32,15 @@ module "servicecatalog" {
 
 ## Module Input Variables
 ----------------------
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_servicecatalog_portfolio` - Enable servicecatalog portfolio usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_servicecatalog_portfolio` - Enable servicecatalog portfolio usage (`default = False`)
 - `servicecatalog_portfolio_name` - The name of the portfolio. (`default = ""`)
 - `servicecatalog_portfolio_description` - (Required) Description of the portfolio (`default = ""`)
 - `servicecatalog_portfolio_provider_name` - (Required) Name of the person or organization who owns the portfolio. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `servicecatalog_portfolio_id` - The ID of the Service Catalog Portfolio.
 
 
 ## Authors

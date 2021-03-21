@@ -1,4 +1,4 @@
-# Work with Consul prepared query via terraform
+# Work with AWS CONSUL_PREPARED_QUERY via terraform
 
 A terraform module for making CONSUL_PREPARED_QUERY.
 

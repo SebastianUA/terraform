@@ -1,4 +1,4 @@
-# Work with AWS CloudWatch via terraform
+# Work with AWS CLOUDWATCH via terraform
 
 A terraform module for making CLOUDWATCH.
 

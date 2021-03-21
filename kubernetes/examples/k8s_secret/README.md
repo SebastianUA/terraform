@@ -1,4 +1,4 @@
-# Work with Kubernetes secret via terraform
+# Work with AWS K8S_SECRET via terraform
 
 A terraform module for making K8S_SECRET.
 

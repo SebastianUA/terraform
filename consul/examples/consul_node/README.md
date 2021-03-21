@@ -1,4 +1,4 @@
-# Work with Consul node via terraform
+# Work with AWS CONSUL_NODE via terraform
 
 A terraform module for making CONSUL_NODE.
 

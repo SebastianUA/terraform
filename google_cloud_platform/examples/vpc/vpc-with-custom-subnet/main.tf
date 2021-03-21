@@ -27,7 +27,7 @@ module "compute_subnetwork" {
   enable_compute_subnetwork = true
   enable_secondary_ip_range = false
   region                    = "us-east1"
-  network                   = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network                   = element(module.compute_network.google_compute_network_self_link, 0)
   ip_cidr_range             = "10.0.0.0/16"
 }
 
@@ -35,7 +35,7 @@ module "compute_firewall" {
   source = "../../../modules/compute_firewall"
   name   = "custom-subnet"
 
-  network            = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network            = element(module.compute_network.google_compute_network_self_link, 0)
   enable_all_ingress = true
   enable_all_egress  = true
 }

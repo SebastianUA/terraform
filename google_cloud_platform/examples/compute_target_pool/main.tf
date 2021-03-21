@@ -60,7 +60,7 @@ module "compute_forwarding_rule" {
   project = "terraform-2018"
 
   port_range = "80"
-  target     = "${element(module.compute_target_pool.self_link, 0)}"
+  target     = element(module.compute_target_pool.self_link, 0)
   #target                          = "${element(module.compute_target_pool.default_pool_self_link, 0)}"
 }
 

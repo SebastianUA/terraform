@@ -56,16 +56,23 @@ EOF
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_sfn_activity` - Enable sfn activity (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_sfn_activity` - Enable sfn activity (`default = False`)
 - `sfn_activity_name` - The name of the activity to create. (`default = ""`)
-- `enable_sfn_state_machine` - Enable sfn state machine (`default = ""`)
+- `enable_sfn_state_machine` - Enable sfn state machine (`default = False`)
 - `sfn_state_machine_name` - The name of the state machine. (`default = ""`)
 - `sfn_state_machine_definition` - (Required) The Amazon States Language definition of the state machine. (`default = null`)
 - `sfn_state_machine_role_arn` - (Required) The Amazon Resource Name (ARN) of the IAM role to use for this state machine. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `sfn_activity_id` - The Amazon Resource Name (ARN) that identifies the created activity.
+- `sfn_activity_name` - The name of the activity.
+- `sfn_activity_creation_date` - The date the activity was created.
+- `sfn_state_machine_id` - The ARN of the state machine.
+- `sfn_state_machine_creation_date` - The date the state machine was created.
+- `sfn_state_machine_status` - The current status of the state machine. Either 'ACTIVE' or 'DELETING'.
+- `sfn_state_machine_arn` - The ARN of the state machine.
 
 
 ## Authors

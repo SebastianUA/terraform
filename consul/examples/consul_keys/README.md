@@ -1,4 +1,4 @@
-# Work with Consul keys via terraform
+# Work with AWS CONSUL_KEYS via terraform
 
 A terraform module for making CONSUL_KEYS.
 

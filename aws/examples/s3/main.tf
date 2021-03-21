@@ -153,12 +153,12 @@ module "s3" {
 
   # Add files to bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_stack  = [
+  s3_bucket_object_stack = [
     {
-      key    = "additional_files/test.txt"
+      key = "additional_files/test.txt"
     },
     {
-      key    = "additional_files/test2.txt"
+      key                 = "additional_files/test2.txt"
       source              = null
       content_type        = null
       content             = null

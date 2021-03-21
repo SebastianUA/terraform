@@ -1,4 +1,4 @@
-# Work with Consul autopilot config via terraform
+# Work with AWS CONSUL_AUTOPILOT_CONFIG via terraform
 
 A terraform module for making CONSUL_AUTOPILOT_CONFIG.
 

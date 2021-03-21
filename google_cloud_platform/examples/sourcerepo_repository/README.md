@@ -1,10 +1,10 @@
-# Work with Google Cloud  Platform (sourcerepo repository) via terraform
+# Work with AWS SOURCEREPO_REPOSITORY via terraform
 
-A terraform module for making google sourcerepo repository.
+A terraform module for making SOURCEREPO_REPOSITORY.
+
 
 ## Usage
---------
-
+----------------------
 Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
 
 ```
@@ -12,35 +12,40 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.9.0"
+  required_version = "~> 0.13"
 }
+
 provider "google" {
-    credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
-    project     = "terraform-2018"
-    region      = "us-east1"
+  credentials = file("/Users/captain/.config/gcloud/creds/terraform_creds.json")
+  project     = "terraform-2018"
+  region      = "us-east1"
 }
+
 module "sourcerepo_repository" {
-    source                              = "../../modules/sourcerepo_repository"
-    name                                = "TEST"
+  source = "../../modules/sourcerepo_repository"
+  name   = "TEST"
 
 }
-
 ```
 
-Module Input Variables
+## Module Input Variables
 ----------------------
-- `name` - "(Required) The name of the repository that will be created." (`    default     = "TEST"`)
-- `project` - "(Optional) The ID of the project in which the resource belongs. If it is not provided, the provider project is used." (`  default     = ""    `)
-- `environment` - "Environment for service" (`    default     = "STAGE"`)
+- `name` - (Required) The name of the repository that will be created. (`default = TEST`)
+- `project` - (Optional) The ID of the project in which the resource belongs. If it is not provided, the provider project is used. (`default = ""`)
+- `environment` - Environment for service (`default = STAGE`)
+
+## Module Output Variables
+----------------------
+- `google_sourcerepo_repository_name` - Name of google sourcerepo repository
+- `google_sourcerepo_repository_url` - The url to clone the repository.
+- `google_sourcerepo_repository_size` - The size of the repository.
+- `google_sourcerepo_repository_id` - ID
 
 
-Authors
-=======
+## Authors
 
-Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA)
-(vitaliy.natarov@yahoo.com).
+Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com).
 
-License
-=======
+## License
 
 Apache 2 Licensed. See [LICENSE](https://github.com/SebastianUA/terraform/blob/master/LICENSE) for full details.

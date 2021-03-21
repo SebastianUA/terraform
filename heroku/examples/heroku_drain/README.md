@@ -1,4 +1,4 @@
-# Work with Heroku drain via terraform
+# Work with AWS HEROKU_DRAIN via terraform
 
 A terraform module for making HEROKU_DRAIN.
 

@@ -1,4 +1,4 @@
-# Work with AWS CloudFormation via terraform
+# Work with AWS CLOUDFORMATION via terraform
 
 A terraform module for making CLOUDFORMATION.
 

@@ -23,7 +23,7 @@ module "compute_firewall" {
   source = "../../../modules/compute_firewall"
   name   = "auto-subnet"
 
-  network            = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network            = element(module.compute_network.google_compute_network_self_link, 0)
   enable_all_ingress = true
   enable_all_egress  = true
 }

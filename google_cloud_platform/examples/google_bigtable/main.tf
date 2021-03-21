@@ -28,7 +28,7 @@ module "google_bigtable_table" {
 
   enable_bigtable_instance = false
   enable_bigtable_table    = true
-  instance_name            = "${element(module.google_bigtable.google_bigtable_instance_name, 0)}"
+  instance_name            = element(module.google_bigtable.google_bigtable_instance_name, 0)
   split_keys               = ["a", "b", "c"]
 
 }

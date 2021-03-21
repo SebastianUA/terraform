@@ -1,4 +1,4 @@
-# Work with Heroku addon via terraform
+# Work with AWS HEROKU_ADDON via terraform
 
 A terraform module for making HEROKU_ADDON.
 

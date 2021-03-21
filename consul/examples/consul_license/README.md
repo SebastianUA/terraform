@@ -1,4 +1,4 @@
-# Work with Consule lisense via terraform
+# Work with AWS CONSUL_LICENSE via terraform
 
 A terraform module for making CONSUL_LICENSE.
 

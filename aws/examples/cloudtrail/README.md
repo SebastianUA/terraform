@@ -102,8 +102,8 @@ module "cloudtrail_event_selector_s3" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value (`default = ""`)
-- `enable_cloudtrail` - Enable cloudtrail usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value (`default = {}`)
+- `enable_cloudtrail` - Enable cloudtrail usage (`default = False`)
 - `cloudtrail_name` - Specifies the name of the trail. (`default = ""`)
 - `s3_bucket_name` - (Required) Specifies the name of the S3 bucket designated for publishing log files. (`default = ""`)
 - `s3_key_prefix` - (Optional) Specifies the S3 key prefix that follows the name of the bucket you have designated for log file delivery. (`default = ""`)
@@ -111,19 +111,22 @@ module "cloudtrail_event_selector_s3" {
 - `cloud_watch_logs_group_arn` - (Optional) Specifies a log group name using an Amazon Resource Name (ARN), that represents the log group to which CloudTrail logs will be delivered. (`default = ""`)
 - `enable_logging` - (Optional) Enables logging for the trail. Defaults to true. Setting this to false will pause logging. (`default = True`)
 - `include_global_service_events` - (Optional) Specifies whether the trail is publishing events from global services such as IAM to the log files. Defaults to true. (`default = True`)
-- `is_multi_region_trail` - (Optional) Specifies whether the trail is created in the current region or in all regions. Defaults to false. (`default = ""`)
-- `is_organization_trail` - (Optional) Specifies whether the trail is an AWS Organizations trail. Organization trails log events for the master account and all member accounts. Can only be created in the organization master account. Defaults to false. (`default = ""`)
+- `is_multi_region_trail` - (Optional) Specifies whether the trail is created in the current region or in all regions. Defaults to false. (`default = False`)
+- `is_organization_trail` - (Optional) Specifies whether the trail is an AWS Organizations trail. Organization trails log events for the master account and all member accounts. Can only be created in the organization master account. Defaults to false. (`default = False`)
 - `sns_topic_name` - (Optional) Specifies the name of the Amazon SNS topic defined for notification of log file delivery. (`default = ""`)
-- `enable_log_file_validation` - (Optional) Specifies whether log file integrity validation is enabled. Defaults to false. (`default = ""`)
+- `enable_log_file_validation` - (Optional) Specifies whether log file integrity validation is enabled. Defaults to false. (`default = False`)
 - `kms_key_id` - (Optional) Specifies the KMS key ARN to use to encrypt the logs delivered by CloudTrail. (`default = ""`)
-- `enable_cloudtrail_event_selector` - Enable cloudtrail with event_selector (`default = ""`)
+- `enable_cloudtrail_event_selector` - Enable cloudtrail with event_selector (`default = False`)
 - `event_selector_read_write_type` - (Optional) - Specify if you want your trail to log read-only events, write-only events, or all. By default, the value is All. You can specify only the following value: 'ReadOnly', 'WriteOnly', 'All'. Defaults to All (`default = All`)
 - `event_selector_include_management_events` - (Optional) - Specify if you want your event selector to include management events for your trail. (`default = True`)
 - `event_selector_data_resource_type` - (Required) - The resource type in which you want to log data events. You can specify only the follwing value: 'AWS::S3::Object', 'AWS::Lambda::Function' (`default = ""`)
-- `event_selector_data_resource_values` - (Required) - A list of ARN for the specified S3 buckets and object prefixes. (`default = ""`)
+- `event_selector_data_resource_values` - (Required) - A list of ARN for the specified S3 buckets and object prefixes. (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `cloudtrail_id` - The name of the trail.
+- `cloudtrail_arn` - The region in which the trail was created.
+- `cloudtrail_home_region` - The region in which the trail was created.
 
 
 ## Authors

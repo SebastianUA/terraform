@@ -122,7 +122,6 @@ module "glue_example_admin_role" {
   ]
 }
 
-# Create glue catalog bucket (account_id ensures unique name across accounts)
 module "s3_private_glue_catalog" {
   source      = "git@github.com:SebastianUA/terraform.git//aws/modules/s3?ref=master"
   name        = "test"
@@ -135,16 +134,15 @@ module "s3_private_glue_catalog" {
 
   # Create test folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_source = [
-    // "/test"
+  s3_bucket_object_stack  = [
+    {
+      key = "/catalog"
+    }  
   ]
 
   tags = merge(
     module.aws_user_tags.tags,
-    map(
-      "cost-center", "00-00000.000.01",
-      "Project", "My Test Glue Project"
-    )
+    var.example_tags
   )
 }
 
@@ -161,16 +159,15 @@ module "s3_private_glue_crawler" {
 
   # Create crawler folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_source = [
-    // "/crawler"
+  s3_bucket_object_stack  = [
+    {
+      key = "/crawler"
+    }  
   ]
 
   tags = merge(
     module.aws_user_tags.tags,
-    map(
-      "cost-center", "00-00000.000.01",
-      "Project", "My Test Glue Project"
-    )
+    var.example_tags
   )
 }
 
@@ -187,16 +184,15 @@ module "s3_private_glue_jobs" {
 
   # Create crawler folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_source = [
-    // "/jobs"
+  s3_bucket_object_stack  = [
+    {
+      key = "/jobs"
+    }  
   ]
 
   tags = merge(
     module.aws_user_tags.tags,
-    map(
-      "cost-center", "00-00000.000.01",
-      "Project", "My Test Glue Project"
-    )
+    var.example_tags
   )
 }
 

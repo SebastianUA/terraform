@@ -39,12 +39,13 @@ module "shield" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_shield_protection` - Enable shield protection usage (`default = ""`)
+- `enable_shield_protection` - Enable shield protection usage (`default = False`)
 - `shield_protection_name` - A friendly name for the Protection you are creating. (`default = ""`)
 - `shield_protection_resource_arn` - (Required) The ARN (Amazon Resource Name) of the resource to be protected. (`default = ""`)
 
 ## Module Output Variables
 ----------------------
+- `shield_protection_id` - The unique identifier (ID) for the Protection object that is created.
 
 
 ## Authors

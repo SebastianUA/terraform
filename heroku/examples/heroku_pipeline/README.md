@@ -1,4 +1,4 @@
-# Work with Heroku pipeline via terraform
+# Work with AWS HEROKU_PIPELINE via terraform
 
 A terraform module for making HEROKU_PIPELINE.
 

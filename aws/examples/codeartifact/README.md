@@ -1,13 +1,34 @@
-# Work with AWS codeartifact via terraform
+# Work with AWS CODEARTIFACT via terraform
 
-A terraform module for making codeartifact.
+A terraform module for making CODEARTIFACT.
 
 
+## Usage
+----------------------
+Import the module and retrieve with ```terraform get``` or ```terraform get --update```. Adding a module resource to your template, e.g. `main.tf`:
 
-## Authors
+```
+#
+# MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
+#
+terraform {
+  required_version = "~> 0.13.5"
+}
 
-Created and maintained by [Vitaliy Natarov](https://github.com/SebastianUA). An email: [vitaliy.natarov@yahoo.com](vitaliy.natarov@yahoo.com).
+provider "aws" {
+  region                  = "us-west-2"
+  profile                 = "default"
+  shared_credentials_file = pathexpand("~/.aws/credentials")
+}
 
-## License
+module "codeartifact" {
+  source = "../../modules/codeartifact"
 
-Apache 2 Licensed. See [LICENSE](https://github.com/SebastianUA/terraform/blob/master/LICENSE) for full details.
+
+  tags = map("Env", "stage", "Orchestration", "Terraform")
+
+}
+```
+
+## Module Input Variables
+----------------------

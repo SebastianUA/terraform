@@ -1,6 +1,6 @@
-# Work with AWS xray via terraform
+# Work with AWS XRAY via terraform
 
-A terraform module for making xray.
+A terraform module for making XRAY.
 
 
 ## Usage

@@ -6,7 +6,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
+  credentials = file("/Users/captain/.config/gcloud/creds/terraform_creds.json")
   project     = "terraform-2018"
   region      = "us-east1"
 }

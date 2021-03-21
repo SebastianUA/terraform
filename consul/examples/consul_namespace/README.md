@@ -1,4 +1,4 @@
-# Work with Consul namespace via terraform
+# Work with AWS CONSUL_NAMESPACE via terraform
 
 A terraform module for making CONSUL_NAMESPACE.
 

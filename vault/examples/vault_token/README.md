@@ -1,4 +1,4 @@
-# Work with Vault token via terraform
+# Work with AWS VAULT_TOKEN via terraform
 
 A terraform module for making VAULT_TOKEN.
 

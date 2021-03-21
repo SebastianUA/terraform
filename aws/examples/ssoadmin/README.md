@@ -1,6 +1,6 @@
-# Work with AWS ssoadmin via terraform
+# Work with AWS SSOADMIN via terraform
 
-A terraform module for making ssoadmin.
+A terraform module for making SSOADMIN.
 
 
 ## Usage
@@ -26,3 +26,10 @@ module "ssoadmin" {
   environment = "stage"
 }
 ```
+
+## Module Input Variables
+----------------------
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+
+## Module Output Variables
+----------------------

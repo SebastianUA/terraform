@@ -42,13 +42,13 @@ module "cloudhsm" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - Add additional tags (`default = ""`)
-- `enable_cloudhsm_v2_cluster` - Enable cloudhsm v2 cluster usage (`default = ""`)
+- `tags` - Add additional tags (`default = {}`)
+- `enable_cloudhsm_v2_cluster` - Enable cloudhsm v2 cluster usage (`default = False`)
 - `cloudhsm_v2_cluster_hsm_type` - (Required) The type of HSM module in the cluster. Currently, only hsm1.medium is supported. (`default = hsm1.medium`)
-- `cloudhsm_v2_cluster_subnet_ids` - (Required) The IDs of subnets in which cluster will operate. (`default = ""`)
+- `cloudhsm_v2_cluster_subnet_ids` - (Required) The IDs of subnets in which cluster will operate. (`default = []`)
 - `cloudhsm_v2_cluster_source_backup_identifier` - (Optional) The id of Cloud HSM v2 cluster backup to be restored. (`default = null`)
 - `cloudhsm_v2_cluster_name` - Name for cloudhsm v2 cluster (`default = ""`)
-- `enable_cloudhsm_v2_hsm` - Enable cloudhsm v2 hsm usage (`default = ""`)
+- `enable_cloudhsm_v2_hsm` - Enable cloudhsm v2 hsm usage (`default = False`)
 - `cloudhsm_v2_hsm_subnet_id` - (Optional) The ID of subnet in which HSM module will be located. (`default = null`)
 - `cloudhsm_v2_hsm_cluster_id` - (Required) The ID of Cloud HSM v2 cluster to which HSM will be added. (`default = ""`)
 - `cloudhsm_v2_hsm_availability_zone` - (Optional) The IDs of AZ in which HSM module will be located. Do not use together with subnet_id. (`default = null`)
@@ -56,6 +56,13 @@ module "cloudhsm" {
 
 ## Module Output Variables
 ----------------------
+- `cloudhsm_v2_cluster_id` - The id of the CloudHSM cluster.
+- `cloudhsm_v2_cluster_state` - The state of the cluster.
+- `cloudhsm_v2_cluster_vpc_id` - The id of the VPC that the CloudHSM cluster resides in.
+- `cloudhsm_v2_cluster_security_group_id` - The ID of the security group associated with the CloudHSM cluster.
+- `cloudhsm_v2_hsm_id` - The id of the HSM module.
+- `cloudhsm_v2_hsm_state` - The state of the HSM module.
+- `cloudhsm_v2_hsm_eni_id` - The id of the ENI interface allocated for HSM module.
 
 
 ## Authors

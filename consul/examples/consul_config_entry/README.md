@@ -1,4 +1,4 @@
-# Work with Consul config entry via terraform
+# Work with AWS CONSUL_CONFIG_ENTRY via terraform
 
 A terraform module for making CONSUL_CONFIG_ENTRY.
 

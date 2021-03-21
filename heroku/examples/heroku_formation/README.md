@@ -1,4 +1,4 @@
-# Work with Heroku formation via terraform
+# Work with AWS HEROKU_FORMATION via terraform
 
 A terraform module for making HEROKU_FORMATION.
 

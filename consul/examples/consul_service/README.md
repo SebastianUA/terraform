@@ -1,4 +1,4 @@
-# Work with Consul service via terraform
+# Work with AWS CONSUL_SERVICE via terraform
 
 A terraform module for making CONSUL_SERVICE.
 
@@ -74,8 +74,8 @@ module "consul_service" {
       timeout                           = "1s"
       deregister_critical_service_after = "30s"
 
-      header_name =  "foo"
-      header_value = ["test"]   
+      header_name  = "foo"
+      header_value = ["test"]
     }
   ]
 

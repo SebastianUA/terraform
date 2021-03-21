@@ -1,4 +1,4 @@
-# Work with Heroku slug via terraform
+# Work with AWS HEROKU_SLUG via terraform
 
 A terraform module for making HEROKU_SLUG.
 

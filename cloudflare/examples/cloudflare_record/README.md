@@ -1,6 +1,6 @@
-# Work with cloudflare records via terraform
+# Work with AWS CLOUDFLARE_RECORD via terraform
 
-A terraform module for making cloudflare records.
+A terraform module for making CLOUDFLARE_RECORD.
 
 
 ## Usage
@@ -12,31 +12,30 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "> 0.12.12"
+  required_version = "~> 0.13"
 }
 
 provider "cloudflare" {
-    version = "~> 2.0"
-    email   = ""
-    api_key = ""
+  email   = "email-here"
+  api_key = "api-key-here"
 }
 
 module "cloudflare_record" {
-    source                          = "../../modules/cloudflare_record"
-    name                            = "cloudflare_record"
+  source = "../../modules/cloudflare_record"
+  #name                            = "cloudflare_record"
 
-    enable_record                   = "true"
+  enable_record = true
 
-    record_value                    = "192.168.0.11"
+  #record_value                    = "192.168.0.11"
 
-    record_data                     = {
-        service  = "_sip"
-        proto    = "_tls"
-        name     = "terraform-srv"
-        priority = 0
-        weight   = 0
-        port     = 443
-        target   = "linux-notes.org"
+  record_data = {
+    service  = "_sip"
+    proto    = "_tls"
+    name     = "terraform-srv"
+    priority = 0
+    weight   = 0
+    port     = 443
+    target   = "linux-notes.org"
   }
 }
 ```

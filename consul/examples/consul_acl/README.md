@@ -1,4 +1,4 @@
-# Work with Consul ALCs via terraform
+# Work with AWS CONSUL_ACL via terraform
 
 A terraform module for making CONSUL_ACL.
 

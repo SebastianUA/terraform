@@ -34,11 +34,12 @@ module "simpledb" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_simpledb_domain` - Enable simpledb domain usage (`default = ""`)
+- `enable_simpledb_domain` - Enable simpledb domain usage (`default = False`)
 - `simpledb_domain_name` - The name of the SimpleDB domain (`default = ""`)
 
 ## Module Output Variables
 ----------------------
+- `simpledb_domain_id` - The name of the SimpleDB domain
 
 
 ## Authors

@@ -1,4 +1,4 @@
-# Work with Heroku build via terraform
+# Work with AWS HEROKU_BUILD via terraform
 
 A terraform module for making HEROKU_BUILD.
 

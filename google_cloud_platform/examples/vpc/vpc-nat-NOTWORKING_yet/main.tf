@@ -36,7 +36,7 @@ module "compute_subnetwork" {
   enable_compute_subnetwork = true
   enable_secondary_ip_range = false
   region                    = "us-east1"
-  network                   = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network                   = element(module.compute_network.google_compute_network_self_link, 0)
   ip_cidr_range             = "10.0.0.0/16"
 }
 
@@ -54,7 +54,7 @@ module "compute_route" {
 
   enable_compute_route = true
   dest_range           = "15.0.0.0/24"
-  network              = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network              = element(module.compute_network.google_compute_network_self_link, 0)
   next_hop_ip          = "10.0.0.5"
 }
 
@@ -62,7 +62,7 @@ module "compute_firewall" {
   source = "../../../modules/compute_firewall"
   name   = "GKE"
 
-  network            = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network            = element(module.compute_network.google_compute_network_self_link, 0)
   enable_all_ingress = true
   enable_all_egress  = true
 }

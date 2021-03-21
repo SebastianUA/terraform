@@ -50,7 +50,7 @@ module "node_pool" {
 
   # Create container node pool
   enable_container_node_pool = false
-  container_cluster_name     = "${element(module.container_cluster.google_container_cluster_zone_name, 0)}"
+  container_cluster_name     = element(module.container_cluster.google_container_cluster_zone_name, 0)
   ##OR
   ##container_cluster_name              = "${element(module.container_cluster.google_container_cluster_region_name, 0)}"
 

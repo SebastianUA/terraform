@@ -43,7 +43,7 @@ module "cur" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_cur_report_definition` - Enable cur report definition usage (`default = ""`)
+- `enable_cur_report_definition` - Enable cur report definition usage (`default = False`)
 - `cur_report_definition_report_name` - (Required) Unique name for the report. Must start with a number/letter and is case sensitive. Limited to 256 characters. (`default = ""`)
 - `cur_report_definition_time_unit` - (Required) The frequency on which report data are measured and displayed. Valid values are: HOURLY, DAILY. (`default = HOURLY`)
 - `cur_report_definition_format` - (Required) Format for report. Valid values are: textORcsv. (`default = textORcsv`)
@@ -56,6 +56,7 @@ module "cur" {
 
 ## Module Output Variables
 ----------------------
+- `cur_report_definition_id` - The ID of the cur report definition
 
 
 ## Authors

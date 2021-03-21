@@ -6,7 +6,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
+  credentials = file("/Users/captain/.config/gcloud/creds/terraform_creds.json")
   project     = "terraform-2018"
   region      = "us-east1"
 }
@@ -24,7 +24,7 @@ module "compute_router" {
   name   = "TEST"
 
   enable_compute_router = true
-  network               = "${element(module.compute_network.google_compute_network_self_link, 0)}"
+  network               = element(module.compute_network.google_compute_network_self_link, 0)
 
   bgp = [
     {
@@ -51,7 +51,7 @@ module "compute_router_interface" {
 
   enable_compute_router           = false
   enable_compute_router_interface = true
-  router                          = "${element(module.compute_router.google_compute_router_name, 0)}"
+  router                          = element(module.compute_router.google_compute_router_name, 0)
   ip_range                        = ""
   vpn_tunnel                      = ""
 }
@@ -62,7 +62,7 @@ module "compute_router_peer" {
 
   enable_compute_router      = false
   enable_compute_router_peer = true
-  router                     = "${element(module.compute_router.google_compute_router_name, 0)}"
-  interface                  = "${element(module.compute_router_interface.google_compute_router_interface_name, 0)}"
+  router                     = element(module.compute_router.google_compute_router_name, 0)
+  interface                  = element(module.compute_router_interface.google_compute_router_interface_name, 0)
   peer_ip_address            = "169.254.1.2"
 }

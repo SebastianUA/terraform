@@ -1,4 +1,4 @@
-# Work with Vault auth via terraform
+# Work with AWS VAULT_AUTH via terraform
 
 A terraform module for making VAULT_AUTH.
 

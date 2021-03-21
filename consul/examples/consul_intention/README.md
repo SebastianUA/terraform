@@ -1,4 +1,4 @@
-# Work with Consul intention via terraform
+# Work with AWS CONSUL_INTENTION via terraform
 
 A terraform module for making CONSUL_INTENTION.
 

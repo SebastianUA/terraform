@@ -6,7 +6,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = "${file("/Users/captain/.config/gcloud/creds/terraform_creds.json")}"
+  credentials = file("/Users/captain/.config/gcloud/creds/terraform_creds.json")
   project     = "terraform-2018"
   region      = "us-east1"
 }
@@ -38,7 +38,7 @@ module "compute_forwarding_rule" {
   project = "terraform-2018"
 
   port_range = "80"
-  target     = "${element(module.compute_target_pool.default_pool_self_link, 0)}"
+  target     = element(module.compute_target_pool.default_pool_self_link, 0)
 }
 
 module "compute_firewall" {
@@ -88,7 +88,7 @@ module "compute_instance_group_manager" {
 
   # Uses for autoscaler (if set true and target_size=0)
   use_compute_instance_group_manager_default = true
-  instance_template                          = "${element(module.compute_instance_template.self_link, 0)}"
+  instance_template                          = element(module.compute_instance_template.self_link, 0)
   target_pools                               = ["${element(module.compute_target_pool.default_pool_self_link, 0)}"]
   #auto_healing_policies_health_check          = "${element(module.compute_health_check.http_self_link, 0)}"
   target_size = 0

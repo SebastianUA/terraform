@@ -1,4 +1,4 @@
-# Work with Kubernetes config map via terraform
+# Work with AWS K8S_CONFIG_MAP via terraform
 
 A terraform module for making K8S_CONFIG_MAP.
 

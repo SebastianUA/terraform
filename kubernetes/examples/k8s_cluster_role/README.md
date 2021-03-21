@@ -1,4 +1,4 @@
-# Work with Kubernetes cluster role & cluster role binding via terraform
+# Work with AWS K8S_CLUSTER_ROLE via terraform
 
 A terraform module for making K8S_CLUSTER_ROLE.
 

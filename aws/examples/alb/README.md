@@ -20,12 +20,16 @@ provider "aws" {
   region                  = "us-east-1"
   shared_credentials_file = pathexpand("/Users/captain/.aws/credentials")
   profile                 = "default"
+
+  alias = "test"
 }
 
 module "alb" {
   source      = "../../modules/alb"
   name        = "App-Load-Balancer"
   environment = "staging"
+
+  provider = aws.test1
 
   # Create a new ALB
   enable_alb                     = true
@@ -83,8 +87,8 @@ module "alb" {
   ]
 
   # listener rule rule
-  enable_alb_listener_rule                = true
-  alb_listener_rule_action_type           = "fixed-response"
+  enable_alb_listener_rule      = true
+  alb_listener_rule_action_type = "fixed-response"
   alb_listener_rule_action_fixed_response = [
     {
       content_type = "text/plain"
@@ -121,7 +125,8 @@ module "alb_name_prefix" {
 
   tags = map("Env", "stage")
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

@@ -46,8 +46,8 @@ module "ec2" {
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `region` - The region where to deploy this code (e.g. us-east-1). (`default = us-east-1`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = ""`)
-- `enable_instance` - Enable instance usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = {}`)
+- `enable_instance` - Enable instance usage (`default = False`)
 - `instance_name` - Name for AWS EC2 node(s) (`default = ""`)
 - `ami` - I added only 3 regions to show the map feature but you can add all (`default = {'us-east-1': 'ami-46c1b650', 'us-west-2': 'ami-50d1d929', 'eu-west-1': 'ami-6e28b517'}`)
 - `availability_zone` - (Optional) The AZ to start the instance in. (`default = null`)
@@ -62,11 +62,11 @@ module "ec2" {
 - `instance_initiated_shutdown_behavior` - (Optional) Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instances. See Shutdown Behavior for more information. (`default = null`)
 - `key_name` - (Optional) The key name of the instance (`default = null`)
 - `get_password_data` - (Optional) If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the password_data attribute. See GetPasswordData for more information. (`default = null`)
-- `security_groups` - (Optional, EC2-Classic and default VPC only) A list of security group names (EC2-Classic) or IDs (default VPC) to associate with. (`default = ""`)
+- `security_groups` - (Optional, EC2-Classic and default VPC only) A list of security group names (EC2-Classic) or IDs (default VPC) to associate with. (`default = []`)
 - `associate_public_ip_address` - (Optional) Associate a public ip address with an instance in a VPC. (`default = null`)
 - `source_dest_check` - (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true. (`default = True`)
 - `subnet_id` - (Optional) The VPC Subnet ID to launch in. (`default = null`)
-- `vpc_security_group_ids` - The associated security groups in non-default VPC (`default = ""`)
+- `vpc_security_group_ids` - The associated security groups in non-default VPC (`default = []`)
 - `monitoring` - (Optional) If true, the launched EC2 instance will have detailed monitoring enabled. If true, the launched EC2 instance will have detailed monitoring enabled (`default = null`)
 - `user_data` - (Optional) The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead. (`default = null`)
 - `user_data_base64` - (Optional) Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption. (`default = null`)
@@ -75,15 +75,27 @@ module "ec2" {
 - `private_ip` - (Optional) Private IP address to associate with the instance in a VPC. (`default = null`)
 - `ipv6_address_count` - (Optional) A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet. (`default = null`)
 - `ipv6_addresses` - (Optional) Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface (`default = null`)
-- `volume_tags` - A mapping of tags to assign to the devices created by the instance at launch time (`default = ""`)
-- `root_block_device` - Customize details about the root block device of the instance. See Block Devices below for details (`default = ""`)
-- `ebs_block_device` - Additional EBS block devices to attach to the instance (`default = ""`)
-- `ephemeral_block_device` - Customize Ephemeral (also known as Instance Store) volumes on the instance (`default = ""`)
-- `network_interface` - Customize network interfaces to be attached at instance boot time (`default = ""`)
-- `instance_timeouts` - Set timeout f or EC2 instance (`default = ""`)
+- `volume_tags` - A mapping of tags to assign to the devices created by the instance at launch time (`default = {}`)
+- `root_block_device` - Customize details about the root block device of the instance. See Block Devices below for details (`default = []`)
+- `ebs_block_device` - Additional EBS block devices to attach to the instance (`default = []`)
+- `ephemeral_block_device` - Customize Ephemeral (also known as Instance Store) volumes on the instance (`default = []`)
+- `network_interface` - Customize network interfaces to be attached at instance boot time (`default = []`)
+- `instance_timeouts` - Set timeout f or EC2 instance (`default = []`)
 
 ## Module Output Variables
 ----------------------
+- `instance_ids` - ""
+- `availability_zone` - List of availability zones of instances
+- `key_name` - List of key names of instances
+- `public_dns` - List of public DNS names assigned to the instances. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC
+- `public_ip` - List of public IP addresses assigned to the instances, if applicable
+- `primary_network_interface_id` - List of IDs of the primary network interface of instances
+- `private_dns` - List of private DNS names assigned to the instances. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC
+- `private_ip` - List of private IP addresses assigned to the instances
+- `security_groups` - List of associated security groups of instances
+- `vpc_security_group_ids` - List of associated security groups of instances, if running in non-default VPC
+- `subnet_id` - List of IDs of VPC subnets of instances
+- `tags` - List of tags of instances
 
 
 ## Authors

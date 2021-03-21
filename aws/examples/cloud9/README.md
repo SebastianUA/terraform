@@ -37,8 +37,8 @@ module "cloud9" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_cloud9_environment_ec2` - Enable cloud9 environment ec2 usage (`default = False`)
 - `cloud9_environment_ec2_name` - The name of the environment. (`default = ""`)
 - `cloud9_environment_ec2_instance_type` - (Required) The type of instance to connect to the environment, e.g. t2.micro. (`default = t2.micro`)
 - `cloud9_environment_ec2_automatic_stop_time_minutes` - (Optional) The number of minutes until the running instance is shut down after the environment has last been used. (`default = null`)
@@ -48,6 +48,9 @@ module "cloud9" {
 
 ## Module Output Variables
 ----------------------
+- `cloud9_environment_ec2_id` - The ID of the environment.
+- `cloud9_environment_ec2_arn` - The ARN of the environment.
+- `cloud9_environment_ec2_type` - The type of the environment (e.g. ssh or ec2)
 
 
 ## Authors

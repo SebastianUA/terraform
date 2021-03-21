@@ -1,4 +1,4 @@
-# Work with Consul network area via terraform
+# Work with AWS CONSUL_NETWORK_AREA via terraform
 
 A terraform module for making CONSUL_NETWORK_AREA.
 
@@ -60,7 +60,7 @@ module "consul_network_area" {
 
 ## Module Output Variables
 ----------------------
-- `consul_keys_id` - ID of Counsul keys
+- `consul_network_area_id` - ID of Counsul network area
 
 
 ## Authors

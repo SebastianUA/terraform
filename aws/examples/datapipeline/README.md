@@ -37,13 +37,14 @@ module "datapipeline" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_datapipeline_pipeline` - Enable datapipeline pipeline usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_datapipeline_pipeline` - Enable datapipeline pipeline usage (`default = False`)
 - `datapipeline_pipeline_name` - The name of Pipeline. (`default = ""`)
 - `datapipeline_pipeline_description` - (Optional) The description of Pipeline. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `datapipeline_pipeline_id` - The identifier of the client certificate.
 
 
 ## Authors

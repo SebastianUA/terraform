@@ -1,4 +1,4 @@
-# Work with Heroku team via terraform
+# Work with AWS HEROKU_TEAM via terraform
 
 A terraform module for making HEROKU_TEAM.
 

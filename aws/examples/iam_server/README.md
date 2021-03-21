@@ -40,7 +40,7 @@ module "iam_server" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `enable_iam_server_certificate` - Allow upload server certificate (`default = ""`)
+- `enable_iam_server_certificate` - Allow upload server certificate (`default = False`)
 - `iam_server_certificate_name` - Set custom iam server cert name (`default = ""`)
 - `iam_server_certificate_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with iam_server_certificate_name. (`default = ""`)
 - `iam_server_certificate_body` - (Required) The contents of the public key certificate in PEM-encoded format. (`default = ""`)
@@ -50,6 +50,9 @@ module "iam_server" {
 
 ## Module Output Variables
 ----------------------
+- `iam_server_certificate_id` - The unique Server Certificate name
+- `iam_server_certificate_arn` - The Amazon Resource Name (ARN) specifying the server certificate.
+- `iam_server_certificate_name` - The name of the Server Certificate
 
 
 ## Authors

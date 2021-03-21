@@ -26,7 +26,7 @@ module "storage_bucket_object" {
 
   enable_storage_bucket        = false
   enable_storage_bucket_object = true
-  bucket                       = "${element(module.storage_bucket.google_storage_bucket_name, 0)}"
+  bucket                       = element(module.storage_bucket.google_storage_bucket_name, 0)
   source_path                  = "/Users/captain/Downloads/line-bot-google-cloud-functions-example-master.zip"
 }
 
@@ -36,7 +36,7 @@ module "google_cloudfunctions" {
 
   # Use http
   trigger_http          = true
-  source_archive_bucket = "${element(module.storage_bucket.google_storage_bucket_name, 0)}"
-  source_archive_object = "${element(module.storage_bucket_object.google_storage_bucket_object_name, 0)}"
+  source_archive_bucket = element(module.storage_bucket.google_storage_bucket_name, 0)
+  source_archive_object = element(module.storage_bucket_object.google_storage_bucket_object_name, 0)
   entry_point           = "MyFunction"
 }

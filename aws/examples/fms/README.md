@@ -30,11 +30,12 @@ module "fms" {
 
 ## Module Input Variables
 ----------------------
-- `enable_fms_admin_account` - Enable fms admin account usage (`default = ""`)
+- `enable_fms_admin_account` - Enable fms admin account usage (`default = False`)
 - `fms_admin_account_id` - (Optional) The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. Defaults to the current account. Must be configured to perform drift detection. (`default = null`)
 
 ## Module Output Variables
 ----------------------
+- `fms_admin_account_id` - The AWS account ID of the AWS Firewall Manager administrator account.
 
 
 ## Authors

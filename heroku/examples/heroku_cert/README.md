@@ -1,4 +1,4 @@
-# Work with Heroku cert via terraform
+# Work with AWS HEROKU_CERT via terraform
 
 A terraform module for making HEROKU_CERT.
 

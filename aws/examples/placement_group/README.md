@@ -40,13 +40,16 @@ module "sfn" {
 ----------------------
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_placement_group` - Enable placement group (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_placement_group` - Enable placement group (`default = False`)
 - `placement_group_name` - The name of the placement group. (`default = ""`)
 - `placement_group_strategy` - (Required) The placement strategy. Can be 'cluster', 'partition' or 'spread'. (`default = cluster`)
 
 ## Module Output Variables
 ----------------------
+- `placement_group_name` - The name of the placement group.
+- `placement_group_arn` - Amazon Resource Name (ARN) of the placement group.
+- `placement_group_id` - The ID of the placement group.
 
 
 ## Authors

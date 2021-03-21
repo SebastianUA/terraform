@@ -80,7 +80,7 @@ variable "disk_encryption_key_raw" {
 
 variable "boot_disk_initialize_params_size" {
   description = "The size of the image in gigabytes. If not specified, it will inherit the size of its base image."
-  default     = "10"
+  default     = 10
 }
 
 variable "boot_disk_initialize_params_type" {
@@ -95,7 +95,7 @@ variable "boot_disk_initialize_params_image" {
 
 variable "number_of_instances" {
   description = "Number of instances to make"
-  default     = "1"
+  default     = 1
 }
 
 #variable "scratch_disk_interface" {
@@ -170,7 +170,7 @@ variable "guest_accelerator_type" {
 
 variable "guest_accelerator_count" {
   description = "The number of the guest accelerator cards exposed to this instance."
-  default     = "0"
+  default     = 0
 }
 
 variable "ssh_user" {
@@ -180,7 +180,7 @@ variable "ssh_user" {
 
 variable "ssh_port" {
   description = "Port for connection to google machine"
-  default     = "22"
+  default     = 22
 }
 
 variable "public_key_path" {
@@ -205,7 +205,7 @@ variable "install_script_dest_path" {
 
 variable "enable_attached_disk" {
   description = "Enable attaching disk to node"
-  default     = "false"
+  default     = false
 }
 
 variable "attached_disk_source" {

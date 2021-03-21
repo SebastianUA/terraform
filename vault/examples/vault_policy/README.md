@@ -1,4 +1,4 @@
-# Work with Vault policy via terraform
+# Work with AWS VAULT_POLICY via terraform
 
 A terraform module for making VAULT_POLICY.
 

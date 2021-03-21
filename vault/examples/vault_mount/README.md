@@ -1,4 +1,4 @@
-# Work with Vault mount via terraform
+# Work with AWS VAULT_MOUNT via terraform
 
 A terraform module for making VAULT_MOUNT.
 

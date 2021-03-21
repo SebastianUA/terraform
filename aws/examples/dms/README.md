@@ -34,7 +34,7 @@ module "dms" {
 - `environment` - Environment for service (`default = STAGE`)
 - `orchestration` - Type of orchestration (`default = Terraform`)
 - `createdby` - Created by (`default = Vitaliy Natarov`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
 
 ## Module Output Variables
 ----------------------

@@ -1,4 +1,4 @@
-# Work with Heroku app via terraform
+# Work with AWS HEROKU_APP via terraform
 
 A terraform module for making HEROKU_APP.
 

@@ -80,7 +80,7 @@ module "storage_bucket_object" {
 
   enable_storage_bucket        = false
   enable_storage_bucket_object = true
-  bucket                       = "${element(module.storage_bucket.google_storage_bucket_name, 0)}"
+  bucket                       = element(module.storage_bucket.google_storage_bucket_name, 0)
   source_path                  = "/Users/captain/Downloads/line-bot-google-cloud-functions-example-master.zip"
 }
 

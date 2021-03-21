@@ -37,10 +37,10 @@ module "iam_user" {
   environment = "stage"
 
   # Using IAM user
-  enable_iam_user = true
-  iam_user_name   = ""
-  iam_user_path   = "/"
-  iam_user_force_destroy   = true
+  enable_iam_user        = true
+  iam_user_name          = ""
+  iam_user_path          = "/"
+  iam_user_force_destroy = true
 
   # Using user SSH key
   enable_iam_user_ssh_key     = true
@@ -69,6 +69,6 @@ module "iam_user" {
 
 
   depends_on = [
-  	data.external.python3_iam_users
+    data.external.python3_iam_users
   ]
 }

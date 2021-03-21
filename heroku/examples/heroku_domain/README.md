@@ -1,4 +1,4 @@
-# Work with Heroku domain via terraform
+# Work with AWS HEROKU_DOMAIN via terraform
 
 A terraform module for making HEROKU_DOMAIN.
 

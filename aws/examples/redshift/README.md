@@ -32,7 +32,7 @@ module "redshift" {
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `region` - The region where to deploy this code (e.g. us-east-1). (`default = us-east-1`)
 - `environment` - Environment for service (`default = STAGE`)
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
 
 ## Module Output Variables
 ----------------------

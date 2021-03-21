@@ -1,4 +1,4 @@
-# Work with Consul certificate authority via terraform
+# Work with AWS CONSUL_CERTIFICATE_AUTHORITY via terraform
 
 A terraform module for making CONSUL_CERTIFICATE_AUTHORITY.
 

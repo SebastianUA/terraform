@@ -34,15 +34,17 @@ module "swf" {
 
 ## Module Input Variables
 ----------------------
-- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = ""`)
-- `enable_swf_domain` - Enable swf domain usage (`default = ""`)
+- `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
+- `enable_swf_domain` - Enable swf domain usage (`default = False`)
 - `swf_domain_name` - (Optional, Forces new resource) The name of the domain. If omitted, Terraform will assign a random, unique name. (`default = ""`)
 - `swf_domain_name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with swf_domain_name. (`default = ""`)
 - `swf_domain_description` - (Optional, Forces new resource) The domain description. (`default = null`)
-- `swf_domain_workflow_execution_retention_period_in_days` - (Required, Forces new resource) Length of time that SWF will continue to retain information about the workflow execution after the workflow execution is complete, must be between 0 and 90 days. (`default = ""`)
+- `swf_domain_workflow_execution_retention_period_in_days` - (Required, Forces new resource) Length of time that SWF will continue to retain information about the workflow execution after the workflow execution is complete, must be between 0 and 90 days. (`default = 0`)
 
 ## Module Output Variables
 ----------------------
+- `swf_domain_id` - The name of the domain.
+- `swf_domain_arn` - Amazon Resource Name (ARN)
 
 
 ## Authors

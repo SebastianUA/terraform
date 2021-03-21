@@ -1,6 +1,7 @@
-# Work with Kubernetes namespaces via terraform
+# Work with AWS K8S_NAMESPACE via terraform
 
-A terraform module for making Kubernetes namespace.
+A terraform module for making K8S_NAMESPACE.
+
 
 ## Usage
 ----------------------
@@ -60,7 +61,6 @@ module "k8s_namespace_suffix" {
   }
 
 }
-
 
 module "k8s_namespace_multiple_names" {
   source = "../../modules/k8s_namespace"

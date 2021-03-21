@@ -1,4 +1,4 @@
-# Work with Heroku collaborator via terraform
+# Work with AWS HEROKU_COLLABORATOR via terraform
 
 A terraform module for making HEROKU_COLLABORATOR.
 
