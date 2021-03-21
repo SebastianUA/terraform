@@ -150,7 +150,7 @@ variable "service_account_scopes" {
 
 variable "scheduling_preemptible" {
   description = "Is the instance preemptible."
-  default     = "false"
+  default     = false
 }
 
 variable "scheduling_on_host_maintenance" {
@@ -160,7 +160,7 @@ variable "scheduling_on_host_maintenance" {
 
 variable "scheduling_automatic_restart" {
   description = "Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user)."
-  default     = "true"
+  default     = true
 }
 
 variable "guest_accelerator_type" {

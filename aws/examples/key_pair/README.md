@@ -13,7 +13,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-  required_version = "~> 0.13"
+  required_version = "~> 0.14"
 }
 
 provider "aws" {

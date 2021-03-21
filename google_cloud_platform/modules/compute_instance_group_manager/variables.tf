@@ -60,7 +60,7 @@ variable "target_size" {
 
 variable "wait_for_instances" {
   description = "Whether to wait for all instances to be created/updated before returning. Note that if this is set to true and the operation does not succeed, Terraform will continue trying until it times out."
-  default     = "true"
+  default     = true
 }
 
 variable "rolling_update_policy_type" {
@@ -75,27 +75,27 @@ variable "rolling_update_policy_minimal_action" {
 
 variable "rolling_update_policy_max_surge_fixed" {
   description = "The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. If neither is set, defaults to 1"
-  default     = "1"
+  default     = 1
 }
 
 variable "rolling_update_policy_max_surge_percent" {
   description = "The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed."
-  default     = "20"
+  default     = 20
 }
 
 variable "rolling_update_policy_max_unavailable_fixed" {
   description = "The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. If neither is set, defaults to 1"
-  default     = "1"
+  default     = 1
 }
 
 variable "rolling_update_policy_max_unavailable_percent" {
   description = "The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed."
-  default     = "20"
+  default     = 20
 }
 
 variable "rolling_update_policy_min_ready_sec" {
   description = "Minimum number of seconds to wait for after a newly created instance becomes available. This value must be from range [0, 3600]"
-  default     = "50"
+  default     = 50
 }
 
 variable "named_port_name" {
@@ -105,7 +105,7 @@ variable "named_port_name" {
 
 variable "named_port_port" {
   description = "The port number."
-  default     = "80"
+  default     = 80
 }
 
 variable "auto_healing_policies_health_check" {
@@ -115,12 +115,12 @@ variable "auto_healing_policies_health_check" {
 
 variable "auto_healing_policies_initial_delay_sec" {
   description = "The number of seconds that the managed instance group waits before it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600."
-  default     = "300"
+  default     = 300
 }
 
 variable "enable_just_instance_template_usage" {
   description = "Enable instance template usage. Will be conflict with version. Default - true"
-  default     = "true"
+  default     = true
 }
 
 variable "use_compute_instance_group_manager_default" {

@@ -14,6 +14,6 @@ output "instance_group" {
 }
 
 output "gm_self_link_default" {
-  description = "self_link"
+  description = "gm_self_link_default"
   value       = google_compute_instance_group_manager.compute_instance_group_manager_default.*.self_link
 }

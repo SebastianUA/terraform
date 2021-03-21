@@ -119,7 +119,7 @@ module "compute_instance_group_manager" {
 - `description` - An optional textual description of the instance group manager. (`default = ""`)
 - `update_strategy` - (Optional, Default 'RESTART') If the instance_template resource is modified, a value of 'NONE' will prevent any of the managed instances from being restarted by Terraform. A value of 'RESTART' will restart all of the instances at once. 'ROLLING_UPDATE' is supported as [Beta feature]. A value of 'ROLLING_UPDATE' requires rolling_update_policy block to be set (`default = RESTART`)
 - `target_size` - The target number of running instances for this managed instance group. This value should always be explicitly set unless this resource is attached to an autoscaler, in which case it should never be set. Defaults to 0. (`default = 0`)
-- `wait_for_instances` - Whether to wait for all instances to be created/updated before returning. Note that if this is set to true and the operation does not succeed, Terraform will continue trying until it times out. (`default = true`)
+- `wait_for_instances` - Whether to wait for all instances to be created/updated before returning. Note that if this is set to true and the operation does not succeed, Terraform will continue trying until it times out. (`default = True`)
 - `rolling_update_policy_type` - The type of update. Valid values are 'OPPORTUNISTIC', 'PROACTIVE' (`default = PROACTIVE`)
 - `rolling_update_policy_minimal_action` - Minimal action to be taken on an instance. Valid values are 'RESTART', 'REPLACE' (`default = REPLACE`)
 - `rolling_update_policy_max_surge_fixed` - The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. If neither is set, defaults to 1 (`default = 1`)
@@ -131,7 +131,7 @@ module "compute_instance_group_manager" {
 - `named_port_port` - The port number. (`default = 80`)
 - `auto_healing_policies_health_check` - The health check resource that signals autohealing. (`default = ""`)
 - `auto_healing_policies_initial_delay_sec` - The number of seconds that the managed instance group waits before it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600. (`default = 300`)
-- `enable_just_instance_template_usage` - Enable instance template usage. Will be conflict with version. Default - true (`default = true`)
+- `enable_just_instance_template_usage` - Enable instance template usage. Will be conflict with version. Default - true (`default = True`)
 - `use_compute_instance_group_manager_default` - Enable instance group manager default (`default = False`)
 
 ## Module Output Variables

@@ -28,7 +28,7 @@ module "compute_instance" {
 
   project_name = "terraform-2018"
 
-  number_of_instances    = "2"
+  number_of_instances    = 2
   service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro"]
 
   enable_attached_disk = false
@@ -67,9 +67,9 @@ module "compute_instance" {
 - `network_tier` - The networking tier used for configuring this instance. This field can take the following values: PREMIUM or STANDARD. If this field is not specified, it is assumed to be PREMIUM. (`default = PREMIUM`)
 - `service_account_email` - The service account e-mail address. If not given, the default Google Compute Engine service account is used. Note: allow_stopping_for_update must be set to true in order to update this field. (`default = ""`)
 - `service_account_scopes` - A list of service scopes. Both OAuth2 URLs and gcloud short names are supported. To allow full access to all Cloud APIs, use the cloud-platform scope. Note: allow_stopping_for_update must be set to true in order to update this field. (`default = []`)
-- `scheduling_preemptible` - Is the instance preemptible. (`default = false`)
+- `scheduling_preemptible` - Is the instance preemptible. (`default = False`)
 - `scheduling_on_host_maintenance` - Describes maintenance behavior for the instance. Can be MIGRATE or TERMINATE (`default = TERMINATE`)
-- `scheduling_automatic_restart` - Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user). (`default = true`)
+- `scheduling_automatic_restart` - Specifies if the instance should be restarted if it was terminated by Compute Engine (not a user). (`default = True`)
 - `guest_accelerator_type` - The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80. (`default = ""`)
 - `guest_accelerator_count` - The number of the guest accelerator cards exposed to this instance. (`default = 0`)
 - `ssh_user` - User for connection to google machine (`default = captain`)

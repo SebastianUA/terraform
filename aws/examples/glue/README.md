@@ -134,10 +134,10 @@ module "s3_private_glue_catalog" {
 
   # Create test folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_stack  = [
+  s3_bucket_object_stack = [
     {
       key = "/catalog"
-    }  
+    }
   ]
 
   tags = merge(
@@ -159,10 +159,10 @@ module "s3_private_glue_crawler" {
 
   # Create crawler folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_stack  = [
+  s3_bucket_object_stack = [
     {
       key = "/crawler"
-    }  
+    }
   ]
 
   tags = merge(
@@ -184,10 +184,10 @@ module "s3_private_glue_jobs" {
 
   # Create crawler folder in the bucket
   enable_s3_bucket_object = true
-  s3_bucket_object_stack  = [
+  s3_bucket_object_stack = [
     {
       key = "/jobs"
-    }  
+    }
   ]
 
   tags = merge(

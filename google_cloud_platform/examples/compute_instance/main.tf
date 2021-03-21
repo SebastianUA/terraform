@@ -18,7 +18,7 @@ module "compute_instance" {
 
   project_name = "terraform-2018"
 
-  number_of_instances    = "2"
+  number_of_instances    = 2
   service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro"]
 
   enable_attached_disk = false
