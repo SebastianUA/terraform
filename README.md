@@ -355,6 +355,77 @@ module "ram_main_accepter" {
 ```
 The official documentation is https://www.terraform.io/docs/language/providers/configuration.html#provider-versions.
 
+
+
+## Cloud cost estimates for Terraform
+
+Infracost shows cloud cost estimates for infrastructure-as-code projects such as Terraform. It helps developers, devops and others to quickly see a cost breakdown and compare different options upfront.
+
+## Installation
+
+1. Assuming [Terraform](https://www.terraform.io/downloads.html) is already installed, get the latest Infracost release:
+
+   macOS Homebrew:
+
+   ```
+   brew install infracost
+   ```
+
+   Linux/macOS manual download:
+
+   ```
+   os=$(uname | tr '[:upper:]' '[:lower:]') && \
+   arch=$(uname -m | tr '[:upper:]' '[:lower:]' | sed -e s/x86_64/amd64/) && \
+   curl -s -L https://github.com/infracost/infracost/releases/latest/download/infracost-$os-$arch.tar.gz | tar xz -C /tmp && \
+   sudo mv /tmp/infracost-$os-$arch /usr/local/bin/infracost
+   ```
+
+   Docker and Windows users see [here](https://www.infracost.io/docs/#installation).
+
+2. Register for a free API key:
+
+   ```
+   infracost register
+   ```
+
+   The key is saved in `~/.config/infracost/credentials.yml`.
+
+3. Run Infracost using our example Terraform project to see how it works:
+
+   ```
+   git clone https://github.com/infracost/example-terraform.git
+   cd example-terraform
+   
+   # Play with sample1/main.tf and re-run to compare costs
+   infracost breakdown --path sample1
+   
+   # Show diff of monthly costs, edit the yaml file and re-run to compare costs
+   infracost diff --path sample1 --usage-file sample1/infracost-usage.yml
+   ```
+
+Please **watch/star** this repo as we add new cloud resources every week or so.
+
+## Usage
+
+The `infracost` CLI has the following main commands, their usage is described in our short [**getting started**](https://www.infracost.io/docs/#usage) page:
+
+- `breakdown`: show full breakdown of costs
+- `diff`: show diff of monthly costs between current and planned state
+
+As mentioned in our [FAQ](https://www.infracost.io/docs/faq), **no** cloud credentials, secrets, tags or resource identifiers are sent to the Cloud Pricing API. That API does not become aware of your cloud spend; it simply returns cloud prices to the CLI so calculations can be done on your machine. Infracost does not make any changes to your Terraform state or cloud resources.
+
+## CI/CD integrations
+
+The following CI/CD integrations can be used to automatically add a pull request comment showing the diff of monthly costs between the current and planned state:
+
+- [GitHub Action](https://www.infracost.io/docs/integrations/cicd#github-action)
+- [GitLab CI template](https://www.infracost.io/docs/integrations/cicd#gitlab-ci)
+- [CircleCI Orb](https://www.infracost.io/docs/integrations/cicd#circleci)
+- [Bitbucket Pipeline](https://www.infracost.io/docs/integrations/cicd#bitbucket-pipelines)
+- [Atlantis](https://www.infracost.io/docs/integrations/cicd#atlantis)
+
+If you run into any issues with CI/CD integrations, please join our [community Slack channel](https://www.infracost.io/community-chat), we'd be happy to guide you through it. The GitHub page is https://github.com/infracost/infracost.
+
 ## Auto-generate documentation for Terraform modules
 
 ---------
