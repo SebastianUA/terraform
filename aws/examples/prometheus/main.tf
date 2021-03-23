@@ -14,7 +14,6 @@ provider "aws" {
 module "prometheus" {
   source = "../../modules/prometheus"
 
-
-  tags = map("Env", "stage", "Orchestration", "Terraform")
-
+  enable_prometheus_workspace = true
+  prometheus_workspace_alias  = "prometheus-test"
 }
