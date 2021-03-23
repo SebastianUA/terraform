@@ -1,6 +1,6 @@
 # Terraform usage
 ----------------
-![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg)![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg)![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)  ![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg)![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![terraform-lint](https://github.com/SebastianUA/terraform/workflows/terraform-lint/badge.svg) ![](https://img.shields.io/github/last-commit/sebastianua/terraform.svg) ![](https://img.shields.io/github/repo-size/sebastianua/terraform.svg)  ![LatestVer](https://img.shields.io/github/release/sebastianua/terraform.svg) ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 ## Install Terraform
 

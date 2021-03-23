@@ -18,39 +18,19 @@ variable "tags" {
 }
 
 #---------------------------------------------------
-# AWS codestarnotifications notification rule
+# AWS codestarconnections connection
 #---------------------------------------------------
-variable "enable_codestarnotifications_notification_rule" {
-  description = "Enable codestarnotifications notification rule usage"
+variable "enable_codestarconnections_connection" {
+  description = "Enable codestarconnections connection usage"
   default     = false
 }
 
-variable "codestarnotifications_notification_rule_name" {
-  description = "The name of notification rule."
+variable "codestarconnections_connection_name" {
+  description = "The name of the connection to be created. The name must be unique in the calling AWS account. Changing name will create a new resource."
   default     = ""
 }
 
 variable "codestarnotifications_notification_rule_resource" {
-  description = "(Required) The ARN of the resource to associate with the notification rule. For exapmle: aws_codecommit_repository.codecommit_repository.arn"
-  default     = ""
-}
-
-variable "codestarnotifications_notification_rule_detail_type" {
-  description = "(Required) The level of detail to include in the notifications for this resource. Possible values are BASIC and FULL"
-  default     = "FULL"
-}
-
-variable "codestarnotifications_notification_rule_event_type_ids" {
-  description = "(Required) A list of event types associated with this notification rule."
-  default     = ["codecommit-repository-comments-on-commits"]
-}
-
-variable "codestarnotifications_notification_rule_status" {
-  description = "(Optional) The status of the notification rule. Possible values are ENABLED and DISABLED, default is ENABLED."
-  default     = "ENABLED"
-}
-
-variable "codestarnotifications_notification_rule_target" {
-  description = "(Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation."
-  default     = []
+  description = "(Required) The name of the external provider where your third-party code repository is configured. Valid values are Bitbucket, GitHub, or GitHubEnterpriseServer. Changing provider_type will create a new resource."
+  default     = null
 }

@@ -16,17 +16,19 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-west-2"
-  profile                 = "default"
+  region                  = "us-east-1"
   shared_credentials_file = pathexpand("~/.aws/credentials")
+  profile                 = "default"
 }
 
 module "codestarconnections" {
   source = "../../modules/codestarconnections"
 
+  enable_codestarconnections_connection        = true
+  codestarconnections_connection_name          = "github-test-codestarconnections"
+  codestarconnections_connection_provider_type = "GitHub"
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
-
 }
 ```
 
@@ -35,18 +37,15 @@ module "codestarconnections" {
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
 - `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
-- `enable_codestarnotifications_notification_rule` - Enable codestarnotifications notification rule usage (`default = False`)
-- `codestarnotifications_notification_rule_name` - The name of notification rule. (`default = ""`)
-- `codestarnotifications_notification_rule_resource` - (Required) The ARN of the resource to associate with the notification rule. For exapmle: aws_codecommit_repository.codecommit_repository.arn (`default = ""`)
-- `codestarnotifications_notification_rule_detail_type` - (Required) The level of detail to include in the notifications for this resource. Possible values are BASIC and FULL (`default = FULL`)
-- `codestarnotifications_notification_rule_event_type_ids` - (Required) A list of event types associated with this notification rule. (`default = ['codecommit-repository-comments-on-commits']`)
-- `codestarnotifications_notification_rule_status` - (Optional) The status of the notification rule. Possible values are ENABLED and DISABLED, default is ENABLED. (`default = ENABLED`)
-- `codestarnotifications_notification_rule_target` - (Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation. (`default = []`)
+- `enable_codestarconnections_connection` - Enable codestarconnections connection usage (`default = False`)
+- `codestarconnections_connection_name` - The name of the connection to be created. The name must be unique in the calling AWS account. Changing name will create a new resource. (`default = ""`)
+- `codestarnotifications_notification_rule_resource` - (Required) The name of the external provider where your third-party code repository is configured. Valid values are Bitbucket, GitHub, or GitHubEnterpriseServer. Changing provider_type will create a new resource. (`default = null`)
 
 ## Module Output Variables
 ----------------------
-- `codestarnotifications_notification_rule_id` - The codestar notification rule ARN.
-- `codestarnotifications_notification_rule_arn` - The codestar notification rule ARN.
+- `aws_codestarconnections_connection_id` - The codestar connection ARN.
+- `aws_codestarconnections_connection_arn` - The codestar connection ARN.
+- `aws_codestarconnections_connection_connection_status` - The codestar connection status. Possible values are PENDING, AVAILABLE and ERROR.
 
 
 ## Authors
