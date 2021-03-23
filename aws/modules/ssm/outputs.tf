@@ -1,8 +1,6 @@
-/*
------------------------------------------------------------
-AWS SSM activation
------------------------------------------------------------
-*/
+# -----------------------------------------------------------
+# AWS SSM activation
+#-----------------------------------------------------------
 output "ssm_activation_id" {
   description = "The activation ID."
   value       = element(concat(aws_ssm_activation.ssm_activation.*.id, [""]), 0)
@@ -201,7 +199,6 @@ output "ssm_maintenance_window_task_id" {
   description = "The ID of the maintenance window task."
   value       = element(concat(aws_ssm_maintenance_window_task.ssm_maintenance_window_task.*.id, [""]), 0)
 }
-
 
 #-----------------------------------------------------------
 # AWS SSM window target
