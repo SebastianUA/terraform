@@ -10,26 +10,52 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
-module "organizations" {
+data "aws_organizations_organization" "current" {}
+
+data "aws_organizations_organizational_units" "ou" {
+  parent_id = data.aws_organizations_organization.current.roots[0].id
+}
+
+module "org" {
   source      = "../../modules/organizations"
   name        = "TEST"
   environment = "stage"
 
   # AWS Org 
-  enable_organizations_organization                        = true
+  enable_organizations_organization                        = false
   organizations_organization_aws_service_access_principals = ["ALL"]
   organizations_organization_enabled_policy_types          = ["SERVICE_CONTROL_POLICY", "BACKUP_POLICY", "TAG_POLICY"]
   organizations_organization_feature_set                   = "ALL"
 
-  # AWS Org account
-  enable_organizations_account = true
-  organizations_account_name   = ""
-  organizations_account_email  = "solo.metal@bigmir.net"
+  # AWS Org policy
+  enable_organizations_policy      = false
+  organizations_policy_name        = ""
+  organizations_policy_content     = file("additional_files/org_policy_content.json")
+  organizations_policy_description = "Allow ALL"
+  organizations_policy_type        = "SERVICE_CONTROL_POLICY"
+
+  # AWS Org policy attachment
+  enable_organizations_policy_attachment    = false
+  organizations_policy_attachment_policy_id = ""
+  organizations_policy_attachment_target_id = ""
+
+  tags = merge(map(
+    "Createdby", "Vitaliy Natarov",
+    "Env", "dev"
+  ))
+
+  depends_on = []
+}
+
+module "org_unit" {
+  source      = "../../modules/organizations"
+  name        = "TEST"
+  environment = "stage"
 
   # AWS Org unit
   enable_organizations_organizational_unit    = true
   organizations_organizational_unit_name      = ""
-  organizations_organizational_unit_parent_id = ""
+  organizations_organizational_unit_parent_id = data.aws_organizations_organization.current.roots[0].id # data.aws_organizations_organizational_units.ou.id
 
   # AWS Org policy
   enable_organizations_policy      = true
@@ -39,7 +65,7 @@ module "organizations" {
   organizations_policy_type        = "SERVICE_CONTROL_POLICY"
 
   # AWS Org policy attachment
-  enable_organizations_policy_attachment    = true
+  enable_organizations_policy_attachment    = false
   organizations_policy_attachment_policy_id = ""
   organizations_policy_attachment_target_id = ""
 
@@ -47,4 +73,30 @@ module "organizations" {
     "Createdby", "Vitaliy Natarov",
     "Env", "dev"
   ))
+
+  depends_on = [
+    data.aws_organizations_organizational_units.ou,
+    module.org
+  ]
+}
+
+module "org_account" {
+  source      = "../../modules/organizations"
+  name        = "TEST"
+  environment = "stage"
+
+  # AWS Org account
+  enable_organizations_account    = true
+  organizations_account_name      = ""
+  organizations_account_parent_id = module.org_unit.organizations_organizational_unit_id
+  organizations_account_email     = "solo.metal@bigmir.net"
+
+  tags = merge(map(
+    "Createdby", "Vitaliy Natarov",
+    "Env", "dev"
+  ))
+
+  depends_on = [
+    module.org_unit
+  ]
 }
