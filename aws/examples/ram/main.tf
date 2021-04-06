@@ -35,6 +35,10 @@ module "ram_owner" {
   enable_ram_resource_association       = true
   ram_resource_association_resource_arn = "arn:aws:ec2:us-east-1:167127734783:transit-gateway/tgw-095a7bb025f42d2b0"
 
+  # RAM principal association
+  enable_ram_principal_association             = true
+  ram_principal_association_principal          = "XXXXXXXXXXXXXXXXX"
+
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
 
@@ -51,11 +55,6 @@ module "ram_main_accepter" {
   source      = "../../modules/ram"
   name        = "tmp"
   environment = "dev"
-
-  # RAM principal association
-  enable_ram_principal_association             = true
-  ram_principal_association_resource_share_arn = module.ram_owner.ram_resource_share_id
-  ram_principal_association_principal          = data.aws_caller_identity.current.account_id
 
   # RAM resource share accepter
   enable_ram_resource_share_accepter    = true
