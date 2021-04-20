@@ -15,7 +15,8 @@ resource "kubernetes_cluster_role_binding" "cluster_role_binding" {
 
   dynamic "role_ref" {
     iterator = role_ref
-    for_each = var.cluster_role_binding_role_ref
+    for_each = var.cluster_role_binding_role_refs
+    
     content {
       api_group = lookup(role_ref.value, "api_group", "rbac.authorization.k8s.io")
       kind      = lookup(role_ref.value, "kind", "ClusterRole")
@@ -25,7 +26,8 @@ resource "kubernetes_cluster_role_binding" "cluster_role_binding" {
 
   dynamic "subject" {
     iterator = subject
-    for_each = var.cluster_role_binding_subject
+    for_each = var.cluster_role_binding_subjects
+    
     content {
       name      = lookup(subject.value, "name", "")
       kind      = lookup(subject.value, "kind", "")

@@ -30,7 +30,7 @@ module "k8s_cluster_role" {
     mylabel = "label-value"
   }
 
-  cluster_role_rule = [
+  cluster_role_rules = [
     {
       verbs      = ["get", "list", "watch"]
       api_groups = [""]
@@ -38,7 +38,7 @@ module "k8s_cluster_role" {
     }
   ]
 
-  cluster_role_aggregation_rule = []
+  cluster_role_aggregation_rules = []
 
 }
 
@@ -56,7 +56,7 @@ module "k8s_cluster_role_with_aggregation_rule" {
     mylabel = "label-value"
   }
 
-  cluster_role_rule = [
+  cluster_role_rules = [
     {
       verbs      = ["get", "list", "watch"]
       api_groups = [""]
@@ -64,7 +64,7 @@ module "k8s_cluster_role_with_aggregation_rule" {
     }
   ]
 
-  cluster_role_aggregation_rule = [
+  cluster_role_aggregation_rules = [
     {
       match_labels = {
         foo = "bar"
@@ -91,7 +91,7 @@ module "k8s_cluster_role_binding" {
     mylabel = "label-value"
   }
 
-  cluster_role_binding_role_ref = [
+  cluster_role_binding_role_refs = [
     {
       api_group = "rbac.authorization.k8s.io"
       kind      = "ClusterRole"
@@ -99,7 +99,7 @@ module "k8s_cluster_role_binding" {
     }
   ]
 
-  cluster_role_binding_subject = [
+  cluster_role_binding_subjects = [
     {
       kind      = "User"
       name      = "admin"

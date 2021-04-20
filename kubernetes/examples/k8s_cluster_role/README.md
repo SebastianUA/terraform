@@ -1,4 +1,4 @@
-# Work with AWS K8S_CLUSTER_ROLE via terraform
+# Work with Kubernetes cluster role via terraform
 
 A terraform module for making K8S_CLUSTER_ROLE.
 
@@ -40,7 +40,7 @@ module "k8s_cluster_role" {
     mylabel = "label-value"
   }
 
-  cluster_role_rule = [
+  cluster_role_rules = [
     {
       verbs      = ["get", "list", "watch"]
       api_groups = [""]
@@ -48,7 +48,7 @@ module "k8s_cluster_role" {
     }
   ]
 
-  cluster_role_aggregation_rule = []
+  cluster_role_aggregation_rules = []
 
 }
 
@@ -66,7 +66,7 @@ module "k8s_cluster_role_with_aggregation_rule" {
     mylabel = "label-value"
   }
 
-  cluster_role_rule = [
+  cluster_role_rules = [
     {
       verbs      = ["get", "list", "watch"]
       api_groups = [""]
@@ -74,7 +74,7 @@ module "k8s_cluster_role_with_aggregation_rule" {
     }
   ]
 
-  cluster_role_aggregation_rule = [
+  cluster_role_aggregation_rules = [
     {
       match_labels = {
         foo = "bar"
@@ -101,7 +101,7 @@ module "k8s_cluster_role_binding" {
     mylabel = "label-value"
   }
 
-  cluster_role_binding_role_ref = [
+  cluster_role_binding_role_refs = [
     {
       api_group = "rbac.authorization.k8s.io"
       kind      = "ClusterRole"
@@ -109,7 +109,7 @@ module "k8s_cluster_role_binding" {
     }
   ]
 
-  cluster_role_binding_subject = [
+  cluster_role_binding_subjects = [
     {
       kind      = "User"
       name      = "admin"
@@ -137,14 +137,14 @@ module "k8s_cluster_role_binding" {
 - `cluster_role_name` - (Optional) Name of the cluster role binding, must be unique. Cannot be updated. For more info see Kubernetes reference (`default = ""`)
 - `cluster_role_annotations` - (Optional) An unstructured key value map stored with the cluster role binding that may be used to store arbitrary metadata. (`default = {}`)
 - `cluster_role_labels` - (Optional) Map of string keys and values that can be used to organize and categorize (scope and select) the cluster role binding. (`default = {}`)
-- `cluster_role_rule` - (Optional) The PolicyRoles for this ClusterRole. For more info see Kubernetes reference (`default = []`)
-- `cluster_role_aggregation_rule` - (Optional) Describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be overwritten by the controller. . For more info see Kubernetes reference (`default = []`)
+- `cluster_role_rules` - (Optional) The PolicyRoles for this ClusterRole. For more info see Kubernetes reference (`default = []`)
+- `cluster_role_aggregation_rules` - (Optional) Describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be overwritten by the controller. . For more info see Kubernetes reference (`default = []`)
 - `enable_cluster_role_binding` - Enable cluster_role_binding for kubernetes usage (`default = False`)
 - `cluster_role_binding_name` - (Optional) Name of the cluster role binding, must be unique. Cannot be updated. For more info see Kubernetes reference (`default = ""`)
 - `cluster_role_binding_annotations` - (Optional) An unstructured key value map stored with the cluster role binding that may be used to store arbitrary metadata. (`default = {}`)
 - `cluster_role_binding_labels` - (Optional) Map of string keys and values that can be used to organize and categorize (scope and select) the cluster role binding. (`default = {}`)
-- `cluster_role_binding_role_ref` - (Required) The ClusterRole to bind Subjects to. For more info see Kubernetes reference (`default = []`)
-- `cluster_role_binding_subject` - (Required) The Users, Groups, or ServiceAccounts to grant permissions to. For more info see Kubernetes reference (`default = []`)
+- `cluster_role_binding_role_refs` - (Required) The ClusterRole to bind Subjects to. For more info see Kubernetes reference (`default = []`)
+- `cluster_role_binding_subjects` - (Required) The Users, Groups, or ServiceAccounts to grant permissions to. For more info see Kubernetes reference (`default = []`)
 
 ## Module Output Variables
 ----------------------

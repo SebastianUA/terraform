@@ -15,7 +15,8 @@ resource "kubernetes_cluster_role" "cluster_role" {
 
   dynamic "rule" {
     iterator = rule
-    for_each = var.cluster_role_rule
+    for_each = var.cluster_role_rules
+    
     content {
       verbs      = lookup(rule.value, "verbs", [])
       api_groups = lookup(rule.value, "api_groups", null)
@@ -28,7 +29,8 @@ resource "kubernetes_cluster_role" "cluster_role" {
 
   dynamic "aggregation_rule" {
     iterator = aggregation_rule
-    for_each = var.cluster_role_aggregation_rule
+    for_each = var.cluster_role_aggregation_rules
+    
     content {
       cluster_role_selectors {
         match_labels = lookup(aggregation_rule.value, "match_labels", {})
