@@ -26,42 +26,34 @@ module "vpc" {
   environment = "stage"
 
   # VPC
-  enable_vpc = true
-  vpc_name   = ""
-
-  instance_tenancy                 = "default"
-  enable_dns_support               = true
-  enable_dns_hostnames             = true
-  assign_generated_ipv6_cidr_block = false
+  enable_vpc                           = true
+  vpc_name                             = "vpc_endpoint"
+  vpc_instance_tenancy                 = "dedicated"
+  vpc_enable_dns_support               = true
+  vpc_enable_dns_hostnames             = true
+  vpc_assign_generated_ipv6_cidr_block = false
   # Dedicated tenancy VPCs cannot be enabled for ClassicLink by default
-  enable_classiclink = false
+  vpc_enable_classiclink = false
+  vpc_cidr_block         = "10.11.0.0/16"
 
-  vpc_cidr             = "10.11.0.0/16"
-  private_subnet_cidrs = ["10.11.1.0/24", "10.11.2.0/24", "10.11.3.0/24"]
-  public_subnet_cidrs  = ["10.11.10.0/24", "10.11.20.0/24", "10.11.30.0/24"]
+  private_subnet_cidrs = ["10.11.1.0/24"]
+  public_subnet_cidrs  = ["10.11.2.0/24", "10.11.3.0/24"]
 
-  #Internet-GateWay
+  # Internet-GateWay
   enable_internet_gateway = true
-  #NAT. Used when was using public subnet. worked properly.
+
+  # NAT
   enable_nat_gateway = false
   single_nat_gateway = false
-  #DHCP
-  enable_dhcp                      = true
-  dhcp_options_domain_name         = "ec2.internal"
-  dhcp_options_domain_name_servers = ["AmazonProvidedDNS"]
+
+  # DHCP
+  enable_dhcp                          = true
+  vpc_dhcp_options_domain_name         = "ec2.internal"
+  vpc_dhcp_options_domain_name_servers = ["AmazonProvidedDNS"]
 
   # EIP
   enable_eip = false
 
-  # If you will use private subnet, needs to set up the next endpoints: S3, SQS and SNS??
-  # VPC endpoint (elasticmapreduce)
-  #enable_vpc_endpoint                 = false
-  #vpc_endpoint_name                   = "elasticmapreduce"
-  #vpc_endpoint_service_name           = "com.amazonaws.us-east-1.elasticmapreduce"
-  #vpc_endpoint_vpc_endpoint_type      = "Interface"
-  #vpc_endpoint_security_group_ids     = ["sg-0ac2ce954f45c8f6a"]
-  #vpc_endpoint_auto_accept            = true
-  #vpc_endpoint_private_dns_enabled    = true
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }
@@ -90,69 +82,83 @@ module "emr" {
   emr_cluster_configurations_json               = file("./additional_files/emr-cluster-configurations_json.json")
   emr_cluster_autoscaling_role                  = "arn:aws:iam::167127734783:role/emr-service-role"
 
-  emr_cluster_ec2_attributes = [{
-    # If you want to use public subnet. Tested! :
-    # subnet_id                           = element(module.vpc.public_subnets_ids, 0)
-    # emr_managed_master_security_group   = module.vpc.vpc_default_security_group_id
-    # emr_managed_slave_security_group    = module.vpc.vpc_default_security_group_id
-    # instance_profile                    = "arn:aws:iam::167127734783:instance-profile/emr-service-role"
+  emr_cluster_ec2_attributes = [
+    {
+      # If you want to use public subnet. Tested! :
+      # subnet_id                           = element(module.vpc.public_subnets_ids, 0)
+      # emr_managed_master_security_group   = module.vpc.vpc_default_security_group_id
+      # emr_managed_slave_security_group    = module.vpc.vpc_default_security_group_id
+      # instance_profile                    = "arn:aws:iam::167127734783:instance-profile/emr-service-role"
 
-    # If you want to use private subnet:
-    subnet_id                         = element(module.vpc.private_subnets_ids, 0)
-    emr_managed_master_security_group = "sg-0ac2ce954f45c8f6a"
-    emr_managed_slave_security_group  = "sg-0ac2ce954f45c8f6a"
-    # You cannot specify a ServiceAccessSecurityGroup for a cluster launched in public subnet
-    service_access_security_group = "sg-0919aabecaea96510"
-    instance_profile              = "arn:aws:iam::167127734783:instance-profile/emr-service-role"
-  }]
+      # If you want to use private subnet:
+      subnet_id                         = element(module.vpc.private_subnets_ids, 0)
+      emr_managed_master_security_group = "sg-0ac2ce954f45c8f6a"
+      emr_managed_slave_security_group  = "sg-0ac2ce954f45c8f6a"
+      # You cannot specify a ServiceAccessSecurityGroup for a cluster launched in public subnet
+      service_access_security_group = "sg-0919aabecaea96510"
+      instance_profile              = "arn:aws:iam::167127734783:instance-profile/emr-service-role"
+    }
+  ]
 
-  emr_cluster_master_instance_group_ebs_config = [{
-    instance_type  = "m4.large"
-    instance_count = 1
+  emr_cluster_master_instance_group = [
+    {
+      instance_type  = "m4.large"
+      instance_count = 1
 
-    ebs_config_size                 = 10
-    ebs_config_type                 = "gp2"
-    ebs_config_volumes_per_instance = 1
-  }]
+      ebs_config = {
+        size                 = 10
+        type                 = "gp2"
+        volumes_per_instance = 1
+      }
+    }
+  ]
 
-  emr_cluster_core_instance_group_ebs_config = [{
-    instance_type  = "c4.large"
-    instance_count = 1
-    # bid_price                       = "1.30"
-    autoscaling_policy = file("./additional_files/emr-cluster-core_instance_group-autoscaling_policy.json")
+  emr_cluster_core_instance_group = [
+    {
+      instance_type  = "c4.large"
+      instance_count = 1
+      # bid_price                       = "1.30"
+      autoscaling_policy = file("./additional_files/emr-cluster-core_instance_group-autoscaling_policy.json")
 
-    ebs_config_size                 = 10
-    ebs_config_type                 = "gp2"
-    ebs_config_volumes_per_instance = 1
-  }]
+      ebs_config = {
+        size                 = 10
+        type                 = "gp2"
+        volumes_per_instance = 1
+      }
+    }
+  ]
 
   # it's not working when uses private sabnet;
   # The VPC/subnet configuration was invalid: Your cluster needs access to SQS to enable debugging but subnet does not have route to access SQS. Learn more about private subnet configurations: https://docs.aws.amazon.com/ElasticMapReduce/latest/ManagementGuide/emr-plan-vpc-subnet.html
-  #emr_cluster_bootstrap_action                        = [
-  #    {
-  #        path = "s3://elasticmapreduce/bootstrap-actions/run-if"
-  #        name = "runif"
-  #        args = ["instance.isMaster=true", "echo running on master node"]
-  #    },
-  #    {
-  #        path = "s3://alluxio-public/enterprise-emr/2.2.1-1.4/alluxio-emr.sh"
-  #        name = "Install-Alluxio"
-  #        args = [
-  #          "s3://S3_BUCKET_HERE/alluxio-ufs",
-  #          "-d", "https://downloads.alluxio.io/downloads/files/2.2.1/alluxio-2.2.1-bin.tar.gz",
-  #          "-p", "alluxio.user.block.size.bytes.default=122M|alluxio.user.file.writetype.default=CACHE_THROUGH",
-  #          "-s", "|"
-  #        ]
-  #    }
-  #]
+  emr_cluster_bootstrap_action = [
+    {
+      path = "s3://elasticmapreduce/bootstrap-actions/run-if"
+      name = "runif"
+      args = ["instance.isMaster=true", "echo running on master node"]
+    },
+    {
+      path = "s3://alluxio-public/enterprise-emr/2.2.1-1.4/alluxio-emr.sh"
+      name = "Install-Alluxio"
+      args = [
+        "s3://S3_BUCKET_HERE/alluxio-ufs",
+        "-d", "https://downloads.alluxio.io/downloads/files/2.2.1/alluxio-2.2.1-bin.tar.gz",
+        "-p", "alluxio.user.block.size.bytes.default=122M|alluxio.user.file.writetype.default=CACHE_THROUGH",
+        "-s", "|"
+      ]
+    }
+  ]
 
-  #emr_cluster_step                                    = [{
-  #    name                = "Setup Hadoop Debugging"
-  #    action_on_failure   = "TERMINATE_CLUSTER"
-  #
-  #    hadoop_jar  = "command-runner.jar"
-  #    hadoop_args = ["state-pusher-script"]
-  #}]
+  emr_cluster_step = [
+    {
+      name              = "Setup Hadoop Debugging"
+      action_on_failure = "TERMINATE_CLUSTER"
+
+      hadoop_jar_step = {
+        jar  = "command-runner.jar"
+        args = ["state-pusher-script"]
+      }
+    }
+  ]
 
   # EMR instance group
   enable_emr_instance_group         = true
@@ -166,34 +172,37 @@ module "emr" {
   }]
 
   emr_instance_group_autoscaling_policy  = file("./additional_files/emr-cluster-core_instance_group-autoscaling_policy.json")
-  emr_instance_group_configurations_json = null
+  emr_instance_group_configurations_json = file("./additional_files/emr-cluster-configurations_json.json")
 
   # EMR instance fleet
   enable_emr_instance_fleet                    = true
   emr_instance_fleet_name                      = "emr-task-fleet"
   emr_instance_fleet_target_on_demand_capacity = 1
   emr_instance_fleet_target_spot_capacity      = 1
-  emr_instance_fleet_instance_type_configs = {
-    bid_price                                  = null
-    bid_price_as_percentage_of_on_demand_price = 100
-    weighted_capacity                          = 1
-    instance_type                              = "m4.xlarge"
-  }
 
-  emr_instance_fleet_ebs_config = [
+  emr_instance_fleet_instance_type_configs = [
     {
-      size                 = 100
-      type                 = "gp2"
-      volumes_per_instance = 1
+      bid_price                                  = null
+      bid_price_as_percentage_of_on_demand_price = 100
+      weighted_capacity                          = 1
+      instance_type                              = "m4.xlarge"
+
+      ebs_config = {
+        size                 = 100
+        type                 = "gp2"
+        volumes_per_instance = 1
+      }
     }
   ]
 
-  emr_instance_fleet_spot_specification = [
+  emr_instance_fleet_launch_specifications = [
     {
-      allocation_strategy      = "capacity-optimized"
-      block_duration_minutes   = 0
-      timeout_action           = "TERMINATE_CLUSTER"
-      timeout_duration_minutes = 10
+      spot_specification = {
+        allocation_strategy      = "capacity-optimized"
+        block_duration_minutes   = 0
+        timeout_action           = "TERMINATE_CLUSTER"
+        timeout_duration_minutes = 10
+      }
     }
   ]
 
@@ -255,9 +264,9 @@ module "emr" {
 - `emr_cluster_autoscaling_role` - (Optional) An IAM role for automatic scaling policies. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group. (`default = null`)
 - `emr_cluster_step_concurrency_level` - (Optional) The number of steps that can be executed concurrently. You can specify a maximum of 256 steps. Only valid for EMR clusters with release_label 5.28.0 or greater. (default is 1) (`default = 1`)
 - `emr_cluster_master_instance_group` - (Optional) Configuration block to use an Instance Group for the master node type. Cannot be specified if master_instance_type argument or instance_group configuration blocks are set. (`default = []`)
-- `emr_cluster_master_instance_group_ebs_config` - (Optional) Configuration block to use an Instance Group for the master node type. Cannot be specified if master_instance_type argument or instance_group configuration blocks are set. (`default = []`)
 - `emr_cluster_core_instance_group` - (Optional) Configuration block to use an Instance Group for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set. (`default = []`)
-- `emr_cluster_core_instance_group_ebs_config` - (Optional) Configuration block to use an Instance Group for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set. (`default = []`)
+- `emr_cluster_master_instance_fleet` - (Optional) Configuration block to use an Instance Fleet for the master node type. Cannot be specified if master_instance_type argument or instance_group configuration blocks are set. (`default = []`)
+- `emr_cluster_core_instance_fleet` - (Optional) Configuration block to use an Instance Fleet for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set. (`default = []`)
 - `emr_cluster_ec2_attributes` - (Optional) Attributes for the EC2 instances running the job flow. (`default = []`)
 - `emr_cluster_kerberos_attributes` - (Optional) Kerberos configuration for the cluster. (`default = []`)
 - `emr_cluster_bootstrap_action` - (Optional) Ordered list of bootstrap actions that will be run before Hadoop is started on the cluster nodes. (`default = []`)
@@ -281,11 +290,10 @@ module "emr" {
 - `emr_instance_fleet_name` - (Optional) Friendly name given to the instance fleet. (`default = ""`)
 - `emr_instance_fleet_target_on_demand_capacity` - (Optional) The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. (`default = 1`)
 - `emr_instance_fleet_target_spot_capacity` - (Optional) The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. (`default = 1`)
-- `emr_instance_fleet_instance_type_configs` - (Optional) Configuration block for instance fleet (`default = {'bid_price': None, 'bid_price_as_percentage_of_on_demand_price': 100, 'weighted_capacity': 1, 'instance_type': 'm4.xlarge'}`)
+- `emr_instance_fleet_instance_type_configs` - (Optional) Configuration block for instance fleet (`default = [{'bid_price': None, 'bid_price_as_percentage_of_on_demand_price': 100, 'weighted_capacity': 1, 'instance_type': 'm4.xlarge'}]`)
 - `emr_instance_fleet_ebs_config` - (Optional) Configuration block(s) for EBS volumes attached to each instance in the instance group. (`default = []`)
 - `emr_instance_fleet_configurations` - (Optional) A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster. List of configuration blocks. (`default = []`)
-- `emr_instance_fleet_spot_specification` - (Optional) Configuration block for spot instances launch specifications (`default = []`)
-- `emr_instance_fleet_on_demand_specification` - (Optional) Configuration block for on demand instances launch specifications (`default = []`)
+- `emr_instance_fleet_launch_specifications` - (Optional) Configuration block for launch specifications (`default = []`)
 - `enable_emr_managed_scaling_policy` - Enable emr managed scaling policy usage (`default = False`)
 - `emr_managed_scaling_policy_cluster_id` - The id of the EMR cluster (`default = ""`)
 - `emr_managed_scaling_policy_compute_limits` - (Required) Configuration block with compute limit settings. (`default = []`)

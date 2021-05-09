@@ -17,6 +17,7 @@ resource "aws_emr_instance_group" "emr_instance_group" {
   dynamic "ebs_config" {
     iterator = ebs_config
     for_each = var.emr_instance_group_ebs_config
+
     content {
       size = lookup(ebs_config.value, "size", null)
       type = lookup(ebs_config.value, "type", null)

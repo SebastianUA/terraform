@@ -10,51 +10,66 @@ resource "aws_emr_instance_fleet" "emr_instance_fleet" {
   target_on_demand_capacity = var.emr_instance_fleet_target_on_demand_capacity
   target_spot_capacity      = var.emr_instance_fleet_target_spot_capacity
 
-  instance_type_configs {
-    instance_type                              = lookup(var.emr_instance_fleet_instance_type_configs, "instance_type", null)
-    weighted_capacity                          = lookup(var.emr_instance_fleet_instance_type_configs, "weighted_capacity", null)
-    bid_price_as_percentage_of_on_demand_price = lookup(var.emr_instance_fleet_instance_type_configs, "bid_price_as_percentage_of_on_demand_price", null)
-    bid_price                                  = lookup(var.emr_instance_fleet_instance_type_configs, "bid_price", null)
+  dynamic "instance_type_configs" {
+    iterator = instance_type_configs
+    for_each = var.emr_instance_fleet_instance_type_configs
+    
+    content {
+      instance_type                              = lookup(instance_type_configs.value, "instance_type", null)
+      bid_price                                  = lookup(instance_type_configs.value, "bid_price", null)
+      bid_price_as_percentage_of_on_demand_price = lookup(instance_type_configs.value, "bid_price_as_percentage_of_on_demand_price", null)
+      
+      weighted_capacity = lookup(instance_type_configs.value, "weighted_capacity", null)
 
-    dynamic "ebs_config" {
-      iterator = ebs_config
-      for_each = var.emr_instance_fleet_ebs_config
-      content {
-        size = lookup(ebs_config.value, "size", null)
-        type = lookup(ebs_config.value, "type", null)
-
-        iops                 = lookup(ebs_config.value, "iops", null)
-        volumes_per_instance = lookup(ebs_config.value, "volumes_per_instance", null)
+      dynamic "configurations" {
+        iterator = configurations
+        for_each = length(keys(lookup(instance_type_configs.value, "configurations", {}))) > 0 ? [lookup(instance_type_configs.value, "configurations", {})] : []
+        
+        content {
+          classification = lookup(configurations.value, "classification", null)
+          properties     = lookup(configurations.value, "properties", null)
+        }
       }
-    }
+      
+      dynamic "ebs_config" {
+        iterator = ebs_config
+        for_each = length(keys(lookup(instance_type_configs.value, "ebs_config", {}))) > 0 ? [lookup(instance_type_configs.value, "ebs_config", {})] : []
+        
+        content {
+          size = lookup(ebs_config.value, "size", null)
+          type = lookup(ebs_config.value, "type", null)
 
-    dynamic "configurations" {
-      iterator = configurations
-      for_each = var.emr_instance_fleet_configurations
-      content {
-        classification = lookup(configurations.value, "classification", null)
-        properties     = lookup(configurations.value, "properties", null)
+          iops                 = lookup(ebs_config.value, "iops", null)
+          volumes_per_instance = lookup(ebs_config.value, "volumes_per_instance", null)
+        }
       }
     }
   }
 
-  launch_specifications {
-    dynamic "spot_specification" {
-      iterator = spot_specification
-      for_each = var.emr_instance_fleet_spot_specification
-      content {
-        allocation_strategy      = lookup(spot_specification.value, "allocation_strategy", null)
-        block_duration_minutes   = lookup(spot_specification.value, "block_duration_minutes", null)
-        timeout_action           = lookup(spot_specification.value, "timeout_action", null)
-        timeout_duration_minutes = lookup(spot_specification.value, "timeout_duration_minutes", null)
+  dynamic "launch_specifications" {
+    iterator = launch_specifications
+    for_each = var.emr_instance_fleet_launch_specifications
+    
+    content {
+      dynamic "on_demand_specification" {
+        iterator = on_demand_specification
+        for_each = length(keys(lookup(launch_specifications.value, "on_demand_specification", {}))) > 0 ? [lookup(launch_specifications.value, "on_demand_specification", {})] : []
+        
+        content {
+          allocation_strategy = lookup(on_demand_specification.value, "allocation_strategy", null)
+        }
       }
-    }
 
-    dynamic "on_demand_specification" {
-      iterator = on_demand_specification
-      for_each = var.emr_instance_fleet_on_demand_specification
-      content {
-        allocation_strategy = lookup(on_demand_specification.value, "allocation_strategy", null)
+      dynamic "spot_specification" {
+        iterator = spot_specification
+        for_each = length(keys(lookup(launch_specifications.value, "spot_specification", {}))) > 0 ? [lookup(launch_specifications.value, "spot_specification", {})] : []
+        
+        content {
+          allocation_strategy      = lookup(spot_specification.value, "allocation_strategy", "capacity-optimized")
+          block_duration_minutes   = lookup(spot_specification.value, "block_duration_minutes", null)
+          timeout_action           = lookup(spot_specification.value, "timeout_action", null)
+          timeout_duration_minutes = lookup(spot_specification.value, "timeout_duration_minutes", null)
+        }
       }
     }
   }

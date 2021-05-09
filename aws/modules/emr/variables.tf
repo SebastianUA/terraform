@@ -115,18 +115,18 @@ variable "emr_cluster_master_instance_group" {
   default     = []
 }
 
-variable "emr_cluster_master_instance_group_ebs_config" {
-  description = "(Optional) Configuration block to use an Instance Group for the master node type. Cannot be specified if master_instance_type argument or instance_group configuration blocks are set."
-  default     = []
-}
-
 variable "emr_cluster_core_instance_group" {
   description = "(Optional) Configuration block to use an Instance Group for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set."
   default     = []
 }
 
-variable "emr_cluster_core_instance_group_ebs_config" {
-  description = "(Optional) Configuration block to use an Instance Group for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set."
+variable "emr_cluster_master_instance_fleet" {
+  description = "(Optional) Configuration block to use an Instance Fleet for the master node type. Cannot be specified if master_instance_type argument or instance_group configuration blocks are set."
+  default     = []
+}
+
+variable "emr_cluster_core_instance_fleet" {
+  description = "(Optional) Configuration block to use an Instance Fleet for the core node type. Cannot be specified if core_instance_count argument, core_instance_type argument, or instance_group configuration blocks are set."
   default     = []
 }
 
@@ -256,12 +256,14 @@ variable "emr_instance_fleet_target_spot_capacity" {
 
 variable "emr_instance_fleet_instance_type_configs" {
   description = "(Optional) Configuration block for instance fleet"
-  default = {
-    bid_price                                  = null
-    bid_price_as_percentage_of_on_demand_price = 100
-    weighted_capacity                          = 1
-    instance_type                              = "m4.xlarge"
-  }
+  default = [
+    {
+      bid_price                                  = null
+      bid_price_as_percentage_of_on_demand_price = 100
+      weighted_capacity                          = 1
+      instance_type                              = "m4.xlarge"
+    }
+  ]
 }
 
 variable "emr_instance_fleet_ebs_config" {
@@ -274,13 +276,8 @@ variable "emr_instance_fleet_configurations" {
   default     = []
 }
 
-variable "emr_instance_fleet_spot_specification" {
-  description = "(Optional) Configuration block for spot instances launch specifications"
-  default     = []
-}
-
-variable "emr_instance_fleet_on_demand_specification" {
-  description = "(Optional) Configuration block for on demand instances launch specifications"
+variable "emr_instance_fleet_launch_specifications" {
+  description = "(Optional) Configuration block for launch specifications"
   default     = []
 }
 
