@@ -2,7 +2,7 @@
 # Add newrelic infra alert condition
 #---------------------------------------------------
 resource "newrelic_infra_alert_condition" "infra_alert_condition" {
-  count = var.infra_alert_condition && ! var.infra_alert_condition_with_warning ? 1 : 0
+  count = var.infra_alert_condition && !var.infra_alert_condition_with_warning ? 1 : 0
 
   policy_id  = var.infra_alert_condition_policy_id
   name       = var.infra_alert_condition_name != "" ? lower(var.infra_alert_condition_name) : "${var.name}-infra-alert-condition-${lower(var.environment)}"

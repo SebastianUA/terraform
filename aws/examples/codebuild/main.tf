@@ -73,7 +73,7 @@ module "codebuild" {
     type            = "LINUX_CONTAINER"
     privileged_mode = false
   }
-  
+
 
   # Creds
   enable_codebuild_source_credential      = false

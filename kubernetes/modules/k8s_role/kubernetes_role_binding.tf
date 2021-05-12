@@ -5,7 +5,7 @@ resource "kubernetes_role_binding" "role_binding" {
   count = var.enable_role_binding ? 1 : 0
 
   metadata {
-    name          = var.role_binding_name != "" ? var.role_binding_name : "${lower(var.name)}-cluster-role-${lower(var.environment)}"
+    name = var.role_binding_name != "" ? var.role_binding_name : "${lower(var.name)}-cluster-role-${lower(var.environment)}"
     // name          = var.role_binding_name != "" ? var.role_binding_name : (var.role_binding_generate_name == null ? "${lower(var.name)}-cluster-role-${lower(var.environment)}" : null)
     // generate_name = var.role_binding_generate_name != null ? (var.role_binding_name == "" ? var.role_binding_generate_name : null) : null
 

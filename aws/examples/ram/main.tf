@@ -36,8 +36,8 @@ module "ram_owner" {
   ram_resource_association_resource_arn = "arn:aws:ec2:us-east-1:167127734783:transit-gateway/tgw-095a7bb025f42d2b0"
 
   # RAM principal association
-  enable_ram_principal_association             = true
-  ram_principal_association_principal          = "XXXXXXXXXXXXXXXXX"
+  enable_ram_principal_association    = true
+  ram_principal_association_principal = "XXXXXXXXXXXXXXXXX"
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 }

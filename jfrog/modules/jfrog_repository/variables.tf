@@ -142,6 +142,21 @@ variable "enable_remote_repository" {
   default     = false
 }
 
+variable "remote_repository_description" {
+  description = "Set description"
+  default     = null
+}
+
+variable "remote_repository_notes" {
+  description = "Set notes"
+  default     = null
+}
+
+variable "remote_repository_share_configuration" {
+  description = "Set share_configuration"
+  default     = null
+}
+
 variable "remote_repository_key" {
   description = "Set key for remote repository"
   default     = ""
@@ -333,6 +348,11 @@ variable "remote_repository_force_nuget_authentication" {
 variable "enable_virtual_repository" {
   description = "Enable virtual repository usage"
   default     = false
+}
+
+variable "virtual_repository_repositories" {
+  description = "Set repositories"
+  default     = null
 }
 
 variable "virtual_repository_key" {

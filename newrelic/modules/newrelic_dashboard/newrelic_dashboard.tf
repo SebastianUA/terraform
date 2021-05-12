@@ -2,7 +2,7 @@
 # Add newrelic dashboard
 #---------------------------------------------------
 resource "newrelic_dashboard" "dashboard" {
-  count = var.dashboard && ! var.dashboard_custom ? 1 : 0
+  count = var.dashboard && !var.dashboard_custom ? 1 : 0
 
   title      = var.dashboard_title != "" ? lower(var.dashboard_title) : "${lower(var.name)}-nr-dashboard-${lower(var.environment)}"
   icon       = var.dashboard_icon

@@ -15,22 +15,35 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # Required for Terraform 0.13 and up (https://www.terraform.io/upgrade-guides/0-13.html)
 terraform {
 
-  required_version = ">= 0.13"
+  // required_version = ">= 0.13"
 
   required_providers {
-    artifactory = {
-      source  = "registry.terraform.io/jfrog/artifactory"
-      version = "2.2.9"
+    jfrog = {
+      source  = "jfrog/artifactory"
+      version = "2.2.4"
     }
   }
 }
 
+variable "artifactory_url" {
+  description = "The base URL of the Artifactory deployment"
+  type        = string
+}
+variable "artifactory_username" {
+  description = "The username for the Artifactory administrator"
+  type        = string
+}
+variable "artifactory_password" {
+  description = "The password for the Artifactory administrator"
+  type        = string
+}
+
 # Configure the Artifactory provider
 provider "artifactory" {
-  url      = "artifactory.linux-notes.org"
-  
-  username = "captain"
-  password = "captain"
+  url = "artifactory.linux-notes.org" # "${var.artifactory_url}"
+
+  username = "captain" # "${var.artifactory_username}"
+  password = "captain" # "${var.artifactory_password}"
   # or
   access_token = null
   api_key      = null
@@ -94,6 +107,9 @@ module "jfrog_virtual_repository" {
 - `local_repository_enable_file_lists_indexing` - Set enable file lists indexing for local repository (`default = null`)
 - `local_repository_force_nuget_authentication` - Set force nuget authentication for local repository (`default = null`)
 - `enable_remote_repository` - Enable remote repository usage (`default = False`)
+- `remote_repository_description` - Set description (`default = null`)
+- `remote_repository_notes` - Set notes (`default = null`)
+- `remote_repository_share_configuration` - Set share_configuration (`default = null`)
 - `remote_repository_key` - Set key for remote repository (`default = ""`)
 - `remote_repository_package_type` - Set remote repository package type (`default = null`)
 - `remote_repository_url` - Set url for remote repository (`default = null`)
@@ -132,6 +148,7 @@ module "jfrog_virtual_repository" {
 - `remote_repository_v3_feed_url` - Set v3 feed url for remote repository (`default = null`)
 - `remote_repository_force_nuget_authentication` - Set force nuget authentication for remote repository (`default = null`)
 - `enable_virtual_repository` - Enable virtual repository usage (`default = False`)
+- `virtual_repository_repositories` - Set repositories (`default = null`)
 - `virtual_repository_key` - Set key for virtual repository (`default = ""`)
 - `virtual_repository_package_type` - Set virtual repository package type (`default = null`)
 - `virtual_repository_description` - Set description for virtual repository (`default = null`)
