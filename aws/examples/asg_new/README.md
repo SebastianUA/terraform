@@ -114,7 +114,7 @@ module "asg_new" {
 - `lt_description` - Description of the launch template. (`default = null`)
 - `lt_default_version` - Default Version of the launch template. (`default = null`)
 - `lt_update_default_version` - Whether to update Default Version each update. Conflicts with default_version. (`default = null`)
-- `lt_image_id` - The AMI from which to launch the instance. (`default = null`)
+- `lt_image_id` - The AMI from which to launch the instance. (`default = ""`)
 - `lt_kernel_id` - The kernel ID. (`default = null`)
 - `lt_ram_disk_id` - The ID of the RAM disk. (`default = null`)
 - `lt_instance_initiated_shutdown_behavior` - Shutdown behavior for the instance. Can be stop or terminate. (Default: stop). (`default = stop`)
