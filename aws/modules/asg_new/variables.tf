@@ -148,7 +148,7 @@ variable "lt_update_default_version" {
 
 variable "lt_image_id" {
   description = "The AMI from which to launch the instance."
-  default     = null
+  default     = ""
 }
 
 variable "lt_kernel_id" {
