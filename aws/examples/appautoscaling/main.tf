@@ -61,7 +61,7 @@ module "appautoscaling" {
   enable_appautoscaling_policy      = true
   appautoscaling_policy_name        = "DynamoDBReadCapacityUtilization:${module.appautoscaling.appautoscaling_target_id}"
   appautoscaling_policy_policy_type = "TargetTrackingScaling"
-  appautoscaling_policy_target_tracking_scaling_policy_configuration_predefined_metric_specification = [{
+  appautoscaling_policy_target_tracking_scaling_policy_configuration = [{
     predefined_metric_type = "DynamoDBReadCapacityUtilization"
 
     target_value       = 75

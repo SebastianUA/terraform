@@ -19,6 +19,7 @@ resource "aws_api_gateway_domain_name" "api_gateway_domain_name" {
   dynamic "endpoint_configuration" {
     iterator = endpoint_configuration
     for_each = var.api_gateway_domain_name_endpoint_configuration
+
     content {
       types = lookup(endpoint_configuration.value, "types", ["EDGE"])
     }

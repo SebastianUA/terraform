@@ -11,6 +11,7 @@ resource "aws_acm_certificate_validation" "acm_certificate_validation" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.acm_certificate_validation_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
     }

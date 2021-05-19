@@ -19,6 +19,7 @@ resource "aws_api_gateway_stage" "api_gateway_stage" {
   dynamic "access_log_settings" {
     iterator = access_log_settings
     for_each = var.api_gateway_stage_access_log_settings
+
     content {
       destination_arn = lookup(access_log_settings.value, "destination_arn", null)
       format          = lookup(access_log_settings.value, "format", null)

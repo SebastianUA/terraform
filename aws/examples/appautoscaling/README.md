@@ -71,7 +71,7 @@ module "appautoscaling" {
   enable_appautoscaling_policy      = true
   appautoscaling_policy_name        = "DynamoDBReadCapacityUtilization:${module.appautoscaling.appautoscaling_target_id}"
   appautoscaling_policy_policy_type = "TargetTrackingScaling"
-  appautoscaling_policy_target_tracking_scaling_policy_configuration_predefined_metric_specification = [{
+  appautoscaling_policy_target_tracking_scaling_policy_configuration = [{
     predefined_metric_type = "DynamoDBReadCapacityUtilization"
 
     target_value       = 75
@@ -110,11 +110,7 @@ module "appautoscaling" {
 - `appautoscaling_policy_scalable_dimension` - (Required) The scalable dimension of the scalable target. Documentation can be found in the ScalableDimension parameter at: AWS Application Auto Scaling API Reference (`default = ""`)
 - `appautoscaling_policy_service_namespace` - (Required) The AWS service namespace of the scalable target. Documentation can be found in the ServiceNamespace parameter at: AWS Application Auto Scaling API Reference (`default = ""`)
 - `appautoscaling_policy_step_scaling_policy_configuration` - (Optional) Step scaling policy configuration, requires policy_type = 'StepScaling' (default). (`default = []`)
-- `appautoscaling_policy_step_scaling_policy_configuration_step_adjustment` - (Optional) Step scaling policy configuration, requires policy_type = 'StepScaling' (default). with step_adjustment supporting (`default = []`)
 - `appautoscaling_policy_target_tracking_scaling_policy_configuration` -  (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. (`default = []`)
-- `appautoscaling_policy_target_tracking_scaling_policy_configuration_predefined_metric_specification` -  (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with predefined_metric_specification supporting (`default = []`)
-- `appautoscaling_policy_target_tracking_scaling_policy_configuration_customized_metric_specification` -  (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with customized_metric_specification supporting (`default = []`)
-- `appautoscaling_policy_target_tracking_scaling_policy_configuration_all` -  (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with customized_metric_specification and predefined_metric_specification supporting (`default = []`)
 - `enable_appautoscaling_scheduled_action` - description (`default = False`)
 - `appautoscaling_scheduled_action_name` - The name of the scheduled action. (`default = ""`)
 - `appautoscaling_scheduled_action_resource_id` - The identifier of the resource associated with the scheduled action. Documentation can be found in the parameter at: AWS Application Auto Scaling API Reference (`default = ""`)

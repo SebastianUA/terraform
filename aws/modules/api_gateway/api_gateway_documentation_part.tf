@@ -10,6 +10,7 @@ resource "aws_api_gateway_documentation_part" "api_gateway_documentation_part" {
   dynamic "location" {
     iterator = location
     for_each = var.api_gateway_documentation_part_location
+
     content {
       type = lookup(location.value, "type", null)
 

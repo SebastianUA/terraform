@@ -12,6 +12,7 @@ resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
   dynamic "api_stages" {
     iterator = api_stages
     for_each = var.api_gateway_usage_plan_api_stages
+
     content {
       api_id = lookup(access_log_settings.value, "api_id", null)
       stage  = lookup(access_log_settings.value, "stage", null)
@@ -21,6 +22,7 @@ resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
   dynamic "quota_settings" {
     iterator = quota_settings
     for_each = var.api_gateway_usage_plan_quota_settings
+
     content {
       limit  = lookup(quota_settings.value, "limit", null)
       offset = lookup(quota_settings.value, "offset", null)
@@ -31,6 +33,7 @@ resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
   dynamic "throttle_settings" {
     iterator = throttle_settings
     for_each = var.api_gateway_usage_plan_throttle_settings
+
     content {
       burst_limit = lookup(throttle_settings.value, "burst_limit", null)
       rate_limit  = lookup(throttle_settings.value, "rate_limit", null)

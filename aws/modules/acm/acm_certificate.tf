@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ACM (Amazon Certificate Manager) certificate
+# AWS ACM (Amazon Certificate Manager) certificate
 #---------------------------------------------------
 resource "aws_acm_certificate" "acm_certificate" {
   count = var.enable_acm_certificate && !var.enable_acm_certificate_private_ca && !var.enable_import_existing_certificate ? 1 : 0
@@ -12,6 +12,7 @@ resource "aws_acm_certificate" "acm_certificate" {
   dynamic "options" {
     iterator = options
     for_each = var.acm_certificate_options
+
     content {
       certificate_transparency_logging_preference = lookup(options.value, "certificate_transparency_logging_preference", null)
     }
@@ -32,6 +33,9 @@ resource "aws_acm_certificate" "acm_certificate" {
   depends_on = []
 }
 
+#---------------------------------------------------
+# AWS ACM (Amazon Certificate Manager) certificate for private CA
+#---------------------------------------------------
 resource "aws_acm_certificate" "acm_certificate_private_ca" {
   count = var.enable_acm_certificate_private_ca && !var.enable_acm_certificate && !var.enable_import_existing_certificate ? 1 : 0
 
@@ -55,6 +59,9 @@ resource "aws_acm_certificate" "acm_certificate_private_ca" {
   depends_on = []
 }
 
+#---------------------------------------------------
+# AWS ACM (Amazon Certificate Manager) certificate for exististing certificate
+#---------------------------------------------------
 resource "aws_acm_certificate" "acm_certificate_exist" {
   count = var.enable_import_existing_certificate && !var.enable_acm_certificate && !var.enable_acm_certificate_private_ca ? 1 : 0
 

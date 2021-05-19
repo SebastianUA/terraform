@@ -16,6 +16,7 @@ resource "aws_appautoscaling_scheduled_action" "appautoscaling_scheduled_action"
   dynamic "scalable_target_action" {
     iterator = scalabletarget
     for_each = var.appautoscaling_scheduled_action_scalable_target_action
+
     content {
       min_capacity = lookup(scalabletarget.value, "min_capacity", null)
       max_capacity = lookup(scalabletarget.value, "max_capacity", null)

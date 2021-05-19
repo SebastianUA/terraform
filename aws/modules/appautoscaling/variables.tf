@@ -93,28 +93,8 @@ variable "appautoscaling_policy_step_scaling_policy_configuration" {
   default     = []
 }
 
-variable "appautoscaling_policy_step_scaling_policy_configuration_step_adjustment" {
-  description = "(Optional) Step scaling policy configuration, requires policy_type = 'StepScaling' (default). with step_adjustment supporting"
-  default     = []
-}
-
 variable "appautoscaling_policy_target_tracking_scaling_policy_configuration" {
   description = " (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'."
-  default     = []
-}
-
-variable "appautoscaling_policy_target_tracking_scaling_policy_configuration_predefined_metric_specification" {
-  description = " (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with predefined_metric_specification supporting"
-  default     = []
-}
-
-variable "appautoscaling_policy_target_tracking_scaling_policy_configuration_customized_metric_specification" {
-  description = " (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with customized_metric_specification supporting"
-  default     = []
-}
-
-variable "appautoscaling_policy_target_tracking_scaling_policy_configuration_all" {
-  description = " (Optional) A target tracking policy, requires policy_type = 'TargetTrackingScaling'. with customized_metric_specification and predefined_metric_specification supporting"
   default     = []
 }
 

@@ -15,6 +15,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "fixed_response" {
       iterator = fixed_response
       for_each = var.alb_listener_rule_action_fixed_response
+
       content {
         content_type = lookup(fixed_response.value, "content_type", null)
 
@@ -26,15 +27,27 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "forward" {
       iterator = forward
       for_each = var.alb_listener_rule_action_forward
-      content {
-        target_group {
-          arn = lookup(forward.value, "target_group_arn", null)
 
-          weight = lookup(forward.value, "target_group_weight", null)
+      content {
+        dynamic "target_group" {
+          iterator = target_group
+          for_each = length(keys(lookup(forward.value, "target_group", {}))) > 0 ? [lookup(forward.value, "target_group", {})] : []
+
+          content {
+            arn = lookup(target_group.value, "arn", null)
+
+            weight = lookup(target_group.value, "weight", null)
+          }
         }
-        stickiness {
-          enabled  = lookup(forward.value, "stickiness_enabled", null)
-          duration = lookup(forward.value, "stickiness_duration", null)
+
+        dynamic "stickiness" {
+          iterator = stickiness
+          for_each = length(keys(lookup(forward.value, "stickiness", {}))) > 0 ? [lookup(forward.value, "stickiness", {})] : []
+
+          content {
+            enabled  = lookup(stickiness.value, "enabled", null)
+            duration = lookup(stickiness.value, "duration", null)
+          }
         }
       }
     }
@@ -42,6 +55,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "redirect" {
       iterator = redirect
       for_each = var.alb_listener_rule_action_redirect
+
       content {
         status_code = lookup(redirect.value, "status_code", null)
 
@@ -56,6 +70,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "authenticate_cognito" {
       iterator = authenticate_cognito
       for_each = var.alb_listener_rule_action_authenticate_cognito
+
       content {
         user_pool_client_id = lookup(authenticate_cognito.value, "user_pool_client_id", null)
         user_pool_domain    = lookup(authenticate_cognito.value, "user_pool_domain", null)
@@ -72,6 +87,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "authenticate_oidc" {
       iterator = authenticate_oidc
       for_each = var.alb_listener_rule_action_authenticate_oidc
+
       content {
         authorization_endpoint = lookup(authenticate_oidc.value, "authorization_endpoint", null)
         client_id              = lookup(authenticate_oidc.value, "client_id", null)
@@ -94,6 +110,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "host_header" {
       iterator = host_header
       for_each = var.alb_listener_rule_condition_host_header
+
       content {
         values = lookup(host_header.value, "values", null)
       }
@@ -102,6 +119,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "http_request_method" {
       iterator = http_request_method
       for_each = var.alb_listener_rule_condition_http_request_method
+
       content {
         values = lookup(http_request_method.value, "values", null)
       }
@@ -110,6 +128,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "path_pattern" {
       iterator = path_pattern
       for_each = var.alb_listener_rule_condition_path_pattern
+
       content {
         values = lookup(path_pattern.value, "values", null)
       }
@@ -118,6 +137,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "source_ip" {
       iterator = source_ip
       for_each = var.alb_listener_rule_condition_source_ip
+
       content {
         values = lookup(source_ip.value, "values", null)
       }
@@ -126,6 +146,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "http_header" {
       iterator = http_header
       for_each = var.alb_listener_rule_condition_http_header
+
       content {
         http_header_name = lookup(http_header.value, "http_header_name", null)
         values           = lookup(http_header.value, "values", null)
@@ -135,6 +156,7 @@ resource "aws_lb_listener_rule" "alb_listener_rule" {
     dynamic "query_string" {
       iterator = query_string
       for_each = var.alb_listener_rule_condition_query_string
+
       content {
         key   = lookup(query_string.value, "key", null)
         value = lookup(query_string.value, "value", null)

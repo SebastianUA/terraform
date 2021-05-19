@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS Certificate Manager Private Certificate Authorities (ACM PCA Certificate Authorities)
+# AWS Certificate Manager Private Certificate Authorities (ACM PCA Certificate Authorities)
 #---------------------------------------------------
 resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
   count = var.enable_acmpca_certificate_authority ? 1 : 0
@@ -15,6 +15,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
     dynamic "subject" {
       iterator = subject
       for_each = var.acmpca_certificate_authority_certificate_authority_configuration_subject
+
       content {
         common_name                  = lookup(subject.value, "common_name", null)
         country                      = lookup(subject.value, "country", null)
@@ -37,6 +38,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
     dynamic "crl_configuration" {
       iterator = crl_configuration
       for_each = var.acmpca_certificate_authority_crl_configuration
+
       content {
         custom_cname       = lookup(crl_configuration.value, "custom_cname", null)
         enabled            = lookup(crl_configuration.value, "enabled", null)
@@ -49,6 +51,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.acmpca_certificate_authority_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
     }

@@ -11,6 +11,7 @@ resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
   dynamic "settings" {
     iterator = settings
     for_each = var.api_gateway_method_settings_settings
+
     content {
       metrics_enabled                            = lookup(settings.value, "metrics_enabled", null)
       logging_level                              = lookup(settings.value, "logging_level", null)

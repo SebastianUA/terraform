@@ -17,6 +17,7 @@ resource "aws_lb_target_group" "alb_target_group" {
   dynamic "health_check" {
     iterator = health_check
     for_each = var.alb_target_group_health_check
+
     content {
       enabled             = lookup(health_check.value, "enabled", null)
       interval            = lookup(health_check.value, "interval", null)
@@ -33,6 +34,7 @@ resource "aws_lb_target_group" "alb_target_group" {
   dynamic "stickiness" {
     iterator = stickiness
     for_each = var.alb_target_group_stickiness
+
     content {
       type            = lookup(stickiness.value, "type", null)
       cookie_duration = lookup(stickiness.value, "cookie_duration", null)

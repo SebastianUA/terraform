@@ -16,6 +16,7 @@ resource "aws_api_gateway_rest_api" "api_gateway_rest_api" {
   dynamic "endpoint_configuration" {
     iterator = endpoint_configuration
     for_each = var.api_gateway_rest_api_endpoint_configuration
+
     content {
       types = lookup(endpoint_configuration.value, "types", ["EDGE"])
 

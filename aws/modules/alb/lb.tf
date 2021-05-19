@@ -23,6 +23,7 @@ resource "aws_lb" "alb" {
   dynamic "access_logs" {
     iterator = access_logs
     for_each = var.alb_access_logs
+
     content {
       enabled = lookup(access_logs.value, "enabled", null)
       bucket  = lookup(access_logs.value, "bucket", null)
@@ -34,6 +35,7 @@ resource "aws_lb" "alb" {
   dynamic "subnet_mapping" {
     iterator = subnet_mapping
     for_each = var.alb_subnet_mapping
+
     content {
       subnet_id            = lookup(subnet_mapping.value, "subnet_id", null)
       allocation_id        = lookup(subnet_mapping.value, "allocation_id", null)
@@ -44,6 +46,7 @@ resource "aws_lb" "alb" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.alb_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

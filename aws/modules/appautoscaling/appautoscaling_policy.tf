@@ -13,18 +13,7 @@ resource "aws_appautoscaling_policy" "appautoscaling_policy" {
   dynamic "step_scaling_policy_configuration" {
     iterator = stepscalingpolicy
     for_each = var.appautoscaling_policy_policy_type == "StepScaling" ? var.appautoscaling_policy_step_scaling_policy_configuration : []
-    content {
-      adjustment_type = lookup(stepscalingpolicy.value, "adjustment_type", null)
-      cooldown        = lookup(stepscalingpolicy.value, "cooldown", null)
 
-      metric_aggregation_type  = lookup(stepscalingpolicy.value, "metric_aggregation_type", null)
-      min_adjustment_magnitude = lookup(stepscalingpolicy.value, "min_adjustment_magnitude", null)
-    }
-  }
-
-  dynamic "step_scaling_policy_configuration" {
-    iterator = stepscalingpolicy
-    for_each = var.appautoscaling_policy_policy_type == "StepScaling" ? var.appautoscaling_policy_step_scaling_policy_configuration_step_adjustment : []
     content {
       adjustment_type = lookup(stepscalingpolicy.value, "adjustment_type", null)
       cooldown        = lookup(stepscalingpolicy.value, "cooldown", null)
@@ -32,11 +21,16 @@ resource "aws_appautoscaling_policy" "appautoscaling_policy" {
       metric_aggregation_type  = lookup(stepscalingpolicy.value, "metric_aggregation_type", null)
       min_adjustment_magnitude = lookup(stepscalingpolicy.value, "min_adjustment_magnitude", null)
 
-      step_adjustment {
-        scaling_adjustment = lookup(stepscalingpolicy.value, "scaling_adjustment", null)
+      dynamic "step_adjustment" {
+        iterator = step_adjustment
+        for_each = length(keys(lookup(stepscalingpolicy.value, "step_adjustment", {}))) > 0 ? [lookup(stepscalingpolicy.value, "step_adjustment", {})] : []
 
-        metric_interval_lower_bound = lookup(stepscalingpolicy.value, "metric_interval_lower_bound", null)
-        metric_interval_upper_bound = lookup(stepscalingpolicy.value, "metric_interval_upper_bound", null)
+        content {
+          scaling_adjustment = lookup(step_adjustment.value, "scaling_adjustment", null)
+
+          metric_interval_lower_bound = lookup(step_adjustment.value, "metric_interval_lower_bound", null)
+          metric_interval_upper_bound = lookup(step_adjustment.value, "metric_interval_upper_bound", null)
+        }
       }
     }
   }
@@ -44,18 +38,7 @@ resource "aws_appautoscaling_policy" "appautoscaling_policy" {
   dynamic "target_tracking_scaling_policy_configuration" {
     iterator = targettrackingscalingpolicy
     for_each = var.appautoscaling_policy_policy_type == "TargetTrackingScaling" ? var.appautoscaling_policy_target_tracking_scaling_policy_configuration : []
-    content {
-      target_value = lookup(targettrackingscalingpolicy.value, "target_value", null)
 
-      disable_scale_in   = lookup(targettrackingscalingpolicy.value, "disable_scale_in", false)
-      scale_in_cooldown  = lookup(targettrackingscalingpolicy.value, "scale_in_cooldown", null)
-      scale_out_cooldown = lookup(targettrackingscalingpolicy.value, "scale_out_cooldown", null)
-    }
-  }
-
-  dynamic "target_tracking_scaling_policy_configuration" {
-    iterator = targettrackingscalingpolicy
-    for_each = var.appautoscaling_policy_policy_type == "TargetTrackingScaling" ? var.appautoscaling_policy_target_tracking_scaling_policy_configuration_customized_metric_specification : []
     content {
       target_value = lookup(targettrackingscalingpolicy.value, "target_value", null)
 
@@ -63,59 +46,40 @@ resource "aws_appautoscaling_policy" "appautoscaling_policy" {
       scale_in_cooldown  = lookup(targettrackingscalingpolicy.value, "scale_in_cooldown", null)
       scale_out_cooldown = lookup(targettrackingscalingpolicy.value, "scale_out_cooldown", null)
 
-      customized_metric_specification {
-        metric_name = lookup(targettrackingscalingpolicy.value, "metric_name", null)
-        namespace   = lookup(targettrackingscalingpolicy.value, "namespace", null)
-        statistic   = lookup(targettrackingscalingpolicy.value, "statistic", null)
+      dynamic "customized_metric_specification" {
+        iterator = customized_metric_specification
+        for_each = length(keys(lookup(targettrackingscalingpolicy.value, "customized_metric_specification", {}))) > 0 ? [lookup(targettrackingscalingpolicy.value, "customized_metric_specification", {})] : []
 
-        #dimensions      = lookup(targettrackingscalingpolicy.value, "dimensions", null)
-        unit = lookup(targettrackingscalingpolicy.value, "unit", null)
-      }
-    }
-  }
+        content {
+          metric_name = lookup(customized_metric_specification.value, "metric_name", null)
+          namespace   = lookup(customized_metric_specification.value, "namespace", null)
+          statistic   = lookup(customized_metric_specification.value, "statistic", null)
 
-  dynamic "target_tracking_scaling_policy_configuration" {
-    iterator = targettrackingscalingpolicy
-    for_each = var.appautoscaling_policy_policy_type == "TargetTrackingScaling" ? var.appautoscaling_policy_target_tracking_scaling_policy_configuration_predefined_metric_specification : []
-    content {
-      target_value = lookup(targettrackingscalingpolicy.value, "target_value", null)
+          unit = lookup(customized_metric_specification.value, "unit", null)
 
-      disable_scale_in   = lookup(targettrackingscalingpolicy.value, "disable_scale_in", false)
-      scale_in_cooldown  = lookup(targettrackingscalingpolicy.value, "scale_in_cooldown", null)
-      scale_out_cooldown = lookup(targettrackingscalingpolicy.value, "scale_out_cooldown", null)
+          dynamic "dimensions" {
+            iterator = dimensions
+            for_each = lookup(customized_metric_specification.value, "dimensions", [])
 
-      predefined_metric_specification {
-        predefined_metric_type = lookup(targettrackingscalingpolicy.value, "predefined_metric_type", null)
-
-        resource_label = lookup(targettrackingscalingpolicy.value, "resource_label", null)
-      }
-    }
-  }
-
-  dynamic "target_tracking_scaling_policy_configuration" {
-    iterator = targettrackingscalingpolicy
-    for_each = var.appautoscaling_policy_policy_type == "TargetTrackingScaling" ? var.appautoscaling_policy_target_tracking_scaling_policy_configuration_all : []
-    content {
-      target_value = lookup(targettrackingscalingpolicy.value, "target_value", null)
-
-      disable_scale_in   = lookup(targettrackingscalingpolicy.value, "disable_scale_in", false)
-      scale_in_cooldown  = lookup(targettrackingscalingpolicy.value, "scale_in_cooldown", null)
-      scale_out_cooldown = lookup(targettrackingscalingpolicy.value, "scale_out_cooldown", null)
-
-      customized_metric_specification {
-        metric_name = lookup(targettrackingscalingpolicy.value, "metric_name", null)
-        namespace   = lookup(targettrackingscalingpolicy.value, "namespace", null)
-        statistic   = lookup(targettrackingscalingpolicy.value, "statistic", null)
-
-        #dimensions      = lookup(targettrackingscalingpolicy.value, "dimensions", null)
-        unit = lookup(targettrackingscalingpolicy.value, "unit", null)
+            content {
+              name  = lookup(dimensions.value, "name", null)
+              value = lookup(dimensions.value, "value", null)
+            }
+          }
+        }
       }
 
-      predefined_metric_specification {
-        predefined_metric_type = lookup(targettrackingscalingpolicy.value, "predefined_metric_type", null)
+      dynamic "predefined_metric_specification" {
+        iterator = predefined_metric_specification
+        for_each = length(keys(lookup(targettrackingscalingpolicy.value, "predefined_metric_specification", {}))) > 0 ? [lookup(targettrackingscalingpolicy.value, "predefined_metric_specification", {})] : []
 
-        resource_label = lookup(targettrackingscalingpolicy.value, "resource_label", null)
+        content {
+          predefined_metric_type = lookup(predefined_metric_specification.value, "predefined_metric_type", null)
+
+          resource_label = lookup(predefined_metric_specification.value, "resource_label", null)
+        }
       }
+
     }
   }
 
