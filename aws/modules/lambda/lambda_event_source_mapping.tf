@@ -20,6 +20,7 @@ resource "aws_lambda_event_source_mapping" "lambda_event_source_mapping" {
 
   dynamic "destination_config" {
     for_each = var.lambda_event_source_mapping_destination_config == null ? [] : [var.lambda_event_source_mapping_destination_config]
+
     content {
       on_failure {
         destination_arn = var.lambda_event_source_mapping_destination_config

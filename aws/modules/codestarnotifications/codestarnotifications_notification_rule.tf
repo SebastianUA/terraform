@@ -14,6 +14,7 @@ resource "aws_codestarnotifications_notification_rule" "codestarnotifications_no
   dynamic "target" {
     iterator = target
     for_each = var.codestarnotifications_notification_rule_target
+
     content {
       address = aws_sns_topic.notif.arn
       type    = lookup(target.value, "type", null)

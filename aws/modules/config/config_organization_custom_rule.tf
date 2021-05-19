@@ -21,6 +21,7 @@ resource "aws_config_organization_custom_rule" "config_organization_custom_rule"
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.config_organization_custom_rule_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

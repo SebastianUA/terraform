@@ -17,6 +17,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
   dynamic "targets" {
     iterator = targets
     for_each = var.ssm_maintenance_window_task_targets
+
     content {
       key    = lookup(targets.value, "key", null)
       values = lookup(targets.value, "values", null)
@@ -28,6 +29,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
     dynamic "automation_parameters" {
       iterator = automation_parameters
       for_each = length(var.ssm_maintenance_window_task_automation_parameters) > 0 ? [var.ssm_maintenance_window_task_automation_parameters] : []
+
       content {
         document_version = lookup(automation_parameters.value, "document_version", null)
         parameter {
@@ -40,6 +42,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
     dynamic "lambda_parameters" {
       iterator = lambda_parameters
       for_each = length(var.ssm_maintenance_window_task_lambda_parameters) > 0 ? [var.ssm_maintenance_window_task_lambda_parameters] : []
+
       content {
         client_context = lookup(lambda_parameters.value, "client_context", null)
         payload        = lookup(lambda_parameters.value, "payload", null)
@@ -50,6 +53,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
     dynamic "run_command_parameters" {
       iterator = run_command_parameters
       for_each = length(var.ssm_maintenance_window_task_run_command_parameters) > 0 ? [var.ssm_maintenance_window_task_run_command_parameters] : []
+
       content {
         comment              = lookup(run_command_parameters.value, "comment", null)
         document_hash        = lookup(run_command_parameters.value, "document_hash", null)
@@ -76,6 +80,7 @@ resource "aws_ssm_maintenance_window_task" "ssm_maintenance_window_task" {
     dynamic "step_functions_parameters" {
       iterator = step_functions_parameters
       for_each = length(var.ssm_maintenance_window_task_lambda_parameters) > 0 ? [var.ssm_maintenance_window_task_lambda_parameters] : []
+
       content {
         input = lookup(step_functions_parameters.value, "input", null)
         name  = lookup(step_functions_parameters.value, "name", null)

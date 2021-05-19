@@ -11,6 +11,7 @@ resource "aws_sagemaker_endpoint_configuration" "sagemaker_endpoint_configuratio
   dynamic "production_variants" {
     iterator = production_variants
     for_each = var.sagemaker_endpoint_configuration_production_variants
+
     content {
       model_name             = lookup(production_variants.value, "model_name", element(concat(aws_sagemaker_model.sagemaker_model.*.name, [""]), 0))
       initial_instance_count = lookup(production_variants.value, "initial_instance_count", 0)

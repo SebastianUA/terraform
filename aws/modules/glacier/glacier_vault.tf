@@ -11,6 +11,7 @@ resource "aws_glacier_vault" "glacier_vault" {
   dynamic "notification" {
     iterator = notification
     for_each = var.glacier_vault_notification
+
     content {
       sns_topic = lookup(notification.value, "sns_topic", null)
       events    = lookup(notification.value, "events", null)

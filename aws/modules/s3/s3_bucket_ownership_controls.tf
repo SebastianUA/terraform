@@ -9,6 +9,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
   dynamic "rule" {
     iterator = rule
     for_each = var.s3_bucket_ownership_controls_rule
+
     content {
       object_ownership = lookup(rule.value, "object_ownership", null)
     }

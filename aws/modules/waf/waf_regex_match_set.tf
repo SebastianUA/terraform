@@ -9,6 +9,7 @@ resource "aws_waf_regex_match_set" "waf_regex_match_set" {
   dynamic "regex_match_tuple" {
     iterator = regex_match_tuple
     for_each = var.waf_regex_match_set_regex_match_tuple
+
     content {
       field_to_match {
         data = lookup(regex_match_tuple.value, "data", null)

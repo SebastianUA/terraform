@@ -14,7 +14,9 @@ resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment" {
   tier                = var.elastic_beanstalk_environment_tier
 
   dynamic "setting" {
+    iterator = setting
     for_each = var.elastic_beanstalk_environment_setting
+
     content {
       name      = lookup(setting.value, "name", null)
       value     = lookup(setting.value, "value", null)

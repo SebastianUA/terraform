@@ -19,6 +19,7 @@ resource "aws_codebuild_report_group" "codebuild_report_group" {
       dynamic "s3_destination" {
         iterator = s3_destination
         for_each = length(keys(lookup(export_config.value, "s3_destination", {}))) > 0 ? [lookup(export_config.value, "s3_destination", {})] : []
+
         content {
           bucket              = lookup(s3_destination.value, "bucket", null)
           encryption_disabled = lookup(s3_destination.value, "encryption_disabled", null)

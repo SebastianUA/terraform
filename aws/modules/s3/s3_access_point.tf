@@ -13,6 +13,7 @@ resource "aws_s3_access_point" "s3_access_point" {
   dynamic "public_access_block_configuration" {
     iterator = public_access_block_configuration
     for_each = var.s3_access_point_public_access_block_configuration
+
     content {
       block_public_acls       = lookup(public_access_block_configuration.value, "block_public_acls", null)
       block_public_policy     = lookup(public_access_block_configuration.value, "block_public_policy", null)
@@ -24,6 +25,7 @@ resource "aws_s3_access_point" "s3_access_point" {
   dynamic "vpc_configuration" {
     iterator = vpc_configuration
     for_each = var.s3_access_point_vpc_configuration
+
     content {
       vpc_id = lookup(vpc_configuration.value, "vpc_id", null)
     }

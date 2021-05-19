@@ -9,6 +9,7 @@ resource "aws_s3_bucket_notification" "s3_bucket_notification" {
   dynamic "topic" {
     iterator = topic
     for_each = var.s3_bucket_notification_topic
+
     content {
       topic_arn = lookup(topic.value, "topic_arn", null)
       events    = lookup(topic.value, "events", null)
@@ -22,6 +23,7 @@ resource "aws_s3_bucket_notification" "s3_bucket_notification" {
   dynamic "queue" {
     iterator = queue
     for_each = var.s3_bucket_notification_queue
+
     content {
       queue_arn = lookup(queue.value, "queue_arn", null)
       events    = lookup(queue.value, "events", null)
@@ -35,6 +37,7 @@ resource "aws_s3_bucket_notification" "s3_bucket_notification" {
   dynamic "lambda_function" {
     iterator = lambda_function
     for_each = var.s3_bucket_notification_lambda_function
+
     content {
       lambda_function_arn = lookup(lambda_function.value, "lambda_function_arn", null)
       events              = lookup(lambda_function.value, "events", null)

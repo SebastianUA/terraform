@@ -10,6 +10,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "attribute" {
     iterator = attribute
     for_each = var.dynamodb_table_attribute
+
     content {
       name = lookup(attribute.value, "name", null)
       type = lookup(attribute.value, "type", null)
@@ -26,6 +27,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "ttl" {
     iterator = ttl
     for_each = var.dynamodb_table_ttl
+
     content {
       attribute_name = lookup(ttl.value, "attribute_name", "TimeToExist")
       enabled        = lookup(ttl.value, "enabled", false)
@@ -35,6 +37,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "local_secondary_index" {
     iterator = localsecondaryindex
     for_each = var.dynamodb_table_local_secondary_index
+
     content {
       name            = lookup(localsecondaryindex.value, "name", null)
       range_key       = lookup(localsecondaryindex.value, "range_key", null)
@@ -47,6 +50,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "global_secondary_index" {
     iterator = globalsecondaryindex
     for_each = var.dynamodb_table_global_secondary_index
+
     content {
       name            = lookup(globalsecondaryindex.value, "name", null)
       hash_key        = lookup(globalsecondaryindex.value, "hash_key", null)
@@ -62,6 +66,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "server_side_encryption" {
     iterator = serversideencryption
     for_each = var.dynamodb_table_server_side_encryption
+
     content {
       enabled = lookup(serversideencryption.value, "enabled", null)
 
@@ -72,6 +77,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "point_in_time_recovery" {
     iterator = pointintimerecovery
     for_each = var.dynamodb_table_point_in_time_recovery
+
     content {
       enabled = lookup(pointintimerecovery.value, "enabled", null)
     }
@@ -80,6 +86,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.dynamodb_table_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

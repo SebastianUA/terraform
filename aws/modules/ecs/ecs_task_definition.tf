@@ -25,6 +25,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     dynamic "docker_volume_configuration" {
       iterator = docker_volume
       for_each = var.ecs_task_definition_volume_docker
+
       content {
         scope         = lookup(docker_volume.value, "docker_scope", null)
         autoprovision = lookup(docker_volume.value, "docker_autoprovision", null)
@@ -37,6 +38,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     dynamic "efs_volume_configuration" {
       iterator = efs_volume
       for_each = var.ecs_task_definition_volume_efs
+
       content {
         file_system_id = lookup(efs_volume.value, "file_system_id", null)
 
@@ -86,6 +88,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   dynamic "placement_constraints" {
     iterator = placement_constraints
     for_each = var.ecs_task_definition_placement_constraints
+
     content {
       type = lookup(placement_constraints.value, "type", null)
 
@@ -96,6 +99,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   dynamic "proxy_configuration" {
     iterator = proxy_configuration
     for_each = var.ecs_task_definition_proxy_configuration
+
     content {
       container_name = lookup(proxy_configuration.value, "container_name", null)
       properties     = lookup(proxy_configuration.value, "properties", null)
@@ -107,6 +111,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   dynamic "inference_accelerator" {
     iterator = inference_accelerator
     for_each = var.ecs_task_definition_inference_accelerator
+
     content {
       device_name = lookup(inference_accelerator.value, "device_name", null)
       device_type = lookup(inference_accelerator.value, "device_type", null)

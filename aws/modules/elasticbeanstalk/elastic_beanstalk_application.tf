@@ -10,6 +10,7 @@ resource "aws_elastic_beanstalk_application" "elastic_beanstalk_application" {
   dynamic "appversion_lifecycle" {
     iterator = appversion_lifecycle
     for_each = var.elastic_beanstalk_application_appversion_lifecycle
+
     content {
       service_role          = lookup(appversion_lifecycle.value, "service_role", null)
       max_count             = lookup(appversion_lifecycle.value, "max_count", null)

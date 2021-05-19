@@ -14,6 +14,7 @@ resource "aws_worklink_fleet" "worklink_fleet" {
   dynamic "network" {
     iterator = network
     for_each = var.worklink_fleet_network
+
     content {
       vpc_id             = lookup(network.value, "vpc_id", null)
       subnet_ids         = lookup(network.value, "subnet_ids", null)
@@ -24,6 +25,7 @@ resource "aws_worklink_fleet" "worklink_fleet" {
   dynamic "identity_provider" {
     iterator = identity_provider
     for_each = var.worklink_fleet_identity_provider
+
     content {
       type          = lookup(identity_provider.value, "type", null)
       saml_metadata = lookup(identity_provider.value, "saml_metadata", null)

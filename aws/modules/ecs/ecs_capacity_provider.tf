@@ -14,6 +14,7 @@ resource "aws_ecs_capacity_provider" "ecs_capacity_provider" {
     dynamic "managed_scaling" {
       iterator = managed_scaling
       for_each = var.ecs_capacity_provider_managed_scaling
+
       content {
         maximum_scaling_step_size = lookup(managed_scaling.value, "maximum_scaling_step_size", null)
         minimum_scaling_step_size = lookup(managed_scaling.value, "minimum_scaling_step_size", null)

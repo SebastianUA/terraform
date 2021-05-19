@@ -14,6 +14,7 @@ resource "aws_elastictranscoder_pipeline" "elastictranscoder_pipeline" {
   dynamic "content_config" {
     iterator = content_config
     for_each = var.elastictranscoder_pipeline_content_config
+
     content {
       bucket        = lookup(content_config.value, "bucket", null)
       storage_class = lookup(content_config.value, "storage_class", null)
@@ -23,6 +24,7 @@ resource "aws_elastictranscoder_pipeline" "elastictranscoder_pipeline" {
   dynamic "content_config_permissions" {
     iterator = content_config_permissions
     for_each = var.elastictranscoder_pipeline_content_config_permissions
+
     content {
       access       = lookup(content_config_permissions.value, "access", null)
       grantee      = lookup(content_config_permissions.value, "grantee", null)
@@ -33,6 +35,7 @@ resource "aws_elastictranscoder_pipeline" "elastictranscoder_pipeline" {
   dynamic "notifications" {
     iterator = notifications
     for_each = var.elastictranscoder_pipeline_notifications
+
     content {
       completed   = lookup(notifications.value, "completed", null)
       error       = lookup(notifications.value, "error", null)
@@ -44,6 +47,7 @@ resource "aws_elastictranscoder_pipeline" "elastictranscoder_pipeline" {
   dynamic "thumbnail_config" {
     iterator = thumbnail_config
     for_each = var.elastictranscoder_pipeline_thumbnail_config
+
     content {
       bucket        = lookup(thumbnail_config.value, "bucket", null)
       storage_class = lookup(thumbnail_config.value, "storage_class", null)
@@ -53,6 +57,7 @@ resource "aws_elastictranscoder_pipeline" "elastictranscoder_pipeline" {
   dynamic "thumbnail_config_permissions" {
     iterator = thumbnail_config_permissions
     for_each = var.elastictranscoder_pipeline_thumbnail_config_permissions
+
     content {
       access       = lookup(thumbnail_config_permissions.value, "access", null)
       grantee      = lookup(thumbnail_config_permissions.value, "grantee", null)

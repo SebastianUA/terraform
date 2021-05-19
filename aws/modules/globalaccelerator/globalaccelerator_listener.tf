@@ -12,6 +12,7 @@ resource "aws_globalaccelerator_listener" "globalaccelerator_listener" {
   dynamic "port_range" {
     iterator = port_range
     for_each = var.globalaccelerator_listener_port_range
+
     content {
       from_port = lookup(port_range.value, "from_port", null)
       to_port   = lookup(port_range.value, "to_port", null)

@@ -9,6 +9,7 @@ resource "aws_db_proxy_default_target_group" "db_proxy_default_target_group" {
   dynamic "connection_pool_config" {
     iterator = connection_pool_config
     for_each = var.db_proxy_default_target_group_connection_pool_config
+
     content {
       connection_borrow_timeout    = lookup(connection_pool_config.value, "connection_borrow_timeout", null)
       init_query                   = lookup(connection_pool_config.value, "init_query", null)
@@ -21,6 +22,7 @@ resource "aws_db_proxy_default_target_group" "db_proxy_default_target_group" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.db_proxy_default_target_group_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

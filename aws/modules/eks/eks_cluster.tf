@@ -10,6 +10,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   dynamic "vpc_config" {
     iterator = vpc_config
     for_each = var.eks_cluster_vpc_config
+
     content {
       subnet_ids = lookup(vpc_config.value, "subnet_ids", null)
 
@@ -26,11 +27,18 @@ resource "aws_eks_cluster" "eks_cluster" {
   dynamic "encryption_config" {
     iterator = encryption_config
     for_each = var.eks_cluster_encryption_config
+
     content {
-      provider {
-        key_arn = lookup(encryption_config.value, "key_arn", null)
-      }
       resources = lookup(encryption_config.value, "resources", null)
+
+      dynamic "provider" {
+        iterator = provider
+        for_each = length(keys(lookup(encryption_config.value, "provider", {}))) > 0 ? [lookup(encryption_config.value, "provider", {})] : []
+
+        content {
+          key_arn = lookup(provider.value, "key_arn", null)
+        }
+      }
     }
   }
 
@@ -46,6 +54,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.eks_cluster_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

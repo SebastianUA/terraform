@@ -9,6 +9,7 @@ resource "aws_codecommit_trigger" "codecommit_trigger" {
   dynamic "trigger" {
     iterator = trigger
     for_each = var.codecommit_trigger
+
     content {
       name            = lookup(trigger.value, "name", "${lower(var.name)}-codecommit-trigger-${lower(var.environment)}")
       destination_arn = lookup(trigger.value, "destination_arn", null)

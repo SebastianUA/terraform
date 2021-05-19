@@ -16,6 +16,7 @@ resource "aws_kms_grant" "kms_grant" {
   dynamic "constraints" {
     iterator = constraints
     for_each = var.kms_grant_constraints
+
     content {
       encryption_context_equals = lookup(constraints.value, "encryption_context_equals", null)
       encryption_context_subset = lookup(constraints.value, "encryption_context_subset", null)

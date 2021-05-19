@@ -10,6 +10,7 @@ resource "aws_waf_web_acl" "waf_web_acl" {
   dynamic "default_action" {
     iterator = default_action
     for_each = var.waf_web_acl_default_action
+
     content {
       type = lookup(default_action.value, "type", null)
     }
@@ -18,6 +19,7 @@ resource "aws_waf_web_acl" "waf_web_acl" {
   dynamic "rules" {
     iterator = rules
     for_each = var.waf_web_acl_rules
+
     content {
       action {
         type = lookup(rules.value, "action_type", null)
@@ -36,6 +38,7 @@ resource "aws_waf_web_acl" "waf_web_acl" {
   dynamic "logging_configuration" {
     iterator = logging_configuration
     for_each = var.waf_web_acl_logging_configuration
+
     content {
       log_destination = lookup(logging_configuration.value, "log_destination", null)
 

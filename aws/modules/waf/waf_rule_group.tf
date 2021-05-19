@@ -10,6 +10,7 @@ resource "aws_waf_rule_group" "waf_rule_group" {
   dynamic "activated_rule" {
     iterator = activated_rule
     for_each = var.waf_rule_group_activated_rule
+
     content {
       action {
         type = lookup(activated_rule.value, "action_type", null)

@@ -10,6 +10,7 @@ resource "aws_glue_ml_transform" "glue_ml_transform" {
   dynamic "input_record_tables" {
     iterator = input_record_tables
     for_each = var.glue_ml_transform_input_record_tables
+
     content {
       database_name = lookup(input_record_tables.value, "database_name", (var.enable_glue_catalog_table ? element(aws_glue_catalog_table.glue_catalog_table.*.database_name, 0) : null))
       table_name    = lookup(input_record_tables.value, "table_name", (var.enable_glue_catalog_table ? element(aws_glue_catalog_table.glue_catalog_table.*.name, 0) : null))
@@ -22,6 +23,7 @@ resource "aws_glue_ml_transform" "glue_ml_transform" {
   dynamic "parameters" {
     iterator = parameters
     for_each = var.glue_ml_transform_parameters
+
     content {
       transform_type = lookup(parameters.value, "transform_type", null)
 

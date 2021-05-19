@@ -13,6 +13,7 @@ resource "aws_ssm_maintenance_window_target" "ssm_maintenance_window_target" {
   dynamic "targets" {
     iterator = targets
     for_each = length(var.ssm_maintenance_window_target_targets) > 0 ? [var.ssm_maintenance_window_target_targets] : []
+
     content {
       key    = lookup(targets.value, "key", null)
       values = lookup(targets.value, "values", null)

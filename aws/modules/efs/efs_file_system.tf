@@ -15,6 +15,7 @@ resource "aws_efs_file_system" "efs_file_system" {
   dynamic "lifecycle_policy" {
     iterator = lifecycle_policy
     for_each = var.efs_file_system_lifecycle_policy
+
     content {
       transition_to_ia = lookup(lifecycle_policy.value, "transition_to_ia", null)
     }

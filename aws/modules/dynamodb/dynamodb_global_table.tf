@@ -9,6 +9,7 @@ resource "aws_dynamodb_global_table" "dynamodb_global_table" {
   dynamic "replica" {
     iterator = replica
     for_each = var.dynamodb_global_table_replica
+
     content {
       region_name = lookup(replica.value, "region_name", null)
     }

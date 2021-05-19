@@ -12,6 +12,7 @@ resource "aws_db_proxy" "db_proxy" {
   dynamic "auth" {
     iterator = auth
     for_each = var.db_proxy_auth
+
     content {
       description = lookup(auth.value, "description", null)
       // username    = lookup(auth.value, "username", null)
@@ -29,6 +30,7 @@ resource "aws_db_proxy" "db_proxy" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.db_proxy_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

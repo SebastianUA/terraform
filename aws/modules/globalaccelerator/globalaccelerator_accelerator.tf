@@ -12,6 +12,7 @@ resource "aws_globalaccelerator_accelerator" "globalaccelerator_accelerator" {
   dynamic "attributes" {
     iterator = attributes
     for_each = var.globalaccelerator_accelerator_attributes
+
     content {
       flow_logs_enabled   = lookup(attributes.value, "flow_logs_enabled", null)
       flow_logs_s3_bucket = lookup(attributes.value, "flow_logs_s3_bucket", null)

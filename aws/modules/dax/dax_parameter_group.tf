@@ -11,6 +11,7 @@ resource "aws_dax_parameter_group" "dax_parameter_group" {
   dynamic "parameters" {
     iterator = parameters
     for_each = var.dax_parameter_group_parameters
+
     content {
       name  = lookup(parameters.value, "name", null)
       value = lookup(parameters.value, "value", null)

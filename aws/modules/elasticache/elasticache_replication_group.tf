@@ -34,7 +34,9 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   notification_topic_arn = var.notification_topic_arn
 
   dynamic "cluster_mode" {
+    iterator = cluster_mode
     for_each = var.cluster_mode
+
     content {
       replicas_per_node_group = lookup(cluster_mode.value, "replicas_per_node_group", null)
       num_node_groups         = lookup(cluster_mode.value, "num_node_groups", null)
@@ -44,6 +46,7 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.elasticache_replication_group_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

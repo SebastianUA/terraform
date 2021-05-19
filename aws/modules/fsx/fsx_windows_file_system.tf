@@ -20,6 +20,7 @@ resource "aws_fsx_windows_file_system" "fsx_windows_file_system" {
   dynamic "self_managed_active_directory" {
     iterator = self_managed_active_directory
     for_each = var.fsx_windows_file_system_self_managed_active_directory
+
     content {
       dns_ips     = lookup(self_managed_active_directory.value, "dns_ips", null)
       domain_name = lookup(self_managed_active_directory.value, "domain_name", null)
@@ -34,6 +35,7 @@ resource "aws_fsx_windows_file_system" "fsx_windows_file_system" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.fsx_windows_file_system_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

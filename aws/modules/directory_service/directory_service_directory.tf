@@ -19,6 +19,7 @@ resource "aws_directory_service_directory" "directory_service_directory" {
   dynamic "vpc_settings" {
     iterator = vpc_settings
     for_each = var.directory_service_directory_vpc_settings
+
     content {
       vpc_id     = lookup(vpc_settings.value, "vpc_id", null)
       subnet_ids = lookup(vpc_settings.value, "subnet_ids", null)
@@ -28,6 +29,7 @@ resource "aws_directory_service_directory" "directory_service_directory" {
   dynamic "connect_settings" {
     iterator = connect_settings
     for_each = var.directory_service_directory_connect_settings
+
     content {
       customer_dns_ips  = lookup(connect_settings.value, "customer_dns_ips", null)
       customer_username = lookup(connect_settings.value, "customer_username", null)

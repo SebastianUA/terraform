@@ -9,6 +9,7 @@ resource "aws_waf_byte_match_set" "waf_byte_match_set" {
   dynamic "byte_match_tuples" {
     iterator = byte_match_tuples
     for_each = var.waf_byte_match_set_byte_match_tuples
+
     content {
       text_transformation   = lookup(byte_match_tuples.value, "text_transformation", null)
       target_string         = lookup(byte_match_tuples.value, "target_string", null)

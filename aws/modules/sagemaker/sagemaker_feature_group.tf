@@ -14,6 +14,7 @@ resource "aws_sagemaker_feature_group" "sagemaker_feature_group" {
   dynamic "feature_definition" {
     iterator = feature_definition
     for_each = var.sagemaker_feature_group_feature_definition
+
     content {
       feature_name = lookup(feature_definition.value, "feature_name", null)
       feature_type = lookup(feature_definition.value, "feature_type", null)
@@ -24,6 +25,7 @@ resource "aws_sagemaker_feature_group" "sagemaker_feature_group" {
     dynamic "s3_storage_config" {
       iterator = s3_storage_config
       for_each = var.sagemaker_feature_group_s3_storage_config
+
       content {
         s3_uri = lookup(s3_storage_config.value, "s3_uri", null)
 
@@ -34,6 +36,7 @@ resource "aws_sagemaker_feature_group" "sagemaker_feature_group" {
     dynamic "data_catalog_config" {
       iterator = data_catalog_config
       for_each = var.sagemaker_feature_group_data_catalog_config
+
       content {
         catalog    = lookup(data_catalog_config.value, "catalog", null)
         database   = lookup(data_catalog_config.value, "database", null)
@@ -47,6 +50,7 @@ resource "aws_sagemaker_feature_group" "sagemaker_feature_group" {
     dynamic "security_config" {
       iterator = security_config
       for_each = var.sagemaker_feature_group_security_config
+
       content {
         kms_key_id = lookup(security_config.value, "kms_key_id", null)
       }

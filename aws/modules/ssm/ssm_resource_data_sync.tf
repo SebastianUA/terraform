@@ -9,6 +9,7 @@ resource "aws_ssm_resource_data_sync" "ssm_resource_data_sync" {
   dynamic "s3_destination" {
     iterator = s3_destination
     for_each = var.ssm_resource_data_sync_s3_destination
+
     content {
       bucket_name = lookup(s3_destination.value, "bucket_name", null)
       region      = lookup(s3_destination.value, "region", null)

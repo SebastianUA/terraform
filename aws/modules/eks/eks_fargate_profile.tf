@@ -12,6 +12,7 @@ resource "aws_eks_fargate_profile" "eks_fargate_profile" {
   dynamic "selector" {
     iterator = selector
     for_each = var.eks_fargate_profile_selector
+
     content {
       namespace = lookup(selector.value, "namespace", null)
 
@@ -22,6 +23,7 @@ resource "aws_eks_fargate_profile" "eks_fargate_profile" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.eks_fargate_profile_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

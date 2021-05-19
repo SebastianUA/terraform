@@ -13,6 +13,7 @@ resource "aws_lambda_function_event_invoke_config" "lambda_function_event_invoke
   dynamic "destination_config" {
     iterator = destination_config
     for_each = var.lambda_function_event_invoke_config_destination_config
+
     content {
       on_failure {
         destination = lookup(destination_config.value, "destination_on_failure", null)
@@ -27,6 +28,7 @@ resource "aws_lambda_function_event_invoke_config" "lambda_function_event_invoke
   dynamic "destination_config" {
     iterator = destination_config
     for_each = var.lambda_function_event_invoke_config_destination_config_on_failure
+
     content {
       on_failure {
         destination = lookup(destination_config.value, "destination", null)
@@ -37,6 +39,7 @@ resource "aws_lambda_function_event_invoke_config" "lambda_function_event_invoke
   dynamic "destination_config" {
     iterator = destination_config
     for_each = var.lambda_function_event_invoke_config_destination_config_on_success
+
     content {
       on_success {
         destination = lookup(destination_config.value, "destination", null)

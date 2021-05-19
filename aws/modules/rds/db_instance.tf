@@ -65,6 +65,7 @@ resource "aws_db_instance" "db_instance" {
   dynamic "s3_import" {
     iterator = s3_import
     for_each = var.db_instance_s3_import
+
     content {
       source_engine         = lookup(s3_import.value, "source_engine", null)
       source_engine_version = lookup(s3_import.value, "source_engine_version", null)
@@ -77,6 +78,7 @@ resource "aws_db_instance" "db_instance" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.db_instance_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

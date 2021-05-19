@@ -12,6 +12,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   dynamic "scaling_config" {
     iterator = scaling_config
     for_each = var.eks_node_group_scaling_config
+
     content {
       max_size     = lookup(scaling_config.value, "max_size", null)
       desired_size = lookup(scaling_config.value, "desired_size", null)
@@ -31,6 +32,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   dynamic "remote_access" {
     iterator = remote_access
     for_each = var.eks_node_group_remote_access
+
     content {
       ec2_ssh_key               = lookup(remote_access.value, "ec2_ssh_key", null)
       source_security_group_ids = lookup(remote_access.value, "source_security_group_ids", null)
@@ -40,6 +42,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   dynamic "launch_template" {
     iterator = launch_template
     for_each = var.eks_node_group_launch_template
+
     content {
       id      = lookup(launch_template.value, "id", null)
       name    = lookup(launch_template.value, "name", null)
@@ -50,6 +53,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.eks_node_group_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

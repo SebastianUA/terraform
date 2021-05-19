@@ -14,6 +14,7 @@ resource "aws_ssm_patch_baseline" "ssm_patch_baseline" {
   dynamic "global_filter" {
     iterator = global_filter
     for_each = var.ssm_patch_baseline_global_filter
+
     content {
       key    = lookup(global_filter.value, "key", null)
       values = lookup(global_filter.value, "values", null)
@@ -23,6 +24,7 @@ resource "aws_ssm_patch_baseline" "ssm_patch_baseline" {
   dynamic "approval_rule" {
     iterator = approval_rule
     for_each = var.ssm_patch_baseline_approval_rule
+
     content {
       approve_after_days  = lookup(approval_rule.value, "approve_after_days", null)
       compliance_level    = lookup(approval_rule.value, "compliance_level", null)

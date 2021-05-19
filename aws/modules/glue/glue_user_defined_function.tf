@@ -15,6 +15,7 @@ resource "aws_glue_user_defined_function" "glue_user_defined_function" {
   dynamic "resource_uris" {
     iterator = resource_uris
     for_each = var.glue_user_defined_function_resource_uris
+
     content {
       resource_type = lookup(resource_uris.value, "resource_type", null)
       uri           = lookup(resource_uris.value, "uri", null)

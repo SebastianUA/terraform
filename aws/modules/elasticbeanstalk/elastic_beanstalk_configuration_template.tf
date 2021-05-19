@@ -12,7 +12,9 @@ resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_confi
   solution_stack_name = var.elastic_beanstalk_configuration_template_solution_stack_name
 
   dynamic "setting" {
+    iterator = setting
     for_each = var.elastic_beanstalk_configuration_template_setting
+
     content {
       name      = lookup(setting.value, "name", null)
       value     = lookup(setting.value, "value", null)

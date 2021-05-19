@@ -10,6 +10,7 @@ resource "aws_config_configuration_recorder" "config_configuration_recorder" {
   dynamic "recording_group" {
     iterator = recording_group
     for_each = var.config_configuration_recorder_recording_group
+
     content {
       all_supported                 = lookup(recording_group.value, "all_supported", null)
       include_global_resource_types = lookup(recording_group.value, "include_global_resource_types", null)

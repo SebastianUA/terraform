@@ -18,6 +18,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
     dynamic "sharing_settings" {
       iterator = sharing_settings
       for_each = var.sagemaker_user_profile_sharing_settings
+
       content {
         notebook_output_option = lookup(sharing_settings.value, "notebook_output_option", null)
         s3_kms_key_id          = lookup(sharing_settings.value, "s3_kms_key_id", null)
@@ -28,6 +29,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
     dynamic "tensor_board_app_settings" {
       iterator = tensor_board_app_settings
       for_each = var.sagemaker_user_profile_tensor_board_app_settings
+
       content {
         default_resource_spec {
           instance_type       = lookup(tensor_board_app_settings.value, "instance_type", null)
@@ -39,6 +41,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
     dynamic "jupyter_server_app_settings" {
       iterator = jupyter_server_app_settings
       for_each = var.sagemaker_user_profile_jupyter_server_app_settings
+
       content {
         default_resource_spec {
           instance_type       = lookup(jupyter_server_app_settings.value, "instance_type", null)
@@ -50,6 +53,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
     dynamic "kernel_gateway_app_settings" {
       iterator = kernel_gateway_app_settings
       for_each = var.sagemaker_user_profile_kernel_gateway_app_settings
+
       content {
         default_resource_spec {
           instance_type       = lookup(kernel_gateway_app_settings.value, "instance_type", null)

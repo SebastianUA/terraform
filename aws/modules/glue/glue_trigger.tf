@@ -15,6 +15,7 @@ resource "aws_glue_trigger" "glue_trigger" {
   dynamic "actions" {
     iterator = actions
     for_each = var.glue_trigger_actions
+
     content {
       arguments = lookup(actions.value, "arguments", null)
       # Both JobName or CrawlerName cannot be set together in an action
@@ -27,6 +28,7 @@ resource "aws_glue_trigger" "glue_trigger" {
   dynamic "predicate" {
     iterator = predicate
     for_each = var.glue_trigger_predicate
+
     content {
       logical = lookup(predicate.value, "logical", "AND")
       conditions {
@@ -42,6 +44,7 @@ resource "aws_glue_trigger" "glue_trigger" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.glue_trigger_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

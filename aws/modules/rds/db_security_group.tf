@@ -8,12 +8,14 @@ resource "aws_db_security_group" "db_security_group" {
   description = var.db_security_group_description != "" ? lower(var.db_security_group_description) : null
 
   dynamic "ingress" {
+    iterator = ingress
     for_each = var.db_security_group_ingress
+
     content {
-      cidr                    = lookup(db_security_group_ingress.value, "cidr", null)
-      security_group_name     = lookup(db_security_group_ingress.value, "security_group_name", null)
-      security_group_id       = lookup(db_security_group_ingress.value, "security_group_id", null)
-      security_group_owner_id = lookup(db_security_group_ingress.value, "security_group_owner_id", null)
+      cidr                    = lookup(ingress.value, "cidr", null)
+      security_group_name     = lookup(ingress.value, "security_group_name", null)
+      security_group_id       = lookup(ingress.value, "security_group_id", null)
+      security_group_owner_id = lookup(ingress.value, "security_group_owner_id", null)
     }
   }
 

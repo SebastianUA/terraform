@@ -16,6 +16,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   dynamic "grant" {
     iterator = grant
     for_each = var.s3_bucket_grant
+
     content {
       type        = lookup(grant.value, "type", null)
       permissions = lookup(grant.value, "permissions", null)
@@ -28,6 +29,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   dynamic "website" {
     iterator = website
     for_each = length(var.s3_bucket_website) > 0 ? [var.s3_bucket_website] : []
+
     content {
       index_document = lookup(website.value, "index_document", null)
 
@@ -40,6 +42,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   dynamic "cors_rule" {
     iterator = cors_rule
     for_each = var.s3_bucket_cors_rule
+
     content {
       allowed_methods = lookup(cors_rule.value, "allowed_methods", null)
       allowed_origins = lookup(cors_rule.value, "allowed_origins", null)
@@ -63,6 +66,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   dynamic "logging" {
     iterator = logging
     for_each = length(var.s3_bucket_logging) > 0 ? [var.s3_bucket_logging] : []
+
     content {
       target_bucket = lookup(logging.value, "target_bucket", null)
 

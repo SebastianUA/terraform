@@ -9,7 +9,9 @@ resource "aws_elasticache_parameter_group" "elasticache_parameter_group" {
   family      = var.elasticache_parameter_group_family[var.engine]
 
   dynamic "parameter" {
+    iterator = parameter
     for_each = var.parameter
+
     content {
       name  = lookup(parameter.value, "name", null)
       value = lookup(parameter.value, "value", null)

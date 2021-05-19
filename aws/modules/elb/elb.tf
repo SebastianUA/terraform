@@ -18,6 +18,7 @@ resource "aws_elb" "elb" {
   dynamic "access_logs" {
     iterator = access_logs
     for_each = var.elb_access_logs
+
     content {
       bucket        = lookup(access_logs.value, "bucket", null)
       bucket_prefix = lookup(access_logs.value, "bucket_prefix", null)
@@ -29,6 +30,7 @@ resource "aws_elb" "elb" {
   dynamic "listener" {
     iterator = listener
     for_each = var.elb_listener
+
     content {
       instance_port      = lookup(listener.value, "instance_port", null)
       instance_protocol  = lookup(listener.value, "instance_protocol", null)
@@ -41,6 +43,7 @@ resource "aws_elb" "elb" {
   dynamic "health_check" {
     iterator = health_check
     for_each = var.elb_health_check
+
     content {
       healthy_threshold   = lookup(health_check.value, "healthy_threshold", null)
       unhealthy_threshold = lookup(health_check.value, "unhealthy_threshold", null)

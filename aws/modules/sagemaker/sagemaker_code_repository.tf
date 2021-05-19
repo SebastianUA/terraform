@@ -9,6 +9,7 @@ resource "aws_sagemaker_code_repository" "sagemaker_code_repository" {
   dynamic "git_config" {
     iterator = git_config
     for_each = var.sagemaker_code_repository_git_config
+
     content {
       repository_url = lookup(git_config.value, "repository_url", null)
 

@@ -25,6 +25,7 @@ resource "aws_lambda_function" "lambda_function" {
   dynamic "dead_letter_config" {
     iterator = dead_letter_config
     for_each = var.lambda_function_dead_letter_config
+
     content {
       target_arn = lookup(dead_letter_config.value, "target_arn", null)
     }
@@ -33,6 +34,7 @@ resource "aws_lambda_function" "lambda_function" {
   dynamic "tracing_config" {
     iterator = tracing_config
     for_each = var.lambda_function_tracing_config
+
     content {
       mode = lookup(tracing_config.value, "mode", null)
     }
@@ -41,6 +43,7 @@ resource "aws_lambda_function" "lambda_function" {
   dynamic "vpc_config" {
     iterator = vpc_config
     for_each = var.lambda_function_vpc_config
+
     content {
       subnet_ids         = lookup(vpc_config.value, "subnet_ids", null)
       security_group_ids = lookup(vpc_config.value, "security_group_ids", null)
@@ -49,6 +52,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   dynamic "environment" {
     for_each = var.lambda_function_environment == null ? [] : [var.lambda_function_environment]
+
     content {
       variables = var.lambda_function_environment
     }
@@ -57,6 +61,7 @@ resource "aws_lambda_function" "lambda_function" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.lambda_function_timeouts
+
     content {
       create = lookup(timeouts.value, "create", "10m")
     }

@@ -13,6 +13,7 @@ resource "aws_route53_zone" "route53_zone" {
   dynamic "vpc" {
     iterator = vpc
     for_each = var.route53_zone_vpc
+
     content {
       vpc_id     = lookup(vpc.value, "vpc_id", null)
       vpc_region = lookup(vpc.value, "vpc_region", null)

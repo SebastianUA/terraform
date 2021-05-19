@@ -12,6 +12,7 @@ resource "aws_elastictranscoder_preset" "elastictranscoder_preset" {
   dynamic "audio" {
     iterator = audio
     for_each = var.elastictranscoder_preset_audio
+
     content {
       audio_packing_mode = lookup(audio.value, "audio_packing_mode", null)
       bit_rate           = lookup(audio.value, "bit_rate", null)
@@ -24,6 +25,7 @@ resource "aws_elastictranscoder_preset" "elastictranscoder_preset" {
   dynamic "audio_codec_options" {
     iterator = audio_codec_options
     for_each = var.elastictranscoder_preset_audio_codec_options
+
     content {
       profile   = lookup(audio_codec_options.value, "profile", null)
       bit_depth = lookup(audio_codec_options.value, "bit_depth", null)
@@ -35,6 +37,7 @@ resource "aws_elastictranscoder_preset" "elastictranscoder_preset" {
   dynamic "thumbnails" {
     iterator = thumbnails
     for_each = var.elastictranscoder_preset_thumbnails
+
     content {
       format         = lookup(thumbnails.value, "format", null)
       interval       = lookup(thumbnails.value, "interval", null)
@@ -48,6 +51,7 @@ resource "aws_elastictranscoder_preset" "elastictranscoder_preset" {
   dynamic "video" {
     iterator = video
     for_each = var.elastictranscoder_preset_video
+
     content {
       aspect_ratio         = lookup(video.value, "aspect_ratio", null)
       bit_rate             = lookup(video.value, "bit_rate", null)
@@ -68,6 +72,7 @@ resource "aws_elastictranscoder_preset" "elastictranscoder_preset" {
   dynamic "video_watermarks" {
     iterator = video_watermarks
     for_each = var.elastictranscoder_preset_video_watermarks
+
     content {
       id                = lookup(video_watermarks.value, "id", null)
       max_width         = lookup(video_watermarks.value, "max_width", null)

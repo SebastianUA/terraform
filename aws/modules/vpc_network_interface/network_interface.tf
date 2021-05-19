@@ -15,6 +15,7 @@ resource "aws_network_interface" "network_interface" {
   dynamic "attachment" {
     iterator = attachment
     for_each = var.network_interface_attachment
+
     content {
       instance     = lookup(attachment.value, "instance", null)
       device_index = lookup(attachment.value, "device_index", null)

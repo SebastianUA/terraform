@@ -11,6 +11,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
   dynamic "schedule" {
     iterator = schedule
     for_each = var.s3_bucket_inventory_schedule
+
     content {
       frequency = lookup(schedule.value, "prefix", null)
     }
@@ -20,6 +21,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
     dynamic "bucket" {
       iterator = bucket
       for_each = var.s3_bucket_inventory_destination_bucket
+
       content {
         format     = lookup(bucket.value, "format", null)
         bucket_arn = lookup(bucket.value, "bucket_arn", null)
@@ -44,6 +46,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
   dynamic "filter" {
     iterator = filter
     for_each = var.s3_bucket_inventory_filter
+
     content {
       prefix = lookup(filter.value, "prefix", null)
     }

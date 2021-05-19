@@ -11,6 +11,7 @@ resource "aws_sagemaker_app_image_config" "sagemaker_app_image_config" {
     dynamic "kernel_spec" {
       iterator = kernel_spec
       for_each = var.sagemaker_app_image_config_kernel_spec
+
       content {
         name = lookup(kernel_spec.value, "name", null)
 
@@ -21,6 +22,7 @@ resource "aws_sagemaker_app_image_config" "sagemaker_app_image_config" {
     dynamic "file_system_config" {
       iterator = file_system_config
       for_each = var.sagemaker_app_image_config_file_system_config
+
       content {
         default_gid = lookup(file_system_config.value, "default_gid", null)
         default_uid = lookup(file_system_config.value, "default_uid", null)

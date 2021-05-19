@@ -10,6 +10,7 @@ resource "aws_s3_bucket_metric" "s3_bucket_metric" {
   dynamic "filter" {
     iterator = filter
     for_each = var.s3_bucket_metric_filter
+
     content {
       prefix = lookup(filter.value, "prefix", null)
       tags   = lookup(filter.value, "tags", null)

@@ -10,6 +10,7 @@ resource "aws_s3_bucket_analytics_configuration" "s3_bucket_analytics_configurat
   dynamic "filter" {
     iterator = filter
     for_each = var.s3_bucket_analytics_configuration_filter
+
     content {
       prefix = lookup(filter.value, "prefix", null)
       tags   = lookup(filter.value, "tags", null)
@@ -24,6 +25,7 @@ resource "aws_s3_bucket_analytics_configuration" "s3_bucket_analytics_configurat
         dynamic "s3_bucket_destination" {
           iterator = s3_bucket_destination
           for_each = var.s3_bucket_analytics_configuration_destination_s3_bucket_destination
+
           content {
             bucket_arn = lookup(s3_bucket_destination.value, "bucket_arn", null)
 

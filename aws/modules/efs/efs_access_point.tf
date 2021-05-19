@@ -9,6 +9,7 @@ resource "aws_efs_access_point" "efs_access_point" {
   dynamic "posix_user" {
     iterator = posix_user
     for_each = var.efs_access_point_posix_user
+
     content {
       gid = lookup(posix_user.value, "gid", null)
       uid = lookup(posix_user.value, "uid", null)
@@ -20,13 +21,19 @@ resource "aws_efs_access_point" "efs_access_point" {
   dynamic "root_directory" {
     iterator = root_directory
     for_each = var.efs_access_point_root_directory
+
     content {
       path = lookup(root_directory.value, "path", null)
 
-      creation_info {
-        owner_gid   = lookup(root_directory.value, "owner_gid", null)
-        owner_uid   = lookup(root_directory.value, "owner_uid", null)
-        permissions = lookup(root_directory.value, "permissions", null)
+      dynamic "creation_info" {
+        iterator = creation_info
+        for_each = length(keys(lookup(root_directory.value, "creation_info", {}))) > 0 ? [lookup(root_directory.value, "creation_info", {})] : []
+
+        content {
+          owner_gid   = lookup(creation_info.value, "owner_gid", null)
+          owner_uid   = lookup(creation_info.value, "owner_uid", null)
+          permissions = lookup(creation_info.value, "permissions", null)
+        }
       }
 
     }

@@ -9,6 +9,7 @@ resource "aws_waf_xss_match_set" "waf_xss_match_set" {
   dynamic "xss_match_tuples" {
     iterator = xss_match_tuples
     for_each = var.waf_xss_match_set_xss_match_tuples
+
     content {
       text_transformation = lookup(xss_match_tuples.value, "text_transformation", null)
 

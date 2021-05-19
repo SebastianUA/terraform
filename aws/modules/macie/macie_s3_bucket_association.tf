@@ -12,6 +12,7 @@ resource "aws_macie_s3_bucket_association" "macie_s3_bucket_association" {
   dynamic "classification_type" {
     iterator = classification_type
     for_each = var.macie_s3_bucket_association_classification_type
+
     content {
       continuous = lookup(classification_type.value, "continuous", "FULL")
       one_time   = lookup(classification_type.value, "one_time", "NONE")

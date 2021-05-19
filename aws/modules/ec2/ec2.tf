@@ -42,6 +42,7 @@ resource "aws_instance" "instance" {
   dynamic "ebs_block_device" {
     iterator = ebs_block_device
     for_each = var.ebs_block_device
+
     content {
       delete_on_termination = lookup(ebs_block_device.value, "delete_on_termination", null)
       device_name           = lookup(ebs_block_device.value, "device_name", null)
@@ -57,6 +58,7 @@ resource "aws_instance" "instance" {
   dynamic "ephemeral_block_device" {
     iterator = ephemeral_block_device
     for_each = var.ephemeral_block_device
+
     content {
       device_name  = ephemeral_block_device.value.device_name
       virtual_name = ephemeral_block_device.value.virtual_name
@@ -66,6 +68,7 @@ resource "aws_instance" "instance" {
   dynamic "root_block_device" {
     iterator = root_block_device
     for_each = var.root_block_device
+
     content {
       delete_on_termination = lookup(root_block_device.value, "delete_on_termination", null)
       iops                  = lookup(root_block_device.value, "iops", null)
@@ -78,6 +81,7 @@ resource "aws_instance" "instance" {
   dynamic "network_interface" {
     iterator = network_interface
     for_each = var.network_interface
+
     content {
       device_index          = lookup(network_interface.value, "device_index", null)
       network_interface_id  = lookup(network_interface.value, "network_interface_id", null)
@@ -95,6 +99,7 @@ resource "aws_instance" "instance" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.instance_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

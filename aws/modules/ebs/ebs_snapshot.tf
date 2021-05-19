@@ -10,6 +10,7 @@ resource "aws_ebs_snapshot" "ebs_snapshot" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.ebs_snapshot_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

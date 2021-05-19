@@ -14,6 +14,7 @@ resource "aws_db_option_group" "db_option_group" {
   dynamic "option" {
     iterator = option
     for_each = var.db_option_group_options
+
     content {
       option_name = lookup(timeouts.value, "option_name", null)
 
@@ -22,9 +23,14 @@ resource "aws_db_option_group" "db_option_group" {
       db_security_group_memberships  = lookup(timeouts.value, "db_security_group_memberships", null)
       vpc_security_group_memberships = lookup(timeouts.value, "vpc_security_group_memberships", null)
 
-      option_settings {
-        name  = lookup(timeouts.value, "name", null)
-        value = lookup(timeouts.value, "value", null)
+      dynamic "option_settings" {
+        iterator = option_settings
+        for_each = length(keys(lookup(option.value, "option_settings", {}))) > 0 ? [lookup(option.value, "option_settings", {})] : []
+
+        content {
+          name  = lookup(option_settings.value, "name", null)
+          value = lookup(option_settings.value, "value", null)
+        }
       }
     }
   }
@@ -32,6 +38,7 @@ resource "aws_db_option_group" "db_option_group" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.db_option_group_timeouts
+
     content {
       delete = lookup(timeouts.value, "delete", null)
     }

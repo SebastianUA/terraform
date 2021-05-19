@@ -17,6 +17,7 @@ resource "aws_codebuild_project" "codebuild_project" {
   dynamic "artifacts" {
     iterator = artifacts
     for_each = var.codebuild_project_artifacts
+
     content {
       type = lookup(artifacts.value, "type", null)
 
@@ -34,6 +35,7 @@ resource "aws_codebuild_project" "codebuild_project" {
   dynamic "source" {
     iterator = source
     for_each = length(var.codebuild_project_source) > 0 ? [var.codebuild_project_source] : []
+
     content {
       type = lookup(source.value, "type", null)
 
@@ -46,6 +48,7 @@ resource "aws_codebuild_project" "codebuild_project" {
       dynamic "auth" {
         iterator = auth
         for_each = length(keys(lookup(source.value, "auth", {}))) > 0 ? [lookup(source.value, "auth", {})] : []
+
         content {
           type     = lookup(auth.value, "type", null)
           resource = lookup(auth.value, "resource", null)
@@ -55,6 +58,7 @@ resource "aws_codebuild_project" "codebuild_project" {
       dynamic "git_submodules_config" {
         iterator = git_submodules_config
         for_each = length(keys(lookup(source.value, "git_submodules_config", {}))) > 0 ? [lookup(source.value, "git_submodules_config", {})] : []
+
         content {
           fetch_submodules = lookup(git_submodules_config.value, "fetch_submodules", null)
         }
@@ -153,6 +157,7 @@ resource "aws_codebuild_project" "codebuild_project" {
   dynamic "secondary_artifacts" {
     iterator = secartifacts
     for_each = var.codebuild_project_secondary_artifacts
+
     content {
       type                = lookup(secartifacts.value, "type", null)
       artifact_identifier = lookup(secartifacts.value, "artifact_identifier", null)

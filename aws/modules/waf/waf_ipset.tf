@@ -9,6 +9,7 @@ resource "aws_waf_ipset" "waf_ipset" {
   dynamic "ip_set_descriptors" {
     iterator = ip_set_descriptors
     for_each = length(var.waf_ipset_ip_set_descriptors) > 0 ? [var.waf_ipset_ip_set_descriptors] : []
+
     content {
       type  = lookup(ip_set_descriptors.value, "type", null)
       value = lookup(ip_set_descriptors.value, "value", null)

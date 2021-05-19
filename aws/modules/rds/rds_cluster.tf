@@ -48,7 +48,9 @@ resource "aws_rds_cluster" "rds_cluster" {
   dynamic "scaling_configuration" {
     # for_each = var.engine_mode == "serverless" ? var.scaling_configuration : 0
     # for_each = var.engine_mode == "serverless" ? var.scaling_configuration : null
+    iterator = scaling_configuration
     for_each = var.rds_cluster_scaling_configuration
+
     content {
       auto_pause               = lookup(scaling_configuration.value, "auto_pause", null)
       max_capacity             = lookup(scaling_configuration.value, "max_capacity", null)
@@ -60,19 +62,22 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   dynamic "s3_import" {
     #for_each = var.engine_mode == "serverless" ? var.s3_import : 0
+    iterator = s3_import
     for_each = var.rds_cluster_s3_import
+
     content {
-      source_engine         = lookup(scaling_configuration.value, "source_engine", null)
-      source_engine_version = lookup(scaling_configuration.value, "source_engine_version", null)
-      bucket_name           = lookup(scaling_configuration.value, "bucket_name", null)
-      bucket_prefix         = lookup(scaling_configuration.value, "bucket_prefix", null)
-      ingestion_role        = lookup(scaling_configuration.value, "ingestion_role", null)
+      source_engine         = lookup(s3_import.value, "source_engine", null)
+      source_engine_version = lookup(s3_import.value, "source_engine_version", null)
+      bucket_name           = lookup(s3_import.value, "bucket_name", null)
+      bucket_prefix         = lookup(s3_import.value, "bucket_prefix", null)
+      ingestion_role        = lookup(s3_import.value, "ingestion_role", null)
     }
   }
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.rds_cluster_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

@@ -25,6 +25,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "capacity_provider_strategy" {
     iterator = capacity_provider_strategy
     for_each = var.ecs_service_capacity_provider_strategy
+
     content {
       capacity_provider = lookup(capacity_provider_strategy.value, "capacity_provider", null)
       weight            = lookup(capacity_provider_strategy.value, "weight", null)
@@ -36,6 +37,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "deployment_controller" {
     iterator = deployment_controller
     for_each = var.ecs_service_deployment_controller
+
     content {
       type = lookup(deployment_controller.value, "type", null)
     }
@@ -44,6 +46,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "network_configuration" {
     iterator = network_configuration
     for_each = var.ecs_service_network_configuration
+
     content {
       subnets = lookup(network_configuration.value, "subnets", null)
 
@@ -55,6 +58,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "load_balancer" {
     iterator = load_balancer
     for_each = var.ecs_service_load_balancer
+
     content {
       container_name   = lookup(load_balancer.value, "container_name", "${lower(var.name)}-lb-container-${lower(var.environment)}")
       elb_name         = lookup(load_balancer.value, "elb_name", null)
@@ -66,6 +70,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "service_registries" {
     iterator = service_registries
     for_each = var.ecs_service_service_registries
+
     content {
       registry_arn = lookup(service_registries.value, "registry_arn", null)
 
@@ -78,6 +83,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "ordered_placement_strategy" {
     iterator = ordered_placement_strategy
     for_each = var.ecs_service_ordered_placement_strategy
+
     content {
       type = lookup(ordered_placement_strategy.value, "type", null)
 
@@ -88,6 +94,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "placement_constraints" {
     iterator = placement_constraints
     for_each = var.ecs_service_placement_constraints
+
     content {
       type = lookup(placement_constraints.value, "type", null)
 

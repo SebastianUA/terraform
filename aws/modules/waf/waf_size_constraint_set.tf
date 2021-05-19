@@ -9,6 +9,7 @@ resource "aws_waf_size_constraint_set" "waf_size_constraint_set" {
   dynamic "size_constraints" {
     iterator = size_constraints
     for_each = var.waf_size_constraint_set_size_constraints
+
     content {
       field_to_match {
         type = lookup(size_constraints.value, "type", null)

@@ -9,6 +9,7 @@ resource "aws_waf_sql_injection_match_set" "waf_sql_injection_match_set" {
   dynamic "sql_injection_match_tuples" {
     iterator = sql_injection_match_tuples
     for_each = var.sql_injection_match_tuples
+
     content {
       text_transformation = lookup(sql_injection_match_tuples.value, "text_transformation", null)
 

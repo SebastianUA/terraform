@@ -17,6 +17,7 @@ resource "aws_globalaccelerator_endpoint_group" "globalaccelerator_endpoint_grou
   dynamic "endpoint_configuration" {
     iterator = endpoint_configuration
     for_each = var.globalaccelerator_endpoint_group_endpoint_configuration
+
     content {
       endpoint_id = lookup(endpoint_configuration.value, "endpoint_id", null)
       weight      = lookup(endpoint_configuration.value, "weight", null)

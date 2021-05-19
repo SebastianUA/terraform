@@ -9,6 +9,7 @@ resource "aws_waf_geo_match_set" "waf_geo_match_set" {
   dynamic "geo_match_constraint" {
     iterator = geo_match_constraint
     for_each = var.waf_geo_match_set_geo_match_constraint
+
     content {
       type  = lookup(geo_match_constraint.value, "type", null)
       value = lookup(geo_match_constraint.value, "value", null)

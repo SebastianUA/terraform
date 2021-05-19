@@ -14,6 +14,7 @@ resource "aws_ssm_document" "ssm_document" {
   dynamic "attachments_source" {
     iterator = attachments_source
     for_each = var.ssm_document_attachments_source
+
     content {
       key    = lookup(attachments_source.value, "key", null)
       values = lookup(attachments_source.value, "values", null)

@@ -10,7 +10,9 @@ resource "aws_db_parameter_group" "db_parameter_group" {
   family      = var.db_parameter_group_family != "" ? var.db_parameter_group_family : lookup(var.db_group_family, var.db_instance_engine)
 
   dynamic "parameter" {
+    iterator = parameter
     for_each = var.db_parameter_group_parameters
+
     content {
       name         = lookup(parameter.value, "name", null)
       value        = lookup(parameter.value, "value", null)

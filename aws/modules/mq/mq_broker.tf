@@ -17,7 +17,9 @@ resource "aws_mq_broker" "mq_broker" {
   publicly_accessible        = var.publicly_accessible
 
   dynamic "configuration" {
+    iterator = configuration
     for_each = var.configuration
+
     content {
       id       = lookup(configuration.value, "id", element(concat(aws_mq_configuration.mq_configuration.*.id, [""]), 0))
       revision = lookup(configuration.value, "revision", element(concat(aws_mq_configuration.mq_configuration.*.latest_revision, [""]), 0))
@@ -25,7 +27,9 @@ resource "aws_mq_broker" "mq_broker" {
   }
 
   dynamic "encryption_options" {
+    iterator = encryption_options
     for_each = var.encryption_options
+
     content {
       kms_key_id        = lookup(encryption_options.value, "kms_key_id", null)
       use_aws_owned_key = lookup(encryption_options.value, "use_aws_owned_key", null)
@@ -33,7 +37,9 @@ resource "aws_mq_broker" "mq_broker" {
   }
 
   dynamic "maintenance_window_start_time" {
+    iterator = maintenance_window_start_time
     for_each = var.maintenance_window_start_time
+
     content {
       day_of_week = lookup(maintenance_window_start_time.value, "day_of_week", null)
       time_of_day = lookup(maintenance_window_start_time.value, "time_of_day", null)
@@ -42,7 +48,9 @@ resource "aws_mq_broker" "mq_broker" {
   }
 
   dynamic "logs" {
+    iterator = logs
     for_each = var.logs
+
     content {
       general = lookup(logs.value, "general", null)
       audit   = lookup(logs.value, "audit", null)
@@ -50,7 +58,9 @@ resource "aws_mq_broker" "mq_broker" {
   }
 
   dynamic "user" {
+    iterator = user
     for_each = var.user
+
     content {
       console_access = lookup(user.value, "console_access", null)
       groups         = lookup(user.value, "groups", null)

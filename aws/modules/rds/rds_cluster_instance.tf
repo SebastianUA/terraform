@@ -35,6 +35,7 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.rds_cluster_instance_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

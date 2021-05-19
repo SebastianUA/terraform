@@ -15,6 +15,7 @@ resource "aws_transfer_server" "transfer_server" {
   dynamic "endpoint_details" {
     iterator = endpoint_details
     for_each = var.transfer_server_endpoint_details
+
     content {
       vpc_endpoint_id = lookup(endpoint_details.value, "vpc_endpoint_id", null)
     }

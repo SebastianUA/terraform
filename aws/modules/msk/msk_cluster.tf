@@ -11,6 +11,7 @@ resource "aws_msk_cluster" "msk_cluster" {
   dynamic "broker_node_group_info" {
     iterator = broker_node_group_info
     for_each = var.msk_cluster_broker_node_group_info
+
     content {
       instance_type   = lookup(broker_node_group_info.value, "instance_type", null)
       ebs_volume_size = lookup(broker_node_group_info.value, "ebs_volume_size", null)
@@ -25,8 +26,10 @@ resource "aws_msk_cluster" "msk_cluster" {
   dynamic "encryption_info" {
     iterator = encryption_info
     for_each = var.msk_cluster_encryption_info
+
     content {
       encryption_at_rest_kms_key_arn = lookup(encryption_info.value, "encryption_at_rest_kms_key_arn", null)
+
       encryption_in_transit {
         client_broker = lookup(encryption_info.value, "client_broker", null)
         in_cluster    = lookup(encryption_info.value, "in_cluster", null)
@@ -37,6 +40,7 @@ resource "aws_msk_cluster" "msk_cluster" {
   dynamic "client_authentication" {
     iterator = client_authentication
     for_each = var.msk_cluster_client_authentication
+
     content {
       tls {
         certificate_authority_arns = lookup(client_authentication.value, "certificate_authority_arns", null)
@@ -51,6 +55,7 @@ resource "aws_msk_cluster" "msk_cluster" {
   dynamic "configuration_info" {
     iterator = configuration_info
     for_each = var.msk_cluster_configuration_info
+
     content {
       arn      = lookup(configuration_info.value, "arn", null)
       revision = lookup(configuration_info.value, "revision", null)
@@ -60,6 +65,7 @@ resource "aws_msk_cluster" "msk_cluster" {
   dynamic "open_monitoring" {
     iterator = open_monitoring
     for_each = var.msk_cluster_open_monitoring
+
     content {
       prometheus {
         jmx_exporter {
@@ -79,6 +85,7 @@ resource "aws_msk_cluster" "msk_cluster" {
       dynamic "cloudwatch_logs" {
         iterator = cloudwatch_logs
         for_each = var.msk_cluster_logging_info_broker_logs_cloudwatch_logs
+
         content {
           enabled   = null
           log_group = null
@@ -88,6 +95,7 @@ resource "aws_msk_cluster" "msk_cluster" {
       dynamic "firehose" {
         iterator = firehose
         for_each = var.msk_cluster_logging_info_broker_logs_firehose
+
         content {
           enabled         = null
           delivery_stream = null
@@ -97,6 +105,7 @@ resource "aws_msk_cluster" "msk_cluster" {
       dynamic "s3" {
         iterator = s3
         for_each = var.msk_cluster_logging_info_broker_logs_s3
+
         content {
           enabled = null
           bucket  = null

@@ -21,6 +21,7 @@ resource "aws_glue_job" "glue_job" {
   dynamic "command" {
     iterator = command
     for_each = var.glue_job_command
+
     content {
       script_location = lookup(command.value, "script_location", null)
 
@@ -32,6 +33,7 @@ resource "aws_glue_job" "glue_job" {
   dynamic "execution_property" {
     iterator = execution_property
     for_each = var.glue_job_execution_property
+
     content {
       max_concurrent_runs = lookup(execution_property.value, "max_concurrent_runs", 1)
     }
@@ -40,6 +42,7 @@ resource "aws_glue_job" "glue_job" {
   dynamic "notification_property" {
     iterator = notification_property
     for_each = var.glue_job_notification_property
+
     content {
       notify_delay_after = lookup(notification_property.value, "notify_delay_after", null)
     }

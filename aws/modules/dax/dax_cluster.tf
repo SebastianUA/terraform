@@ -20,6 +20,7 @@ resource "aws_dax_cluster" "dax_cluster" {
   dynamic "server_side_encryption" {
     iterator = serversideenc
     for_each = var.dax_cluster_server_side_encryption
+
     content {
       enabled = lookup(serversideenc.value, "enabled", false)
     }
@@ -28,6 +29,7 @@ resource "aws_dax_cluster" "dax_cluster" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.dax_cluster_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

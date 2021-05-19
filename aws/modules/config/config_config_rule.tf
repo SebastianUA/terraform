@@ -12,6 +12,7 @@ resource "aws_config_config_rule" "config_config_rule" {
   dynamic "source" {
     iterator = source
     for_each = var.config_config_rule_source
+
     content {
       owner             = lookup(source.value, "owner", "AWS")
       source_identifier = lookup(source.value, "source_identifier", "S3_BUCKET_VERSIONING_ENABLED")
@@ -21,6 +22,7 @@ resource "aws_config_config_rule" "config_config_rule" {
   dynamic "scope" {
     iterator = scope
     for_each = var.config_config_rule_scope
+
     content {
       compliance_resource_id    = lookup(scope.value, "compliance_resource_id", null)
       compliance_resource_types = lookup(scope.value, "compliance_resource_types", null)

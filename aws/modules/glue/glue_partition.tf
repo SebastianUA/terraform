@@ -24,6 +24,7 @@ resource "aws_glue_partition" "glue_partition" {
     dynamic "columns" {
       iterator = columns
       for_each = var.glue_partition_storage_descriptor_columns
+
       content {
         name = lookup(columns.value, "name", null)
 
@@ -35,6 +36,7 @@ resource "aws_glue_partition" "glue_partition" {
     dynamic "ser_de_info" {
       iterator = ser_de_info
       for_each = var.glue_partition_storage_descriptor_ser_de_info
+
       content {
         name = lookup(ser_de_info.value, "name", null)
 
@@ -46,6 +48,7 @@ resource "aws_glue_partition" "glue_partition" {
     dynamic "sort_columns" {
       iterator = sort_columns
       for_each = var.glue_partition_storage_descriptor_sort_columns
+
       content {
         column     = lookup(sort_columns.value, "column", null)
         sort_order = lookup(sort_columns.value, "sort_order", null)
@@ -55,6 +58,7 @@ resource "aws_glue_partition" "glue_partition" {
     dynamic "skewed_info" {
       iterator = skewed_info
       for_each = var.glue_partition_storage_descriptor_skewed_info
+
       content {
         skewed_column_names               = lookup(skewed_info.value, "skewed_column_names", null)
         skewed_column_value_location_maps = lookup(skewed_info.value, "skewed_column_value_location_maps", null)
