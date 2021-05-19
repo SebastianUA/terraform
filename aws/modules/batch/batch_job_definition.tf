@@ -13,6 +13,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
   dynamic "retry_strategy" {
     iterator = retry_strategy
     for_each = var.batch_job_definition_retry_strategy
+
     content {
       attempts = lookup(retry_strategy.value, "attempts", null)
     }
@@ -21,6 +22,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
   dynamic "timeout" {
     iterator = timeout
     for_each = var.batch_job_definition_timeout
+
     content {
       attempt_duration_seconds = lookup(timeout.value, "attempt_duration_seconds", null)
     }

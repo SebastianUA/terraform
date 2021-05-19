@@ -19,6 +19,7 @@ resource "aws_budgets_budget" "budgets_budget" {
   dynamic "cost_types" {
     iterator = cost_types
     for_each = var.budgets_budget_cost_types
+
     content {
       include_credit             = lookup(cost_types.value, "include_credit", true)
       include_discount           = lookup(cost_types.value, "include_discount", true)
@@ -37,6 +38,7 @@ resource "aws_budgets_budget" "budgets_budget" {
   dynamic "notification" {
     iterator = notification
     for_each = var.budgets_budget_notification
+
     content {
       comparison_operator = lookup(notification.value, "comparison_operator", "GREATER_THAN")
       threshold           = lookup(notification.value, "threshold", 100)

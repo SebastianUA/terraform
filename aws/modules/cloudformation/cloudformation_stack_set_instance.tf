@@ -14,6 +14,7 @@ resource "aws_cloudformation_stack_set_instance" "cloudformation_stack_set_insta
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.cloudformation_stack_set_instance_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

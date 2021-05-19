@@ -14,6 +14,7 @@ resource "aws_batch_compute_environment" "batch_compute_environment" {
   dynamic "compute_resources" {
     iterator = compute_resources
     for_each = var.batch_compute_environment_compute_resources
+
     content {
       instance_role      = lookup(compute_resources.value, "instance_role", null)
       instance_type      = lookup(compute_resources.value, "instance_type", null)
@@ -31,10 +32,15 @@ resource "aws_batch_compute_environment" "batch_compute_environment" {
       spot_iam_fleet_role = lookup(compute_resources.value, "spot_iam_fleet_role", null)
       tags                = lookup(compute_resources.value, "tags", null)
 
-      launch_template {
-        launch_template_id   = lookup(compute_resources.value, "launch_template_id", null)
-        launch_template_name = lookup(compute_resources.value, "launch_template_name", null)
-        version              = lookup(compute_resources.value, "version", null)
+      dynamic "launch_template" {
+        iterator = lt
+        for_each = length(keys(lookup(compute_resources.value, "launch_template", {}))) > 0 ? [lookup(compute_resources.value, "launch_template", {})] : []
+
+        content {
+          launch_template_id   = lookup(lt.value, "launch_template_id", null)
+          launch_template_name = lookup(lt.value, "launch_template_name", null)
+          version              = lookup(lt.value, "version", null)
+        }
       }
     }
   }

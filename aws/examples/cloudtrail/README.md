@@ -25,29 +25,26 @@ provider "aws" {
 module "s3" {
   source      = "../../modules/s3"
   name        = "TEST"
-  environment = "NonPROD"
+  environment = "dev"
 
-  enable_s3_bucket    = true
-  s3_bucket_name      = "test-bucket"
-  s3_bucket_acl       = "private"
-  s3_bucket_cors_rule = []
+  # AWS S3 bucket
+  enable_s3_bucket = true
+  s3_bucket_name   = "natarov-test-bucket1"
+  s3_bucket_acl    = "private"
 
-  s3_bucket_versioning  = []
-  enable_lifecycle_rule = true
-
-  # Add policy to the bucket
-  enable_s3_bucket_policy = false
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 }
 
 module "cloudtrail" {
-  source            = "../../modules/cloudtrail"
+  source = "../../modules/cloudtrail"
+
   enable_cloudtrail = true
   cloudtrail_name   = "cloudtrail_name"
 
-  s3_bucket_name = module.s3.s3_bucket_id
-  s3_key_prefix  = "prefix"
+  cloudtrail_s3_bucket_name = module.s3.s3_bucket_id
+  cloudtrail_s3_key_prefix  = "prefix"
 
-  include_global_service_events = false
+  cloudtrail_include_global_service_events = false
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 
@@ -55,21 +52,25 @@ module "cloudtrail" {
 
 # Logging All Lambda Function Invocations
 module "cloudtrail_event_selector_lambda" {
-  source                           = "../../modules/cloudtrail"
-  enable_cloudtrail                = true
-  enable_cloudtrail_event_selector = true
-  cloudtrail_name                  = "cloudtrail_event_selector_lambda"
+  source = "../../modules/cloudtrail"
 
-  s3_bucket_name = module.s3.s3_bucket_id
-  s3_key_prefix  = "prefix"
+  enable_cloudtrail = true
+  cloudtrail_name   = "cloudtrail_event_selector_lambda"
 
-  include_global_service_events = false
+  cloudtrail_s3_bucket_name = module.s3.s3_bucket_id
+  cloudtrail_s3_key_prefix  = "prefix"
 
-  event_selector_read_write_type           = "All"
-  event_selector_include_management_events = true
+  cloudtrail_include_global_service_events = false
 
-  event_selector_data_resource_type   = "AWS::Lambda::Function"
-  event_selector_data_resource_values = ["arn:aws:lambda"]
+  cloudtrail_event_selector = [{
+    read_write_type           = "All"
+    include_management_events = true
+
+    data_resource = {
+      type   = "AWS::Lambda::Function"
+      values = ["arn:aws:lambda"]
+    }
+  }]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 
@@ -77,26 +78,30 @@ module "cloudtrail_event_selector_lambda" {
 
 # Logging All S3 Bucket Object Events
 module "cloudtrail_event_selector_s3" {
-  source                           = "../../modules/cloudtrail"
-  enable_cloudtrail                = true
-  enable_cloudtrail_event_selector = true
-  cloudtrail_name                  = "cloudtrail_event_selector_s3"
+  source = "../../modules/cloudtrail"
 
-  s3_bucket_name = module.s3.s3_bucket_id
-  s3_key_prefix  = "prefix"
 
-  include_global_service_events = false
+  enable_cloudtrail = true
+  cloudtrail_name   = "cloudtrail_event_selector_s3"
 
-  event_selector_read_write_type           = "All"
-  event_selector_include_management_events = true
+  cloudtrail_s3_bucket_name = module.s3.s3_bucket_id
+  cloudtrail_s3_key_prefix  = "prefix"
 
-  event_selector_data_resource_type   = "AWS::S3::Object"
-  event_selector_data_resource_values = ["arn:aws:s3:::"]
+  cloudtrail_include_global_service_events = false
+
+  cloudtrail_event_selector = [{
+    read_write_type           = "All"
+    include_management_events = true
+
+    data_resource = {
+      type   = "AWS::S3::Object"
+      values = ["arn:aws:s3:::"]
+    }
+  }]
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
 
-}
-```
+}```
 
 ## Module Input Variables
 ----------------------
@@ -105,22 +110,18 @@ module "cloudtrail_event_selector_s3" {
 - `tags` - A list of tag blocks. Each element should have keys named key, value (`default = {}`)
 - `enable_cloudtrail` - Enable cloudtrail usage (`default = False`)
 - `cloudtrail_name` - Specifies the name of the trail. (`default = ""`)
-- `s3_bucket_name` - (Required) Specifies the name of the S3 bucket designated for publishing log files. (`default = ""`)
-- `s3_key_prefix` - (Optional) Specifies the S3 key prefix that follows the name of the bucket you have designated for log file delivery. (`default = ""`)
-- `cloud_watch_logs_role_arn` - (Optional) Specifies the role for the CloudWatch Logs endpoint to assume to write to a user’s log group. (`default = ""`)
-- `cloud_watch_logs_group_arn` - (Optional) Specifies a log group name using an Amazon Resource Name (ARN), that represents the log group to which CloudTrail logs will be delivered. (`default = ""`)
-- `enable_logging` - (Optional) Enables logging for the trail. Defaults to true. Setting this to false will pause logging. (`default = True`)
-- `include_global_service_events` - (Optional) Specifies whether the trail is publishing events from global services such as IAM to the log files. Defaults to true. (`default = True`)
-- `is_multi_region_trail` - (Optional) Specifies whether the trail is created in the current region or in all regions. Defaults to false. (`default = False`)
-- `is_organization_trail` - (Optional) Specifies whether the trail is an AWS Organizations trail. Organization trails log events for the master account and all member accounts. Can only be created in the organization master account. Defaults to false. (`default = False`)
-- `sns_topic_name` - (Optional) Specifies the name of the Amazon SNS topic defined for notification of log file delivery. (`default = ""`)
-- `enable_log_file_validation` - (Optional) Specifies whether log file integrity validation is enabled. Defaults to false. (`default = False`)
-- `kms_key_id` - (Optional) Specifies the KMS key ARN to use to encrypt the logs delivered by CloudTrail. (`default = ""`)
-- `enable_cloudtrail_event_selector` - Enable cloudtrail with event_selector (`default = False`)
-- `event_selector_read_write_type` - (Optional) - Specify if you want your trail to log read-only events, write-only events, or all. By default, the value is All. You can specify only the following value: 'ReadOnly', 'WriteOnly', 'All'. Defaults to All (`default = All`)
-- `event_selector_include_management_events` - (Optional) - Specify if you want your event selector to include management events for your trail. (`default = True`)
-- `event_selector_data_resource_type` - (Required) - The resource type in which you want to log data events. You can specify only the follwing value: 'AWS::S3::Object', 'AWS::Lambda::Function' (`default = ""`)
-- `event_selector_data_resource_values` - (Required) - A list of ARN for the specified S3 buckets and object prefixes. (`default = []`)
+- `cloudtrail_s3_bucket_name` - (Required) Specifies the name of the S3 bucket designated for publishing log files. (`default = ""`)
+- `cloudtrail_s3_key_prefix` - (Optional) Specifies the S3 key prefix that follows the name of the bucket you have designated for log file delivery. (`default = ""`)
+- `cloudtrail_cloud_watch_logs_role_arn` - (Optional) Specifies the role for the CloudWatch Logs endpoint to assume to write to a user’s log group. (`default = ""`)
+- `cloudtrail_cloud_watch_logs_group_arn` - (Optional) Specifies a log group name using an Amazon Resource Name (ARN), that represents the log group to which CloudTrail logs will be delivered. (`default = ""`)
+- `cloudtrail_enable_logging` - (Optional) Enables logging for the trail. Defaults to true. Setting this to false will pause logging. (`default = True`)
+- `cloudtrail_include_global_service_events` - (Optional) Specifies whether the trail is publishing events from global services such as IAM to the log files. Defaults to true. (`default = True`)
+- `cloudtrail_is_multi_region_trail` - (Optional) Specifies whether the trail is created in the current region or in all regions. Defaults to false. (`default = False`)
+- `cloudtrail_is_organization_trail` - (Optional) Specifies whether the trail is an AWS Organizations trail. Organization trails log events for the master account and all member accounts. Can only be created in the organization master account. Defaults to false. (`default = False`)
+- `cloudtrail_sns_topic_name` - (Optional) Specifies the name of the Amazon SNS topic defined for notification of log file delivery. (`default = ""`)
+- `cloudtrail_enable_log_file_validation` - (Optional) Specifies whether log file integrity validation is enabled. Defaults to false. (`default = False`)
+- `cloudtrail_kms_key_id` - (Optional) Specifies the KMS key ARN to use to encrypt the logs delivered by CloudTrail. (`default = ""`)
+- `cloudtrail_event_selector` - (Optional) Set cloudtrail event selector (`default = []`)
 
 ## Module Output Variables
 ----------------------

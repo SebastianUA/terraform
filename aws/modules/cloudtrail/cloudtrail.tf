@@ -1,69 +1,48 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# AWS CloudTrail
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 resource "aws_cloudtrail" "cloudtrail" {
-  count = var.enable_cloudtrail && !var.enable_cloudtrail_event_selector ? 1 : 0
+  count = var.enable_cloudtrail ? 1 : 0
 
-  name           = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-${lower(var.environment)}"
-  s3_bucket_name = var.s3_bucket_name
-  s3_key_prefix  = var.s3_key_prefix
+  name           = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-cloudtrail-${lower(var.environment)}"
+  s3_bucket_name = var.cloudtrail_s3_bucket_name
+  s3_key_prefix  = var.cloudtrail_s3_key_prefix
 
-  cloud_watch_logs_role_arn  = var.cloud_watch_logs_role_arn
-  cloud_watch_logs_group_arn = var.cloud_watch_logs_group_arn
+  cloud_watch_logs_role_arn  = var.cloudtrail_cloud_watch_logs_role_arn
+  cloud_watch_logs_group_arn = var.cloudtrail_cloud_watch_logs_group_arn
 
-  enable_logging                = var.enable_logging
-  enable_log_file_validation    = var.enable_log_file_validation
-  include_global_service_events = var.include_global_service_events
-  sns_topic_name                = var.sns_topic_name
-  kms_key_id                    = var.kms_key_id
+  enable_logging                = var.cloudtrail_enable_logging
+  enable_log_file_validation    = var.cloudtrail_enable_log_file_validation
+  include_global_service_events = var.cloudtrail_include_global_service_events
+  sns_topic_name                = var.cloudtrail_sns_topic_name
+  kms_key_id                    = var.cloudtrail_kms_key_id
 
-  is_multi_region_trail = var.is_multi_region_trail
-  is_organization_trail = var.is_organization_trail
+  is_multi_region_trail = var.cloudtrail_is_multi_region_trail
+  is_organization_trail = var.cloudtrail_is_organization_trail
 
-  tags = merge(
-    {
-      Name = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-${lower(var.environment)}"
-    },
-    var.tags
-  )
+  dynamic "event_selector" {
+    iterator = event_selector
+    for_each = var.cloudtrail_event_selector
 
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
+    content {
+      read_write_type           = lookup(event_selector.value, "read_write_type", null)
+      include_management_events = lookup(event_selector.value, "include_management_events", null)
 
-  depends_on = []
-}
+      dynamic "data_resource" {
+        iterator = data_resource
+        for_each = length(keys(lookup(event_selector.value, "data_resource", {}))) > 0 ? [lookup(event_selector.value, "data_resource", {})] : []
 
-resource "aws_cloudtrail" "cloudtrail_event_selector" {
-  count = var.enable_cloudtrail && var.enable_cloudtrail_event_selector ? 1 : 0
-
-  name           = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-event-selector-${lower(var.environment)}"
-  s3_bucket_name = var.s3_bucket_name
-  s3_key_prefix  = var.s3_key_prefix
-
-  cloud_watch_logs_role_arn  = var.cloud_watch_logs_role_arn
-  cloud_watch_logs_group_arn = var.cloud_watch_logs_group_arn
-
-  enable_logging                = var.enable_logging
-  enable_log_file_validation    = var.enable_log_file_validation
-  include_global_service_events = var.include_global_service_events
-  sns_topic_name                = var.sns_topic_name
-  kms_key_id                    = var.kms_key_id
-
-  is_multi_region_trail = var.is_multi_region_trail
-  is_organization_trail = var.is_organization_trail
-
-  event_selector {
-    read_write_type           = var.event_selector_read_write_type
-    include_management_events = var.event_selector_include_management_events
-
-    data_resource {
-      type   = var.event_selector_data_resource_type
-      values = var.event_selector_data_resource_values
+        content {
+          type   = lookup(data_resource.value, "type", null)
+          values = lookup(data_resource.value, "values", null)
+        }
+      }
     }
   }
 
   tags = merge(
     {
-      Name = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-ct-event-selector-${lower(var.environment)}"
+      Name = var.cloudtrail_name != "" ? lower(var.cloudtrail_name) : "${lower(var.name)}-cloudtrail-${lower(var.environment)}"
     },
     var.tags
   )
