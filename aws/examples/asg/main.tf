@@ -9,45 +9,57 @@ module "key_pair" {
   public_key      = file("./additional_files/prod-bastion_ukraine.pub")
 }
 
-module "asg" {
-  source      = "../../modules/asg"
+module "lt" {
+  source      = "../../modules/asg_new"
+  name        = "my-first"
+  region      = "us-west-2"
+  environment = "test"
+
+  enable_lt      = true
+  lt_name        = ""
+  lt_description = null
+  lc_user_data   = null
+
+}
+
+module "asg_new" {
+  source      = "../../modules/asg_new"
   name        = "my-first"
   region      = "us-west-2"
   environment = "test"
 
   #lc
-  enable_lc = "true"
-  ami = {
-    us-west-2 = "ami-08f72eed8a0d9f8e8"
-  }
+  enable_lc   = "true"
+  lc_image_id = "ami-08f72eed8a0d9f8e8"
 
-  ec2_instance_type    = "t2.micro"
-  security_groups      = ["sg-07b62c0d0ea37056d"]
-  iam_instance_profile = ""
 
-  key_name  = element(module.key_pair.aws_key_id, 0)
-  user_data = file("./additional_files/bootstrap.sh")
+  lc_instance_type        = "t2.micro"
+  lc_security_groups      = ["sg-07b62c0d0ea37056d"]
+  lc_iam_instance_profile = ""
 
-  enable_monitoring = "true"
-  placement_tenancy = "default"
+  lc_key_name  = element(module.key_pair.aws_key_id, 0)
+  lc_user_data = null #file("./additional_files/bootstrap.sh")
 
-  root_block_device = [
+  lc_enable_monitoring = "true"
+  lc_placement_tenancy = "default"
+
+  lc_root_block_device = [
     {
       volume_size = "8"
       volume_type = "gp2"
     },
   ]
 
-  #enable_associate_public_ip_address  = true
+  lc_associate_public_ip_address = null
 
   # asg
-  enable_asg                = "true"
-  vpc_zone_identifier       = ["subnet-0e2b323b731655057", "subnet-0ffa47878036f1641", "subnet-096406cfdf907ee11"]
-  asg_max_size              = 1
-  asg_min_size              = 0
-  desired_capacity          = 1
-  wait_for_capacity_timeout = "0"
-  tags = [
+  enable_asg                    = true
+  asg_vpc_zone_identifier       = ["subnet-0e2b323b731655057", "subnet-0ffa47878036f1641", "subnet-096406cfdf907ee11"]
+  asg_max_size                  = 1
+  asg_min_size                  = 0
+  asg_desired_capacity          = 1
+  asg_wait_for_capacity_timeout = 0
+  asg_tags = [
     {
       key                 = "Orchestration"
       value               = "Terraform"
@@ -60,11 +72,4 @@ module "asg" {
     }
   ]
 
-  # ASG attachment
-  #load_balancer_type                  = "ALB"
-  #load_balancers                      = ["test-lb"]
-  #alb_target_group_arn                = "lb_arn_here"
-
-  # ASG policy
-  enable_autoscaling_policy = true
 }

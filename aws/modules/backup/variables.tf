@@ -35,11 +35,6 @@ variable "backup_plan_rule" {
   default     = []
 }
 
-variable "backup_plan_rule_copy_action" {
-  description = "(Required) A rule object that specifies a scheduled task that is used to back up a selection of resources with copy_action usage."
-  default     = []
-}
-
 #---------------------------------------------------
 # AWS Backup selection
 #---------------------------------------------------
@@ -147,10 +142,10 @@ variable "backup_vault_policy" {
 }
 
 #---------------------------------------------------
-# AWS Backup vault policy
+# AWS Backup vault notifications
 #---------------------------------------------------
-variable "enable_backup_vault_policy" {
-  description = "Enable backup vault policy usage"
+variable "enable_backup_vault_notifications" {
+  description = "Enable backup vault notifications usage"
   default     = false
 }
 

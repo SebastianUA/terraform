@@ -88,21 +88,6 @@ variable "appsync_graphql_api_additional_authentication_provider" {
   default     = []
 }
 
-variable "appsync_graphql_api_additional_authentication_provider_openid_connect_config" {
-  description = "(Optional) One or more additional authentication providers for the GraphqlApi with openid_connect_config"
-  default     = []
-}
-
-variable "appsync_graphql_api_additional_authentication_provider_all" {
-  description = "(Optional) One or more additional authentication providers for the GraphqlApi with user_pool_config and openid_connect_config"
-  default     = []
-}
-
-variable "appsync_graphql_api_additional_authentication_provider_user_pool_config" {
-  description = "(Optional) One or more additional authentication providers for the GraphqlApi with user_pool_config"
-  default     = []
-}
-
 #---------------------------------------------------
 # AWS Appsync datasource
 #---------------------------------------------------

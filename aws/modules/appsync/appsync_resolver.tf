@@ -16,6 +16,7 @@ resource "aws_appsync_resolver" "appsync_resolver" {
   dynamic "pipeline_config" {
     iterator = pipelineconfig
     for_each = var.appsync_resolver_pipeline_config
+
     content {
       functions = lookup(pipelineconfig.value, "functions", null)
     }

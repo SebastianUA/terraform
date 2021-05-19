@@ -13,17 +13,28 @@ resource "aws_athena_workgroup" "athena_workgroup" {
   dynamic "configuration" {
     iterator = configuration
     for_each = var.athena_workgroup_configuration
+
     content {
       bytes_scanned_cutoff_per_query     = lookup(configuration.value, "bytes_scanned_cutoff_per_query", null)
       enforce_workgroup_configuration    = lookup(configuration.value, "enforce_workgroup_configuration", null)
       publish_cloudwatch_metrics_enabled = lookup(configuration.value, "publish_cloudwatch_metrics_enabled", null)
 
-      result_configuration {
-        output_location = lookup(configuration.value, "output_location", null)
+      dynamic "result_configuration" {
+        iterator = result_configuration
+        for_each = length(keys(lookup(configuration.value, "result_configuration", {}))) > 0 ? [lookup(configuration.value, "result_configuration", {})] : []
 
-        encryption_configuration {
-          encryption_option = lookup(configuration.value, "encryption_option", null)
-          kms_key_arn       = lookup(configuration.value, "kms_key_arn", null)
+        content {
+          output_location = lookup(result_configuration.value, "output_location", null)
+
+          dynamic "encryption_configuration" {
+            iterator = encryption_configuration
+            for_each = length(keys(lookup(result_configuration.value, "encryption_configuration", {}))) > 0 ? [lookup(result_configuration.value, "encryption_configuration", {})] : []
+
+            content {
+              encryption_option = lookup(encryption_configuration.value, "encryption_option", null)
+              kms_key_arn       = lookup(encryption_configuration.value, "kms_key_arn", null)
+            }
+          }
         }
       }
     }

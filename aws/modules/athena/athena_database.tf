@@ -12,6 +12,7 @@ resource "aws_athena_database" "athena_database" {
   dynamic "encryption_configuration" {
     iterator = encryption_configuration
     for_each = var.athena_database_encryption_configuration
+
     content {
       encryption_option = lookup(encryption_configuration.value, "encryption_option", null)
 

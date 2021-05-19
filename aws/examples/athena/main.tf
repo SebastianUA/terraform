@@ -15,35 +15,39 @@ provider "aws" {
 module "s3" {
   source      = "../../modules/s3"
   name        = "TEST"
-  environment = "NonPROD"
+  environment = "dev"
 
-  enable_s3_bucket    = true
-  s3_bucket_name      = "my-test-bucket"
-  s3_bucket_acl       = "private"
-  s3_bucket_cors_rule = []
+  # AWS S3 bucket
+  enable_s3_bucket = true
+  s3_bucket_name   = "natarov-test-bucket1"
+  s3_bucket_acl    = "private"
 
-  s3_bucket_versioning  = []
-  enable_lifecycle_rule = true
-
-  # Add policy to the bucket
-  enable_s3_bucket_policy = false
-
+  tags = map("Env", "stage", "Orchestration", "Terraform")
 }
 
 data "template_file" "kms_key_policy" {
-  template = file("policies/kms_key_policy.json.tpl")
+  template = file("./additional_files/kms_key_policy.json.tpl")
 }
 
 module "kms" {
   source = "../../modules/kms"
 
-  enable_kms_key = true
-  name           = "TESTKMS"
-  environment    = "stage"
-  key_usage      = "ENCRYPT_DECRYPT"
+  name        = "tmp"
+  environment = "dev"
 
-  policy = data.template_file.kms_key_policy.rendered
+  # KMS key
+  enable_kms_key                  = true
+  kms_key_name                    = "athena"
+  kms_key_deletion_window_in_days = 30
+  kms_key_policy                  = data.template_file.kms_key_policy.rendered
 
+  # KMS alias
+  enable_kms_alias = true
+  kms_alias_name   = "alias/athena-key"
+
+  tags = map("Env", "stage", "Orchestration", "Terraform")
+
+  depends_on = [data.template_file.kms_key_policy]
 }
 
 module "athena" {
@@ -74,11 +78,14 @@ module "athena" {
       enforce_workgroup_configuration    = true
       publish_cloudwatch_metrics_enabled = true
 
-      output_location = null
+      result_configuration = {
+        output_location = null
 
-      encryption_option = "SSE_KMS"
-      kms_key_arn       = module.kms.kms_key_arn
-
+        encryption_configuration = {
+          encryption_option = "SSE_KMS"
+          kms_key_arn       = module.kms.kms_key_arn
+        }
+      }
     }
   ]
 
@@ -88,5 +95,7 @@ module "athena" {
   athena_named_query_query  = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
 
   tags = map("Env", "stage", "Orchestration", "Terraform")
+
+  depends_on = [module.kms]
 
 }

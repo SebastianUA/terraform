@@ -13,6 +13,7 @@ resource "aws_backup_selection" "backup_selection" {
   dynamic "selection_tag" {
     iterator = selection_tag
     for_each = var.backup_selection_selection_tag
+
     content {
       type  = lookup(selection_tag.value, "type", null)
       key   = lookup(selection_tag.value, "key", null)
