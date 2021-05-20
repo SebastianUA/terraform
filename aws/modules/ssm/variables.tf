@@ -409,23 +409,8 @@ variable "ssm_maintenance_window_task_targets" {
   default     = []
 }
 
-variable "ssm_maintenance_window_task_automation_parameters" {
-  description = "(Optional) The parameters for an AUTOMATION task type"
-  default     = []
-}
-
-variable "ssm_maintenance_window_task_lambda_parameters" {
-  description = "(Optional) The parameters for a LAMBDA task type."
-  default     = []
-}
-
-variable "ssm_maintenance_window_task_run_command_parameters" {
-  description = "(Optional) The parameters for a RUN_COMMAND task type."
-  default     = []
-}
-
-variable "ssm_maintenance_window_task_step_functions_parameters" {
-  description = "(Optional) The parameters for a STEP_FUNCTIONS task type."
+variable "ssm_maintenance_window_task_task_invocation_parameters" {
+  description = "(Optional) Configuration block with parameters for task execution."
   default     = []
 }
 

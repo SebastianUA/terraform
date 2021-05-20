@@ -30,9 +30,14 @@ resource "aws_ssm_patch_baseline" "ssm_patch_baseline" {
       compliance_level    = lookup(approval_rule.value, "compliance_level", null)
       enable_non_security = lookup(approval_rule.value, "enable_non_security", null)
 
-      patch_filter {
-        key    = lookup(approval_rule.value, "key", null)
-        values = lookup(approval_rule.value, "values", null)
+      dynamic "patch_filter" {
+        iterator = patch_filter
+        for_each = lookup(approval_rule.value, "patch_filter", [])
+
+        content {
+          key    = lookup(patch_filter.value, "key", null)
+          values = lookup(patch_filter.value, "values", null)
+        }
       }
     }
   }

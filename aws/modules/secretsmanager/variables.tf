@@ -101,9 +101,9 @@ variable "secretsmanager_secret_rotation_rotation_lambda_arn" {
   default     = null
 }
 
-variable "secretsmanager_secret_rotation_rotation_rules_automatically_after_days" {
-  description = "(Required) Specifies the number of days between automatic scheduled rotations of the secret."
-  default     = 30
+variable "secretsmanager_secret_rotation_rotation_rules" {
+  description = "(Required) A structure that defines the rotation configuration for this secret."
+  default     = []
 }
 
 #---------------------------------------------------

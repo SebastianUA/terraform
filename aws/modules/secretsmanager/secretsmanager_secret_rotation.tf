@@ -7,8 +7,13 @@ resource "aws_secretsmanager_secret_rotation" "secretsmanager_secret_rotation" {
   secret_id           = var.secretsmanager_secret_rotation_secret_id != "" && !var.enable_secretsmanager_secret ? var.secretsmanager_secret_rotation_secret_id : (var.enable_secretsmanager_secret ? element(aws_secretsmanager_secret.secretsmanager_secret.*.id, 0) : null)
   rotation_lambda_arn = var.secretsmanager_secret_rotation_rotation_lambda_arn
 
-  rotation_rules {
-    automatically_after_days = var.secretsmanager_secret_rotation_rotation_rules_automatically_after_days
+  dynamic "rotation_rules" {
+    iterator = rotation_rules
+    for_each = var.secretsmanager_secret_rotation_rotation_rules
+
+    content {
+      automatically_after_days = lookup(rotation_rules.value, "automatically_after_days", null)
+    }
   }
 
   lifecycle {

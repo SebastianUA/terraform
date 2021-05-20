@@ -19,6 +19,7 @@ resource "aws_ssm_association" "ssm_association" {
   dynamic "output_location" {
     iterator = output_location
     for_each = var.ssm_association_output_location
+
     content {
       s3_bucket_name = lookup(output_location.value, "s3_bucket_name", null)
       s3_key_prefix  = lookup(output_location.value, "s3_key_prefix", null)
@@ -28,6 +29,7 @@ resource "aws_ssm_association" "ssm_association" {
   dynamic "targets" {
     iterator = targets
     for_each = var.ssm_association_targets
+
     content {
       key    = lookup(targets.value, "key", null)
       values = lookup(targets.value, "values", [])

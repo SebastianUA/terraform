@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret" "secretsmanager_secret" {
     for_each = var.secretsmanager_secret_rotation_rules
 
     content {
-      automatically_after_days = lookup(rotation_rules.value, "automatically_after_days", 30)
+      automatically_after_days = lookup(rotation_rules.value, "automatically_after_days", null)
     }
   }
 

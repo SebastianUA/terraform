@@ -69,7 +69,7 @@ module "secretsmanager" {
 - `enable_secretsmanager_secret_rotation` - Enable secretsmanager secret rotation usage (`default = False`)
 - `secretsmanager_secret_rotation_secret_id` - Specifies the secret to which you want to add a new version. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. The secret must already exist. (`default = ""`)
 - `secretsmanager_secret_rotation_rotation_lambda_arn` - (Required) Specifies the ARN of the Lambda function that can rotate the secret. (`default = null`)
-- `secretsmanager_secret_rotation_rotation_rules_automatically_after_days` - (Required) Specifies the number of days between automatic scheduled rotations of the secret. (`default = 30`)
+- `secretsmanager_secret_rotation_rotation_rules` - (Required) A structure that defines the rotation configuration for this secret. (`default = []`)
 - `enable_secretsmanager_secret_policy` - Enable secretsmanager secret policy usage (`default = False`)
 - `secretsmanager_secret_policy_secret_arn` - Secret ARN. (`default = ""`)
 - `secretsmanager_secret_policy_policy` - (Required) A valid JSON document representing a resource policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = null`)
