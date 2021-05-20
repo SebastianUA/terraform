@@ -1,4 +1,4 @@
-# Work with AWS NULL_RESOURCE via terraform
+# Work with NULL_RESOURCE via terraform
 
 A terraform module for making NULL_RESOURCE.
 
@@ -13,7 +13,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-  required_version = "~> 0.14"
+  required_version = "~> 0.15"
 }
 
 provider "aws" {
