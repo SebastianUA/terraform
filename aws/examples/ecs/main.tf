@@ -49,11 +49,11 @@ module "ecs_task_definition" {
   ecs_task_definition_ipc_mode           = "host"
   ecs_task_definition_pid_mode           = "task"
 
-  ecs_task_definition_volume_name      = "jenkins-slave-volume-nonprod"
-  ecs_task_definition_volume_host_path = "/ecs/jenkins-slave-volume-nonprod"
+  ecs_task_definition_volume = [{
+    name      = "jenkins-slave-volume-nonprod"
+    host_path = "/ecs/jenkins-slave-volume-nonprod"
 
-  ecs_task_definition_volume_docker = [
-    {
+    docker_volume_configuration = {
       scope         = "shared"
       autoprovision = true
       driver        = "local"
@@ -64,10 +64,8 @@ module "ecs_task_definition" {
         "o"      = "addr=aws_efs_file_system_dns_name,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
       }
     }
-  ]
 
-  ecs_task_definition_volume_efs = [
-    {
+    efs_volume_configuration = {
       file_system_id          = "aws_efs_file_system_id"
       root_directory          = "/opt/data"
       transit_encryption      = "ENABLED"
@@ -76,7 +74,7 @@ module "ecs_task_definition" {
       access_point_id = "aws_efs_access_point_id"
       iam             = "ENABLED"
     }
-  ]
+  }]
 
   ecs_task_definition_placement_constraints = [
     {

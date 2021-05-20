@@ -17,73 +17,52 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   memory                   = var.ecs_task_definition_memory
   requires_compatibilities = var.ecs_task_definition_requires_compatibilities
 
-  volume {
-    name = var.ecs_task_definition_volume_name
+  dynamic "volume" {
+    iterator = volume
+    for_each = var.ecs_task_definition_volume
 
-    host_path = var.ecs_task_definition_volume_host_path
+    content {
+      name = lookup(volume.value, "name", null)
 
-    dynamic "docker_volume_configuration" {
-      iterator = docker_volume
-      for_each = var.ecs_task_definition_volume_docker
+      host_path = lookup(volume.value, "host_path", null)
 
-      content {
-        scope         = lookup(docker_volume.value, "docker_scope", null)
-        autoprovision = lookup(docker_volume.value, "docker_autoprovision", null)
-        driver        = lookup(docker_volume.value, "docker_driver", null)
-        driver_opts   = lookup(docker_volume.value, "docker_driver_opts", null)
-        labels        = lookup(docker_volume.value, "docker_labels", null)
+      dynamic "docker_volume_configuration" {
+        iterator = docker_volume_configuration
+        for_each = length(keys(lookup(volume.value, "docker_volume_configuration", {}))) > 0 ? [lookup(volume.value, "docker_volume_configuration", {})] : []
+
+        content {
+          scope         = lookup(docker_volume_configuration.value, "scope", null)
+          autoprovision = lookup(docker_volume_configuration.value, "autoprovision", null)
+          driver        = lookup(docker_volume_configuration.value, "driver", null)
+          driver_opts   = lookup(docker_volume_configuration.value, "driver_opts", null)
+          labels        = lookup(docker_volume_configuration.value, "labels", null)
+        }
       }
-    }
 
-    dynamic "efs_volume_configuration" {
-      iterator = efs_volume
-      for_each = var.ecs_task_definition_volume_efs
+      dynamic "efs_volume_configuration" {
+        iterator = efs_volume_configuration
+        for_each = length(keys(lookup(volume.value, "efs_volume_configuration", {}))) > 0 ? [lookup(volume.value, "efs_volume_configuration", {})] : []
 
-      content {
-        file_system_id = lookup(efs_volume.value, "file_system_id", null)
+        content {
+          file_system_id = lookup(efs_volume_configuration.value, "file_system_id", null)
 
-        root_directory          = lookup(efs_volume.value, "root_directory", null)
-        transit_encryption      = lookup(efs_volume.value, "transit_encryption", null)
-        transit_encryption_port = lookup(efs_volume.value, "transit_encryption_port", null)
+          root_directory          = lookup(efs_volume_configuration.value, "root_directory", null)
+          transit_encryption      = lookup(efs_volume_configuration.value, "transit_encryption", null)
+          transit_encryption_port = lookup(efs_volume_configuration.value, "transit_encryption_port", null)
 
-        authorization_config {
-          access_point_id = lookup(efs_volume.value, "access_point_id", null)
-          iam             = lookup(efs_volume.value, "iam", null)
+          dynamic "authorization_config" {
+            iterator = authorization_config
+            for_each = length(keys(lookup(efs_volume_configuration.value, "authorization_config", {}))) > 0 ? [lookup(efs_volume_configuration.value, "authorization_config", {})] : []
+
+            content {
+              access_point_id = lookup(authorization_config.value, "access_point_id", null)
+              iam             = lookup(authorization_config.value, "iam", null)
+            }
+          }
         }
       }
     }
   }
-
-  // dynamic "volume" {
-  //   iterator = volume
-  //   for_each = var.ecs_task_definition_volume
-  //   content {
-  //     name = lookup(volume.value, "name", null)
-
-  //     host_path = lookup(volume.value, "host_path", null)
-
-  //     docker_volume_configuration {
-  //       scope         = lookup(volume.value, "docker_scope", null)
-  //       autoprovision = lookup(volume.value, "docker_autoprovision", null)
-  //       driver        = lookup(volume.value, "docker_driver", null)
-  //       driver_opts   = lookup(volume.value, "docker_driver_opts", null)
-  //       labels        = lookup(volume.value, "docker_labels", null)
-  //     }
-
-  //     efs_volume_configuration {
-  //       file_system_id = lookup(volume.value, "efs_file_system_id", null)
-
-  //       root_directory          = lookup(volume.value, "efs_root_directory", null)
-  //       transit_encryption      = lookup(volume.value, "efs_transit_encryption", null)
-  //       transit_encryption_port = lookup(volume.value, "efs_transit_encryption_port", null)
-
-  //       authorization_config {
-  //         access_point_id = lookup(volume.value, "efs_access_point_id", null)
-  //         iam             = lookup(volume.value, "efs_iam", null)
-  //       }
-  //     }
-  //   }
-  // }
 
   dynamic "placement_constraints" {
     iterator = placement_constraints

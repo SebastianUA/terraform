@@ -103,23 +103,8 @@ variable "ecs_task_definition_requires_compatibilities" {
   default     = null
 }
 
-variable "ecs_task_definition_volume_name" {
-  description = ""
-  default     = null
-}
-
-variable "ecs_task_definition_volume_host_path" {
-  description = ""
-  default     = null
-}
-
-variable "ecs_task_definition_volume_docker" {
-  description = "(Optional) Used to configure a docker volume"
-  default     = []
-}
-
-variable "ecs_task_definition_volume_efs" {
-  description = "(Optional) Used to configure a EFS volume."
+variable "ecs_task_definition_volume" {
+  description = "(Optional) Configuration block for volumes that containers in your task may use."
   default     = []
 }
 
@@ -269,17 +254,7 @@ variable "ecs_capacity_provider_name" {
   default     = ""
 }
 
-variable "ecs_capacity_provider_auto_scaling_group_arn" {
-  description = "(Required) - The Amazon Resource Name (ARN) of the associated auto scaling group."
-  default     = null
-}
-
-variable "ecs_capacity_provider_managed_termination_protection" {
-  description = "(Optional) - Enables or disables container-aware termination of instances in the auto scaling group when scale-in happens. Valid values are ENABLED and DISABLED."
-  default     = null
-}
-
-variable "ecs_capacity_provider_managed_scaling" {
-  description = "(Optional) - Nested argument defining the parameters of the auto scaling. "
+variable "ecs_capacity_provider_auto_scaling_group_provider" {
+  description = "(Required) Configuration block for the provider for the ECS auto scaling group."
   default     = []
 }

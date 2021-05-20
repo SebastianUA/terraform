@@ -30,9 +30,14 @@ resource "aws_msk_cluster" "msk_cluster" {
     content {
       encryption_at_rest_kms_key_arn = lookup(encryption_info.value, "encryption_at_rest_kms_key_arn", null)
 
-      encryption_in_transit {
-        client_broker = lookup(encryption_info.value, "client_broker", null)
-        in_cluster    = lookup(encryption_info.value, "in_cluster", null)
+      dynamic "encryption_in_transit" {
+        iterator = encryption_in_transit
+        for_each = length(keys(lookup(encryption_info.value, "encryption_in_transit", {}))) > 0 ? [lookup(encryption_info.value, "encryption_in_transit", {})] : []
+
+        content {
+          client_broker = lookup(encryption_in_transit.value, "client_broker", null)
+          in_cluster    = lookup(encryption_in_transit.value, "in_cluster", null)
+        }
       }
     }
   }
@@ -42,13 +47,23 @@ resource "aws_msk_cluster" "msk_cluster" {
     for_each = var.msk_cluster_client_authentication
 
     content {
-      tls {
-        certificate_authority_arns = lookup(client_authentication.value, "certificate_authority_arns", null)
+      dynamic "tls" {
+        iterator = tls
+        for_each = length(keys(lookup(client_authentication.value, "tls", {}))) > 0 ? [lookup(client_authentication.value, "tls", {})] : []
+
+        content {
+          certificate_authority_arns = lookup(tls.value, "certificate_authority_arns", null)
+        }
       }
 
-      // sasl {
-      //   scram = lookup(client_authentication.value, "scram", null)
-      // }
+      dynamic "sasl" {
+        iterator = sasl
+        for_each = length(keys(lookup(client_authentication.value, "sasl", {}))) > 0 ? [lookup(client_authentication.value, "sasl", {})] : []
+
+        content {
+          scram = lookup(sasl.value, "scram", null)
+        }
+      }
     }
   }
 
@@ -67,49 +82,73 @@ resource "aws_msk_cluster" "msk_cluster" {
     for_each = var.msk_cluster_open_monitoring
 
     content {
-      prometheus {
-        jmx_exporter {
-          enabled_in_broker = lookup(open_monitoring.value, "prometheus_jmx_exporter_enabled_in_broker", null)
-        }
-        node_exporter {
-          enabled_in_broker = lookup(open_monitoring.value, "prometheus_node_exporter_enabled_in_broker", null)
+      dynamic "prometheus" {
+        iterator = prometheus
+        for_each = length(keys(lookup(open_monitoring.value, "prometheus", {}))) > 0 ? [lookup(open_monitoring.value, "prometheus", {})] : []
+
+        content {
+          dynamic "jmx_exporter" {
+            iterator = jmx_exporter
+            for_each = length(keys(lookup(prometheus.value, "jmx_exporter", {}))) > 0 ? [lookup(prometheus.value, "jmx_exporter", {})] : []
+
+            content {
+              enabled_in_broker = lookup(jmx_exporter.value, "enabled_in_broker", null)
+            }
+          }
+
+          dynamic "node_exporter" {
+            iterator = node_exporter
+            for_each = length(keys(lookup(prometheus.value, "node_exporter", {}))) > 0 ? [lookup(prometheus.value, "node_exporter", {})] : []
+
+            content {
+              enabled_in_broker = lookup(node_exporter.value, "enabled_in_broker", null)
+            }
+          }
         }
       }
     }
   }
 
-  logging_info {
+  dynamic "logging_info" {
+    iterator = logging_info
+    for_each = var.msk_cluster_logging_info
 
-    broker_logs {
-
-      dynamic "cloudwatch_logs" {
-        iterator = cloudwatch_logs
-        for_each = var.msk_cluster_logging_info_broker_logs_cloudwatch_logs
-
-        content {
-          enabled   = null
-          log_group = null
-        }
-      }
-
-      dynamic "firehose" {
-        iterator = firehose
-        for_each = var.msk_cluster_logging_info_broker_logs_firehose
+    content {
+      dynamic "broker_logs" {
+        iterator = broker_logs
+        for_each = length(keys(lookup(logging_info.value, "broker_logs", {}))) > 0 ? [lookup(logging_info.value, "broker_logs", {})] : []
 
         content {
-          enabled         = null
-          delivery_stream = null
-        }
-      }
+          dynamic "cloudwatch_logs" {
+            iterator = cloudwatch_logs
+            for_each = lookup(broker_logs.value, "cloudwatch_logs", [])
 
-      dynamic "s3" {
-        iterator = s3
-        for_each = var.msk_cluster_logging_info_broker_logs_s3
+            content {
+              enabled   = lookup(cloudwatch_logs.value, "enabled", null)
+              log_group = lookup(cloudwatch_logs.value, "log_group", null)
+            }
+          }
 
-        content {
-          enabled = null
-          bucket  = null
-          prefix  = null
+          dynamic "firehose" {
+            iterator = firehose
+            for_each = lookup(broker_logs.value, "firehose", [])
+
+            content {
+              enabled         = lookup(firehose.value, "enabled", null)
+              delivery_stream = lookup(firehose.value, "delivery_stream", null)
+            }
+          }
+
+          dynamic "s3" {
+            iterator = s3
+            for_each = lookup(broker_logs.value, "s3", [])
+
+            content {
+              enabled = lookup(s3.value, "enabled", null)
+              bucket  = lookup(s3.value, "bucket", null)
+              prefix  = lookup(s3.value, "prefix", null)
+            }
+          }
         }
       }
     }

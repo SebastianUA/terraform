@@ -59,11 +59,11 @@ module "ecs_task_definition" {
   ecs_task_definition_ipc_mode           = "host"
   ecs_task_definition_pid_mode           = "task"
 
-  ecs_task_definition_volume_name      = "jenkins-slave-volume-nonprod"
-  ecs_task_definition_volume_host_path = "/ecs/jenkins-slave-volume-nonprod"
+  ecs_task_definition_volume = [{
+    name      = "jenkins-slave-volume-nonprod"
+    host_path = "/ecs/jenkins-slave-volume-nonprod"
 
-  ecs_task_definition_volume_docker = [
-    {
+    docker_volume_configuration = {
       scope         = "shared"
       autoprovision = true
       driver        = "local"
@@ -74,10 +74,8 @@ module "ecs_task_definition" {
         "o"      = "addr=aws_efs_file_system_dns_name,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
       }
     }
-  ]
 
-  ecs_task_definition_volume_efs = [
-    {
+    efs_volume_configuration = {
       file_system_id          = "aws_efs_file_system_id"
       root_directory          = "/opt/data"
       transit_encryption      = "ENABLED"
@@ -86,7 +84,7 @@ module "ecs_task_definition" {
       access_point_id = "aws_efs_access_point_id"
       iam             = "ENABLED"
     }
-  ]
+  }]
 
   ecs_task_definition_placement_constraints = [
     {
@@ -169,10 +167,7 @@ module "ecs_service" {
 - `ecs_task_definition_cpu` - (Optional) The number of cpu units used by the task. If the requires_compatibilities is FARGATE this field is required. (`default = null`)
 - `ecs_task_definition_memory` - (Optional) The amount (in MiB) of memory used by the task. If the requires_compatibilities is FARGATE this field is required. (`default = null`)
 - `ecs_task_definition_requires_compatibilities` - (Optional) A set of launch types required by the task. The valid values are EC2 and FARGATE. (`default = null`)
-- `ecs_task_definition_volume_name` - "" (`default = null`)
-- `ecs_task_definition_volume_host_path` - "" (`default = null`)
-- `ecs_task_definition_volume_docker` - (Optional) Used to configure a docker volume (`default = []`)
-- `ecs_task_definition_volume_efs` - (Optional) Used to configure a EFS volume. (`default = []`)
+- `ecs_task_definition_volume` - (Optional) Configuration block for volumes that containers in your task may use. (`default = []`)
 - `ecs_task_definition_placement_constraints` - (Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. (`default = []`)
 - `ecs_task_definition_proxy_configuration` - (Optional) The proxy configuration details for the App Mesh proxy. (`default = []`)
 - `ecs_task_definition_inference_accelerator` - (Optional) Configuration block(s) with Inference Accelerators settings. (`default = []`)
@@ -201,9 +196,7 @@ module "ecs_service" {
 - `ecs_service_placement_constraints` - (Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. Defined below. (`default = []`)
 - `enable_ecs_capacity_provider` - Enable ecs capacity provider usage (`default = False`)
 - `ecs_capacity_provider_name` - The name of the capacity provider. (`default = ""`)
-- `ecs_capacity_provider_auto_scaling_group_arn` - (Required) - The Amazon Resource Name (ARN) of the associated auto scaling group. (`default = null`)
-- `ecs_capacity_provider_managed_termination_protection` - (Optional) - Enables or disables container-aware termination of instances in the auto scaling group when scale-in happens. Valid values are ENABLED and DISABLED. (`default = null`)
-- `ecs_capacity_provider_managed_scaling` - (Optional) - Nested argument defining the parameters of the auto scaling.  (`default = []`)
+- `ecs_capacity_provider_auto_scaling_group_provider` - (Required) Configuration block for the provider for the ECS auto scaling group. (`default = []`)
 
 ## Module Output Variables
 ----------------------

@@ -45,23 +45,59 @@ module "msk" {
   msk_cluster_encryption_info = [
     {
       //encryption_at_rest_kms_key_arn = module.kms.kms_id
+      // encryption_in_transit = {
       //client_broker = "TLS"
       //in_cluster = true
+      //  }
     }
   ]
 
-  msk_cluster_client_authentication = []
-  msk_cluster_configuration_info    = []
+  msk_cluster_client_authentication = [
+    {
+      tls  = {}
+      sasl = {}
+    }
+  ]
+  msk_cluster_configuration_info = []
   msk_cluster_open_monitoring = [
     {
-      prometheus_jmx_exporter_enabled_in_broker  = true
-      prometheus_node_exporter_enabled_in_broker = true
+      prometheus = {
+        jmx_exporter = {
+          enabled_in_broker = true
+        }
+        node_exporter = {
+          enabled_in_broker = true
+        }
+      }
     }
   ]
 
-  msk_cluster_logging_info_broker_logs_cloudwatch_logs = []
-  msk_cluster_logging_info_broker_logs_firehose        = []
-  msk_cluster_logging_info_broker_logs_s3              = []
+  msk_cluster_logging_info = [
+    {
+      broker_logs = {
+        cloudwatch_logs = [
+          //{
+          //enabled   = null
+          //log_group = null
+          //}
+        ]
+        firehose = [
+          //{
+          //enabled         = null
+          //delivery_stream = null
+          //}
+        ]
+        s3 = [
+          //{
+          //enabled = null
+          //bucket  = null
+          //prefix  = null
+          //}
+        ]
+      }
+    }
+  ]
+
 
   # AWS MSK config
   enable_msk_configuration         = true
@@ -91,9 +127,7 @@ PROPERTIES
 - `msk_cluster_client_authentication` - (Optional) Configuration block for specifying a client authentication. (`default = []`)
 - `msk_cluster_configuration_info` - (Optional) Configuration block for specifying a MSK Configuration to attach to Kafka brokers. (`default = []`)
 - `msk_cluster_open_monitoring` - Configuration block for settings for open monitoring. (`default = []`)
-- `msk_cluster_logging_info_broker_logs_cloudwatch_logs` - Set some settings for cloudwatch logs (`default = []`)
-- `msk_cluster_logging_info_broker_logs_firehose` - Set some settings for firehose (`default = []`)
-- `msk_cluster_logging_info_broker_logs_s3` - Set some settings for S3  (`default = []`)
+- `msk_cluster_logging_info` - (Optional) Configuration block for streaming broker logs to Cloudwatch/S3/Kinesis Firehose. (`default = []`)
 - `msk_cluster_enhanced_monitoring` - (Optional) Specify the desired enhanced MSK CloudWatch monitoring level. Supports [DEFAULT PER_BROKER PER_TOPIC_PER_BROKER] (`default = null`)
 - `enable_msk_configuration` - Enable msk configuration usage (`default = False`)
 - `msk_configuration_name` - Name of the configuration. (`default = ""`)

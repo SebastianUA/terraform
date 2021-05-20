@@ -65,18 +65,8 @@ variable "msk_cluster_open_monitoring" {
   default     = []
 }
 
-variable "msk_cluster_logging_info_broker_logs_cloudwatch_logs" {
-  description = "Set some settings for cloudwatch logs"
-  default     = []
-}
-
-variable "msk_cluster_logging_info_broker_logs_firehose" {
-  description = "Set some settings for firehose"
-  default     = []
-}
-
-variable "msk_cluster_logging_info_broker_logs_s3" {
-  description = "Set some settings for S3 "
+variable "msk_cluster_logging_info" {
+  description = "(Optional) Configuration block for streaming broker logs to Cloudwatch/S3/Kinesis Firehose."
   default     = []
 }
 
