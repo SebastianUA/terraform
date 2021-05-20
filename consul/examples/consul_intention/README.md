@@ -1,4 +1,4 @@
-# Work with AWS CONSUL_INTENTION via terraform
+# Work with CONSUL_INTENTION via terraform
 
 A terraform module for making CONSUL_INTENTION.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.14"
+  required_version = "~> 0.15"
 
   required_providers {
     consul = {
