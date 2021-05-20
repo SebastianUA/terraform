@@ -1,4 +1,4 @@
-# Work with AWS VAULT_GENERIC via terraform
+# Work with VAULT_GENERIC via terraform
 
 A terraform module for making VAULT_GENERIC.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.14"
+  required_version = "~> 0.15"
 
   required_providers {
     vault = {
