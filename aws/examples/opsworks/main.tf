@@ -25,7 +25,7 @@ module "iam_role" {
   enable_iam_role      = true
   iam_role_name        = "opsworks-role-test"
   iam_role_description = "It's just a simple IAM role to test TF module"
-  assume_role_policy   = file("additional_files/assume_role_policy.json")
+  iam_role_assume_role_policy   = file("additional_files/assume_role_policy.json")
 
   iam_role_force_detach_policies = true
   iam_role_path                  = "/"
@@ -40,7 +40,7 @@ module "iam_role" {
   enable_iam_instance_profile = true
   iam_instance_profile_name   = "opsworks-instance-profile-test"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({"Env"="stage", "Orchestration"="Terraform"})
 }
 
 module "opsworks" {
@@ -75,6 +75,6 @@ module "opsworks" {
   opsworks_application_name       = "opsworks-app-test"
   opsworks_application_short_name = "app-test"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({"Env"="stage", "Orchestration"="Terraform"})
 
 }

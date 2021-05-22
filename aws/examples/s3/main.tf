@@ -21,7 +21,7 @@ module "s3_private_bucket" {
   s3_bucket_name   = "natarov-test-bucket1"
   s3_bucket_acl    = "private"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }
 
 
@@ -82,7 +82,7 @@ module "s3" {
 
       id     = "log"
       prefix = "log/"
-      tags   = map("rule", "log", "autoclean", "true")
+      tags   = tomap({ "rule" = "log", "autoclean" = "true" })
 
       expiration = {
         days = 90
@@ -184,7 +184,7 @@ module "s3" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }
 
 
@@ -206,5 +206,5 @@ module "s3_bucket_public_access_block" {
   s3_bucket_public_access_block_ignore_public_acls      = true
   s3_bucket_public_access_block_restrict_public_buckets = true
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }

@@ -33,14 +33,16 @@ resource "aws_opsworks_java_app_layer" "opsworks_java_app_layer" {
   jvm_version        = var.opsworks_java_app_layer_jvm_version
 
   dynamic "ebs_volume" {
+    iterator = ebs_volume
     for_each = var.opsworks_java_app_layer_ebs_volume
+
     content {
-      mount_point     = lookup(opsworks_java_app_layer_ebs_volume.value, "mount_point", null)
-      size            = lookup(opsworks_java_app_layer_ebs_volume.value, "size", null)
-      number_of_disks = lookup(opsworks_java_app_layer_ebs_volume.value, "number_of_disks", null)
-      raid_level      = lookup(opsworks_java_app_layer_ebs_volume.value, "raid_level", null)
-      type            = lookup(opsworks_java_app_layer_ebs_volume.value, "type", null)
-      iops            = lookup(opsworks_java_app_layer_ebs_volume.value, "iops", null)
+      mount_point     = lookup(ebs_volume.value, "mount_point", null)
+      size            = lookup(ebs_volume.value, "size", null)
+      number_of_disks = lookup(ebs_volume.value, "number_of_disks", null)
+      raid_level      = lookup(ebs_volume.value, "raid_level", null)
+      type            = lookup(ebs_volume.value, "type", null)
+      iops            = lookup(ebs_volume.value, "iops", null)
     }
   }
 

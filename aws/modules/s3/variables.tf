@@ -301,8 +301,8 @@ variable "s3_bucket_inventory_filter" {
   default     = []
 }
 
-variable "s3_bucket_inventory_destination_bucket" {
-  description = "(Required) The S3 bucket configuration where inventory results are published"
+variable "s3_bucket_inventory_destination" {
+  description = "(Required) Contains information about where to publish the inventory results"
   default     = []
 }
 
@@ -433,8 +433,8 @@ variable "s3_bucket_analytics_configuration_filter" {
   default     = []
 }
 
-variable "s3_bucket_analytics_configuration_destination_s3_bucket_destination" {
-  description = "(Required) Analytics data export currently only supports an S3 bucket destination"
+variable "s3_bucket_analytics_configuration_storage_class_analysis" {
+  description = "(Optional) Configuration for the analytics data export"
   default     = []
 }
 

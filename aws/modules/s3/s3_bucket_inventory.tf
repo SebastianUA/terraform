@@ -8,6 +8,9 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
   bucket                   = var.s3_bucket_inventory_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_inventory_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
   included_object_versions = var.s3_bucket_inventory_included_object_versions
 
+  enabled         = var.s3_bucket_inventory_enabled
+  optional_fields = var.s3_bucket_inventory_optional_fields
+
   dynamic "schedule" {
     iterator = schedule
     for_each = var.s3_bucket_inventory_schedule
@@ -17,31 +20,49 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
     }
   }
 
-  destination {
-    dynamic "bucket" {
-      iterator = bucket
-      for_each = var.s3_bucket_inventory_destination_bucket
+  dynamic "destination" {
+    iterator = destination
+    for_each = var.s3_bucket_inventory_destination
 
-      content {
-        format     = lookup(bucket.value, "format", null)
-        bucket_arn = lookup(bucket.value, "bucket_arn", null)
-        account_id = lookup(bucket.value, "account_id", null)
-        prefix     = lookup(bucket.value, "prefix", null)
+    content {
+      dynamic "bucket" {
+        iterator = bucket
+        for_each = length(keys(lookup(destination.value, "bucket", {}))) > 0 ? [lookup(destination.value, "bucket", {})] : []
 
-        encryption {
-          sse_kms {
-            key_id = lookup(bucket.value, "sse_kms_key_id", null)
+        content {
+          format     = lookup(bucket.value, "format", null)
+          bucket_arn = lookup(bucket.value, "bucket_arn", null)
+          account_id = lookup(bucket.value, "account_id", null)
+          prefix     = lookup(bucket.value, "prefix", null)
+
+          dynamic "encryption" {
+            iterator = encryption
+            for_each = length(keys(lookup(bucket.value, "encryption", {}))) > 0 ? [lookup(bucket.value, "encryption", {})] : []
+
+            content {
+              dynamic "sse_kms" {
+                iterator = sse_kms
+                for_each = length(keys(lookup(encryption.value, "sse_kms", {}))) > 0 ? [lookup(encryption.value, "sse_kms", {})] : []
+
+                content {
+                  key_id = lookup(sse_kms.value, "key_id", null)
+                }
+              }
+
+              dynamic "sse_s3" {
+                iterator = sse_s3
+                for_each = length(keys(lookup(encryption.value, "sse_s3", {}))) > 0 ? [lookup(encryption.value, "sse_s3", {})] : []
+
+                content {
+                  key_id = lookup(sse_s3.value, "key_id", null)
+                }
+              }
+            }
           }
-          // sse_s3 {
-          //   key_id = lookup(bucket.value, "sse_s3_key_id", null)
-          // }
         }
       }
     }
   }
-
-  enabled         = var.s3_bucket_inventory_enabled
-  optional_fields = var.s3_bucket_inventory_optional_fields
 
   dynamic "filter" {
     iterator = filter

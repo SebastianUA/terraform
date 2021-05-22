@@ -27,14 +27,16 @@ resource "aws_opsworks_mysql_layer" "opsworks_mysql_layer" {
   custom_undeploy_recipes  = var.opsworks_mysql_layer_custom_undeploy_recipes
 
   dynamic "ebs_volume" {
+    iterator = ebs_volume
     for_each = var.opsworks_mysql_layer_ebs_volume
+
     content {
-      mount_point     = lookup(opsworks_mysql_layer_ebs_volume.value, "mount_point", null)
-      size            = lookup(opsworks_mysql_layer_ebs_volume.value, "size", null)
-      number_of_disks = lookup(opsworks_mysql_layer_ebs_volume.value, "number_of_disks", null)
-      raid_level      = lookup(opsworks_mysql_layer_ebs_volume.value, "raid_level", null)
-      type            = lookup(opsworks_mysql_layer_ebs_volume.value, "type", null)
-      iops            = lookup(opsworks_mysql_layer_ebs_volume.value, "iops", null)
+      mount_point     = lookup(ebs_volume.value, "mount_point", null)
+      size            = lookup(ebs_volume.value, "size", null)
+      number_of_disks = lookup(ebs_volume.value, "number_of_disks", null)
+      raid_level      = lookup(ebs_volume.value, "raid_level", null)
+      type            = lookup(ebs_volume.value, "type", null)
+      iops            = lookup(ebs_volume.value, "iops", null)
     }
   }
 

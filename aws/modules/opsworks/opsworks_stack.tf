@@ -32,14 +32,16 @@ resource "aws_opsworks_stack" "opsworks_stack" {
   vpc_id         = var.opsworks_stack_vpc_id
 
   dynamic "custom_cookbooks_source" {
+    iterator = custom_cookbooks_source
     for_each = var.opsworks_stack_custom_cookbooks_source
+
     content {
-      type     = lookup(opsworks_stack_custom_cookbooks_source.value, "type", null)
-      url      = lookup(opsworks_stack_custom_cookbooks_source.value, "url", null)
-      username = lookup(opsworks_stack_custom_cookbooks_source.value, "username", null)
-      password = lookup(opsworks_stack_custom_cookbooks_source.value, "password", null)
-      ssh_key  = lookup(opsworks_stack_custom_cookbooks_source.value, "ssh_key", null)
-      revision = lookup(opsworks_stack_custom_cookbooks_source.value, "revision", null)
+      type     = lookup(custom_cookbooks_source.value, "type", null)
+      url      = lookup(custom_cookbooks_source.value, "url", null)
+      username = lookup(custom_cookbooks_source.value, "username", null)
+      password = lookup(custom_cookbooks_source.value, "password", null)
+      ssh_key  = lookup(custom_cookbooks_source.value, "ssh_key", null)
+      revision = lookup(custom_cookbooks_source.value, "revision", null)
     }
   }
 

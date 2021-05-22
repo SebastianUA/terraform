@@ -25,38 +25,45 @@ resource "aws_opsworks_instance" "opsworks_instance" {
   virtualization_type     = var.opsworks_instance_virtualization_type
 
   dynamic "root_block_device" {
+    iterator = root_block_device
     for_each = var.opsworks_instance_root_block_device
+
     content {
-      volume_type           = lookup(opsworks_instance_root_block_device.value, "volume_type", null)
-      volume_size           = lookup(opsworks_instance_root_block_device.value, "volume_size", null)
-      iops                  = lookup(opsworks_instance_root_block_device.value, "iops", null)
-      delete_on_termination = lookup(opsworks_instance_root_block_device.value, "delete_on_termination", null)
+      volume_type           = lookup(root_block_device.value, "volume_type", null)
+      volume_size           = lookup(root_block_device.value, "volume_size", null)
+      iops                  = lookup(root_block_device.value, "iops", null)
+      delete_on_termination = lookup(root_block_device.value, "delete_on_termination", null)
     }
   }
 
   dynamic "ebs_block_device" {
+    iterator = ebs_block_device
     for_each = var.opsworks_instance_ebs_block_device
+
     content {
-      device_name           = lookup(opsworks_instance_ebs_block_device.value, "device_name", null)
-      snapshot_id           = lookup(opsworks_instance_ebs_block_device.value, "snapshot_id", null)
-      volume_type           = lookup(opsworks_instance_ebs_block_device.value, "volume_type", null)
-      volume_size           = lookup(opsworks_instance_ebs_block_device.value, "volume_size", null)
-      iops                  = lookup(opsworks_instance_ebs_block_device.value, "iops", null)
-      delete_on_termination = lookup(opsworks_instance_ebs_block_device.value, "delete_on_termination", null)
+      device_name           = lookup(ebs_block_device.value, "device_name", null)
+      snapshot_id           = lookup(ebs_block_device.value, "snapshot_id", null)
+      volume_type           = lookup(ebs_block_device.value, "volume_type", null)
+      volume_size           = lookup(ebs_block_device.value, "volume_size", null)
+      iops                  = lookup(ebs_block_device.value, "iops", null)
+      delete_on_termination = lookup(ebs_block_device.value, "delete_on_termination", null)
     }
   }
 
   dynamic "ephemeral_block_device" {
+    iterator = ephemeral_block_device
     for_each = var.opsworks_instance_ephemeral_block_device
+
     content {
-      device_name  = lookup(opsworks_instance_ephemeral_block_device.value, "device_name", null)
-      virtual_name = lookup(opsworks_instance_ephemeral_block_device.value, "virtual_name", null)
+      device_name  = lookup(ephemeral_block_device.value, "device_name", null)
+      virtual_name = lookup(ephemeral_block_device.value, "virtual_name", null)
     }
   }
 
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.opsworks_instance_timeouts
+
     content {
       create = lookup(timeouts.value, "create", null)
       update = lookup(timeouts.value, "update", null)

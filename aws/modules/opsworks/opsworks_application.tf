@@ -24,32 +24,38 @@ resource "aws_opsworks_application" "opsworks_application" {
   aws_flow_ruby_settings = var.opsworks_application_aws_flow_ruby_settings
 
   dynamic "environment" {
+    iterator = environment
     for_each = var.opsworks_application_environment
+
     content {
-      key    = lookup(opsworks_application_environment.value, "key", null)
-      value  = lookup(opsworks_application_environment.value, "value", null)
-      secure = lookup(opsworks_application_environment.value, "secure", null)
+      key    = lookup(environment.value, "key", null)
+      value  = lookup(environment.value, "value", null)
+      secure = lookup(environment.value, "secure", null)
     }
   }
 
   dynamic "app_source" {
+    iterator = app_source
     for_each = var.opsworks_application_app_source
+
     content {
-      type     = lookup(opsworks_application_app_source.value, "type", null)
-      revision = lookup(opsworks_application_app_source.value, "revision", null)
-      url      = lookup(opsworks_application_app_source.value, "url", null)
-      username = lookup(opsworks_application_app_source.value, "username", null)
-      password = lookup(opsworks_application_app_source.value, "password", null)
-      ssh_key  = lookup(opsworks_application_app_source.value, "ssh_key", null)
+      type     = lookup(app_source.value, "type", null)
+      revision = lookup(app_source.value, "revision", null)
+      url      = lookup(app_source.value, "url", null)
+      username = lookup(app_source.value, "username", null)
+      password = lookup(app_source.value, "password", null)
+      ssh_key  = lookup(app_source.value, "ssh_key", null)
     }
   }
 
   dynamic "ssl_configuration" {
+    iterator = ssl_configuration
     for_each = var.opsworks_application_ssl_configuration
+
     content {
-      private_key = lookup(opsworks_application_ssl_configuration.value, "private_key", null)
-      certificate = lookup(opsworks_application_ssl_configuration.value, "certificate", null)
-      chain       = lookup(opsworks_application_ssl_configuration.value, "chain", null)
+      private_key = lookup(ssl_configuration.value, "private_key", null)
+      certificate = lookup(ssl_configuration.value, "certificate", null)
+      chain       = lookup(ssl_configuration.value, "chain", null)
     }
   }
 

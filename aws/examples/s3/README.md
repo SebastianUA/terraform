@@ -31,7 +31,7 @@ module "s3_private_bucket" {
   s3_bucket_name   = "natarov-test-bucket1"
   s3_bucket_acl    = "private"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }
 
 
@@ -92,7 +92,7 @@ module "s3" {
 
       id     = "log"
       prefix = "log/"
-      tags   = map("rule", "log", "autoclean", "true")
+      tags   = tomap({ "rule" = "log", "autoclean" = "true" })
 
       expiration = {
         days = 90
@@ -194,7 +194,7 @@ module "s3" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }
 
 
@@ -216,7 +216,7 @@ module "s3_bucket_public_access_block" {
   s3_bucket_public_access_block_ignore_public_acls      = true
   s3_bucket_public_access_block_restrict_public_buckets = true
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
 }```
 
 ## Module Input Variables
@@ -264,7 +264,7 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_inventory_optional_fields` - (Optional) List of optional fields that are included in the inventory results. Valid values: Size, LastModifiedDate, StorageClass, ETag, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus, IntelligentTieringAccessTier. (`default = []`)
 - `s3_bucket_inventory_schedule` - (Required) Specifies the schedule for generating inventory results (`default = []`)
 - `s3_bucket_inventory_filter` - (Optional) Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria (`default = []`)
-- `s3_bucket_inventory_destination_bucket` - (Required) The S3 bucket configuration where inventory results are published (`default = []`)
+- `s3_bucket_inventory_destination` - (Required) Contains information about where to publish the inventory results (`default = []`)
 - `enable_s3_bucket_public_access_block` - Enable S3 bucket public access block usage (`default = False`)
 - `s3_bucket_public_access_block_bucket` - S3 Bucket to which this Public Access Block configuration should be applied. (`default = ""`)
 - `s3_bucket_public_access_block_block_public_acls` - (Optional) Whether Amazon S3 should block public ACLs for this bucket. Defaults to false. Enabling this setting does not affect existing policies or ACLs. When set to true causes the following behavior: PUT Bucket acl and PUT Object acl calls will fail if the specified ACL allows public access; PUT Object calls will fail if the request includes an object ACL. (`default = null`)
@@ -288,7 +288,7 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_analytics_configuration_bucket` - The name of the bucket this analytics configuration is associated with. (`default = ""`)
 - `s3_bucket_analytics_configuration_name` - Unique identifier of the analytics configuration for the bucket. (`default = ""`)
 - `s3_bucket_analytics_configuration_filter` - (Optional) Object filtering that accepts a prefix, tags, or a logical AND of prefix and tags (`default = []`)
-- `s3_bucket_analytics_configuration_destination_s3_bucket_destination` - (Required) Analytics data export currently only supports an S3 bucket destination (`default = []`)
+- `s3_bucket_analytics_configuration_storage_class_analysis` - (Optional) Configuration for the analytics data export (`default = []`)
 - `enable_s3_bucket_ownership_controls` - Enable s3 bucket ownership controls usage (`default = False`)
 - `s3_bucket_ownership_controls_bucket` - The name of the bucket that you want to associate this access point with. (`default = ""`)
 - `s3_bucket_ownership_controls_rule` - (Required) Configuration block(s) with Ownership Controls rules. (`default = []`)
