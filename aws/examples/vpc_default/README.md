@@ -35,7 +35,11 @@ module "vpc_default" {
   # Default VPC SG
 
 
-  tags = map("Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 ```
 

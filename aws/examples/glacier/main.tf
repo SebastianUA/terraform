@@ -27,8 +27,9 @@ module "glacier" {
   glacier_vault_lock_policy                = file("additional_files/glacier_vault_policy.json")
   glacier_vault_lock_ignore_deletion_error = null
 
-  tags = map(
-    "ENV", "dev",
-    "Createdby", "Vitalii Natarov"
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

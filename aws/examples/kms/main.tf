@@ -29,7 +29,11 @@ module "iam_role" {
   iam_role_policy_name   = "my-iam-role-policy-for-testing-terraform"
   iam_role_policy        = file("additional_files/policies/kms_policy.json")
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 
@@ -73,5 +77,9 @@ module "kms" {
 }
 EOF
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

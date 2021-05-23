@@ -51,7 +51,11 @@ module "dax" {
   dax_subnet_group_name       = "test-dax-subnet-group"
   dax_subnet_group_subnet_ids = []
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

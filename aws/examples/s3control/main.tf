@@ -15,6 +15,10 @@ module "s3control" {
   source = "../../modules/s3control"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
 }

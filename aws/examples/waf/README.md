@@ -42,7 +42,11 @@ module "waf" {
   waf_rule_metric_name = "test"
   waf_rule_predicates  = []
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 ```
 

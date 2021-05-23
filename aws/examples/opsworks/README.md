@@ -50,7 +50,11 @@ module "iam_role" {
   enable_iam_instance_profile = true
   iam_instance_profile_name   = "opsworks-instance-profile-test"
 
-  tags = tomap({"Env"="stage", "Orchestration"="Terraform"})
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "opsworks" {
@@ -85,7 +89,11 @@ module "opsworks" {
   opsworks_application_name       = "opsworks-app-test"
   opsworks_application_short_name = "app-test"
 
-  tags = tomap({"Env"="stage", "Orchestration"="Terraform"})
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
 }
 ```

@@ -52,5 +52,9 @@ module "vpc_vpn" {
   customer_gateway_bgp_asn    = 65000
   customer_gateway_ip_address = "1.2.3.4" # Set IP addr gateway; For example: office's IP GW.
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

@@ -25,7 +25,11 @@ module "kinesis_video" {
   source = "../../modules/kinesis_video"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
 }
 ```

@@ -19,5 +19,9 @@ module "cloud9" {
   cloud9_environment_ec2_name          = ""
   cloud9_environment_ec2_instance_type = "t2.micro"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

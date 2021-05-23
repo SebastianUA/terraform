@@ -59,8 +59,9 @@ module "transit_gateway" {
   enable_transit_gateway_peering_attachment_accepter                        = false
   transit_gateway_peering_attachment_accepter_transit_gateway_attachment_id = ""
 
-  tags = map(
-    "Env", "dev",
-    "Orchestration", "Terraform"
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

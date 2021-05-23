@@ -48,7 +48,11 @@ module "ssm" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

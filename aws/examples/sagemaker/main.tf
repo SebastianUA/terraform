@@ -55,5 +55,9 @@ module "sagemaker" {
   sagemaker_notebook_instance_kms_key_id             = null
   sagemaker_notebook_instance_direct_internet_access = null
 
-  tags = map("Env", "dev", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

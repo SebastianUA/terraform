@@ -39,10 +39,11 @@ module "org" {
   organizations_policy_attachment_policy_id = ""
   organizations_policy_attachment_target_id = ""
 
-  tags = merge(map(
-    "Createdby", "Vitaliy Natarov",
-    "Env", "dev"
-  ))
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
   depends_on = []
 }
@@ -69,10 +70,11 @@ module "org_unit" {
   organizations_policy_attachment_policy_id = ""
   organizations_policy_attachment_target_id = ""
 
-  tags = merge(map(
-    "Createdby", "Vitaliy Natarov",
-    "Env", "dev"
-  ))
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
   depends_on = [
     data.aws_organizations_organizational_units.ou,
@@ -91,10 +93,11 @@ module "org_account" {
   organizations_account_parent_id = module.org_unit.organizations_organizational_unit_id
   organizations_account_email     = "solo.metal@bigmir.net"
 
-  tags = merge(map(
-    "Createdby", "Vitaliy Natarov",
-    "Env", "dev"
-  ))
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
   depends_on = [
     module.org_unit

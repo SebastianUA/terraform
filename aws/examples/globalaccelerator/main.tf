@@ -43,8 +43,9 @@ module "globalaccelerator" {
     #}
   ]
 
-  tags = map(
-    "ENV", "dev",
-    "CreatedBy", "Viatalii Natarov",
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

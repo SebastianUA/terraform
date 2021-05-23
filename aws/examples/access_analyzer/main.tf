@@ -18,8 +18,8 @@ module "access_analyzer" {
   enable_accessanalyzer_analyzer = true
   accessanalyzer_analyzer_name   = ""
 
-  tags = map(
-    "ENV", "dev",
-    "Createdby", "Vitalii Natarov",
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitalii Natarov"
+  })
 }

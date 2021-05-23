@@ -46,7 +46,11 @@ module "rds_cluster" {
   rds_cluster_instance_instance_class = "db.t2.small"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
 }
 
@@ -111,5 +115,9 @@ module "db_instance-rds-oracle" {
   db_instance_role_association_feature_name = ""
   db_instance_role_association_role_arn     = ""
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

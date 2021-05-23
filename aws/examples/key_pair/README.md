@@ -30,10 +30,11 @@ module "key_pair_name" {
   key_pair_key_name_prefix = null
   key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
 
-  tags = map(
-    "CreatedBy", "Vitaliy Natarov",
-    "Env", "dev"
-  )
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "key_pair_prefix" {
@@ -43,10 +44,11 @@ module "key_pair_prefix" {
   key_pair_key_name_prefix = "kp-"
   key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
 
-  tags = map(
-    "CreatedBy", "Vitaliy Natarov",
-    "Env", "dev"
-  )
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

@@ -39,5 +39,9 @@ module "iam_role" {
   enable_iam_instance_profile = true
   iam_instance_profile_name   = "tf-role-for-testing"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

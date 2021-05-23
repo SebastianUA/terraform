@@ -25,7 +25,10 @@ module "apigatewayv2" {
   source = "../../modules/apigatewayv2"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov"
+  })
 
 }
 ```

@@ -82,6 +82,12 @@ module "workspaces" {
     }
   ]
 
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
   depends_on = [
     data.aws_workspaces_bundle.bundle_windows_10
   ]

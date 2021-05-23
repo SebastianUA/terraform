@@ -20,5 +20,9 @@ module "ecr" {
   enable_ecr_lifecycle_policy = true
   lifecycle_policy_json_file  = file("additional_files/lifecycle_policy.json")
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

@@ -25,5 +25,9 @@ module "route53" {
   route53_record_ttl     = 300
   route53_record_records = ["192.168.0.113"]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

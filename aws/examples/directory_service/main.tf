@@ -33,8 +33,9 @@ module "directory_service" {
   ]
 
 
-  tags = map(
-    "ENV", "dev",
-    "Createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

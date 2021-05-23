@@ -36,5 +36,9 @@ module "vpc_custom_routings" {
   private_custom_peering_destination_cidr_block = ["1.2.3.4/32", "4.3.2.1/32"]
   private_custom_gateway_id                     = "tgw-05b56a37c420a2635"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

@@ -39,7 +39,11 @@ module "ram_owner" {
   enable_ram_principal_association    = true
   ram_principal_association_principal = "XXXXXXXXXXXXXXXXX"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

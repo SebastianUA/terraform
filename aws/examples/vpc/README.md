@@ -21,7 +21,11 @@ module "s3_flow_logs" {
   s3_bucket_name   = "s3-flow-log-test"
   s3_bucket_acl    = "private"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 #---------------------------------------------------------------
@@ -80,8 +84,11 @@ module "vpc" {
     }
   ]
 
-
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
   depends_on = [
     module.s3_flow_logs

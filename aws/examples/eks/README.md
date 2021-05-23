@@ -49,7 +49,11 @@ module "iam_role" {
   enable_iam_instance_profile = true
   iam_instance_profile_name   = "tf-role-for-testing"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "vpc" {
@@ -85,7 +89,11 @@ module "vpc" {
   # EIP
   enable_eip = false
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "eks" {
@@ -142,7 +150,11 @@ module "eks" {
   eks_node_group_launch_template = []
   eks_node_group_timeouts        = []
 
-  tags = map("Env", "NonProd", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

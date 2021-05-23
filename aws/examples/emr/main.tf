@@ -45,7 +45,11 @@ module "vpc" {
   enable_eip = false
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 module "emr" {
@@ -222,9 +226,9 @@ module "emr" {
     }
   ]
 
-  tags = map(
-    "Env", "stage",
-    "Orchestration", "Terraform",
-    "Createdby", "Vitaliy Natarov",
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

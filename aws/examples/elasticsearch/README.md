@@ -41,7 +41,11 @@ module "elasticsearch_domain" {
   elasticsearch_domain_domain_endpoint_options   = {}
   elasticsearch_domain_timeouts                  = {}
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
 }
 

@@ -31,7 +31,11 @@ module "s3_private_bucket" {
   s3_bucket_name   = "natarov-test-bucket1"
   s3_bucket_acl    = "private"
 
-  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 
@@ -194,7 +198,11 @@ module "s3" {
     }
   ]
 
-  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 
@@ -216,7 +224,11 @@ module "s3_bucket_public_access_block" {
   s3_bucket_public_access_block_ignore_public_acls      = true
   s3_bucket_public_access_block_restrict_public_buckets = true
 
-  tags = tomap({ "Env" = "stage", "Orchestration" = "Terraform" })
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }```
 
 ## Module Input Variables

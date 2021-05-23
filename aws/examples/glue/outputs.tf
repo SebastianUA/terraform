@@ -7,5 +7,6 @@ output "glue_job_name" {
 }
 
 output "random_glue_connection_password" {
-  value = module.random_glue_connection_password.password_result
+  value     = module.random_glue_connection_password.password_result
+  sensitive = true
 }

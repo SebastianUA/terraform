@@ -90,7 +90,10 @@ module "alb" {
     }
   ]
 
-  tags = map("Env", "stage")
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 
 }
 
@@ -110,6 +113,9 @@ module "alb_name_prefix" {
   alb_enable_deletion_protection = false
 
 
-  tags = map("Env", "stage")
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 
 }

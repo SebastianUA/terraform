@@ -29,7 +29,11 @@ module "datapipeline" {
   datapipeline_pipeline_name        = ""
   datapipeline_pipeline_description = null
 
-  tags = map("Env", "stage", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

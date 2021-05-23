@@ -15,6 +15,10 @@ module "synthetics" {
   source = "../../modules/synthetics"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
 }

@@ -32,8 +32,9 @@ module "secretsmanager" {
     }
   )
 
-  tags = map(
-    "ENV", "dev",
-    "Createdby", "Vitalii Natarov",
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

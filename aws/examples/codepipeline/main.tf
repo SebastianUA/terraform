@@ -21,7 +21,11 @@ module "s3" {
   s3_bucket_name   = "codepipeline-artifacts-bucket"
   s3_bucket_acl    = "private"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 module "kms" {
@@ -51,7 +55,11 @@ module "codecommit" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 module "codebuild" {
@@ -144,7 +152,11 @@ module "codebuild" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 module "codepipeline" {
@@ -246,5 +258,9 @@ module "codepipeline" {
     }
   ]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

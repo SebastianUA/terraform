@@ -73,7 +73,11 @@ module "vpc_endpoint" {
   vpc_endpoint_connection_notification_connection_notification_arn = ""
   vpc_endpoint_connection_notification_connection_events           = ["Accept", "Reject"]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 // module "vpc_endpoint" {
@@ -137,7 +141,11 @@ module "vpc_endpoint" {
 //     }
 //   ]
 
-//   tags = map("Env", "stage", "Orchestration", "Terraform")
+//   tags = tomap({
+//   "Environment"="dev",
+//   "Createdby"="Vitaliy Natarov",
+//   "Orchestration"="Terraform"
+// })
 // }
 
 module "vpc_endpoint_service" {
@@ -168,5 +176,9 @@ module "vpc_endpoint_service" {
   vpc_endpoint_connection_notification_connection_notification_arn = ""
   vpc_endpoint_connection_notification_connection_events           = ["Accept", "Reject"]
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

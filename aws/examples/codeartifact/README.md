@@ -29,7 +29,11 @@ module "codeartifact_domain" {
   codeartifact_domain                = ""
   codeartifact_domain_encryption_key = null
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
 }
 
@@ -92,7 +96,11 @@ module "codeartifact_repository" {
 }
 EOF
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
   depends_on = [
     module.codeartifact_domain

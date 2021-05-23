@@ -253,14 +253,14 @@ module "glue" {
     {
       ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
       ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_parameters            = map("field.delim", ",")
+      ser_de_info_parameters            = tomap({ "field.delim" = "," })
     }
   ]
   storage_descriptor_skewed_info = [
     {
       ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
       ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_parameters            = map("field.delim", ",")
+      ser_de_info_parameters            = tomap({ "field.delim" = "," })
     }
   ]
   storage_descriptor_sort_columns = []
@@ -305,10 +305,10 @@ module "glue" {
   ]
   tags = merge(
     module.aws_user_tags.tags,
-    map(
-      "cost-center", "00-00000.000.01",
-      "Project", "My Test Glue Project"
-    )
+    tomap({
+      "cost-center" = "00-00000.000.01",
+      "Project"     = "My Test Glue Project"
+    })
   )
 
   depends_on = [
@@ -335,10 +335,10 @@ module "glue_trigger" {
 
   tags = merge(
     module.aws_user_tags.tags,
-    map(
-      "cost-center", "00-00000.000.01",
-      "Project", "My Test Glue Project"
-    )
+    tomap({
+      "cost-center" = "00-00000.000.01",
+      "Project"     = "My Test Glue Project"
+    })
   )
 
   depends_on = [

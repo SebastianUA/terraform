@@ -46,7 +46,11 @@ module "vpc_1" {
   peering_destination_cidr_block = "172.32.0.0/16"
   peering_gateway_id             = module.vpc_2.vpc_peering_connection_id
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 #---------------------------------------------------------------
@@ -161,7 +165,11 @@ module "vpc_2" {
 
   peering_destination_cidr_block = "6.6.0.0/16"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 
   depends_on = [
     module.s3_flow_logs

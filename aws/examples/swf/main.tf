@@ -18,5 +18,9 @@ module "swf" {
   swf_domain_description                                 = "Managing by Terrafrom"
   swf_domain_workflow_execution_retention_period_in_days = 0
 
-  tags = map("Env", "dev", "Createdby", "Vitalii Natarov", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

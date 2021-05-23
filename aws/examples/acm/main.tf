@@ -21,10 +21,10 @@ module "acm_certificate" {
   acm_certificate_subject_alternative_names = ["www.linux-notes.org", "linux-notes.org"]
   acm_certificate_validation_method         = "EMAIL"
 
-  tags = map(
-    "env", "stage",
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 
 }
 
@@ -35,10 +35,10 @@ module "acm_certificate_validation" {
   acm_certificate_validation_certificate_arn = module.acm_certificate.aws_acm_certificate_arn
   acm_certificate_validation_record_fqdns    = ["linux-notes.org"]
 
-  tags = map(
-    "env", "stage",
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 
   depends_on = [
     module.acm_certificate
@@ -53,10 +53,10 @@ module "acm_import_existing_certificate" {
   acm_certificate_certificate_body   = ""
   acm_certificate_certificate_chain  = ""
 
-  tags = map(
-    "env", "stage",
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 }
 
 module "acmpca_certificate_authority" {
@@ -79,10 +79,10 @@ module "acmpca_certificate_authority" {
 
   acmpca_certificate_authority_crl_configuration = []
 
-  tags = map(
-    "env", "stage",
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 }
 
 module "acm_certificate_private_ca" {
@@ -93,10 +93,10 @@ module "acm_certificate_private_ca" {
   acm_certificate_certificate_authority_arn = module.acmpca_certificate_authority.acmpca_certificate_authority_arn
   acm_certificate_subject_alternative_names = ["www.linux-notes.org", "linux-notes.org"]
 
-  tags = map(
-    "env", "stage",
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
+  })
 
   depends_on = [
     module.acmpca_certificate_authority

@@ -32,7 +32,11 @@ module "codestarnotifications" {
   codestarnotifications_notification_rule_event_type_ids = ["codecommit-repository-comments-on-commits"]
   codestarnotifications_notification_rule_status         = "ENABLED"
 
-  tags = map("Env", "stage", "Orchestration", "Terrafrom")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

@@ -34,5 +34,9 @@ module "backup" {
   backup_selection_iam_role_arn = "arn:aws:iam::167127734783:role/admin-role"
   backup_selection_resources    = []
 
-  tags = map("Env", "dev", "Orchestration", "Terraform", "Createdby", "Vitalii Natarov")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

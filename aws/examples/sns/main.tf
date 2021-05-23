@@ -35,5 +35,9 @@ module "sns" {
   enable_sns_platform_application = false
   sns_platform_application_name   = "test"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

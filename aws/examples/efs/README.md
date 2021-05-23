@@ -56,7 +56,11 @@ module "efs" {
   ]
   efs_access_point_root_directory = []
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "efs_policy" {
@@ -93,7 +97,11 @@ module "efs_policy" {
 }
 POLICY
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
   depends_on = [
     module.efs

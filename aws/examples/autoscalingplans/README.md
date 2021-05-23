@@ -25,7 +25,11 @@ module "autoscalingplans" {
   source = "../../modules/autoscalingplans"
 
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 
 }
 ```

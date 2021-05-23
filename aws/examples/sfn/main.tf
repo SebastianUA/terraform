@@ -36,7 +36,9 @@ module "sfn" {
 }
 EOF
 
-  tags = merge(map(
-    "createdby", "vnatarov"
-  ))
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

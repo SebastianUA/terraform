@@ -38,7 +38,11 @@ module "sqs" {
   queue_url               = ""
   sqs_queue_policy        = file("policies/sqs_queue_policy.json.tpl")
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

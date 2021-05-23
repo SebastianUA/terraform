@@ -28,10 +28,10 @@ module "xray" {
   xray_sampling_rule_service_name   = "*"
   xray_sampling_rule_resource_arn   = "*"
 
-  xray_sampling_rule_attributes = map(
-    "This", "is",
-    "Vitaliy", "Natarov"
-  )
+  xray_sampling_rule_attributes = tomap({
+    "This"    = "is",
+    "Vitaliy" = "Natarov"
+  })
 
   # 
   enable_xray_encryption_config = true
@@ -42,7 +42,9 @@ module "xray" {
   xray_group_name              = "zray-group"
   xray_group_filter_expression = "responsetime > 5"
 
-  tags = map(
-    "createdby", "Vitaliy Natarov"
-  )
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

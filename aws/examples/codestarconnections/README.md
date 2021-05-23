@@ -28,7 +28,11 @@ module "codestarconnections" {
   codestarconnections_connection_name          = "github-test-codestarconnections"
   codestarconnections_connection_provider_type = "GitHub"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

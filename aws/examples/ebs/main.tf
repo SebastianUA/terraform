@@ -24,6 +24,9 @@ module "ebs" {
   force_detach = false
   skip_destroy = false
 
-  #
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

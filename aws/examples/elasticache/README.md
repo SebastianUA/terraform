@@ -53,7 +53,11 @@ module "elasticache_single_redis" {
   num_cache_nodes            = 1
   node_type                  = "cache.m3.medium"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 
 module "elasticache_single_memcached" {
@@ -87,7 +91,11 @@ module "elasticache_single_memcached" {
   num_cache_nodes            = 1
   node_type                  = "cache.m3.medium"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 

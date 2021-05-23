@@ -99,5 +99,9 @@ auto.create.topics.enable = true
 delete.topic.enable = true
 PROPERTIES
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

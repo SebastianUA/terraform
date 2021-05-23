@@ -20,7 +20,9 @@ module "sfn" {
   placement_group_strategy = "cluster"
 
 
-  tags = merge(map(
-    "createdby", "vnatarov"
-  ))
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

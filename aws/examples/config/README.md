@@ -42,6 +42,12 @@ module "s3" {
   # Add policy to the bucket
   enable_s3_bucket_policy = false
 
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
+
 }
 
 module "config" {
@@ -72,7 +78,11 @@ module "config" {
   enable_config_aggregate_authorization     = true
   config_aggregate_authorization_account_id = "167127734783"
 
-  tags = map("Env", "stage", "Orchestration", "Terraform")
+  tags = tomap({
+    "Environment"="dev",
+    "Createdby"="Vitaliy Natarov",
+    "Orchestration"="Terraform"
+  })
 }
 ```
 
