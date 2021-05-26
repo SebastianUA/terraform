@@ -63,7 +63,7 @@ resource "aws_lambda_function" "lambda_function" {
     for_each = var.lambda_function_timeouts
 
     content {
-      create = lookup(timeouts.value, "create", "10m")
+      create = lookup(timeouts.value, "create", null)
     }
   }
 

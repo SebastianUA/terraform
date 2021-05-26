@@ -19,11 +19,17 @@ resource "aws_lambda_event_source_mapping" "lambda_event_source_mapping" {
   bisect_batch_on_function_error     = var.lambda_event_source_mapping_bisect_batch_on_function_error
 
   dynamic "destination_config" {
-    for_each = var.lambda_event_source_mapping_destination_config == null ? [] : [var.lambda_event_source_mapping_destination_config]
+    iterator = destination_config
+    for_each = var.lambda_event_source_mapping_destination_config
 
     content {
-      on_failure {
-        destination_arn = var.lambda_event_source_mapping_destination_config
+      dynamic "on_failure" {
+        iterator = on_failure
+        for_each = length(keys(lookup(destination_config.value, "on_failure", {}))) > 0 ? [lookup(destination_config.value, "on_failure", {})] : []
+
+        content {
+          destination_arn = lookup(on_failure.value, "destination_arn", null)
+        }
       }
     }
   }

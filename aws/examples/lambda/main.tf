@@ -37,7 +37,10 @@ module "lambda" {
   lambda_alias_name             = ""
   lambda_alias_function_version = "$LATEST"
   lambda_alias_routing_config = {
-    "2" = 0.5
+    additional_version_weights = {
+      "2" = 0.5
+      "1" = 1
+    }
   }
 
   # Add lambda event source mapping

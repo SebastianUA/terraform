@@ -10,10 +10,11 @@ resource "aws_lambda_alias" "lambda_alias" {
   function_version = var.lambda_alias_function_version
 
   dynamic "routing_config" {
-    for_each = var.lambda_alias_routing_config == null ? [] : [var.lambda_alias_routing_config]
+    iterator = routing_config
+    for_each = [var.lambda_alias_routing_config]
 
     content {
-      additional_version_weights = var.lambda_alias_routing_config
+      additional_version_weights = lookup(routing_config.value, "additional_version_weights", {})
     }
   }
 

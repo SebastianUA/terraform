@@ -29,15 +29,25 @@ resource "aws_lb_listener_rule" "nlb_listener_rule" {
       for_each = var.nlb_listener_rule_action_forward
 
       content {
-        target_group {
-          arn = lookup(forward.value, "target_group_arn", null)
+        dynamic "target_group" {
+          iterator = target_group
+          for_each = length(keys(lookup(forward.value, "target_group", {}))) > 0 ? [lookup(forward.value, "target_group", {})] : []
 
-          weight = lookup(forward.value, "target_group_weight", null)
+          content {
+            arn = lookup(target_group.value, "arn", null)
+
+            weight = lookup(target_group.value, "weight", null)
+          }
         }
 
-        stickiness {
-          enabled  = lookup(forward.value, "stickiness_enabled", null)
-          duration = lookup(forward.value, "stickiness_duration", null)
+        dynamic "stickiness" {
+          iterator = stickiness
+          for_each = length(keys(lookup(forward.value, "stickiness", {}))) > 0 ? [lookup(forward.value, "stickiness", {})] : []
+
+          content {
+            enabled  = lookup(stickiness.value, "enabled", null)
+            duration = lookup(stickiness.value, "duration", null)
+          }
         }
       }
     }
@@ -96,7 +106,6 @@ resource "aws_lb_listener_rule" "nlb_listener_rule" {
   }
 
   condition {
-
     dynamic "host_header" {
       iterator = host_header
       for_each = var.nlb_listener_rule_condition_host_header

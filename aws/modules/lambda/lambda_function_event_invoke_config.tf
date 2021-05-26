@@ -15,34 +15,22 @@ resource "aws_lambda_function_event_invoke_config" "lambda_function_event_invoke
     for_each = var.lambda_function_event_invoke_config_destination_config
 
     content {
-      on_failure {
-        destination = lookup(destination_config.value, "destination_on_failure", null)
+      dynamic "on_success" {
+        iterator = on_success
+        for_each = length(keys(lookup(destination_config.value, "on_success", {}))) > 0 ? [lookup(destination_config.value, "on_success", {})] : []
+
+        content {
+          destination = lookup(on_success.value, "destination", null)
+        }
       }
 
-      on_success {
-        destination = lookup(destination_config.value, "destination_on_success", null)
-      }
-    }
-  }
+      dynamic "on_failure" {
+        iterator = on_failure
+        for_each = length(keys(lookup(destination_config.value, "on_failure", {}))) > 0 ? [lookup(destination_config.value, "on_failure", {})] : []
 
-  dynamic "destination_config" {
-    iterator = destination_config
-    for_each = var.lambda_function_event_invoke_config_destination_config_on_failure
-
-    content {
-      on_failure {
-        destination = lookup(destination_config.value, "destination", null)
-      }
-    }
-  }
-
-  dynamic "destination_config" {
-    iterator = destination_config
-    for_each = var.lambda_function_event_invoke_config_destination_config_on_success
-
-    content {
-      on_success {
-        destination = lookup(destination_config.value, "destination", null)
+        content {
+          destination = lookup(on_failure.value, "destination", null)
+        }
       }
     }
   }

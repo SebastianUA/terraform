@@ -160,7 +160,7 @@ variable "lambda_alias_function_version" {
 
 variable "lambda_alias_routing_config" {
   description = "(Optional) The Lambda alias' route configuration settings."
-  default     = null
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -261,16 +261,6 @@ variable "lambda_function_event_invoke_config_maximum_retry_attempts" {
 
 variable "lambda_function_event_invoke_config_destination_config" {
   description = "(Optional) Configuration block with destination configuration with on_failure + on_success usage "
-  default     = []
-}
-
-variable "lambda_function_event_invoke_config_destination_config_on_failure" {
-  description = "(Optional) Configuration block with destination configuration with on_failure usage"
-  default     = []
-}
-
-variable "lambda_function_event_invoke_config_destination_config_on_success" {
-  description = "(Optional) Configuration block with destination configuration with on_success usage"
   default     = []
 }
 
@@ -416,17 +406,17 @@ variable "enable_code_signing_config" {
   default     = false
 }
 
-variable "code_signing_config_allowed_publishers" {
+variable "lambda_code_signing_config_allowed_publishers" {
   description = "(Required) A configuration block of allowed publishers as signing profiles for this code signing configuration. "
   default     = []
 }
 
-variable "code_signing_config_description" {
+variable "lambda_code_signing_config_description" {
   description = "(Optional) Descriptive name for this code signing configuration."
   default     = null
 }
 
-variable "code_signing_config_policies" {
+variable "lambda_code_signing_config_policies" {
   description = "(Optional) A configuration block of code signing policies that define the actions to take if the validation checks fail. "
   default     = []
 }
