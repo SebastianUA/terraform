@@ -4,8 +4,9 @@
 resource "aws_glue_data_catalog_encryption_settings" "glue_data_catalog_encryption_settings" {
   count = var.enable_glue_data_catalog_encryption_settings ? 1 : 0
 
-  data_catalog_encryption_settings {
+  catalog_id = var.glue_data_catalog_encryption_settings_catalog_id
 
+  data_catalog_encryption_settings {
     dynamic "connection_password_encryption" {
       iterator = connection_password_encryption
       for_each = var.glue_data_catalog_encryption_settings_connection_password_encryption
@@ -26,8 +27,6 @@ resource "aws_glue_data_catalog_encryption_settings" "glue_data_catalog_encrypti
       }
     }
   }
-
-  catalog_id = var.glue_data_catalog_encryption_settings_catalog_id
 
   lifecycle {
     create_before_destroy = true
