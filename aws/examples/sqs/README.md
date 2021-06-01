@@ -39,9 +39,9 @@ module "sqs" {
   sqs_queue_policy        = file("policies/sqs_queue_policy.json.tpl")
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

@@ -29,8 +29,8 @@ module "access_analyzer" {
   accessanalyzer_analyzer_name   = ""
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitalii Natarov"
+    "Environment" = "dev",
+    "Createdby"   = "Vitalii Natarov"
   })
 }
 ```

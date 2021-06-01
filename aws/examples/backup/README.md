@@ -45,9 +45,9 @@ module "backup" {
   backup_selection_resources    = []
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

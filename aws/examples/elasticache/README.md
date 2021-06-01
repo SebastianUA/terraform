@@ -54,9 +54,9 @@ module "elasticache_single_redis" {
   node_type                  = "cache.m3.medium"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 
@@ -92,9 +92,9 @@ module "elasticache_single_memcached" {
   node_type                  = "cache.m3.medium"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

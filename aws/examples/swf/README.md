@@ -29,9 +29,9 @@ module "swf" {
   swf_domain_workflow_execution_retention_period_in_days = 0
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

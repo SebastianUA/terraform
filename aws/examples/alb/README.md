@@ -101,8 +101,8 @@ module "alb" {
   ]
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov"
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
   })
 
 }
@@ -124,8 +124,8 @@ module "alb_name_prefix" {
 
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov"
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
   })
 
 }

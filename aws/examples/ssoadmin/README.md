@@ -85,9 +85,9 @@ module "ssoadmin" {
   ssoadmin_permission_set_inline_policy_inline_policies = [data.aws_iam_policy_document.ssoadmin.json]
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

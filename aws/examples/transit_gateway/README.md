@@ -70,9 +70,9 @@ module "transit_gateway" {
   transit_gateway_peering_attachment_accepter_transit_gateway_attachment_id = ""
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

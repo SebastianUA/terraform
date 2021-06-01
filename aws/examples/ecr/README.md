@@ -31,9 +31,9 @@ module "ecr" {
   lifecycle_policy_json_file  = file("additional_files/lifecycle_policy.json")
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

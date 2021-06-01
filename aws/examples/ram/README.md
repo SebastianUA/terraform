@@ -50,9 +50,9 @@ module "ram_owner" {
   ram_principal_association_principal = "XXXXXXXXXXXXXXXXX"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 

@@ -26,8 +26,8 @@ module "apigatewayv2" {
 
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov"
+    "Environment" = "dev",
+    "Createdby"   = "Vitaliy Natarov"
   })
 
 }

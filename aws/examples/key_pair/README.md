@@ -31,9 +31,9 @@ module "key_pair_name" {
   key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 
@@ -45,9 +45,9 @@ module "key_pair_prefix" {
   key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 ```

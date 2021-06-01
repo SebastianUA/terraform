@@ -33,9 +33,9 @@ module "s3" {
   s3_bucket_acl    = "private"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 }
 
@@ -60,9 +60,9 @@ module "kms" {
   kms_alias_name   = "alias/athena-key"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 
   depends_on = [data.template_file.kms_key_policy]
@@ -113,9 +113,9 @@ module "athena" {
   athena_named_query_query  = "SELECT * FROM ${module.athena.athena_database_id} limit 10;"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 
   depends_on = [module.kms]

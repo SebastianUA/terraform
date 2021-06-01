@@ -50,9 +50,9 @@ module "org" {
   organizations_policy_attachment_target_id = ""
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 
   depends_on = []
@@ -81,9 +81,9 @@ module "org_unit" {
   organizations_policy_attachment_target_id = ""
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 
   depends_on = [
@@ -104,9 +104,9 @@ module "org_account" {
   organizations_account_email     = "solo.metal@bigmir.net"
 
   tags = tomap({
-    "Environment"="dev",
-    "Createdby"="Vitaliy Natarov",
-    "Orchestration"="Terraform"
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
   })
 
   depends_on = [
