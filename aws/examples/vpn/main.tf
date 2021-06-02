@@ -14,7 +14,8 @@ module "vpc_vpn" {
   vpn_gateway_availability_zone = null
   vpn_gateway_amazon_side_asn   = 64512
 
-  vpn_gateway_route_propagation_vpn_gateway_id = "gtw-id"
+  enable_vpn_gateway_route_propagation         = false
+  vpn_gateway_route_propagation_vpn_gateway_id = ""
   vpn_gateway_route_propagation_route_table_id = "rt-434fdf"
 
   enable_vpn_connection             = true

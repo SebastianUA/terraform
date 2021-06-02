@@ -73,6 +73,20 @@ Or:
 
 Also, you can use `-auto-approve` command to automatically terminate the stack.
 
+## graph
+
+If you're using mac OS, you must install the next package:
+```bash
+$ brew install graphviz
+```
+
+Then, run:
+```bash
+$ terraform graph | dot -Tsvg > graph.svg
+
+$ terraform graph | dot -Tpng > graph.png
+```
+
 ## Help
 
 ---------
