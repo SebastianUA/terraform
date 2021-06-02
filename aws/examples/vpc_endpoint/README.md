@@ -83,7 +83,7 @@ module "vpc_endpoint" {
 
 
   # VPC endpoint route table association
-  enable_vpc_endpoint_route_table_association = false
+  enable_vpc_endpoint_route_table_association         = false
   vpc_endpoint_route_table_association_route_table_id = "rtb-07472044c2935ac68"
 
 
