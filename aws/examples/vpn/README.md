@@ -1,4 +1,4 @@
-# Work with AWS VPN via terraform
+# Work with VPN via terraform
 
 A terraform module for making VPN.
 

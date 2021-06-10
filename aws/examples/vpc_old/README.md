@@ -1,4 +1,4 @@
-# Work with AWS VPC_OLD via terraform
+# Work with VPC_OLD via terraform
 
 A terraform module for making VPC_OLD.
 

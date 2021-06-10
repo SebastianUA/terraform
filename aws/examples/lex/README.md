@@ -1,4 +1,4 @@
-# Work with AWS LEX via terraform
+# Work with LEX via terraform
 
 A terraform module for making LEX.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {

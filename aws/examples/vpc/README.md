@@ -1,4 +1,4 @@
-# Work with AWS VPC via terraform
+# Work with VPC via terraform
 
 A terraform module for making VPC.
 

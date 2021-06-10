@@ -1,4 +1,4 @@
-# Work with AWS ASG_OLD via terraform
+# Work with ASG_OLD via terraform
 
 A terraform module for making ASG_OLD.
 

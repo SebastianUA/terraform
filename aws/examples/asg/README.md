@@ -1,4 +1,4 @@
-# Work with AWS ASG via terraform
+# Work with ASG via terraform
 
 A terraform module for making ASG.
 

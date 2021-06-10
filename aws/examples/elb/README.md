@@ -1,4 +1,4 @@
-# Work with AWS ELB via terraform
+# Work with ELB via terraform
 
 A terraform module for making ELB.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {

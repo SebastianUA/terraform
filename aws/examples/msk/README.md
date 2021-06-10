@@ -1,4 +1,4 @@
-# Work with AWS MSK via terraform
+# Work with MSK via terraform
 
 A terraform module for making MSK.
 
@@ -13,7 +13,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {

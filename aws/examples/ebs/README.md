@@ -1,4 +1,4 @@
-# Work with AWS EBS via terraform
+# Work with EBS via terraform
 
 A terraform module for making EBS.
 

@@ -1,4 +1,4 @@
-# Work with AWS VPC_PEERING via terraform
+# Work with VPC_PEERING via terraform
 
 A terraform module for making VPC_PEERING.
 

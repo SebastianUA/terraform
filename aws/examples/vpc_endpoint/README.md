@@ -1,4 +1,4 @@
-# Work with AWS VPC_ENDPOINT via terraform
+# Work with VPC_ENDPOINT via terraform
 
 A terraform module for making VPC_ENDPOINT.
 

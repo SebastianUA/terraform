@@ -1,4 +1,4 @@
-# Work with AWS VPC_NETWORK_INTERFACE via terraform
+# Work with VPC_NETWORK_INTERFACE via terraform
 
 A terraform module for making VPC_NETWORK_INTERFACE.
 
@@ -9,7 +9,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 
 ```
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {

@@ -1,4 +1,4 @@
-# Work with AWS EKS via terraform
+# Work with EKS via terraform
 
 A terraform module for making EKS.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {

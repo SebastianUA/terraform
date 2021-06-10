@@ -1,4 +1,4 @@
-# Work with AWS ECS via terraform
+# Work with ECS via terraform
 
 A terraform module for making ECS.
 
@@ -13,7 +13,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {
