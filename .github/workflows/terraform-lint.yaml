@@ -10,4 +10,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@master
       - name: Lint Terraform
-        uses: actionshub/terraform-lint@master
+        uses: actionshub/terraform-lint@main

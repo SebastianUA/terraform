@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 
   required_providers {
     vault = {
@@ -24,7 +24,7 @@ terraform {
 
 provider "vault" {
   address = "http://127.0.0.1:8200"
-  token   = "s.f0nKPyuFC2Ikk4IcNoRFOMgS"
+  token   = "s.mCwwXmc2wfgcCghPWFdIXe82"
 }
 
 module "vault_auth_backend_github" {
@@ -55,7 +55,8 @@ module "vault_auth_backend_userpass" {
   auth_backend_description = "Set userpass backend for Vault"
   auth_backend_path        = null
   auth_backend_local       = null
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

@@ -1,4 +1,4 @@
-# Work AWS VAULT_NAMESPACE via terraform
+# Work with VAULT_NAMESPACE via terraform
 
 A terraform module for making VAULT_NAMESPACE.
 
@@ -12,7 +12,7 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 # MAINTAINER Vitaliy Natarov "vitaliy.natarov@yahoo.com"
 #
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 
   required_providers {
     vault = {
@@ -24,7 +24,7 @@ terraform {
 
 provider "vault" {
   address = "http://127.0.0.1:8200"
-  token   = "s.f0nKPyuFC2Ikk4IcNoRFOMgS"
+  token   = "s.mCwwXmc2wfgcCghPWFdIXe82"
 }
 
 module "vault_namespace" {
@@ -33,7 +33,8 @@ module "vault_namespace" {
   enable_namespace = true
   namespace_path   = "ns1"
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------
