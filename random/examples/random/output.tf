@@ -26,6 +26,7 @@ output "random_integer_result" {
 output "random_password_result" {
   description = "Password ID"
   value       = module.random.password_result
+  sensitive   = true
 }
 
 output "random_id_id_b64_url" {

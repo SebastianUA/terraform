@@ -3,11 +3,10 @@
 #
 
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {
-  version                 = "~> 2.36"
   region                  = "us-east-1"
   shared_credentials_file = pathexpand("~/.aws/credentials")
   profile                 = "default"
@@ -61,8 +60,8 @@ module "provisioner_remote_exec" {
   provisioner_remote_exec_connection_type = "ssh"
   provisioner_remote_exec_connection_user = "captain"
 
-  provisioner_remote_exec_inline = ["echo 'its working fine' > /home/captain/provisioner_remote_exec.txt "]
-  #provisioner_remote_exec_script                      = "some_script_here.sh"
+  provisioner_remote_exec_inline = ["echo 'its working fine' > /home/captain/provisioner_remote_exec.txt"]
+  # provisioner_remote_exec_script                      = "some_script_here.sh"
   # provisioner_remote_exec_scripts                    = ["some_script_here.sh", "some_script_here.sh args"]
 
   # if you wish to use login & password, then use
