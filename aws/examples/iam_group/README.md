@@ -36,8 +36,11 @@ module "iam_group" {
   iam_group_policy        = file("additional_files/policy.json")
 
   # Using IAM group policy attachment
-  #enable_iam_group_policy_attachment      = true
-  #iam_group_policy_attachment_policy_arn  = ""
+  enable_iam_group_policy_attachment      = true
+  iam_group_policy_attachment_policy_arns = [
+    "iam_group_policy_attachment_policy_arn1",
+    "iam_group_policy_attachment_policy_arn2"
+  ]
 
   # Using IAM group membership
   enable_iam_group_membership = true
@@ -59,7 +62,7 @@ module "iam_group" {
 - `iam_group_policy_group` - The IAM group to attach to the policy. (`default = ""`)
 - `iam_group_policy` - (Required) The policy document. This is a JSON formatted string. For more information about building IAM policy documents with Terraform, see the AWS IAM Policy Document Guide (`default = ""`)
 - `enable_iam_group_policy_attachment` - Enable IAM group policy attachment usage (`default = False`)
-- `iam_group_policy_attachment_policy_arn` - (Required) - The ARN of the policy you want to apply (`default = ""`)
+- `iam_group_policy_attachment_policy_arns` - (Required) - The ARNs of the policy you want to apply (`default = ""`)
 - `iam_group_policy_attachment_group` - Set group for policy attachment (`default = ""`)
 - `enable_iam_group_membership` - Enable IAM group membership usage (`default = False`)
 - `iam_group_membership_name` - The name to identify the Group Membership (`default = ""`)

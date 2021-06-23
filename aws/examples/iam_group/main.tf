@@ -26,8 +26,11 @@ module "iam_group" {
   iam_group_policy        = file("additional_files/policy.json")
 
   # Using IAM group policy attachment
-  #enable_iam_group_policy_attachment      = true
-  #iam_group_policy_attachment_policy_arn  = ""
+  enable_iam_group_policy_attachment      = true
+  iam_group_policy_attachment_policy_arns = [
+    "iam_group_policy_attachment_policy_arn1",
+    "iam_group_policy_attachment_policy_arn2"
+  ]
 
   # Using IAM group membership
   enable_iam_group_membership = true
