@@ -67,7 +67,7 @@ variable "enable_iam_group_policy_attachment" {
 
 variable "iam_group_policy_attachment_policy_arns" {
   description = "(Required) - The ARNs of the policy you want to apply"
-  default     = ""
+  default     = []
 }
 
 variable "iam_group_policy_attachment_group" {

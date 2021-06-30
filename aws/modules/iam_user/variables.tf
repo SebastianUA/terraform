@@ -81,9 +81,9 @@ variable "enable_iam_user_policy_attachment" {
   default     = false
 }
 
-variable "iam_user_policy_attachment_policy_arn" {
-  description = "(Required) - The ARN of the policy you want to apply"
-  default     = ""
+variable "iam_user_policy_attachment_policy_arns" {
+  description = "(Required) - The ARNs of the policy you want to apply"
+  default     = []
 }
 
 variable "iam_user_policy_attachment_user" {

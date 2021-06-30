@@ -100,7 +100,7 @@ module "iam_user" {
 - `iam_user_policy_user` - (Required) IAM user to which to attach this policy. (`default = ""`)
 - `iam_user_policy_policy` - (Required) IAM user to which to attach this policy. (`default = ""`)
 - `enable_iam_user_policy_attachment` - Enable iam_user_policy_attachment usage (`default = False`)
-- `iam_user_policy_attachment_policy_arn` - (Required) - The ARN of the policy you want to apply (`default = ""`)
+- `iam_user_policy_attachment_policy_arns` - (Required) - The ARNs of the policy you want to apply (`default = []`)
 - `iam_user_policy_attachment_user` - (Required) - The user the policy should be applied to (`default = ""`)
 - `enable_iam_user_ssh_key` - Enable iam_user_ssh_key usage (`default = False`)
 - `iam_user_ssh_key_username` - (Required) The name of the IAM user to associate the SSH public key with. (`default = ""`)
