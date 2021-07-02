@@ -35,11 +35,9 @@ module "iam_policy" {
   enable_iam_policy_attachment = true
   iam_policy_attachment_name   = ""
 
-  #iam_role_policy_attachment_roles        = null
-  #iam_policy_attachment_users             = null
+  iam_policy_attachment_roles  = []
+  iam_policy_attachment_users  = []
   iam_policy_attachment_groups = ["admins"]
-
-  iam_role_policy_attachment_policy_arn = ""
 }
 ```
 
@@ -55,9 +53,9 @@ module "iam_policy" {
 - `iam_policy_path` - (Optional, default '/') Path in which to create the policy. See IAM Identifiers for more information. (`default = null`)
 - `enable_iam_policy_attachment` - Enabling IAM policy attachment (`default = False`)
 - `iam_policy_attachment_name` - Set custom iam policy attachment name (`default = ""`)
-- `iam_policy_attachment_roles` - (Optional) - The role(s) the policy should be applied to (`default = []`)
-- `iam_policy_attachment_users` - (Optional) - The user(s) the policy should be applied to (`default = []`)
-- `iam_policy_attachment_groups` - (Optional) - The group(s) the policy should be applied to (`default = []`)
+- `iam_policy_attachment_roles` - (Optional) - The role(s) the policy should be applied to (`default = null`)
+- `iam_policy_attachment_users` - (Optional) - The user(s) the policy should be applied to (`default = null`)
+- `iam_policy_attachment_groups` - (Optional) - The group(s) the policy should be applied to (`default = null`)
 - `iam_policy_attachment_policy_arn` - The ARN of the policy you want to apply (`default = ""`)
 
 ## Module Output Variables

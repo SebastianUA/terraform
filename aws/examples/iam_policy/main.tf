@@ -25,9 +25,7 @@ module "iam_policy" {
   enable_iam_policy_attachment = true
   iam_policy_attachment_name   = ""
 
-  #iam_role_policy_attachment_roles        = null
-  #iam_policy_attachment_users             = null
+  iam_policy_attachment_roles  = []
+  iam_policy_attachment_users  = []
   iam_policy_attachment_groups = ["admins"]
-
-  iam_role_policy_attachment_policy_arn = ""
 }

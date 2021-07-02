@@ -11,6 +11,10 @@ resource "aws_iam_policy" "iam_policy" {
   description = var.iam_policy_description
   path        = var.iam_policy_path
 
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
 
   depends_on = []
 }

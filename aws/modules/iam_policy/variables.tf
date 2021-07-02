@@ -59,17 +59,17 @@ variable "iam_policy_attachment_name" {
 
 variable "iam_policy_attachment_roles" {
   description = "(Optional) - The role(s) the policy should be applied to"
-  default     = []
+  default     = null
 }
 
 variable "iam_policy_attachment_users" {
   description = "(Optional) - The user(s) the policy should be applied to"
-  default     = []
+  default     = null
 }
 
 variable "iam_policy_attachment_groups" {
   description = "(Optional) - The group(s) the policy should be applied to"
-  default     = []
+  default     = null
 }
 
 variable "iam_policy_attachment_policy_arn" {
