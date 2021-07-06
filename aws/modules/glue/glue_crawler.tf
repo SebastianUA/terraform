@@ -65,6 +65,45 @@ resource "aws_glue_crawler" "glue_crawler" {
     }
   }
 
+  dynamic "mongodb_target" {
+    iterator = mongodb_target
+    for_each = var.glue_crawler_mongodb_target
+
+    content {
+      connection_name = lookup(mongodb_target.value, "connection_name", null)
+
+      path     = lookup(mongodb_target.value, "path", null)
+      scan_all = lookup(mongodb_target.value, "scan_all", null)
+    }
+  }
+
+  dynamic "lineage_configuration" {
+    iterator = lineage_configuration
+    for_each = var.glue_crawler_lineage_configuration
+
+    content {
+      crawler_lineage_settings = lookup(lineage_configuration.value, "crawler_lineage_settings", null)
+    }
+  }
+
+  dynamic "recrawl_policy" {
+    iterator = recrawl_policy
+    for_each = var.glue_crawler_recrawl_policy
+
+    content {
+      recrawl_behavior = lookup(recrawl_policy.value, "recrawl_behavior", null)
+    }
+  }
+
+  dynamic "schema_change_policy" {
+    iterator = schema_change_policy
+    for_each = var.glue_crawler_schema_change_policy
+
+    content {
+      recrawl_behavior = lookup(schema_change_policy.value, "recrawl_behavior", null)
+    }
+  }
+
   tags = merge(
     {
       Name = var.glue_crawler_name != "" ? lower(var.glue_crawler_name) : "${lower(var.name)}-glue-crawler-${lower(var.environment)}"

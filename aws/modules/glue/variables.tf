@@ -301,6 +301,21 @@ variable "glue_crawler_schema_change_policy" {
   default     = []
 }
 
+variable "glue_crawler_recrawl_policy" {
+  description = "Optional) A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run."
+  default     = []
+}
+
+variable "glue_crawler_mongodb_target" {
+  description = "(Optional) List nested MongoDB target arguments."
+  default     = []
+}
+
+variable "glue_crawler_lineage_configuration" {
+  description = "(Optional) Specifies data lineage configuration settings for the crawler."
+  default     = []
+}
+
 #---------------------------------------------------
 # AWS glue security configuration
 #---------------------------------------------------
