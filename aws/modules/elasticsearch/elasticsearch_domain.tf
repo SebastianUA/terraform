@@ -6,14 +6,13 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   domain_name = var.elasticsearch_domain_name != "" ? var.elasticsearch_domain_name : "${lower(var.name)}-es-domain-${lower(var.environment)}"
 
-
   elasticsearch_version = var.elasticsearch_domain_elasticsearch_version
   advanced_options      = var.elasticsearch_domain_advanced_options
   access_policies       = var.elasticsearch_domain_access_policies
 
   dynamic "advanced_security_options" {
     iterator = advanced_security_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_advanced_security_options, "advanced_security_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_advanced_security_options, "advanced_security_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_advanced_security_options)) > 0 ? [var.elasticsearch_domain_advanced_security_options] : []
 
     content {
       enabled                        = lookup(advanced_security_options.value, "enabled", null)
@@ -35,7 +34,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "ebs_options" {
     iterator = ebs_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_ebs_options, "ebs_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_ebs_options, "ebs_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_ebs_options)) > 0 ? [var.elasticsearch_domain_ebs_options] : []
 
     content {
       ebs_enabled = lookup(ebs_options.value, "ebs_enabled", null)
@@ -48,7 +47,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "encrypt_at_rest" {
     iterator = encrypt_at_rest
-    for_each = length(keys(lookup(var.elasticsearch_domain_encrypt_at_rest, "encrypt_at_rest", {}))) > 0 ? [lookup(var.elasticsearch_domain_encrypt_at_rest, "encrypt_at_rest", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_encrypt_at_rest)) > 0 ? [var.elasticsearch_domain_encrypt_at_rest] : []
 
     content {
       enabled = lookup(encrypt_at_rest.value, "enabled", null)
@@ -59,7 +58,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "node_to_node_encryption" {
     iterator = node_to_node_encryption
-    for_each = length(keys(lookup(var.elasticsearch_domain_node_to_node_encryption, "node_to_node_encryption", {}))) > 0 ? [lookup(var.elasticsearch_domain_node_to_node_encryption, "node_to_node_encryption", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_node_to_node_encryption)) > 0 ? [var.elasticsearch_domain_node_to_node_encryption] : []
 
     content {
       enabled = lookup(node_to_node_encryption.value, "enabled", null)
@@ -94,7 +93,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "vpc_options" {
     iterator = vpc_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_vpc_options, "vpc_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_vpc_options, "vpc_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_vpc_options)) > 0 ? [var.elasticsearch_domain_vpc_options] : []
 
     content {
       subnet_ids = lookup(vpc_options.value, "subnet_ids", null)
@@ -105,7 +104,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "snapshot_options" {
     iterator = snapshot_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_snapshot_options, "snapshot_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_snapshot_options, "snapshot_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_snapshot_options)) > 0 ? [var.elasticsearch_domain_snapshot_options] : []
 
     content {
       automated_snapshot_start_hour = lookup(snapshot_options.value, "automated_snapshot_start_hour", null)
@@ -114,7 +113,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "log_publishing_options" {
     iterator = log_publishing_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_log_publishing_options, "log_publishing_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_log_publishing_options, "log_publishing_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_log_publishing_options)) > 0 ? [var.elasticsearch_domain_log_publishing_options] : []
 
     content {
       cloudwatch_log_group_arn = lookup(log_publishing_options.value, "cloudwatch_log_group_arn", null)
@@ -124,7 +123,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "cognito_options" {
     iterator = cognito_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_cognito_options, "cognito_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_cognito_options, "cognito_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_cognito_options)) > 0 ? [var.elasticsearch_domain_cognito_options] : []
 
     content {
       user_pool_id     = lookup(cognito_options.value, "user_pool_id", null)
@@ -137,7 +136,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "domain_endpoint_options" {
     iterator = domain_endpoint_options
-    for_each = length(keys(lookup(var.elasticsearch_domain_domain_endpoint_options, "domain_endpoint_options", {}))) > 0 ? [lookup(var.elasticsearch_domain_domain_endpoint_options, "domain_endpoint_options", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_domain_endpoint_options)) > 0 ? [var.elasticsearch_domain_domain_endpoint_options] : []
 
     content {
       enforce_https = lookup(domain_endpoint_options.value, "enforce_https", null)
@@ -148,7 +147,7 @@ resource "aws_elasticsearch_domain" "elasticsearch_domain" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = length(keys(lookup(var.elasticsearch_domain_timeouts, "timeouts", {}))) > 0 ? [lookup(var.elasticsearch_domain_timeouts, "timeouts", {})] : []
+    for_each = length(keys(var.elasticsearch_domain_timeouts)) > 0 ? [var.elasticsearch_domain_timeouts] : []
 
     content {
       update = lookup(timeouts.value, "update", null)

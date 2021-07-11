@@ -20,16 +20,25 @@ module "elasticsearch_domain" {
   elasticsearch_domain_elasticsearch_version = "1.5"
 
   elasticsearch_domain_advanced_security_options = {}
-  elasticsearch_domain_ebs_options               = {}
-  elasticsearch_domain_encrypt_at_rest           = {}
-  elasticsearch_domain_node_to_node_encryption   = {}
-  elasticsearch_domain_cluster_config            = []
-  elasticsearch_domain_vpc_options               = {}
-  elasticsearch_domain_snapshot_options          = {}
-  elasticsearch_domain_log_publishing_options    = {}
-  elasticsearch_domain_cognito_options           = {}
-  elasticsearch_domain_domain_endpoint_options   = {}
-  elasticsearch_domain_timeouts                  = {}
+  elasticsearch_domain_ebs_options = {
+    ebs_enabled = true
+
+    volume_type = "gp2"
+    volume_size = 30
+    iops        = 125
+  }
+  elasticsearch_domain_encrypt_at_rest         = {}
+  elasticsearch_domain_node_to_node_encryption = {}
+  elasticsearch_domain_cluster_config          = []
+  elasticsearch_domain_vpc_options = {
+    subnet_ids         = []
+    security_group_ids = []
+  }
+  elasticsearch_domain_snapshot_options        = {}
+  elasticsearch_domain_log_publishing_options  = {}
+  elasticsearch_domain_cognito_options         = {}
+  elasticsearch_domain_domain_endpoint_options = {}
+  elasticsearch_domain_timeouts                = {}
 
   tags = tomap({
     "Environment"   = "dev",
