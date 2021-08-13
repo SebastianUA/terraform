@@ -36,11 +36,16 @@ resource "aws_glue_ml_transform" "glue_ml_transform" {
     content {
       transform_type = lookup(parameters.value, "transform_type", null)
 
-      find_matches_parameters {
-        primary_key_column_name    = lookup(parameters.value, "primary_key_column_name", null)
-        accuracy_cost_trade_off    = lookup(parameters.value, "accuracy_cost_trade_off", null)
-        enforce_provided_labels    = lookup(parameters.value, "enforce_provided_labels", null)
-        precision_recall_trade_off = lookup(parameters.value, "precision_recall_trade_off", null)
+      dynamic "find_matches_parameters" {
+        iterator = find_matches_parameters
+        for_each = lookup(parameters.value, "find_matches_parameters", [])
+
+        content {
+          primary_key_column_name    = lookup(find_matches_parameters.value, "primary_key_column_name", null)
+          accuracy_cost_trade_off    = lookup(find_matches_parameters.value, "accuracy_cost_trade_off", null)
+          enforce_provided_labels    = lookup(find_matches_parameters.value, "enforce_provided_labels", null)
+          precision_recall_trade_off = lookup(find_matches_parameters.value, "precision_recall_trade_off", null)
+        }
       }
     }
   }

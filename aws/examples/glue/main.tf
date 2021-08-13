@@ -323,6 +323,26 @@ module "glue_trigger" {
     }
   ]
 
+  glue_trigger_predicate = {
+    logical = "AND"
+    conditions = [
+      {
+        job_name         = "job-name-1"
+        state            = null
+        crawler_name     = null
+        crawl_state      = null
+        logical_operator = "EQUALS"
+      },
+      {
+        job_name         = "job-name-2"
+        state            = null
+        crawler_name     = null
+        crawl_state      = null
+        logical_operator = "EQUALS"
+      }
+    ]
+  }
+
   tags = merge(
     module.aws_user_tags.tags,
     tomap({

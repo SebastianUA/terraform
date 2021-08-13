@@ -502,12 +502,12 @@ variable "glue_trigger_actions" {
 
 variable "glue_trigger_timeouts" {
   description = "Set timeouts for glue trigger"
-  default     = []
+  default     = {}
 }
 
 variable "glue_trigger_predicate" {
   description = "(Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

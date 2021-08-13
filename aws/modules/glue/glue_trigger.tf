@@ -27,14 +27,14 @@ resource "aws_glue_trigger" "glue_trigger" {
 
   dynamic "predicate" {
     iterator = predicate
-    for_each = var.glue_trigger_predicate
+    for_each = length(keys(var.glue_trigger_predicate)) > 0 ? [var.glue_trigger_predicate] : []
 
     content {
       logical = lookup(predicate.value, "logical", null)
 
       dynamic "conditions" {
         iterator = conditions
-        for_each = length(keys(lookup(predicate.value, "conditions", {}))) > 0 ? [lookup(predicate.value, "conditions", {})] : []
+        for_each = lookup(predicate.value, "conditions", [])
 
         content {
           job_name         = lookup(conditions.value, "job_name", null)
@@ -49,7 +49,7 @@ resource "aws_glue_trigger" "glue_trigger" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.glue_trigger_timeouts
+    for_each = length(keys(var.glue_trigger_timeouts)) > 0 ? [var.glue_trigger_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

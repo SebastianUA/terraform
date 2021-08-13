@@ -333,6 +333,26 @@ module "glue_trigger" {
     }
   ]
 
+  glue_trigger_predicate = {
+    logical = "AND"
+    conditions = [
+      {
+        job_name         = "job-name-1"
+        state            = null
+        crawler_name     = null
+        crawl_state      = null
+        logical_operator = "EQUALS"
+      },
+      {
+        job_name         = "job-name-2"
+        state            = null
+        crawler_name     = null
+        crawl_state      = null
+        logical_operator = "EQUALS"
+      }
+    ]
+  }
+
   tags = merge(
     module.aws_user_tags.tags,
     tomap({
@@ -441,8 +461,8 @@ module "glue_trigger" {
 - `glue_trigger_schedule` - (Optional) A cron expression used to specify the schedule. Time-Based Schedules for Jobs and Crawlers (`default = null`)
 - `glue_trigger_workflow_name` - (Optional) A workflow to which the trigger should be associated to. Every workflow graph (DAG) needs a starting trigger (ON_DEMAND or SCHEDULED type) and can contain multiple additional CONDITIONAL triggers. (`default = null`)
 - `glue_trigger_actions` - (Required) List of actions initiated by this trigger when it fires.  (`default = []`)
-- `glue_trigger_timeouts` - Set timeouts for glue trigger (`default = []`)
-- `glue_trigger_predicate` - (Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL (`default = []`)
+- `glue_trigger_timeouts` - Set timeouts for glue trigger (`default = {}`)
+- `glue_trigger_predicate` - (Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL (`default = {}`)
 - `enable_glue_data_catalog_encryption_settings` - Enable glue data catalog encryption settings usage (`default = False`)
 - `glue_data_catalog_encryption_settings_connection_password_encryption` - (Required) When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption. see Connection Password Encryption. (`default = []`)
 - `glue_data_catalog_encryption_settings_encryption_at_rest` - (Required) Specifies the encryption-at-rest configuration for the Data Catalog. see Encryption At Rest. (`default = []`)
