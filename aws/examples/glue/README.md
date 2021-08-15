@@ -231,39 +231,45 @@ module "glue" {
     location      = "s3://${module.s3_private_glue_catalog.s3_bucket_id}/test"
     input_format  = "org.apache.hadoop.mapred.TextInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    columns = [
+      {
+        name    = "oid"
+        type    = "double"
+        comment = "oid"
+      },
+      {
+        name    = "oid2"
+        type    = "double"
+        comment = "oid2"
+      },
+      {
+        name    = "oid3"
+        type    = "double"
+        comment = "oid3"
+      },
+    ]
+
+    ser_de_info = [
+      {
+        name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        parameters            = tomap({ "field.delim" = "," })
+      }
+    ]
+
+    sort_columns = []
+
+    skewed_info = [
+      {
+        skewed_column_names               = ["name-1"]
+        skewed_column_value_location_maps = tomap({ "field.delim" = "," })
+        skewed_column_values              = ["value-1", "value-2"]
+      }
+    ]
   }
-  storage_descriptor_columns = [
-    {
-      columns_name    = "oid"
-      columns_type    = "double"
-      columns_comment = "oid"
-    },
-    {
-      columns_name    = "oid2"
-      columns_type    = "double"
-      columns_comment = "oid2"
-    },
-    {
-      columns_name    = "oid3"
-      columns_type    = "double"
-      columns_comment = "oid3"
-    },
-  ]
-  storage_descriptor_ser_de_info = [
-    {
-      ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_parameters            = tomap({ "field.delim" = "," })
-    }
-  ]
-  storage_descriptor_skewed_info = [
-    {
-      ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-      ser_de_info_parameters            = tomap({ "field.delim" = "," })
-    }
-  ]
-  storage_descriptor_sort_columns = []
+
+
   # AWS Glue connection
   enable_glue_connection = true
   glue_connection_connection_properties = {
@@ -391,10 +397,6 @@ module "glue_trigger" {
 - `glue_catalog_table_table_type` - (Optional) The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.). (`default = null`)
 - `glue_catalog_table_parameters` - (Optional) Properties associated with this table, as a list of key-value pairs. (`default = null`)
 - `glue_catalog_table_storage_descriptor` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. (`default = {'location': None, 'input_format': None, 'output_format': None, 'compressed': None, 'number_of_buckets': None, 'bucket_columns': None, 'parameters': None, 'stored_as_sub_directories': None}`)
-- `storage_descriptor_columns` - (Optional) A list of the Columns in the table. (`default = []`)
-- `storage_descriptor_ser_de_info` - (Optional) Serialization/deserialization (SerDe) information. (`default = []`)
-- `storage_descriptor_sort_columns` - (Optional) A list of Order objects specifying the sort order of each bucket in the table. (`default = []`)
-- `storage_descriptor_skewed_info` - (Optional) Information about values that appear very frequently in a column (skewed values). (`default = []`)
 - `enable_glue_classifier` - Enable glue classifier usage (`default = False`)
 - `glue_classifier_name` - The name of the classifier. (`default = ""`)
 - `glue_classifier_csv_classifier` - (Optional) A classifier for Csv content.  (`default = []`)
@@ -500,10 +502,6 @@ module "glue_trigger" {
 - `glue_partition_partition_values` - (Required) The values that define the partition. (`default = []`)
 - `glue_partition_catalog_id` - (Optional) ID of the Glue Catalog and database to create the table in. If omitted, this defaults to the AWS Account ID plus the database name. (`default = null`)
 - `glue_partition_parameters` - (Optional) Properties associated with this table, as a list of key-value pairs. (`default = null`)
-- `glue_partition_storage_descriptor_columns` - (Optional) A list of the Columns in the table. (`default = []`)
-- `glue_partition_storage_descriptor_ser_de_info` - (Optional) Serialization/deserialization (SerDe) information. (`default = []`)
-- `glue_partition_storage_descriptor_sort_columns` - (Optional) A list of Order objects specifying the sort order of each bucket in the table. (`default = []`)
-- `glue_partition_storage_descriptor_skewed_info` - (Optional) Information about values that appear very frequently in a column (skewed values). (`default = []`)
 - `glue_partition_storage_descriptor` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. (`default = {'location': None, 'input_format': None, 'output_format': None, 'compressed': None, 'number_of_buckets': None, 'bucket_columns': None, 'parameters': None, 'stored_as_sub_directories': None}`)
 - `enable_glue_registry` - Enable glue registry usage (`default = False`)
 - `glue_registry_name` - The Name of the registry. (`default = ""`)

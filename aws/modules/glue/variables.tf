@@ -127,26 +127,6 @@ variable "glue_catalog_table_storage_descriptor" {
   }
 }
 
-variable "storage_descriptor_columns" {
-  description = "(Optional) A list of the Columns in the table."
-  default     = []
-}
-
-variable "storage_descriptor_ser_de_info" {
-  description = "(Optional) Serialization/deserialization (SerDe) information."
-  default     = []
-}
-
-variable "storage_descriptor_sort_columns" {
-  description = "(Optional) A list of Order objects specifying the sort order of each bucket in the table."
-  default     = []
-}
-
-variable "storage_descriptor_skewed_info" {
-  description = "(Optional) Information about values that appear very frequently in a column (skewed values)."
-  default     = []
-}
-
 #---------------------------------------------------
 # AWS Glue classifier
 #---------------------------------------------------
@@ -705,26 +685,6 @@ variable "glue_partition_catalog_id" {
 variable "glue_partition_parameters" {
   description = "(Optional) Properties associated with this table, as a list of key-value pairs."
   default     = null
-}
-
-variable "glue_partition_storage_descriptor_columns" {
-  description = "(Optional) A list of the Columns in the table."
-  default     = []
-}
-
-variable "glue_partition_storage_descriptor_ser_de_info" {
-  description = "(Optional) Serialization/deserialization (SerDe) information."
-  default     = []
-}
-
-variable "glue_partition_storage_descriptor_sort_columns" {
-  description = "(Optional) A list of Order objects specifying the sort order of each bucket in the table."
-  default     = []
-}
-
-variable "glue_partition_storage_descriptor_skewed_info" {
-  description = "(Optional) Information about values that appear very frequently in a column (skewed values)."
-  default     = []
 }
 
 variable "glue_partition_storage_descriptor" {
