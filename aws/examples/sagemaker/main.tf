@@ -10,6 +10,10 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+# Get the usera and account information
+data "aws_caller_identity" "current" {
+}
+
 module "sagemaker" {
   source      = "../../modules/sagemaker"
   name        = "TEST"
@@ -18,10 +22,10 @@ module "sagemaker" {
   # Sagemaker model
   enable_sagemaker_model             = true
   sagemaker_model_name               = ""
-  sagemaker_model_execution_role_arn = "arn:aws:iam::167127734783:role/admin-role"
+  sagemaker_model_execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
 
   sagemaker_model_primary_container = [{
-    image = "167127734783.dkr.ecr.us-east-1.amazonaws.com/sagemaker-sparkml-serving"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com/sagemaker-sparkml-serving"
   }]
   sagemaker_model_container = []
 
@@ -47,7 +51,7 @@ module "sagemaker" {
   # Sagemaker notebook instance
   enable_sagemaker_notebook_instance        = true
   sagemaker_notebook_instance_name          = ""
-  sagemaker_notebook_instance_role_arn      = "arn:aws:iam::167127734783:role/admin-role"
+  sagemaker_notebook_instance_role_arn      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
   sagemaker_notebook_instance_instance_type = "ml.t2.medium"
 
   sagemaker_notebook_instance_subnet_id              = null

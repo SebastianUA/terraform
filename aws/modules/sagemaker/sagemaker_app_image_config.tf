@@ -4,7 +4,7 @@
 resource "aws_sagemaker_app_image_config" "sagemaker_app_image_config" {
   count = var.enable_sagemaker_app_image_config ? 1 : 0
 
-  app_image_config_name = var.sagemaker_app_image_config_name != "" ? lower(var.sagemaker_app_image_config_name) : "${lower(var.name)}-sagemaker-app-image-config-${lower(var.environment)}"
+  app_image_config_name = var.sagemaker_app_image_config_name != "" ? lower(var.sagemaker_app_image_config_name) : "${lower(var.name)}-app-image-config-${lower(var.environment)}"
 
   dynamic "kernel_gateway_image_config" {
     iterator = kernel_gateway_image_config

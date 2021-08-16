@@ -4,7 +4,7 @@
 resource "aws_iam_user" "iam_user" {
   count = var.enable_iam_user ? 1 : 0
 
-  name = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-iam-user-${lower(var.environment)}"
+  name = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-user-${lower(var.environment)}"
   path = var.iam_user_path
 
   permissions_boundary = var.iam_user_permissions_boundary
@@ -12,7 +12,7 @@ resource "aws_iam_user" "iam_user" {
 
   tags = merge(
     {
-      Name = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-iam-user-${lower(var.environment)}"
+      Name = var.iam_user_name != "" ? var.iam_user_name : "${lower(var.name)}-user-${lower(var.environment)}"
     },
     var.tags
   )

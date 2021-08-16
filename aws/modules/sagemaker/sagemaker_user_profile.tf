@@ -4,7 +4,7 @@
 resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
   count = var.enable_sagemaker_user_profile ? 1 : 0
 
-  user_profile_name         = var.sagemaker_user_profile_name != "" ? lower(var.sagemaker_user_profile_name) : "${lower(var.name)}-sagemaker-user-profile-${lower(var.environment)}"
+  user_profile_name         = var.sagemaker_user_profile_name != "" ? lower(var.sagemaker_user_profile_name) : "${lower(var.name)}-user-profile-${lower(var.environment)}"
   domain_id                 = var.sagemaker_user_profile_domain_id != "" ? var.sagemaker_user_profile_domain_id : (var.enable_sagemaker_domain ? aws_sagemaker_domain.sagemaker_domain.0.id : null)
   single_sign_on_user_value = var.sagemaker_user_profile_single_sign_on_user_value
 
@@ -17,7 +17,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
 
     dynamic "sharing_settings" {
       iterator = sharing_settings
-      for_each = var.sagemaker_user_profile_sharing_settings
+      for_each = lookup(var.sagemaker_user_profile_user_settings, "sharing_settings", [])
 
       content {
         notebook_output_option = lookup(sharing_settings.value, "notebook_output_option", null)
@@ -28,7 +28,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
 
     dynamic "tensor_board_app_settings" {
       iterator = tensor_board_app_settings
-      for_each = var.sagemaker_user_profile_tensor_board_app_settings
+      for_each = lookup(var.sagemaker_user_profile_user_settings, "tensor_board_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {
@@ -45,7 +45,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
 
     dynamic "jupyter_server_app_settings" {
       iterator = jupyter_server_app_settings
-      for_each = var.sagemaker_user_profile_jupyter_server_app_settings
+      for_each = lookup(var.sagemaker_user_profile_user_settings, "jupyter_server_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {
@@ -62,7 +62,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
 
     dynamic "kernel_gateway_app_settings" {
       iterator = kernel_gateway_app_settings
-      for_each = var.sagemaker_user_profile_kernel_gateway_app_settings
+      for_each = lookup(var.sagemaker_user_profile_user_settings, "kernel_gateway_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {
@@ -93,7 +93,7 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
 
   tags = merge(
     {
-      Name = var.sagemaker_user_profile_name != "" ? lower(var.sagemaker_user_profile_name) : "${lower(var.name)}-sagemaker-user-profile-${lower(var.environment)}"
+      Name = var.sagemaker_user_profile_name != "" ? lower(var.sagemaker_user_profile_name) : "${lower(var.name)}-user-profile-${lower(var.environment)}"
     },
     var.tags
   )

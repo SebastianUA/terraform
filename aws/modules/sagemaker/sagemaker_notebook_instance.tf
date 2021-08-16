@@ -4,7 +4,7 @@
 resource "aws_sagemaker_notebook_instance" "sagemaker_notebook_instance" {
   count = var.enable_sagemaker_notebook_instance ? 1 : 0
 
-  name          = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-sagemaker-notebook-instance-${lower(var.environment)}"
+  name          = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-notebook-instance-${lower(var.environment)}"
   role_arn      = var.sagemaker_notebook_instance_role_arn
   instance_type = var.sagemaker_notebook_instance_instance_type
 
@@ -16,7 +16,7 @@ resource "aws_sagemaker_notebook_instance" "sagemaker_notebook_instance" {
 
   tags = merge(
     {
-      Name = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-sagemaker-notebook-instance-${lower(var.environment)}"
+      Name = var.sagemaker_notebook_instance_name != "" ? lower(var.sagemaker_notebook_instance_name) : "${lower(var.name)}-notebook-instance-${lower(var.environment)}"
     },
     var.tags
   )

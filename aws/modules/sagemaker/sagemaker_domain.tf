@@ -4,7 +4,7 @@
 resource "aws_sagemaker_domain" "sagemaker_domain" {
   count = var.enable_sagemaker_domain ? 1 : 0
 
-  domain_name = var.sagemaker_domain_name != "" ? lower(var.sagemaker_domain_name) : "${lower(var.name)}-sagemaker-domain-${lower(var.environment)}"
+  domain_name = var.sagemaker_domain_name != "" ? lower(var.sagemaker_domain_name) : "${lower(var.name)}-domain-${lower(var.environment)}"
   auth_mode   = var.sagemaker_domain_auth_mode
   vpc_id      = var.sagemaker_domain_vpc_id
   subnet_ids  = var.sagemaker_domain_subnet_ids
@@ -19,7 +19,7 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
 
     dynamic "sharing_settings" {
       iterator = sharing_settings
-      for_each = var.sagemaker_domain_sharing_settings
+      for_each = lookup(var.sagemaker_domain_default_user_settings, "sharing_settings", [])
 
       content {
         notebook_output_option = lookup(sharing_settings.value, "notebook_output_option", null)
@@ -30,7 +30,7 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
 
     dynamic "tensor_board_app_settings" {
       iterator = tensor_board_app_settings
-      for_each = var.sagemaker_domain_tensor_board_app_settings
+      for_each = lookup(var.sagemaker_domain_default_user_settings, "tensor_board_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {
@@ -47,7 +47,7 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
 
     dynamic "jupyter_server_app_settings" {
       iterator = jupyter_server_app_settings
-      for_each = var.sagemaker_domain_jupyter_server_app_settings
+      for_each = lookup(var.sagemaker_domain_default_user_settings, "jupyter_server_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {
@@ -64,7 +64,7 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
 
     dynamic "kernel_gateway_app_settings" {
       iterator = kernel_gateway_app_settings
-      for_each = var.sagemaker_domain_kernel_gateway_app_settings
+      for_each = lookup(var.sagemaker_domain_default_user_settings, "kernel_gateway_app_settings", [])
 
       content {
         dynamic "default_resource_spec" {

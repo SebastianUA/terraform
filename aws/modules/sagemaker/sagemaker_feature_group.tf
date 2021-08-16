@@ -4,9 +4,9 @@
 resource "aws_sagemaker_feature_group" "sagemaker_feature_group" {
   count = var.enable_sagemaker_feature_group ? 1 : 0
 
-  feature_group_name             = var.sagemaker_feature_group_name != "" ? lower(var.sagemaker_feature_group_name) : "${lower(var.name)}-sagemaker-feature-group-${lower(var.environment)}"
-  record_identifier_feature_name = var.sagemaker_feature_group_record_identifier_feature_name != "" ? lower(var.sagemaker_feature_group_record_identifier_feature_name) : "${lower(var.name)}-sagemaker-feature-group-${lower(var.environment)}"
-  event_time_feature_name        = var.sagemaker_feature_group_event_time_feature_name != "" ? lower(var.sagemaker_feature_group_event_time_feature_name) : "${lower(var.name)}-sagemaker-feature-group-${lower(var.environment)}"
+  feature_group_name             = var.sagemaker_feature_group_name != "" ? lower(var.sagemaker_feature_group_name) : "${lower(var.name)}-feature-group-${lower(var.environment)}"
+  record_identifier_feature_name = var.sagemaker_feature_group_record_identifier_feature_name != "" ? lower(var.sagemaker_feature_group_record_identifier_feature_name) : "${lower(var.name)}-feature-group-${lower(var.environment)}"
+  event_time_feature_name        = var.sagemaker_feature_group_event_time_feature_name != "" ? lower(var.sagemaker_feature_group_event_time_feature_name) : "${lower(var.name)}-feature-group-${lower(var.environment)}"
   role_arn                       = var.sagemaker_feature_group_role_arn
 
   description = var.sagemaker_feature_group_description

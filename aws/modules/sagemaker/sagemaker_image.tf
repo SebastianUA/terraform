@@ -4,7 +4,7 @@
 resource "aws_sagemaker_image" "sagemaker_image" {
   count = var.enable_sagemaker_image ? 1 : 0
 
-  image_name = var.sagemaker_image_name != "" ? lower(var.sagemaker_image_name) : "${lower(var.name)}-sagemaker-image-${lower(var.environment)}"
+  image_name = var.sagemaker_image_name != "" ? lower(var.sagemaker_image_name) : "${lower(var.name)}-image-${lower(var.environment)}"
   role_arn   = var.sagemaker_image_role_arn
 
   display_name = var.sagemaker_image_display_name
@@ -12,7 +12,7 @@ resource "aws_sagemaker_image" "sagemaker_image" {
 
   tags = merge(
     {
-      Name = var.sagemaker_image_name != "" ? lower(var.sagemaker_image_name) : "${lower(var.name)}-sagemaker-image-${lower(var.environment)}"
+      Name = var.sagemaker_image_name != "" ? lower(var.sagemaker_image_name) : "${lower(var.name)}-image-${lower(var.environment)}"
     },
     var.tags
   )

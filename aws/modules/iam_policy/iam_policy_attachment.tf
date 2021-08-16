@@ -4,7 +4,7 @@
 resource "aws_iam_policy_attachment" "iam_policy_attachment" {
   count = var.enable_iam_policy_attachment ? 1 : 0
 
-  name       = var.iam_policy_attachment_name != "" ? var.iam_policy_attachment_name : "${lower(var.name)}-iam-policy-attachment-${lower(var.environment)}"
+  name       = var.iam_policy_attachment_name != "" ? var.iam_policy_attachment_name : "${lower(var.name)}-policy-attachment-${lower(var.environment)}"
   roles      = var.iam_policy_attachment_roles
   users      = var.iam_policy_attachment_users
   groups     = var.iam_policy_attachment_groups

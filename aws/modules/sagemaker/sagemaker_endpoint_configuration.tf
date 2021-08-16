@@ -4,7 +4,7 @@
 resource "aws_sagemaker_endpoint_configuration" "sagemaker_endpoint_configuration" {
   count = var.enable_sagemaker_endpoint_configuration ? 1 : 0
 
-  name = var.sagemaker_endpoint_configuration_name != "" ? lower(var.sagemaker_endpoint_configuration_name) : "${lower(var.name)}-sagemaker-endpoint-conf-${lower(var.environment)}"
+  name = var.sagemaker_endpoint_configuration_name != "" ? lower(var.sagemaker_endpoint_configuration_name) : "${lower(var.name)}-endpoint-conf-${lower(var.environment)}"
 
   kms_key_arn = var.sagemaker_endpoint_configuration_kms_key_arn
 

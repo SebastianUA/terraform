@@ -204,26 +204,6 @@ variable "sagemaker_user_profile_user_settings" {
   }
 }
 
-variable "sagemaker_user_profile_sharing_settings" {
-  description = "(Optional) The sharing settings."
-  default     = []
-}
-
-variable "sagemaker_user_profile_tensor_board_app_settings" {
-  description = "(Optional) The TensorBoard app settings."
-  default     = []
-}
-
-variable "sagemaker_user_profile_jupyter_server_app_settings" {
-  description = "(Optional) The Jupyter server's app settings."
-  default     = []
-}
-
-variable "sagemaker_user_profile_kernel_gateway_app_settings" {
-  description = "(Optional) The kernel gateway app settings."
-  default     = []
-}
-
 #---------------------------------------------------
 # AWS Sagemaker domain
 #---------------------------------------------------
@@ -269,26 +249,6 @@ variable "sagemaker_domain_default_user_settings" {
 
     security_groups = null
   }
-}
-
-variable "sagemaker_domain_sharing_settings" {
-  description = "(Optional) The sharing settings. "
-  default     = []
-}
-
-variable "sagemaker_domain_tensor_board_app_settings" {
-  description = "(Optional) The TensorBoard app settings."
-  default     = []
-}
-
-variable "sagemaker_domain_jupyter_server_app_settings" {
-  description = "(Optional) The Jupyter server's app settings."
-  default     = []
-}
-
-variable "sagemaker_domain_kernel_gateway_app_settings" {
-  description = "(Optional) The kernel gateway app settings."
-  default     = []
 }
 
 #---------------------------------------------------

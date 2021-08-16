@@ -20,6 +20,10 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+# Get the usera and account information
+data "aws_caller_identity" "current" {
+}
+
 module "sagemaker" {
   source      = "../../modules/sagemaker"
   name        = "TEST"
@@ -28,10 +32,10 @@ module "sagemaker" {
   # Sagemaker model
   enable_sagemaker_model             = true
   sagemaker_model_name               = ""
-  sagemaker_model_execution_role_arn = "arn:aws:iam::167127734783:role/admin-role"
+  sagemaker_model_execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
 
   sagemaker_model_primary_container = [{
-    image = "167127734783.dkr.ecr.us-east-1.amazonaws.com/sagemaker-sparkml-serving"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com/sagemaker-sparkml-serving"
   }]
   sagemaker_model_container = []
 
@@ -57,7 +61,7 @@ module "sagemaker" {
   # Sagemaker notebook instance
   enable_sagemaker_notebook_instance        = true
   sagemaker_notebook_instance_name          = ""
-  sagemaker_notebook_instance_role_arn      = "arn:aws:iam::167127734783:role/admin-role"
+  sagemaker_notebook_instance_role_arn      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
   sagemaker_notebook_instance_instance_type = "ml.t2.medium"
 
   sagemaker_notebook_instance_subnet_id              = null
@@ -111,10 +115,6 @@ module "sagemaker" {
 - `sagemaker_user_profile_single_sign_on_user_value` - (Required) The username of the associated AWS Single Sign-On User for this User Profile. If the Domain's AuthMode is SSO, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field cannot be specified. (`default = null`)
 - `sagemaker_user_profile_single_sign_on_user_identifier` - (Optional) A specifier for the type of value specified in single_sign_on_user_value. Currently, the only supported value is UserName. If the Domain's AuthMode is SSO, this field is required. If the Domain's AuthMode is not SSO, this field cannot be specified. (`default = null`)
 - `sagemaker_user_profile_user_settings` - AAA (`default = {'execution_role': None, 'security_groups': None}`)
-- `sagemaker_user_profile_sharing_settings` - (Optional) The sharing settings. (`default = []`)
-- `sagemaker_user_profile_tensor_board_app_settings` - (Optional) The TensorBoard app settings. (`default = []`)
-- `sagemaker_user_profile_jupyter_server_app_settings` - (Optional) The Jupyter server's app settings. (`default = []`)
-- `sagemaker_user_profile_kernel_gateway_app_settings` - (Optional) The kernel gateway app settings. (`default = []`)
 - `enable_sagemaker_domain` - Enable sagemaker domain usage (`default = False`)
 - `sagemaker_domain_name` - The domain name. (`default = ""`)
 - `sagemaker_domain_auth_mode` - (Required) The mode of authentication that members use to access the domain. Valid values are IAM and SSO (`default = null`)
@@ -123,10 +123,6 @@ module "sagemaker" {
 - `sagemaker_domain_kms_key_id` - (Optional) The AWS KMS customer managed CMK used to encrypt the EFS volume attached to the domain. (`default = null`)
 - `sagemaker_domain_app_network_access_type` - (Optional) Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly. Valid values are PublicInternetOnly and VpcOnly. (`default = null`)
 - `sagemaker_domain_default_user_settings` - (Required) The default user settings. (`default = {'execution_role': None, 'security_groups': None}`)
-- `sagemaker_domain_sharing_settings` - (Optional) The sharing settings.  (`default = []`)
-- `sagemaker_domain_tensor_board_app_settings` - (Optional) The TensorBoard app settings. (`default = []`)
-- `sagemaker_domain_jupyter_server_app_settings` - (Optional) The Jupyter server's app settings. (`default = []`)
-- `sagemaker_domain_kernel_gateway_app_settings` - (Optional) The kernel gateway app settings. (`default = []`)
 - `enable_sagemaker_model_package_group` - Enable sagemaker model package group usage (`default = False`)
 - `sagemaker_model_package_group_name` - The name of the model group. (`default = ""`)
 - `sagemaker_model_package_group_description` - AAA (`default = null`)

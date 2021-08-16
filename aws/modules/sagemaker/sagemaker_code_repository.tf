@@ -4,7 +4,7 @@
 resource "aws_sagemaker_code_repository" "sagemaker_code_repository" {
   count = var.enable_sagemaker_code_repository ? 1 : 0
 
-  code_repository_name = var.sagemaker_code_repository_name != "" ? lower(var.sagemaker_code_repository_name) : "${lower(var.name)}-sagemaker-code-repository-${lower(var.environment)}"
+  code_repository_name = var.sagemaker_code_repository_name != "" ? lower(var.sagemaker_code_repository_name) : "${lower(var.name)}-code-repository-${lower(var.environment)}"
 
   dynamic "git_config" {
     iterator = git_config
