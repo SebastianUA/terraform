@@ -115,19 +115,14 @@ variable "acmpca_certificate_authority_enabled" {
   default     = true
 }
 
-variable "certificate_authority_configuration_key_algorithm" {
-  description = "(Required) Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate. Valid values can be found in the ACM PCA Documentation. Can be used [EC_prime256v1 EC_secp384r1 RSA_2048 RSA_4096]"
-  default     = "RSA_4096"
-}
-
-variable "certificate_authority_configuration_signing_algorithm" {
-  description = "(Required) Name of the algorithm your private CA uses to sign certificate requests. Valid values can be found in the ACM PCA Documentation. Can be used [SHA256WITHECDSA SHA256WITHRSA SHA384WITHECDSA SHA384WITHRSA SHA512WITHECDSA SHA512WITHRSA]"
-  default     = "SHA512WITHRSA"
+variable "certificate_authority_configuration_certificate_authority_configuration" {
+  description = "(Required) Nested argument containing algorithms and certificate subject information."
+  default     = {}
 }
 
 variable "acmpca_certificate_authority_certificate_authority_configuration_subject" {
   description = "Set subject settings"
-  default     = []
+  default     = {}
 }
 
 variable "acmpca_certificate_authority_permanent_deletion_time_in_days" {
@@ -135,12 +130,12 @@ variable "acmpca_certificate_authority_permanent_deletion_time_in_days" {
   default     = null
 }
 
-variable "acmpca_certificate_authority_crl_configuration" {
-  description = "(Optional) Nested argument containing configuration of the certificate revocation list (CRL), if any, maintained by the certificate authority."
-  default     = []
+variable "acmpca_certificate_authority_revocation_configuration" {
+  description = "(Optional) Nested argument containing revocation configuration."
+  default     = {}
 }
 
 variable "acmpca_certificate_authority_timeouts" {
   description = "Set timeouts for acmpca"
-  default     = []
+  default     = {}
 }

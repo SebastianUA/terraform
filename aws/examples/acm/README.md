@@ -75,19 +75,24 @@ module "acmpca_certificate_authority" {
   enable_acmpca_certificate_authority                          = true
   acmpca_certificate_authority_permanent_deletion_time_in_days = 30
 
-  certificate_authority_configuration_key_algorithm     = "RSA_4096"
-  certificate_authority_configuration_signing_algorithm = "SHA512WITHRSA"
-  acmpca_certificate_authority_certificate_authority_configuration_subject = [
-    {
+  certificate_authority_configuration_certificate_authority_configuration = {
+    key_algorithm     = "RSA_4096"
+    signing_algorithm = "SHA512WITHRSA"
+
+    subject = {
       common_name         = "test"
       country             = "UA"
       organization        = "test"
       organizational_unit = "tmp"
     }
-  ]
+  }
 
-
-  acmpca_certificate_authority_crl_configuration = []
+  acmpca_certificate_authority_revocation_configuration = {
+    crl_configuration = {
+      custom_cname       = "custom_cname"
+      expiration_in_days = 666
+    }
+  }
 
   tags = tomap({
     "Environment" = "dev",
@@ -136,12 +141,11 @@ module "acm_certificate_private_ca" {
 - `enable_acmpca_certificate_authority` - Enable to use acmpca certificate authority (`default = False`)
 - `acmpca_certificate_authority_name` - Set cert name for acmpca (`default = ""`)
 - `acmpca_certificate_authority_enabled` - (Optional) Whether the certificate authority is enabled or disabled. Defaults to true. (`default = True`)
-- `certificate_authority_configuration_key_algorithm` - (Required) Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate. Valid values can be found in the ACM PCA Documentation. Can be used [EC_prime256v1 EC_secp384r1 RSA_2048 RSA_4096] (`default = RSA_4096`)
-- `certificate_authority_configuration_signing_algorithm` - (Required) Name of the algorithm your private CA uses to sign certificate requests. Valid values can be found in the ACM PCA Documentation. Can be used [SHA256WITHECDSA SHA256WITHRSA SHA384WITHECDSA SHA384WITHRSA SHA512WITHECDSA SHA512WITHRSA] (`default = SHA512WITHRSA`)
-- `acmpca_certificate_authority_certificate_authority_configuration_subject` - Set subject settings (`default = []`)
+- `certificate_authority_configuration_certificate_authority_configuration` - (Required) Nested argument containing algorithms and certificate subject information. (`default = {}`)
+- `acmpca_certificate_authority_certificate_authority_configuration_subject` - Set subject settings (`default = {}`)
 - `acmpca_certificate_authority_permanent_deletion_time_in_days` - (Optional) The number of days to make a CA restorable after it has been deleted, must be between 7 to 30 days, with default to 30 days. (`default = null`)
-- `acmpca_certificate_authority_crl_configuration` - (Optional) Nested argument containing configuration of the certificate revocation list (CRL), if any, maintained by the certificate authority. (`default = []`)
-- `acmpca_certificate_authority_timeouts` - Set timeouts for acmpca (`default = []`)
+- `acmpca_certificate_authority_revocation_configuration` - (Optional) Nested argument containing revocation configuration. (`default = {}`)
+- `acmpca_certificate_authority_timeouts` - Set timeouts for acmpca (`default = {}`)
 
 ## Module Output Variables
 ----------------------

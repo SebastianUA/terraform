@@ -65,19 +65,24 @@ module "acmpca_certificate_authority" {
   enable_acmpca_certificate_authority                          = true
   acmpca_certificate_authority_permanent_deletion_time_in_days = 30
 
-  certificate_authority_configuration_key_algorithm     = "RSA_4096"
-  certificate_authority_configuration_signing_algorithm = "SHA512WITHRSA"
-  acmpca_certificate_authority_certificate_authority_configuration_subject = [
-    {
+  certificate_authority_configuration_certificate_authority_configuration = {
+    key_algorithm     = "RSA_4096"
+    signing_algorithm = "SHA512WITHRSA"
+
+    subject = {
       common_name         = "test"
       country             = "UA"
       organization        = "test"
       organizational_unit = "tmp"
     }
-  ]
+  }
 
-
-  acmpca_certificate_authority_crl_configuration = []
+  acmpca_certificate_authority_revocation_configuration = {
+    crl_configuration = {
+      custom_cname       = "custom_cname"
+      expiration_in_days = 666
+    }
+  }
 
   tags = tomap({
     "Environment" = "dev",
