@@ -211,8 +211,9 @@ resource "aws_s3_bucket" "s3_bucket" {
 
         content {
           apply_server_side_encryption_by_default {
+            sse_algorithm = lookup(rule.value, "sse_algorithm", null)
+
             kms_master_key_id = lookup(rule.value, "kms_master_key_id", null)
-            sse_algorithm     = lookup(rule.value, "sse_algorithm", null)
           }
         }
       }

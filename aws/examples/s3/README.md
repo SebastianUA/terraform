@@ -147,10 +147,9 @@ module "s3" {
 
   s3_bucket_server_side_encryption_configuration = {
     //rule = {
-    //  apply_server_side_encryption_by_default = {
-    //    kms_master_key_id = module.kms_key.kms_key_arn
-    //    sse_algorithm     = "aws:kms"
-    //  }
+    //  sse_algorithm     = "aws:kms"
+
+    //  kms_master_key_id = module.kms_key.kms_key_arn
     //}
   }
 
