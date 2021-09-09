@@ -49,15 +49,14 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
                 }
               }
 
-              sse_s3 = lookup(encryption.value, "sse_s3", true)
-              // dynamic "sse_s3" {
-              //   iterator = sse_s3
-              //   for_each = length(keys(lookup(encryption.value, "sse_s3", {}))) > 0 ? [lookup(encryption.value, "sse_s3", {})] : []
+              dynamic "sse_s3" {
+                iterator = sse_s3
+                for_each = length(keys(lookup(encryption.value, "sse_s3", {}))) > 0 ? [lookup(encryption.value, "sse_s3", {})] : []
 
-              //   content {
-              //     // key_id = lookup(sse_s3.value, "key_id", null)
-              //   }
-              // }
+                content {
+                  // key_id = lookup(sse_s3.value, "key_id", null)
+                }
+              }
             }
           }
         }
