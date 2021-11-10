@@ -68,7 +68,7 @@ module "source_dms_endpoint" {
   dms_replication_instance_vpc_security_group_ids       = ["sg-12345678"]
 
 
-  tags = tomap({"env"="stage", "CreatedBy"="Vitaliy Natarov"})
+  tags = tomap({ "env" = "stage", "CreatedBy" = "Vitaliy Natarov" })
 }
 ```
 

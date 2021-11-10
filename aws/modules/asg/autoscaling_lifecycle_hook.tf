@@ -1,6 +1,12 @@
 #---------------------------------------------------
-# Create AWS autoscaling lifecycle hook
+# AWS autoscaling lifecycle hook
 #---------------------------------------------------
+data "template_file" "autoscaling_lifecycle_hook" {
+  count = var.enable_autoscaling_lifecycle_hook ? 1 : 0
+
+  template = var.autoscaling_lifecycle_hook_notification_metadata
+}
+
 resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
   count = var.enable_autoscaling_lifecycle_hook ? 1 : 0
 
@@ -11,7 +17,7 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
   heartbeat_timeout    = var.autoscaling_lifecycle_hook_heartbeat_timeout
   lifecycle_transition = var.autoscaling_lifecycle_hook_lifecycle_transition
 
-  #notification_metadata   = var.autoscaling_lifecycle_hook_notification_metadata
+  # notification_metadata   = var.autoscaling_lifecycle_hook_notification_metadata
   notification_metadata = data.template_file.autoscaling_lifecycle_hook[0].rendered
 
   notification_target_arn = var.autoscaling_lifecycle_hook_notification_target_arn
@@ -26,10 +32,4 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
     data.template_file.autoscaling_lifecycle_hook,
     aws_autoscaling_group.asg
   ]
-}
-
-data "template_file" "autoscaling_lifecycle_hook" {
-  count = var.enable_autoscaling_lifecycle_hook ? 1 : 0
-
-  template = var.autoscaling_lifecycle_hook_notification_metadata
 }

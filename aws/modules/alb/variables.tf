@@ -86,7 +86,7 @@ variable "alb_access_logs" {
 
 variable "alb_timeouts" {
   description = "Set timeouts for ALB"
-  default     = []
+  default     = {}
 }
 
 variable "alb_subnet_mapping" {

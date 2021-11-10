@@ -45,7 +45,7 @@ resource "aws_lb" "alb" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.alb_timeouts
+    for_each = length(keys(var.alb_timeouts)) > 0 ? [var.alb_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

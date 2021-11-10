@@ -149,7 +149,7 @@ module "alb_name_prefix" {
 - `alb_enable_http2` - (Optional) Indicates whether HTTP/2 is enabled in application load balancers. Defaults to true. (`default = True`)
 - `alb_ip_address_type` - The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 and dualstack (`default = ipv4`)
 - `alb_access_logs` - (Optional) An Access Logs block. (`default = []`)
-- `alb_timeouts` - Set timeouts for ALB (`default = []`)
+- `alb_timeouts` - Set timeouts for ALB (`default = {}`)
 - `alb_subnet_mapping` - (Optional) A subnet mapping block (`default = []`)
 - `alb_drop_invalid_header_fields` - (Optional) Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type application. (`default = null`)
 - `alb_customer_owned_ipv4_pool` - (Optional) The ID of the customer owned ipv4 pool to use for this load balancer. (`default = null`)

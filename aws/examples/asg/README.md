@@ -20,7 +20,7 @@ module "key_pair" {
 }
 
 module "lt" {
-  source      = "../../modules/asg_new"
+  source      = "../../modules/asg"
   name        = "my-first"
   region      = "us-west-2"
   environment = "test"
@@ -33,7 +33,7 @@ module "lt" {
 }
 
 module "asg_new" {
-  source      = "../../modules/asg_new"
+  source      = "../../modules/asg"
   name        = "my-first"
   region      = "us-west-2"
   environment = "test"
