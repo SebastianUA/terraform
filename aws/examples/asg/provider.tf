@@ -1,5 +1,6 @@
 terraform {
-  required_version = "~> 0.13"
+  required_version = "~> 1.0"
+
   #backend "s3" {
   #    bucket  = "test-prod"
   #    key     = "terraform/test-prod.tfstate"
@@ -9,7 +10,6 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.7"
   region  = "us-west-2"
   profile = "default"
 }
