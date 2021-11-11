@@ -35,7 +35,7 @@ variable "athena_database_bucket" {
   default     = ""
 }
 
-variable "force_destroy" {
+variable "athena_database_force_destroy" {
   description = "(Optional, Default: false) A boolean that indicates all tables should be deleted from the database so that the database can be destroyed without error. The tables are not recoverable."
   default     = false
 }

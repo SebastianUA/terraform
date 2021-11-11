@@ -21,15 +21,15 @@ module "sns" {
   sns_topic_delivery_policy = file("./policies/sns_topic_delivery_policy_document.json.tpl")
 
   # SNS topic policy
-  enable_sns_topic_policy = true
-  topic_arn               = ""
-  sns_topic_policy        = ""
+  enable_sns_topic_policy    = true
+  sns_topic_policy_topic_arn = ""
+  sns_topic_policy_policy    = ""
 
   # SNS topic subscription
   enable_sns_topic_subscription = true
 
-  sns_protocol = "sqs"
-  sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
+  sns_topic_subscription_sns_protocol = "sqs"
+  sns_topic_subscription_sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
 
   #
   enable_sns_platform_application = false

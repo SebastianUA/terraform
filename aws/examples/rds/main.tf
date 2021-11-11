@@ -12,6 +12,7 @@ provider "aws" {
 
 module "rds_cluster" {
   source      = "../../modules/rds"
+  
   name        = "Test"
   region      = "us-east-1"
   environment = "stage"
@@ -26,7 +27,7 @@ module "rds_cluster" {
     {
       name  = "character_set_client"
       value = "utf8"
-    },
+    }
   ]
 
   enable_db_subnet_group     = true
@@ -43,6 +44,8 @@ module "rds_cluster" {
 
   enable_rds_cluster_instance         = true
   number_rds_cluster_instances        = 1
+  rds_cluster_instance_engine         = "aurora"
+  rds_cluster_instance_engine_version = null #"5.7.12" 
   rds_cluster_instance_instance_class = "db.t2.small"
 
 

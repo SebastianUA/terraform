@@ -12,6 +12,7 @@ resource "aws_workspaces_directory" "workspaces_directory" {
   dynamic "self_service_permissions" {
     iterator = self_service_permissions
     for_each = var.workspaces_directory_self_service_permissions
+
     content {
       change_compute_type  = lookup(self_service_permissions.value, "change_compute_type", false)
       increase_volume_size = lookup(self_service_permissions.value, "increase_volume_size", false)
@@ -24,6 +25,7 @@ resource "aws_workspaces_directory" "workspaces_directory" {
   dynamic "workspace_access_properties" {
     iterator = workspace_access_properties
     for_each = var.workspaces_directory_workspace_access_properties
+
     content {
       device_type_android    = lookup(workspace_access_properties.value, "device_type_android", null)
       device_type_chromeos   = lookup(workspace_access_properties.value, "device_type_chromeos", null)
@@ -38,6 +40,7 @@ resource "aws_workspaces_directory" "workspaces_directory" {
   dynamic "workspace_creation_properties" {
     iterator = workspace_creation_properties
     for_each = var.workspaces_directory_workspace_creation_properties
+
     content {
       custom_security_group_id            = lookup(workspace_creation_properties.value, "custom_security_group_id", null)
       default_ou                          = lookup(workspace_creation_properties.value, "default_ou", null)

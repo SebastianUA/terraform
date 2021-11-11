@@ -4,13 +4,13 @@
 resource "aws_vpc_endpoint_subnet_association" "vpc_endpoint_subnet_association" {
   for_each = var.enable_vpc_endpoint_subnet_association ? local.vpc_endpoint_stack_gtw : []
 
-  vpc_endpoint_id = var.enable_vpc_endpoint ? element(aws_vpc_endpoint.vpc_endpoint.*.id, each.key) : null
+  vpc_endpoint_id = var.vpc_endpoint_subnet_association_vpc_endpoint_id != null ? var.vpc_endpoint_subnet_association_vpc_endpoint_id : (var.enable_vpc_endpoint ? element(aws_vpc_endpoint.vpc_endpoint.*.id, each.key) : null)
   subnet_id       = var.vpc_endpoint_subnet_association_subnet_id
 
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.vpc_endpoint_subnet_association_timeouts
+    for_each = length(keys(var.vpc_endpoint_subnet_association_timeouts)) > 0 ? [var.vpc_endpoint_subnet_association_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

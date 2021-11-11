@@ -72,7 +72,7 @@ variable "vpc_peering_connection_requester" {
 
 variable "vpc_peering_connection_timeouts" {
   description = "Set timeouts used for creating a peering connection"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

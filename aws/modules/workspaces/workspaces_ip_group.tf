@@ -11,6 +11,7 @@ resource "aws_workspaces_ip_group" "workspaces_ip_group" {
   dynamic "rules" {
     iterator = rules
     for_each = var.workspaces_ip_group_rules
+
     content {
       source      = lookup(rules.value, "source", null)
       description = lookup(rules.value, "description", null)

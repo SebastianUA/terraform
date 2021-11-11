@@ -77,6 +77,7 @@ resource "aws_rds_cluster" "rds_cluster" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.rds_cluster_timeouts
+    # var.length(keys(var.rds_cluster_timeouts)) > 0 ? [var.rds_cluster_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

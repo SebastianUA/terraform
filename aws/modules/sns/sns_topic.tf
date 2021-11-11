@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS SNS topic
+# AWS SNS topic
 #---------------------------------------------------
 resource "aws_sns_topic" "sns_topic" {
   count = var.enable_sns_topic ? 1 : 0

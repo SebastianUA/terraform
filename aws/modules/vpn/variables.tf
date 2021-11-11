@@ -37,7 +37,7 @@ variable "vpn_gateway_name" {
 
 variable "vpn_gateway_vpc_id" {
   description = "(Optional) The VPC ID to create in."
-  default     = ""
+  default     = null
 }
 
 variable "vpn_gateway_availability_zone" {
@@ -58,13 +58,13 @@ variable "enable_vpn_gateway_attachment" {
   default     = false
 }
 
-variable "vpn_gateway_attachment_vpn_gateway_id" {
-  description = "The ID of the Virtual Private Gateway."
+variable "vpn_gateway_attachment_vpc_id" {
+  description = "(Required) The ID of the VPC."
   default     = ""
 }
 
-variable "vpn_gateway_attachment_vpc_id" {
-  description = "Set vpc_id for vpn gateway attachment"
+variable "vpn_gateway_attachment_vpn_gateway_id" {
+  description = "(Required) The ID of the Virtual Private Gateway."
   default     = ""
 }
 
@@ -84,6 +84,11 @@ variable "vpn_gateway_route_propagation_vpn_gateway_id" {
 variable "vpn_gateway_route_propagation_route_table_id" {
   description = "The id of the aws_route_table to propagate routes into."
   default     = ""
+}
+
+variable "vpn_gateway_route_propagation_timeouts" {
+  description = "Set timeouts for VPN gateway route propagation"
+  default     = {}
 }
 
 #---------------------------------------------------

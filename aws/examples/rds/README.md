@@ -22,6 +22,7 @@ provider "aws" {
 
 module "rds_cluster" {
   source      = "../../modules/rds"
+  
   name        = "Test"
   region      = "us-east-1"
   environment = "stage"
@@ -36,7 +37,7 @@ module "rds_cluster" {
     {
       name  = "character_set_client"
       value = "utf8"
-    },
+    }
   ]
 
   enable_db_subnet_group     = true
@@ -53,6 +54,8 @@ module "rds_cluster" {
 
   enable_rds_cluster_instance         = true
   number_rds_cluster_instances        = 1
+  rds_cluster_instance_engine         = "aurora"
+  rds_cluster_instance_engine_version = null #"5.7.12" 
   rds_cluster_instance_instance_class = "db.t2.small"
 
 
@@ -182,6 +185,8 @@ module "db_instance-rds-oracle" {
 - `rds_cluster_instance_identifier_prefix` - (Optional, Forces new resource) Creates a unique identifier beginning with the specified prefix. Conflicts with rds_cluster_instance_identifier. (`default = ""`)
 - `rds_cluster_instance_cluster_identifier` - The identifier of the aws_rds_cluster in which to launch this instance. (`default = ""`)
 - `rds_cluster_instance_instance_class` - The instance type of the RDS instance. (`default = db.t2.small`)
+- `rds_cluster_instance_engine` - The instance engine name (`default = aurora`)
+- `rds_cluster_instance_engine_version` - The engine version for rds cluster instance. (`default = null`)
 - `rds_cluster_instance_publicly_accessible` - (Optional) Bool to control if instance is publicly accessible. Default false. See the documentation on Creating DB Instances for more details on controlling this property. (`default = False`)
 - `rds_cluster_instance_db_subnet_group_name` - A DB subnet group to associate with this DB instance. NOTE: This must match the db_subnet_group_name of the attached aws_rds_cluster. (`default = ""`)
 - `rds_cluster_instance_db_parameter_group_name` - (Optional) The name of the DB parameter group to associate with this instance. (`default = null`)
@@ -282,7 +287,7 @@ module "db_instance-rds-oracle" {
 - `db_parameter_group_family` - The family of the DB parameter group. (`default = ""`)
 - `db_parameter_group_parameters` - (Optional) A list of DB parameters to apply. Note that parameters may differ from a family to an other. Full list of all parameters can be discovered via aws rds describe-db-parameters after initial creation of the group. (`default = []`)
 - `enable_db_cluster_snapshot` - Enable DB cluster snapshot usage (`default = False`)
-- `db_cluster_identifier` - The DB Cluster Identifier from which to take the snapshot. (`default = ""`)
+- `db_cluster_snapshot_db_cluster_identifier` - The DB Cluster Identifier from which to take the snapshot. (`default = ""`)
 - `db_cluster_snapshot_identifier` - (Required) The Identifier for the snapshot. (`default = ""`)
 - `db_cluster_snapshot_timeouts` - Set timeouts for db cluster snapshot (`default = []`)
 - `enable_db_event_subscription` - Enable DB event subscription usage (`default = False`)
@@ -293,7 +298,7 @@ module "db_instance-rds-oracle" {
 - `db_event_subscription_source_ids` - (Optional) A list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. If specified, a source_type must also be specified. (`default = []`)
 - `db_event_subscription_enabled` - (Optional) A boolean flag to enable/disable the subscription. Defaults to true. (`default = True`)
 - `db_event_subscription_event_categories` -  (Optional) A list of event categories for a SourceType that you want to subscribe to. See http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html or run aws rds describe-event-categories. (`default = ['availability', 'deletion', 'failover', 'failure', 'low storage', 'maintenance', 'notification', 'read replica', 'recovery', 'restoration']`)
-- `db_event_subscription_timeouts` - Set timeouts for db event subscription (`default = []`)
+- `db_event_subscription_timeouts` - Set timeouts for db event subscription (`default = {}`)
 - `enable_db_snapshot` - Enable DB snapshot usage (`default = False`)
 - `db_snapshot_db_instance_identifier` - The DB Instance Identifier from which to take the snapshot. (`default = ""`)
 - `db_snapshot_db_snapshot_identifier` - (Required) The Identifier for the snapshot. (`default = ""`)
@@ -323,7 +328,7 @@ module "db_instance-rds-oracle" {
 - `db_proxy_idle_client_timeout` - (Optional) The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database. (`default = null`)
 - `db_proxy_require_tls` - (Optional) A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy. (`default = null`)
 - `db_proxy_vpc_security_group_ids` - (Optional) One or more VPC security group IDs to associate with the new proxy. (`default = null`)
-- `db_proxy_timeouts` - Set timeouts for DB proxy (`default = []`)
+- `db_proxy_timeouts` - Set timeouts for DB proxy (`default = {}`)
 - `enable_db_proxy_default_target_group` - Enable db proxy default target group usage (`default = False`)
 - `db_proxy_default_target_group_db_proxy_name` - Name of the RDS DB Proxy. (`default = ""`)
 - `db_proxy_default_target_group_timeouts` - Set timeouts for DB proxy default target group (`default = []`)

@@ -89,7 +89,7 @@ module "vpc_2" {
 - `vpc_peering_connection_peer_region` - (Optional) The region of the accepter VPC of the [VPC Peering Connection]. auto_accept must be false, and use the aws_vpc_peering_connection_accepter to manage the accepter side. (`default = null`)
 - `vpc_peering_connection_accepter` - (Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one). (`default = []`)
 - `vpc_peering_connection_requester` - (Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one). (`default = []`)
-- `vpc_peering_connection_timeouts` - Set timeouts used for creating a peering connection (`default = []`)
+- `vpc_peering_connection_timeouts` - Set timeouts used for creating a peering connection (`default = {}`)
 - `enable_vpc_peering_connection_options` - Enable VPC peering connection options usage (`default = False`)
 - `vpc_peering_connection_options_vpc_peering_connection_id` - The ID of the requester VPC peering connection. (`default = ""`)
 - `vpc_peering_connection_options_accepter` - (Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one). (`default = []`)

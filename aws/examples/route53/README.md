@@ -26,7 +26,7 @@ module "route53" {
 
   # Route53 zone
   enable_route53_zone = true
-  route53_zone_name   = "example.local"
+  route53_zone_name   = "linux-notes.local"
 
   # Route53 record
   enable_route53_record  = true
@@ -58,17 +58,17 @@ module "route53" {
 - `route53_record_name` - Route53 record name (`default = null`)
 - `route53_record_type` - The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT (`default = A`)
 - `route53_record_ttl` - Route53 record ttl (`default = null`)
-- `parent_zone_id` - Perent Zone ID (`default = ""`)
+- `route53_record_parent_zone_id` - Perent Zone ID (`default = ""`)
 - `route53_record_alias` - (Optional) An alias block. Conflicts with route53_record_ttl & route53_record_records. (`default = []`)
 - `route53_record_records` - (Required for non-alias records) A string list of records. To specify a single record value longer than 255 characters such as a TXT record for DKIM, add \\ inside the Terraform configuration string. (`default = []`)
-- `set_identifier` - (Optional) Unique identifier to differentiate records with routing policies from one another. Required if using failover, geolocation, latency, or weighted routing policies documented below. (`default = null`)
-- `weighted_routing_policy` - (Optional) A block indicating a weighted routing policy. Conflicts with any other routing policy. (`default = []`)
-- `health_check_id` - (Optional) The health check the record should be associated with. (`default = null`)
-- `failover_routing_policy` - (Optional) A block indicating the routing behavior when associated health check fails. Conflicts with any other routing policy. (`default = []`)
-- `geolocation_routing_policy` - (Optional) A block indicating a routing policy based on the geolocation of the requestor. Conflicts with any other routing policy. (`default = []`)
-- `latency_routing_policy` - (Optional) A block indicating a routing policy based on the latency between the requestor and an AWS region. Conflicts with any other routing policy. (`default = []`)
-- `multivalue_answer_routing_policy` - (Optional) Set to true to indicate a multivalue answer routing policy. Conflicts with any other routing policy. (`default = null`)
-- `allow_overwrite` - (Optional) Allow creation of this record in Terraform to overwrite an existing record, if any. This does not affect the ability to update the record in Terraform and does not prevent other resources within Terraform or manual Route 53 changes outside Terraform from overwriting this record. false by default. This configuration is not recommended for most environments. (`default = False`)
+- `route53_record_set_identifier` - (Optional) Unique identifier to differentiate records with routing policies from one another. Required if using failover, geolocation, latency, or weighted routing policies documented below. (`default = null`)
+- `route53_record_weighted_routing_policy` - (Optional) A block indicating a weighted routing policy. Conflicts with any other routing policy. (`default = []`)
+- `route53_record_health_check_id` - (Optional) The health check the record should be associated with. (`default = null`)
+- `route53_record_failover_routing_policy` - (Optional) A block indicating the routing behavior when associated health check fails. Conflicts with any other routing policy. (`default = []`)
+- `route53_record_geolocation_routing_policy` - (Optional) A block indicating a routing policy based on the geolocation of the requestor. Conflicts with any other routing policy. (`default = []`)
+- `route53_record_latency_routing_policy` - (Optional) A block indicating a routing policy based on the latency between the requestor and an AWS region. Conflicts with any other routing policy. (`default = []`)
+- `route53_record_multivalue_answer_routing_policy` - (Optional) Set to true to indicate a multivalue answer routing policy. Conflicts with any other routing policy. (`default = null`)
+- `route53_record_allow_overwrite` - (Optional) Allow creation of this record in Terraform to overwrite an existing record, if any. This does not affect the ability to update the record in Terraform and does not prevent other resources within Terraform or manual Route 53 changes outside Terraform from overwriting this record. false by default. This configuration is not recommended for most environments. (`default = False`)
 - `enable_route53_health_check` - Create http route53 health check (`default = False`)
 - `route53_health_check_name` - Name for route53 HC (`default = ""`)
 - `route53_health_check_type` - (Required) The protocol to use when performing health checks. Valid values are HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, TCP, CALCULATED and CLOUDWATCH_METRIC. (`default = HTTP`)

@@ -29,7 +29,7 @@ resource "aws_db_proxy" "db_proxy" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_proxy_timeouts
+    for_each = length(keys(var.db_proxy_timeouts)) > 0 ? [var.db_proxy_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

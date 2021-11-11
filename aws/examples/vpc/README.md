@@ -32,7 +32,7 @@ module "s3_flow_logs" {
 # VPC
 #---------------------------------------------------------------
 module "vpc" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "tmp"
   environment = "dev"
 
@@ -99,7 +99,7 @@ module "vpc" {
 # VPC VPN
 #---------------------------------------------------------------
 module "vpc_vpn" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "vpn"
   environment = "stage"
 
@@ -160,7 +160,7 @@ module "vpc_vpn" {
 # VPC custom routing
 #---------------------------------------------------------------
 module "vpc_custom_routings" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "vpc_custom_routings"
   environment = "dev"
 
@@ -203,7 +203,7 @@ module "vpc_custom_routings" {
 # 1rst VPC for peering
 #---------------------------------------------------------------
 module "vpc_1" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "test"
   environment = "stage"
 
@@ -258,7 +258,7 @@ module "vpc_1" {
 # 2d VPC for peering with VPC flow log & VPC network ACLs
 #---------------------------------------------------------------
 module "vpc_2" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "test2"
   environment = "stage"
 
@@ -387,7 +387,7 @@ variable "vpc_id" {
 
 
 module "vpc_endpoint" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "endpoint"
   environment = "stage"
 
@@ -496,7 +496,7 @@ module "vpc_endpoint" {
 
 
 module "vpc_endpoint_service" {
-  source      = "../../modules/vpc_new"
+  source      = "../../modules/vpc"
   name        = "endpoint_service"
   environment = "stage"
 

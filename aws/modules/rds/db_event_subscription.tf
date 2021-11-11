@@ -15,7 +15,7 @@ resource "aws_db_event_subscription" "db_event_subscription" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_event_subscription_timeouts
+    for_each = length(keys(var.db_event_subscription_timeouts)) > 0 ? [var.db_event_subscription_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

@@ -41,7 +41,7 @@ variable "worklink_fleet_display_name" {
 
 variable "worklink_fleet_optimize_for_end_user_location" {
   description = "(Optional) The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region. Defaults to true."
-  default     = true
+  default     = null
 }
 
 variable "worklink_fleet_network" {

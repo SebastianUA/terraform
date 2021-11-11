@@ -16,7 +16,7 @@ module "route53" {
 
   # Route53 zone
   enable_route53_zone = true
-  route53_zone_name   = "example.local"
+  route53_zone_name   = "linux-notes.local"
 
   # Route53 record
   enable_route53_record  = true

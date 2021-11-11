@@ -87,7 +87,7 @@ variable "vpc_endpoint_name" {
 
 variable "vpc_endpoint_timeouts" {
   description = "Set timeouts used for creating a VPC endpoint"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -103,14 +103,14 @@ variable "vpc_endpoint_subnet_association_subnet_id" {
   default     = ""
 }
 
-// variable "vpc_endpoint_subnet_association_vpc_endpoint_id" {
-//   description = "The ID of the VPC endpoint with which the subnet will be associated."
-//   default     = ""
-// }
+variable "vpc_endpoint_subnet_association_vpc_endpoint_id" {
+  description = "The ID of the VPC endpoint with which the subnet will be associated."
+  default     = null
+}
 
 variable "vpc_endpoint_subnet_association_timeouts" {
   description = "Set timeouts used for creating the association"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -126,10 +126,10 @@ variable "vpc_endpoint_route_table_association_route_table_id" {
   default     = ""
 }
 
-// variable "vpc_endpoint_route_table_association_vpc_endpoint_id" {
-//   description = "Identifier of the VPC Endpoint with which the EC2 Route Table will be associated."
-//   default     = ""
-// }
+variable "vpc_endpoint_route_table_association_vpc_endpoint_id" {
+  description = "Identifier of the VPC Endpoint with which the EC2 Route Table will be associated."
+  default     = null
+}
 
 #---------------------------------------------------
 # AWS VPC endpoint service
@@ -164,7 +164,7 @@ variable "vpc_endpoint_service_allowed_principal_principal_arn" {
 
 variable "vpc_endpoint_service_allowed_principal_vpc_endpoint_service_id" {
   description = "The ID of the VPC endpoint service to allow permission."
-  default     = ""
+  default     = null
 }
 
 #---------------------------------------------------

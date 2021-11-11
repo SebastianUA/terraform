@@ -5,20 +5,20 @@ resource "aws_route53_record" "route53_record" {
   count = var.enable_route53_record ? 1 : 0
 
   name    = var.route53_record_name
-  zone_id = var.parent_zone_id != "" && !var.enable_route53_zone ? var.parent_zone_id : element(aws_route53_zone.route53_zone.*.id, 0)
+  zone_id = var.route53_record_parent_zone_id != "" && !var.enable_route53_zone ? var.route53_record_parent_zone_id : element(aws_route53_zone.route53_zone.*.id, 0)
   type    = var.route53_record_type
   ttl     = var.route53_record_ttl
   records = var.route53_record_records
 
-  health_check_id                  = var.health_check_id != null && !var.enable_route53_health_check ? var.health_check_id : element(concat(aws_route53_health_check.route53_health_check.*.id, [""]), 0)
-  multivalue_answer_routing_policy = var.multivalue_answer_routing_policy
-  allow_overwrite                  = var.allow_overwrite
+  health_check_id                  = var.route53_record_health_check_id != null && !var.enable_route53_health_check ? var.route53_record_health_check_id : element(concat(aws_route53_health_check.route53_health_check.*.id, [""]), 0)
+  multivalue_answer_routing_policy = var.route53_record_multivalue_answer_routing_policy
+  allow_overwrite                  = var.route53_record_allow_overwrite
 
-  set_identifier = var.set_identifier != null ? lower(var.set_identifier) : null
+  set_identifier = var.route53_record_set_identifier != null ? lower(var.route53_record_set_identifier) : null
 
   dynamic "failover_routing_policy" {
     iterator = failover_routing_policy
-    for_each = var.failover_routing_policy
+    for_each = var.route53_record_failover_routing_policy
 
     content {
       type = lookup(failover_routing_policy.value, "type", null)
@@ -27,7 +27,7 @@ resource "aws_route53_record" "route53_record" {
 
   dynamic "geolocation_routing_policy" {
     iterator = geolocation_routing_policy
-    for_each = var.geolocation_routing_policy
+    for_each = var.route53_record_geolocation_routing_policy
 
     content {
       continent   = lookup(geolocation_routing_policy.value, "continent", null)
@@ -38,7 +38,7 @@ resource "aws_route53_record" "route53_record" {
 
   dynamic "latency_routing_policy" {
     iterator = latency_routing_policy
-    for_each = var.latency_routing_policy
+    for_each = var.route53_record_latency_routing_policy
 
     content {
       region = lookup(latency_routing_policy.value, "region", null)
@@ -47,7 +47,7 @@ resource "aws_route53_record" "route53_record" {
 
   dynamic "weighted_routing_policy" {
     iterator = weighted_routing_policy
-    for_each = var.weighted_routing_policy
+    for_each = var.route53_record_weighted_routing_policy
 
     content {
       weight = lookup(weighted_routing_policy.value, "weight", null)

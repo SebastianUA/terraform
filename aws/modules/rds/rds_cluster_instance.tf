@@ -9,8 +9,8 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   cluster_identifier = var.rds_cluster_instance_cluster_identifier != "" && !var.enable_rds_cluster ? lower(var.rds_cluster_instance_cluster_identifier) : element(concat(aws_rds_cluster.rds_cluster.*.id, [""]), 0)
   instance_class     = var.rds_cluster_instance_instance_class
 
-  engine         = var.rds_cluster_engine
-  engine_version = var.rds_cluster_engine_version
+  engine         = var.rds_cluster_instance_engine
+  engine_version = var.rds_cluster_instance_engine_version
 
   publicly_accessible     = var.rds_cluster_instance_publicly_accessible
   db_subnet_group_name    = var.rds_cluster_instance_db_subnet_group_name != "" && !var.enable_db_subnet_group ? lower(var.rds_cluster_instance_db_subnet_group_name) : element(concat(aws_db_subnet_group.db_subnet_group.*.id, [""]), 0)
@@ -35,6 +35,7 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.rds_cluster_instance_timeouts
+    # var.length(keys(var.rds_cluster_instance_timeouts)) > 0 ? [var.rds_cluster_instance_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

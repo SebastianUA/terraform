@@ -31,15 +31,15 @@ module "sns" {
   sns_topic_delivery_policy = file("./policies/sns_topic_delivery_policy_document.json.tpl")
 
   # SNS topic policy
-  enable_sns_topic_policy = true
-  topic_arn               = ""
-  sns_topic_policy        = ""
+  enable_sns_topic_policy    = true
+  sns_topic_policy_topic_arn = ""
+  sns_topic_policy_policy    = ""
 
   # SNS topic subscription
   enable_sns_topic_subscription = true
 
-  sns_protocol = "sqs"
-  sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
+  sns_topic_subscription_sns_protocol = "sqs"
+  sns_topic_subscription_sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
 
   #
   enable_sns_platform_application = false
@@ -63,7 +63,7 @@ module "sns" {
 - `sns_topic_name_prefix` - (Optional) The friendly name for the SNS topic. Conflicts with sns_topic_name. (`default = ""`)
 - `display_name` - (Optional) The display name for the SNS topic (`default = ""`)
 - `sns_topic_delivery_policy` - (Optional) The SNS delivery policy. (`default = ""`)
-- `sns_topic_policy` - (Optional) The fully-formed AWS policy as JSON. For more information about building AWS IAM policy documents with Terraform (`default = value`)
+- `sns_topic_policy` - (Optional) The fully-formed AWS policy as JSON. For more information about building AWS IAM policy documents with Terraform (`default = null`)
 - `application_success_feedback_role_arn` - (Optional) The IAM role permitted to receive success feedback for this topic (`default = null`)
 - `application_success_feedback_sample_rate` - (Optional) Percentage of success to sample (`default = null`)
 - `application_failure_feedback_role_arn` - (Optional) IAM role for failure feedback (`default = null`)
@@ -78,33 +78,36 @@ module "sns" {
 - `sqs_success_feedback_sample_rate` - description (`default = null`)
 - `sqs_failure_feedback_role_arn` - (Optional) IAM role for failure feedback (`default = null`)
 - `enable_sns_topic_policy` - Enable sns topic policy usage (`default = False`)
+- `sns_topic_policy_policy` - (Required) The fully-formed AWS policy as JSON. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = ""`)
+- `sns_topic_policy_topic_arn` - The ARN of the SNS topic (`default = null`)
 - `enable_sns_topic_subscription` - Enable sns topic subscription usage (`default = False`)
-- `topic_arn` - (Required) The ARN of the SNS topic to subscribe to (`default = ""`)
-- `sns_protocol` - The protocol to use. The possible values for this are: sqs, sms, lambda, application. (http or https are partially supported, see below) (email is option but unsupported). (`default = sqs`)
-- `sns_endpoint` - The endpoint to send data to, the contents will vary with the protocol. (`default = ""`)
-- `confirmation_timeout_in_minutes` - Set timeout in minutes. Integer indicating number of minutes to wait in retying mode for fetching subscription arn before marking it as failure. Only applicable for http and https protocols (default is 1 minute). (`default = 1`)
-- `endpoint_auto_confirms` - Enable endpoint auto confirms. Boolean indicating whether the end point is capable of auto confirming subscription e.g., PagerDuty (default is false) (`default = False`)
-- `raw_message_delivery` - Set raw message delivery.Boolean indicating whether or not to enable raw message delivery (the original message is directly passed, not wrapped in JSON with the original message in the message property) (default is false). (`default = False`)
-- `filter_policy` - (Optional) JSON String with the filter policy that will be used in the subscription to filter messages seen by the target resource. (`default = ""`)
+- `sns_topic_subscription_topic_arn` - (Required) The ARN of the SNS topic to subscribe to (`default = ""`)
+- `sns_topic_subscription_sns_protocol` - The protocol to use. The possible values for this are: sqs, sms, lambda, application. (http or https are partially supported, see below) (email is option but unsupported). (`default = sqs`)
+- `sns_topic_subscription_sns_endpoint` - The endpoint to send data to, the contents will vary with the protocol. (`default = ""`)
+- `sns_topic_subscription_confirmation_timeout_in_minutes` - Set timeout in minutes. Integer indicating number of minutes to wait in retying mode for fetching subscription arn before marking it as failure. Only applicable for http and https protocols (default is 1 minute). (`default = 1`)
+- `sns_topic_subscription_endpoint_auto_confirms` - Enable endpoint auto confirms. Boolean indicating whether the end point is capable of auto confirming subscription e.g., PagerDuty (default is false) (`default = False`)
+- `sns_topic_subscription_raw_message_delivery` - Set raw message delivery.Boolean indicating whether or not to enable raw message delivery (the original message is directly passed, not wrapped in JSON with the original message in the message property) (default is false). (`default = False`)
+- `sns_topic_subscription_filter_policy` - (Optional) JSON String with the filter policy that will be used in the subscription to filter messages seen by the target resource. (`default = ""`)
+- `sns_topic_subscription_delivery_policy` - (Optional) JSON String with the delivery policy (retries, backoff, etc.) that will be used in the subscription - this only applies to HTTP/S subscriptions. Refer to the SNS docs for more details. (`default = ""`)
 - `enable_sns_sms_preferences` - Enable sns sms preferences usage (`default = False`)
-- `monthly_spend_limit` - (Optional) The maximum amount in USD that you are willing to spend each month to send SMS messages. (`default = null`)
-- `delivery_status_iam_role_arn` - (Optional) The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. (`default = null`)
-- `delivery_status_success_sampling_rate` - (Optional) The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value must be between 0 and 100. (`default = null`)
-- `default_sender_id` - (Optional) A string, such as your business brand, that is displayed as the sender on the receiving device. (`default = null`)
-- `default_sms_type` - (Optional) The type of SMS message that you will send by default. Possible values are: Promotional, Transactional (`default = null`)
-- `usage_report_s3_bucket` - (Optional) The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. (`default = null`)
+- `sns_sms_preferences_monthly_spend_limit` - (Optional) The maximum amount in USD that you are willing to spend each month to send SMS messages. (`default = null`)
+- `sns_sms_preferences_delivery_status_iam_role_arn` - (Optional) The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. (`default = null`)
+- `sns_sms_preferences_delivery_status_success_sampling_rate` - (Optional) The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value must be between 0 and 100. (`default = null`)
+- `sns_sms_preferences_default_sender_id` - (Optional) A string, such as your business brand, that is displayed as the sender on the receiving device. (`default = null`)
+- `sns_sms_preferences_default_sms_type` - (Optional) The type of SMS message that you will send by default. Possible values are: Promotional, Transactional (`default = null`)
+- `sns_sms_preferences_usage_report_s3_bucket` - (Optional) The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. (`default = null`)
 - `enable_sns_platform_application` - Enable sns platform application usage (`default = False`)
 - `sns_platform_application_name` - The friendly name for the SNS platform application (`default = ""`)
-- `platform` - (Required) The platform that the app is registered with. (`default = ""`)
-- `platform_credential` - (Required) Application Platform credential.  (`default = ""`)
-- `event_delivery_failure_topic_arn` - (Optional) SNS Topic triggered when a delivery to any of the platform endpoints associated with your platform application encounters a permanent failure. (`default = null`)
-- `event_endpoint_created_topic_arn` - (Optional) SNS Topic triggered when a new platform endpoint is added to your platform application. (`default = null`)
-- `event_endpoint_deleted_topic_arn` - (Optional) SNS Topic triggered when an existing platform endpoint is deleted from your platform application. (`default = null`)
-- `event_endpoint_updated_topic_arn` - (Optional) SNS Topic triggered when an existing platform endpoint is changed from your platform application. (`default = null`)
-- `failure_feedback_role_arn` - (Optional) The IAM role permitted to receive failure feedback for this application. (`default = null`)
-- `platform_principal` - (Optional) Application Platform principal. (`default = null`)
-- `success_feedback_role_arn` - (Optional) The IAM role permitted to receive success feedback for this application. (`default = null`)
-- `success_feedback_sample_rate` - (Optional) The percentage of success to sample (0-100) (`default = null`)
+- `sns_platform_application_platform` - (Required) The platform that the app is registered with. (`default = ""`)
+- `sns_platform_application_platform_credential` - (Required) Application Platform credential.  (`default = ""`)
+- `sns_platform_application_event_delivery_failure_topic_arn` - (Optional) SNS Topic triggered when a delivery to any of the platform endpoints associated with your platform application encounters a permanent failure. (`default = null`)
+- `sns_platform_application_event_endpoint_created_topic_arn` - (Optional) SNS Topic triggered when a new platform endpoint is added to your platform application. (`default = null`)
+- `sns_platform_application_event_endpoint_deleted_topic_arn` - (Optional) SNS Topic triggered when an existing platform endpoint is deleted from your platform application. (`default = null`)
+- `sns_platform_application_event_endpoint_updated_topic_arn` - (Optional) SNS Topic triggered when an existing platform endpoint is changed from your platform application. (`default = null`)
+- `sns_platform_application_failure_feedback_role_arn` - (Optional) The IAM role permitted to receive failure feedback for this application. (`default = null`)
+- `sns_platform_application_platform_principal` - (Optional) Application Platform principal. (`default = null`)
+- `sns_platform_application_success_feedback_role_arn` - (Optional) The IAM role permitted to receive success feedback for this application. (`default = null`)
+- `sns_platform_application_success_feedback_sample_rate` - (Optional) The percentage of success to sample (0-100) (`default = null`)
 
 ## Module Output Variables
 ----------------------

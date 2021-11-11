@@ -17,7 +17,7 @@ resource "aws_vpc_endpoint" "vpc_endpoint" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.vpc_endpoint_timeouts
+    for_each = length(keys(var.vpc_endpoint_timeouts)) > 0 ? [var.vpc_endpoint_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

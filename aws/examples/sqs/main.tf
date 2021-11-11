@@ -20,13 +20,13 @@ module "sqs" {
   sqs_queue_name   = "test-sqs-here"
 
   #redrive_policy                      = file("policies/redrive_policy.json.tpl")
-  sqs_dead_letter_queue_arn = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXX:my_sqs"
-  maxReceiveCount           = 10
+  sqs_queue_dead_letter_queue_arn = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXX:my_sqs"
+  sqs_queue_maxReceiveCount       = 10
 
   # SQS queue policy
-  enable_sqs_queue_policy = true
-  queue_url               = ""
-  sqs_queue_policy        = file("policies/sqs_queue_policy.json.tpl")
+  enable_sqs_queue_policy    = true
+  sqs_queue_policy_queue_url = ""
+  sqs_queue_policy           = file("policies/sqs_queue_policy.json.tpl")
 
   tags = tomap({
     "Environment"   = "dev",

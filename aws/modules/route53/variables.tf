@@ -73,7 +73,7 @@ variable "route53_record_ttl" {
   default     = null
 }
 
-variable "parent_zone_id" {
+variable "route53_record_parent_zone_id" {
   description = "Perent Zone ID"
   default     = ""
 }
@@ -88,42 +88,42 @@ variable "route53_record_records" {
   default     = []
 }
 
-variable "set_identifier" {
+variable "route53_record_set_identifier" {
   description = "(Optional) Unique identifier to differentiate records with routing policies from one another. Required if using failover, geolocation, latency, or weighted routing policies documented below."
   default     = null
 }
 
-variable "weighted_routing_policy" {
+variable "route53_record_weighted_routing_policy" {
   description = "(Optional) A block indicating a weighted routing policy. Conflicts with any other routing policy."
   default     = []
 }
 
-variable "health_check_id" {
+variable "route53_record_health_check_id" {
   description = "(Optional) The health check the record should be associated with."
   default     = null
 }
 
-variable "failover_routing_policy" {
+variable "route53_record_failover_routing_policy" {
   description = "(Optional) A block indicating the routing behavior when associated health check fails. Conflicts with any other routing policy."
   default     = []
 }
 
-variable "geolocation_routing_policy" {
+variable "route53_record_geolocation_routing_policy" {
   description = "(Optional) A block indicating a routing policy based on the geolocation of the requestor. Conflicts with any other routing policy."
   default     = []
 }
 
-variable "latency_routing_policy" {
+variable "route53_record_latency_routing_policy" {
   description = "(Optional) A block indicating a routing policy based on the latency between the requestor and an AWS region. Conflicts with any other routing policy."
   default     = []
 }
 
-variable "multivalue_answer_routing_policy" {
+variable "route53_record_multivalue_answer_routing_policy" {
   description = "(Optional) Set to true to indicate a multivalue answer routing policy. Conflicts with any other routing policy."
   default     = null
 }
 
-variable "allow_overwrite" {
+variable "route53_record_allow_overwrite" {
   description = "(Optional) Allow creation of this record in Terraform to overwrite an existing record, if any. This does not affect the ability to update the record in Terraform and does not prevent other resources within Terraform or manual Route 53 changes outside Terraform from overwriting this record. false by default. This configuration is not recommended for most environments."
   default     = false
 }

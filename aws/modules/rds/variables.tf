@@ -264,6 +264,17 @@ variable "rds_cluster_instance_instance_class" {
   default     = "db.t2.small"
 }
 
+variable "rds_cluster_instance_engine" {
+  description = "The instance engine name"
+  default     = "aurora"
+}
+
+variable "rds_cluster_instance_engine_version" {
+  description = "The engine version for rds cluster instance."
+  default     = null
+
+}
+
 variable "rds_cluster_instance_publicly_accessible" {
   description = "(Optional) Bool to control if instance is publicly accessible. Default false. See the documentation on Creating DB Instances for more details on controlling this property."
   default     = false
@@ -819,7 +830,7 @@ variable "enable_db_cluster_snapshot" {
   default     = false
 }
 
-variable "db_cluster_identifier" {
+variable "db_cluster_snapshot_db_cluster_identifier" {
   description = "The DB Cluster Identifier from which to take the snapshot."
   default     = ""
 }
@@ -890,7 +901,7 @@ variable "db_event_subscription_event_categories" {
 
 variable "db_event_subscription_timeouts" {
   description = "Set timeouts for db event subscription"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -1055,7 +1066,7 @@ variable "db_proxy_vpc_security_group_ids" {
 
 variable "db_proxy_timeouts" {
   description = "Set timeouts for DB proxy"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

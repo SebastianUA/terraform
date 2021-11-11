@@ -7,7 +7,7 @@ resource "aws_athena_database" "athena_database" {
   name   = var.athena_database_name != "" ? var.athena_database_name : "${lower(var.name)}-athena-db-${lower(var.environment)}"
   bucket = var.athena_database_bucket
 
-  force_destroy = var.force_destroy
+  force_destroy = var.athena_database_force_destroy
 
   dynamic "encryption_configuration" {
     iterator = encryption_configuration
