@@ -131,7 +131,7 @@ module "athena" {
 - `enable_athena_database` - Enable athena DB usage (`default = False`)
 - `athena_database_name` - Name of the database to create. (`default = ""`)
 - `athena_database_bucket` - (Required) Name of s3 bucket to save the results of the query execution. (`default = ""`)
-- `force_destroy` - (Optional, Default: false) A boolean that indicates all tables should be deleted from the database so that the database can be destroyed without error. The tables are not recoverable. (`default = False`)
+- `athena_database_force_destroy` - (Optional, Default: false) A boolean that indicates all tables should be deleted from the database so that the database can be destroyed without error. The tables are not recoverable. (`default = False`)
 - `athena_database_encryption_configuration` - (Optional) The encryption key block AWS Athena uses to decrypt the data in S3, such as an AWS Key Management Service (AWS KMS) key. An encryption_configuration block is documented below. (`default = []`)
 - `enable_athena_named_query` - Enable athena named query usage (`default = False`)
 - `athena_named_query_name` - The plain language name for the query. Maximum length of 128. (`default = ""`)

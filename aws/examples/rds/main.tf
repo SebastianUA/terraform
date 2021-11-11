@@ -11,8 +11,8 @@ provider "aws" {
 }
 
 module "rds_cluster" {
-  source      = "../../modules/rds"
-  
+  source = "../../modules/rds"
+
   name        = "Test"
   region      = "us-east-1"
   environment = "stage"
