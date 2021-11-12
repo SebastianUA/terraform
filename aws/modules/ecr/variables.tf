@@ -43,12 +43,12 @@ variable "enable_ecr_repository_policy" {
   default     = false
 }
 
-variable "repository" {
+variable "ecr_repository_policy_repository" {
   description = "(Required) Name of the repository to apply the policy."
   default     = ""
 }
 
-variable "policy_json_file" {
+variable "ecr_repository_policy" {
   description = "Json file with policy"
   default     = ""
 }
@@ -61,7 +61,12 @@ variable "enable_ecr_lifecycle_policy" {
   default     = false
 }
 
-variable "lifecycle_policy_json_file" {
+variable "ecr_lifecycle_policy_repository" {
+  description = "Set repository for lifecycle policy resource"
+  default     = ""
+}
+
+variable "ecr_lifecycle_policy" {
   description = "Json file with lifecycle policy"
   default     = ""
 }

@@ -1,17 +1,17 @@
 #---------------------------------------------------
-# Create AWS EBS volume
+# AWS EBS volume
 #---------------------------------------------------
 resource "aws_ebs_volume" "ebs_volume" {
   count = var.enable_ebs_volume ? 1 : 0
 
-  availability_zone = length(var.availability_zone) > 0 ? var.availability_zone : element(split(",", (lookup(var.availability_zones, var.region))), 0)
-  type              = var.type
-  size              = var.size
+  availability_zone = length(var.ebs_volume_availability_zone) > 0 ? var.ebs_volume_availability_zone : element(split(",", (lookup(var.availability_zones, var.region))), 0)
+  type              = var.ebs_volume_type
+  size              = var.ebs_volume_size
 
   encrypted   = var.ebs_volume_encrypted
-  iops        = var.iops
-  snapshot_id = var.snapshot_id
-  kms_key_id  = var.kms_key_id
+  iops        = var.ebs_volume_iops
+  snapshot_id = var.ebs_volume_snapshot_id
+  kms_key_id  = var.ebs_volume_kms_key_id
 
   tags = merge(
     {

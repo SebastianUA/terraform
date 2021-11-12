@@ -1,37 +1,37 @@
 #---------------------------------------------------
-# Create AWS elasticache cluster
+# AWS elasticache cluster
 #---------------------------------------------------
 resource "aws_elasticache_cluster" "elasticache_cluster" {
-  count = var.enable_elasticache_cluster && var.num_cache_nodes == 1 ? 1 : 0
+  count = var.enable_elasticache_cluster && var.elasticache_cluster_num_cache_nodes == 1 ? 1 : 0
 
-  cluster_id           = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
-  replication_group_id = var.replication_group_id
-  engine               = var.engine
-  engine_version       = var.engine_version != "" ? var.engine_version : var.engine_version_default[var.engine]
-  node_type            = var.node_type
-  port                 = var.elasticache_cluster_port != null ? var.elasticache_cluster_port : var.default_ports[var.engine]
-  num_cache_nodes      = var.num_cache_nodes
+  cluster_id           = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.elasticache_cluster_engine != "" ? var.elasticache_cluster_engine : var.default_engine)}-${lower(var.environment)}"
+  replication_group_id = var.elasticache_cluster_replication_group_id != null ? var.elasticache_cluster_replication_group_id : (var.elasticache_replication_group ? aws_elasticache_replication_group.elasticache_replication_group[count.index].id : null)
+  engine               = var.elasticache_cluster_engine != "" ? var.elasticache_cluster_engine : var.default_engine
+  engine_version       = var.elasticache_cluster_engine_version != null ? var.elasticache_cluster_engine_version : var.default_engine_version[var.default_engine]
+  node_type            = var.elasticache_cluster_node_type
+  port                 = var.elasticache_cluster_port != null ? var.elasticache_cluster_port : var.default_ports[var.default_engine]
+  num_cache_nodes      = var.elasticache_cluster_num_cache_nodes
 
-  subnet_group_name    = var.subnet_group_name != "" ? var.subnet_group_name : element(concat(aws_elasticache_subnet_group.elasticache_subnet_group.*.id, [""]), 0)
-  security_group_names = var.security_group_names
-  security_group_ids   = var.security_group_ids
-  parameter_group_name = var.parameter_group_name[var.engine] != "" ? var.parameter_group_name[var.engine] : element(concat(aws_elasticache_parameter_group.elasticache_parameter_group.*.name, [""]), 0)
-  apply_immediately    = var.apply_immediately
+  subnet_group_name    = var.elasticache_cluster_subnet_group_name != null ? var.elasticache_cluster_subnet_group_name : (var.enable_elasticache_subnet_group ? aws_elasticache_subnet_group.elasticache_subnet_group[count.index].id : null)
+  parameter_group_name = var.elasticache_cluster_parameter_group_name != null ? var.elasticache_cluster_parameter_group_name : (var.enable_elasticache_parameter_group ? aws_elasticache_parameter_group.elasticache_parameter_group[count.index].name : null)
+  security_group_names = var.elasticache_cluster_security_group_names
+  security_group_ids   = var.elasticache_cluster_security_group_ids
+  apply_immediately    = var.elasticache_cluster_apply_immediately
 
-  maintenance_window       = var.maintenance_window
-  snapshot_window          = var.snapshot_window
-  snapshot_retention_limit = var.snapshot_retention_limit
-  snapshot_arns            = var.snapshot_arns
-  snapshot_name            = var.snapshot_name
-  notification_topic_arn   = var.notification_topic_arn
+  maintenance_window       = var.elasticache_cluster_maintenance_window
+  snapshot_window          = var.elasticache_cluster_snapshot_window
+  snapshot_retention_limit = var.elasticache_cluster_snapshot_retention_limit
+  snapshot_arns            = var.elasticache_cluster_snapshot_arns
+  snapshot_name            = var.elasticache_cluster_snapshot_name
+  notification_topic_arn   = var.elasticache_cluster_notification_topic_arn
 
-  availability_zone            = var.availability_zone
-  az_mode                      = var.az_mode
-  preferred_availability_zones = var.preferred_availability_zones
+  availability_zone            = var.elasticache_cluster_availability_zone
+  az_mode                      = var.elasticache_cluster_az_mode
+  preferred_availability_zones = var.elasticache_cluster_preferred_availability_zones
 
   tags = merge(
     {
-      Name = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.engine)}-${lower(var.environment)}"
+      Name = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.elasticache_cluster_engine != "" ? var.elasticache_cluster_engine : var.default_engine)}-${lower(var.environment)}"
     },
     var.tags
   )

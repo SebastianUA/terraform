@@ -4,44 +4,44 @@
 resource "aws_instance" "instance" {
   count = var.enable_instance ? 1 : 0
 
-  ami           = lookup(var.ami, var.region)
+  ami           = var.instance_ami != "" ? var.instance_ami : lookup(var.ami, var.region)
   instance_type = var.instance_type
 
-  availability_zone = var.availability_zone
-  placement_group   = var.placement_group
-  tenancy           = var.tenancy
+  availability_zone = var.instance_availability_zone
+  placement_group   = var.instance_placement_group
+  tenancy           = var.instance_tenancy
 
-  ebs_optimized = var.ebs_optimized
+  ebs_optimized = var.instance_ebs_optimized
 
-  source_dest_check = var.source_dest_check
-  monitoring        = var.monitoring
+  source_dest_check = var.instance_source_dest_check
+  monitoring        = var.instance_monitoring
 
-  subnet_id                   = var.subnet_id
-  associate_public_ip_address = var.associate_public_ip_address
-  private_ip                  = var.private_ip
+  subnet_id                   = var.instance_subnet_id
+  associate_public_ip_address = var.instance_associate_public_ip_address
+  private_ip                  = var.instance_private_ip
 
-  ipv6_address_count = var.ipv6_address_count
-  ipv6_addresses     = var.ipv6_addresses
+  ipv6_address_count = var.instance_ipv6_address_count
+  ipv6_addresses     = var.instance_ipv6_addresses
 
-  vpc_security_group_ids = var.vpc_security_group_ids
-  security_groups        = var.security_groups
-  iam_instance_profile   = var.iam_instance_profile
-  key_name               = var.key_name
+  vpc_security_group_ids = var.instance_vpc_security_group_ids
+  security_groups        = var.instance_security_groups
+  iam_instance_profile   = var.instance_iam_instance_profile
+  key_name               = var.instance_key_name
 
-  user_data         = var.user_data
-  user_data_base64  = var.user_data_base64
-  get_password_data = var.get_password_data
+  user_data         = var.instance_user_data
+  user_data_base64  = var.instance_user_data_base64
+  get_password_data = var.instance_get_password_data
 
-  disable_api_termination              = var.disable_api_termination
+  disable_api_termination              = var.instance_disable_api_termination
   instance_initiated_shutdown_behavior = var.instance_initiated_shutdown_behavior
 
-  host_id              = var.host_id
-  cpu_core_count       = var.cpu_core_count
-  cpu_threads_per_core = var.cpu_threads_per_core
+  host_id              = var.instance_host_id
+  cpu_core_count       = var.instance_cpu_core_count
+  cpu_threads_per_core = var.instance_cpu_threads_per_core
 
   dynamic "ebs_block_device" {
     iterator = ebs_block_device
-    for_each = var.ebs_block_device
+    for_each = var.instance_ebs_block_device
 
     content {
       delete_on_termination = lookup(ebs_block_device.value, "delete_on_termination", null)
@@ -57,7 +57,7 @@ resource "aws_instance" "instance" {
 
   dynamic "ephemeral_block_device" {
     iterator = ephemeral_block_device
-    for_each = var.ephemeral_block_device
+    for_each = var.instance_ephemeral_block_device
 
     content {
       device_name  = ephemeral_block_device.value.device_name
@@ -67,7 +67,7 @@ resource "aws_instance" "instance" {
 
   dynamic "root_block_device" {
     iterator = root_block_device
-    for_each = var.root_block_device
+    for_each = var.instance_root_block_device
 
     content {
       delete_on_termination = lookup(root_block_device.value, "delete_on_termination", null)
@@ -80,7 +80,7 @@ resource "aws_instance" "instance" {
 
   dynamic "network_interface" {
     iterator = network_interface
-    for_each = var.network_interface
+    for_each = var.instance_network_interface
 
     content {
       device_index          = lookup(network_interface.value, "device_index", null)
@@ -93,12 +93,12 @@ resource "aws_instance" "instance" {
     {
       "Name" = var.instance_name != "" ? var.instance_name : "${lower(var.name)}-ec2-${lower(var.environment)}"
     },
-    var.volume_tags
+    var.instance_volume_tags
   )
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.instance_timeouts
+    for_each = length(keys(var.instance_timeouts)) > 0 ? [var.instance_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

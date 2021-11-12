@@ -7,22 +7,22 @@ module "ebs" {
   # AWS EBS volume
   enable_ebs_volume = true
   ebs_volume_name   = ""
-  type              = "gp2"
-  size              = 8
+  ebs_volume_type   = "gp3"
+  ebs_volume_size   = 8
 
-  ebs_volume_encrypted = false
-  iops                 = 100
-  snapshot_id          = ""
-  kms_key_id           = ""
+  ebs_volume_encrypted   = false
+  ebs_volume_iops        = 100
+  ebs_volume_snapshot_id = ""
+  ebs_volume_kms_key_id  = ""
 
   # AWS EBS volume attachment
-  enable_ebs_volume_attachment = false
-  device_name                  = ""
-  instance_id                  = ""
-  volume_id                    = ""
+  enable_ebs_volume_attachment      = false
+  ebs_volume_attachment_device_name = ""
+  ebs_volume_attachment_instance_id = ""
+  ebs_volume_attachment_volume_id   = ""
 
-  force_detach = false
-  skip_destroy = false
+  ebs_volume_attachment_force_detach = false
+  ebs_volume_attachment_skip_destroy = false
 
   tags = tomap({
     "Environment"   = "dev",

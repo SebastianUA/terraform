@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS elasticache security group (SG)
+# AWS elasticache security group (SG)
 #---------------------------------------------------
 resource "aws_elasticache_security_group" "elasticache_security_group" {
   count = var.enable_elasticache_security_group ? 1 : 0
@@ -9,7 +9,7 @@ resource "aws_elasticache_security_group" "elasticache_security_group" {
 
   # NOTE: ElastiCache Subnet Groups are only for use when working with an ElastiCache cluster inside of a VPC. If you are on EC2 Classic, see the ElastiCache Security Group resource.
   # NOTE: ElastiCache Security Groups are for use only when working with an ElastiCache cluster outside of a VPC. If you are using a VPC, see the ElastiCache Subnet Group resource.
-  security_group_names = var.security_group_names
+  security_group_names = var.elasticache_security_group_security_group_names
 
   lifecycle {
     create_before_destroy = true

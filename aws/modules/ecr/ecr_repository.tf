@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ECR repository
+# AWS ECR repository
 #---------------------------------------------------
 resource "aws_ecr_repository" "ecr_repository" {
   count = var.enable_ecr_repository ? 1 : 0

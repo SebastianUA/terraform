@@ -12,36 +12,36 @@ provider "aws" {
 }
 
 module "elasticache_single_redis" {
-  source      = "../../modules/elasticache"
+  source = "../../modules/elasticache"
+
   name        = "single"
   environment = "stage"
 
-  enable_elasticache_security_group = false
-  elasticache_security_group_name   = ""
-  security_group_names              = []
-  enable_elasticache_subnet_group   = false
-  elasticache_subnet_group_name     = ""
-  subnet_ids                        = []
+  # elasticache security group
+  enable_elasticache_security_group               = false
+  elasticache_security_group_name                 = ""
+  elasticache_security_group_security_group_names = []
 
-  #
+  # elasticache subnet group
+  enable_elasticache_subnet_group     = false
+  elasticache_subnet_group_name       = ""
+  elasticache_subnet_group_subnet_ids = []
+
+  # elasticache parameter group
   enable_elasticache_parameter_group = false
-  parameter = [
+  elasticache_parameter_group_name   = "param-group"
+  elasticache_parameter_group_parameter = [
     {
       name  = "activerehashing"
       value = "yes"
-    },
+    }
   ]
-  # Or, use already created parameter_group
-  #parameter_group_name                    = {
-  #        memcached   = "default.memcached1.4",
-  #        redis       = "default.redis4.0"
-  #    }
-  engine = "redis"
+
 
   # The single cluster
-  enable_elasticache_cluster = true
-  num_cache_nodes            = 1
-  node_type                  = "cache.m3.medium"
+  enable_elasticache_cluster          = true
+  elasticache_cluster_num_cache_nodes = 1
+  elasticache_cluster_node_type       = "cache.m3.medium"
 
   tags = tomap({
     "Environment"   = "dev",
@@ -50,36 +50,35 @@ module "elasticache_single_redis" {
   })
 }
 
+
 module "elasticache_single_memcached" {
-  source      = "../../modules/elasticache"
+  source = "../../modules/elasticache"
+
   name        = "single"
   environment = "stage"
 
-  enable_elasticache_security_group = false
-  elasticache_security_group_name   = ""
-  security_group_names              = []
-  enable_elasticache_subnet_group   = false
-  elasticache_subnet_group_name     = ""
-  subnet_ids                        = []
+  # elasticache security group
+  enable_elasticache_security_group               = false
+  elasticache_security_group_name                 = ""
+  elasticache_security_group_security_group_names = []
 
-  #
-  enable_elasticache_parameter_group = false
-  parameter = [
-    {
-      name  = "disable_flush_all"
-      value = 0
-    },
-    {
-      name  = "idle_timeout"
-      value = 0
-    },
-  ]
-  engine = "memcached"
+  # elasticache subnet group
+  enable_elasticache_subnet_group     = false
+  elasticache_subnet_group_name       = ""
+  elasticache_subnet_group_subnet_ids = []
+
+  # elasticache parameter group
+  enable_elasticache_parameter_group    = false
+  elasticache_parameter_group_name      = "param-group"
+  elasticache_parameter_group_parameter = []
 
   # The single cluster
-  enable_elasticache_cluster = true
-  num_cache_nodes            = 1
-  node_type                  = "cache.m3.medium"
+  enable_elasticache_cluster          = true
+  elasticache_cluster_num_cache_nodes = 1
+  default_engine                      = "memcached"
+  elasticache_cluster_engine          = "memcached"
+  elasticache_cluster_port            = 11211
+  elasticache_cluster_node_type       = "cache.m3.medium"
 
   tags = tomap({
     "Environment"   = "dev",
