@@ -1,12 +1,16 @@
-#############################################################
-# AWS key pair
-#############################################################
 module "key_pair" {
   source = "../../modules/key_pair"
 
-  enable_key_pair = true
-  key_name        = "test-key"
-  public_key      = file("./additional_files/prod-bastion_ukraine.pub")
+  enable_key_pair          = true
+  key_pair_key_name        = "test"
+  key_pair_key_name_prefix = null
+  key_pair_public_key      = file("/Users/captain/.ssh/id_rsa.pub")
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 module "lt" {
@@ -18,11 +22,12 @@ module "lt" {
   enable_lt      = true
   lt_name        = ""
   lt_description = null
-  lc_user_data   = null
+  lt_user_data   = null
+  lt_image_id = "ami-08f72eed8a0d9f8e8"
 
 }
 
-module "asg_new" {
+module "asg" {
   source      = "../../modules/asg"
   name        = "my-first"
   region      = "us-west-2"
@@ -37,7 +42,7 @@ module "asg_new" {
   lc_security_groups      = ["sg-07b62c0d0ea37056d"]
   lc_iam_instance_profile = ""
 
-  lc_key_name  = element(module.key_pair.aws_key_id, 0)
+  lc_key_name  = module.key_pair.aws_key_id
   lc_user_data = null #file("./additional_files/bootstrap.sh")
 
   lc_enable_monitoring = "true"

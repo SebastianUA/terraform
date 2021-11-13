@@ -3,12 +3,12 @@
 #
 output "launch_configuration_id" {
   description = "The ID of the launch configuration"
-  value       = module.asg_new.launch_configuration_id
+  value       = module.asg.launch_configuration_id
 }
 
 output "launch_configuration_name" {
   description = "The ID of the launch configuration"
-  value       = module.asg_new.launch_configuration_name
+  value       = module.asg.launch_configuration_name
 }
 
 #
@@ -16,10 +16,10 @@ output "launch_configuration_name" {
 #
 output "autoscaling_group_id" {
   description = "The ID of the launch configuration"
-  value       = module.asg_new.autoscaling_group_id
+  value       = module.asg.autoscaling_group_id
 }
 
 output "autoscaling_group_name" {
   description = "The ID of the launch configuration"
-  value       = module.asg_new.autoscaling_group_name
+  value       = module.asg.autoscaling_group_name
 }

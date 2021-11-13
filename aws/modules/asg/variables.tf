@@ -23,6 +23,11 @@ variable "ami" {
     us-west-2 = "ami-3ecc8f46"
     eu-west-1 = "ami-6e28b517"
   }
+
+  // validation {
+  //   condition     = length(var.ami[.var.region]) > 4 && substr(var.ami[.var.region], 0, 4) == "ami-"
+  //   error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
+  // }
 }
 
 #-----------------------------------------------------------
@@ -46,6 +51,11 @@ variable "lc_name_prefix" {
 variable "lc_image_id" {
   description = "The EC2 image ID to launch."
   default     = ""
+
+  // validation {
+  //   condition     = length(var.lc_image_id) > 4 && substr(var.lc_image_id, 0, 4) == "ami-"
+  //   error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
+  // }
 }
 
 variable "lc_instance_type" {
@@ -149,6 +159,11 @@ variable "lt_update_default_version" {
 variable "lt_image_id" {
   description = "The AMI from which to launch the instance."
   default     = ""
+
+  // validation {
+  //   condition     = length(var.lt_image_id) > 4 && substr(var.lt_image_id, 0, 4) == "ami-"
+  //   error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
+  // }
 }
 
 variable "lt_kernel_id" {
