@@ -23,7 +23,7 @@ module "lt" {
   lt_name        = ""
   lt_description = null
   lt_user_data   = null
-  lt_image_id = "ami-08f72eed8a0d9f8e8"
+  lt_image_id    = "ami-08f72eed8a0d9f8e8"
 
 }
 
