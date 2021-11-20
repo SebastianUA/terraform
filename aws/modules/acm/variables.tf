@@ -94,7 +94,7 @@ variable "acm_certificate_validation_record_fqdns" {
 
 variable "acm_certificate_validation_timeouts" {
   description = "Set timeouts for acm certificate validation"
-  default     = []
+  default     = {}
 }
 
 #-----------------------------------------------------------
@@ -115,13 +115,8 @@ variable "acmpca_certificate_authority_enabled" {
   default     = true
 }
 
-variable "certificate_authority_configuration_certificate_authority_configuration" {
+variable "acmpca_certificate_authority_certificate_authority_configuration" {
   description = "(Required) Nested argument containing algorithms and certificate subject information."
-  default     = {}
-}
-
-variable "acmpca_certificate_authority_certificate_authority_configuration_subject" {
-  description = "Set subject settings"
   default     = {}
 }
 

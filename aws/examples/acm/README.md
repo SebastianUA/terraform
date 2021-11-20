@@ -75,7 +75,7 @@ module "acmpca_certificate_authority" {
   enable_acmpca_certificate_authority                          = true
   acmpca_certificate_authority_permanent_deletion_time_in_days = 30
 
-  certificate_authority_configuration_certificate_authority_configuration = {
+  acmpca_certificate_authority_certificate_authority_configuration = {
     key_algorithm     = "RSA_4096"
     signing_algorithm = "SHA512WITHRSA"
 
@@ -137,12 +137,11 @@ module "acm_certificate_private_ca" {
 - `enable_acm_certificate_validation` - Enable to use acm certificate validation (`default = False`)
 - `acm_certificate_validation_certificate_arn` - (Required) The ARN of the certificate that is being validated. (`default = ""`)
 - `acm_certificate_validation_record_fqdns` - (Optional) List of FQDNs that implement the validation. Only valid for DNS validation method ACM certificates. If this is set, the resource can implement additional sanity checks and has an explicit dependency on the resource that is implementing the validation (`default = null`)
-- `acm_certificate_validation_timeouts` - Set timeouts for acm certificate validation (`default = []`)
+- `acm_certificate_validation_timeouts` - Set timeouts for acm certificate validation (`default = {}`)
 - `enable_acmpca_certificate_authority` - Enable to use acmpca certificate authority (`default = False`)
 - `acmpca_certificate_authority_name` - Set cert name for acmpca (`default = ""`)
 - `acmpca_certificate_authority_enabled` - (Optional) Whether the certificate authority is enabled or disabled. Defaults to true. (`default = True`)
-- `certificate_authority_configuration_certificate_authority_configuration` - (Required) Nested argument containing algorithms and certificate subject information. (`default = {}`)
-- `acmpca_certificate_authority_certificate_authority_configuration_subject` - Set subject settings (`default = {}`)
+- `acmpca_certificate_authority_certificate_authority_configuration` - (Required) Nested argument containing algorithms and certificate subject information. (`default = {}`)
 - `acmpca_certificate_authority_permanent_deletion_time_in_days` - (Optional) The number of days to make a CA restorable after it has been deleted, must be between 7 to 30 days, with default to 30 days. (`default = null`)
 - `acmpca_certificate_authority_revocation_configuration` - (Optional) Nested argument containing revocation configuration. (`default = {}`)
 - `acmpca_certificate_authority_timeouts` - Set timeouts for acmpca (`default = {}`)

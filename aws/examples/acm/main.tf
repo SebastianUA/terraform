@@ -65,7 +65,7 @@ module "acmpca_certificate_authority" {
   enable_acmpca_certificate_authority                          = true
   acmpca_certificate_authority_permanent_deletion_time_in_days = 30
 
-  certificate_authority_configuration_certificate_authority_configuration = {
+  acmpca_certificate_authority_certificate_authority_configuration = {
     key_algorithm     = "RSA_4096"
     signing_algorithm = "SHA512WITHRSA"
 

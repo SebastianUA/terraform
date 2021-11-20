@@ -10,7 +10,7 @@ resource "aws_acmpca_certificate_authority" "acmpca_certificate_authority" {
 
   dynamic "certificate_authority_configuration" {
     iterator = certificate_authority_configuration
-    for_each = length(keys(var.certificate_authority_configuration_certificate_authority_configuration)) > 0 ? [var.certificate_authority_configuration_certificate_authority_configuration] : []
+    for_each = length(keys(var.acmpca_certificate_authority_certificate_authority_configuration)) > 0 ? [var.acmpca_certificate_authority_certificate_authority_configuration] : []
 
     content {
       key_algorithm     = lookup(certificate_authority_configuration.value, "key_algorithm", null)
