@@ -14,6 +14,7 @@ resource "aws_security_group" "security_group" {
   dynamic "ingress" {
     iterator = ingress
     for_each = var.security_group_ingress
+
     content {
       protocol  = lookup(ingress.value, "protocol", null)
       from_port = lookup(ingress.value, "from_port", null)
@@ -31,6 +32,7 @@ resource "aws_security_group" "security_group" {
   dynamic "egress" {
     iterator = egress
     for_each = var.security_group_egress
+
     content {
       protocol  = lookup(egress.value, "protocol", null)
       from_port = lookup(egress.value, "from_port", null)
@@ -47,7 +49,8 @@ resource "aws_security_group" "security_group" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.security_group_timeouts
+    for_each = length(keys(var.security_group_timeouts)) > 0 ? [var.security_group_timeouts] : []
+
     content {
       create = lookup(timeouts.value, "create", null)
       delete = lookup(timeouts.value, "delete", null)

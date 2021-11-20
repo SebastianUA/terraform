@@ -10,6 +10,23 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+module "sg_default" {
+  source      = "../../modules/sg"
+  name        = "test"
+  environment = "dev"
+
+  enable_default_security_group = true
+  default_security_group_name   = "default"
+  default_security_group_vpc_id = "vpc-0ea8873ab2bf7900d"
+
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+}
+
 module "sg" {
   source      = "../../modules/sg"
   name        = "test"

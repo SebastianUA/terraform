@@ -20,6 +20,23 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+module "sg_default" {
+  source      = "../../modules/sg"
+  name        = "test"
+  environment = "dev"
+
+  enable_default_security_group = true
+  default_security_group_name   = "default"
+  default_security_group_vpc_id = "vpc-0ea8873ab2bf7900d"
+
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+}
+
 module "sg" {
   source      = "../../modules/sg"
   name        = "test"
@@ -147,7 +164,8 @@ module "sg_allow_all" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------
@@ -162,7 +180,7 @@ module "sg_allow_all" {
 - `security_group_revoke_rules_on_delete` - (Optional) Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed, however certain AWS services such as Elastic Map Reduce may automatically add required rules to security groups used with the service, and those rules may contain a cyclic dependency that prevent the security groups from being destroyed without removing the dependency first. Default false (`default = False`)
 - `security_group_ingress` - (Optional) Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default = []`)
 - `security_group_egress` - (Optional, VPC only) Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in attribute-as-blocks mode. (`default = []`)
-- `security_group_timeouts` - (Optional, allowing add custom timeouts for VPC (`default = []`)
+- `security_group_timeouts` - (Optional, allowing add custom timeouts for VPC (`default = {}`)
 - `enable_sg_rule_ingress_ports` - Enable SG rule with ingress ports usage (`default = False`)
 - `ingress_ports_stack` - Set list of the values for ingress (`default = []`)
 - `enable_sg_rule_egress_ports` - Enable SG rule with egress ports usage (`default = False`)
@@ -174,8 +192,8 @@ module "sg_allow_all" {
 - `enable_default_security_group` - Enable default security group usage (`default = False`)
 - `default_security_group_name` - Set name for default SG (`default = ""`)
 - `default_security_group_vpc_id` - (Optional, Forces new resource) VPC ID. Note that changing the vpc_id will not restore any default security group rules that were modified, added, or removed. It will be left in its current state. (`default = ""`)
-- `default_security_group_ingress` - (Optional) Configuration block. (`default = {}`)
-- `default_security_group_egress` - (Optional, VPC only) Configuration block.  (`default = {}`)
+- `default_security_group_ingress` - (Optional) Configuration block. (`default = {'protocol': '${-1}', 'from_port': 0, 'to_port': 0, 'cidr_blocks': ['0.0.0.0/0'], 'ipv6_cidr_blocks': ['::/0'], 'description': 'Default Inbound rules', 'prefix_list_ids': None, 'security_groups': None, 'self': None}`)
+- `default_security_group_egress` - (Optional, VPC only) Configuration block.  (`default = {'protocol': '${-1}', 'from_port': 0, 'to_port': 0, 'cidr_blocks': ['0.0.0.0/0'], 'ipv6_cidr_blocks': ['::/0'], 'description': 'Default Outbound rules', 'prefix_list_ids': None, 'security_groups': None, 'self': None}`)
 
 ## Module Output Variables
 ----------------------

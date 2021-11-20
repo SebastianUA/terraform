@@ -62,7 +62,7 @@ variable "security_group_egress" {
 
 variable "security_group_timeouts" {
   description = "(Optional, allowing add custom timeouts for VPC"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -161,10 +161,32 @@ variable "default_security_group_vpc_id" {
 
 variable "default_security_group_ingress" {
   description = "(Optional) Configuration block."
-  default     = {}
+  default = {
+    protocol  = -1
+    from_port = 0
+    to_port   = 0
+
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "Default Inbound rules"
+    prefix_list_ids  = null
+    security_groups  = null
+    self             = null
+  }
 }
 
 variable "default_security_group_egress" {
   description = "(Optional, VPC only) Configuration block. "
-  default     = {}
+  default = {
+    protocol  = -1
+    from_port = 0
+    to_port   = 0
+
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "Default Outbound rules"
+    prefix_list_ids  = null
+    security_groups  = null
+    self             = null
+  }
 }
