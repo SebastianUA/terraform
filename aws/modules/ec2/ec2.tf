@@ -7,9 +7,10 @@ resource "aws_instance" "instance" {
   ami           = var.instance_ami != "" ? var.instance_ami : lookup(var.ami, var.region)
   instance_type = var.instance_type
 
-  availability_zone = var.instance_availability_zone
-  placement_group   = var.instance_placement_group
-  tenancy           = var.instance_tenancy
+  availability_zone          = var.instance_availability_zone
+  placement_group            = var.instance_placement_group
+  placement_partition_number = var.instance_placement_partition_number
+  tenancy                    = var.instance_tenancy
 
   ebs_optimized = var.instance_ebs_optimized
 
@@ -39,6 +40,68 @@ resource "aws_instance" "instance" {
   cpu_core_count       = var.instance_cpu_core_count
   cpu_threads_per_core = var.instance_cpu_threads_per_core
 
+  hibernation           = var.instance_hibernation
+  secondary_private_ips = var.instance_secondary_private_ips
+
+  dynamic "launch_template" {
+    iterator = launch_template
+    for_each = length(keys(var.instance_launch_template)) > 0 ? [var.instance_launch_template] : []
+
+    content {
+      name    = lookup(launch_template.value, "name", null)
+      id      = lookup(launch_template.value, "id", null)
+      version = lookup(launch_template.value, "version", null)
+    }
+  }
+
+  dynamic "capacity_reservation_specification" {
+    iterator = capacity_reservation_specification
+    for_each = var.instance_capacity_reservation_specification
+
+    content {
+      capacity_reservation_preference = lookup(capacity_reservation_specification.value, "capacity_reservation_preference", null)
+
+      dynamic "capacity_reservation_target" {
+        iterator = capacity_reservation_target
+        for_each = length(keys(lookup(capacity_reservation_specification.value, "capacity_reservation_target", {}))) > 0 ? [lookup(capacity_reservation_specification.value, "capacity_reservation_target", {})] : []
+
+        content {
+          capacity_reservation_id = lookup(capacity_reservation_target.value, "capacity_reservation_id", null)
+        }
+      }
+    }
+  }
+
+  dynamic "credit_specification" {
+    iterator = credit_specification
+    for_each = var.instance_credit_specification
+
+    content {
+      cpu_credits = lookup(credit_specification.value, "cpu_credits", null)
+    }
+  }
+
+  dynamic "enclave_options" {
+    iterator = enclave_options
+    for_each = length(keys(var.instance_enclave_options)) > 0 ? [var.instance_enclave_options] : []
+
+    content {
+      enabled = lookup(enclave_options.value, "enabled", null)
+    }
+  }
+
+  dynamic "metadata_options" {
+    iterator = metadata_options
+    for_each = length(keys(var.instance_metadata_options)) > 0 ? [var.instance_metadata_options] : []
+
+    content {
+      http_endpoint               = lookup(metadata_options.value, "http_endpoint", null)
+      http_put_response_hop_limit = lookup(metadata_options.value, "http_put_response_hop_limit", null)
+      http_tokens                 = lookup(metadata_options.value, "http_tokens", null)
+    }
+  }
+
+
   dynamic "ebs_block_device" {
     iterator = ebs_block_device
     for_each = var.instance_ebs_block_device
@@ -52,6 +115,9 @@ resource "aws_instance" "instance" {
       volume_size           = lookup(ebs_block_device.value, "volume_size", null)
       volume_type           = lookup(ebs_block_device.value, "volume_type", null)
       kms_key_id            = lookup(ebs_block_device.value, "kms_key_id", null)
+
+      throughput = lookup(ebs_block_device.value, "throughput", null)
+      tags       = lookup(ebs_block_device.value, "tags", null)
     }
   }
 
@@ -60,8 +126,9 @@ resource "aws_instance" "instance" {
     for_each = var.instance_ephemeral_block_device
 
     content {
-      device_name  = ephemeral_block_device.value.device_name
-      virtual_name = ephemeral_block_device.value.virtual_name
+      device_name  = lookup(root_block_device.value, "device_name", null)
+      virtual_name = lookup(root_block_device.value, "virtual_name", null)
+      no_device    = lookup(root_block_device.value, "no_device", null)
     }
   }
 
@@ -75,6 +142,12 @@ resource "aws_instance" "instance" {
       volume_size           = lookup(root_block_device.value, "volume_size", null)
       volume_type           = lookup(root_block_device.value, "volume_type", null)
       encrypted             = lookup(root_block_device.value, "encrypted", null)
+
+      kms_key_id = lookup(root_block_device.value, "kms_key_id", null)
+      throughput = lookup(root_block_device.value, "throughput", null)
+
+      tags = lookup(root_block_device.value, "tags", null)
+
     }
   }
 
@@ -83,8 +156,9 @@ resource "aws_instance" "instance" {
     for_each = var.instance_network_interface
 
     content {
-      device_index          = lookup(network_interface.value, "device_index", null)
-      network_interface_id  = lookup(network_interface.value, "network_interface_id", null)
+      device_index         = lookup(network_interface.value, "device_index", null)
+      network_interface_id = lookup(network_interface.value, "network_interface_id", null)
+
       delete_on_termination = lookup(network_interface.value, "delete_on_termination", null)
     }
   }

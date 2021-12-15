@@ -159,6 +159,11 @@ variable "instance_placement_group" {
   default     = null
 }
 
+variable "instance_placement_partition_number" {
+  description = "(Optional) The number of the partition the instance is in. Valid only if the aws_placement_group resource's strategy argument is set to 'partition'."
+  default     = null
+}
+
 variable "instance_private_ip" {
   description = "(Optional) Private IP address to associate with the instance in a VPC."
   default     = null
@@ -201,6 +206,31 @@ variable "instance_network_interface" {
 }
 
 variable "instance_timeouts" {
-  description = "Set timeout f or EC2 instance"
+  description = "Set timeout for EC2 instance"
   default     = {}
+}
+
+variable "instance_capacity_reservation_specification" {
+  description = "(Optional) Describes an instance's Capacity Reservation targeting option."
+  default     = []
+}
+
+variable "instance_credit_specification" {
+  description = "(Optional) Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. Terraform will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type."
+  default     = []
+}
+
+variable "instance_enclave_options" {
+  description = "(Optional) Enable Nitro Enclaves on launched instances."
+  default     = {}
+}
+
+variable "instance_hibernation" {
+  description = "(Optional) If true, the launched EC2 instance will support hibernation."
+  default     = null
+}
+
+variable "instance_secondary_private_ips" {
+  description = "(Optional) A list of secondary private IPv4 addresses to assign to the instance's primary network interface (eth0) in a VPC. Can only be assigned to the primary network interface (eth0) attached at instance creation, not a pre-existing network interface i.e., referenced in a network_interface block. Refer to the Elastic network interfaces documentation to see the maximum number of private IP addresses allowed per instance type."
+  default     = null
 }
