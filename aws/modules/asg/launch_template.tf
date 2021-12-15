@@ -27,12 +27,12 @@ resource "aws_launch_template" "lt" {
   dynamic "block_device_mappings" {
     iterator = block_device_mappings
     for_each = var.lt_block_device_mappings
-    
+
     content {
       device_name  = lookup(block_device_mappings.value, "device_name", null)
       no_device    = lookup(block_device_mappings.value, "no_device", null)
       virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
-      
+
       ebs {
         delete_on_termination = lookup(block_device_mappings.value, "delete_on_termination", null)
         iops                  = lookup(block_device_mappings.value, "iops", null)
@@ -48,7 +48,7 @@ resource "aws_launch_template" "lt" {
   dynamic "capacity_reservation_specification" {
     iterator = capacity_reservation_specification
     for_each = var.lt_capacity_reservation_specification
-    
+
     content {
       capacity_reservation_preference = lookup(capacity_reservation_specification.value, "capacity_reservation_preference", null)
 
@@ -61,7 +61,7 @@ resource "aws_launch_template" "lt" {
   dynamic "cpu_options" {
     iterator = cpu_options
     for_each = var.lt_cpu_options
-    
+
     content {
       core_count       = lookup(cpu_options.value, "core_count", null)
       threads_per_core = lookup(cpu_options.value, "threads_per_core", null)
@@ -71,7 +71,7 @@ resource "aws_launch_template" "lt" {
   dynamic "credit_specification" {
     iterator = credit_specification
     for_each = var.lt_credit_specification
-    
+
     content {
       cpu_credits = lookup(credit_specification.value, "cpu_credits", null)
     }
@@ -80,7 +80,7 @@ resource "aws_launch_template" "lt" {
   dynamic "elastic_gpu_specifications" {
     iterator = elastic_gpu_specifications
     for_each = var.lt_elastic_gpu_specifications
-    
+
     content {
       type = lookup(elastic_gpu_specifications.value, "type", null)
     }
@@ -89,7 +89,7 @@ resource "aws_launch_template" "lt" {
   dynamic "elastic_inference_accelerator" {
     iterator = elastic_inference_accelerator
     for_each = var.lt_elastic_inference_accelerator
-    
+
     content {
       type = lookup(elastic_inference_accelerator.value, "type", null)
     }
@@ -98,7 +98,7 @@ resource "aws_launch_template" "lt" {
   dynamic "iam_instance_profile" {
     iterator = iam_instance_profile
     for_each = var.lt_iam_instance_profile
-    
+
     content {
       arn  = lookup(iam_instance_profile.value, "arn", null)
       name = lookup(iam_instance_profile.value, "name", null)
@@ -108,7 +108,7 @@ resource "aws_launch_template" "lt" {
   dynamic "instance_market_options" {
     iterator = instance_market_options
     for_each = var.lt_instance_market_options
-    
+
     content {
       market_type = lookup(instance_market_options.value, "market_type", null)
 
@@ -125,7 +125,7 @@ resource "aws_launch_template" "lt" {
   dynamic "license_specification" {
     iterator = license_specification
     for_each = var.lt_license_specification
-    
+
     content {
       license_configuration_arn = lookup(license_specification.value, "license_configuration_arn", null)
     }
@@ -134,7 +134,7 @@ resource "aws_launch_template" "lt" {
   dynamic "metadata_options" {
     iterator = metadata_options
     for_each = var.lt_metadata_options
-    
+
     content {
       http_endpoint               = lookup(metadata_options.value, "http_endpoint", null)
       http_tokens                 = lookup(metadata_options.value, "http_tokens", null)
@@ -145,7 +145,7 @@ resource "aws_launch_template" "lt" {
   dynamic "monitoring" {
     iterator = monitoring
     for_each = var.lt_monitoring
-    
+
     content {
       enabled = lookup(monitoring.value, "enabled", null)
     }
@@ -154,7 +154,7 @@ resource "aws_launch_template" "lt" {
   dynamic "network_interfaces" {
     iterator = network_interfaces
     for_each = var.lt_network_interfaces
-    
+
     content {
       associate_public_ip_address = lookup(network_interfaces.value, "associate_public_ip_address", null)
 
@@ -175,7 +175,7 @@ resource "aws_launch_template" "lt" {
   dynamic "placement" {
     iterator = placement
     for_each = var.lt_placement
-   
+
     content {
       availability_zone = lookup(placement.value, "availability_zone", null)
 
@@ -191,7 +191,7 @@ resource "aws_launch_template" "lt" {
   dynamic "hibernation_options" {
     iterator = hibernation_options
     for_each = var.lt_hibernation_options
-    
+
     content {
       configured = lookup(hibernation_options.value, "configured", null)
     }
@@ -200,7 +200,7 @@ resource "aws_launch_template" "lt" {
   dynamic "tag_specifications" {
     iterator = tag_specifications
     for_each = var.lt_tag_specifications
-    
+
     content {
       resource_type = lookup(tag_specifications.value, "resource_type", null)
       tags          = lookup(tag_specifications.value, "tags", null)
