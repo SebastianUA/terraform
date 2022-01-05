@@ -224,39 +224,39 @@ module "glue" {
 
     columns = [
       {
-        name    = "oid"
-        type    = "double"
-        comment = "oid"
+        columns_name    = "oid"
+        columns_type    = "double"
+        columns_comment = "oid"
       },
       {
-        name    = "oid2"
-        type    = "double"
-        comment = "oid2"
+        columns_name    = "oid2"
+        columns_type    = "double"
+        columns_comment = "oid2"
       },
       {
-        name    = "oid3"
-        type    = "double"
-        comment = "oid3"
+        columns_name    = "oid3"
+        columns_type    = "double"
+        columns_comment = "oid3"
       },
     ]
 
     ser_de_info = [
       {
-        name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-        serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-        parameters            = tomap({ "field.delim" = "," })
+        ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_parameters            = tomap({ "field.delim" = "," })
+      }
+    ]
+
+    skewed_info = [
+      {
+        ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_parameters            = tomap({ "field.delim" = "," })
       }
     ]
 
     sort_columns = []
-
-    skewed_info = [
-      {
-        skewed_column_names               = ["name-1"]
-        skewed_column_value_location_maps = tomap({ "field.delim" = "," })
-        skewed_column_values              = ["value-1", "value-2"]
-      }
-    ]
   }
 
 

@@ -9,7 +9,7 @@ resource "aws_glue_security_configuration" "glue_security_configuration" {
   encryption_configuration {
     dynamic "cloudwatch_encryption" {
       iterator = cloudwatch_encryption
-      for_each = var.glue_security_configuration_cloudwatch_encryption
+      for_each = lookup(var.glue_security_configuration_encryption_configuration, "cloudwatch_encryption", [])
 
       content {
         cloudwatch_encryption_mode = lookup(cloudwatch_encryption.value, "cloudwatch_encryption_mode", null)
@@ -19,7 +19,7 @@ resource "aws_glue_security_configuration" "glue_security_configuration" {
 
     dynamic "job_bookmarks_encryption" {
       iterator = job_bookmarks_encryption
-      for_each = var.glue_security_configuration_job_bookmarks_encryption
+      for_each = lookup(var.glue_security_configuration_encryption_configuration, "job_bookmarks_encryption", [])
 
       content {
         job_bookmarks_encryption_mode = lookup(job_bookmarks_encryption.value, "job_bookmarks_encryption_mode", null)
@@ -29,7 +29,7 @@ resource "aws_glue_security_configuration" "glue_security_configuration" {
 
     dynamic "s3_encryption" {
       iterator = s3_encryption
-      for_each = var.glue_security_configuration_s3_encryption
+      for_each = lookup(var.glue_security_configuration_encryption_configuration, "s3_encryption", [])
 
       content {
         s3_encryption_mode = lookup(s3_encryption.value, "s3_encryption_mode", null)

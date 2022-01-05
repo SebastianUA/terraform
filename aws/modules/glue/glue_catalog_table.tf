@@ -27,61 +27,56 @@ resource "aws_glue_catalog_table" "glue_catalog_table" {
     }
   }
 
-  dynamic "storage_descriptor" {
-    iterator = storage_descriptor
-    for_each = length(keys(var.glue_catalog_table_storage_descriptor)) > 0 ? [var.glue_catalog_table_storage_descriptor] : []
+  storage_descriptor {
+    location                  = lookup(var.glue_catalog_table_storage_descriptor, "location", null)
+    input_format              = lookup(var.glue_catalog_table_storage_descriptor, "input_format", null)
+    output_format             = lookup(var.glue_catalog_table_storage_descriptor, "output_format", null)
+    compressed                = lookup(var.glue_catalog_table_storage_descriptor, "compressed", null)
+    number_of_buckets         = lookup(var.glue_catalog_table_storage_descriptor, "number_of_buckets", null)
+    bucket_columns            = lookup(var.glue_catalog_table_storage_descriptor, "bucket_columns", null)
+    parameters                = lookup(var.glue_catalog_table_storage_descriptor, "parameters", null)
+    stored_as_sub_directories = lookup(var.glue_catalog_table_storage_descriptor, "stored_as_sub_directories", null)
 
-    content {
-      location                  = lookup(var.glue_catalog_table_storage_descriptor, "location", null)
-      input_format              = lookup(var.glue_catalog_table_storage_descriptor, "input_format", null)
-      output_format             = lookup(var.glue_catalog_table_storage_descriptor, "output_format", null)
-      compressed                = lookup(var.glue_catalog_table_storage_descriptor, "compressed", null)
-      number_of_buckets         = lookup(var.glue_catalog_table_storage_descriptor, "number_of_buckets", null)
-      bucket_columns            = lookup(var.glue_catalog_table_storage_descriptor, "bucket_columns", null)
-      parameters                = lookup(var.glue_catalog_table_storage_descriptor, "parameters", null)
-      stored_as_sub_directories = lookup(var.glue_catalog_table_storage_descriptor, "stored_as_sub_directories", null)
+    dynamic "columns" {
+      iterator = columns
+      for_each = lookup(var.glue_catalog_table_storage_descriptor, "columns", [])
 
-      dynamic "columns" {
-        iterator = columns
-        for_each = lookup(var.glue_catalog_table_storage_descriptor, "columns", [])
-
-        content {
-          name    = lookup(columns.value, "name", null)
-          type    = lookup(columns.value, "type", null)
-          comment = lookup(columns.value, "comment", null)
-        }
+      content {
+        name    = lookup(columns.value, "columns_name", null)
+        type    = lookup(columns.value, "columns_type", null)
+        comment = lookup(columns.value, "columns_comment", null)
       }
+    }
 
-      dynamic "ser_de_info" {
-        iterator = ser_de_info
-        for_each = lookup(var.glue_catalog_table_storage_descriptor, "ser_de_info", [])
+    dynamic "ser_de_info" {
+      iterator = ser_de_info
+      for_each = lookup(var.glue_catalog_table_storage_descriptor, "ser_de_info", [])
 
-        content {
-          name                  = lookup(ser_de_info.value, "name", null)
-          parameters            = lookup(ser_de_info.value, "parameters", null)
-          serialization_library = lookup(ser_de_info.value, "serialization_library", null)
-        }
+      content {
+        name                  = lookup(ser_de_info.value, "ser_de_info_name", null)
+        parameters            = lookup(ser_de_info.value, "ser_de_info_parameters", null)
+        serialization_library = lookup(ser_de_info.value, "ser_de_info_serialization_library", null)
       }
+    }
 
-      dynamic "sort_columns" {
-        iterator = sort_columns
-        for_each = lookup(var.glue_catalog_table_storage_descriptor, "sort_columns", [])
+    dynamic "sort_columns" {
+      iterator = sort_columns
+      for_each = lookup(var.glue_catalog_table_storage_descriptor, "sort_columns", [])
 
-        content {
-          column     = lookup(sort_columns.value, "column", null)
-          sort_order = lookup(sort_columns.value, "sort_order", null)
-        }
+      content {
+        column     = lookup(sort_columns.value, "sort_columns_column", null)
+        sort_order = lookup(sort_columns.value, "sort_columns_sort_order", null)
       }
+    }
 
-      dynamic "skewed_info" {
-        iterator = skewed_info
-        for_each = lookup(var.glue_catalog_table_storage_descriptor, "skewed_info", [])
+    dynamic "skewed_info" {
+      iterator = skewed_info
+      for_each = lookup(var.glue_catalog_table_storage_descriptor, "skewed_info", [])
 
-        content {
-          skewed_column_names               = lookup(skewed_info.value, "skewed_column_names", null)
-          skewed_column_value_location_maps = lookup(skewed_info.value, "skewed_column_value_location_maps", null)
-          skewed_column_values              = lookup(skewed_info.value, "skewed_column_values", null)
-        }
+      content {
+        skewed_column_names               = lookup(skewed_info.value, "skewed_info_skewed_column_names", null)
+        skewed_column_value_location_maps = lookup(skewed_info.value, "skewed_info_skewed_column_value_location_maps", null)
+        skewed_column_values              = lookup(skewed_info.value, "skewed_info_skewed_column_values", null)
       }
     }
   }

@@ -50,8 +50,8 @@ resource "aws_glue_crawler" "glue_crawler" {
     for_each = length(var.glue_crawler_catalog_target) > 0 ? [var.glue_crawler_catalog_target] : []
 
     content {
-      database_name = lookup(catalog_target.value, "database_name", element(concat(aws_glue_catalog_database.glue_catalog_database.*.id, [""]), 0))
-      tables        = lookup(catalog_target.value, "tables", element(concat(aws_glue_catalog_table.glue_catalog_table.*.id, [""]), 0))
+      database_name = lookup(catalog_target.value, "database_name", (var.enable_glue_catalog_database ? element(concat(aws_glue_catalog_database.glue_catalog_database.*.id, [""]), 0) : null))
+      tables        = lookup(catalog_target.value, "tables", (var.enable_glue_catalog_table ? element(concat(aws_glue_catalog_table.glue_catalog_table.*.id, [""]), 0) : null))
     }
   }
 
@@ -60,8 +60,8 @@ resource "aws_glue_crawler" "glue_crawler" {
     for_each = var.glue_crawler_schema_change_policy
 
     content {
-      delete_behavior = lookup(schema_change_policy.value, "delete_behavior", "DEPRECATE_IN_DATABASE")
-      update_behavior = lookup(schema_change_policy.value, "update_behavior", "UPDATE_IN_DATABASE")
+      delete_behavior = lookup(schema_change_policy.value, "delete_behavior", null)
+      update_behavior = lookup(schema_change_policy.value, "update_behavior", null)
     }
   }
 
@@ -92,15 +92,6 @@ resource "aws_glue_crawler" "glue_crawler" {
 
     content {
       recrawl_behavior = lookup(recrawl_policy.value, "recrawl_behavior", null)
-    }
-  }
-
-  dynamic "schema_change_policy" {
-    iterator = schema_change_policy
-    for_each = var.glue_crawler_schema_change_policy
-
-    content {
-      recrawl_behavior = lookup(schema_change_policy.value, "recrawl_behavior", null)
     }
   }
 

@@ -284,7 +284,7 @@ output "glue_user_defined_function_arn" {
   value       = element(concat(aws_glue_user_defined_function.glue_user_defined_function.*.arn, [""]), 0)
 }
 
-output "glue_user_defined_function_create_date" {
+output "glue_user_defined_function_create_time" {
   description = "The time at which the function was created."
-  value       = element(concat(aws_glue_user_defined_function.glue_user_defined_function.*.create_date, [""]), 0)
+  value       = element(concat(aws_glue_user_defined_function.glue_user_defined_function.*.create_time, [""]), 0)
 }

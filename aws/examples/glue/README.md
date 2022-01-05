@@ -234,39 +234,39 @@ module "glue" {
 
     columns = [
       {
-        name    = "oid"
-        type    = "double"
-        comment = "oid"
+        columns_name    = "oid"
+        columns_type    = "double"
+        columns_comment = "oid"
       },
       {
-        name    = "oid2"
-        type    = "double"
-        comment = "oid2"
+        columns_name    = "oid2"
+        columns_type    = "double"
+        columns_comment = "oid2"
       },
       {
-        name    = "oid3"
-        type    = "double"
-        comment = "oid3"
+        columns_name    = "oid3"
+        columns_type    = "double"
+        columns_comment = "oid3"
       },
     ]
 
     ser_de_info = [
       {
-        name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-        serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
-        parameters            = tomap({ "field.delim" = "," })
+        ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_parameters            = tomap({ "field.delim" = "," })
+      }
+    ]
+
+    skewed_info = [
+      {
+        ser_de_info_name                  = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        ser_de_info_parameters            = tomap({ "field.delim" = "," })
       }
     ]
 
     sort_columns = []
-
-    skewed_info = [
-      {
-        skewed_column_names               = ["name-1"]
-        skewed_column_value_location_maps = tomap({ "field.delim" = "," })
-        skewed_column_values              = ["value-1", "value-2"]
-      }
-    ]
   }
 
 
@@ -431,9 +431,7 @@ module "glue_trigger" {
 - `glue_crawler_lineage_configuration` - (Optional) Specifies data lineage configuration settings for the crawler. (`default = []`)
 - `enable_glue_security_configuration` - Enable glue security configuration usage (`default = False`)
 - `glue_security_configuration_name` - Name of the security configuration. (`default = ""`)
-- `glue_security_configuration_cloudwatch_encryption` - (Required) A cloudwatch_encryption block as described below, which contains encryption configuration for CloudWatch. (`default = []`)
-- `glue_security_configuration_job_bookmarks_encryption` - (Required) A job_bookmarks_encryption block as described below, which contains encryption configuration for job bookmarks. (`default = []`)
-- `glue_security_configuration_s3_encryption` - (Required) A s3_encryption block as described below, which contains encryption configuration for S3 data. (`default = []`)
+- `glue_security_configuration_encryption_configuration` - Set encryption configuration for Glue security configuration (`default = {}`)
 - `enable_glue_workflow` - Enable glue workflow usage (`default = False`)
 - `glue_workflow_name` - The name you assign to this workflow. (`default = ""`)
 - `glue_workflow_description` - (Optional) Description of the workflow. (`default = null`)
@@ -466,8 +464,7 @@ module "glue_trigger" {
 - `glue_trigger_timeouts` - Set timeouts for glue trigger (`default = {}`)
 - `glue_trigger_predicate` - (Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL (`default = {}`)
 - `enable_glue_data_catalog_encryption_settings` - Enable glue data catalog encryption settings usage (`default = False`)
-- `glue_data_catalog_encryption_settings_connection_password_encryption` - (Required) When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption. see Connection Password Encryption. (`default = []`)
-- `glue_data_catalog_encryption_settings_encryption_at_rest` - (Required) Specifies the encryption-at-rest configuration for the Data Catalog. see Encryption At Rest. (`default = []`)
+- `glue_data_catalog_encryption_settings_data_catalog_encryption_settings` - Set data_catalog_encryption_settings block for Glue data catalog encryption (`default = {}`)
 - `glue_data_catalog_encryption_settings_catalog_id` - (Optional) The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default. (`default = null`)
 - `enable_glue_dev_endpoint` - Enable glue dev endpoint usage (`default = False`)
 - `glue_dev_endpoint_name` - The name of this endpoint. It must be unique in your account. (`default = ""`)
@@ -573,7 +570,7 @@ module "glue_trigger" {
 - `glue_schema_schema_checkpoint` - The version number of the checkpoint (the last time the compatibility mode was changed).
 - `glue_user_defined_function_id` - The id of the Glue User Defined Function.
 - `glue_user_defined_function_arn` - The ARN of the Glue User Defined Function.
-- `glue_user_defined_function_create_date` - The time at which the function was created.
+- `glue_user_defined_function_create_time` - The time at which the function was created.
 
 
 ## Authors
