@@ -127,7 +127,7 @@ variable "lambda_function_environment" {
 
 variable "lambda_function_timeouts" {
   description = "Set timeouts for AWS Lambda"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -342,7 +342,7 @@ variable "lambda_provisioned_concurrency_config_provisioned_concurrent_execution
 
 variable "lambda_provisioned_concurrency_config_timeouts" {
   description = "aws_lambda_provisioned_concurrency_config provides the following Timeouts configuration options that can be set up"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

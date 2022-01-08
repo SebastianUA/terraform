@@ -60,7 +60,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.lambda_function_timeouts
+    for_each = length(keys(var.lambda_function_timeouts)) > 0 ? [var.lambda_function_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
