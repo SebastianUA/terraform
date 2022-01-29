@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS key pair
+# AWS key pair
 #---------------------------------------------------
 resource "aws_key_pair" "key_pair" {
   count = var.enable_key_pair ? 1 : 0

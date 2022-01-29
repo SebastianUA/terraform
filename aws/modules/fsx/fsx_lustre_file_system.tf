@@ -15,7 +15,7 @@ resource "aws_fsx_lustre_file_system" "fsx_lustre_file_system" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.fsx_lustre_file_system_timeouts
+    for_each = length(keys(var.fsx_lustre_file_system_timeouts)) > 0 ? [var.fsx_lustre_file_system_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

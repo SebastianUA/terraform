@@ -22,7 +22,7 @@ resource "aws_eks_fargate_profile" "eks_fargate_profile" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.eks_fargate_profile_timeouts
+    for_each = length(keys(var.eks_fargate_profile_timeouts)) > 0 ? [var.eks_fargate_profile_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

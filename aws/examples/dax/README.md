@@ -77,7 +77,7 @@ module "dax" {
 - `dax_cluster_security_group_ids` - (Optional) One or more VPC security groups associated with the cluster (`default = null`)
 - `dax_cluster_subnet_group_name` - (Optional) Name of the subnet group to be used for the cluster (`default = null`)
 - `dax_cluster_server_side_encryption` - (Optional) Encrypt at rest options (`default = []`)
-- `dax_cluster_timeouts` - aws_dax_cluster provides Timeouts and they can be set. (`default = []`)
+- `dax_cluster_timeouts` - aws_dax_cluster provides Timeouts and they can be set. (`default = {}`)
 - `enable_dax_parameter_group` - Enable dax parameter group usage (`default = False`)
 - `dax_parameter_group_name` - The name of the parameter group. (`default = ""`)
 - `dax_parameter_group_description` - (Optional, ForceNew) A description of the parameter group. (`default = ""`)

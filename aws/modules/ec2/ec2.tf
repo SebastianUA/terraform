@@ -101,7 +101,6 @@ resource "aws_instance" "instance" {
     }
   }
 
-
   dynamic "ebs_block_device" {
     iterator = ebs_block_device
     for_each = var.instance_ebs_block_device
@@ -147,7 +146,6 @@ resource "aws_instance" "instance" {
       throughput = lookup(root_block_device.value, "throughput", null)
 
       tags = lookup(root_block_device.value, "tags", null)
-
     }
   }
 

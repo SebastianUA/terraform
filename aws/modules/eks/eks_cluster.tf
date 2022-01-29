@@ -53,7 +53,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.eks_cluster_timeouts
+    for_each = length(keys(var.eks_cluster_timeouts)) > 0 ? [var.eks_cluster_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

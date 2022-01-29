@@ -67,7 +67,7 @@ variable "eks_cluster_encryption_config" {
 
 variable "eks_cluster_timeouts" {
   description = "Set timeouts for EKS cluster"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -105,7 +105,7 @@ variable "eks_fargate_profile_selector" {
 
 variable "eks_fargate_profile_timeouts" {
   description = "Set timeouts for EKS fargate profile"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -200,5 +200,5 @@ variable "eks_node_group_launch_template" {
 
 variable "eks_node_group_timeouts" {
   description = "Set timeouts for EKS node group"
-  default     = []
+  default     = {}
 }

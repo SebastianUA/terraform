@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS elastic beanstalk configuration template
+# AWS elastic beanstalk configuration template
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_configuration_template" "elastic_beanstalk_configuration_template" {
   count = var.enable_elastic_beanstalk_configuration_template ? 1 : 0

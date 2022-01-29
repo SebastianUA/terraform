@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS elastic beanstalk application
+# AWS elastic beanstalk application
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_application" "elastic_beanstalk_application" {
   count = var.enable_elastic_beanstalk_application ? 1 : 0

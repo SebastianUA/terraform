@@ -16,7 +16,7 @@ resource "aws_cloudformation_stack_set" "cloudformation_stack_set" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.cloudformation_stack_set_timeouts
+    for_each = length(keys(var.cloudformation_stack_set_timeouts)) > 0 ? [var.cloudformation_stack_set_timeouts] : []
 
     content {
       update = lookup(timeouts.value, "update", null)

@@ -139,7 +139,7 @@ module "cloudformation" {
 - `cloudformation_stack_set_instance_account_id` - (Optional) Target AWS Account ID to create a Stack based on the Stack Set. Defaults to current account. (`default = null`)
 - `cloudformation_stack_set_instance_parameter_overrides` - (Optional) Key-value map of input parameters to override from the Stack Set for this Instance. (`default = null`)
 - `cloudformation_stack_set_instance_retain_stack` - (Optional) During Terraform resource destroy, remove Instance from Stack Set while keeping the Stack and its associated resources. Must be enabled in Terraform state before destroy operation to take effect. You cannot reassociate a retained Stack or add an existing, saved Stack to a new Stack Set. Defaults to false. (`default = False`)
-- `cloudformation_stack_set_instance_timeouts` - Set timeouts for cloudformation stack set instance (`default = []`)
+- `cloudformation_stack_set_instance_timeouts` - Set timeouts for cloudformation stack set instance (`default = {}`)
 
 ## Module Output Variables
 ----------------------

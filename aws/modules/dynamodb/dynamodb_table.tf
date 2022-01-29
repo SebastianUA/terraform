@@ -29,8 +29,8 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     for_each = var.dynamodb_table_ttl
 
     content {
-      attribute_name = lookup(ttl.value, "attribute_name", "TimeToExist")
-      enabled        = lookup(ttl.value, "enabled", false)
+      attribute_name = lookup(ttl.value, "attribute_name", null)
+      enabled        = lookup(ttl.value, "enabled", null)
     }
   }
 

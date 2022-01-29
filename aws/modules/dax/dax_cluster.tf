@@ -28,7 +28,7 @@ resource "aws_dax_cluster" "dax_cluster" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.dax_cluster_timeouts
+    for_each = length(keys(var.dax_cluster_timeouts)) > 0 ? [var.dax_cluster_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

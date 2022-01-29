@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ECS task definition
+# AWS ECS task definition
 #---------------------------------------------------
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   count = var.enable_ecs_task_definition ? 1 : 0

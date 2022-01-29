@@ -87,7 +87,7 @@ variable "dax_cluster_server_side_encryption" {
 
 variable "dax_cluster_timeouts" {
   description = "aws_dax_cluster provides Timeouts and they can be set."
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

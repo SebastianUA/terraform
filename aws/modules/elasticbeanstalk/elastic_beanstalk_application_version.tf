@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS elastic beanstalk application version
+# AWS elastic beanstalk application version
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_application_version" "elastic_beanstalk_application_version" {
   count = var.enable_elastic_beanstalk_application_version ? 1 : 0

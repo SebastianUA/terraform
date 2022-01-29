@@ -62,7 +62,7 @@ variable "fsx_lustre_file_system_weekly_maintenance_start_time" {
 
 variable "fsx_lustre_file_system_timeouts" {
   description = "Set timeouts for resource"
-  default     = []
+  default     = {}
 }
 
 variable "fsx_lustre_file_system_name" {
@@ -140,7 +140,7 @@ variable "fsx_windows_file_system_self_managed_active_directory" {
 
 variable "fsx_windows_file_system_timeouts" {
   description = "Set timeouts for fsx windows file system"
-  default     = []
+  default     = {}
 }
 
 variable "fsx_windows_file_system_name" {

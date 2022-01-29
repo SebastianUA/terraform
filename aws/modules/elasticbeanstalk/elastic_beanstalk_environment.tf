@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS elastic beanstalk environment
+# AWS elastic beanstalk environment
 #---------------------------------------------------
 resource "aws_elastic_beanstalk_environment" "elastic_beanstalk_environment" {
   count = var.enable_elastic_beanstalk_environment ? 1 : 0

@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ECS service
+# AWS ECS service
 #---------------------------------------------------
 resource "aws_ecs_service" "ecs_service" {
   count = var.enable_ecs_service ? 1 : 0

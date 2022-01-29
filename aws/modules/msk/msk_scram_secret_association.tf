@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create aws msk scram secret association
+# AWS MSK scram secret association
 #---------------------------------------------------
 resource "aws_msk_scram_secret_association" "msk_scram_secret_association" {
   count = var.enable_msk_scram_secret_association ? 1 : 0

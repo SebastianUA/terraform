@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create aws msk cluster configuration
+# AWS MSK cluster configuration
 #---------------------------------------------------
 resource "aws_msk_configuration" "msk_configuration" {
   count = var.enable_msk_configuration ? 1 : 0

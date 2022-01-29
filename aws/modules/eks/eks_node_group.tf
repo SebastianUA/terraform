@@ -52,7 +52,7 @@ resource "aws_eks_node_group" "eks_node_group" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.eks_node_group_timeouts
+    for_each = length(keys(var.eks_node_group_timeouts)) > 0 ? [var.eks_node_group_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

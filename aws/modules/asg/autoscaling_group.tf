@@ -94,7 +94,7 @@ resource "aws_autoscaling_group" "asg" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.asg_timeouts
+    for_each = length(keys(var.asg_timeouts)) > 0 ? [var.asg_timeouts] : []
 
     content {
       delete = lookup(timeouts.value, "delete", null)

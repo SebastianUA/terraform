@@ -451,7 +451,7 @@ variable "asg_protect_from_scale_in" {
 
 variable "asg_timeouts" {
   description = "Set timeouts for ASG"
-  default     = []
+  default     = {}
 }
 
 variable "asg_mixed_instances_policy" {

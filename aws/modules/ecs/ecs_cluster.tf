@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ECS cluster
+# AWS ECS cluster
 #---------------------------------------------------
 resource "aws_ecs_cluster" "ecs_cluster" {
   count = var.enable_ecs_cluster ? 1 : 0

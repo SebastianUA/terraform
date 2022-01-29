@@ -139,7 +139,7 @@ variable "cloudformation_stack_set_template_url" {
 
 variable "cloudformation_stack_set_timeouts" {
   description = "Set timeouts for cloudformation stack set"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -172,5 +172,5 @@ variable "cloudformation_stack_set_instance_retain_stack" {
 
 variable "cloudformation_stack_set_instance_timeouts" {
   description = "Set timeouts for cloudformation stack set instance"
-  default     = []
+  default     = {}
 }
