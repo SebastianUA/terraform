@@ -74,6 +74,48 @@ module "asg" {
   asg_min_size                  = 0
   asg_desired_capacity          = 1
   asg_wait_for_capacity_timeout = 0
+
+  enable_autoscaling_policy = true
+  autoscaling_policy_stack = [
+    {
+      name                   = "scale_up"
+      scaling_adjustment     = 4
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    },
+    {
+      name                   = "scale_down"
+      scaling_adjustment     = 2
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    },
+    {
+      name                   = "test"
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      step_adjustment = [
+        {
+          scaling_adjustment          = 1
+          metric_interval_lower_bound = 1.0
+          metric_interval_upper_bound = 2.0
+        }
+      ]
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    }
+  ]
+
   asg_tags = [
     {
       key                 = "Orchestration"
@@ -84,6 +126,26 @@ module "asg" {
       key                 = "Env"
       value               = "stage"
       propagate_at_launch = true
+    }
+  ]
+
+  enable_autoscaling_schedule = true
+  autoscaling_schedule_stack = [
+    {
+      scheduled_action_name  = "scale_out"
+      min_size               = 0
+      max_size               = 0
+      desired_capacity       = 0
+      recurrence             = "0 9 * * *"
+      autoscaling_group_name = ""
+    },
+    {
+      scheduled_action_name  = "scale_in"
+      min_size               = 0
+      max_size               = 0
+      desired_capacity       = 0
+      recurrence             = "0 17 * * *"
+      autoscaling_group_name = ""
     }
   ]
 
@@ -191,27 +253,11 @@ module "asg" {
 - `enable_autoscaling_notification` - Enable autoscaling notification (`default = False`)
 - `autoscaling_groups_filter` - A filter used to scope the list e.g. by tags (`default = []`)
 - `autoscaling_notification_notifications` - (Required) A list of Notification Types that trigger notifications. (`default = ['autoscaling:EC2_INSTANCE_LAUNCH', 'autoscaling:EC2_INSTANCE_TERMINATE', 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR', 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR']`)
-- `autoscaling_notification_topic_arn` - (Required) The Topic ARN for notifications to be sent through (`default = ""`)
+- `autoscaling_notification_topic_arns` - (Required) The Topic ARNs for notifications to be sent through (`default = []`)
 - `enable_autoscaling_policy` - Enabling autoscaling schedule (`default = False`)
-- `autoscaling_policy_scale_up_name` - Set asg policy name for scale up (`default = ""`)
-- `autoscaling_policy_scale_up_scaling_adjustment` - Size of instances to making autoscaling(up/down) (`default = 1`)
-- `autoscaling_policy_scale_up_adjustment_type` - Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. (`default = ChangeInCapacity`)
-- `autoscaling_policy_scale_up_cooldown` - (Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start. (`default = ""`)
-- `autoscaling_policy_scale_down_name` - Set asg policy name for scale down (`default = ""`)
-- `autoscaling_policy_scale_down_scaling_adjustment` - Size of instances to making autoscaling(up/down) (`default = 1`)
-- `autoscaling_policy_scale_down_adjustment_type` - Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. (`default = ChangeInCapacity`)
-- `autoscaling_policy_scale_down_cooldown` - (Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start. (`default = ""`)
+- `autoscaling_policy_stack` - Set autoscaling policy as stack (`default = []`)
 - `enable_autoscaling_schedule` - Enabling autoscaling schedule (`default = False`)
-- `autoscaling_schedule_scale_out_name` - Set scheduled action name for scale out time (`default = ""`)
-- `autoscaling_schedule_scale_out_min_size` - (Optional) The minimum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the minimum size at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_out_max_size` - (Optional) The maximum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the maximum size at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_out_desired_capacity` - (Optional) The number of EC2 instances that should be running in the group. Default 0. Set to -1 if you don't want to change the desired capacity at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_out_recurrence` - Cronjob time for scale-up (`default = 0 9 * * *`)
-- `autoscaling_schedule_scale_in_name` - Set scheduled action name for scale in time (`default = ""`)
-- `autoscaling_schedule_scale_in_min_size` - (Optional) The minimum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the minimum size at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_in_max_size` - (Optional) The maximum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the maximum size at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_in_desired_capacity` - (Optional) The number of EC2 instances that should be running in the group. Default 0. Set to -1 if you don't want to change the desired capacity at the scheduled time. (`default = 0`)
-- `autoscaling_schedule_scale_in_recurrence` - Cronjob time for scale-down (`default = 0 17 * * *`)
+- `autoscaling_schedule_stack` - Set autoscaling schedule as stack (`default = []`)
 
 ## Module Output Variables
 ----------------------

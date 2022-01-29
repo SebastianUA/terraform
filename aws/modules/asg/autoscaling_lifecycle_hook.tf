@@ -17,9 +17,7 @@ resource "aws_autoscaling_lifecycle_hook" "autoscaling_lifecycle_hook" {
   heartbeat_timeout    = var.autoscaling_lifecycle_hook_heartbeat_timeout
   lifecycle_transition = var.autoscaling_lifecycle_hook_lifecycle_transition
 
-  # notification_metadata   = var.autoscaling_lifecycle_hook_notification_metadata
-  notification_metadata = data.template_file.autoscaling_lifecycle_hook[0].rendered
-
+  notification_metadata   = data.template_file.autoscaling_lifecycle_hook[0].rendered
   notification_target_arn = var.autoscaling_lifecycle_hook_notification_target_arn
   role_arn                = var.autoscaling_lifecycle_hook_role_arn
 

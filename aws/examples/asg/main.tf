@@ -64,6 +64,48 @@ module "asg" {
   asg_min_size                  = 0
   asg_desired_capacity          = 1
   asg_wait_for_capacity_timeout = 0
+
+  enable_autoscaling_policy = true
+  autoscaling_policy_stack = [
+    {
+      name                   = "scale_up"
+      scaling_adjustment     = 4
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    },
+    {
+      name                   = "scale_down"
+      scaling_adjustment     = 2
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    },
+    {
+      name                   = "test"
+      adjustment_type        = "ChangeInCapacity"
+      cooldown               = 300
+      autoscaling_group_name = ""
+
+      step_adjustment = [
+        {
+          scaling_adjustment          = 1
+          metric_interval_lower_bound = 1.0
+          metric_interval_upper_bound = 2.0
+        }
+      ]
+
+      target_tracking_configuration    = []
+      predictive_scaling_configuration = []
+    }
+  ]
+
   asg_tags = [
     {
       key                 = "Orchestration"
@@ -74,6 +116,26 @@ module "asg" {
       key                 = "Env"
       value               = "stage"
       propagate_at_launch = true
+    }
+  ]
+
+  enable_autoscaling_schedule = true
+  autoscaling_schedule_stack = [
+    {
+      scheduled_action_name  = "scale_out"
+      min_size               = 0
+      max_size               = 0
+      desired_capacity       = 0
+      recurrence             = "0 9 * * *"
+      autoscaling_group_name = ""
+    },
+    {
+      scheduled_action_name  = "scale_in"
+      min_size               = 0
+      max_size               = 0
+      desired_capacity       = 0
+      recurrence             = "0 17 * * *"
+      autoscaling_group_name = ""
     }
   ]
 

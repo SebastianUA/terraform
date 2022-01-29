@@ -1,6 +1,12 @@
 #---------------------------------------------------
 # Launch AWS configuration
 #---------------------------------------------------
+data "template_file" "lc_user_data" {
+  count = var.lc_user_data != null ? 1 : 0
+
+  template = var.lc_user_data
+}
+
 resource "aws_launch_configuration" "lc" {
   count = var.enable_lc ? 1 : 0
 
@@ -65,10 +71,4 @@ resource "aws_launch_configuration" "lc" {
   }
 
   depends_on = []
-}
-
-data "template_file" "lc_user_data" {
-  count = var.lc_user_data != null ? 1 : 0
-
-  template = var.lc_user_data
 }

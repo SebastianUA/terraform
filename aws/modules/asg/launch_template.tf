@@ -1,6 +1,12 @@
 #---------------------------------------------------
 # Launch AWS template
 #---------------------------------------------------
+data "template_file" "lt_user_data" {
+  count = var.lt_user_data != null ? 1 : 0
+
+  template = var.lt_user_data
+}
+
 resource "aws_launch_template" "lt" {
   count = var.enable_lt ? 1 : 0
 
@@ -33,14 +39,19 @@ resource "aws_launch_template" "lt" {
       no_device    = lookup(block_device_mappings.value, "no_device", null)
       virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
 
-      ebs {
-        delete_on_termination = lookup(block_device_mappings.value, "delete_on_termination", null)
-        iops                  = lookup(block_device_mappings.value, "iops", null)
-        encrypted             = lookup(block_device_mappings.value, "encrypted", null)
-        kms_key_id            = lookup(block_device_mappings.value, "kms_key_id", null)
-        snapshot_id           = lookup(block_device_mappings.value, "snapshot_id", null)
-        volume_size           = lookup(block_device_mappings.value, "volume_size", null)
-        volume_type           = lookup(block_device_mappings.value, "volume_type", null)
+      dynamic "ebs" {
+        iterator = ebs
+        for_each = lookup(block_device_mappings.value, "ebs", [])
+
+        content {
+          delete_on_termination = lookup(ebs.value, "delete_on_termination", null)
+          iops                  = lookup(ebs.value, "iops", null)
+          encrypted             = lookup(ebs.value, "encrypted", null)
+          kms_key_id            = lookup(ebs.value, "kms_key_id", null)
+          snapshot_id           = lookup(ebs.value, "snapshot_id", null)
+          volume_size           = lookup(ebs.value, "volume_size", null)
+          volume_type           = lookup(ebs.value, "volume_type", null)
+        }
       }
     }
   }
@@ -52,8 +63,13 @@ resource "aws_launch_template" "lt" {
     content {
       capacity_reservation_preference = lookup(capacity_reservation_specification.value, "capacity_reservation_preference", null)
 
-      capacity_reservation_target {
-        capacity_reservation_id = lookup(capacity_reservation_specification.value, "capacity_reservation_id", null)
+      dynamic "capacity_reservation_target" {
+        iterator = capacity_reservation_target
+        for_each = lookup(capacity_reservation_specification.value, "capacity_reservation_target", [])
+
+        content {
+          capacity_reservation_id = lookup(capacity_reservation_target.value, "capacity_reservation_id", null)
+        }
       }
     }
   }
@@ -112,12 +128,17 @@ resource "aws_launch_template" "lt" {
     content {
       market_type = lookup(instance_market_options.value, "market_type", null)
 
-      spot_options {
-        block_duration_minutes         = lookup(instance_market_options.value, "block_duration_minutes", null)
-        instance_interruption_behavior = lookup(instance_market_options.value, "instance_interruption_behavior", null)
-        max_price                      = lookup(instance_market_options.value, "max_price", null)
-        spot_instance_type             = lookup(instance_market_options.value, "spot_instance_type", null)
-        valid_until                    = lookup(instance_market_options.value, "valid_until", null)
+      dynamic "spot_options" {
+        iterator = spot_options
+        for_each = lookup(instance_market_options.value, "spot_options", [])
+
+        content {
+          block_duration_minutes         = lookup(spot_options.value, "block_duration_minutes", null)
+          instance_interruption_behavior = lookup(spot_options.value, "instance_interruption_behavior", null)
+          max_price                      = lookup(spot_options.value, "max_price", null)
+          spot_instance_type             = lookup(spot_options.value, "spot_instance_type", null)
+          valid_until                    = lookup(spot_options.value, "valid_until", null)
+        }
       }
     }
   }
@@ -220,10 +241,4 @@ resource "aws_launch_template" "lt" {
   }
 
   depends_on = []
-}
-
-data "template_file" "lt_user_data" {
-  count = var.lt_user_data != null ? 1 : 0
-
-  template = var.lt_user_data
 }

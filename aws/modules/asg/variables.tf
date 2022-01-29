@@ -569,9 +569,9 @@ variable "autoscaling_notification_notifications" {
   ]
 }
 
-variable "autoscaling_notification_topic_arn" {
-  description = "(Required) The Topic ARN for notifications to be sent through"
-  default     = ""
+variable "autoscaling_notification_topic_arns" {
+  description = "(Required) The Topic ARNs for notifications to be sent through"
+  default     = []
 }
 
 #-----------------------------------------------------------
@@ -582,44 +582,9 @@ variable "enable_autoscaling_policy" {
   default     = false
 }
 
-variable "autoscaling_policy_scale_up_name" {
-  description = "Set asg policy name for scale up"
-  default     = ""
-}
-
-variable "autoscaling_policy_scale_up_scaling_adjustment" {
-  description = "Size of instances to making autoscaling(up/down)"
-  default     = 1
-}
-
-variable "autoscaling_policy_scale_up_adjustment_type" {
-  description = "Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity."
-  default     = "ChangeInCapacity"
-}
-
-variable "autoscaling_policy_scale_up_cooldown" {
-  description = "(Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start."
-  default     = ""
-}
-
-variable "autoscaling_policy_scale_down_name" {
-  description = "Set asg policy name for scale down"
-  default     = ""
-}
-
-variable "autoscaling_policy_scale_down_scaling_adjustment" {
-  description = "Size of instances to making autoscaling(up/down)"
-  default     = 1
-}
-
-variable "autoscaling_policy_scale_down_adjustment_type" {
-  description = "Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity."
-  default     = "ChangeInCapacity"
-}
-
-variable "autoscaling_policy_scale_down_cooldown" {
-  description = "(Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start."
-  default     = ""
+variable "autoscaling_policy_stack" {
+  description = "Set autoscaling policy as stack"
+  default     = []
 }
 
 #-----------------------------------------------------------
@@ -630,52 +595,7 @@ variable "enable_autoscaling_schedule" {
   default     = false
 }
 
-variable "autoscaling_schedule_scale_out_name" {
-  description = "Set scheduled action name for scale out time"
-  default     = ""
-}
-
-variable "autoscaling_schedule_scale_out_min_size" {
-  description = "(Optional) The minimum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the minimum size at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_out_max_size" {
-  description = "(Optional) The maximum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the maximum size at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_out_desired_capacity" {
-  description = "(Optional) The number of EC2 instances that should be running in the group. Default 0. Set to -1 if you don't want to change the desired capacity at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_out_recurrence" {
-  description = "Cronjob time for scale-up"
-  default     = "0 9 * * *"
-}
-
-variable "autoscaling_schedule_scale_in_name" {
-  description = "Set scheduled action name for scale in time"
-  default     = ""
-}
-
-variable "autoscaling_schedule_scale_in_min_size" {
-  description = "(Optional) The minimum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the minimum size at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_in_max_size" {
-  description = "(Optional) The maximum size for the Auto Scaling group. Default 0. Set to -1 if you don't want to change the maximum size at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_in_desired_capacity" {
-  description = "(Optional) The number of EC2 instances that should be running in the group. Default 0. Set to -1 if you don't want to change the desired capacity at the scheduled time."
-  default     = 0
-}
-
-variable "autoscaling_schedule_scale_in_recurrence" {
-  description = "Cronjob time for scale-down"
-  default     = "0 17 * * *"
+variable "autoscaling_schedule_stack" {
+  description = "Set autoscaling schedule as stack"
+  default     = []
 }

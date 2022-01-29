@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ASG
+# AWS ASG
 #---------------------------------------------------
 resource "aws_autoscaling_group" "asg" {
   count = var.enable_asg ? 1 : 0
@@ -8,12 +8,14 @@ resource "aws_autoscaling_group" "asg" {
   name_prefix = var.asg_name_prefix != null ? var.asg_name_prefix : (var.asg_name != "" ? null : var.asg_name_prefix)
   # verify LC & LT
   launch_configuration = var.asg_launch_configuration != "" ? var.asg_launch_configuration : (length(var.asg_launch_template) == 0 ? element(concat(aws_launch_configuration.lc.*.name, [""]), 0) : null)
+
   # vpc_zone_identifier or availability_zones!!!!
   vpc_zone_identifier = length(var.asg_vpc_zone_identifier) > 0 ? var.asg_vpc_zone_identifier : null
   availability_zones  = length(var.asg_vpc_zone_identifier) == 0 ? split(",", (lookup(var.asg_availability_zones, var.region))) : null
-  max_size            = var.asg_max_size
-  min_size            = var.asg_min_size
-  desired_capacity    = var.asg_desired_capacity
+
+  max_size         = var.asg_max_size
+  min_size         = var.asg_min_size
+  desired_capacity = var.asg_desired_capacity
 
   health_check_grace_period = var.asg_health_check_grace_period
   health_check_type         = upper(var.asg_health_check_type)
@@ -37,6 +39,7 @@ resource "aws_autoscaling_group" "asg" {
   dynamic "mixed_instances_policy" {
     iterator = mixed_instances_policy
     for_each = var.asg_mixed_instances_policy
+
     content {
       instances_distribution {
         on_demand_allocation_strategy            = lookup(mixed_instances_policy.value, "on_demand_allocation_strategy", null)
@@ -46,6 +49,7 @@ resource "aws_autoscaling_group" "asg" {
         spot_instance_pools                      = lookup(mixed_instances_policy.value, "spot_instance_pools", null)
         spot_max_price                           = lookup(mixed_instances_policy.value, "spot_max_price", null)
       }
+
       launch_template {
         launch_template_specification {
           launch_template_name = lookup(mixed_instances_policy.value, "launch_template_name", null)
@@ -64,6 +68,7 @@ resource "aws_autoscaling_group" "asg" {
   dynamic "launch_template" {
     iterator = launch_template
     for_each = var.asg_launch_template
+
     content {
       id      = lookup(launch_template.value, "id", null)
       name    = lookup(launch_template.value, "name", null)
@@ -74,6 +79,7 @@ resource "aws_autoscaling_group" "asg" {
   dynamic "initial_lifecycle_hook" {
     iterator = initial_lifecycle_hook
     for_each = var.asg_initial_lifecycle_hook
+
     content {
       name                 = lookup(initial_lifecycle_hook.value, "name", null)
       default_result       = lookup(initial_lifecycle_hook.value, "default_result", null)
@@ -89,6 +95,7 @@ resource "aws_autoscaling_group" "asg" {
   dynamic "timeouts" {
     iterator = timeouts
     for_each = var.asg_timeouts
+
     content {
       delete = lookup(timeouts.value, "delete", null)
     }
