@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS SQS queue policy
+# AWS SQS queue policy
 #---------------------------------------------------
 resource "aws_sqs_queue_policy" "sqs_queue_policy" {
   count = var.enable_sqs_queue_policy ? 1 : 0

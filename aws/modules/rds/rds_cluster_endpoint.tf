@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS RDS cluster endpoint
+# AWS RDS cluster endpoint
 #---------------------------------------------------
 resource "aws_rds_cluster_endpoint" "rds_cluster_endpoint" {
   count = var.enable_rds_cluster_endpoint ? 1 : 0

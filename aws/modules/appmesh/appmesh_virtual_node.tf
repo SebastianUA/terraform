@@ -11,6 +11,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "backend" {
       iterator = backend
       for_each = var.appmesh_virtual_node_backend
+
       content {
         virtual_service {
           virtual_service_name = lookup(backend.value, "virtual_service_name", "servicea.simpleapp.local")
@@ -21,6 +22,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "listener" {
       iterator = listener
       for_each = var.appmesh_virtual_node_listener
+
       content {
         port_mapping {
           port     = lookup(listener.value, "port", 8080)
@@ -32,6 +34,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "listener" {
       iterator = listener
       for_each = var.appmesh_virtual_node_listener_hc
+
       content {
         port_mapping {
           port     = lookup(listener.value, "pm_port", 8080)
@@ -54,6 +57,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "service_discovery" {
       iterator = servicediscovery
       for_each = var.appmesh_virtual_node_service_discovery_dns
+
       content {
         dns {
           hostname = lookup(servicediscovery.value, "hostname", "serviceb.simpleapp.local")
@@ -64,6 +68,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "service_discovery" {
       iterator = servicediscovery
       for_each = var.appmesh_virtual_node_service_discovery_cloud_map
+
       content {
         aws_cloud_map {
           service_name   = lookup(servicediscovery.value, "service_name", "serviceb1")
@@ -77,6 +82,7 @@ resource "aws_appmesh_virtual_node" "appmesh_virtual_node" {
     dynamic "logging" {
       iterator = logging
       for_each = var.appmesh_virtual_node_logging
+
       content {
         access_log {
           file {

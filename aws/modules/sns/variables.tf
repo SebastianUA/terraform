@@ -35,7 +35,7 @@ variable "sns_topic_name_prefix" {
   default     = ""
 }
 
-variable "display_name" {
+variable "sns_topic_display_name" {
   description = "(Optional) The display name for the SNS topic"
   default     = ""
 }
@@ -50,67 +50,67 @@ variable "sns_topic_policy" {
   default     = null
 }
 
-variable "application_success_feedback_role_arn" {
+variable "sns_application_success_feedback_role_arn" {
   description = "(Optional) The IAM role permitted to receive success feedback for this topic"
   default     = null
 }
 
-variable "application_success_feedback_sample_rate" {
+variable "sns_application_success_feedback_sample_rate" {
   description = "(Optional) Percentage of success to sample"
   default     = null
 }
 
-variable "application_failure_feedback_role_arn" {
+variable "sns_application_failure_feedback_role_arn" {
   description = "(Optional) IAM role for failure feedback"
   default     = null
 }
 
-variable "http_success_feedback_role_arn" {
+variable "sns_topic_http_success_feedback_role_arn" {
   description = "(Optional) The IAM role permitted to receive success feedback for this topic"
   default     = null
 }
 
-variable "http_success_feedback_sample_rate" {
+variable "sns_topic_http_success_feedback_sample_rate" {
   description = "(Optional) Percentage of success to sample"
   default     = null
 }
 
-variable "http_failure_feedback_role_arn" {
+variable "sns_topic_http_failure_feedback_role_arn" {
   description = "(Optional) IAM role for failure feedback"
   default     = null
 }
 
-variable "kms_master_key_id" {
+variable "sns_topic_kms_master_key_id" {
   description = "(Optional) The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK."
   default     = null
 }
 
-variable "lambda_success_feedback_role_arn" {
+variable "sns_topic_lambda_success_feedback_role_arn" {
   description = "(Optional) The IAM role permitted to receive success feedback for this topic"
   default     = null
 }
 
-variable "lambda_success_feedback_sample_rate" {
+variable "sns_topic_lambda_success_feedback_sample_rate" {
   description = "(Optional) Percentage of success to sample"
   default     = null
 }
 
-variable "lambda_failure_feedback_role_arn" {
+variable "sns_topic_lambda_failure_feedback_role_arn" {
   description = "(Optional) IAM role for failure feedback"
   default     = null
 }
 
-variable "sqs_success_feedback_role_arn" {
+variable "sns_topic_sqs_success_feedback_role_arn" {
   description = "description"
   default     = null
 }
 
-variable "sqs_success_feedback_sample_rate" {
+variable "sns_topic_sqs_success_feedback_sample_rate" {
   description = "description"
   default     = null
 }
 
-variable "sqs_failure_feedback_role_arn" {
+variable "sns_topic_sqs_failure_feedback_role_arn" {
   description = "(Optional) IAM role for failure feedback"
   default     = null
 }

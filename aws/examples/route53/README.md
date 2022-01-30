@@ -104,7 +104,7 @@ module "route53" {
 - `route53_resolver_endpoint_direction` - (Required) The direction of DNS queries to or from the Route 53 Resolver endpoint. Valid values are INBOUND (resolver forwards DNS queries to the DNS service for a VPC from your network or another VPC) or OUTBOUND (resolver forwards DNS queries from the DNS service for a VPC to your network or another VPC). (`default = ""`)
 - `route53_resolver_endpoint_security_group_ids` - (Required) The ID of one or more security groups that you want to use to control access to this VPC. (`default = []`)
 - `route53_resolver_endpoint_ip_address` - (Required) The subnets and IP addresses in your VPC that you want DNS queries to pass through on the way from your VPCs to your network (for outbound endpoints) or on the way from your network to your VPCs (for inbound endpoints). (`default = []`)
-- `route53_resolver_endpoint_timeouts` - Set timeouts for route53 resolver endpoint (`default = []`)
+- `route53_resolver_endpoint_timeouts` - Set timeouts for route53 resolver endpoint (`default = {}`)
 - `enable_route53_resolver_rule_association` - Enable route53 resolver rule association usage (`default = False`)
 - `route53_resolver_rule_association_name` - (Optional) A name for the association that you're creating between a resolver rule and a VPC. (`default = ""`)
 - `route53_resolver_rule_association_resolver_rule_id` - The ID of the resolver rule that you want to associate with the VPC. (`default = ""`)

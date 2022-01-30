@@ -151,7 +151,7 @@ variable "config_organization_managed_rule_tag_value_scope" {
 
 variable "config_organization_managed_rule_timeouts" {
   description = "Set timeouts for config organization managed rule"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -219,7 +219,7 @@ variable "config_organization_custom_rule_tag_value_scope" {
 
 variable "config_organization_custom_rule_timeouts" {
   description = "Set timeouts for config organization custom rule timeouts"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

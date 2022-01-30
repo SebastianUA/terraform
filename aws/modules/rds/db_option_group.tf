@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB option group
+# AWS DB option group
 #---------------------------------------------------
 resource "aws_db_option_group" "db_option_group" {
   count = var.enable_db_option_group ? 1 : 0
@@ -37,7 +37,7 @@ resource "aws_db_option_group" "db_option_group" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_option_group_timeouts
+    for_each = length(keys(var.db_option_group_timeouts)) > 0 ? [var.db_option_group_timeouts] : []
 
     content {
       delete = lookup(timeouts.value, "delete", null)

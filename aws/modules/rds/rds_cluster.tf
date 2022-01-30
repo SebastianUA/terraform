@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS RDS cluster
+# AWS RDS cluster
 #---------------------------------------------------
 resource "aws_rds_cluster" "rds_cluster" {
   count = var.enable_rds_cluster ? 1 : 0

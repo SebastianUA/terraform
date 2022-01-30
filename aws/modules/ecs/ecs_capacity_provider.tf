@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS ECS capacity provider
+# AWS ECS capacity provider
 #---------------------------------------------------
 resource "aws_ecs_capacity_provider" "ecs_capacity_provider" {
   count = var.enable_ecs_capacity_provider ? 1 : 0

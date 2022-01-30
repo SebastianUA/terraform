@@ -1,6 +1,10 @@
 #---------------------------------------------------
 # AWS shield protection
 #---------------------------------------------------
+data "aws_availability_zones" "availability_zones" {}
+data "aws_region" "region" {}
+data "aws_caller_identity" "caller_identity" {}
+
 resource "aws_shield_protection" "shield_protection" {
   count = var.enable_shield_protection ? 1 : 0
 
@@ -18,12 +22,4 @@ resource "aws_shield_protection" "shield_protection" {
     data.aws_availability_zones.availability_zones,
     aws_eip.eip
   ]
-}
-
-data "aws_availability_zones" "availability_zones" {}
-data "aws_region" "region" {}
-data "aws_caller_identity" "caller_identity" {}
-
-resource "aws_eip" "eip" {
-  vpc = true
 }

@@ -163,7 +163,7 @@ variable "elasticache_cluster_port" {
 }
 
 variable "elasticache_cluster_num_cache_nodes" {
-  description = "The number of cache nodes that the cache cluster has.  Cannot create a Redis cluster with a NumCacheNodes parameter greater than 1."
+  description = "The number of cache nodes that the cache cluster has. Cannot create a Redis cluster with a NumCacheNodes parameter greater than 1."
   default     = 1
 }
 

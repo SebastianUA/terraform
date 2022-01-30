@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB subnet group
+# AWS DB subnet group
 #---------------------------------------------------
 resource "aws_db_subnet_group" "db_subnet_group" {
   count = var.enable_db_subnet_group ? 1 : 0

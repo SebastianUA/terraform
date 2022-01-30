@@ -320,7 +320,7 @@ variable "route53_resolver_endpoint_ip_address" {
 
 variable "route53_resolver_endpoint_timeouts" {
   description = "Set timeouts for route53 resolver endpoint"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

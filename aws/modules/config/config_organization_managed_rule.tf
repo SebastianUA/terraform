@@ -18,7 +18,7 @@ resource "aws_config_organization_managed_rule" "config_organization_managed_rul
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.config_organization_managed_rule_timeouts
+    for_each = length(keys(var.config_organization_managed_rule_timeouts)) > 0 ? [var.config_organization_managed_rule_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

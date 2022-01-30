@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS RDS cluster parameter group
+# AWS RDS cluster parameter group
 #---------------------------------------------------
 resource "aws_rds_cluster_parameter_group" "rds_cluster_parameter_group" {
   count = var.enable_rds_cluster_parameter_group ? 1 : 0

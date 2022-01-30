@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS RDS global cluster
+# AWS RDS global cluster
 #---------------------------------------------------
 resource "aws_rds_global_cluster" "rds_global_cluster" {
   count = var.enable_rds_global_cluster ? 1 : 0

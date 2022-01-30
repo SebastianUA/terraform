@@ -27,7 +27,7 @@ resource "aws_workspaces_workspace" "workspaces_workspace" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.workspaces_workspace_timeouts
+    for_each = length(keys(var.workspaces_workspace_timeouts)) > 0 ? [var.workspaces_workspace_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

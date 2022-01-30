@@ -41,25 +41,45 @@ resource "aws_autoscaling_group" "asg" {
     for_each = var.asg_mixed_instances_policy
 
     content {
-      instances_distribution {
-        on_demand_allocation_strategy            = lookup(mixed_instances_policy.value, "on_demand_allocation_strategy", null)
-        on_demand_base_capacity                  = lookup(mixed_instances_policy.value, "on_demand_base_capacity", null)
-        on_demand_percentage_above_base_capacity = lookup(mixed_instances_policy.value, "on_demand_percentage_above_base_capacity", null)
-        spot_allocation_strategy                 = lookup(mixed_instances_policy.value, "spot_allocation_strategy", null)
-        spot_instance_pools                      = lookup(mixed_instances_policy.value, "spot_instance_pools", null)
-        spot_max_price                           = lookup(mixed_instances_policy.value, "spot_max_price", null)
+      dynamic "instances_distribution" {
+        iterator = instances_distribution
+        for_each = lookup(mixed_instances_policy.value, "instances_distribution", [])
+
+        content {
+          on_demand_allocation_strategy            = lookup(instances_distribution.value, "on_demand_allocation_strategy", null)
+          on_demand_base_capacity                  = lookup(instances_distribution.value, "on_demand_base_capacity", null)
+          on_demand_percentage_above_base_capacity = lookup(instances_distribution.value, "on_demand_percentage_above_base_capacity", null)
+          spot_allocation_strategy                 = lookup(instances_distribution.value, "spot_allocation_strategy", null)
+          spot_instance_pools                      = lookup(instances_distribution.value, "spot_instance_pools", null)
+          spot_max_price                           = lookup(instances_distribution.value, "spot_max_price", null)
+        }
       }
 
-      launch_template {
-        launch_template_specification {
-          launch_template_name = lookup(mixed_instances_policy.value, "launch_template_name", null)
-          launch_template_id   = lookup(mixed_instances_policy.value, "launch_template_id", null)
-          version              = lookup(mixed_instances_policy.value, "version", "$Default")
-        }
+      dynamic "launch_template" {
+        iterator = launch_template
+        for_each = lookup(mixed_instances_policy.value, "launch_template", [])
 
-        override {
-          instance_type     = lookup(mixed_instances_policy.value, "instance_type", null)
-          weighted_capacity = lookup(mixed_instances_policy.value, "weighted_capacity", null)
+        content {
+          dynamic "launch_template_specification" {
+            iterator = launch_template_specification
+            for_each = lookup(launch_template.value, "launch_template_specification", [])
+
+            content {
+              launch_template_name = lookup(launch_template_specification.value, "launch_template_name", null)
+              launch_template_id   = lookup(launch_template_specification.value, "launch_template_id", null)
+              version              = lookup(launch_template_specification.value, "version", "$Default")
+            }
+          }
+
+          dynamic "override" {
+            iterator = override
+            for_each = lookup(launch_template.value, "override", [])
+
+            content {
+              instance_type     = lookup(override.value, "instance_type", null)
+              weighted_capacity = lookup(override.value, "weighted_capacity", null)
+            }
+          }
         }
       }
     }

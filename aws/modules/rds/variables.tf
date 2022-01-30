@@ -758,7 +758,7 @@ variable "db_instance_s3_import" {
 
 variable "db_instance_timeouts" {
   description = "Set timeouts for db instance"
-  default     = []
+  default     = {}
 }
 
 #-----------------------------------------------------------
@@ -842,7 +842,7 @@ variable "db_cluster_snapshot_identifier" {
 
 variable "db_cluster_snapshot_timeouts" {
   description = "Set timeouts for db cluster snapshot"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -1003,7 +1003,7 @@ variable "db_option_group_major_engine_version" {
 
 variable "db_option_group_timeouts" {
   description = "Set timeouts for db option group"
-  default     = []
+  default     = {}
 }
 
 variable "db_option_group_options" {
@@ -1084,7 +1084,7 @@ variable "db_proxy_default_target_group_db_proxy_name" {
 
 variable "db_proxy_default_target_group_timeouts" {
   description = "Set timeouts for DB proxy default target group"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------

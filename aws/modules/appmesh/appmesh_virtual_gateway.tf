@@ -14,6 +14,7 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
       dynamic "port_mapping" {
         iterator = port_mapping
         for_each = var.appmesh_virtual_gateway_spec_listener_port_mapping
+
         content {
           port     = lookup(port_mapping.value, "port", null)
           protocol = lookup(port_mapping.value, "protocol", null)
@@ -23,15 +24,18 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
       dynamic "connection_pool" {
         iterator = connection_pool
         for_each = var.appmesh_virtual_gateway_spec_listener_connection_pool
+
         content {
           grpc {
             max_requests = lookup(connection_pool.value, "grpc_max_requests", null)
           }
+
           http {
             max_connections      = lookup(connection_pool.value, "http_max_connections", null)
             max_pending_requests = lookup(connection_pool.value, "http_max_pending_requests", null)
 
           }
+
           http2 {
             max_requests = lookup(connection_pool.value, "http2_max_requests", null)
           }
@@ -41,6 +45,7 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
       dynamic "health_check" {
         iterator = health_check
         for_each = var.appmesh_virtual_gateway_spec_listener_health_check
+
         content {
           healthy_threshold   = lookup(health_check.value, "healthy_threshold", null)
           interval_millis     = lookup(health_check.value, "interval_millis", null)
@@ -56,6 +61,7 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
       dynamic "tls" {
         iterator = tls
         for_each = var.appmesh_virtual_gateway_spec_listener_tls
+
         content {
           certificate {
             acm {
@@ -76,6 +82,7 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
     dynamic "backend_defaults" {
       iterator = backend_defaults
       for_each = var.appmesh_virtual_gateway_spec_backend_defaults
+
       content {
         client_policy {
           tls {
@@ -101,6 +108,7 @@ resource "aws_appmesh_virtual_gateway" "appmesh_virtual_gateway" {
     dynamic "logging" {
       iterator = logging
       for_each = var.appmesh_virtual_gateway_spec_logging
+
       content {
         access_log {
           file {

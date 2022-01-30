@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB instance role association
+# AWS DB instance role association
 #---------------------------------------------------
 resource "aws_db_instance_role_association" "db_instance_role_association" {
   count = var.enable_db_instance_role_association ? 1 : 0

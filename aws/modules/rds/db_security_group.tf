@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB security group
+# AWS DB security group
 #---------------------------------------------------
 resource "aws_db_security_group" "db_security_group" {
   count = var.enable_db_security_group ? 1 : 0

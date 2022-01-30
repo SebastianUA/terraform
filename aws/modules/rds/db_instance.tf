@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS RDS instance(s)
+# AWS RDS instance(s)
 #---------------------------------------------------
 resource "aws_db_instance" "db_instance" {
   count = var.enable_db_instance ? var.number_of_instances : 0
@@ -77,7 +77,7 @@ resource "aws_db_instance" "db_instance" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_instance_timeouts
+    for_each = length(keys(var.db_instance_timeouts)) > 0 ? [var.db_instance_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

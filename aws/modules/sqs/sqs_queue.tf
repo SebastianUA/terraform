@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS SQS
+# AWS SQS
 #---------------------------------------------------
 resource "aws_sqs_queue" "sqs_queue" {
   count = var.enable_sqs_queue ? 1 : 0

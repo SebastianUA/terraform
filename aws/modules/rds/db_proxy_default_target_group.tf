@@ -21,7 +21,7 @@ resource "aws_db_proxy_default_target_group" "db_proxy_default_target_group" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_proxy_default_target_group_timeouts
+    for_each = length(keys(var.db_proxy_default_target_group_timeouts)) > 0 ? [var.db_proxy_default_target_group_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

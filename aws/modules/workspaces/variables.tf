@@ -133,5 +133,5 @@ variable "workspaces_workspace_workspace_properties" {
 
 variable "workspaces_workspace_timeouts" {
   description = "Set timeouts for workspaces workspace"
-  default     = []
+  default     = {}
 }

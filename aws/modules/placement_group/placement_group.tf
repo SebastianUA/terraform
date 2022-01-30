@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create placement group
+# AWS placement group (EC2)
 #---------------------------------------------------
 resource "aws_placement_group" "placement_group" {
   count = var.enable_placement_group ? 1 : 0

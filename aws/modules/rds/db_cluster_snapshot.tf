@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB cluster snapshot
+# AWS DB cluster snapshot
 #---------------------------------------------------
 resource "aws_db_cluster_snapshot" "db_cluster_snapshot" {
   count = var.enable_db_cluster_snapshot ? 1 : 0
@@ -9,7 +9,7 @@ resource "aws_db_cluster_snapshot" "db_cluster_snapshot" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.db_cluster_snapshot_timeouts
+    for_each = length(keys(var.db_cluster_snapshot_timeouts)) > 0 ? [var.db_cluster_snapshot_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

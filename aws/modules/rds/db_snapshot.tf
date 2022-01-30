@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB snapshot
+# AWS DB snapshot
 #---------------------------------------------------
 resource "aws_db_snapshot" "db_snapshot" {
   count = var.enable_db_snapshot ? 1 : 0

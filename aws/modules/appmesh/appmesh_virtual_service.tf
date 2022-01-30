@@ -12,13 +12,16 @@ resource "aws_appmesh_virtual_service" "appmesh_virtual_service" {
       dynamic "virtual_node" {
         iterator = virtnode
         for_each = var.appmesh_virtual_service_spec_provider_virtual_node
+
         content {
           virtual_node_name = lookup(virtnode.value, "virtual_node_name", "aws_appmesh_virtual_node_name")
         }
       }
+
       dynamic "virtual_router" {
         iterator = virtrouter
         for_each = var.appmesh_virtual_service_spec_provider_virtual_router
+
         content {
           virtual_router_name = lookup(virtrouter.value, "virtual_router_name", "aws_appmesh_virtual_router_name")
         }

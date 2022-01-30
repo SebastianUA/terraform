@@ -14,6 +14,7 @@ resource "aws_appmesh_gateway_route" "appmesh_gateway_route" {
     dynamic "grpc_route" {
       iterator = grpc_route
       for_each = var.appmesh_gateway_route_spec_grpc_route
+
       content {
         action {
           target {
@@ -33,6 +34,7 @@ resource "aws_appmesh_gateway_route" "appmesh_gateway_route" {
     dynamic "http_route" {
       iterator = http_route
       for_each = var.appmesh_gateway_route_spec_http_route
+
       content {
         action {
           target {
@@ -51,6 +53,7 @@ resource "aws_appmesh_gateway_route" "appmesh_gateway_route" {
     dynamic "http2_route" {
       iterator = http2_route
       for_each = var.appmesh_gateway_route_spec_http2_route
+
       content {
         action {
           target {

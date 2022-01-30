@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB event subscription
+# AWS DB event subscription
 #---------------------------------------------------
 resource "aws_db_event_subscription" "db_event_subscription" {
   count = var.enable_db_event_subscription ? 1 : 0

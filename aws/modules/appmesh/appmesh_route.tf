@@ -14,6 +14,7 @@ resource "aws_appmesh_route" "appmesh_route" {
     dynamic "http_route" {
       iterator = httproute
       for_each = var.appmesh_route_http_route
+
       content {
         match {
           prefix = lookup(httproute.value, "prefix", "/")
@@ -34,6 +35,7 @@ resource "aws_appmesh_route" "appmesh_route" {
     dynamic "http_route" {
       iterator = httproute
       for_each = var.appmesh_route_http_route_header
+
       content {
         match {
           prefix = lookup(httproute.value, "prefix", "/")
@@ -57,6 +59,7 @@ resource "aws_appmesh_route" "appmesh_route" {
     dynamic "http_route" {
       iterator = httproute
       for_each = var.appmesh_route_http_route_header_match
+
       content {
         match {
           prefix = lookup(httproute.value, "prefix", "/")
@@ -87,6 +90,7 @@ resource "aws_appmesh_route" "appmesh_route" {
     dynamic "http_route" {
       iterator = httproute
       for_each = var.appmesh_route_http_route_header_match_range
+
       content {
         match {
           prefix = lookup(httproute.value, "prefix", "/")
@@ -121,6 +125,7 @@ resource "aws_appmesh_route" "appmesh_route" {
     dynamic "tcp_route" {
       iterator = tcproute
       for_each = var.appmesh_route_tcp_route
+
       content {
         action {
           weighted_target {

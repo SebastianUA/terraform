@@ -130,7 +130,7 @@ module "workspaces" {
 - `workspaces_workspace_user_volume_encryption_enabled` - (Optional) Indicates whether the data stored on the user volume is encrypted. (`default = null`)
 - `workspaces_workspace_volume_encryption_key` - (Optional) The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs. (`default = null`)
 - `workspaces_workspace_workspace_properties` - (Optional) The WorkSpace properties (`default = []`)
-- `workspaces_workspace_timeouts` - Set timeouts for workspaces workspace (`default = []`)
+- `workspaces_workspace_timeouts` - Set timeouts for workspaces workspace (`default = {}`)
 
 ## Module Output Variables
 ----------------------

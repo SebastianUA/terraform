@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS DB parameter group
+# AWS DB parameter group
 #---------------------------------------------------
 resource "aws_db_parameter_group" "db_parameter_group" {
   count = var.enable_db_parameter_group ? 1 : 0
