@@ -111,7 +111,7 @@ module "k8s_namespace_multiple_suffixes" {
 - `namespace_generate_name` - (Optional) Prefix, used by the server, to generate a unique name ONLY IF the name field has not been provided. This value will also be combined with a unique suffix. Read more about name idempotency. (`default = null`)
 - `namespace_annotations` - (Optional) An unstructured key value map stored with the namespace that may be used to store arbitrary metadata. (`default = {}`)
 - `namespace_labels` - (Optional) Map of string keys and values that can be used to organize and categorize (scope and select) namespaces. May match selectors of replication controllers and services. (`default = {}`)
-- `timeouts` - kubernetes_namespace provides the following Timeouts configuration (`default = []`)
+- `timeouts` - kubernetes_namespace provides the following Timeouts configuration (`default = {}`)
 
 ## Module Output Variables
 ----------------------

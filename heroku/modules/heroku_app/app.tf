@@ -20,6 +20,7 @@ resource "heroku_app" "app" {
   dynamic "organization" {
     iterator = organization
     for_each = var.app_organization
+
     content {
       name     = lookup(organization.value, "name", null)
       locked   = lookup(organization.value, "locked", null)

@@ -17,6 +17,7 @@ resource "consul_acl_auth_method" "acl_auth_method" {
   dynamic "namespace_rule" {
     iterator = namespace_rule
     for_each = var.acl_auth_method_namespace_rule
+
     content {
       selector       = lookup(namespace_rule.value, "selector", null)
       bind_namespace = lookup(namespace_rule.value, "bind_namespace", null)

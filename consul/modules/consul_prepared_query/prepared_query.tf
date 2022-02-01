@@ -20,6 +20,7 @@ resource "consul_prepared_query" "prepared_query" {
   dynamic "template" {
     iterator = template
     for_each = var.prepared_query_template
+
     content {
       type   = lookup(template.value, "type", null)
       regexp = lookup(template.value, "regexp", null)
@@ -29,6 +30,7 @@ resource "consul_prepared_query" "prepared_query" {
   dynamic "failover" {
     iterator = failover
     for_each = var.prepared_query_failover
+
     content {
       nearest_n   = lookup(failover.value, "nearest_n", null)
       datacenters = lookup(failover.value, "datacenters", null)
@@ -38,6 +40,7 @@ resource "consul_prepared_query" "prepared_query" {
   dynamic "dns" {
     iterator = dns
     for_each = var.prepared_query_dns
+
     content {
       ttl = lookup(dns.value, "ttl", null)
     }

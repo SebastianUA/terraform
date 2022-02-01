@@ -18,6 +18,7 @@ resource "consul_service" "service" {
   dynamic "check" {
     iterator = check
     for_each = var.service_check
+
     content {
       name     = lookup(check.value, "name", null)
       interval = lookup(check.value, "interval", null)
@@ -32,9 +33,14 @@ resource "consul_service" "service" {
       method                            = lookup(check.value, "method", null)
       deregister_critical_service_after = lookup(check.value, "deregister_critical_service_after", null)
 
-      header {
-        name  = lookup(check.value, "header_name", null)
-        value = lookup(check.value, "header_value", null)
+      dynamic "header" {
+        iterator = header
+        for_each = lookup(check.value, "header", [])
+
+        content {
+          name  = lookup(header.value, "name", null)
+          value = lookup(header.value, "value", null)
+        }
       }
     }
   }

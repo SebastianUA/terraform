@@ -41,5 +41,5 @@ variable "namespace_labels" {
 
 variable "timeouts" {
   description = "kubernetes_namespace provides the following Timeouts configuration"
-  default     = []
+  default     = {}
 }

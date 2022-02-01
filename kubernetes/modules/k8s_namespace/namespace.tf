@@ -14,9 +14,10 @@ resource "kubernetes_namespace" "namespace" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.timeouts
+    for_each = length(keys(var.timeouts)) > 0 ? [var.timeouts] : []
+
     content {
-      delete = lookup(timeouts.value, "delete", "5m")
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 

@@ -13,6 +13,7 @@ resource "consul_acl_role" "acl_role" {
   dynamic "service_identities" {
     iterator = service_identities
     for_each = var.acl_role_service_identities
+
     content {
       service_name = lookup(service_identities.value, "service_name", null)
       datacenters  = lookup(service_identities.value, "datacenters", null)

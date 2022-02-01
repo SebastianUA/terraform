@@ -9,6 +9,7 @@ resource "heroku_space_inbound_ruleset" "space_inbound_ruleset" {
   dynamic "rule" {
     iterator = rule
     for_each = var.space_inbound_ruleset_rule
+
     content {
       action = lookup(rule.value, "action", null)
       source = lookup(rule.value, "source", null)

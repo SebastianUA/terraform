@@ -32,13 +32,23 @@ resource "kubernetes_cluster_role" "cluster_role" {
     for_each = var.cluster_role_aggregation_rules
 
     content {
-      cluster_role_selectors {
-        match_labels = lookup(aggregation_rule.value, "match_labels", {})
+      dynamic "cluster_role_selectors" {
+        iterator = cluster_role_selectors
+        for_each = lookup(aggregation_rule.value, "cluster_role_selectors", [])
 
-        match_expressions {
-          key      = lookup(aggregation_rule.value, "match_expressions_key", "")
-          operator = lookup(aggregation_rule.value, "match_expressions_operator", "In")
-          values   = lookup(aggregation_rule.value, "match_expressions_values", [])
+        content {
+          match_labels = lookup(cluster_role_selectors.value, "match_labels", null)
+
+          dynamic "match_expressions" {
+            iterator = match_expressions
+            for_each = lookup(cluster_role_selectors.value, "match_expressions", [])
+
+            content {
+              key      = lookup(match_expressions.value, "key", null)
+              operator = lookup(match_expressions.value, "operator", null)
+              values   = lookup(match_expressions.value, "values", null)
+            }
+          }
         }
       }
     }

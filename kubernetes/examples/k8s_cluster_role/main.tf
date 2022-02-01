@@ -9,6 +9,7 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 1.13.3"
     }
+
     helm = {
       source  = "hashicorp/helm"
       version = "~> 1.3.2"
@@ -69,9 +70,14 @@ module "k8s_cluster_role_with_aggregation_rule" {
       match_labels = {
         foo = "bar"
       }
-      match_expressions_key      = "environment"
-      match_expressions_operator = "In"
-      match_expressions_values   = ["non-exists-12345"]
+
+      match_expressions = [
+        {
+          key      = "environment"
+          operator = "In"
+          values   = ["non-exists-12345"]
+        }
+      ]
     }
   ]
 

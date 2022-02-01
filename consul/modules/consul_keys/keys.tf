@@ -11,6 +11,7 @@ resource "consul_keys" "keys" {
   dynamic "key" {
     iterator = key
     for_each = var.consul_keys
+
     content {
       path  = lookup(key.value, "path", null)
       value = lookup(key.value, "value", null)

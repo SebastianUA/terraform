@@ -14,6 +14,7 @@ resource "consul_key_prefix" "key_prefix" {
   dynamic "subkey" {
     iterator = subkey
     for_each = var.key_prefix_subkey
+
     content {
       path  = lookup(subkey.value, "path", null)
       value = lookup(subkey.value, "value", null)

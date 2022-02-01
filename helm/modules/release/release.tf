@@ -43,6 +43,7 @@ resource "helm_release" "release" {
   dynamic "set" {
     iterator = set
     for_each = var.release_set
+
     content {
       name  = lookup(set.value, "name", null)
       value = lookup(set.value, "value", null)
@@ -53,6 +54,7 @@ resource "helm_release" "release" {
   dynamic "set_sensitive" {
     iterator = set_sensitive
     for_each = var.release_set_sensitive
+
     content {
       name  = lookup(set_sensitive.value, "name", null)
       value = lookup(set_sensitive.value, "value", null)
@@ -72,6 +74,7 @@ resource "helm_release" "release" {
   dynamic "postrender" {
     iterator = postrender
     for_each = var.release_postrender
+
     content {
       binary_path = lookup(postrender.value, "binary_path", null)
     }

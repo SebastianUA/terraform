@@ -19,9 +19,9 @@ resource "kubernetes_role_binding" "role_binding" {
     for_each = var.role_binding_role_refs
 
     content {
-      api_group = lookup(role_ref.value, "api_group", "rbac.authorization.k8s.io")
-      kind      = lookup(role_ref.value, "kind", "ClusterRole")
-      name      = lookup(role_ref.value, "name", "")
+      api_group = lookup(role_ref.value, "api_group", null)
+      kind      = lookup(role_ref.value, "kind", null)
+      name      = lookup(role_ref.value, "name", null)
     }
   }
 
@@ -30,8 +30,8 @@ resource "kubernetes_role_binding" "role_binding" {
     for_each = var.role_binding_subjects
 
     content {
-      name      = lookup(subject.value, "name", "")
-      kind      = lookup(subject.value, "kind", "")
+      name      = lookup(subject.value, "name", null)
+      kind      = lookup(subject.value, "kind", null)
       namespace = lookup(subject.value, "namespace", null)
       api_group = lookup(subject.value, "api_group", null)
     }
