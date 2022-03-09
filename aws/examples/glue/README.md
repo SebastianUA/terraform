@@ -441,7 +441,7 @@ module "glue_trigger" {
 - `glue_job_role_arn` - The ARN of the IAM role associated with this job. (`default = null`)
 - `glue_job_command` - (Required) The command of the job. (`default = []`)
 - `glue_job_description` - (Optional) Description of the job. (`default = null`)
-- `glue_job_connections` - (Optional) The list of connections used for this job. (`default = null`)
+- `glue_job_connections` - (Optional) The list of connections used for this job. (`default = []`)
 - `glue_job_additional_connections` - (Optional) The list of connections used for the job. (`default = []`)
 - `glue_job_default_arguments` - (Optional) The map of default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide. (`default = {'--job-language': 'python'}`)
 - `glue_job_execution_property` - (Optional) Execution property of the job. (`default = []`)

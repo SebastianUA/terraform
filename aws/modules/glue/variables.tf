@@ -367,7 +367,7 @@ variable "glue_job_description" {
 
 variable "glue_job_connections" {
   description = "(Optional) The list of connections used for this job."
-  default     = null
+  default     = []
 }
 
 variable "glue_job_additional_connections" {
