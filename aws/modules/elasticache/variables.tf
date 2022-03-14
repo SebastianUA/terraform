@@ -237,6 +237,11 @@ variable "elasticache_cluster_preferred_availability_zones" {
   default     = null
 }
 
+variable "elasticache_cluster_final_snapshot_identifier" {
+  description = "(Optional, Redis only) Name of your final cluster snapshot. If omitted, no final snapshot will be made."
+  default     = null
+}
+
 #---------------------------------------------------
 # AWS elasticache replication group
 #---------------------------------------------------
@@ -245,8 +250,8 @@ variable "elasticache_replication_group" {
   default     = false
 }
 
-variable "elasticache_replication_group_replication_group_description" {
-  description = "Description for replication_group"
+variable "elasticache_replication_group_description" {
+  description = "Description for replication group"
   default     = ""
 }
 
@@ -255,8 +260,8 @@ variable "elasticache_replication_group_replication_group_id" {
   default     = ""
 }
 
-variable "elasticache_replication_group_number_cache_clusters" {
-  description = "(Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications."
+variable "elasticache_replication_group_num_cache_clusters" {
+  description = "(Optional) Number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. Conflicts with num_node_groups, the deprecatednumber_cache_clusters, or the deprecated cluster_mode. Defaults to 1."
   default     = null
 }
 
@@ -290,9 +295,19 @@ variable "elasticache_replication_group_transit_encryption_enabled" {
   default     = false
 }
 
-#
-#
-#
+variable "elasticache_replication_group_replicas_per_node_group" {
+  description = "Set number of replicas per node group."
+  default     = null
+}
+
+variable "elasticache_replication_group_num_node_groups" {
+  description = "Set number of node groups"
+  default     = null
+}
+
+#---------------------------------------------------
+# elasticache replication group
+#---------------------------------------------------
 variable "elasticache_replication_group_node_type" {
   description = "The cluster node type. Ex: cache.t2.micro"
   default     = "cache.t2.micro"
@@ -386,4 +401,88 @@ variable "elasticache_replication_group_kms_key_id" {
 variable "elasticache_replication_group_timeouts" {
   description = "Set timeouts for elasticache replication group"
   default     = {}
+}
+
+#---------------------------------------------------
+# AWS elasticache global replication group
+#---------------------------------------------------
+variable "elasticache_global_replication_group" {
+  description = "Enable elasticache global replication group usage"
+  default     = false
+}
+
+variable "elasticache_global_replication_group_global_replication_group_id_suffix" {
+  description = "(Required) The suffix name of a Global Datastore. If global_replication_group_id_suffix is changed, creates a new resource."
+  default     = null
+}
+
+variable "elasticache_global_replication_group_primary_replication_group_id" {
+  description = "The ID of the primary cluster that accepts writes and will replicate updates to the secondary cluster. If primary_replication_group_id is changed, creates a new resource."
+  default     = null
+}
+
+variable "elasticache_global_replication_group_global_replication_group_description" {
+  description = "(Optional) A user-created description for the global replication group."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS elasticache user
+#---------------------------------------------------
+variable "elasticache_user" {
+  description = "Enable elasticache user usage"
+  default     = false
+}
+
+variable "elasticache_user_access_string" {
+  description = "(Required) Access permissions string used for this user. See Specifying Permissions Using an Access String for more details."
+  default     = null
+}
+
+variable "elasticache_user_engine" {
+  description = "(Required) The current supported value is REDIS."
+  default     = null
+}
+
+variable "elasticache_user_user_id" {
+  description = "(Required) The ID of the user."
+  default     = null
+}
+
+variable "elasticache_user_user_name" {
+  description = "(Required) The username of the user."
+  default     = null
+}
+
+variable "elasticache_user_passwords" {
+  description = "(Optional) Passwords used for this user. You can create up to two passwords for each user."
+  default     = null
+}
+
+variable "elasticache_user_no_password_required" {
+  description = "(Optional) Indicates a password is not required for this user."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS elasticache user group
+#---------------------------------------------------
+variable "elasticache_user_group" {
+  description = "Enable user group usage"
+  default     = false
+}
+
+variable "elasticache_user_group_engine" {
+  description = "(Required) The current supported value is REDIS."
+  default     = null
+}
+
+variable "elasticache_user_group_user_group_id" {
+  description = "The ID of the user group."
+  default     = ""
+}
+
+variable "elasticache_user_group_user_ids" {
+  description = "(Optional) The list of user IDs that belong to the user group."
+  default     = null
 }

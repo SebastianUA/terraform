@@ -18,6 +18,13 @@ resource "aws_elasticache_parameter_group" "elasticache_parameter_group" {
     }
   }
 
+  tags = merge(
+    {
+      Name = var.elasticache_parameter_group_name != "" ? var.elasticache_parameter_group_name : "${lower(var.name)}-${var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine}-parameter-group-${lower(var.environment)}"
+    },
+    var.tags
+  )
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = []

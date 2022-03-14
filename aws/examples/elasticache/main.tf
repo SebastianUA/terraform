@@ -3,12 +3,18 @@
 #
 terraform {
   required_version = "~> 1.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.5.0"
+    }
+  }
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
-  profile                 = "default"
+  region  = "us-east-1"
+  profile = "default"
 }
 
 module "elasticache_single_redis" {
@@ -18,12 +24,12 @@ module "elasticache_single_redis" {
   environment = "stage"
 
   # elasticache security group
-  enable_elasticache_security_group               = false
+  enable_elasticache_security_group               = true
   elasticache_security_group_name                 = ""
   elasticache_security_group_security_group_names = []
 
   # elasticache subnet group
-  enable_elasticache_subnet_group     = false
+  enable_elasticache_subnet_group     = true
   elasticache_subnet_group_name       = ""
   elasticache_subnet_group_subnet_ids = []
 
@@ -42,6 +48,8 @@ module "elasticache_single_redis" {
   enable_elasticache_cluster          = true
   elasticache_cluster_num_cache_nodes = 1
   elasticache_cluster_node_type       = "cache.m3.medium"
+
+  elasticache_replication_group_cluster_mode = []
 
   tags = tomap({
     "Environment"   = "dev",

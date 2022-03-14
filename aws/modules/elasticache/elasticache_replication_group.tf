@@ -4,13 +4,14 @@
 resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   count = var.elasticache_replication_group ? var.elasticache_replication_group_number_cluster_replicas : 0
 
-  replication_group_id          = var.elasticache_replication_group_replication_group_id != "" ? var.elasticache_replication_group_replication_group_id : "${lower(var.name)}-${lower(var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine)}-${lower(var.environment)}"
-  replication_group_description = var.elasticache_replication_group_replication_group_description != "" ? var.elasticache_replication_group_replication_group_description : "The ${var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine} master with 2 replica shards which managed by me"
-  number_cache_clusters         = var.elasticache_replication_group_number_cache_clusters
-  node_type                     = var.elasticache_replication_group_node_type
-  port                          = var.elasticache_replication_group_port != null ? var.elasticache_replication_group_port : var.default_ports[var.default_engine]
-  engine                        = var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine
-  engine_version                = var.elasticache_replication_group_engine_version != null ? var.elasticache_replication_group_engine_version : var.default_engine_version[var.default_engine]
+  description          = var.elasticache_replication_group_description != "" ? var.elasticache_replication_group_description : "The ${var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine} master with 2 replica shards which managed by me"
+  replication_group_id = var.elasticache_replication_group_replication_group_id != "" ? var.elasticache_replication_group_replication_group_id : "${lower(var.name)}-${lower(var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine)}-${lower(var.environment)}"
+
+  num_cache_clusters = var.elasticache_replication_group_num_cache_clusters
+  node_type          = var.elasticache_replication_group_node_type
+  port               = var.elasticache_replication_group_port != null ? var.elasticache_replication_group_port : var.default_ports[var.default_engine]
+  engine             = var.elasticache_replication_group_engine != "" ? var.elasticache_replication_group_engine : var.default_engine
+  engine_version     = var.elasticache_replication_group_engine_version != null ? var.elasticache_replication_group_engine_version : var.default_engine_version[var.default_engine]
 
   automatic_failover_enabled = var.elasticache_replication_group_automatic_failover_enabled
   availability_zones         = var.elasticache_replication_group_availability_zones
@@ -33,15 +34,8 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   snapshot_name          = var.elasticache_replication_group_snapshot_name
   notification_topic_arn = var.elasticache_replication_group_notification_topic_arn
 
-  dynamic "cluster_mode" {
-    iterator = cluster_mode
-    for_each = length(keys(var.elasticache_replication_group_cluster_mode)) > 0 ? [var.elasticache_replication_group_cluster_mode] : []
-
-    content {
-      replicas_per_node_group = lookup(cluster_mode.value, "replicas_per_node_group", null)
-      num_node_groups         = lookup(cluster_mode.value, "num_node_groups", null)
-    }
-  }
+  replicas_per_node_group = var.elasticache_replication_group_replicas_per_node_group
+  num_node_groups         = var.elasticache_replication_group_num_node_groups
 
   dynamic "timeouts" {
     iterator = timeouts

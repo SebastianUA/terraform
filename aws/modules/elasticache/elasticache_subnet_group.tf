@@ -12,6 +12,13 @@ resource "aws_elasticache_subnet_group" "elasticache_subnet_group" {
   # NOTE: ElastiCache Security Groups are for use only when working with an ElastiCache cluster outside of a VPC. If you are using a VPC, see the ElastiCache Subnet Group resource.
   subnet_ids = var.elasticache_subnet_group_subnet_ids
 
+  tags = merge(
+    {
+      Name = var.elasticache_subnet_group_name != "" ? var.elasticache_subnet_group_name : "${lower(var.name)}-subnet-group-${lower(var.environment)}"
+    },
+    var.tags
+  )
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = []
