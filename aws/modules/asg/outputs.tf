@@ -86,3 +86,11 @@ output "autoscaling_group_health_check_type" {
   description = "EC2 or ELB. Controls how health checking is done"
   value       = element(concat(aws_autoscaling_group.asg.*.health_check_type, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS ASG tag
+#---------------------------------------------------
+output "asg_tag_id" {
+  description = "ASG name and key, separated by a comma"
+  value       = element(concat(aws_autoscaling_group_tag.asg_tag.*.id, [""]), 0)
+}

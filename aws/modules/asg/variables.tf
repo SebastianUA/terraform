@@ -475,6 +475,44 @@ variable "asg_tags" {
   default     = []
 }
 
+variable "asg_warm_pool" {
+  description = "(Optional) If this block is configured, add a Warm Pool to the specified Auto Scaling group."
+  default     = []
+}
+
+variable "asg_capacity_rebalance" {
+  description = "(Optional) Indicates whether capacity rebalance is enabled. Otherwise, capacity rebalance is disabled."
+  default     = null
+}
+
+variable "asg_service_linked_role_arn" {
+  description = "(Optional) The ARN of the service-linked role that the ASG will use to call other AWS services"
+  default     = null
+}
+
+variable "aws_instance_refresh" {
+  description = "(Optional) If this block is configured, start an Instance Refresh when this Auto Scaling Group is updated."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS ASG tag
+#---------------------------------------------------
+variable "asg_tag" {
+  description = "Enable asg tags"
+  default     = false
+}
+
+variable "asg_tag_autoscaling_group_name" {
+  description = "Set list of asg names for asg tag resource"
+  default     = []
+}
+
+variable "asg_tag_tags" {
+  description = "Set list of tags for asg tag resource"
+  default     = []
+}
+
 #-----------------------------------------------------------
 # AWS autoscaling_attachment
 #-----------------------------------------------------------
@@ -498,7 +536,7 @@ variable "autoscaling_group_name" {
   default     = ""
 }
 
-variable "alb_target_group_arn" {
+variable "lb_target_group_arn" {
   description = "(Optional) The ARN of an ALB Target Group."
   default     = null
 }

@@ -237,11 +237,18 @@ module "asg" {
 - `asg_initial_lifecycle_hook` - (Optional) One or more Lifecycle Hooks to attach to the autoscaling group before instances are launched. The syntax is exactly the same as the separate aws_autoscaling_lifecycle_hook resource, without the autoscaling_group_name attribute. Please note that this will only work when creating a new autoscaling group. For all other use-cases, please use aws_autoscaling_lifecycle_hook resource. (`default = []`)
 - `asg_max_instance_lifetime` - (Optional) The maximum amount of time, in seconds, that an instance can be in service, values must be either equal to 0 or between 604800 and 31536000 seconds. (`default = null`)
 - `asg_tags` - A list of tag blocks. Each element should have keys named key, value, and propagate_at_launch. (`default = []`)
+- `asg_warm_pool` - (Optional) If this block is configured, add a Warm Pool to the specified Auto Scaling group. (`default = []`)
+- `asg_capacity_rebalance` - (Optional) Indicates whether capacity rebalance is enabled. Otherwise, capacity rebalance is disabled. (`default = null`)
+- `asg_service_linked_role_arn` - (Optional) The ARN of the service-linked role that the ASG will use to call other AWS services (`default = null`)
+- `aws_instance_refresh` - (Optional) If this block is configured, start an Instance Refresh when this Auto Scaling Group is updated. (`default = []`)
+- `asg_tag` - Enable asg tags (`default = False`)
+- `asg_tag_autoscaling_group_name` - Set list of asg names for asg tag resource (`default = []`)
+- `asg_tag_tags` - Set list of tags for asg tag resource (`default = []`)
 - `enable_autoscaling_attachment` - Enable asg attachment (`default = False`)
 - `load_balancer_type` - Type of load balancer. Ex: ELB, ALB etc (`default = ELB`)
 - `load_balancers` - An elastic load balancer name/ALB to add to the autoscaling group names (`default = []`)
 - `autoscaling_group_name` - (Required) Name of ASG to associate with the ELB or ALB. Also, The name of the Auto Scaling group to which you want to assign the lifecycle hoo (`default = ""`)
-- `alb_target_group_arn` - (Optional) The ARN of an ALB Target Group. (`default = null`)
+- `lb_target_group_arn` - (Optional) The ARN of an ALB Target Group. (`default = null`)
 - `enable_autoscaling_lifecycle_hook` - Enable autoscaling lifecycle hook (`default = False`)
 - `autoscaling_lifecycle_hook_name` - (Required) The name of the lifecycle hook. (`default = ""`)
 - `autoscaling_lifecycle_hook_default_result` - Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The value for this parameter can be either CONTINUE or ABANDON. The default value for this parameter is ABANDON. (`default = ABANDON`)
@@ -277,6 +284,7 @@ module "asg" {
 - `autoscaling_group_default_cooldown` - Time between a scaling activity and the succeeding scaling activity
 - `autoscaling_group_health_check_grace_period` - Time after instance comes into service before checking health
 - `autoscaling_group_health_check_type` - EC2 or ELB. Controls how health checking is done
+- `asg_tag_id` - ASG name and key, separated by a comma
 
 
 ## Authors
