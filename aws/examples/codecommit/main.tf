@@ -3,27 +3,33 @@
 #
 terraform {
   required_version = "~> 1.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.6.0"
+    }
+  }
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region = "us-east-1"
 }
 
 module "codecommit" {
-  source      = "../../modules/codecommit"
-  name        = "TEST"
-  environment = "dev"
+  source = "../../modules/codecommit"
 
+  # Enable codecommit repo
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
+  # Enable codecommit trigger
   enable_codecommit_trigger = false
-  codecommit_trigger = [
+  codecommit_trigger_triggers = [
     {
-      name            = ""
-      destination_arn = ""
-      branches        = []
+      name            = "trigger-name"
+      destination_arn = "some_sns_here"
+      branches        = ["master", "main", "dev"]
       events          = ["all"]
     }
   ]

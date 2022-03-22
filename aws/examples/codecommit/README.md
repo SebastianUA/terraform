@@ -13,27 +13,33 @@ Import the module and retrieve with ```terraform get``` or ```terraform get --up
 #
 terraform {
   required_version = "~> 1.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.6.0"
+    }
+  }
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region = "us-east-1"
 }
 
 module "codecommit" {
-  source      = "../../modules/codecommit"
-  name        = "TEST"
-  environment = "dev"
+  source = "../../modules/codecommit"
 
+  # Enable codecommit repo
   enable_codecommit_repository = true
   codecommit_repository_name   = "myrepo"
 
+  # Enable codecommit trigger
   enable_codecommit_trigger = false
-  codecommit_trigger = [
+  codecommit_trigger_triggers = [
     {
-      name            = ""
-      destination_arn = ""
-      branches        = []
+      name            = "trigger-name"
+      destination_arn = "some_sns_here"
+      branches        = ["master", "main", "dev"]
       events          = ["all"]
     }
   ]
@@ -56,7 +62,15 @@ module "codecommit" {
 - `codecommit_repository_description` - (Optional) The description of the repository. This needs to be less than 1000 characters (`default = null`)
 - `codecommit_repository_default_branch` - (Optional) The default branch of the repository. The branch specified here needs to exist. (`default = null`)
 - `enable_codecommit_trigger` - Enable codecommit trigger usage (`default = False`)
-- `codecommit_trigger` - Set codecommit trigger params (`default = []`)
+- `codecommit_trigger_repository_name` - Set repo name for codecommit trigger (`default = ""`)
+- `codecommit_trigger_triggers` - Set codecommit triggers params (`default = []`)
+- `enable_codecommit_approval_rule_template` - Enable codecommit approval rule template usage (`default = False`)
+- `codecommit_approval_rule_template_name` - The name for the approval rule template. Maximum of 100 characters. (`default = ""`)
+- `codecommit_approval_rule_template_content` - (Required) The content of the approval rule template. Maximum of 3000 characters. (`default = ""`)
+- `codecommit_approval_rule_template_description` - (Optional) The description of the approval rule template. Maximum of 1000 characters. (`default = null`)
+- `enable_codecommit_approval_rule_template_association` - Enable codecommit approval rule template association usage (`default = False`)
+- `codecommit_approval_rule_template_association_approval_rule_template_name` - The name for the approval rule template. (`default = ""`)
+- `codecommit_approval_rule_template_association_repository_name` - The name of the repository that you want to associate with the template. (`default = ""`)
 
 ## Module Output Variables
 ----------------------
@@ -65,6 +79,13 @@ module "codecommit" {
 - `codecommit_repository_arn` - The ARN of the repository
 - `codecommit_repository_clone_url_http` - The URL to use for cloning the repository over HTTPS.
 - `codecommit_repository_clone_url_ssh` - The URL to use for cloning the repository over SSH.
+- `codecommit_repository_tags_all` - A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block.
+- `codecommit_approval_rule_template_approval_rule_template_id` - The ID of the approval rule template
+- `codecommit_approval_rule_template_creation_date` - The date the approval rule template was created, in RFC3339 format.
+- `codecommit_approval_rule_template_last_modified_date` - The date the approval rule template was most recently changed, in RFC3339 format.
+- `codecommit_approval_rule_template_last_modified_user` - The Amazon Resource Name (ARN) of the user who made the most recent changes to the approval rule template.
+- `codecommit_approval_rule_template_rule_content_sha256` - The SHA-256 hash signature for the content of the approval rule template.
+- `codecommit_approval_rule_template_association_id` - The name of the approval rule template and name of the repository, separated by a comma (,).
 
 
 ## Authors
