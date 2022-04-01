@@ -2,7 +2,7 @@
 # AWS ASG tag
 #---------------------------------------------------
 resource "aws_autoscaling_group_tag" "asg_tag" {
-  count = var.asg_tag ? length(var.asg_tag_autoscaling_group_name) : 0
+  count = var.enable_asg_tag ? length(var.asg_tag_autoscaling_group_name) : 0
 
   autoscaling_group_name = var.asg_tag_autoscaling_group_name
 

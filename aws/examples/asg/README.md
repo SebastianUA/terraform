@@ -241,7 +241,7 @@ module "asg" {
 - `asg_capacity_rebalance` - (Optional) Indicates whether capacity rebalance is enabled. Otherwise, capacity rebalance is disabled. (`default = null`)
 - `asg_service_linked_role_arn` - (Optional) The ARN of the service-linked role that the ASG will use to call other AWS services (`default = null`)
 - `aws_instance_refresh` - (Optional) If this block is configured, start an Instance Refresh when this Auto Scaling Group is updated. (`default = []`)
-- `asg_tag` - Enable asg tags (`default = False`)
+- `enable_asg_tag` - Enable asg tags (`default = False`)
 - `asg_tag_autoscaling_group_name` - Set list of asg names for asg tag resource (`default = []`)
 - `asg_tag_tags` - Set list of tags for asg tag resource (`default = []`)
 - `enable_autoscaling_attachment` - Enable asg attachment (`default = False`)

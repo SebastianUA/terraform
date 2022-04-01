@@ -2,7 +2,7 @@
 # AWS elasticache cluster
 #---------------------------------------------------
 resource "aws_elasticache_cluster" "elasticache_cluster" {
-  count = var.enable_elasticache_cluster && var.elasticache_cluster_num_cache_nodes == 1 ? 1 : 0
+  count = var.enable_elasticache_cluster ? 1 : 0
 
   cluster_id           = var.elasticache_cluster_name != "" ? var.elasticache_cluster_name : "${lower(var.name)}-${lower(var.elasticache_cluster_engine != "" ? var.elasticache_cluster_engine : var.default_engine)}-${lower(var.environment)}"
   engine               = var.elasticache_cluster_engine != "" ? var.elasticache_cluster_engine : var.default_engine

@@ -498,7 +498,7 @@ variable "aws_instance_refresh" {
 #---------------------------------------------------
 # AWS ASG tag
 #---------------------------------------------------
-variable "asg_tag" {
+variable "enable_asg_tag" {
   description = "Enable asg tags"
   default     = false
 }
