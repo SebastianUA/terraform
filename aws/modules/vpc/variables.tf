@@ -515,11 +515,6 @@ variable "custom_route_gateway_id" {
   default     = null
 }
 
-variable "custom_route_instance_id" {
-  description = "(Optional) Identifier of an EC2 instance."
-  default     = null
-}
-
 variable "custom_route_nat_gateway_id" {
   description = "(Optional) Identifier of a VPC NAT gateway."
   default     = null

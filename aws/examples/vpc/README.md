@@ -633,7 +633,6 @@ module "vpc_endpoint_service" {
 - `custom_route_vpc_peering_connection_id` - (Optional) Identifier of a VPC peering connection. (`default = null`)
 - `custom_route_egress_only_gateway_id` - (Optional) Identifier of a VPC Egress Only Internet Gateway. (`default = null`)
 - `custom_route_gateway_id` - (Optional) Identifier of a VPC internet gateway or a virtual private gateway. (`default = null`)
-- `custom_route_instance_id` - (Optional) Identifier of an EC2 instance. (`default = null`)
 - `custom_route_nat_gateway_id` - (Optional) Identifier of a VPC NAT gateway. (`default = null`)
 - `custom_route_local_gateway_id` - (Optional) Identifier of a Outpost local gateway. (`default = null`)
 - `custom_route_network_interface_id` - (Optional) Identifier of an EC2 network interface. (`default = null`)

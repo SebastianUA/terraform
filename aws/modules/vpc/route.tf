@@ -101,7 +101,6 @@ resource "aws_route" "custom_route" {
   vpc_peering_connection_id = var.custom_route_vpc_peering_connection_id
   egress_only_gateway_id    = var.custom_route_egress_only_gateway_id
   gateway_id                = var.custom_route_gateway_id
-  instance_id               = var.custom_route_instance_id
   nat_gateway_id            = var.custom_route_nat_gateway_id
   local_gateway_id          = var.custom_route_local_gateway_id
   network_interface_id      = var.custom_route_network_interface_id
