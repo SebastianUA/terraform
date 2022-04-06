@@ -53,7 +53,10 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [auto_accept]
+    ignore_changes = [
+      auto_accept,
+      accept_status
+    ]
   }
 
   depends_on = []
