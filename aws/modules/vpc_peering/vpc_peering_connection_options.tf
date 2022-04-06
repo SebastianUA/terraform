@@ -8,7 +8,7 @@ resource "aws_vpc_peering_connection_options" "vpc_peering_connection_options" {
 
   dynamic "accepter" {
     iterator = accepter
-    for_each = var.vpc_peering_connection_options_accepter
+    for_each = length(keys(var.vpc_peering_connection_options_accepter)) > 0 ? [var.vpc_peering_connection_options_accepter] : []
 
     content {
       allow_remote_vpc_dns_resolution  = lookup(accepter.value, "allow_remote_vpc_dns_resolution", null)
@@ -19,7 +19,7 @@ resource "aws_vpc_peering_connection_options" "vpc_peering_connection_options" {
 
   dynamic "requester" {
     iterator = requester
-    for_each = var.vpc_peering_connection_options_requester
+    for_each = length(keys(var.vpc_peering_connection_options_requester)) > 0 ? [var.vpc_peering_connection_options_requester] : []
 
     content {
       allow_remote_vpc_dns_resolution  = lookup(requester.value, "allow_remote_vpc_dns_resolution", null)

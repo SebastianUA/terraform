@@ -62,12 +62,12 @@ variable "vpc_peering_connection_peer_region" {
 
 variable "vpc_peering_connection_accepter" {
   description = "(Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one)."
-  default     = []
+  default     = {}
 }
 
 variable "vpc_peering_connection_requester" {
   description = "(Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one)."
-  default     = []
+  default     = {}
 }
 
 variable "vpc_peering_connection_timeouts" {
@@ -90,12 +90,12 @@ variable "vpc_peering_connection_options_vpc_peering_connection_id" {
 
 variable "vpc_peering_connection_options_accepter" {
   description = "(Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one)."
-  default     = []
+  default     = {}
 }
 
 variable "vpc_peering_connection_options_requester" {
   description = "(Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one)."
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
