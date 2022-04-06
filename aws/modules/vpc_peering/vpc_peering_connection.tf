@@ -55,7 +55,10 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
     create_before_destroy = true
     ignore_changes = [
       auto_accept,
-      accept_status
+      accept_status,
+      id,
+      accepter,
+      requester
     ]
   }
 
