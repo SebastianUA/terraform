@@ -32,8 +32,8 @@ resource "aws_route_table_association" "public_route_table_associations" {
 resource "aws_route_table_association" "custom_route_table_associations" {
   count = var.enable_custom_route_table_associations ? length(var.custom_route_table_associations_stack) : 0
 
-  subnet_id      = lookup(var.custom_route_table_associations_stack, "subnet_id", null)
-  route_table_id = lookup(var.custom_route_table_associations_stack, "route_table_id", (var.enable_custom_route_tables ? element(aws_route_table.custom_route_tables.*.id, 0) : null))
+  subnet_id      = lookup(var.custom_route_table_associations_stack[count.index], "subnet_id", null)
+  route_table_id = lookup(var.custom_route_table_associations_stack[count.index], "route_table_id", (var.enable_custom_route_tables ? element(aws_route_table.custom_route_tables.*.id, 0) : null))
 
   depends_on = [
     aws_route_table.custom_route_tables
