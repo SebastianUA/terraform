@@ -12,7 +12,7 @@ resource "aws_s3_access_point" "s3_access_point" {
 
   dynamic "public_access_block_configuration" {
     iterator = public_access_block_configuration
-    for_each = var.s3_access_point_public_access_block_configuration
+    for_each = length(var.s3_access_point_public_access_block_configuration) > 0 ? [var.s3_access_point_public_access_block_configuration] : []
 
     content {
       block_public_acls       = lookup(public_access_block_configuration.value, "block_public_acls", null)

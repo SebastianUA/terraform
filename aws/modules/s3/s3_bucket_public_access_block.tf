@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create S3 bucket public access block
+# S3 bucket public access block
 #---------------------------------------------------
 resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
   count = var.enable_s3_bucket_public_access_block ? 1 : 0

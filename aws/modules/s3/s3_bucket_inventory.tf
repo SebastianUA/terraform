@@ -11,6 +11,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
   enabled         = var.s3_bucket_inventory_enabled
   optional_fields = var.s3_bucket_inventory_optional_fields
 
+  // Required
   dynamic "schedule" {
     iterator = schedule
     for_each = var.s3_bucket_inventory_schedule
@@ -20,6 +21,7 @@ resource "aws_s3_bucket_inventory" "s3_bucket_inventory" {
     }
   }
 
+  // Required
   dynamic "destination" {
     iterator = destination
     for_each = var.s3_bucket_inventory_destination

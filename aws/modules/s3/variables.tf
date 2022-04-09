@@ -35,76 +35,63 @@ variable "s3_bucket_prefix" {
   default     = null
 }
 
-variable "s3_bucket_acl" {
-  description = "The canned ACL to apply. Defaults to 'private'."
-  default     = null
-}
-
-variable "s3_bucket_policy" {
-  description = "(Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
-  default     = null
-}
-
 variable "s3_bucket_force_destroy" {
   description = "(Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
   default     = null
 }
 
-variable "s3_bucket_acceleration_status" {
-  description = "(Optional) Sets the accelerate configuration of an existing bucket. Can be Enabled or Suspended."
-  default     = null
-}
+// variable "s3_bucket_acl" {
+//   description = "The canned ACL to apply. Defaults to 'private'."
+//   default     = null
+// }
 
-variable "s3_bucket_request_payer" {
-  description = "(Optional) Specifies who should bear the cost of Amazon S3 data transfer. Can be either BucketOwner or Requester. By default, the owner of the S3 bucket would incur the costs of any data transfer. See Requester Pays Buckets developer guide for more information."
-  default     = null
-}
+// variable "s3_bucket_policy" {
+//   description = "(Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
+//   default     = null
+// }
 
-variable "s3_bucket_grant" {
-  description = "(Optional) An ACL policy grant (documented below). Conflicts with acl"
-  default     = []
-}
+// variable "s3_bucket_acceleration_status" {
+//   description = "(Optional) Sets the accelerate configuration of an existing bucket. Can be Enabled or Suspended."
+//   default     = null
+// }
 
-variable "s3_bucket_website" {
-  description = "(Optional) A website object "
-  default     = {}
-}
 
-variable "s3_bucket_cors_rule" {
-  description = "Cors rules"
-  default     = []
-}
+// variable "s3_bucket_grant" {
+//   description = "(Optional) An ACL policy grant (documented below). Conflicts with acl"
+//   default     = []
+// }
 
-variable "s3_bucket_versioning" {
-  description = "(Optional) A state of versioning"
-  default     = {}
-}
+// variable "s3_bucket_website" {
+//   description = "(Optional) A website object "
+//   default     = {}
+// }
 
-variable "s3_bucket_logging" {
-  description = "(Optional) A settings of bucket logging"
-  default     = {}
-}
+// variable "s3_bucket_cors_rule" {
+//   description = "Cors rules"
+//   default     = []
+// }
 
-variable "s3_bucket_lifecycle_rule" {
-  description = "(Optional) A configuration of object lifecycle management"
-  type        = any
-  default     = []
-}
 
-variable "s3_bucket_replication_configuration" {
-  description = "(Optional) A configuration of replication configuration"
-  default     = {}
-}
+// variable "s3_bucket_lifecycle_rule" {
+//   description = "(Optional) A configuration of object lifecycle management"
+//   type        = any
+//   default     = []
+// }
 
-variable "s3_bucket_object_lock_configuration" {
-  description = "(Optional) A configuration of S3 object locking"
-  default     = {}
-}
+// variable "s3_bucket_replication_configuration" {
+//   description = "(Optional) A configuration of replication configuration"
+//   default     = {}
+// }
 
-variable "s3_bucket_server_side_encryption_configuration" {
-  description = "(Optional) A configuration of server-side encryption configuration"
-  default     = {}
-}
+// variable "s3_bucket_object_lock_configuration" {
+//   description = "(Optional) A configuration of S3 object locking"
+//   default     = {}
+// }
+
+// variable "s3_bucket_server_side_encryption_configuration" {
+//   description = "(Optional) A configuration of server-side encryption configuration"
+//   default     = {}
+// }
 
 #-----------------------------------------------------------
 # S3 bucket policy
@@ -127,13 +114,13 @@ variable "s3_bucket_policy_policy" {
 #-----------------------------------------------------------
 # S3 bucket object
 #-----------------------------------------------------------
-variable "enable_s3_bucket_object" {
-  description = "Enable s3 bucket object"
+variable "enable_s3_object" {
+  description = "Enable s3 object usage"
   default     = false
 }
 
-variable "s3_bucket_object_stack" {
-  description = "Set properties for s3 bucket object"
+variable "s3_object_stack" {
+  description = "Set properties for s3 object"
   default     = []
 }
 
@@ -203,6 +190,19 @@ variable "s3_bucket_object_stack" {
 // }
 
 #-----------------------------------------------------------
+# S3 bucket object copy
+#-----------------------------------------------------------
+variable "enable_s3_bucket_object_copy" {
+  description = "Enable s3 bucket object copy"
+  default     = false
+}
+
+variable "s3_bucket_object_copy_stack" {
+  description = "Set s3 bucket object copy stack"
+  default     = []
+}
+
+#-----------------------------------------------------------
 # S3 bucket notification
 #-----------------------------------------------------------
 variable "enable_s3_bucket_notification" {
@@ -228,6 +228,11 @@ variable "s3_bucket_notification_queue" {
 variable "s3_bucket_notification_lambda_function" {
   description = "(Optional, Multiple) Used to configure notifications to a Lambda Function"
   default     = []
+}
+
+variable "s3_bucket_notification_eventbridge" {
+  description = "(Optional) Whether to enable Amazon EventBridge notifications."
+  default     = null
 }
 
 #-----------------------------------------------------------
@@ -402,7 +407,7 @@ variable "s3_access_point_policy" {
 
 variable "s3_access_point_public_access_block_configuration" {
   description = "(Optional) Configuration block to manage the PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination."
-  default     = []
+  default     = {}
 }
 
 variable "s3_access_point_vpc_configuration" {
@@ -456,10 +461,250 @@ variable "s3_bucket_ownership_controls_rule" {
   default     = []
 }
 
-#
-#
-#
-variable "AAAA" {
-  description = "AAAA"
+#---------------------------------------------------
+# AWS S3 bucket request payment configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_request_payment_configuration" {
+  description = "Enable s3 bucket request payment configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_request_payment_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_request_payment_configuration_payer" {
+  description = "(Required) Specifies who pays for the download and request fees. Valid values: BucketOwner, Requester"
   default     = null
 }
+
+variable "s3_bucket_request_payment_configuration_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS S3 bucket versioning
+#---------------------------------------------------
+variable "enable_s3_bucket_versioning" {
+  description = "Enable s3 bucket versioning usage"
+  default     = false
+}
+
+variable "s3_bucket_versioning_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_versioning_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_versioning_mfa" {
+  description = "(Optional, Required if versioning_configuration mfa_delete is enabled) The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device."
+  default     = null
+}
+
+variable "s3_bucket_versioning_versioning_configuration" {
+  description = "(Required) Configuration block for the versioning parameters"
+  default     = {}
+}
+
+#---------------------------------------------------
+# AWS S3 bucket accelerate configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_accelerate_configuration" {
+  description = "Enable s3 bucket accelerate configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_accelerate_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_accelerate_configuration_status" {
+  description = "(Required) The transfer acceleration state of the bucket. Valid values: Enabled, Suspended"
+  default     = null
+}
+
+variable "s3_bucket_accelerate_configuration_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS S3 bucket cors configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_cors_configuration" {
+  description = "Enable s3 bucket cors configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_cors_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_cors_configuration_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_cors_configuration_cors_rule" {
+  description = "(Required) Set of origins and methods (cross-origin access that you want to allow) documented below. You can configure up to 100 rules."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS S3 bucket intelligent tiering configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_intelligent_tiering_configuration" {
+  description = "Enable s3 bucket intelligent tiering configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_intelligent_tiering_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_intelligent_tiering_configuration_name" {
+  description = "The unique name used to identify the S3 Intelligent-Tiering configuration for the bucket."
+  default     = ""
+}
+
+variable "s3_bucket_intelligent_tiering_configuration_status" {
+  description = "(Optional) Specifies the status of the configuration. Valid values: Enabled, Disabled."
+  default     = null
+}
+
+variable "s3_bucket_intelligent_tiering_configuration_filter" {
+  description = "(Optional) A bucket filter. The configuration only includes objects that meet the filter's criteria"
+  default     = []
+}
+
+variable "s3_bucket_intelligent_tiering_configuration_tiering" {
+  description = "(Required) The S3 Intelligent-Tiering storage class tiers of the configuration"
+  default     = []
+}
+
+#---------------------------------------------------
+# S3 bucket object lock configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_object_lock_configuration" {
+  description = "Enable s3 bucket object lock configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_object_lock_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_object_lock_configuration_rule" {
+  description = "(Required) Configuration block for specifying the Object Lock rule for the specified object"
+  default     = []
+}
+
+variable "s3_bucket_object_lock_configuration_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_object_lock_configuration_object_lock_enabled" {
+  description = "(Optional, Forces new resource) Indicates whether this bucket has an Object Lock configuration enabled. Defaults to Enabled. Valid values: Enabled"
+  default     = null
+}
+
+variable "s3_bucket_object_lock_configuration_token" {
+  description = "(Optional) A token to allow Object Lock to be enabled for an existing bucket. You must contact AWS support for the bucket's 'Object Lock token'. The token is generated in the back-end when versioning is enabled on a bucket. For more details on versioning, see the aws_s3_bucket_versioning resource."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS S3 bucket server side encryption configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_server_side_encryption_configuration" {
+  description = "Enable s3 bucket server side encryption configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_server_side_encryption_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_server_side_encryption_configuration_rule" {
+  description = "(Required) Set of server-side encryption configuration rules. documented below. Currently, only a single rule is supported."
+  default     = []
+}
+
+variable "s3_bucket_server_side_encryption_configuration_expected_bucket_owner" {
+  description = "Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS S3 bucket logging
+#---------------------------------------------------
+variable "enable_s3_bucket_logging" {
+  description = "Enable s3 bucket logging usage"
+  default     = false
+}
+
+variable "s3_bucket_logging_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_logging_target_bucket" {
+  description = "(Required) The name of the bucket where you want Amazon S3 to store server access logs."
+  default     = null
+}
+
+variable "s3_bucket_logging_target_prefix" {
+  description = "(Required) A prefix for all log object keys."
+  default     = null
+}
+
+variable "s3_bucket_logging_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_logging_target_grant" {
+  description = "(Optional) Set of configuration blocks with information for granting permissions"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS S3 bucket acl
+#---------------------------------------------------
+variable "enable_s3_bucket_acl" {
+  description = "Enable s3 bucket acl usage"
+  default     = false
+}
+
+variable "s3_bucket_acl_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_acl_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_acl_acl" {
+  description = "(Optional, Conflicts with access_control_policy) The canned ACL to apply to the bucket."
+  default     = null
+}
+
+variable "s3_bucket_acl_access_control_policy" {
+  description = "(Optional, Conflicts with acl) A configuration block that sets the ACL permissions for an object per grantee"
+  default     = []
+}
+

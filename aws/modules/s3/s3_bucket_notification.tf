@@ -1,10 +1,12 @@
 #---------------------------------------------------
-# Create S3 bucket notification
+# S3 bucket notification
 #---------------------------------------------------
 resource "aws_s3_bucket_notification" "s3_bucket_notification" {
   count = var.enable_s3_bucket_notification ? 1 : 0
 
   bucket = var.s3_bucket_notification_bucket != "" && !var.enable_s3_bucket ? var.s3_bucket_notification_bucket : element(concat(aws_s3_bucket.s3_bucket.*.id, [""]), 0)
+
+  eventbridge = var.s3_bucket_notification_eventbridge
 
   dynamic "topic" {
     iterator = topic

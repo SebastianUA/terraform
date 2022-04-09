@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# AWS S3 bucket ownership controls
+# AWS S3 bucket ownership controls 
 #---------------------------------------------------
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
   count = var.enable_s3_bucket_ownership_controls ? 1 : 0

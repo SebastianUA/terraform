@@ -42,21 +42,64 @@ output "s3_bucket_bucket_website_domain" {
 }
 
 #---------------------------------
-# S3 bucket object
+# S3 object
 #---------------------------------
-output "s3_bucket_object_id" {
+output "s3_object_id" {
   description = "The key of the resource supplied above"
-  value       = element(concat(aws_s3_bucket_object.s3_bucket_object.*.id, [""]), 0)
+  value       = element(concat(aws_s3_object.s3_object.*.id, [""]), 0)
 }
 
-output "s3_bucket_object_etag" {
+output "s3_object_etag" {
   description = "The ETag generated for the object (an MD5 sum of the object content). For plaintext objects or objects encrypted with an AWS-managed key, the hash is an MD5 digest of the object data. For objects encrypted with a KMS key or objects created by either the Multipart Upload or Part Copy operation, the hash is not an MD5 digest, regardless of the method of encryption."
-  value       = element(concat(aws_s3_bucket_object.s3_bucket_object.*.etag, [""]), 0)
+  value       = element(concat(aws_s3_object.s3_object.*.etag, [""]), 0)
 }
 
-output "s3_bucket_object_version_id" {
+output "s3_object_version_id" {
   description = "A unique version ID value for the object, if bucket versioning is enabled."
-  value       = element(concat(aws_s3_bucket_object.s3_bucket_object.*.version_id, [""]), 0)
+  value       = element(concat(aws_s3_object.s3_object.*.version_id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket object copy
+#---------------------------------------------------
+output "s3_object_copy_id" {
+  description = "The key of the resource supplied above."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.id, [""]), 0)
+}
+
+output "s3_object_copy_etag" {
+  description = "The ETag generated for the object (an MD5 sum of the object content). For plaintext objects or objects encrypted with an AWS-managed key, the hash is an MD5 digest of the object data. For objects encrypted with a KMS key or objects created by either the Multipart Upload or Part Copy operation, the hash is not an MD5 digest, regardless of the method of encryption. More information on possible values can be found on Common Response Headers."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.etag, [""]), 0)
+}
+
+output "s3_object_copy_version_id" {
+  description = "Version ID of the newly created copy."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.version_id, [""]), 0)
+}
+
+output "s3_object_copy_expiration" {
+  description = "If the object expiration is configured, this attribute will be set."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.expiration, [""]), 0)
+}
+
+output "s3_object_copy_last_modified" {
+  description = "Returns the date that the object was last modified, in RFC3339 format."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.last_modified, [""]), 0)
+}
+
+output "s3_object_copy_request_charged" {
+  description = "If present, indicates that the requester was successfully charged for the request."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.request_charged, [""]), 0)
+}
+
+output "s3_object_copy_source_version_id" {
+  description = "Version of the copied object in the source bucket."
+  value       = element(concat(aws_s3_object_copy.s3_object_copy.*.source_version_id, [""]), 0)
+}
+
+output "s3_object_copy_tags_all" {
+  description = "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block"
+  value       = concat(aws_s3_object_copy.s3_object_copy.*.version_id, [""])
 }
 
 #---------------------------------
@@ -135,6 +178,16 @@ output "s3_access_point_network_origin" {
   value       = element(concat(aws_s3_access_point.s3_access_point.*.network_origin, [""]), 0)
 }
 
+output "s3_access_point_alias" {
+  description = "The alias of the S3 Access Point."
+  value       = element(concat(aws_s3_access_point.s3_access_point.*.alias, [""]), 0)
+}
+
+output "s3_access_point_endpoints" {
+  description = "The VPC endpoints for the S3 Access Point."
+  value       = element(concat(aws_s3_access_point.s3_access_point.*.endpoints, [""]), 0)
+}
+
 #---------------------------------------------------
 # AWS S3 bucket analytics configuration
 #---------------------------------------------------
@@ -150,3 +203,68 @@ output "s3_bucket_ownership_controls_id" {
   description = "The ID of s3 bucket ownership controls"
   value       = element(concat(aws_s3_bucket_ownership_controls.s3_bucket_ownership_controls.*.arn, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS S3 bucket request payment configuration
+#---------------------------------------------------
+output "s3_bucket_request_payment_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_request_payment_configuration.s3_bucket_request_payment_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket versioning
+#---------------------------------------------------
+output "s3_bucket_versioning_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_versioning.s3_bucket_versioning.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket accelerate configuration
+#---------------------------------------------------
+output "s3_bucket_accelerate_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_accelerate_configuration.s3_bucket_accelerate_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket cors configuration
+#---------------------------------------------------
+output "s3_bucket_cors_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_cors_configuration.s3_bucket_cors_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket intelligent tiering configuration
+#---------------------------------------------------
+output "s3_bucket_intelligent_tiering_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_intelligent_tiering_configuration.s3_bucket_intelligent_tiering_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# S3 bucket object lock configuration
+#---------------------------------------------------
+output "s3_bucket_object_lock_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_object_lock_configuration.s3_bucket_object_lock_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket logging
+#---------------------------------------------------
+output "s3_bucket_logging_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_logging.s3_bucket_logging.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS S3 bucket acl
+#---------------------------------------------------
+output "s3_bucket_acl_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_acl.s3_bucket_acl.*.id, [""]), 0)
+}
+

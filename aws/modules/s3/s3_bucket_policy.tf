@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create S3 bucket policy
+# S3 bucket policy
 #---------------------------------------------------
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
   count = var.enable_s3_bucket_policy ? 1 : 0
