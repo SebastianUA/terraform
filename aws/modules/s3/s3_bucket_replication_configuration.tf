@@ -30,58 +30,58 @@ resource "aws_s3_bucket_replication_configuration" "s3_bucket_replication_config
       prefix   = lookup(rule.value, "prefix", null)
       priority = lookup(rule.value, "priority", null)
 
-      dynamic "access_control_translation" {
-        iterator = access_control_translation
-        for_each = length(keys(lookup(rule.value, "access_control_translation", {}))) > 0 ? [lookup(rule.value, "access_control_translation", {})] : []
+      // dynamic "access_control_translation" {
+      //   iterator = access_control_translation
+      //   for_each = length(keys(lookup(rule.value, "access_control_translation", {}))) > 0 ? [lookup(rule.value, "access_control_translation", {})] : []
 
-        content {
-          owner = lookup(access_control_translation.value, "owner", null)
-        }
-      }
+      //   content {
+      //     owner = lookup(access_control_translation.value, "owner", null)
+      //   }
+      // }
 
-      dynamic "encryption_configuration" {
-        iterator = encryption_configuration
-        for_each = length(keys(lookup(rule.value, "encryption_configuration", {}))) > 0 ? [lookup(rule.value, "encryption_configuration", {})] : []
+      // dynamic "encryption_configuration" {
+      //   iterator = encryption_configuration
+      //   for_each = length(keys(lookup(rule.value, "encryption_configuration", {}))) > 0 ? [lookup(rule.value, "encryption_configuration", {})] : []
 
-        content {
-          replica_kms_key_id = lookup(encryption_configuration.value, "replica_kms_key_id", null)
-        }
-      }
+      //   content {
+      //     replica_kms_key_id = lookup(encryption_configuration.value, "replica_kms_key_id", null)
+      //   }
+      // }
 
-      dynamic "metrics" {
-        iterator = metrics
-        for_each = length(keys(lookup(rule.value, "metrics", {}))) > 0 ? [lookup(rule.value, "metrics", {})] : []
+      // dynamic "metrics" {
+      //   iterator = metrics
+      //   for_each = length(keys(lookup(rule.value, "metrics", {}))) > 0 ? [lookup(rule.value, "metrics", {})] : []
 
-        content {
-          dynamic "event_threshold" {
-            iterator = event_threshold
-            for_each = length(keys(lookup(metrics.value, "event_threshold", {}))) > 0 ? [lookup(metrics.value, "event_threshold", {})] : []
+      //   content {
+      //     dynamic "event_threshold" {
+      //       iterator = event_threshold
+      //       for_each = length(keys(lookup(metrics.value, "event_threshold", {}))) > 0 ? [lookup(metrics.value, "event_threshold", {})] : []
 
-            content {
-              minutes = lookup(event_threshold.value, "minutes", null)
-            }
-          }
-          status = lookup(metrics.value, "status", null)
-        }
-      }
+      //       content {
+      //         minutes = lookup(event_threshold.value, "minutes", null)
+      //       }
+      //     }
+      //     status = lookup(metrics.value, "status", null)
+      //   }
+      // }
 
-      dynamic "replication_time" {
-        iterator = replication_time
-        for_each = length(keys(lookup(rule.value, "replication_time", {}))) > 0 ? [lookup(rule.value, "replication_time", {})] : []
+      // dynamic "replication_time" {
+      //   iterator = replication_time
+      //   for_each = length(keys(lookup(rule.value, "replication_time", {}))) > 0 ? [lookup(rule.value, "replication_time", {})] : []
 
-        content {
-          status = lookup(replication_time.value, "status", null)
+      //   content {
+      //     status = lookup(replication_time.value, "status", null)
 
-          dynamic "time" {
-            iterator = time
-            for_each = length(keys(lookup(replication_time.value, "time", {}))) > 0 ? [lookup(replication_time.value, "time", {})] : []
+      //     dynamic "time" {
+      //       iterator = time
+      //       for_each = length(keys(lookup(replication_time.value, "time", {}))) > 0 ? [lookup(replication_time.value, "time", {})] : []
 
-            content {
-              minutes = lookup(time.value, "minutes", null)
-            }
-          }
-        }
-      }
+      //       content {
+      //         minutes = lookup(time.value, "minutes", null)
+      //       }
+      //     }
+      //   }
+      // }
 
       dynamic "existing_object_replication" {
         iterator = existing_object_replication
