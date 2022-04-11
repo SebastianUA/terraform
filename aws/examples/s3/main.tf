@@ -27,7 +27,10 @@ module "s3_private_bucket" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket1"
-  //s3_bucket_acl    = "private"
+
+  // Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   tags = tomap({
     "Environment"   = "dev",
@@ -42,7 +45,7 @@ module "s3" {
   name        = "TEST"
   environment = "dev"
 
-  # AWS S3 bucket
+  // AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket2"
 
@@ -92,109 +95,116 @@ module "s3" {
   enable_s3_bucket_acl = true
   s3_bucket_acl_acl    = "private"
 
-  //   s3_bucket_website = {
-  //     index_document = "index.tml"
-  //     error_document = "error.tml"
-  //     routing_rules = jsonencode([{
-  //       Condition : {
-  //         KeyPrefixEquals : "docs/"
-  //       },
-  //       Redirect : {
-  //         ReplaceKeyPrefixWith : "documents/"
-  //       }
-  //     }])
 
-  //   }
+  // Enable S3 bucket website configuration
+  enable_s3_bucket_website_configuration = true
+  s3_bucket_website_configuration_index_document = {
+    suffix = "index.tml"
+  }
+  s3_bucket_website_configuration_error_document = {
+    key = "error.tml"
+  }
 
-
-  //  s3_bucket_lifecycle_rule = [
-  //     {
-  //       enabled = true
-
-  //       id     = "log"
-  //       prefix = "log/"
-  //       tags   = tomap({ "rule" = "log", "autoclean" = "true" })
-
-  //       expiration = {
-  //         days = 90
-  //       }
-
-  //       transition = [
-  //         {
-  //           days          = 30
-  //           storage_class = "ONEZONE_IA"
-  //         },
-  //         {
-  //           days          = 60
-  //           storage_class = "GLACIER"
-  //         }
-  //       ]
-
-  //       noncurrent_version_expiration = {
-  //         days = 30
-  //       }
-  //     },
-  //     {
-  //       enabled = true
-
-  //       id                                     = "log1"
-  //       prefix                                 = "log1/"
-  //       abort_incomplete_multipart_upload_days = 7
-
-  //       noncurrent_version_transition = [
-  //         {
-  //           days          = 60
-  //           storage_class = "STANDARD_IA"
-  //         },
-  //         {
-  //           days          = 90
-  //           storage_class = "ONEZONE_IA"
-  //         },
-  //         {
-  //           days          = 180
-  //           storage_class = "GLACIER"
-  //         },
-  //       ]
-
-  //       noncurrent_version_expiration = {
-  //         days = 365
-  //       }
-  //     }
-  //   ]
+  s3_bucket_website_configuration_routing_rule = [
+    {
+      condition = {
+        key_prefix_equals = "docs/"
+      }
+      redirect = {
+        replace_key_prefix_with = "documents/"
+      }
+    }
+  ]
 
 
-  // # Add files to bucket
-  //   enable_s3_bucket_object = true
-  //   s3_bucket_object_stack = [
-  //     {
-  //       key = "additional_files/test.txt"
-  //     },
-  //     {
-  //       key                 = "additional_files/test2.txt"
-  //       source              = null
-  //       content_type        = null
-  //       content             = null
-  //       content_base64      = null
-  //       content_disposition = null
-  //       content_encoding    = null
-  //       content_language    = null
+  // Enable S3 bucket lifecycle configuration
+  enable_s3_bucket_lifecycle_configuration = true
+  s3_bucket_lifecycle_configuration_rule = [
+    {
+      id     = "log"
+      status = "Enabled"
 
-  //       acl              = null
-  //       cache_control    = null
-  //       website_redirect = null
-  //       storage_class    = null
-  //       etag             = null
-  //       metadata         = null
-  //       force_destroy    = null
+      filter = {
+        and = [
+          {
+            prefix = "log/"
+            tags = {
+              rule      = "log"
+              autoclean = "true"
+            }
+          }
+        ]
+      }
 
-  //       server_side_encryption = null
-  //       kms_key_id             = null
+      transition = [
+        {
+          days          = 30
+          storage_class = "STANDARD_IA"
+        },
+        {
+          days          = 60
+          storage_class = "GLACIER"
+        }
+      ]
 
-  //       object_lock_legal_hold_status = null
-  //       object_lock_mode              = null
-  //       object_lock_retain_until_date = null
-  //     }
-  //   ]
+      expiration = {
+        days = 90
+      }
+
+      noncurrent_version_expiration = {
+        days = 30
+      }
+
+      noncurrent_version_transition = [
+        {
+          days          = 60
+          storage_class = "STANDARD_IA"
+        },
+        {
+          days          = 90
+          storage_class = "ONEZONE_IA"
+        },
+        {
+          days          = 180
+          storage_class = "GLACIER"
+        }
+      ]
+
+    }
+  ]
+
+  // Add files to bucket
+  enable_s3_object = true
+  s3_object_stack = [
+    {
+      key = "additional_files/test.txt"
+    },
+    {
+      key                 = "additional_files/test2.txt"
+      source              = null
+      content_type        = null
+      content             = null
+      content_base64      = null
+      content_disposition = null
+      content_encoding    = null
+      content_language    = null
+
+      acl              = null
+      cache_control    = null
+      website_redirect = null
+      storage_class    = null
+      etag             = null
+      metadata         = null
+      force_destroy    = null
+
+      server_side_encryption = null
+      kms_key_id             = null
+
+      object_lock_legal_hold_status = null
+      object_lock_mode              = null
+      object_lock_retain_until_date = null
+    }
+  ]
 
   tags = tomap({
     "Environment"   = "dev",
@@ -212,7 +222,10 @@ module "s3_bucket_public_access_block" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket3"
-  //s3_bucket_acl    = "private"
+
+  # Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   # AWS S3 bucket public access block
   enable_s3_bucket_public_access_block = true

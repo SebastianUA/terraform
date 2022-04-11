@@ -268,3 +268,36 @@ output "s3_bucket_acl_id" {
   value       = element(concat(aws_s3_bucket_acl.s3_bucket_acl.*.id, [""]), 0)
 }
 
+#---------------------------------------------------
+# S3 bucket replication configuration
+#---------------------------------------------------
+output "s3_bucket_replication_configuration_id" {
+  description = "The S3 source bucket name."
+  value       = element(concat(aws_s3_bucket_replication_configuration.s3_bucket_replication_configuration.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# S3 bucket website configuration
+#---------------------------------------------------
+output "s3_bucket_website_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_website_configuration.s3_bucket_website_configuration.*.id, [""]), 0)
+}
+
+output "s3_bucket_website_configuration_website_domain" {
+  description = "The domain of the website endpoint. This is used to create Route 53 alias records."
+  value       = element(concat(aws_s3_bucket_website_configuration.s3_bucket_website_configuration.*.website_domain, [""]), 0)
+}
+
+output "s3_bucket_website_configuration_website_endpoint" {
+  description = "The website endpoint."
+  value       = element(concat(aws_s3_bucket_website_configuration.s3_bucket_website_configuration.*.website_endpoint, [""]), 0)
+}
+
+#---------------------------------------------------
+# S3 bucket lifecycle configuration
+#---------------------------------------------------
+output "s3_bucket_lifecycle_configuration_id" {
+  description = "The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided."
+  value       = element(concat(aws_s3_bucket_lifecycle_configuration.s3_bucket_lifecycle_configuration.*.id, [""]), 0)
+}

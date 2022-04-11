@@ -37,7 +37,10 @@ module "s3_private_bucket" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket1"
-  //s3_bucket_acl    = "private"
+
+  // Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   tags = tomap({
     "Environment"   = "dev",
@@ -52,7 +55,7 @@ module "s3" {
   name        = "TEST"
   environment = "dev"
 
-  # AWS S3 bucket
+  // AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket2"
 
@@ -102,109 +105,116 @@ module "s3" {
   enable_s3_bucket_acl = true
   s3_bucket_acl_acl    = "private"
 
-  //   s3_bucket_website = {
-  //     index_document = "index.tml"
-  //     error_document = "error.tml"
-  //     routing_rules = jsonencode([{
-  //       Condition : {
-  //         KeyPrefixEquals : "docs/"
-  //       },
-  //       Redirect : {
-  //         ReplaceKeyPrefixWith : "documents/"
-  //       }
-  //     }])
 
-  //   }
+  // Enable S3 bucket website configuration
+  enable_s3_bucket_website_configuration = true
+  s3_bucket_website_configuration_index_document = {
+    suffix = "index.tml"
+  }
+  s3_bucket_website_configuration_error_document = {
+    key = "error.tml"
+  }
 
-
-  //  s3_bucket_lifecycle_rule = [
-  //     {
-  //       enabled = true
-
-  //       id     = "log"
-  //       prefix = "log/"
-  //       tags   = tomap({ "rule" = "log", "autoclean" = "true" })
-
-  //       expiration = {
-  //         days = 90
-  //       }
-
-  //       transition = [
-  //         {
-  //           days          = 30
-  //           storage_class = "ONEZONE_IA"
-  //         },
-  //         {
-  //           days          = 60
-  //           storage_class = "GLACIER"
-  //         }
-  //       ]
-
-  //       noncurrent_version_expiration = {
-  //         days = 30
-  //       }
-  //     },
-  //     {
-  //       enabled = true
-
-  //       id                                     = "log1"
-  //       prefix                                 = "log1/"
-  //       abort_incomplete_multipart_upload_days = 7
-
-  //       noncurrent_version_transition = [
-  //         {
-  //           days          = 60
-  //           storage_class = "STANDARD_IA"
-  //         },
-  //         {
-  //           days          = 90
-  //           storage_class = "ONEZONE_IA"
-  //         },
-  //         {
-  //           days          = 180
-  //           storage_class = "GLACIER"
-  //         },
-  //       ]
-
-  //       noncurrent_version_expiration = {
-  //         days = 365
-  //       }
-  //     }
-  //   ]
+  s3_bucket_website_configuration_routing_rule = [
+    {
+      condition = {
+        key_prefix_equals = "docs/"
+      }
+      redirect = {
+        replace_key_prefix_with = "documents/"
+      }
+    }
+  ]
 
 
-  // # Add files to bucket
-  //   enable_s3_bucket_object = true
-  //   s3_bucket_object_stack = [
-  //     {
-  //       key = "additional_files/test.txt"
-  //     },
-  //     {
-  //       key                 = "additional_files/test2.txt"
-  //       source              = null
-  //       content_type        = null
-  //       content             = null
-  //       content_base64      = null
-  //       content_disposition = null
-  //       content_encoding    = null
-  //       content_language    = null
+  // Enable S3 bucket lifecycle configuration
+  enable_s3_bucket_lifecycle_configuration = true
+  s3_bucket_lifecycle_configuration_rule = [
+    {
+      id     = "log"
+      status = "Enabled"
 
-  //       acl              = null
-  //       cache_control    = null
-  //       website_redirect = null
-  //       storage_class    = null
-  //       etag             = null
-  //       metadata         = null
-  //       force_destroy    = null
+      filter = {
+        and = [
+          {
+            prefix = "log/"
+            tags = {
+              rule      = "log"
+              autoclean = "true"
+            }
+          }
+        ]
+      }
 
-  //       server_side_encryption = null
-  //       kms_key_id             = null
+      transition = [
+        {
+          days          = 30
+          storage_class = "STANDARD_IA"
+        },
+        {
+          days          = 60
+          storage_class = "GLACIER"
+        }
+      ]
 
-  //       object_lock_legal_hold_status = null
-  //       object_lock_mode              = null
-  //       object_lock_retain_until_date = null
-  //     }
-  //   ]
+      expiration = {
+        days = 90
+      }
+
+      noncurrent_version_expiration = {
+        days = 30
+      }
+
+      noncurrent_version_transition = [
+        {
+          days          = 60
+          storage_class = "STANDARD_IA"
+        },
+        {
+          days          = 90
+          storage_class = "ONEZONE_IA"
+        },
+        {
+          days          = 180
+          storage_class = "GLACIER"
+        }
+      ]
+
+    }
+  ]
+
+  // Add files to bucket
+  enable_s3_object = true
+  s3_object_stack = [
+    {
+      key = "additional_files/test.txt"
+    },
+    {
+      key                 = "additional_files/test2.txt"
+      source              = null
+      content_type        = null
+      content             = null
+      content_base64      = null
+      content_disposition = null
+      content_encoding    = null
+      content_language    = null
+
+      acl              = null
+      cache_control    = null
+      website_redirect = null
+      storage_class    = null
+      etag             = null
+      metadata         = null
+      force_destroy    = null
+
+      server_side_encryption = null
+      kms_key_id             = null
+
+      object_lock_legal_hold_status = null
+      object_lock_mode              = null
+      object_lock_retain_until_date = null
+    }
+  ]
 
   tags = tomap({
     "Environment"   = "dev",
@@ -222,7 +232,10 @@ module "s3_bucket_public_access_block" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "natarov-test-bucket3"
-  //s3_bucket_acl    = "private"
+
+  # Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   # AWS S3 bucket public access block
   enable_s3_bucket_public_access_block = true
@@ -346,6 +359,22 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_acl_expected_bucket_owner` - (Optional, Forces new resource) The account ID of the expected bucket owner. (`default = null`)
 - `s3_bucket_acl_acl` - (Optional, Conflicts with access_control_policy) The canned ACL to apply to the bucket. (`default = null`)
 - `s3_bucket_acl_access_control_policy` - (Optional, Conflicts with acl) A configuration block that sets the ACL permissions for an object per grantee (`default = []`)
+- `enable_s3_bucket_replication_configuration` - Enable s3 bucket replication configuration usage (`default = False`)
+- `s3_bucket_replication_configuration_bucket` - The name of the bucket (`default = ""`)
+- `s3_bucket_replication_configuration_role` - (Required) The ARN of the IAM role for Amazon S3 to assume when replicating the objects. (`default = null`)
+- `s3_bucket_replication_configuration_token` - (Optional) A token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's 'Object Lock token'. For more details, see Using S3 Object Lock with replication. (`default = null`)
+- `s3_bucket_replication_configuration_rule` - (Required) List of configuration blocks describing the rules managing the replication (`default = []`)
+- `enable_s3_bucket_website_configuration` - Enable s3 bucket website configuration usage (`default = False`)
+- `s3_bucket_website_configuration_bucket` - The name of the bucket (`default = ""`)
+- `s3_bucket_website_configuration_index_document` - (Optional, Required if redirect_all_requests_to is not specified) The name of the index document for the website (`default = {}`)
+- `s3_bucket_website_configuration_error_document` - (Optional, Conflicts with redirect_all_requests_to) The name of the error document for the website (`default = {}`)
+- `s3_bucket_website_configuration_routing_rule` - (Optional, Conflicts with redirect_all_requests_to) List of rules that define when a redirect is applied and the redirect behavior (`default = []`)
+- `s3_bucket_website_configuration_expected_bucket_owner` - (Optional, Forces new resource) The account ID of the expected bucket owner. (`default = null`)
+- `s3_bucket_website_configuration_redirect_all_requests_to` - (Optional, Required if index_document is not specified) The redirect behavior for every request to this bucket's website endpoint detailed below. Conflicts with error_document, index_document, and routing_rule (`default = []`)
+- `enable_s3_bucket_lifecycle_configuration` - Enable s3 bucket lifecycle configuration usage (`default = False`)
+- `s3_bucket_lifecycle_configuration_bucket` - The name of the bucket (`default = ""`)
+- `s3_bucket_lifecycle_configuration_rule` - (Required) List of configuration blocks describing the rules managing the replication (`default = []`)
+- `s3_bucket_lifecycle_configuration_expected_bucket_owner` - (Optional) The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error. (`default = null`)
 
 ## Module Output Variables
 ----------------------
@@ -391,6 +420,11 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_object_lock_configuration_id` - The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided.
 - `s3_bucket_logging_id` - The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided.
 - `s3_bucket_acl_id` - The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided.
+- `s3_bucket_replication_configuration_id` - The S3 source bucket name.
+- `s3_bucket_website_configuration_id` - The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided.
+- `s3_bucket_website_configuration_website_domain` - The domain of the website endpoint. This is used to create Route 53 alias records.
+- `s3_bucket_website_configuration_website_endpoint` - The website endpoint.
+- `s3_bucket_lifecycle_configuration_id` - The bucket or bucket and expected_bucket_owner separated by a comma (,) if the latter is provided.
 
 
 ## Authors

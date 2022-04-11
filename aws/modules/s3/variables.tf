@@ -40,59 +40,6 @@ variable "s3_bucket_force_destroy" {
   default     = null
 }
 
-// variable "s3_bucket_acl" {
-//   description = "The canned ACL to apply. Defaults to 'private'."
-//   default     = null
-// }
-
-// variable "s3_bucket_policy" {
-//   description = "(Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
-//   default     = null
-// }
-
-// variable "s3_bucket_acceleration_status" {
-//   description = "(Optional) Sets the accelerate configuration of an existing bucket. Can be Enabled or Suspended."
-//   default     = null
-// }
-
-
-// variable "s3_bucket_grant" {
-//   description = "(Optional) An ACL policy grant (documented below). Conflicts with acl"
-//   default     = []
-// }
-
-// variable "s3_bucket_website" {
-//   description = "(Optional) A website object "
-//   default     = {}
-// }
-
-// variable "s3_bucket_cors_rule" {
-//   description = "Cors rules"
-//   default     = []
-// }
-
-
-// variable "s3_bucket_lifecycle_rule" {
-//   description = "(Optional) A configuration of object lifecycle management"
-//   type        = any
-//   default     = []
-// }
-
-// variable "s3_bucket_replication_configuration" {
-//   description = "(Optional) A configuration of replication configuration"
-//   default     = {}
-// }
-
-// variable "s3_bucket_object_lock_configuration" {
-//   description = "(Optional) A configuration of S3 object locking"
-//   default     = {}
-// }
-
-// variable "s3_bucket_server_side_encryption_configuration" {
-//   description = "(Optional) A configuration of server-side encryption configuration"
-//   default     = {}
-// }
-
 #-----------------------------------------------------------
 # S3 bucket policy
 #-----------------------------------------------------------
@@ -708,3 +655,91 @@ variable "s3_bucket_acl_access_control_policy" {
   default     = []
 }
 
+#---------------------------------------------------
+# S3 bucket replication configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_replication_configuration" {
+  description = "Enable s3 bucket replication configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_replication_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_replication_configuration_role" {
+  description = "(Required) The ARN of the IAM role for Amazon S3 to assume when replicating the objects."
+  default     = null
+}
+
+variable "s3_bucket_replication_configuration_token" {
+  description = "(Optional) A token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's 'Object Lock token'. For more details, see Using S3 Object Lock with replication."
+  default     = null
+}
+
+variable "s3_bucket_replication_configuration_rule" {
+  description = "(Required) List of configuration blocks describing the rules managing the replication"
+  default     = []
+}
+
+#---------------------------------------------------
+# S3 bucket website configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_website_configuration" {
+  description = "Enable s3 bucket website configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_website_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_website_configuration_index_document" {
+  description = "(Optional, Required if redirect_all_requests_to is not specified) The name of the index document for the website"
+  default     = {}
+}
+
+variable "s3_bucket_website_configuration_error_document" {
+  description = "(Optional, Conflicts with redirect_all_requests_to) The name of the error document for the website"
+  default     = {}
+}
+
+variable "s3_bucket_website_configuration_routing_rule" {
+  description = "(Optional, Conflicts with redirect_all_requests_to) List of rules that define when a redirect is applied and the redirect behavior"
+  default     = []
+}
+
+variable "s3_bucket_website_configuration_expected_bucket_owner" {
+  description = "(Optional, Forces new resource) The account ID of the expected bucket owner."
+  default     = null
+}
+
+variable "s3_bucket_website_configuration_redirect_all_requests_to" {
+  description = "(Optional, Required if index_document is not specified) The redirect behavior for every request to this bucket's website endpoint detailed below. Conflicts with error_document, index_document, and routing_rule"
+  default     = []
+}
+
+#---------------------------------------------------
+# S3 bucket lifecycle configuration
+#---------------------------------------------------
+variable "enable_s3_bucket_lifecycle_configuration" {
+  description = "Enable s3 bucket lifecycle configuration usage"
+  default     = false
+}
+
+variable "s3_bucket_lifecycle_configuration_bucket" {
+  description = "The name of the bucket"
+  default     = ""
+}
+
+variable "s3_bucket_lifecycle_configuration_rule" {
+  description = "(Required) List of configuration blocks describing the rules managing the replication"
+  default     = []
+}
+
+variable "s3_bucket_lifecycle_configuration_expected_bucket_owner" {
+  description = "(Optional) The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error."
+  default     = null
+}
