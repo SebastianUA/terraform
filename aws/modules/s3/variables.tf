@@ -40,6 +40,11 @@ variable "s3_bucket_force_destroy" {
   default     = null
 }
 
+variable "s3_bucket_object_lock_enabled" {
+  description = "(Optional, Default:false, Forces new resource) Indicates whether this bucket has an Object Lock configuration enabled."
+  default     = null
+}
+
 #-----------------------------------------------------------
 # S3 bucket policy
 #-----------------------------------------------------------

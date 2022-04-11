@@ -261,6 +261,7 @@ module "s3_bucket_public_access_block" {
 - `s3_bucket_name` - Name for bucket name. Conflicts with s3_bucket_prefix. (`default = null`)
 - `s3_bucket_prefix` - Creates a unique bucket name beginning with the specified prefix. Conflicts with s3_bucket_name. (`default = null`)
 - `s3_bucket_force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable. (`default = null`)
+- `s3_bucket_object_lock_enabled` - (Optional, Default:false, Forces new resource) Indicates whether this bucket has an Object Lock configuration enabled. (`default = null`)
 - `enable_s3_bucket_policy` - Enable s3 bucket policy usage (`default = False`)
 - `s3_bucket_policy_bucket` - The name of the bucket to which to apply the policy. (`default = ""`)
 - `s3_bucket_policy_policy` - (Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = ""`)
