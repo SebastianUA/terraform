@@ -48,12 +48,23 @@ module "asg" {
   lc_enable_monitoring = "true"
   lc_placement_tenancy = "default"
 
-  lc_root_block_device = [
+  lc_root_block_device = {
+    volume_size = 8
+    volume_type = "gp3"
+  }
+
+  lc_ebs_block_device = [
     {
-      volume_size = "8"
-      volume_type = "gp2"
-    },
+      device_name = "/dev/sdm"
+      volume_size = 50
+      volume_type = "gp3"
+
+      delete_on_termination = null
+      encrypted             = null
+      iops                  = null
+    }
   ]
+
 
   lc_associate_public_ip_address = null
 

@@ -58,12 +58,23 @@ module "asg" {
   lc_enable_monitoring = "true"
   lc_placement_tenancy = "default"
 
-  lc_root_block_device = [
+  lc_root_block_device = {
+    volume_size = 8
+    volume_type = "gp3"
+  }
+
+  lc_ebs_block_device = [
     {
-      volume_size = "8"
-      volume_type = "gp2"
-    },
+      device_name = "/dev/sdm"
+      volume_size = 50
+      volume_type = "gp3"
+
+      delete_on_termination = null
+      encrypted             = null
+      iops                  = null
+    }
   ]
+
 
   lc_associate_public_ip_address = null
 
@@ -172,7 +183,7 @@ module "asg" {
 - `lc_spot_price` - (Optional; Default: On-demand price) The maximum price to use for reserving spot instances. (`default = null`)
 - `lc_ebs_optimized` - (Optional) If true, the launched EC2 instance will be EBS-optimized. (`default = null`)
 - `lc_ebs_block_device` - Additional EBS block devices to attach to the instance (`default = []`)
-- `lc_root_block_device` - Customize details about the root block device of the instance. See Block Devices below for details (`default = []`)
+- `lc_root_block_device` - Customize details about the root block device of the instance. See Block Devices below for details (`default = {}`)
 - `lc_ephemeral_block_device` - Customize Ephemeral (also known as Instance Store) volumes on the instance (`default = []`)
 - `enable_lt` - Enable ASG with launch_template (`default = False`)
 - `lt_name` - The name of the launch template. If you leave this blank, Terraform will auto-generate a unique name. (`default = ""`)

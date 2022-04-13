@@ -115,7 +115,7 @@ variable "lc_ebs_block_device" {
 
 variable "lc_root_block_device" {
   description = "Customize details about the root block device of the instance. See Block Devices below for details"
-  default     = []
+  default     = {}
 }
 
 variable "lc_ephemeral_block_device" {
