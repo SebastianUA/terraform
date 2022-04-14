@@ -392,7 +392,7 @@ variable "internet_gateway_name" {
 }
 
 #---------------------------------------------------
-# Create NAT
+# AWS NAT
 #---------------------------------------------------
 variable "enable_nat_gateway" {
   description = "Allow Nat GateWay to/from private network"
@@ -402,6 +402,16 @@ variable "enable_nat_gateway" {
 variable "single_nat_gateway" {
   description = "should be true if you want to provision a single shared NAT Gateway across all of your private networks"
   default     = false
+}
+
+variable "nat_gateway_name" {
+  description = "Set name for NAT GW"
+  default     = ""
+}
+
+variable "nat_gateway_connectivity_type" {
+  description = "(Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public"
+  default     = "public"
 }
 
 #---------------------------------------------------------------

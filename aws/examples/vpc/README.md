@@ -612,6 +612,8 @@ module "vpc_endpoint_service" {
 - `internet_gateway_name` - Name for internet gw (`default = ""`)
 - `enable_nat_gateway` - Allow Nat GateWay to/from private network (`default = False`)
 - `single_nat_gateway` - should be true if you want to provision a single shared NAT Gateway across all of your private networks (`default = False`)
+- `nat_gateway_name` - Set name for NAT GW (`default = ""`)
+- `nat_gateway_connectivity_type` - (Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public (`default = public`)
 - `enable_eip` - Allow creation elastic eip (`default = False`)
 - `nat_eip_vpc` - (Optional) Boolean if the EIP is in a VPC or not. (`default = True`)
 - `nat_eip_instance` - (Optional) EC2 instance ID. (`default = null`)
