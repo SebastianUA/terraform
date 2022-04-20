@@ -2,7 +2,7 @@
 
 I want to develop and collect all Terraform modules that can be covered for.
 
-- [aadb2c directory](https://github.com/SebastianUA/terraform/tree/master/azure/modules/aadb2c_directory) - TDB
+- - [TDB](https://github.com/SebastianUA/terraform/tree/master/pfptmeta/modules/TDB) - TDB
 
 
 ## Authors

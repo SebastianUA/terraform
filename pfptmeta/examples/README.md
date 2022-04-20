@@ -3,7 +3,7 @@
 Here, I want to give examples of how to use my Terraform modules:
 
 
-- [aadb2c directory](https://github.com/SebastianUA/terraform/tree/master/azure/examples/aadb2c_directory) - TDB
+- [TDB](https://github.com/SebastianUA/terraform/tree/master/pfptmeta/examples/TDB) - TDB
 
 
 
