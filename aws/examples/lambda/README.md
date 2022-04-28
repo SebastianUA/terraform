@@ -174,6 +174,7 @@ module "lambda" {
 - `lambda_function_kms_key_arn` - (Optional) The ARN for the KMS encryption key.
 - `lambda_function_source_code_hash` - Base64-encoded representation of raw SHA-256 sum of the zip file, provided either via filename or s3_* parameters.
 - `lambda_function_source_code_size` - The size in bytes of the function .zip file.
+- `lambda_function_invoke_arn` - ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri.
 - `lambda_alias_arn` - The Amazon Resource Name (ARN) identifying your Lambda function alias.
 - `lambda_alias_invoke_arn` - The ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri
 - `lambda_event_source_mapping_function_arn` - The the ARN of the Lambda function the event source mapping is sending events to. (Note: this is a computed value that differs from function_name above.)
