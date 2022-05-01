@@ -4,9 +4,9 @@
 
 # private
 resource "aws_route_table_association" "private_route_table_associations" {
-  count = length(concat(merge(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs)))
+  count = length(merge(concat(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs)))
 
-  subnet_id      = concat(merge(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs))[count.index]
+  subnet_id      = merge(concat(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs))[count.index]
   route_table_id = element(aws_route_table.private_route_tables.*.id, count.index)
 
   depends_on = [
@@ -17,9 +17,9 @@ resource "aws_route_table_association" "private_route_table_associations" {
 
 # public
 resource "aws_route_table_association" "public_route_table_associations" {
-  count = length(concat(merge(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs)))
+  count = length((merge(concat(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs)))
 
-  subnet_id      = concat(merge(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs))[count.index]
+  subnet_id      = merge(concat(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs))[count.index]
   route_table_id = element(aws_route_table.public_route_tables.*.id, count.index)
 
   depends_on = [
