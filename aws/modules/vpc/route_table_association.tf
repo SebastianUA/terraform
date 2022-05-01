@@ -4,10 +4,23 @@
 
 # private
 resource "aws_route_table_association" "private_route_table_associations" {
-  count = length(merge(concat(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs)))
+  count = length(var.private_subnet_cidrs)
 
-  subnet_id      = merge(concat(var.private_subnet_cidrs, var.k8s_private_subnet_cidrs))[count.index]
+  subnet_id      = var.private_subnet_cidrs[count.index]
   route_table_id = element(aws_route_table.private_route_tables.*.id, count.index)
+
+  depends_on = [
+    aws_route_table.private_route_tables,
+    aws_subnet.private_subnets
+  ]
+}
+
+# private k8s
+resource "aws_route_table_association" "k8s_private_route_table_associations" {
+  count = length(var.k8s_private_subnet_cidrs)
+
+  subnet_id      = var.k8s_private_subnet_cidrs[count.index]
+  route_table_id = element(aws_route_table.k8s_private_route_tables.*.id, count.index)
 
   depends_on = [
     aws_route_table.private_route_tables,
@@ -17,10 +30,23 @@ resource "aws_route_table_association" "private_route_table_associations" {
 
 # public
 resource "aws_route_table_association" "public_route_table_associations" {
-  count = length((merge(concat(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs)))
+  count = length(var.public_subnet_cidrs)
 
-  subnet_id      = merge(concat(var.public_subnet_cidrs, var.k8s_public_subnet_cidrs))[count.index]
+  subnet_id      = var.public_subnet_cidrs[count.index]
   route_table_id = element(aws_route_table.public_route_tables.*.id, count.index)
+
+  depends_on = [
+    aws_route_table.public_route_tables,
+    aws_subnet.public_subnets
+  ]
+}
+
+# public k8s
+resource "aws_route_table_association" "k8s_public_route_table_associations" {
+  count = length(var.k8s_public_subnet_cidrs)))
+
+  subnet_id      = var.k8s_public_subnet_cidrs[count.index]
+  route_table_id = element(aws_route_table.k8s_public_route_tables.*.id, count.index)
 
   depends_on = [
     aws_route_table.public_route_tables,
