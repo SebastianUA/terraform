@@ -599,32 +599,6 @@ variable "private_route_tables_route_ipv6" {
   default     = []
 }
 
-# private route tables for k8s
-variable "k8s_private_route_tables_name" {
-  description = "Set name for private route tables"
-  default     = ""
-}
-
-variable "k8s_private_route_tables_propagating_vgws" {
-  description = "A list of VGWs the private route table should propagate."
-  default     = null
-}
-
-variable "k8s_private_route_tables_vpc_id" {
-  description = "The VPC ID."
-  default     = ""
-}
-
-variable "k8s_private_route_tables_route_ipv4" {
-  description = "The CIDR block of the route for IPv4."
-  default     = []
-}
-
-variable "k8s_private_route_tables_route_ipv6" {
-  description = "(Optional) The Ipv6 CIDR block of the route."
-  default     = []
-}
-
 # public route tables
 variable "public_route_tables_name" {
   description = "Set name for public route tables"
