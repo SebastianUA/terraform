@@ -574,7 +574,7 @@ module "vpc_endpoint_service" {
 - `map_public_ip_on_launch` - should be false if you do not want to auto-assign public IP on launch (`default = True`)
 - `public_subnet_ipv6_cidrs` - (Optional) The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length. (`default = null`)
 - `public_subnets_name` - Name for private subnets (`default = ""`)
-- `subnet_timeouts` - Set to how long to wait for a subnet to be created or deleted. (`default = []`)
+- `subnet_timeouts` - Set to how long to wait for a subnet to be created or deleted. (`default = {}`)
 - `enable_vpn_gateway` - Should be true if you want to create a new VPN Gateway resource and attach it to the VPC (`default = False`)
 - `vpn_gateway_name` - Set name for VPC GW (`default = ""`)
 - `vpn_gateway_vpc_id` - (Optional) The VPC ID to create in. (`default = ""`)

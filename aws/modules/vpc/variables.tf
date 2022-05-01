@@ -171,7 +171,7 @@ variable "public_subnets_name" {
 
 variable "subnet_timeouts" {
   description = "Set to how long to wait for a subnet to be created or deleted."
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------------------
