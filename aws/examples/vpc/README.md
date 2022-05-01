@@ -556,6 +556,7 @@ module "vpc_endpoint_service" {
 - `k8s_private_subnet_cidrs` - CIDR for the Private Subnet for K8S (`default = []`)
 - `k8s_public_subnets_name` - Set name for private subnets of K8S (`default = ""`)
 - `k8s_public_subnet_cidrs` - CIDR for the Public Subnet for K8S (`default = []`)
+- `k8s_tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
 - `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
 - `enable_vpc` - Enable VPC usage (`default = False`)
 - `vpc_name` - name for VPC (`default = ""`)

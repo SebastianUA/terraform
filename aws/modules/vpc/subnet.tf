@@ -68,6 +68,7 @@ resource "aws_subnet" "k8s_private_subnets" {
     {
       "kubernetes.io/role/elb" = 1
     },
+    var.k8s_tags,
     var.tags
   )
 
@@ -152,6 +153,7 @@ resource "aws_subnet" "k8s_public_subnets" {
     {
       "kubernetes.io/role/internal-elb" = 1
     },
+    var.k8s_tags,
     var.tags
   )
 

@@ -72,6 +72,12 @@ variable "k8s_public_subnet_cidrs" {
   default     = []
 }
 
+variable "k8s_tags" {
+  description = "A list of tag blocks. Each element should have keys named key, value, etc."
+  type        = map(string)
+  default     = {}
+}
+
 variable "tags" {
   description = "A list of tag blocks. Each element should have keys named key, value, etc."
   type        = map(string)
