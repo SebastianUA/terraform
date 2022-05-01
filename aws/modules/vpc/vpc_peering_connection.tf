@@ -35,7 +35,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.vpc_peering_connection_timeouts
+    for_each = length(keys(var.vpc_peering_connection_timeouts)) > 0 ? [var.vpc_peering_connection_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

@@ -19,7 +19,10 @@ module "s3_flow_logs" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "s3-flow-log-test"
-  s3_bucket_acl    = "private"
+
+  // Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   tags = tomap({
     "Environment"   = "dev",
@@ -549,6 +552,10 @@ module "vpc_endpoint_service" {
 - `availability_zones` - A list of Availability zones in the region (`default = {'us-east-1': ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d', 'us-east-1e', 'us-east-1f'], 'us-east-2': ['us-east-2a', 'eu-east-2b', 'eu-east-2c'], 'us-west-1': ['us-west-1a', 'us-west-1c'], 'us-west-2': ['us-west-2a', 'us-west-2b', 'us-west-2c'], 'ca-central-1': ['ca-central-1a', 'ca-central-1b'], 'eu-west-1': ['eu-west-1a', 'eu-west-1b', 'eu-west-1c'], 'eu-west-2': ['eu-west-2a', 'eu-west-2b'], 'eu-central-1': ['eu-central-1a', 'eu-central-1b', 'eu-central-1c'], 'ap-south-1': ['ap-south-1a', 'ap-south-1b'], 'sa-east-1': ['sa-east-1a', 'sa-east-1c'], 'ap-northeast-1': ['ap-northeast-1a', 'ap-northeast-1c'], 'ap-southeast-1': ['ap-southeast-1a', 'ap-southeast-1b'], 'ap-southeast-2': ['ap-southeast-2a', 'ap-southeast-2b', 'ap-southeast-2c'], 'ap-northeast-2': ['ap-northeast-2a', 'ap-northeast-2c']}`)
 - `public_subnet_cidrs` - CIDR for the Public Subnet (`default = []`)
 - `private_subnet_cidrs` - CIDR for the Private Subnet (`default = []`)
+- `k8s_private_subnets_name` - Set name for private subnets of K8S (`default = ""`)
+- `k8s_private_subnet_cidrs` - CIDR for the Private Subnet for K8S (`default = []`)
+- `k8s_public_subnets_name` - Set name for private subnets of K8S (`default = ""`)
+- `k8s_public_subnet_cidrs` - CIDR for the Public Subnet for K8S (`default = []`)
 - `tags` - A list of tag blocks. Each element should have keys named key, value, etc. (`default = {}`)
 - `enable_vpc` - Enable VPC usage (`default = False`)
 - `vpc_name` - name for VPC (`default = ""`)
@@ -627,7 +634,7 @@ module "vpc_endpoint_service" {
 - `private_custom_gateway_id` - Set gateway ID for private custom routing (`default = null`)
 - `public_custom_peering_destination_cidr_block` - Set CIDR block for public custom routing (`default = null`)
 - `public_custom_gateway_id` - Set gateway ID for public custom routing (`default = null`)
-- `route_timeouts` - Set timeouts for route (`default = []`)
+- `route_timeouts` - Set timeouts for route (`default = {}`)
 - `enable_custom_route` - Enable custom route (`default = False`)
 - `custom_route_route_table_id` - (Required) The ID of the routing table. (`default = null`)
 - `custom_route_destination_cidr_block` - (Optional) The destination CIDR block. (`default = null`)
@@ -645,11 +652,26 @@ module "vpc_endpoint_service" {
 - `private_route_tables_vpc_id` - The VPC ID. (`default = ""`)
 - `private_route_tables_route_ipv4` - The CIDR block of the route for IPv4. (`default = []`)
 - `private_route_tables_route_ipv6` - (Optional) The Ipv6 CIDR block of the route. (`default = []`)
+- `k8s_private_route_tables_name` - Set name for private route tables (`default = ""`)
+- `k8s_private_route_tables_propagating_vgws` - A list of VGWs the private route table should propagate. (`default = null`)
+- `k8s_private_route_tables_vpc_id` - The VPC ID. (`default = ""`)
+- `k8s_private_route_tables_route_ipv4` - The CIDR block of the route for IPv4. (`default = []`)
+- `k8s_private_route_tables_route_ipv6` - (Optional) The Ipv6 CIDR block of the route. (`default = []`)
 - `public_route_tables_name` - Set name for public route tables (`default = ""`)
 - `public_route_tables_propagating_vgws` - A list of VGWs the public route table should propagate. (`default = null`)
 - `public_route_tables_vpc_id` - The VPC ID. (`default = ""`)
 - `public_route_tables_route_ipv4` - The CIDR block of the route for IPv4. (`default = []`)
 - `public_route_tables_route_ipv6` - (Optional) The Ipv6 CIDR block of the route. (`default = []`)
+- `k8s_private_route_tables_name` - Set name for private route tables (`default = ""`)
+- `k8s_private_route_tables_propagating_vgws` - A list of VGWs the private route table should propagate. (`default = null`)
+- `k8s_private_route_tables_vpc_id` - The VPC ID. (`default = ""`)
+- `k8s_private_route_tables_route_ipv4` - The CIDR block of the route for IPv4. (`default = []`)
+- `k8s_private_route_tables_route_ipv6` - (Optional) The Ipv6 CIDR block of the route. (`default = []`)
+- `k8s_public_route_tables_name` - Set name for public route tables (`default = ""`)
+- `k8s_public_route_tables_propagating_vgws` - A list of VGWs the public route table should propagate. (`default = null`)
+- `k8s_public_route_tables_vpc_id` - The VPC ID. (`default = ""`)
+- `k8s_public_route_tables_route_ipv4` - The CIDR block of the route for IPv4. (`default = []`)
+- `k8s_public_route_tables_route_ipv6` - (Optional) The Ipv6 CIDR block of the route. (`default = []`)
 - `enable_custom_route_tables` - Enable custom RT (`default = False`)
 - `custom_route_tables_name` - Set name for custom RT (`default = ""`)
 - `custom_route_tables_vpc_id` - The VPC ID. (`default = ""`)
@@ -671,7 +693,7 @@ module "vpc_endpoint_service" {
 - `enable_vpc_ipv4_cidr_block_association` - Enable VPC IPv4 cidr block association usage. (`default = False`)
 - `vpc_ipv4_cidr_block_association_cidr_block` - (Required) The additional IPv4 CIDR block to associate with the VPC. (`default = ""`)
 - `vpc_ipv4_cidr_block_association_vpc_id` - The ID of the VPC to make the association with. (`default = ""`)
-- `vpc_ipv4_cidr_block_association_timeouts` - Set timeouts used for creating the association (`default = []`)
+- `vpc_ipv4_cidr_block_association_timeouts` - Set timeouts used for creating the association (`default = {}`)
 - `enable_egress_only_internet_gateway` - Enable VPC egress only internet gateway usage. Creates an egress-only Internet gateway for your VPC. An egress-only Internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the Internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance. (`default = False`)
 - `egress_only_internet_gateway_name` - Set name for egress only internet gateway (`default = ""`)
 - `egress_only_internet_gateway_vpc_id` - The VPC ID to create in. (`default = ""`)
@@ -687,7 +709,7 @@ module "vpc_endpoint_service" {
 - `vpc_peering_connection_peer_region` - (Optional) The region of the accepter VPC of the [VPC Peering Connection]. auto_accept must be false, and use the aws_vpc_peering_connection_accepter to manage the accepter side. (`default = null`)
 - `vpc_peering_connection_accepter` - (Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one). (`default = []`)
 - `vpc_peering_connection_requester` - (Optional) - A optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that requests the peering connection (a maximum of one). (`default = []`)
-- `vpc_peering_connection_timeouts` - Set timeouts used for creating a peering connection (`default = []`)
+- `vpc_peering_connection_timeouts` - Set timeouts used for creating a peering connection (`default = {}`)
 - `enable_vpc_peering_connection_options` - Enable VPC peering connection options usage (`default = False`)
 - `vpc_peering_connection_options_vpc_peering_connection_id` - The ID of the requester VPC peering connection. (`default = ""`)
 - `vpc_peering_connection_options_accepter` - (Optional) - An optional configuration block that allows for [VPC Peering Connection] (https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) options to be set for the VPC that accepts the peering connection (a maximum of one). (`default = []`)
@@ -699,11 +721,11 @@ module "vpc_endpoint_service" {
 - `enable_vpc_endpoint` - Enable VPC endpoint usage (`default = False`)
 - `vpc_endpoint_stack` - Set list of endpoints settings (`default = []`)
 - `vpc_endpoint_subnet_ids` - Set list of subnet_ids for vpc endpoint(s) (`default = []`)
-- `vpc_endpoint_timeouts` - Set timeouts used for creating a VPC endpoint (`default = []`)
+- `vpc_endpoint_timeouts` - Set timeouts used for creating a VPC endpoint (`default = {}`)
 - `enable_vpc_endpoint_subnet_association` - Enable VPC endpoint subnet association usage (`default = False`)
 - `vpc_endpoint_subnet_association_subnet_id` - The ID of the subnet to be associated with the VPC endpoint. (`default = ""`)
 - `vpc_endpoint_subnet_association_vpc_endpoint_id` - The ID of the VPC endpoint with which the subnet will be associated. (`default = ""`)
-- `vpc_endpoint_subnet_association_timeouts` - Set timeouts used for creating the association (`default = []`)
+- `vpc_endpoint_subnet_association_timeouts` - Set timeouts used for creating the association (`default = {}`)
 - `enable_vpc_endpoint_route_table_association` - Enable vpc endpoint route table association usage (`default = False`)
 - `vpc_endpoint_route_table_association_route_table_id` - Identifier of the EC2 Route Table to be associated with the VPC Endpoint. (`default = ""`)
 - `vpc_endpoint_route_table_association_vpc_endpoint_id` - Identifier of the VPC Endpoint with which the EC2 Route Table will be associated. (`default = ""`)

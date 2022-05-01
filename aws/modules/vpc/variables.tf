@@ -52,6 +52,26 @@ variable "private_subnet_cidrs" {
   default     = []
 }
 
+variable "k8s_private_subnets_name" {
+  description = "Set name for private subnets of K8S"
+  default     = ""
+}
+
+variable "k8s_private_subnet_cidrs" {
+  description = "CIDR for the Private Subnet for K8S"
+  default     = []
+}
+
+variable "k8s_public_subnets_name" {
+  description = "Set name for private subnets of K8S"
+  default     = ""
+}
+
+variable "k8s_public_subnet_cidrs" {
+  description = "CIDR for the Public Subnet for K8S"
+  default     = []
+}
+
 variable "tags" {
   description = "A list of tag blocks. Each element should have keys named key, value, etc."
   type        = map(string)
@@ -487,7 +507,7 @@ variable "public_custom_gateway_id" {
 
 variable "route_timeouts" {
   description = "Set timeouts for route"
-  default     = []
+  default     = {}
 }
 
 variable "enable_custom_route" {
@@ -579,6 +599,32 @@ variable "private_route_tables_route_ipv6" {
   default     = []
 }
 
+# private route tables for k8s
+variable "k8s_private_route_tables_name" {
+  description = "Set name for private route tables"
+  default     = ""
+}
+
+variable "k8s_private_route_tables_propagating_vgws" {
+  description = "A list of VGWs the private route table should propagate."
+  default     = null
+}
+
+variable "k8s_private_route_tables_vpc_id" {
+  description = "The VPC ID."
+  default     = ""
+}
+
+variable "k8s_private_route_tables_route_ipv4" {
+  description = "The CIDR block of the route for IPv4."
+  default     = []
+}
+
+variable "k8s_private_route_tables_route_ipv6" {
+  description = "(Optional) The Ipv6 CIDR block of the route."
+  default     = []
+}
+
 # public route tables
 variable "public_route_tables_name" {
   description = "Set name for public route tables"
@@ -601,6 +647,58 @@ variable "public_route_tables_route_ipv4" {
 }
 
 variable "public_route_tables_route_ipv6" {
+  description = "(Optional) The Ipv6 CIDR block of the route."
+  default     = []
+}
+
+# private route tables for k8s
+variable "k8s_private_route_tables_name" {
+  description = "Set name for private route tables"
+  default     = ""
+}
+
+variable "k8s_private_route_tables_propagating_vgws" {
+  description = "A list of VGWs the private route table should propagate."
+  default     = null
+}
+
+variable "k8s_private_route_tables_vpc_id" {
+  description = "The VPC ID."
+  default     = ""
+}
+
+variable "k8s_private_route_tables_route_ipv4" {
+  description = "The CIDR block of the route for IPv4."
+  default     = []
+}
+
+variable "k8s_private_route_tables_route_ipv6" {
+  description = "(Optional) The Ipv6 CIDR block of the route."
+  default     = []
+}
+
+# public route tables for k8s
+variable "k8s_public_route_tables_name" {
+  description = "Set name for public route tables"
+  default     = ""
+}
+
+variable "k8s_public_route_tables_propagating_vgws" {
+  description = "A list of VGWs the public route table should propagate."
+  default     = null
+}
+
+variable "k8s_public_route_tables_vpc_id" {
+  description = "The VPC ID."
+  default     = ""
+}
+
+variable "k8s_public_route_tables_route_ipv4" {
+  description = "The CIDR block of the route for IPv4."
+  default     = []
+}
+
+variable "k8s_public_route_tables_route_ipv6" {
   description = "(Optional) The Ipv6 CIDR block of the route."
   default     = []
 }
@@ -757,7 +855,7 @@ variable "vpc_ipv4_cidr_block_association_vpc_id" {
 
 variable "vpc_ipv4_cidr_block_association_timeouts" {
   description = "Set timeouts used for creating the association"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -846,7 +944,7 @@ variable "vpc_peering_connection_requester" {
 
 variable "vpc_peering_connection_timeouts" {
   description = "Set timeouts used for creating a peering connection"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -915,7 +1013,7 @@ variable "vpc_endpoint_subnet_ids" {
 
 variable "vpc_endpoint_timeouts" {
   description = "Set timeouts used for creating a VPC endpoint"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
@@ -938,7 +1036,7 @@ variable "vpc_endpoint_subnet_association_vpc_endpoint_id" {
 
 variable "vpc_endpoint_subnet_association_timeouts" {
   description = "Set timeouts used for creating the association"
-  default     = []
+  default     = {}
 }
 
 #---------------------------------------------------
