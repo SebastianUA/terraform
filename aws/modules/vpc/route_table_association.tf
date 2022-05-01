@@ -43,7 +43,7 @@ resource "aws_route_table_association" "public_route_table_associations" {
 
 # public k8s
 resource "aws_route_table_association" "k8s_public_route_table_associations" {
-  count = length(var.k8s_public_subnet_cidrs)))
+  count = length(var.k8s_public_subnet_cidrs)
 
   subnet_id      = var.k8s_public_subnet_cidrs[count.index]
   route_table_id = element(aws_route_table.k8s_public_route_tables.*.id, count.index)
