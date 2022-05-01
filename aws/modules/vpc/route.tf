@@ -35,7 +35,7 @@ resource "aws_route" "private_nat_gateway" {
 resource "aws_route" "k8s_private_nat_gateway" {
   count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
 
-  route_table_id         = element(aws_route_table.k8s_private_route_tables.*.id, count.index)
+  route_table_id         = element(concat(aws_route_table.k8s_private_route_tables.*.id, [""]), count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.nat_gateway.*.id, count.index)
 
@@ -93,7 +93,7 @@ resource "aws_route" "public_internet_gateway" {
 resource "aws_route" "k8s_public_internet_gateway" {
   count = var.enable_internet_gateway && length(var.k8s_public_subnet_cidrs) > 0 ? 1 : 0
 
-  route_table_id         = element(aws_route_table.k8s_public_route_tables.*.id, 0)
+  route_table_id         = element(concat(aws_route_table.k8s_public_route_tables.*.id, [""]), 0)
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = element(aws_internet_gateway.internet_gateway.*.id, 0)
 
