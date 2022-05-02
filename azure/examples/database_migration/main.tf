@@ -28,22 +28,37 @@ provider "azurerm" {
   // tenant_id       = ""
 }
 
+module "base_resource_group" {
+  source = "../../modules/base"
+
+  enable_resource_group   = true
+  resource_group_name     = "res-group"
+  resource_group_location = "West Europe"
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+}
+
 module "database_migration" {
   source = "../../modules/database_migration"
 
   // DB migration service
   enable_database_migration_service              = true
   database_migration_service_name                = ""
-  database_migration_service_location            = "West Europe"
-  database_migration_service_resource_group_name = "res-group"
+  database_migration_service_location            = module.base_resource_group.resource_group_location
+  database_migration_service_resource_group_name = module.base_resource_group.resource_group_name
   database_migration_service_subnet_id           = "sub-net-id"
   database_migration_service_sku_name            = "Standard_1vCores"
 
   // BD migration project
   enable_database_migration_project              = true
   database_migration_project_name                = ""
-  database_migration_project_resource_group_name = "res-group"
-  database_migration_project_location            = "West Europe"
+  database_migration_project_resource_group_name = module.base_resource_group.resource_group_name
+  database_migration_project_location            = module.base_resource_group.resource_group_location
   database_migration_project_source_platform     = "SQL"
   database_migration_project_target_platform     = "SQLDB"
 
@@ -52,5 +67,9 @@ module "database_migration" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
+
+  depends_on = [
+    module.base_resource_group
+  ]
 
 }

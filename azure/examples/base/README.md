@@ -95,6 +95,8 @@ module "base_subscription" {
 ## Module Output Variables
 ----------------------
 - `resource_group_id` - The ID of the Resource Group.
+- `resource_group_name` - The name of the Resource Group.
+- `resource_group_location` - The location of the Resource Group.
 - `resource_provider_registration_id` - The ID of the Resource provider registration.
 - `subscription_id` - The Resource ID of the Alias.
 - `subscription_tenant_id` - The ID of the Tenant to which the subscription belongs.
