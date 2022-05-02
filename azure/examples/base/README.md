@@ -35,6 +35,7 @@ provider "azurerm" {
   features {}
 
   // subscription_id = ""
+  // tenant_id       = ""
 }
 
 module "base_resource_group" {
@@ -57,7 +58,7 @@ module "base_subscription" {
 
   enable_subscription = true
   subscription_name   = "My Example MPA Subscription"
-  subscription_alias               = "examplesub"
+  subscription_alias  = "examplesub"
   subscription_id     = "12345678-12234-5678-9012-123456789012"
 
 
