@@ -24,7 +24,7 @@ resource "aws_route_table_association" "k8s_private_route_table_associations" {
 
   depends_on = [
     aws_route_table.k8s_private_route_tables,
-    aws_subnet.private_subnets
+    aws_subnet.k8s_private_subnets
   ]
 }
 
@@ -50,7 +50,7 @@ resource "aws_route_table_association" "k8s_public_route_table_associations" {
 
   depends_on = [
     aws_route_table.k8s_public_route_tables,
-    aws_subnet.public_subnets
+    aws_subnet.k8s_public_subnets
   ]
 }
 
