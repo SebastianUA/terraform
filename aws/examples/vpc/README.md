@@ -755,10 +755,12 @@ module "vpc_endpoint_service" {
 - `vpc_owner_id` - The ID of the AWS account that owns the VPC.
 - `private_subnets_id` - The ID of the subnet
 - `private_subnets_ids` - The IDs of the subnet
+- `k8s_private_subnets_ids` - The IDs of the subnet
 - `private_subnets_arn` - The ARN of the subnet.
 - `private_subnets_owner_id` - The ID of the AWS account that owns the subnet.
 - `public_subnets_id` - The ID of the subnet
 - `public_subnets_ids` - The IDs of the subnet
+- `k8s_public_subnets_ids` - The IDs of the subnet
 - `public_subnets_arn` - The ARN of the subnet.
 - `public_subnets_owner_id` - The ID of the AWS account that owns the subnet.
 - `internet_gateway_id` - The ID of the Internet Gateway.
