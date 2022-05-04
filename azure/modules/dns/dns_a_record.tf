@@ -2,7 +2,7 @@
 # Azure dns a record
 #-----------------------------------------------------------
 resource "azurerm_dns_a_record" "dns_a_record" {
-  count = var.enable_dns_mx_record ? 1 : 0
+  count = var.enable_dns_a_record ? 1 : 0
 
   name                = var.dns_a_record_name != "" ? var.dns_a_record_name : "${lower(var.name)}-dns-a-record-${lower(var.environment)}"
   zone_name           = var.dns_a_record_zone_name != "" ? var.dns_a_record_zone_name : (var.enable_dns_zone ? azurerm_dns_zone.dns_zone[count.index].name : null)

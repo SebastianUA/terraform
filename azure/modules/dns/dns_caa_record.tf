@@ -2,7 +2,7 @@
 # Azure dns caa record
 #-----------------------------------------------------------
 resource "azurerm_dns_caa_record" "dns_caa_record" {
-  count = var.enable_dns_mx_record ? 1 : 0
+  count = var.enable_dns_caa_record ? 1 : 0
 
   name                = var.dns_caa_record_name != "" ? var.dns_caa_record_name : "${lower(var.name)}-dns-caa-record-${lower(var.environment)}"
   zone_name           = var.dns_caa_record_zone_name != "" ? var.dns_caa_record_zone_name : (var.enable_dns_zone ? azurerm_dns_zone.dns_zone[count.index].name : null)
