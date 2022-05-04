@@ -458,6 +458,17 @@ output "public_route_tables_owner_id" {
   value       = element(concat(aws_route_table.public_route_tables.*.owner_id, [""]), 0)
 }
 
+# K8S
+output "k8s_private_route_tables_id" {
+  description = "The ID of the routing table of K8S."
+  value       = element(concat(aws_route_table.k8s_private_route_tables.*.id, [""]), 0)
+}
+
+output "k8s_public_route_tables_id" {
+  description = "The ID of the routing table of K8S."
+  value       = element(concat(aws_route_table.k8s_public_route_tables.*.id, [""]), 0)
+}
+
 #---------------------------------------------------
 # Route Table Associations
 #---------------------------------------------------

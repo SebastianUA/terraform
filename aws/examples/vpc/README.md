@@ -822,6 +822,8 @@ module "vpc_endpoint_service" {
 - `private_route_tables_owner_id` - The ID of the AWS account that owns the route table.
 - `public_route_tables_id` - The ID of the routing table.
 - `public_route_tables_owner_id` - The ID of the AWS account that owns the route table.
+- `k8s_private_route_tables_id` - The ID of the routing table of K8S.
+- `k8s_public_route_tables_id` - The ID of the routing table of K8S.
 - `private_route_table_associations_ids` - The IDs of the private association
 - `public_route_table_associations_ids` - The IDs of the public association
 - `custom_route_table_associations_ids` - The IDs of the custom association
