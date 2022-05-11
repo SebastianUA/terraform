@@ -66,7 +66,7 @@ resource "aws_subnet" "k8s_private_subnets" {
       Name = var.k8s_private_subnets_name != "" ? "${lower(var.k8s_private_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-k8s_private_subnet-${count.index + 1}"
     },
     {
-      "kubernetes.io/role/elb" = 1
+      "kubernetes.io/role/internal-elb" = 1
     },
     var.k8s_tags,
     var.tags
@@ -151,7 +151,7 @@ resource "aws_subnet" "k8s_public_subnets" {
       Name = var.k8s_public_subnets_name != "" ? "${lower(var.k8s_public_subnets_name)}-${count.index + 1}" : "${lower(var.name)}-${lower(var.environment)}-k8s_public_subnet-${count.index + 1}"
     },
     {
-      "kubernetes.io/role/internal-elb" = 1
+      "kubernetes.io/role/elb" = 1
     },
     var.k8s_tags,
     var.tags
