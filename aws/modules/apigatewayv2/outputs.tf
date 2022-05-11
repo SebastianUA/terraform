@@ -57,6 +57,11 @@ output "apigatewayv2_domain_name_tags_all" {
   value       = concat(aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.tags_all, [""])
 }
 
+output "apigatewayv2_domain_name_domain_name_configuration" {
+  description = "Map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
+  value       = concat(aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.domain_name_configuration, [""])
+}
+
 #---------------------------------------------------
 # AWS API Gateway v2 stage
 #---------------------------------------------------
@@ -78,6 +83,11 @@ output "apigatewayv2_stage_execution_arn" {
 output "apigatewayv2_stage_invoke_url" {
   description = "The URL to invoke the API pointing to the stage, e.g., wss://z4675bid1j.execute-api.eu-west-2.amazonaws.com/example-stage, or https://z4675bid1j.execute-api.eu-west-2.amazonaws.com/"
   value       = element(concat(aws_apigatewayv2_stage.apigatewayv2_stage.*.invoke_url, [""]), 0)
+}
+
+output "apigatewayv2_stage_tags_all" {
+  description = "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
+  value       = concat(aws_apigatewayv2_stage.apigatewayv2_stage.*.tags_all, [""])
 }
 
 output "apigatewayv2_stage_tags_all" {
