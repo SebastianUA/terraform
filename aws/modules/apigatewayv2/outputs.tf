@@ -90,11 +90,6 @@ output "apigatewayv2_stage_tags_all" {
   value       = concat(aws_apigatewayv2_stage.apigatewayv2_stage.*.tags_all, [""])
 }
 
-output "apigatewayv2_stage_tags_all" {
-  description = "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
-  value       = concat(aws_apigatewayv2_stage.apigatewayv2_stage.*.tags_all, [""])
-}
-
 #---------------------------------------------------
 # AWS API Gateway v2 authorizer
 #---------------------------------------------------
