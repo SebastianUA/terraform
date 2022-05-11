@@ -59,7 +59,7 @@ output "apigatewayv2_domain_name_tags_all" {
 
 output "apigatewayv2_domain_name_domain_name_configuration" {
   description = "Map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
-  value       = aws_apigatewayv2_domain_name.apigatewayv2_domain_name.domain_name_configuration
+  value       = aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.domain_name_configuration
 }
 
 output "apigatewayv2_domain_name_domain_name" {
