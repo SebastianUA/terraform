@@ -57,7 +57,7 @@ output "apigatewayv2_domain_name_tags_all" {
   value       = concat(aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.tags_all, [""])
 }
 
-output " " {
+output "apigatewayv2_domain_name_domain_name_configuration" {
   description = "Map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
   value       = aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.domain_name_configuration
 }
