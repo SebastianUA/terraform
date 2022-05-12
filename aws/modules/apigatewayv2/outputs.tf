@@ -111,11 +111,6 @@ output "apigatewayv2_deployment_id" {
   value       = element(concat(aws_apigatewayv2_authorizer.apigatewayv2_authorizer.*.id, [""]), 0)
 }
 
-output "apigatewayv2_deployment_auto_deployed" {
-  description = "Whether the deployment was automatically released."
-  value       = element(concat(aws_apigatewayv2_authorizer.apigatewayv2_authorizer.*.auto_deployed, [""]), 0)
-}
-
 #---------------------------------------------------
 # AWS API Gateway v2 integration response
 #---------------------------------------------------

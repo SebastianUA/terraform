@@ -20,7 +20,7 @@ resource "aws_lambda_alias" "lambda_alias" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = []
+    ignore_changes        = [routing_config]
   }
 
   depends_on = [

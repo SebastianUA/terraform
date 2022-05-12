@@ -20,7 +20,7 @@ resource "aws_apigatewayv2_api" "apigatewayv2_api" {
 
   dynamic "cors_configuration" {
     iterator = cors_configuration
-    for_each = length(keys(lookup(var.apigatewayv2_api_cors_configuration, "cors_configuration", {}))) > 0 ? [lookup(var.apigatewayv2_api_cors_configuration, "cors_configuration", {})] : []
+    for_each = [var.apigatewayv2_api_cors_configuration]
 
     content {
       allow_credentials = lookup(cors_configuration.value, "allow_credentials", null)
