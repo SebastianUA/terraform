@@ -57,7 +57,7 @@ output "apigatewayv2_domain_name_tags_all" {
   value       = concat(aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.tags_all, [""])
 }
 
-output "apigatewayv2_domain_name_domain_name_configuration" {
+output " " {
   description = "Map of tags assigned to the resource, including those inherited from the provider default_tags configuration block."
   value       = aws_apigatewayv2_domain_name.apigatewayv2_domain_name.*.domain_name_configuration
 }
@@ -169,6 +169,11 @@ output "apigatewayv2_model_id" {
 output "apigatewayv2_route_id" {
   description = "The route identifier."
   value       = element(concat(aws_apigatewayv2_route.apigatewayv2_route.*.id, [""]), 0)
+}
+
+output "apigatewayv2_route_api_id" {
+  description = "The route API ID."
+  value       = element(concat(aws_apigatewayv2_route.apigatewayv2_route.*.api_id, [""]), 0)
 }
 
 #---------------------------------------------------
