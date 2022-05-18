@@ -9,7 +9,7 @@ resource "aws_vpc_ipv4_cidr_block_association" "vpc_ipv4_cidr_block_association"
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.vpc_ipv4_cidr_block_association_timeouts
+    for_each = length(keys(var.vpc_ipv4_cidr_block_association_timeouts)) > 0 ? [var.vpc_ipv4_cidr_block_association_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

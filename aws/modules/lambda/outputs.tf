@@ -31,6 +31,11 @@ output "lambda_function_source_code_size" {
   value       = element(concat(aws_lambda_function.lambda_function.*.source_code_size, [""]), 0)
 }
 
+output "lambda_function_invoke_arn" {
+  description = "ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri."
+  value       = element(concat(aws_lambda_function.lambda_function.*.invoke_arn, [""]), 0)
+}
+
 #---------------------------------------------------
 # AWS lambda alias
 #---------------------------------------------------

@@ -9,7 +9,7 @@ resource "aws_vpc_endpoint_subnet_association" "vpc_endpoint_subnet_association"
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.vpc_endpoint_subnet_association_timeouts
+    for_each = length(keys(var.vpc_endpoint_subnet_association_timeouts)) > 0 ? [var.vpc_endpoint_subnet_association_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

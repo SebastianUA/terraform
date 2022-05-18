@@ -84,6 +84,11 @@ output "private_subnets_ids" {
   value       = aws_subnet.private_subnets.*.id
 }
 
+output "k8s_private_subnets_ids" {
+  description = "The IDs of the subnet"
+  value       = aws_subnet.k8s_private_subnets.*.id
+}
+
 output "private_subnets_arn" {
   description = "The ARN of the subnet."
   value       = element(concat(aws_subnet.private_subnets.*.arn, [""]), 0)
@@ -102,6 +107,11 @@ output "public_subnets_id" {
 output "public_subnets_ids" {
   description = "The IDs of the subnet"
   value       = aws_subnet.public_subnets.*.id
+}
+
+output "k8s_public_subnets_ids" {
+  description = "The IDs of the subnet"
+  value       = aws_subnet.k8s_public_subnets.*.id
 }
 
 output "public_subnets_arn" {
@@ -446,6 +456,17 @@ output "public_route_tables_id" {
 output "public_route_tables_owner_id" {
   description = "The ID of the AWS account that owns the route table."
   value       = element(concat(aws_route_table.public_route_tables.*.owner_id, [""]), 0)
+}
+
+# K8S
+output "k8s_private_route_tables_id" {
+  description = "The ID of the routing table of K8S."
+  value       = element(concat(aws_route_table.k8s_private_route_tables.*.id, [""]), 0)
+}
+
+output "k8s_public_route_tables_id" {
+  description = "The ID of the routing table of K8S."
+  value       = element(concat(aws_route_table.k8s_public_route_tables.*.id, [""]), 0)
 }
 
 #---------------------------------------------------

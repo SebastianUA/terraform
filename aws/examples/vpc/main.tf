@@ -9,7 +9,10 @@ module "s3_flow_logs" {
   # AWS S3 bucket
   enable_s3_bucket = true
   s3_bucket_name   = "s3-flow-log-test"
-  s3_bucket_acl    = "private"
+
+  // Enable S3 bucket ACL
+  enable_s3_bucket_acl = true
+  s3_bucket_acl_acl    = "private"
 
   tags = tomap({
     "Environment"   = "dev",

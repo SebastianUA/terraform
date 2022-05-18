@@ -54,7 +54,7 @@ resource "aws_launch_configuration" "lc" {
 
   dynamic "root_block_device" {
     iterator = root_block_device
-    for_each = var.lc_root_block_device
+    for_each = length(keys(var.lc_root_block_device)) > 0 ? [var.lc_root_block_device] : []
 
     content {
       delete_on_termination = lookup(root_block_device.value, "delete_on_termination", null)

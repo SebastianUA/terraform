@@ -54,17 +54,17 @@ resource "aws_lb" "alb" {
     }
   }
 
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes        = []
-  }
-
   tags = merge(
     {
       Name = var.alb_name != "" ? var.alb_name : (var.alb_name_prefix == null ? "${lower(var.name)}-alb-${lower(var.environment)}" : var.alb_name_prefix)
     },
     var.tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
 
   depends_on = []
 }

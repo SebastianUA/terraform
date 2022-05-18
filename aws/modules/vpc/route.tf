@@ -5,7 +5,6 @@
 # Create route table for private NAT gateway
 resource "aws_route" "private_nat_gateway" {
   count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
-  # count = var.enable_nat_gateway ? 1 : 0
 
   route_table_id         = element(aws_route_table.private_route_tables.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
@@ -13,7 +12,7 @@ resource "aws_route" "private_nat_gateway" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
@@ -32,6 +31,35 @@ resource "aws_route" "private_nat_gateway" {
   ]
 }
 
+# Create route table for private NAT gateway for k8s
+resource "aws_route" "k8s_private_nat_gateway" {
+  count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
+
+  route_table_id         = element(concat(aws_route_table.k8s_private_route_tables.*.id, [""]), count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = element(aws_nat_gateway.nat_gateway.*.id, count.index)
+
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
+
+    content {
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
+
+  depends_on = [
+    aws_route_table.k8s_private_route_tables,
+    aws_nat_gateway.nat_gateway
+  ]
+}
+
 # Create route table for public internet gateway
 resource "aws_route" "public_internet_gateway" {
   count = var.enable_internet_gateway && length(var.public_subnet_cidrs) > 0 ? 1 : 0
@@ -42,7 +70,7 @@ resource "aws_route" "public_internet_gateway" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
@@ -61,6 +89,35 @@ resource "aws_route" "public_internet_gateway" {
   ]
 }
 
+# Create route table for public internet gateway for k8s
+resource "aws_route" "k8s_public_internet_gateway" {
+  count = var.enable_internet_gateway && length(var.k8s_public_subnet_cidrs) > 0 ? 1 : 0
+
+  route_table_id         = element(concat(aws_route_table.k8s_public_route_tables.*.id, [""]), 0)
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = element(aws_internet_gateway.internet_gateway.*.id, 0)
+
+  dynamic "timeouts" {
+    iterator = timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
+
+    content {
+      create = lookup(timeouts.value, "create", null)
+      delete = lookup(timeouts.value, "delete", null)
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = []
+  }
+
+  depends_on = [
+    aws_route_table.k8s_public_route_tables,
+    aws_internet_gateway.internet_gateway
+  ]
+}
+
 # Create route table for VPC peering for public subnets
 resource "aws_route" "vpc_peering" {
   count = var.peering_destination_cidr_block != null && length(var.public_subnet_cidrs) > 0 ? 1 : 0
@@ -71,7 +128,7 @@ resource "aws_route" "vpc_peering" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
@@ -109,7 +166,7 @@ resource "aws_route" "custom_route" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
@@ -135,7 +192,7 @@ resource "aws_route" "public_custom_route" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
@@ -163,7 +220,7 @@ resource "aws_route" "private_custom_route" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = var.route_timeouts
+    for_each = length(keys(var.subnet_timeouts)) > 0 ? [var.subnet_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)

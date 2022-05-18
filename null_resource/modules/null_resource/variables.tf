@@ -74,8 +74,18 @@ variable "provisioner_file_connection_host_key" {
 #---------------------------------------------------
 # Provisioner remote-exec
 #---------------------------------------------------
-variable "enable_provisioner_remote_exec" {
-  description = "Enable remote-exec provisioner"
+variable "enable_provisioner_remote_exec_inline" {
+  description = "Enable remote-exec provisioner with inline"
+  default     = false
+}
+
+variable "enable_provisioner_remote_exec_script" {
+  description = "Enable remote-exec provisioner with script"
+  default     = false
+}
+
+variable "enable_provisioner_remote_exec_scripts" {
+  description = "Enable remote-exec provisioner with scripts"
   default     = false
 }
 
