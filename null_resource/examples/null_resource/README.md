@@ -65,7 +65,7 @@ module "provisioner_local_exec" {
 module "provisioner_remote_exec" {
   source = "../../modules/null_resource"
 
-  enable_provisioner_remote_exec = true
+  enable_provisioner_remote_exec_inline = true
 
   provisioner_remote_exec_connection_type = "ssh"
   provisioner_remote_exec_connection_user = "captain"
@@ -105,7 +105,9 @@ module "provisioner_remote_exec" {
 - `provisioner_file_connection_agent` - Set to false to disable using ssh-agent to authenticate. On Windows the only supported SSH authentication agent is Pageant. (`default = null`)
 - `provisioner_file_connection_agent_identity` - The preferred identity from the ssh agent for authentication. (`default = null`)
 - `provisioner_file_connection_host_key` - The public key from the remote host or the signing CA, used to verify the connection. (`default = null`)
-- `enable_provisioner_remote_exec` - Enable remote-exec provisioner (`default = False`)
+- `enable_provisioner_remote_exec_inline` - Enable remote-exec provisioner with inline (`default = False`)
+- `enable_provisioner_remote_exec_script` - Enable remote-exec provisioner with script (`default = False`)
+- `enable_provisioner_remote_exec_scripts` - Enable remote-exec provisioner with scripts (`default = False`)
 - `provisioner_remote_exec_inline` - This is a list of command strings. They are executed in the order they are provided. This cannot be provided with script or scripts. (`default = null`)
 - `provisioner_remote_exec_script` - This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed. This cannot be provided with inline or scripts. (`default = null`)
 - `provisioner_remote_exec_scripts` - This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed. They are executed in the order they are provided. This cannot be provided with inline or script. (`default = null`)

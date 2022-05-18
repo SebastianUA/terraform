@@ -55,7 +55,7 @@ module "provisioner_local_exec" {
 module "provisioner_remote_exec" {
   source = "../../modules/null_resource"
 
-  enable_provisioner_remote_exec = true
+  enable_provisioner_remote_exec_inline = true
 
   provisioner_remote_exec_connection_type = "ssh"
   provisioner_remote_exec_connection_user = "captain"
