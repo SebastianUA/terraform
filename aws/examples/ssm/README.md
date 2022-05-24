@@ -80,6 +80,8 @@ module "ssm" {
 - `ssm_association_automation_target_parameter_name` - (Optional) Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls. (`default = null`)
 - `ssm_association_output_location` - (Optional) An output location block. (`default = []`)
 - `ssm_association_targets` - (Optional) A block containing the targets of the SSM association. Targets are documented below. AWS currently supports a maximum of 5 targets. (`default = []`)
+- `ssm_association_apply_only_at_cron_interval` - (Optional) By default, when you create a new or update associations, the system runs it immediately and then according to the schedule you specified. Enable this option if you do not want an association to run immediately after you create or update it. This parameter is not supported for rate expressions. Default: false. (`default = null`)
+- `ssm_association_wait_for_success_timeout_seconds` - (Optional) The number of seconds to wait for the association status to be Success. If Success status is not reached within the given time, create opration will fail. (`default = null`)
 - `enable_ssm_document` - Enable ssm document usage (`default = False`)
 - `ssm_document_name` - The name of the document. (`default = ""`)
 - `ssm_document_document_type` - (Required) The type of the document. Valid document types include: Automation, Command, Package, Policy, and Session (`default = Command`)

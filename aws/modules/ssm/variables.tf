@@ -118,6 +118,16 @@ variable "ssm_association_targets" {
   default     = []
 }
 
+variable "ssm_association_apply_only_at_cron_interval" {
+  description = "(Optional) By default, when you create a new or update associations, the system runs it immediately and then according to the schedule you specified. Enable this option if you do not want an association to run immediately after you create or update it. This parameter is not supported for rate expressions. Default: false."
+  default     = null
+}
+
+variable "ssm_association_wait_for_success_timeout_seconds" {
+  description = "(Optional) The number of seconds to wait for the association status to be Success. If Success status is not reached within the given time, create opration will fail."
+  default     = null
+}
+
 #-----------------------------------------------------------
 # AWS SSM document
 #-----------------------------------------------------------

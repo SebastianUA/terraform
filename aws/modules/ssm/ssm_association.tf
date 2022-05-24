@@ -6,6 +6,7 @@ resource "aws_ssm_association" "ssm_association" {
 
   name = var.ssm_association_name != "" && !var.enable_ssm_document ? (var.ssm_document_name != "" ? lower(var.ssm_document_name) : "${lower(var.name)}-association-${lower(var.environment)}") : element(concat(aws_ssm_document.ssm_document.*.name, [""]), 0)
 
+  apply_only_at_cron_interval      = var.ssm_association_apply_only_at_cron_interval
   association_name                 = var.ssm_association_association_name
   document_version                 = var.ssm_association_document_version
   instance_id                      = var.ssm_association_instance_id
@@ -15,6 +16,7 @@ resource "aws_ssm_association" "ssm_association" {
   max_concurrency                  = var.ssm_association_max_concurrency
   max_errors                       = var.ssm_association_max_errors
   automation_target_parameter_name = var.ssm_association_automation_target_parameter_name
+  wait_for_success_timeout_seconds = var.ssm_association_wait_for_success_timeout_seconds
 
   dynamic "output_location" {
     iterator = output_location
@@ -22,7 +24,9 @@ resource "aws_ssm_association" "ssm_association" {
 
     content {
       s3_bucket_name = lookup(output_location.value, "s3_bucket_name", null)
-      s3_key_prefix  = lookup(output_location.value, "s3_key_prefix", null)
+
+      s3_key_prefix = lookup(output_location.value, "s3_key_prefix", null)
+      s3_region     = lookup(output_location.value, "s3_region", null)
     }
   }
 
