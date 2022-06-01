@@ -4,7 +4,7 @@
 
 # Create route table for private NAT gateway
 resource "aws_route" "private_nat_gateway" {
-  count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
+  count = var.enable_nat_gateway && length(var.private_subnet_cidrs) > 0 ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
 
   route_table_id         = element(aws_route_table.private_route_tables.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
@@ -33,7 +33,7 @@ resource "aws_route" "private_nat_gateway" {
 
 # Create route table for private NAT gateway for k8s
 resource "aws_route" "k8s_private_nat_gateway" {
-  count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
+  count = var.enable_nat_gateway && length(var.k8s_private_subnet_cidrs) > 0 ? (var.single_nat_gateway ? 1 : (length(var.azs) > 0 ? length(var.azs) : length(lookup(var.availability_zones, var.region)))) : 0
 
   route_table_id         = element(concat(aws_route_table.k8s_private_route_tables.*.id, [""]), count.index)
   destination_cidr_block = "0.0.0.0/0"
