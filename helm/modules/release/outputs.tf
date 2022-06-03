@@ -8,6 +8,5 @@ output "release_id" {
 
 output "release_metadata" {
   description = "Metadata of Helm release"
-  value       = helm_release.release[0].metadata
+  value       = concat(helm_release.release.*.metadata, [""])
 }
- 
