@@ -17,3 +17,15 @@ module "local_file" {
   file_file_permission      = 0777
   file_directory_permission = 0777
 }
+
+module "sensitive_file" {
+  source = "../../modules/file"
+
+  # Generate ramdom UUID
+  enable_sensitive_file   = true
+  sensitive_file_filename = "sensitive_file_name.txt"
+
+  sensitive_file_content              = "bla bla bla"
+  sensitive_file_file_permission      = 0777
+  sensitive_file_directory_permission = 0777
+}

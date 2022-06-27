@@ -7,7 +7,6 @@ resource "local_file" "file" {
   filename = var.file_filename
 
   content              = var.file_content
-  # local_sensitive_file    = var.local_sensitive_file
   content_base64       = var.file_content_base64
   source               = var.file_source
   file_permission      = var.file_file_permission
