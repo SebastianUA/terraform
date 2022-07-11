@@ -20,6 +20,7 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+
 module "rds_cluster" {
   source = "../../modules/rds"
 
@@ -242,7 +243,7 @@ module "db_instance-rds-oracle" {
 - `db_instance_character_set_name` - The character set name to use for DB encoding in Oracle instances. This can't be changed. For ex: utf8 (`default = ""`)
 - `db_instance_parameter_group_name` - Name of the DB parameter group to associate. For ex: default.mysql5.6 (`default = ""`)
 - `db_instance_maintenance_window` - The daily time range (in UTC) during which maintenance window are enabled. Must not overlap with backup_window. For ex: SUN 12:30AM-01:30AM ET (`default = sun:04:30-sun:05:30`)
-- `db_instance_replicate_source_db` - Specifies that this resource is a Replicate database, and to use this value as the source database. This correlates to the identifier of another Amazon RDS Database to replicate. (`default = ""`)
+- `db_instance_replicate_source_db` - Specifies that this resource is a Replicate database, and to use this value as the source database. This correlates to the identifier of another Amazon RDS Database to replicate. (`default = null`)
 - `db_instance_publicly_accessible` - (Optional) Bool to control if instance is publicly accessible. Default is false. (`default = False`)
 - `db_instance_multi_az` - If the RDS instance is multi AZ enabled. (`default = False`)
 - `db_instance_availability_zone` - (Optional) The AZ for the RDS instance. (`default = null`)
@@ -357,6 +358,7 @@ module "db_instance-rds-oracle" {
 - `db_instance_arn` - ""
 - `db_instance_addresses` - ""
 - `db_instance_hosted_zone_id` - Get DB instance hosted zone ID
+- `db_instance_endpoint` - Get DB instance hosted zone ID
 - `aws_db_subnet_group_id` - Get DB subnet group ID
 - `db_parameter_group_id` - Get DB parameter group ID
 - `db_cluster_snapshot_id` - Get DB cluster snapshot ID

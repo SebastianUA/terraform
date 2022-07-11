@@ -10,7 +10,7 @@ resource "random_string" "string" {
   min_upper        = var.string_min_upper
   lower            = var.string_lower
   min_lower        = var.string_min_lower
-  number           = var.string_number
+  numeric          = var.string_numeric
   min_numeric      = var.string_min_numeric
   special          = var.string_special
   min_special      = var.string_min_special

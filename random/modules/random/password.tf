@@ -4,7 +4,8 @@
 resource "random_password" "password" {
   count = var.enable_password ? 1 : 0
 
-  length           = var.password_length
+  length = var.password_length
+
   special          = var.password_special
   override_special = var.password_override_special
   lower            = var.password_lower
@@ -12,7 +13,7 @@ resource "random_password" "password" {
   min_numeric      = var.password_min_numeric
   min_special      = var.password_min_special
   min_upper        = var.password_min_upper
-  number           = var.password_number
+  numeric          = var.password_numeric
   upper            = var.password_upper
   keepers          = var.password_keepers
 

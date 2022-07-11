@@ -173,7 +173,7 @@ module "api_gateway_integration_staging_firehose" {
   apigatewayv2_integration_description        = "Lambda firehose"
   apigatewayv2_integration_integration_method = "ANY" # "POST"
   apigatewayv2_integration_integration_uri    = data.terraform_remote_state.testio_lambda_staging_firehose.outputs.lambda_staging_firehose_lambda_function_arn
-  apigatewayv2_integration_api_id = module.api_gateway_staging_firehose.apigatewayv2_api_id
+  apigatewayv2_integration_api_id             = module.api_gateway_staging_firehose.apigatewayv2_api_id
 
   depends_on = [
     module.api_gateway_staging_firehose
@@ -244,7 +244,7 @@ module "lambda_staging_firehose_trigger" {
 
   enable_lambda_permission        = true
   lambda_permission_function_name = "test-lambda-staging-firehose"
-  lambda_permission_source_arn = "arn:aws:execute-api:${data.aws_region.default.name}:${data.aws_caller_identity.default.account_id}:${module.api_gateway_staging_firehose.apigatewayv2_api_id}/default/*"
+  lambda_permission_source_arn    = "arn:aws:execute-api:${data.aws_region.default.name}:${data.aws_caller_identity.default.account_id}:${module.api_gateway_staging_firehose.apigatewayv2_api_id}/default/*"
 
   lambda_permission_action    = "lambda:InvokeFunction"
   lambda_permission_principal = "apigateway.amazonaws.com"

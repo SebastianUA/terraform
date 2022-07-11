@@ -10,7 +10,8 @@ provider "aws" {
 }
 
 module "route53" {
-  source      = "../../modules/route53"
+  source = "../../modules/route53"
+
   name        = "TEST-Route53"
   environment = "stage"
 
@@ -30,4 +31,29 @@ module "route53" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
+}
+
+module "route53_cname" {
+  source = "../../modules/route53"
+
+  name        = "TEST-Route53"
+  environment = "stage"
+
+  # Route53 record
+  enable_route53_record         = true
+  route53_record_type           = "CNAME"
+  route53_record_parent_zone_id = "Z16BBBIER89NH9"
+  route53_record_name           = "test.internal.linux-notes.org"
+  route53_record_ttl            = 300
+  route53_record_records = [
+    rds-mysql.crkkvblobbbp.us-east-1.rds.amazonaws.com
+  ]
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = []
 }

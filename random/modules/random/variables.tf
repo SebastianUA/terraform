@@ -44,7 +44,7 @@ variable "string_min_lower" {
   default     = null
 }
 
-variable "string_number" {
+variable "string_numeric" {
   description = "(Optional) (default true) Include numeric characters in random string."
   default     = null
 }
@@ -211,8 +211,8 @@ variable "password_min_upper" {
   default     = null
 }
 
-variable "password_number" {
-  description = "Set number"
+variable "password_numeric" {
+  description = "Set numbers"
   default     = null
 }
 

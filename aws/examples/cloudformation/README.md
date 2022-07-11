@@ -133,7 +133,7 @@ module "cloudformation" {
 - `cloudformation_stack_set_parameters` - (Optional) Key-value map of input parameters for the Stack Set template. All template parameters, including those with a Default, must be configured or ignored with lifecycle configuration block ignore_changes argument. All NoEcho template parameters must be ignored with the lifecycle configuration block ignore_changes argument. (`default = null`)
 - `cloudformation_stack_set_template_body` - (Optional) String containing the CloudFormation template body. Maximum size: 51,200 bytes. Conflicts with template_url. (`default = null`)
 - `cloudformation_stack_set_template_url` - (Optional) String containing the location of a file containing the CloudFormation template body. The URL must point to a template that is located in an Amazon S3 bucket. Maximum location file size: 460,800 bytes. Conflicts with template_body. (`default = null`)
-- `cloudformation_stack_set_timeouts` - Set timeouts for cloudformation stack set (`default = []`)
+- `cloudformation_stack_set_timeouts` - Set timeouts for cloudformation stack set (`default = {}`)
 - `enable_cloudformation_stack_set_instance` - Enable cloudformation stack set instance usage (`default = False`)
 - `cloudformation_stack_set_instance_stack_set_name` - Name of the Stack Set. (`default = ""`)
 - `cloudformation_stack_set_instance_account_id` - (Optional) Target AWS Account ID to create a Stack based on the Stack Set. Defaults to current account. (`default = null`)

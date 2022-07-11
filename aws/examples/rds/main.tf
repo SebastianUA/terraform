@@ -10,6 +10,7 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
+
 module "rds_cluster" {
   source = "../../modules/rds"
 

@@ -171,14 +171,14 @@ module "eks" {
 - `eks_cluster_version` - (Optional) Desired Kubernetes master version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except those automatically triggered by EKS. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by EKS. (`default = null`)
 - `eks_cluster_vpc_config` - (Required) Nested argument for the VPC associated with your cluster. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. (`default = []`)
 - `eks_cluster_encryption_config` - (Optional) Configuration block with encryption configuration for the cluster. Only available on Kubernetes 1.13 and above clusters created after March 6, 2020. (`default = []`)
-- `eks_cluster_timeouts` - Set timeouts for EKS cluster (`default = []`)
+- `eks_cluster_timeouts` - Set timeouts for EKS cluster (`default = {}`)
 - `enable_eks_fargate_profile` - Enable EKS fargate profile usage (`default = False`)
 - `eks_fargate_profile_name` - Name of the EKS Fargate Profile. (`default = ""`)
 - `eks_fargate_profile_cluster_name` - Name of the EKS Cluster. (`default = ""`)
 - `eks_fargate_profile_pod_execution_role_arn` - (Required) Amazon Resource Name (ARN) of the IAM Role that provides permissions for the EKS Fargate Profile. (`default = ""`)
 - `eks_fargate_profile_subnet_ids` - (Required) Identifiers of private EC2 Subnets to associate with the EKS Fargate Profile. These subnets must have the following resource tag: kubernetes.io/cluster/CLUSTER_NAME (where CLUSTER_NAME is replaced with the name of the EKS Cluster). (`default = []`)
 - `eks_fargate_profile_selector` - (Required) Configuration block(s) for selecting Kubernetes Pods to execute with this EKS Fargate Profile.  (`default = []`)
-- `eks_fargate_profile_timeouts` - Set timeouts for EKS fargate profile (`default = []`)
+- `eks_fargate_profile_timeouts` - Set timeouts for EKS fargate profile (`default = {}`)
 - `enable_eks_node_group` - Enable EKS node group usage (`default = False`)
 - `eks_node_group_node_group_name` - Name of the EKS Node Group. (`default = ""`)
 - `eks_node_group_cluster_name` - Name of the EKS Cluster. (`default = ""`)
@@ -194,7 +194,7 @@ module "eks" {
 - `eks_node_group_version` - (Optional) Kubernetes version. Defaults to EKS Cluster Kubernetes version. Terraform will only perform drift detection if a configuration value is provided. (`default = null`)
 - `eks_node_group_remote_access` - (Optional) Configuration block with remote access settings. (`default = []`)
 - `eks_node_group_launch_template` - (Optional) Configuration block with Launch Template settings. (`default = []`)
-- `eks_node_group_timeouts` - Set timeouts for EKS node group (`default = []`)
+- `eks_node_group_timeouts` - Set timeouts for EKS node group (`default = {}`)
 
 ## Module Output Variables
 ----------------------

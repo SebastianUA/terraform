@@ -85,13 +85,20 @@ output "db_instance_arn" {
 
 output "db_instance_addresses" {
   description = ""
-  value       = concat(aws_db_instance.db_instance.*.address, [""])
+  value       = element(concat(aws_db_instance.db_instance.*.address, [""]), 0)
 }
 
 output "db_instance_hosted_zone_id" {
   description = "Get DB instance hosted zone ID"
   value       = element(concat(aws_db_instance.db_instance.*.hosted_zone_id, [""]), 0)
 }
+
+output "db_instance_endpoint" {
+  description = "Get DB instance hosted zone ID"
+  value       = element(concat(aws_db_instance.db_instance.*.endpoint, [""]), 0)
+}
+
+
 
 #---------------------------------------------------
 # AWS DB subnet group
