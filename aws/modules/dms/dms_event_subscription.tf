@@ -5,7 +5,7 @@ resource "aws_dms_event_subscription" "dms_event_subscription" {
   count = var.enable_dms_event_subscription ? 1 : 0
 
   name          = var.dms_event_subscription_name != "" ? lower(var.dms_event_subscription_name) : "${lower(var.name)}-dms-event-subscription-${lower(var.environment)}"
-  source_ids    = concat(var.dms_event_subscription_source_ids, aws_dms_replication_task.dms_replication_task[count.index].replication_task_id)
+  source_ids    = concat(var.dms_event_subscription_source_ids, try(aws_dms_replication_task.dms_replication_task[count.index].replication_task_id, [""]))
   sns_topic_arn = var.dms_event_subscription_sns_topic_arn
 
   enabled          = var.dms_event_subscription_enabled
