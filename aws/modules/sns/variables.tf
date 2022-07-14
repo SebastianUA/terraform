@@ -153,7 +153,7 @@ variable "sns_topic_subscription_sns_protocol" {
   default     = "sqs"
 }
 
-variable "sns_topic_subscription_sns_endpoint" {
+variable "sns_topic_subscription_sns_endpoints" {
   description = "The list of endpoints to send data to, the contents will vary with the protocol."
   default     = []
 }
