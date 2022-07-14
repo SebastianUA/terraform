@@ -154,8 +154,8 @@ variable "sns_topic_subscription_sns_protocol" {
 }
 
 variable "sns_topic_subscription_sns_endpoint" {
-  description = "The endpoint to send data to, the contents will vary with the protocol."
-  default     = ""
+  description = "The list of endpoints to send data to, the contents will vary with the protocol."
+  default     = []
 }
 
 variable "sns_topic_subscription_confirmation_timeout_in_minutes" {

@@ -39,7 +39,7 @@ module "sns" {
   enable_sns_topic_subscription = true
 
   sns_topic_subscription_sns_protocol = "sqs"
-  sns_topic_subscription_sns_endpoint = "arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"
+  sns_topic_subscription_sns_endpoints = ["arn:aws:sqs:us-east-1:XXXXXXXXXXXXXXXX:my_sqs"]
 
   #
   enable_sns_platform_application = false
@@ -83,7 +83,7 @@ module "sns" {
 - `enable_sns_topic_subscription` - Enable sns topic subscription usage (`default = False`)
 - `sns_topic_subscription_topic_arn` - (Required) The ARN of the SNS topic to subscribe to (`default = ""`)
 - `sns_topic_subscription_sns_protocol` - The protocol to use. The possible values for this are: sqs, sms, lambda, application. (http or https are partially supported, see below) (email is option but unsupported). (`default = sqs`)
-- `sns_topic_subscription_sns_endpoint` - The endpoint to send data to, the contents will vary with the protocol. (`default = ""`)
+- `sns_topic_subscription_sns_endpoint` - The list of endpoints to send data to, the contents will vary with the protocol. (`default = []`)
 - `sns_topic_subscription_confirmation_timeout_in_minutes` - Set timeout in minutes. Integer indicating number of minutes to wait in retying mode for fetching subscription arn before marking it as failure. Only applicable for http and https protocols (default is 1 minute). (`default = 1`)
 - `sns_topic_subscription_endpoint_auto_confirms` - Enable endpoint auto confirms. Boolean indicating whether the end point is capable of auto confirming subscription e.g., PagerDuty (default is false) (`default = False`)
 - `sns_topic_subscription_raw_message_delivery` - Set raw message delivery.Boolean indicating whether or not to enable raw message delivery (the original message is directly passed, not wrapped in JSON with the original message in the message property) (default is false). (`default = False`)

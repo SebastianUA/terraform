@@ -2,7 +2,7 @@
 # AWS SNS topic subscription
 #---------------------------------------------------
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {
-  count = var.enable_sns_topic_subscription ? 1 : 0
+  count = var.enable_sns_topic_subscription ? lenght(var.sns_topic_subscription_sns_endpoints) : 0
 
   topic_arn = var.sns_topic_subscription_topic_arn != "" ? var.sns_topic_subscription_topic_arn : element(concat(aws_sns_topic.sns_topic.*.arn, [""]), 0)
 
@@ -11,7 +11,7 @@ resource "aws_sns_topic_subscription" "sns_topic_subscription" {
   raw_message_delivery            = var.sns_topic_subscription_raw_message_delivery
 
   protocol = var.sns_topic_subscription_sns_protocol
-  endpoint = var.sns_topic_subscription_sns_endpoint
+  endpoint = var.sns_topic_subscription_sns_endpoints[count.index]
 
   filter_policy   = var.sns_topic_subscription_filter_policy
   delivery_policy = var.sns_topic_subscription_delivery_policy
