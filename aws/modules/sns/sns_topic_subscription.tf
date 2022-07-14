@@ -2,7 +2,7 @@
 # AWS SNS topic subscription
 #---------------------------------------------------
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {
-  count = var.enable_sns_topic_subscription ? lenght(var.sns_topic_subscription_sns_endpoints) : 0
+  count = var.enable_sns_topic_subscription ? length(var.sns_topic_subscription_sns_endpoints) : 0
 
   topic_arn = var.sns_topic_subscription_topic_arn != "" ? var.sns_topic_subscription_topic_arn : element(concat(aws_sns_topic.sns_topic.*.arn, [""]), 0)
 
