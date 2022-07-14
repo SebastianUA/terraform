@@ -102,7 +102,6 @@ module "source_dms_endpoint" {
 - `dms_endpoint_mongodb_settings` - (Optional) Configuration block with MongoDB settings. (`default = {}`)
 - `dms_endpoint_s3_settings` - (Optional) Configuration block with S3 settings. (`default = {}`)
 - `enable_dms_replication_subnet_group` - Enable dms replication subnet group usage (`default = False`)
-- `dms_replication_subnet_group_name` - Set name for dms replication subnet group (`default = ""`)
 - `dms_replication_subnet_group_replication_subnet_group_description` - The description for the subnet group. (`default = ""`)
 - `dms_replication_subnet_group_replication_subnet_group_id` - The name for the replication subnet group. This value is stored as a lowercase string. (`default = ""`)
 - `dms_replication_subnet_group_subnet_ids` - (Required) A list of the EC2 subnet IDs for the subnet group. (`default = null`)

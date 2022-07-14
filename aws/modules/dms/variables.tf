@@ -151,11 +151,6 @@ variable "enable_dms_replication_subnet_group" {
   default     = false
 }
 
-variable "dms_replication_subnet_group_name" {
-  description = "Set name for dms replication subnet group"
-  default     = ""
-}
-
 variable "dms_replication_subnet_group_replication_subnet_group_description" {
   description = "The description for the subnet group."
   default     = ""
