@@ -6,7 +6,7 @@ resource "aws_dms_endpoint" "dms_endpoint" {
 
   endpoint_type = var.dms_endpoint_endpoint_type
   engine_name   = var.dms_endpoint_engine_name
-  endpoint_id   = var.dms_endpoint_endpoint_id
+  endpoint_id   = var.dms_endpoint_endpoint_id != "" ? lower(var.dms_endpoint_endpoint_id) : "${lower(var.name)}-dms-endpoint-${lower(var.environment)}"
 
   certificate_arn             = var.dms_endpoint_certificate_arn
   database_name               = var.dms_endpoint_database_name
@@ -86,7 +86,7 @@ resource "aws_dms_endpoint" "dms_endpoint" {
 
   tags = merge(
     {
-      Name = var.dms_endpoint_name != "" ? lower(var.dms_endpoint_name) : "${lower(var.name)}-dms-endpoint-${lower(var.environment)}"
+      Name = var.dms_endpoint_endpoint_id != "" ? lower(var.dms_endpoint_endpoint_id) : "${lower(var.name)}-dms-endpoint-${lower(var.environment)}"
     },
     var.tags
   )

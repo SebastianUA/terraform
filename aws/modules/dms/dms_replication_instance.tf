@@ -33,7 +33,7 @@ resource "aws_dms_replication_instance" "dms_replication_instance" {
 
   tags = merge(
     {
-      Name = var.dms_replication_instance_name != "" ? lower(var.dms_replication_instance_name) : "${lower(var.name)}-dms-replication-instance-${lower(var.environment)}"
+      Name = var.dms_replication_instance_replication_instance_id != "" ? var.dms_replication_instance_replication_instance_id : "${lower(var.name)}-dms-replication-instance-${lower(var.environment)}"
     },
     var.tags
   )

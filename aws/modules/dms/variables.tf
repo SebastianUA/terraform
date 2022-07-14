@@ -53,11 +53,6 @@ variable "enable_dms_endpoint" {
   default     = false
 }
 
-variable "dms_endpoint_name" {
-  description = "Set name for dms endpoint"
-  default     = ""
-}
-
 variable "dms_endpoint_endpoint_type" {
   description = "(Required) The type of endpoint. Can be one of source | target."
   default     = null
@@ -184,11 +179,6 @@ variable "enable_dms_replication_instance" {
   default     = false
 }
 
-variable "dms_replication_instance_name" {
-  description = "Set name for dms replication instance"
-  default     = ""
-}
-
 variable "dms_replication_instance_replication_instance_class" {
   description = "(Required) The compute and memory capacity of the replication instance as specified by the replication instance class. Can be one of dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge"
   default     = "dms.t2.micro"
@@ -270,11 +260,6 @@ variable "dms_replication_instance_timeouts" {
 variable "enable_dms_replication_task" {
   description = "Enable dms replication task usage"
   default     = false
-}
-
-variable "dms_replication_task_name" {
-  description = "Set name for dms replication task"
-  default     = ""
 }
 
 variable "dms_replication_task_migration_type" {

@@ -16,7 +16,7 @@ resource "aws_dms_replication_task" "dms_replication_task" {
 
   tags = merge(
     {
-      Name = var.dms_replication_task_name != "" ? lower(var.dms_replication_task_name) : "${lower(var.name)}-dms-replication-task-${lower(var.environment)}"
+      Name = var.dms_replication_task_replication_task_id != "" ? lower(var.dms_replication_task_replication_task_id) : "${lower(var.name)}-dms-replication-task-${lower(var.environment)}"
     },
     var.tags
   )
