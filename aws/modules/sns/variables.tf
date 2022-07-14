@@ -183,6 +183,21 @@ variable "sns_topic_subscription_delivery_policy" {
   default     = ""
 }
 
+variable "sns_topic_application_success_feedback_role_arn" {
+  description = "(Optional) The IAM role permitted to receive success feedback for this topic"
+  default     = null
+}
+
+variable "sns_topic_application_success_feedback_sample_rate" {
+  description = "(Optional) Percentage of success to sample"
+  default     = null
+}
+
+variable "sns_topic_application_failure_feedback_role_arn" {
+  description = "(Optional) IAM role for failure feedback"
+  default     = null
+}
+
 #---------------------------------------------------
 # SNS sms preferences
 #---------------------------------------------------
