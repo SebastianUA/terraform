@@ -32,7 +32,7 @@ resource "aws_dms_event_subscription" "dms_event_subscription" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [
+    ignore_changes = [
       source_ids
     ]
   }
