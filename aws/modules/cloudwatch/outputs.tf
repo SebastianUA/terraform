@@ -1,5 +1,5 @@
 #---------------------------------------------------
-# Create AWS CloudWatch metric
+# AWS CloudWatch metric
 #---------------------------------------------------
 output "cw_metric_alarm_arn" {
   description = "The ARN of the Cloudwatch metric alarm."
@@ -12,7 +12,7 @@ output "cw_metric_alarm_id" {
 }
 
 #---------------------------------------------------
-# Create AWS CloudWatch LOG
+# AWS CloudWatch Log
 #---------------------------------------------------
 output "cw_log_group_id" {
   description = ""
@@ -32,6 +32,16 @@ output "cw_log_group_arn" {
 output "cw_log_stream_arn" {
   description = ""
   value       = element(concat(aws_cloudwatch_log_stream.cw_log_stream.*.arn, [""]), 0)
+}
+
+output "cw_log_stream_name" {
+  description = ""
+  value       = element(concat(aws_cloudwatch_log_stream.cw_log_stream.*.name, [""]), 0)
+}
+
+output "cw_log_stream_id" {
+  description = ""
+  value       = element(concat(aws_cloudwatch_log_stream.cw_log_stream.*.id, [""]), 0)
 }
 
 output "cw_log_metric_filter_id" {

@@ -125,6 +125,8 @@ module "cloudwatch" {
 - `cw_log_group_name` - ""
 - `cw_log_group_arn` - ""
 - `cw_log_stream_arn` - ""
+- `cw_log_stream_name` - ""
+- `cw_log_stream_id` - ""
 - `cw_log_metric_filter_id` - ""
 - `cw_dashboard_arn` - ""
 - `cw_event_permission_id` - ""
