@@ -4,7 +4,7 @@
 resource "azurerm_mysql_active_directory_administrator" "mysql_active_directory_administrator" {
   count = var.enable_mysql_active_directory_administrator ? 1 : 0
 
-  server_name         = var.mysql_active_directory_administrator_server_name != "" ? var.mysql_active_directory_administrator_server_name : azurerm_mysql_server.mysql_server[count.index].name
+  server_name         = var.mysql_active_directory_administrator_server_name != "" ? var.mysql_active_directory_administrator_server_name : (var.enable_mysql_server ? azurerm_mysql_server.mysql_server[count.index].name : null)
   resource_group_name = var.mysql_active_directory_administrator_resource_group_name
   login               = var.mysql_active_directory_administrator_login
   object_id           = var.mysql_active_directory_administrator_object_id
