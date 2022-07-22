@@ -1,6 +1,6 @@
-# Work with TIME_SERIES_INSIGHTS via terraform
+# Work with NETAPP via terraform
 
-A terraform module for making TIME_SERIES_INSIGHTS.
+A terraform module for making NETAPP.
 
 
 ## Usage

@@ -1,6 +1,6 @@
-# Work with NET_APP via terraform
+# Work with IOT_TIME_SERIES_INSIGHTS via terraform
 
-A terraform module for making NET_APP.
+A terraform module for making IOT_TIME_SERIES_INSIGHTS.
 
 
 ## Usage

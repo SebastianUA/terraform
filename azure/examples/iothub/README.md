@@ -1,6 +1,6 @@
-# Work with IOT_HUB via terraform
+# Work with IOTHUB via terraform
 
-A terraform module for making IOT_HUB.
+A terraform module for making IOTHUB.
 
 
 ## Usage
