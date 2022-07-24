@@ -8,12 +8,57 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.1.0"
+      version = "=3.1.0"
     }
   }
 }
 
-
 provider "azurerm" {
-  # Configuration options
+  # The AzureRM Provider supports authenticating using via the Azure CLI, a Managed Identity
+  # and a Service Principal. More information on the authentication methods supported by
+  # the AzureRM Provider can be found here:
+  # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure
+
+  # The features block allows changing the behaviour of the Azure Provider, more
+  # information can be found here:
+  # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/features-block
+  features {}
+
+  // subscription_id = ""
+  // tenant_id       = ""
+}
+
+module "base_resource_group" {
+  source = "../../modules/base"
+
+  enable_resource_group   = true
+  resource_group_name     = "res-group"
+  resource_group_location = "West Europe"
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+}
+
+module "eventgrid_messaging" {
+  source = "../../modules/eventgrid_messaging"
+
+  enable_eventgrid_topic = true
+
+  eventgrid_topic_name                = "eventgrid-topic"
+  eventgrid_topic_location            = module.base_resource_group.resource_group_location
+  eventgrid_topic_resource_group_name = module.base_resource_group.resource_group_name
+
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
 }
