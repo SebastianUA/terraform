@@ -73,7 +73,7 @@ module "database_mysql" {
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
   mysql_configuration_parameters = [
     {
-      name = "test"
+      name  = "test"
       value = "test"
     }
   ]
