@@ -69,10 +69,14 @@ module "database_mysql" {
   mysql_server_ssl_minimal_tls_version_enforced  = "TLS1_2"
 
   // Enable MySQL configuration
-  enable_mysql_configuration              = false
-  mysql_configuration_name                = ""
+  enable_mysql_configuration              = true
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
-  mysql_configuration_value               = null
+  mysql_configuration_parameters = [
+    {
+      name = "test"
+      value = "test"
+    }
+  ]
 
   // Enable MySQL DB
   mysql_database_name                = "exampledb"

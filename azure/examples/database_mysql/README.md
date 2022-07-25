@@ -79,10 +79,14 @@ module "database_mysql" {
   mysql_server_ssl_minimal_tls_version_enforced  = "TLS1_2"
 
   // Enable MySQL configuration
-  enable_mysql_configuration              = false
-  mysql_configuration_name                = ""
+  enable_mysql_configuration              = true
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
-  mysql_configuration_value               = null
+  mysql_configuration_parameters = [
+    {
+      name = "test"
+      value = "test"
+    }
+  ]
 
   // Enable MySQL DB
   mysql_database_name                = "exampledb"
@@ -114,10 +118,9 @@ module "database_mysql" {
 - `mysql_active_directory_administrator_tenant_id` - (Required) The Azure Tenant ID (`default = null`)
 - `mysql_active_directory_administrator_timeouts` - Set timeouts for mysql active directory administrator (`default = {}`)
 - `enable_mysql_configuration` - Enable mysql configuration usage (`default = False`)
-- `mysql_configuration_name` - Specifies the name of the MySQL Configuration, which needs to be a valid MySQL configuration name. Changing this forces a new resource to be created. (`default = ""`)
 - `mysql_configuration_server_name` - Specifies the name of the MySQL Server. Changing this forces a new resource to be created. (`default = ""`)
 - `mysql_configuration_resource_group_name` - (Required) The name of the resource group in which the MySQL Server exists. Changing this forces a new resource to be created. (`default = null`)
-- `mysql_configuration_value` - (Required) Specifies the value of the MySQL Configuration. See the MySQL documentation for valid values. (`default = null`)
+- `mysql_configuration_parameters` - Set key/value parameters for MySQL (`default = []`)
 - `mysql_configuration_timeouts` - Set timeouts for mysql configuration (`default = {}`)
 - `enable_mysql_server` - Enable mysql server usage (`default = False`)
 - `mysql_server_name` - Specifies the name of the MySQL Server. Changing this forces a new resource to be created. This needs to be globally unique within Azure. (`default = ""`)
@@ -226,7 +229,7 @@ module "database_mysql" {
 - `mysql_flexible_server_replica_capacity` - The maximum number of replicas that a primary MySQL Flexible Server can have.
 - `mysql_flexible_server_firewall_rule_id` - The ID of the MySQL Firewall Rule.
 - `mysql_flexible_server_configuration_id` - The ID of the MySQL Flexible Server Configuration.
-- `mysql_flexible_server_configuration_id` - The ID of the MySQL Database.
+- `mysql_flexible_database_id` - The ID of the MySQL Database.
 
 
 ## Authors

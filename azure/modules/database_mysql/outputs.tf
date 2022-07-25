@@ -117,7 +117,7 @@ output "mysql_flexible_server_configuration_id" {
 #-----------------------------------------------------------
 # Azure mysql flexible database
 #-----------------------------------------------------------
-output "mysql_flexible_server_configuration_id" {
+output "mysql_flexible_database_id" {
   description = "The ID of the MySQL Database."
   value       = element(concat(azurerm_mysql_flexible_database.mysql_flexible_database.*.id, [""]), 0)
 }

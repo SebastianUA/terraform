@@ -62,11 +62,6 @@ variable "enable_mysql_configuration" {
   default     = false
 }
 
-variable "mysql_configuration_name" {
-  description = "Specifies the name of the MySQL Configuration, which needs to be a valid MySQL configuration name. Changing this forces a new resource to be created."
-  default     = ""
-}
-
 variable "mysql_configuration_server_name" {
   description = "Specifies the name of the MySQL Server. Changing this forces a new resource to be created."
   default     = ""
@@ -77,9 +72,9 @@ variable "mysql_configuration_resource_group_name" {
   default     = null
 }
 
-variable "mysql_configuration_value" {
-  description = "(Required) Specifies the value of the MySQL Configuration. See the MySQL documentation for valid values."
-  default     = null
+variable "mysql_configuration_parameters" {
+  description = "Set key/value parameters for MySQL"
+  default     = []
 }
 
 variable "mysql_configuration_timeouts" {
