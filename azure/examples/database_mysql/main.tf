@@ -57,7 +57,7 @@ module "database_mysql" {
   mysql_server_administrator_login_password = "H@Sh1CoR3!"
 
   mysql_server_sku_name   = "B_Gen5_2"
-  mysql_server_storage_mb = 30
+  mysql_server_storage_mb = 1024
   mysql_server_version    = "5.7"
 
   mysql_server_auto_grow_enabled                 = true
@@ -73,8 +73,16 @@ module "database_mysql" {
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
   mysql_configuration_parameters = [
     {
-      name  = "test"
-      value = "test"
+      name  = "binlog_format"
+      value = "ROW"
+    },
+    {
+      name  = "binlog_row_image"
+      value = "FULL"
+    },
+    {
+      name  = "expire_logs_days"
+      value = 7
     }
   ]
 

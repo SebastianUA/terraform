@@ -4,10 +4,10 @@
 resource "azurerm_mysql_configuration" "mysql_configuration" {
   count = var.enable_mysql_configuration ? length(var.mysql_configuration_parameters) : 0
 
-  name                = var.mysql_configuration_parameters[count.index]["name"]
-  server_name         = var.mysql_configuration_server_name != "" ? var.mysql_configuration_server_name : (var.enable_mysql_server ? azurerm_mysql_server.mysql_server[count.index].name : null)
+  name                = lookup(var.mysql_configuration_parameters[count.index], "name", null)
+  server_name         = var.mysql_configuration_server_name != "" ? var.mysql_configuration_server_name : (var.enable_mysql_server ? azurerm_mysql_server.mysql_server[0].name : null)
   resource_group_name = var.mysql_configuration_resource_group_name
-  value               = var.mysql_configuration_parameters[count.index]["value"]
+  value               = lookup(var.mysql_configuration_parameters[count.index], "value", null)
 
   dynamic "timeouts" {
     iterator = timeouts

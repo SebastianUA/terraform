@@ -2,12 +2,12 @@
 # Azure mysql flexible server configuration
 #-----------------------------------------------------------
 resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_configuration" {
-  count = var.enable_mysql_flexible_server_configuration ? 1 : 0
+  count = var.enable_mysql_flexible_server_configuration ? length(var.mysql_flexible_server_configuration_parameters) : 0
 
-  name                = var.mysql_flexible_server_configuration_name != "" ? var.mysql_flexible_server_configuration_name : "${lower(var.name)}-mysql-flexible-server-configuration-${lower(var.environment)}"
+  name                = lookup(var.mysql_flexible_server_configuration_parameters[count.index], "name", null)
   resource_group_name = var.mysql_flexible_server_configuration_resource_group_name
-  server_name         = var.mysql_flexible_server_configuration_server_name != "" ? var.mysql_flexible_server_configuration_server_name : (var.enable_mysql_server ? azurerm_mysql_flexible_server.mysql_flexible_server[count.index].name : null)
-  value               = var.mysql_flexible_server_configuration_value
+  server_name         = var.mysql_flexible_server_configuration_server_name != "" ? var.mysql_flexible_server_configuration_server_name : (var.enable_mysql_server ? azurerm_mysql_flexible_server.mysql_flexible_server[0].name : null)
+  value               = lookup(var.mysql_flexible_server_configuration_parameters[count.index], "value", null)
 
   dynamic "timeouts" {
     iterator = timeouts

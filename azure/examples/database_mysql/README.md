@@ -67,7 +67,7 @@ module "database_mysql" {
   mysql_server_administrator_login_password = "H@Sh1CoR3!"
 
   mysql_server_sku_name   = "B_Gen5_2"
-  mysql_server_storage_mb = 30
+  mysql_server_storage_mb = 1024
   mysql_server_version    = "5.7"
 
   mysql_server_auto_grow_enabled                 = true
@@ -83,8 +83,16 @@ module "database_mysql" {
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
   mysql_configuration_parameters = [
     {
-      name = "test"
-      value = "test"
+      name  = "binlog_format"
+      value = "ROW"
+    },
+    {
+      name  = "binlog_row_image"
+      value = "FULL"
+    },
+    {
+      name  = "expire_logs_days"
+      value = 7
     }
   ]
 
@@ -197,10 +205,9 @@ module "database_mysql" {
 - `mysql_flexible_server_firewall_rule_end_ip_address` - (Required) Specifies the End IP Address associated with this Firewall Rule. Changing this forces a new resource to be created. (`default = null`)
 - `mysql_flexible_server_firewall_rule_timeouts` - Set timeouts for mysql flexible server firewall rule (`default = {}`)
 - `enable_mysql_flexible_server_configuration` - Enable mysql flexible_server configuration usage (`default = False`)
-- `mysql_flexible_server_configuration_name` - Specifies the name of the MySQL Flexible Server Configuration, which needs to be a valid MySQL configuration name. Changing this forces a new resource to be created. (`default = ""`)
 - `mysql_flexible_server_configuration_resource_group_name` - (Required) The name of the resource group in which the MySQL Flexible Server exists. Changing this forces a new resource to be created. (`default = null`)
 - `mysql_flexible_server_configuration_server_name` - Specifies the name of the MySQL Flexible Server. Changing this forces a new resource to be created. (`default = ""`)
-- `mysql_flexible_server_configuration_value` - (Required) Specifies the value of the MySQL Flexible Server Configuration. See the MySQL documentation for valid values. (`default = null`)
+- `mysql_flexible_server_configuration_parameters` - Set list with key/value params (`default = []`)
 - `mysql_flexible_server_configuration_timeouts` - Set timeouts for mysql flexible server configuration (`default = {}`)
 - `enable_mysql_flexible_database` - Enable mysql flexible database usage (`default = False`)
 - `mysql_flexible_database_name` - Specifies the name of the MySQL Database, which needs to be a valid MySQL identifier. Changing this forces a new resource to be created. (`default = ""`)

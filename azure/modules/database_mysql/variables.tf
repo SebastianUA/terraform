@@ -481,11 +481,6 @@ variable "enable_mysql_flexible_server_configuration" {
   default     = false
 }
 
-variable "mysql_flexible_server_configuration_name" {
-  description = "Specifies the name of the MySQL Flexible Server Configuration, which needs to be a valid MySQL configuration name. Changing this forces a new resource to be created."
-  default     = ""
-}
-
 variable "mysql_flexible_server_configuration_resource_group_name" {
   description = "(Required) The name of the resource group in which the MySQL Flexible Server exists. Changing this forces a new resource to be created."
   default     = null
@@ -496,9 +491,9 @@ variable "mysql_flexible_server_configuration_server_name" {
   default     = ""
 }
 
-variable "mysql_flexible_server_configuration_value" {
-  description = "(Required) Specifies the value of the MySQL Flexible Server Configuration. See the MySQL documentation for valid values."
-  default     = null
+variable "mysql_flexible_server_configuration_parameters" {
+  description = "Set list with key/value params"
+  default     = []
 }
 
 variable "mysql_flexible_server_configuration_timeouts" {
