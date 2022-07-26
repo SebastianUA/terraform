@@ -83,16 +83,8 @@ module "database_mysql" {
   mysql_configuration_resource_group_name = module.base_resource_group.resource_group_name
   mysql_configuration_parameters = [
     {
-      name  = "binlog_format"
-      value = "ROW"
-    },
-    {
       name  = "binlog_row_image"
       value = "FULL"
-    },
-    {
-      name  = "expire_logs_days"
-      value = 7
     }
   ]
 
@@ -101,6 +93,24 @@ module "database_mysql" {
   mysql_database_resource_group_name = module.base_resource_group.resource_group_name
   mysql_database_charset             = "utf8"
   mysql_database_collation           = "utf8_unicode_ci"
+
+  // Enable MySQL firewall rule
+  enable_mysql_firewall_rule              = true
+  mysql_firewall_rule_resource_group_name =  module.base_resource_group.resource_group_name
+  mysql_firewall_rule_properties = [
+    {
+      name                = "Allow-all"
+      start_ip_address    = "0.0.0.0"
+      end_ip_address      = "255.255.255.255"
+    }
+  ]
+
+  // Enable MySQL virtual network rule
+  enable_mysql_virtual_network_rule              = true
+  mysql_virtual_network_rule_name                = "my-server-mysql"
+  mysql_virtual_network_rule_resource_group_name = module.base_resource_group.resource_group_name
+  mysql_virtual_network_rule_subnet_id           = data.azurerm_subnet.vnet.id
+
 
   tags = tomap({
     "Environment"   = "test",
@@ -111,6 +121,13 @@ module "database_mysql" {
   depends_on = [
     module.base_resource_group
   ]
+}
+
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet
+data "azurerm_subnet" "vnet" {
+  name                 = "vnet-subnet-default"
+  virtual_network_name = "vnet"
+  resource_group_name  = module.base_resource_group.resource_group_name
 }```
 
 ## Module Input Variables
@@ -170,11 +187,9 @@ module "database_mysql" {
 - `mysql_virtual_network_rule_subnet_id` - (Required) The ID of the subnet that the MySQL server will be connected to. (`default = null`)
 - `mysql_virtual_network_rule_timeouts` - Set timeouts for mysql virtual network rule (`default = {}`)
 - `enable_mysql_firewall_rule` - Enable mysql firewall rule usage (`default = False`)
-- `mysql_firewall_rule_name` - Specifies the name of the MySQL Firewall Rule. Changing this forces a new resource to be created. (`default = ""`)
 - `mysql_firewall_rule_server_name` - Specifies the name of the MySQL Server. Changing this forces a new resource to be created. (`default = ""`)
 - `mysql_firewall_rule_resource_group_name` - (Required) The name of the resource group in which the MySQL Server exists. Changing this forces a new resource to be created. (`default = null`)
-- `mysql_firewall_rule_start_ip_address` - (Required) Specifies the Start IP Address associated with this Firewall Rule. Changing this forces a new resource to be created. (`default = null`)
-- `mysql_firewall_rule_end_ip_address` - (Required) Specifies the End IP Address associated with this Firewall Rule. Changing this forces a new resource to be created. (`default = null`)
+- `mysql_firewall_rule_properties` - Set list with key/values that includes (name, start_ip_address, end_ip_address) (`default = []`)
 - `mysql_firewall_rule_timeouts` - Set timeouts for mysql firewall rule (`default = {}`)
 - `enable_mysql_flexible_server` - Enable mysql flexible server usage (`default = False`)
 - `mysql_flexible_server_name` - The name which should be used for this MySQL Flexible Server. Changing this forces a new MySQL Flexible Server to be created. (`default = ""`)

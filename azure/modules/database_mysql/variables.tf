@@ -297,11 +297,6 @@ variable "enable_mysql_firewall_rule" {
   default     = false
 }
 
-variable "mysql_firewall_rule_name" {
-  description = "Specifies the name of the MySQL Firewall Rule. Changing this forces a new resource to be created."
-  default     = ""
-}
-
 variable "mysql_firewall_rule_server_name" {
   description = "Specifies the name of the MySQL Server. Changing this forces a new resource to be created."
   default     = ""
@@ -312,14 +307,9 @@ variable "mysql_firewall_rule_resource_group_name" {
   default     = null
 }
 
-variable "mysql_firewall_rule_start_ip_address" {
-  description = "(Required) Specifies the Start IP Address associated with this Firewall Rule. Changing this forces a new resource to be created."
-  default     = null
-}
-
-variable "mysql_firewall_rule_end_ip_address" {
-  description = "(Required) Specifies the End IP Address associated with this Firewall Rule. Changing this forces a new resource to be created."
-  default     = null
+variable "mysql_firewall_rule_properties" {
+  description = "Set list with key/values that includes (name, start_ip_address, end_ip_address)"
+  default     = []
 }
 
 variable "mysql_firewall_rule_timeouts" {
