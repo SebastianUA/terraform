@@ -86,12 +86,12 @@ module "database_mysql" {
 
   // Enable MySQL firewall rule
   enable_mysql_firewall_rule              = true
-  mysql_firewall_rule_resource_group_name =  module.base_resource_group.resource_group_name
+  mysql_firewall_rule_resource_group_name = module.base_resource_group.resource_group_name
   mysql_firewall_rule_properties = [
     {
-      name                = "Allow-all"
-      start_ip_address    = "0.0.0.0"
-      end_ip_address      = "255.255.255.255"
+      name             = "Allow-all"
+      start_ip_address = "0.0.0.0"
+      end_ip_address   = "255.255.255.255"
     }
   ]
 
