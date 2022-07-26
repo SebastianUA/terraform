@@ -81,7 +81,8 @@ module "elasticsearch_domain_policy" {
 }
 POLICIES
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

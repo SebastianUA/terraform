@@ -105,7 +105,8 @@ EOF
   depends_on = [
     module.codeartifact_domain
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

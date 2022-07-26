@@ -1,4 +1,4 @@
-# Work with AWS APPLICATION via terraform
+# Work with APPLICATION via terraform
 
 A terraform module for making APPLICATION.
 
@@ -35,6 +35,7 @@ module "argocd_application" {
   source = "../../modules/application"
 
 }
+
 ```
 
 ## Module Input Variables

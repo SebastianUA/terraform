@@ -269,6 +269,7 @@ module "consul_config_entry_service_intentions-fort-knox" {
     module.consul_config_entry_sd
   ]
 }
+
 ```
 
 ## Module Input Variables

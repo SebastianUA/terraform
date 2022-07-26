@@ -74,7 +74,8 @@ module "container" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

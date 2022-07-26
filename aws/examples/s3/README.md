@@ -250,7 +250,8 @@ module "s3_bucket_public_access_block" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

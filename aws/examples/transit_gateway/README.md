@@ -75,6 +75,7 @@ module "transit_gateway" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

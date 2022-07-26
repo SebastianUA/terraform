@@ -32,6 +32,7 @@ module "kinesis_video" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

@@ -32,6 +32,7 @@ module "s3control" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

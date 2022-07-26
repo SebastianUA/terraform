@@ -32,6 +32,7 @@ module "docdb" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

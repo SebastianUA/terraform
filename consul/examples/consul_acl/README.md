@@ -93,6 +93,7 @@ module "consul_acl_complex" {
   # Create Consul acl token policy attachment
   enable_acl_token_policy_attachment = true
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_SPACE via terraform
+# Work with HEROKU_SPACE via terraform
 
 A terraform module for making HEROKU_SPACE.
 
@@ -78,6 +78,7 @@ module "heroku_space" {
   space_peering_connection_accepter_vpc_peering_connection_id = ""
 
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_INSTANCE_TEMPLATE via terraform
+# Work with COMPUTE_INSTANCE_TEMPLATE via terraform
 
 A terraform module for making COMPUTE_INSTANCE_TEMPLATE.
 
@@ -37,6 +37,7 @@ module "compute_instance_template" {
 
   service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro"]
 }
+
 ```
 
 ## Module Input Variables

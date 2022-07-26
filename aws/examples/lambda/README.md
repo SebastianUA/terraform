@@ -82,6 +82,7 @@ module "lambda" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

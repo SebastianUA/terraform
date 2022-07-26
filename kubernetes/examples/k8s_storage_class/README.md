@@ -53,6 +53,7 @@ module "k8s_storage_class" {
   storage_class_volume_binding_mode    = null
 
 }
+
 ```
 
 ## Module Input Variables

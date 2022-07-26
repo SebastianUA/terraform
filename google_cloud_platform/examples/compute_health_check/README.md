@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_HEALTH_CHECK via terraform
+# Work with COMPUTE_HEALTH_CHECK via terraform
 
 A terraform module for making COMPUTE_HEALTH_CHECK.
 
@@ -33,6 +33,7 @@ module "compute_health_check" {
   enable_compute_ssl_health_check   = true
   enable_compute_tcp_health_check   = true
 }
+
 ```
 
 ## Module Input Variables

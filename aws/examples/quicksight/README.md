@@ -25,6 +25,7 @@ module "quicksight" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

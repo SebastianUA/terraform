@@ -49,6 +49,7 @@ module "directory_service" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

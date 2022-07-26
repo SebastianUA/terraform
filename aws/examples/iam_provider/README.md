@@ -36,6 +36,7 @@ module "iam_provider" {
   iam_saml_provider_name                   = ""
   iam_saml_provider_saml_metadata_document = file("additional_files/saml-metadata.xml")
 }
+
 ```
 
 ## Module Input Variables

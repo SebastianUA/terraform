@@ -51,6 +51,7 @@ module "sns" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

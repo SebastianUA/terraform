@@ -32,6 +32,7 @@ module "autoscalingplans" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

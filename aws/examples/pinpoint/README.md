@@ -25,6 +25,7 @@ module "pinpoint" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

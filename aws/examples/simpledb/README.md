@@ -28,6 +28,7 @@ module "simpledb" {
   enable_simpledb_domain = true
   simpledb_domain_name   = ""
 }
+
 ```
 
 ## Module Input Variables

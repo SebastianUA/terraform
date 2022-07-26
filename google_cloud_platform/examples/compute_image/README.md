@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_IMAGE via terraform
+# Work with COMPUTE_IMAGE via terraform
 
 A terraform module for making COMPUTE_IMAGE.
 
@@ -28,6 +28,7 @@ module "compute_image" {
   project         = "terraform-2018"
   raw_disk_source = "https://storage.googleapis.com/my-bucket/my-disk-image-tarball.tar.gz"
 }
+
 ```
 
 ## Module Input Variables

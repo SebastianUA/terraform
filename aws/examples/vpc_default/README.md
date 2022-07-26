@@ -41,6 +41,7 @@ module "vpc_default" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

@@ -40,6 +40,7 @@ module "ebs" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

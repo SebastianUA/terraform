@@ -96,6 +96,7 @@ module "opsworks" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

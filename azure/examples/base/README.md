@@ -69,6 +69,7 @@ module "base_subscription" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

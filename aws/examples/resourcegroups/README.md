@@ -25,6 +25,7 @@ module "resourcegroups" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

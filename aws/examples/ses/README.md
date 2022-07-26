@@ -145,6 +145,7 @@ module "ses" {
     data.aws_iam_policy_document.iam_policy_document
   ]
 }
+
 ```
 
 ## Module Input Variables

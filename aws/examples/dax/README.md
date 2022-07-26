@@ -57,6 +57,7 @@ module "dax" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

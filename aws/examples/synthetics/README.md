@@ -32,6 +32,7 @@ module "synthetics" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

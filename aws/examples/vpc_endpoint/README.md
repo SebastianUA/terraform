@@ -142,6 +142,7 @@ module "vpc_endpoint_service" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

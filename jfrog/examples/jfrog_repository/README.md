@@ -1,4 +1,4 @@
-# Work with AWS JFROG_REPOSITORY via terraform
+# Work with JFROG_REPOSITORY via terraform
 
 A terraform module for making JFROG_REPOSITORY.
 
@@ -76,7 +76,8 @@ module "jfrog_virtual_repository" {
   virtual_repository_key          = "virtual-repo-1"
   virtual_repository_package_type = "maven"
   virtual_repository_repositories = []
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

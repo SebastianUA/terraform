@@ -89,6 +89,7 @@ module "appautoscaling" {
     max_capacity = 3
   }]
 }
+
 ```
 
 ## Module Input Variables

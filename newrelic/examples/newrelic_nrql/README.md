@@ -1,4 +1,4 @@
-# Work with AWS NEWRELIC_NRQL via terraform
+# Work with NEWRELIC_NRQL via terraform
 
 A terraform module for making NEWRELIC_NRQL.
 
@@ -51,6 +51,7 @@ module "newrelic_nrql" {
   nrql_alert_condition_nrql_query = "SELECT count(*) FROM SyntheticCheck WHERE monitorId = '1'"
 
 }
+
 ```
 
 ## Module Input Variables

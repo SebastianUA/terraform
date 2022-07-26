@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_ROUTER via terraform
+# Work with COMPUTE_ROUTER via terraform
 
 A terraform module for making COMPUTE_ROUTER.
 
@@ -76,6 +76,7 @@ module "compute_router_peer" {
   interface                  = element(module.compute_router_interface.google_compute_router_interface_name, 0)
   peer_ip_address            = "169.254.1.2"
 }
+
 ```
 
 ## Module Input Variables

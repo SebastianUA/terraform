@@ -82,7 +82,8 @@ module "database_migration" {
     module.base_resource_group
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

@@ -87,7 +87,8 @@ module "provisioner_remote_exec" {
   provisioner_remote_exec_connection_timeout     = 60
   provisioner_remote_exec_connection_script_path = "./"
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

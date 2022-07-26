@@ -1,4 +1,4 @@
-# Work with AWS NEWRELIC_INFRA via terraform
+# Work with NEWRELIC_INFRA via terraform
 
 A terraform module for making NEWRELIC_INFRA.
 
@@ -59,6 +59,7 @@ module "newrelic_infra" {
   #
   infra_alert_condition_with_warning = true
 }
+
 ```
 
 ## Module Input Variables

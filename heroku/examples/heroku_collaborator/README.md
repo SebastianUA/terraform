@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_COLLABORATOR via terraform
+# Work with HEROKU_COLLABORATOR via terraform
 
 A terraform module for making HEROKU_COLLABORATOR.
 
@@ -46,6 +46,7 @@ module "heroku_collaborator" {
   collaborator_app    = "your-app-here"
   collaborator_email  = "solo.metal@bigmir.net"
 }
+
 ```
 
 ## Module Input Variables

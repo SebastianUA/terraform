@@ -25,6 +25,7 @@ module "lightsail" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

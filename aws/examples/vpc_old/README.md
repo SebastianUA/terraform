@@ -94,6 +94,7 @@ module "vpc" {
     module.s3_flow_logs
   ]
 }
+
 ```
 
 ## Module Input Variables

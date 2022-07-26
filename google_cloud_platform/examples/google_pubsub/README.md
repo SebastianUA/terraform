@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_PUBSUB via terraform
+# Work with GOOGLE_PUBSUB via terraform
 
 A terraform module for making GOOGLE_PUBSUB.
 
@@ -48,6 +48,7 @@ module "google_pubsub" {
   #enable_pubsub_subscription_iam_member  = true
   #members                                = ["OWNER:solo.metal@bigmir.net"]
 }
+
 ```
 
 ## Module Input Variables

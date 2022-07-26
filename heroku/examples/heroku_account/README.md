@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_ACCOUNT via terraform
+# Work with HEROKU_ACCOUNT via terraform
 
 A terraform module for making HEROKU_ACCOUNT.
 
@@ -46,6 +46,7 @@ module "heroku_account" {
   account_feature_name    = "metrics-request-volume"
   account_feature_enabled = true
 }
+
 ```
 
 ## Module Input Variables

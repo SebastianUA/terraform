@@ -63,6 +63,7 @@ module "storagegateway_stored_iscsi_volume" {
     data.aws_storagegateway_local_disk.storagegateway_local_disk
   ]
 }
+
 ```
 
 ## Module Input Variables

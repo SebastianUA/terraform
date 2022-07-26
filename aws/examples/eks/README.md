@@ -156,6 +156,7 @@ module "eks" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

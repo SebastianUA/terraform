@@ -32,6 +32,7 @@ module "imagebuilder" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS ENDPOINTS_SERVICE via terraform
+# Work with ENDPOINTS_SERVICE via terraform
 
 A terraform module for making ENDPOINTS_SERVICE.
 
@@ -35,6 +35,7 @@ module "endpoints_service" {
 
   service_name = "api-name.endpoints.terraform-2018.cloud.goog"
 }
+
 ```
 
 ## Module Input Variables

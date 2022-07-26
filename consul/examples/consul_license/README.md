@@ -46,6 +46,7 @@ module "consul_license" {
   license            = file("additional_files/license.hclic")
   license_datacenter = "dc2"
 }
+
 ```
 
 ## Module Input Variables

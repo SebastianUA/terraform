@@ -82,6 +82,7 @@ module "iam_user" {
     data.external.python3_iam_users
   ]
 }
+
 ```
 
 ## Module Input Variables

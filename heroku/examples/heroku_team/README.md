@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_TEAM via terraform
+# Work with HEROKU_TEAM via terraform
 
 A terraform module for making HEROKU_TEAM.
 
@@ -55,7 +55,8 @@ module "team_member" {
   team_member_team   = ""
   team_member_email  = "your_email_here"
   team_member_role   = "member"
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

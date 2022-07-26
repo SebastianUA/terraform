@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_SSL via terraform
+# Work with COMPUTE_SSL via terraform
 
 A terraform module for making COMPUTE_SSL.
 
@@ -52,6 +52,7 @@ module "compute_ssl_certificate" {
   private_key                    = "/Users/captain/.ssh/gcloud_id_rsa"
   certificate                    = "/Users/captain/.ssh/certificate"
 }
+
 ```
 
 ## Module Input Variables

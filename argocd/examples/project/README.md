@@ -1,4 +1,4 @@
-# Work with AWS PROJECT via terraform
+# Work with PROJECT via terraform
 
 A terraform module for making PROJECT.
 
@@ -35,6 +35,7 @@ module "argocd_project" {
   source = "../../modules/project"
 
 }
+
 ```
 
 ## Module Input Variables

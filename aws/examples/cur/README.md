@@ -37,6 +37,7 @@ module "cur" {
   cur_report_definition_s3_region = "us-east-1"
   cur_report_definition_s3_prefix = null
 }
+
 ```
 
 ## Module Input Variables

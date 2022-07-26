@@ -42,6 +42,7 @@ module "waf" {
   waf_rule_metric_name = "test"
   waf_rule_predicates  = []
 }
+
 ```
 
 ## Module Input Variables

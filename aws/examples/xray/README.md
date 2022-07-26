@@ -58,6 +58,7 @@ module "xray" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

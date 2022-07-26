@@ -1,4 +1,4 @@
-# Work with AWS REDIS_INSTANCE via terraform
+# Work with REDIS_INSTANCE via terraform
 
 A terraform module for making REDIS_INSTANCE.
 
@@ -27,6 +27,7 @@ module "redis_instance" {
   authorized_network = "default"
   reserved_ip_range  = "192.168.0.0/29"
 }
+
 ```
 
 ## Module Input Variables

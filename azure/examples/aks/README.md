@@ -74,7 +74,8 @@ module "aks" {
   depends_on = [
     module.base_resource_group
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

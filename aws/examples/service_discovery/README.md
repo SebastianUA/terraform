@@ -26,6 +26,7 @@ module "service_discovery" {
   environment = "stage"
 
 }
+
 ```
 
 ## Module Input Variables

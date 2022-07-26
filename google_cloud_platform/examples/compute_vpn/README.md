@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_VPN via terraform
+# Work with COMPUTE_VPN via terraform
 
 A terraform module for making COMPUTE_VPN.
 
@@ -41,6 +41,7 @@ module "compute_vpn_tunnel" {
   local_traffic_selector  = []
   remote_traffic_selector = []
 }
+
 ```
 
 ## Module Input Variables

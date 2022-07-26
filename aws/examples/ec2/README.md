@@ -45,6 +45,7 @@ module "ec2" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

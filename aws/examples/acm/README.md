@@ -116,7 +116,8 @@ module "acm_certificate_private_ca" {
   depends_on = [
     module.acmpca_certificate_authority
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

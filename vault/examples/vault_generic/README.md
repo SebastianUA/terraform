@@ -106,6 +106,7 @@ module "generic_secret" {
 
   depends_on = []
 }
+
 ```
 
 ## Module Input Variables

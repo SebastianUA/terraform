@@ -32,6 +32,7 @@ module "wafv2" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

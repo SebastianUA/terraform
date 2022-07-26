@@ -1,4 +1,4 @@
-# Work with AWS SOURCEREPO_REPOSITORY via terraform
+# Work with SOURCEREPO_REPOSITORY via terraform
 
 A terraform module for making SOURCEREPO_REPOSITORY.
 
@@ -26,6 +26,7 @@ module "sourcerepo_repository" {
   name   = "TEST"
 
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_INSTANCE_GROUP_MANAGER via terraform
+# Work with COMPUTE_INSTANCE_GROUP_MANAGER via terraform
 
 A terraform module for making COMPUTE_INSTANCE_GROUP_MANAGER.
 
@@ -103,6 +103,7 @@ module "compute_instance_group_manager" {
   #auto_healing_policies_health_check          = "${element(module.compute_health_check.http_self_link, 0)}"
   target_size = 0
 }
+
 ```
 
 ## Module Input Variables
@@ -139,7 +140,7 @@ module "compute_instance_group_manager" {
 - `name` - Name of compute instance group manager
 - `self_link` - self_link
 - `instance_group` - Instance group
-- `gm_self_link_default` - self_link
+- `gm_self_link_default` - gm_self_link_default
 
 
 ## Authors

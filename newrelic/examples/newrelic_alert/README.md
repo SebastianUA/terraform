@@ -1,4 +1,4 @@
-# Work with AWS NEWRELIC_ALERT via terraform
+# Work with NEWRELIC_ALERT via terraform
 
 A terraform module for making NEWRELIC_ALERT.
 
@@ -209,6 +209,7 @@ module "alert_condition_deadlocked_threads" {
   alert_policy_channel_ids = element(module.newrelic_alert.alert_channel_slack_id, 0)
   #alert_policy_channel_id                                         = [element(module.newrelic_alert.alert_channel_email_id, 0), element(module.newrelic_alert.alert_channel_slack_id, 0)]
 }
+
 ```
 
 ## Module Input Variables

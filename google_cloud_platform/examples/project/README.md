@@ -1,4 +1,4 @@
-# Work with AWS PROJECT via terraform
+# Work with PROJECT via terraform
 
 A terraform module for making PROJECT.
 
@@ -38,6 +38,7 @@ module "project" {
   google_project_services = ["iam.googleapis.com", "cloudresourcemanager.googleapis.com"]
 
 }
+
 ```
 
 ## Module Input Variables

@@ -62,6 +62,7 @@ module "cloudwatch" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

@@ -38,6 +38,7 @@ module "fsx" {
   fsx_windows_file_system_subnet_ids          = ["sub-4344c4d"]
   fsx_windows_file_system_throughput_capacity = 32
 }
+
 ```
 
 ## Module Input Variables

@@ -47,6 +47,7 @@ module "consul_autopilot_config" {
   autopilot_config_last_contact_threshold = "1s"
   autopilot_config_max_trailing_logs      = 500
 }
+
 ```
 
 ## Module Input Variables

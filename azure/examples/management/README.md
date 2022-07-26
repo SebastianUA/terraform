@@ -91,7 +91,8 @@ module "management_group_child" {
     module.management_group_parent,
     data.azurerm_subscription.current
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

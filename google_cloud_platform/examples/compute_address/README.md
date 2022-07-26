@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_ADDRESS via terraform
+# Work with COMPUTE_ADDRESS via terraform
 
 A terraform module for making COMPUTE_ADDRESS.
 
@@ -28,6 +28,7 @@ module "compute_address" {
   enable_compute_address        = true
   enable_compute_global_address = true
 }
+
 ```
 
 ## Module Input Variables

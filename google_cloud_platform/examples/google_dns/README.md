@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_DNS via terraform
+# Work with GOOGLE_DNS via terraform
 
 A terraform module for making GOOGLE_DNS.
 
@@ -33,6 +33,7 @@ module "google_dns" {
   managed_zone          = "test-dns-mz-stage"
   rrdatas               = ["8.8.8.8"]
 }
+
 ```
 
 ## Module Input Variables

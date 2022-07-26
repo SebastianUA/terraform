@@ -48,6 +48,7 @@ module "waf" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

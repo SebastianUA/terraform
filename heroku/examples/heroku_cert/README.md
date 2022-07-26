@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_CERT via terraform
+# Work with HEROKU_CERT via terraform
 
 A terraform module for making HEROKU_CERT.
 
@@ -48,6 +48,7 @@ module "heroku_cert" {
   cert_private_key       = file("additional_files/server.key")
 
 }
+
 ```
 
 ## Module Input Variables

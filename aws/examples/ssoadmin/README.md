@@ -90,6 +90,7 @@ module "ssoadmin" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

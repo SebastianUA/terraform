@@ -25,6 +25,7 @@ module "kinesis_firehose" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

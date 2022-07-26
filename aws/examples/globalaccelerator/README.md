@@ -59,6 +59,7 @@ module "globalaccelerator" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

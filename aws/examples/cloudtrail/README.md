@@ -117,7 +117,8 @@ module "cloudtrail_event_selector_s3" {
     "Orchestration" = "Terraform"
   })
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

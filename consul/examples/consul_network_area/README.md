@@ -47,6 +47,7 @@ module "consul_network_area" {
   network_area_retry_join      = ["1.2.3.4"]
   network_area_use_tls         = true
 }
+
 ```
 
 ## Module Input Variables

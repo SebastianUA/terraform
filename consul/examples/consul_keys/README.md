@@ -92,6 +92,7 @@ module "consul_key_prefix" {
     }
   ]
 }
+
 ```
 
 ## Module Input Variables

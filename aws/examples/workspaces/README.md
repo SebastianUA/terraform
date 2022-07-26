@@ -102,6 +102,7 @@ module "workspaces" {
     data.aws_workspaces_bundle.bundle_windows_10
   ]
 }
+
 ```
 
 ## Module Input Variables

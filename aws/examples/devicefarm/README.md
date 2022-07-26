@@ -28,6 +28,7 @@ module "devicefarm" {
   enable_devicefarm_project = true
   devicefarm_project_name   = ""
 }
+
 ```
 
 ## Module Input Variables

@@ -34,6 +34,7 @@ module "iam_server" {
   iam_server_certificate_chain = null
   iam_server_certificate_path  = "/"
 }
+
 ```
 
 ## Module Input Variables

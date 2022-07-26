@@ -38,6 +38,7 @@ module "codestarnotifications" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

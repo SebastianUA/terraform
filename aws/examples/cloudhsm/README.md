@@ -36,6 +36,7 @@ module "cloudhsm" {
   enable_cloudhsm_v2_hsm    = true
   cloudhsm_v2_hsm_subnet_id = "subnet-8851dea6"
 }
+
 ```
 
 ## Module Input Variables

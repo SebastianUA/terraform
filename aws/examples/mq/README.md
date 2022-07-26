@@ -74,6 +74,7 @@ module "mq" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

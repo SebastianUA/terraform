@@ -59,6 +59,7 @@ module "token_auth_backend_role" {
   token_auth_backend_role_path_suffix            = "path-suffix"
 
 }
+
 ```
 
 ## Module Input Variables

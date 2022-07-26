@@ -103,7 +103,8 @@ module "k8s_role_binding" {
   depends_on = [
     module.k8s_role
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_RUNTIMECONFIG via terraform
+# Work with GOOGLE_RUNTIMECONFIG via terraform
 
 A terraform module for making GOOGLE_RUNTIMECONFIG.
 
@@ -36,6 +36,7 @@ module "google_runtimeconfig" {
   #value                                       = "test2"
   #value_file                                  = "files/file_name.dat"
 }
+
 ```
 
 ## Module Input Variables

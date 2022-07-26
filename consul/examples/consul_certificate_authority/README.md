@@ -73,6 +73,7 @@ module "consul_certificate_authority_aws-pca" {
     existing_arn = "arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-123456789012"
   }
 }
+
 ```
 
 ## Module Input Variables

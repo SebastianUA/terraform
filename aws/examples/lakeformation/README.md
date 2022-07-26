@@ -32,6 +32,7 @@ module "lakeformation" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

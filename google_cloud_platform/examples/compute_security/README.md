@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_SECURITY via terraform
+# Work with COMPUTE_SECURITY via terraform
 
 A terraform module for making COMPUTE_SECURITY.
 
@@ -51,6 +51,7 @@ module "compute_security" {
     },
   ]
 }
+
 ```
 
 ## Module Input Variables

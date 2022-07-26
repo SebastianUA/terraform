@@ -32,6 +32,7 @@ module "lex" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

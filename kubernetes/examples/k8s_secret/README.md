@@ -67,7 +67,8 @@ module "k8s_secret" {
     ssh-publickey  = filebase64("./additional_files/rsa-key.pub")
   }
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

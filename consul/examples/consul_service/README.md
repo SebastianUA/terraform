@@ -74,15 +74,20 @@ module "consul_service" {
       timeout                           = "1s"
       deregister_critical_service_after = "30s"
 
-      header_name  = "foo"
-      header_value = ["test"]
+      header = [
+        {
+          name  = "foo"
+          value = ["test"]
+        }
+      ]
     }
   ]
 
   depends_on = [
     module.consul_node
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

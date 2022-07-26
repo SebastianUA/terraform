@@ -74,6 +74,7 @@ module "consul_prepared_query" {
 
   prepared_query_tags = ["active", "!standby"]
 }
+
 ```
 
 ## Module Input Variables

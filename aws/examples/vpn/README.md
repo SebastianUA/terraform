@@ -44,6 +44,7 @@ module "vpc_vpn" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

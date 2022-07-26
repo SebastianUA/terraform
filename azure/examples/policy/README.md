@@ -78,7 +78,8 @@ PARAMETERS
   })
 
   depends_on = []
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

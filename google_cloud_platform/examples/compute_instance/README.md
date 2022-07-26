@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_INSTANCE via terraform
+# Work with COMPUTE_INSTANCE via terraform
 
 A terraform module for making COMPUTE_INSTANCE.
 
@@ -34,6 +34,7 @@ module "compute_instance" {
   enable_attached_disk = false
   attached_disk_source = "test-disk-1"
 }
+
 ```
 
 ## Module Input Variables

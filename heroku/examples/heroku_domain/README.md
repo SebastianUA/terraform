@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_DOMAIN via terraform
+# Work with HEROKU_DOMAIN via terraform
 
 A terraform module for making HEROKU_DOMAIN.
 
@@ -46,6 +46,7 @@ module "heroku_domain" {
   domain_app      = "your-app-here"
   domain_hostname = "terraform.linux-notes.org"
 }
+
 ```
 
 ## Module Input Variables

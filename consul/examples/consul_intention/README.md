@@ -97,6 +97,7 @@ module "consul_intention" {
     module.consul_service
   ]
 }
+
 ```
 
 ## Module Input Variables

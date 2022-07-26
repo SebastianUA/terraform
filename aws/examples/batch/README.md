@@ -47,6 +47,7 @@ module "batch" {
   batch_job_queue_compute_environments = []
 
 }
+
 ```
 
 ## Module Input Variables

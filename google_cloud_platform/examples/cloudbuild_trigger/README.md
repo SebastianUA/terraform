@@ -1,4 +1,4 @@
-# Work with AWS CLOUDBUILD_TRIGGER via terraform
+# Work with CLOUDBUILD_TRIGGER via terraform
 
 A terraform module for making CLOUDBUILD_TRIGGER.
 
@@ -32,6 +32,7 @@ module "cloudbuild_trigger" {
   trigger_template_branch_name       = "master"
 
 }
+
 ```
 
 ## Module Input Variables

@@ -160,7 +160,8 @@ module "asg" {
     }
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

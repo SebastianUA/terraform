@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_CLOUDFUNCTIONS via terraform
+# Work with GOOGLE_CLOUDFUNCTIONS via terraform
 
 A terraform module for making GOOGLE_CLOUDFUNCTIONS.
 
@@ -50,6 +50,7 @@ module "google_cloudfunctions" {
   source_archive_object = element(module.storage_bucket_object.google_storage_bucket_object_name, 0)
   entry_point           = "MyFunction"
 }
+
 ```
 
 ## Module Input Variables

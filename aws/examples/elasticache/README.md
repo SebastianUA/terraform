@@ -104,6 +104,7 @@ module "elasticache_single_memcached" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

@@ -81,6 +81,7 @@ module "elasticbeanstalk" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

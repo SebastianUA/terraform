@@ -25,6 +25,7 @@ module "direct_connect" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

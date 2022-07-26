@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_ADDON via terraform
+# Work with HEROKU_ADDON via terraform
 
 A terraform module for making HEROKU_ADDON.
 
@@ -58,6 +58,7 @@ module "heroku_addon" {
   addon_attachment_app_id    = "your-app-id-here"
   addon_attachment_namespace = "credential: cred_name_here"
 }
+
 ```
 
 ## Module Input Variables

@@ -27,6 +27,7 @@ module "prometheus" {
   enable_prometheus_workspace = true
   prometheus_workspace_alias  = "prometheus-test"
 }
+
 ```
 
 ## Module Input Variables

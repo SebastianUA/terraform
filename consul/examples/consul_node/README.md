@@ -51,6 +51,7 @@ module "consul_node" {
     foo = "bar"
   }
 }
+
 ```
 
 ## Module Input Variables

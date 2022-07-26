@@ -54,6 +54,7 @@ module "ssm" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

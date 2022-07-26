@@ -28,6 +28,7 @@ module "servicecatalog" {
   servicecatalog_portfolio_description   = ""
   servicecatalog_portfolio_provider_name = "captain"
 }
+
 ```
 
 ## Module Input Variables

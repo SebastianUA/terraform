@@ -33,6 +33,7 @@ module "access_analyzer" {
     "Createdby"   = "Vitalii Natarov"
   })
 }
+
 ```
 
 ## Module Input Variables

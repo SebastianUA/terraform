@@ -121,6 +121,7 @@ module "athena" {
   depends_on = [module.kms]
 
 }
+
 ```
 
 ## Module Input Variables

@@ -25,6 +25,7 @@ module "mediapackage" {
   name        = "TEST"
   environment = "stage"
 }
+
 ```
 
 ## Module Input Variables

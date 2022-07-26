@@ -44,6 +44,7 @@ module "sqs" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

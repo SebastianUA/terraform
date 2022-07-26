@@ -1,4 +1,4 @@
-# Work with AWS STORAGE_BUCKET via terraform
+# Work with STORAGE_BUCKET via terraform
 
 A terraform module for making STORAGE_BUCKET.
 
@@ -104,6 +104,7 @@ module "storage_notification" {
   topic  = "my-topic"
   bucket = "test-sb-stage"
 }
+
 ```
 
 ## Module Input Variables

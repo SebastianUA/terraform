@@ -52,6 +52,7 @@ module "random" {
   id_byte_length = 8
 
 }
+
 ```
 
 ## Module Input Variables

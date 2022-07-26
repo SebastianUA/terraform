@@ -26,7 +26,8 @@ terraform {
 
 provider "azurerm" {
   # Configuration options
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

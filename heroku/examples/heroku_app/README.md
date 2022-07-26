@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_APP via terraform
+# Work with HEROKU_APP via terraform
 
 A terraform module for making HEROKU_APP.
 
@@ -89,6 +89,7 @@ module "heroku_app" {
   app_webhook_secret        = null
   app_webhook_authorization = null
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_BIGTABLE via terraform
+# Work with GOOGLE_BIGTABLE via terraform
 
 A terraform module for making GOOGLE_BIGTABLE.
 
@@ -42,6 +42,7 @@ module "google_bigtable_table" {
   split_keys               = ["a", "b", "c"]
 
 }
+
 ```
 
 ## Module Input Variables

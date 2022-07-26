@@ -1,4 +1,4 @@
-# Work with AWS NEWRELIC_SYNTHETICS via terraform
+# Work with NEWRELIC_SYNTHETICS via terraform
 
 A terraform module for making NEWRELIC_SYNTHETICS.
 
@@ -50,6 +50,7 @@ module "newrelic_synthetics" {
   synthetics_alert_condition_name      = "test"
   synthetics_monitor_name              = "linux-notes"
 }
+
 ```
 
 ## Module Input Variables

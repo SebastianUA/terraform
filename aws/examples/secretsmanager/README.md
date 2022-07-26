@@ -48,6 +48,7 @@ module "secretsmanager" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

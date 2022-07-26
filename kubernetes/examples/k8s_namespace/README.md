@@ -100,7 +100,8 @@ module "k8s_namespace_multiple_suffixes" {
     mylabel = "label-value"
   }
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

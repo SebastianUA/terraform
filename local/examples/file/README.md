@@ -39,6 +39,7 @@ module "sensitive_file" {
   sensitive_file_file_permission      = 0777
   sensitive_file_directory_permission = 0777
 }
+
 ```
 
 ## Module Input Variables

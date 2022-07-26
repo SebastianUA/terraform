@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 module "route53" {
-  source      = "../../modules/route53"
+  source = "../../modules/route53"
 
   name        = "TEST-Route53"
   environment = "stage"
@@ -44,8 +44,8 @@ module "route53" {
 }
 
 module "route53_cname" {
-  source      = "../../modules/route53"
-  
+  source = "../../modules/route53"
+
   name        = "TEST-Route53"
   environment = "stage"
 
@@ -66,7 +66,8 @@ module "route53_cname" {
   })
 
   depends_on = []
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

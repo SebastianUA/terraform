@@ -51,6 +51,7 @@ module "cognito" {
 
   tags = tomap({ "Env" = "Stage", "CreatedBy" = "Vitaliy Natarov" })
 }
+
 ```
 
 ## Module Input Variables

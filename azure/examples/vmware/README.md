@@ -92,7 +92,8 @@ module "vmware" {
     module.base_resource_group
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

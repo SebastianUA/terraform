@@ -39,6 +39,7 @@ module "iam_policy" {
   iam_policy_attachment_users  = []
   iam_policy_attachment_groups = ["admins"]
 }
+
 ```
 
 ## Module Input Variables

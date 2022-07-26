@@ -156,6 +156,7 @@ module "ecs_service" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

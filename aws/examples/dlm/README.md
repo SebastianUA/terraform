@@ -40,6 +40,7 @@ module "dlm" {
   target_tags = {}
   tags_to_add = {}
 }
+
 ```
 
 ## Module Input Variables

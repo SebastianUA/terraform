@@ -38,6 +38,7 @@ module "elastictranscoder" {
   elastictranscoder_preset_description = null
 
 }
+
 ```
 
 ## Module Input Variables

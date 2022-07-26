@@ -1,4 +1,4 @@
-# Work with AWS SPANNER_INSTANCE via terraform
+# Work with SPANNER_INSTANCE via terraform
 
 A terraform module for making SPANNER_INSTANCE.
 
@@ -80,6 +80,7 @@ module "spanner_instance" {
   #]
   #role                                = "roles/editor"
 }
+
 ```
 
 ## Module Input Variables

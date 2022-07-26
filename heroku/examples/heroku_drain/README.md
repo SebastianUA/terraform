@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_DRAIN via terraform
+# Work with HEROKU_DRAIN via terraform
 
 A terraform module for making HEROKU_DRAIN.
 
@@ -46,6 +46,7 @@ module "heroku_drain" {
   drain_app    = "your-app-here"
   drain_url    = "syslog://terraform.example.com:1234"
 }
+
 ```
 
 ## Module Input Variables

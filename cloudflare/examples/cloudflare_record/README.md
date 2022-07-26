@@ -1,4 +1,4 @@
-# Work with AWS CLOUDFLARE_RECORD via terraform
+# Work with CLOUDFLARE_RECORD via terraform
 
 A terraform module for making CLOUDFLARE_RECORD.
 
@@ -38,6 +38,7 @@ module "cloudflare_record" {
     target   = "linux-notes.org"
   }
 }
+
 ```
 
 ## Module Input Variables

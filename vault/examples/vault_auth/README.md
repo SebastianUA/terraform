@@ -56,6 +56,7 @@ module "vault_auth_backend_userpass" {
   auth_backend_path        = null
   auth_backend_local       = null
 }
+
 ```
 
 ## Module Input Variables

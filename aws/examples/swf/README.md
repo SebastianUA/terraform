@@ -34,6 +34,7 @@ module "swf" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

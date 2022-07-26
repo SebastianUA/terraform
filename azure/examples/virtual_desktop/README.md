@@ -88,7 +88,8 @@ module "virtual_desktop" {
     module.base_resource_group
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

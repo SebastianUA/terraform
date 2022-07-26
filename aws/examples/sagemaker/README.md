@@ -75,6 +75,7 @@ module "sagemaker" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

@@ -50,6 +50,7 @@ module "api_gateway" {
     }
   ]
 }
+
 ```
 
 ## Module Input Variables

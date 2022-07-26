@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_TARGET_POOL via terraform
+# Work with COMPUTE_TARGET_POOL via terraform
 
 A terraform module for making COMPUTE_TARGET_POOL.
 
@@ -87,6 +87,7 @@ module "compute_firewall" {
   #allow_protocol                  = "icmp"
   #allow_ports                     = ["80", "443"]
 }
+
 ```
 
 ## Module Input Variables

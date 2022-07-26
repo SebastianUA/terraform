@@ -35,6 +35,7 @@ module "macie" {
   }]
 
 }
+
 ```
 
 ## Module Input Variables

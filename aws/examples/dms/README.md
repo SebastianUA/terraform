@@ -70,6 +70,7 @@ module "source_dms_endpoint" {
 
   tags = tomap({ "env" = "stage", "CreatedBy" = "Vitaliy Natarov" })
 }
+
 ```
 
 ## Module Input Variables

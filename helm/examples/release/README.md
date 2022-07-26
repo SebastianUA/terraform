@@ -51,6 +51,7 @@ module "helm_release" {
   release_lint          = false
 
 }
+
 ```
 
 ## Module Input Variables

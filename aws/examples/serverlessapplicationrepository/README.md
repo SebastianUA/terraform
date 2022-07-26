@@ -48,6 +48,7 @@ module "serverlessapplicationrepository" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

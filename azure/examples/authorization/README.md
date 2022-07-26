@@ -98,7 +98,8 @@ module "authorization" {
     data.azurerm_subscription,
     module.base_resource_group
   ]
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

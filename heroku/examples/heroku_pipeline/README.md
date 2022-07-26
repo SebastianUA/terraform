@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_PIPELINE via terraform
+# Work with HEROKU_PIPELINE via terraform
 
 A terraform module for making HEROKU_PIPELINE.
 
@@ -69,6 +69,7 @@ module "heroku_pipeline" {
   pipeline_coupling_app    = "your-app-here"
   pipeline_coupling_stage  = "staging"
 }
+
 ```
 
 ## Module Input Variables

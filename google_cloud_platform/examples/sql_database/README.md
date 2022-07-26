@@ -1,4 +1,4 @@
-# Work with AWS SQL_DATABASE via terraform
+# Work with SQL_DATABASE via terraform
 
 A terraform module for making SQL_DATABASE.
 
@@ -76,6 +76,7 @@ module "sql_database" {
   enable_sql_user_creating     = true
 
 }
+
 ```
 
 ## Module Input Variables

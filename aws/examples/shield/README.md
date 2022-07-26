@@ -33,6 +33,7 @@ module "shield" {
   shield_protection_name         = "my-first-shield-protection"
   shield_protection_resource_arn = ""
 }
+
 ```
 
 ## Module Input Variables

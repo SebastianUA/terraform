@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_BUILD via terraform
+# Work with HEROKU_BUILD via terraform
 
 A terraform module for making HEROKU_BUILD.
 
@@ -51,6 +51,7 @@ module "heroku_build" {
     version = "v2.1.1"
   }
 }
+
 ```
 
 ## Module Input Variables

@@ -84,6 +84,7 @@ module "config" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

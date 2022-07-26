@@ -1,4 +1,4 @@
-# Work with AWS GOOGLE_BIGQUERY via terraform
+# Work with GOOGLE_BIGQUERY via terraform
 
 A terraform module for making GOOGLE_BIGQUERY.
 
@@ -31,6 +31,7 @@ module "google_bigquery" {
   #dataset_id                          = "668"
 
 }
+
 ```
 
 ## Module Input Variables

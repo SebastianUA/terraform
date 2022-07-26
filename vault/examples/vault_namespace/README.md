@@ -34,6 +34,7 @@ module "vault_namespace" {
   namespace_path   = "ns1"
 
 }
+
 ```
 
 ## Module Input Variables

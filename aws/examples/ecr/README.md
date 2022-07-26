@@ -36,6 +36,7 @@ module "ecr" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

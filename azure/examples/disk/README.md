@@ -75,7 +75,8 @@ module "disk_pool" {
     module.base_resource_group
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

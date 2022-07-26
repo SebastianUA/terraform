@@ -133,7 +133,8 @@ module "k8s_cluster_role_binding" {
     }
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

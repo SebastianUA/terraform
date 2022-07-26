@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_CONFIG via terraform
+# Work with HEROKU_CONFIG via terraform
 
 A terraform module for making HEROKU_CONFIG.
 
@@ -54,6 +54,7 @@ module "heroku_config" {
     PRIVATE_KEY = "some_private_key"
   }
 }
+
 ```
 
 ## Module Input Variables

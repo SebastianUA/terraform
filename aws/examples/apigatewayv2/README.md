@@ -290,6 +290,7 @@ module "route53_lambda_staging_firehose" {
     module.api_gateway_domain_name_staging_firehose
   ]
 }
+
 ```
 
 ## Module Input Variables

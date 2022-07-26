@@ -32,6 +32,7 @@ module "s3outposts" {
   })
 
 }
+
 ```
 
 ## Module Input Variables

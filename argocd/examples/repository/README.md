@@ -1,4 +1,4 @@
-# Work with AWS REPOSITORY via terraform
+# Work with REPOSITORY via terraform
 
 A terraform module for making REPOSITORY.
 
@@ -39,6 +39,7 @@ module "argocd_repository" {
   repository_name   = "nginx-stable"
   repository_type   = "helm"
 }
+
 ```
 
 ## Module Input Variables

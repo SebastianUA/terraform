@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_SLUG via terraform
+# Work with HEROKU_SLUG via terraform
 
 A terraform module for making HEROKU_SLUG.
 
@@ -53,6 +53,7 @@ module "heroku_slug" {
   # Or:
   slug_file_url = "https://example.com/slugs/app-v1.tgzs"
 }
+
 ```
 
 ## Module Input Variables

@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_SNAPSHOT via terraform
+# Work with COMPUTE_SNAPSHOT via terraform
 
 A terraform module for making COMPUTE_SNAPSHOT.
 
@@ -27,6 +27,7 @@ module "compute_snapshot" {
 
   source_disk = "gke-test-cc-stage-70df-pvc-afc95369-90e1-11e8-96dc-42010a8e0109"
 }
+
 ```
 
 ## Module Input Variables

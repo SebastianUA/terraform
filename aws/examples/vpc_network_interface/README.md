@@ -31,7 +31,8 @@ module "vpc_network_interface" {
     "Createdby"     = "Vitaliy Natarov",
     "Orchestration" = "Terraform"
   })
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

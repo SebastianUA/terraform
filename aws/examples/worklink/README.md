@@ -37,6 +37,7 @@ module "worklink" {
   worklink_website_certificate_authority_association_certificate  = file("additional_files/certificate.pem")
   worklink_website_certificate_authority_association_display_name = null
 }
+
 ```
 
 ## Module Input Variables

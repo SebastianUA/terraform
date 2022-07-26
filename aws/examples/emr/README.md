@@ -242,6 +242,7 @@ module "emr" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

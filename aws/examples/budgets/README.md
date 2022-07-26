@@ -65,6 +65,7 @@ module "budgets" {
     subscriber_sns_topic_arns  = []
   }]
 }
+
 ```
 
 ## Module Input Variables

@@ -53,6 +53,7 @@ module "consul_namespace" {
     foo = "bar"
   }
 }
+
 ```
 
 ## Module Input Variables

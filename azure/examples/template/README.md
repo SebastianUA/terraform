@@ -103,6 +103,7 @@ module "arm_template_deployment" {
     data.template_file.arm_template
   ]
 }
+
 ```
 
 ## Module Input Variables

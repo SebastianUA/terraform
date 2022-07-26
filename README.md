@@ -87,6 +87,45 @@ $ terraform graph | dot -Tsvg > graph.svg
 $ terraform graph | dot -Tpng > graph.png
 ```
 
+## state
+
+If you would like to remove your stack from TF statefile, you can use this command:
+
+```bash
+$ terraform state rm "module.rds_single_mysql.aws_db_subnet_group.db_subnet_group[0]"
+```
+
+The structura is the next one: `module.<MODULE_NAME>.<RESOURCE_NAME>.<NAME_of_RESOURCE>[count.index]`.
+
+Where:
+
+- MODULE_NAME - The module name.
+- RESOURCE_NAME - the resource name of provider.
+- NAME_of_RESOURCE - The name of resource of created RESOURCE_NAME.
+- [count.index] - Index of resource in loop.
+
+That's it.
+
+## import
+
+If you would like to import some stack stack to TF, you can use this command:
+
+```bash
+$ terraform import --var 'db_password=PW_HERE' "module.rds_single_mysql.aws_db_subnet_group.db_subnet_group[0]" "terraform-20220711082550455200000001"
+```
+
+The structura is the next one: `module.<MODULE_NAME>.<RESOURCE_NAME>.<NAME_of_RESOURCE>[count.index] <IMPORTING_VALUE> ` .
+
+Where:
+
+- MODULE_NAME - The module name.
+- RESOURCE_NAME - the resource name of provider.
+- NAME_of_RESOURCE - The name of resource of created RESOURCE_NAME.
+- [count.index] - Index of resource in loop.
+- IMPORTING_VALUE - The value to import.
+
+That's it.
+
 ## Help
 
 ---------

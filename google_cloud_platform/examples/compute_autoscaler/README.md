@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_AUTOSCALER via terraform
+# Work with COMPUTE_AUTOSCALER via terraform
 
 A terraform module for making COMPUTE_AUTOSCALER.
 
@@ -105,6 +105,7 @@ module "compute_autoscaler" {
   #target                              = element(module.compute_instance_group_manager.group_manager_self_link, 0)
   #target                              = "https://www.googleapis.com/compute/v1/projects/terraform-2018/zones/us-east1-b/instanceGroupManagers/test-ce-gm-stage"
 }
+
 ```
 
 ## Module Input Variables

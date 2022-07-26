@@ -50,6 +50,7 @@ module "key_pair_prefix" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

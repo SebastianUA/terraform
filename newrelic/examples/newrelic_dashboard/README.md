@@ -1,4 +1,4 @@
-# Work with AWS NEWRELIC_DASHBOARD via terraform
+# Work with NEWRELIC_DASHBOARD via terraform
 
 A terraform module for making NEWRELIC_DASHBOARD.
 
@@ -44,6 +44,7 @@ module "newrelic_dashboard" {
     }
   ]
 }
+
 ```
 
 ## Module Input Variables

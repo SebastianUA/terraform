@@ -107,6 +107,7 @@ POLICY
     module.efs
   ]
 }
+
 ```
 
 ## Module Input Variables

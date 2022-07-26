@@ -88,7 +88,8 @@ module "cdn" {
     module.base_resource_group
   ]
 
-}```
+}
+```
 
 ## Module Input Variables
 ----------------------

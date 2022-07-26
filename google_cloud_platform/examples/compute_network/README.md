@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_NETWORK via terraform
+# Work with COMPUTE_NETWORK via terraform
 
 A terraform module for making COMPUTE_NETWORK.
 
@@ -95,6 +95,7 @@ module "compute_subnetwork_iam_member" {
   role    = "roles/compute.networkUser"
   members = ["user:solo.metalisebastian@gmail.com"]
 }
+
 ```
 
 ## Module Input Variables

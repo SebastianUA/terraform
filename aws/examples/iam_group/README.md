@@ -47,6 +47,7 @@ module "iam_group" {
   iam_group_membership_name   = ""
   iam_group_membership_users  = []
 }
+
 ```
 
 ## Module Input Variables

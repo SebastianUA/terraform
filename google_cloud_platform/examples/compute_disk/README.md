@@ -1,4 +1,4 @@
-# Work with AWS COMPUTE_DISK via terraform
+# Work with COMPUTE_DISK via terraform
 
 A terraform module for making COMPUTE_DISK.
 
@@ -25,6 +25,7 @@ module "compute_disk" {
   source = "../../modules/compute_disk"
   name   = "TEST"
 }
+
 ```
 
 ## Module Input Variables

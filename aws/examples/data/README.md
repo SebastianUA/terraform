@@ -33,6 +33,7 @@ module "external_data" {
 
   external_working_dir = null
 }
+
 ```
 
 ## Module Input Variables

@@ -34,6 +34,7 @@ module "codestarconnections" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

@@ -35,6 +35,7 @@ module "cloud9" {
     "Orchestration" = "Terraform"
   })
 }
+
 ```
 
 ## Module Input Variables

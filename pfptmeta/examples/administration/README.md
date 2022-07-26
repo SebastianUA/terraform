@@ -25,6 +25,7 @@ terraform {
 provider "pfptmeta" {
   # Configuration options
 }
+
 ```
 
 ## Module Input Variables

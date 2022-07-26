@@ -1,4 +1,4 @@
-# Work with AWS HEROKU_FORMATION via terraform
+# Work with HEROKU_FORMATION via terraform
 
 A terraform module for making HEROKU_FORMATION.
 
@@ -48,6 +48,7 @@ module "heroku_formation" {
   formation_quantity = 2
   formation_size     = "standard-2x"
 }
+
 ```
 
 ## Module Input Variables

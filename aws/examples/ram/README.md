@@ -78,6 +78,7 @@ module "ram_main_accepter" {
     module.ram_owner
   ]
 }
+
 ```
 
 ## Module Input Variables
