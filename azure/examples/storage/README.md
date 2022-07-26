@@ -107,21 +107,18 @@ module "storage_blob" {
   // Enable storage blob inventory policy
   enable_storage_blob_inventory_policy = true
 
-  rules = [
+  storage_blob_inventory_policy_rules = [
     {
-      name                   = "rule1"
-      storage_container_name = azurerm_storage_container.example.name
-      format                 = "Csv"
-      schedule               = "Daily"
-      scope                  = "Container"
+      name     = "rule1"
+      format   = "Csv"
+      schedule = "Daily"
+      scope    = "Container"
       schema_fields = [
         "Name",
         "Last-Modified",
       ]
     }
   ]
-
-
 
   tags = tomap({
     "Environment"   = "test",
