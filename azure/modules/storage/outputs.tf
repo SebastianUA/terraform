@@ -230,3 +230,163 @@ output "storage_blob_inventory_policy_id" {
   description = "The ID of the Storage Blob Inventory Policy."
   value       = element(concat(azurerm_storage_blob_inventory_policy.storage_blob_inventory_policy.*.id, [""]), 0)
 }
+
+#-----------------------------------------------------------
+# Azure storage data lake gen2 filesystem
+#-----------------------------------------------------------
+output "storage_data_lake_gen2_filesystem_id" {
+  description = "The ID of the Data Lake Gen2 File System."
+  value       = element(concat(azurerm_storage_data_lake_gen2_filesystem.storage_data_lake_gen2_filesystem.*.id, [""]), 0)
+}
+
+output "storage_data_lake_gen2_filesystem_name" {
+  description = "The name of the Data Lake Gen2 File System."
+  value       = element(concat(azurerm_storage_data_lake_gen2_filesystem.storage_data_lake_gen2_filesystem.*.name, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage data lake gen2 path
+#-----------------------------------------------------------
+output "storage_data_lake_gen2_path_id" {
+  description = "The ID of the Data Lake Gen2 File System."
+  value       = element(concat(azurerm_storage_data_lake_gen2_path.storage_data_lake_gen2_path.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage encryption scope
+#-----------------------------------------------------------
+output "storage_encryption_scope_id" {
+  description = "The ID of the Storage Encryption Scope."
+  value       = element(concat(azurerm_storage_encryption_scope.storage_encryption_scope.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage queue
+#-----------------------------------------------------------
+output "storage_queue_id" {
+  description = "The ID of the Storage Queue."
+  value       = element(concat(azurerm_storage_queue.storage_queue.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage object replication
+#-----------------------------------------------------------
+output "storage_object_replication_id" {
+  description = "The ID of the Storage Object Replication in the destination storage account. It's composed as format source_object_replication_id;destination_object_replication_id."
+  value       = element(concat(azurerm_storage_object_replication.storage_object_replication.*.id, [""]), 0)
+}
+
+output "storage_object_replication_source_object_replication_id" {
+  description = "The ID of the Object Replication in the source storage account."
+  value       = element(concat(azurerm_storage_object_replication.storage_object_replication.*.source_object_replication_id, [""]), 0)
+}
+
+output "storage_object_replication_destination_object_replication_id" {
+  description = "The ID of the Object Replication in the destination storage account."
+  value       = element(concat(azurerm_storage_object_replication.storage_object_replication.*.destination_object_replication_id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage management policy
+#-----------------------------------------------------------
+output "storage_management_policy_id" {
+  description = "The ID of the Storage Account Management Policy."
+  value       = element(concat(azurerm_storage_management_policy.storage_management_policy.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage table
+#-----------------------------------------------------------
+output "storage_table_id" {
+  description = "The ID of the Table within the Storage Account."
+  value       = element(concat(azurerm_storage_table.storage_table.*.id, [""]), 0)
+}
+
+output "storage_table_name" {
+  description = "The name of the Table within the Storage Account."
+  value       = element(concat(azurerm_storage_table.storage_table.*.name, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage table entity
+#-----------------------------------------------------------
+output "storage_table_entity_id" {
+  description = "The ID of the Entity within the Table in the Storage Account."
+  value       = element(concat(azurerm_storage_table_entity.storage_table_entity.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage share
+#-----------------------------------------------------------
+output "storage_share_id" {
+  description = "The ID of the File Share."
+  value       = element(concat(azurerm_storage_share.storage_share.*.id, [""]), 0)
+}
+
+output "storage_share_resource_manager_id" {
+  description = "The Resource Manager ID of this File Share."
+  value       = element(concat(azurerm_storage_share.storage_share.*.resource_manager_id, [""]), 0)
+}
+
+output "storage_share_url" {
+  description = "The URL of the File Share"
+  value       = element(concat(azurerm_storage_share.storage_share.*.iurld, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage share file
+#-----------------------------------------------------------
+output "storage_share_file_id" {
+  description = "The ID of the File Share."
+  value       = element(concat(azurerm_storage_share_file.storage_share_file.*.id, [""]), 0)
+}
+
+output "storage_share_file_resource_manager_id" {
+  description = "The Resource Manager ID of this File Share."
+  value       = element(concat(azurerm_storage_share_file.storage_share_file.*.resource_manager_id, [""]), 0)
+}
+
+output "storage_share_file_url" {
+  description = "The URL of the File Share"
+  value       = element(concat(azurerm_storage_share_file.storage_share_file.*.iurld, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage share directory
+#-----------------------------------------------------------
+output "storage_share_directory_id" {
+  description = "The ID of the Directory within the File Share."
+  value       = element(concat(azurerm_storage_share_directory.storage_share_directory.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage sync
+#-----------------------------------------------------------
+output "storage_share_directory_id" {
+  description = "The ID of the Directory within the File Share."
+  value       = element(concat(azurerm_storage_share_directory.storage_share_directory.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage sync
+#-----------------------------------------------------------
+output "storage_sync_id" {
+  description = "The ID of the Storage Sync."
+  value       = element(concat(azurerm_storage_sync.storage_sync.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage sync group
+#-----------------------------------------------------------
+output "storage_sync_group_id" {
+  description = "The ID of the Storage Sync Group."
+  value       = element(concat(azurerm_storage_sync_group.storage_sync_group.*.id, [""]), 0)
+}
+
+#-----------------------------------------------------------
+# Azure storage sync cloud endpoint
+#-----------------------------------------------------------
+output "storage_sync_cloud_endpoint_id" {
+  description = "The ID of the Storage Sync Cloud Endpoint."
+  value       = element(concat(azurerm_storage_sync_cloud_endpoint.storage_sync_cloud_endpoint.*.id, [""]), 0)
+}

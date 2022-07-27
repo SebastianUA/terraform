@@ -393,3 +393,505 @@ variable "storage_blob_inventory_policy_timeouts" {
   description = "Set timeouts for storage blob inventory policy"
   default     = {}
 }
+
+#-----------------------------------------------------------
+# Azure storage data lake gen2 filesystem
+#-----------------------------------------------------------
+variable "enable_storage_data_lake_gen2_filesystem" {
+  description = "Enable storage data lake gen2 filesystem usage"
+  default     = false
+}
+
+variable "storage_data_lake_gen2_filesystem_name" {
+  description = "The name of the Data Lake Gen2 File System which should be created within the Storage Account. Must be unique within the storage account the queue is located. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_data_lake_gen2_filesystem_storage_account_id" {
+  description = "Specifies the ID of the Storage Account in which the Data Lake Gen2 File System should exist. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_data_lake_gen2_filesystem_properties" {
+  description = "(Optional) A mapping of Key to Base64-Encoded Values which should be assigned to this Data Lake Gen2 File System."
+  default     = null
+}
+
+variable "storage_data_lake_gen2_filesystem_ace" {
+  description = "(Optional) One or more ace blocks as defined below to specify the entries for the ACL for the path."
+  default     = []
+}
+
+variable "storage_data_lake_gen2_filesystem_owner" {
+  description = "(Optional) Specifies the Object ID of the Azure Active Directory User to make the owning user of the root path (i.e. /). Possible values also include $superuser."
+  default     = null
+}
+
+variable "storage_data_lake_gen2_filesystem_group" {
+  description = "(Optional) Specifies the Object ID of the Azure Active Directory Group to make the owning group of the root path (i.e. /). Possible values also include $superuser."
+  default     = null
+}
+
+variable "storage_data_lake_gen2_filesystem_timeouts" {
+  description = "Set timeouts for storage data lake gen2 filesystem"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage data lake gen2 path
+#-----------------------------------------------------------
+variable "enable_storage_data_lake_gen2_path" {
+  description = "Enable storage data lake gen2 path usage"
+  default     = false
+}
+
+variable "storage_data_lake_gen2_path_path" {
+  description = "The path which should be created within the Data Lake Gen2 File System in the Storage Account. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_data_lake_gen2_path_filesystem_name" {
+  description = "The name of the Data Lake Gen2 File System which should be created within the Storage Account. Must be unique within the storage account the queue is located. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_data_lake_gen2_path_storage_account_id" {
+  description = "Specifies the ID of the Storage Account in which the Data Lake Gen2 File System should exist. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_data_lake_gen2_path_resource" {
+  description = "(Required) Specifies the type for path to create. Currently only directory is supported."
+  default     = null
+}
+
+variable "storage_data_lake_gen2_path_owner" {
+  description = "(Optional) Specifies the Object ID of the Azure Active Directory User to make the owning user. Possible values also include $superuser"
+  default     = null
+}
+
+variable "storage_data_lake_gen2_path_group" {
+  description = "(Optional) Specifies the Object ID of the Azure Active Directory Group to make the owning group. Possible values also include $superuser."
+  default     = null
+}
+
+variable "storage_data_lake_gen2_path_ace" {
+  description = "(Required) One or more ace blocks as defined below to specify the entries for the ACL for the path."
+  default     = []
+}
+
+variable "storage_data_lake_gen2_path_timeouts" {
+  description = "Set timeouts for storage data lake gen2 path"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage encryption scope
+#-----------------------------------------------------------
+variable "enable_storage_encryption_scope" {
+  description = "Enable storage encryption scope usage"
+  default     = false
+}
+
+variable "storage_encryption_scope_name" {
+  description = "The name which should be used for this Storage Encryption Scope. Changing this forces a new Storage Encryption Scope to be created."
+  default     = ""
+}
+
+variable "storage_encryption_scope_storage_account_id" {
+  description = "The ID of the Storage Account where this Storage Encryption Scope is created. Changing this forces a new Storage Encryption Scope to be created."
+  default     = ""
+}
+
+variable "storage_encryption_scope_source" {
+  description = "(Required) The source of the Storage Encryption Scope. Possible values are Microsoft.KeyVault and Microsoft.Storage"
+  default     = null
+}
+
+variable "storage_encryption_scope_infrastructure_encryption_required" {
+  description = "(Optional) Is a secondary layer of encryption with Platform Managed Keys for data applied?"
+  default     = null
+}
+
+variable "storage_encryption_scope_key_vault_key_ids" {
+  description = "(Optional) The ID of the Key Vault Key. Required when source is Microsoft.KeyVault."
+  default     = null
+}
+
+variable "storage_encryption_scope_timeouts" {
+  description = "Set timeouts for storage encryption scope"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage queue
+#-----------------------------------------------------------
+variable "enable_storage_queue" {
+  description = "Enable storage queue usage"
+  default     = false
+}
+
+variable "storage_queue_name" {
+  description = "The name of the Queue which should be created within the Storage Account. Must be unique within the storage account the queue is located."
+  default     = ""
+}
+
+variable "storage_queue_storage_account_name" {
+  description = "Specifies the Storage Account in which the Storage Queue should exist. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_queue_metadata" {
+  description = "(Optional) A mapping of MetaData which should be assigned to this Storage Queue."
+  default     = null
+}
+
+variable "storage_queue_timeouts" {
+  description = "Set timeouts storage queue"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage object replication
+#-----------------------------------------------------------
+variable "enable_storage_object_replication" {
+  description = "Enable storage object replication usage"
+  default     = false
+}
+
+variable "storage_object_replication_source_storage_account_id" {
+  description = "The ID of the source storage account. Changing this forces a new Storage Object Replication to be created."
+  default     = ""
+}
+
+variable "storage_object_replication_destination_storage_account_id" {
+  description = "(Required) The ID of the destination storage account. Changing this forces a new Storage Object Replication to be created."
+  default     = null
+}
+
+variable "storage_object_replication_rules" {
+  description = "(Required) One or more rules blocks"
+  default     = []
+}
+
+variable "storage_object_replication_timeouts" {
+  description = "Set timeouts for storage object replication"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage management policy
+#-----------------------------------------------------------
+variable "enable_storage_management_policy" {
+  description = "Enable storage management policy usage"
+  default     = false
+}
+
+variable "storage_management_policy_storage_account_id" {
+  description = "Specifies the id of the storage account to apply the management policy to."
+  default     = ""
+}
+
+variable "storage_management_policy_rule" {
+  description = "(Optional) A rule blocks"
+  default     = []
+}
+
+variable "storage_management_policy_timeouts" {
+  description = "Set timeouts for storage management policy"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage table
+#-----------------------------------------------------------
+variable "enable_storage_table" {
+  description = "Enable storage table usage"
+  default     = false
+}
+
+variable "storage_table_name" {
+  description = "The name of the storage table. Must be unique within the storage account the table is located."
+  default     = ""
+}
+
+variable "storage_table_storage_account_name" {
+  description = "Specifies the storage account in which to create the storage table. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_table_acl" {
+  description = "(Optional) One or more acl blocks"
+  default     = []
+}
+
+variable "storage_table_timeouts" {
+  description = "Set timeouts for storage table"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage table entity
+#-----------------------------------------------------------
+variable "enable_storage_table_entity" {
+  description = "Enable storage table entity usage"
+  default     = false
+}
+
+variable "storage_table_entity_storage_account_name" {
+  description = "Specifies the storage account in which to create the storage table entity. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_table_entity_table_name" {
+  description = "The name of the storage table in which to create the storage table entity. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_table_entity_partition_key" {
+  description = "(Required) The key for the partition where the entity will be inserted/merged. Changing this forces a new resource."
+  default     = null
+}
+
+variable "storage_table_entity_row_key" {
+  description = "(Required) The key for the row where the entity will be inserted/merged. Changing this forces a new resource."
+  default     = null
+}
+
+variable "storage_table_entity_entity" {
+  description = "(Required) A map of key/value pairs that describe the entity to be inserted/merged in to the storage table."
+  default     = null
+}
+
+variable "storage_table_entity_timeouts" {
+  description = "Set timeouts for storage table entity"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage share
+#-----------------------------------------------------------
+variable "enable_storage_share" {
+  description = "Enable storage share usage"
+  default     = false
+}
+
+variable "storage_share_name" {
+  description = "The name of the share. Must be unique within the storage account where the share is located."
+  default     = ""
+}
+
+variable "storage_share_storage_account_name" {
+  description = "Specifies the storage account in which to create the share. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_share_quota" {
+  description = "(Required) The maximum size of the share, in gigabytes. For Standard storage accounts, this must be 1GB (or higher) and at most 5120 GB (5 TB). For Premium FileStorage storage accounts, this must be greater than 100 GB and at most 102400 GB (100 TB)."
+  default     = null
+}
+
+variable "storage_share_enabled_protocol" {
+  description = "(Optional) The protocol used for the share. Possible values are SMB and NFS. The SMB indicates the share can be accessed by SMBv3.0, SMBv2.1 and REST. The NFS indicates the share can be accessed by NFSv4.1. Defaults to SMB. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "storage_share_metadata" {
+  description = "(Optional) A mapping of MetaData for this File Share."
+  default     = null
+}
+
+variable "storage_share_acl" {
+  description = "(Optional) One or more acl blocks"
+  default     = []
+}
+
+variable "storage_share_timeouts" {
+  description = "Set timeouts for storage share"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage share file
+#-----------------------------------------------------------
+variable "enable_storage_share_file" {
+  description = "Enable storage share file usage"
+  default     = false
+}
+
+variable "storage_share_file_name" {
+  description = "(Required) The name (or path) of the File that should be created within this File Share. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "storage_share_file_storage_share_id" {
+  description = "The Storage Share ID in which this file will be placed into. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_share_file_source" {
+  description = "(Optional) An absolute path to a file on the local system."
+  default     = null
+}
+
+variable "storage_share_file_path" {
+  description = "(Optional) The storage share directory that you would like the file placed into. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "storage_share_file_content_type" {
+  description = "(Optional) The content type of the share file. Defaults to application/octet-stream."
+  default     = null
+}
+
+variable "storage_share_file_content_md5" {
+  description = "(Optional) The MD5 sum of the file contents. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "storage_share_file_content_encoding" {
+  description = "(Optional) Specifies which content encodings have been applied to the file."
+  default     = null
+}
+
+variable "storage_share_file_content_disposition" {
+  description = "(Optional) Sets the file’s Content-Disposition header."
+  default     = null
+}
+
+variable "storage_share_file_metadata" {
+  description = "(Optional) A mapping of metadata to assign to this file."
+  default     = null
+}
+
+variable "storage_share_file_timeouts" {
+  description = "Set timeouts for storage share file"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage share directory
+#-----------------------------------------------------------
+variable "enable_storage_share_directory" {
+  description = "Enable storage share directory usage"
+  default     = false
+}
+
+variable "storage_share_directory_name" {
+  description = "The name (or path) of the Directory that should be created within this File Share. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_share_directory_share_name" {
+  description = "The name of the File Share where this Directory should be created. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "storage_share_directory_storage_account_name" {
+  description = "The name of the Storage Account within which the File Share is located. Changing this forces a new resource to be created"
+  default     = ""
+}
+
+variable "storage_share_directory_metadata" {
+  description = "(Optional) A mapping of metadata to assign to this Directory."
+  default     = null
+}
+
+variable "storage_share_directory_timeouts" {
+  description = "Set timeouts for storage share directory"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage sync
+#-----------------------------------------------------------
+variable "enable_storage_sync" {
+  description = "Enable storage sync usage"
+  default     = false
+}
+
+variable "storage_sync_name" {
+  description = "The name which should be used for this Storage Sync. Changing this forces a new Storage Sync to be created."
+  default     = ""
+}
+
+variable "storage_sync_resource_group_name" {
+  description = "(Required) The name of the Resource Group where the Storage Sync should exist. Changing this forces a new Storage Sync to be created."
+  default     = null
+}
+
+variable "storage_sync_location" {
+  description = "(Required) The Azure Region where the Storage Sync should exist. Changing this forces a new Storage Sync to be created."
+  default     = null
+}
+
+variable "storage_sync_incoming_traffic_policy" {
+  description = "(Optional) Incoming traffic policy. Possible values are AllowAllTraffic and AllowVirtualNetworksOnly"
+  default     = null
+}
+
+variable "storage_sync_timeouts" {
+  description = "Set timeouts storage sync"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage sync group
+#-----------------------------------------------------------
+variable "enable_storage_sync_group" {
+  description = "Enable storage sync group usage"
+  default     = false
+}
+
+variable "storage_sync_group_name" {
+  description = "The name which should be used for this Storage Sync Group. Changing this forces a new Storage Sync Group to be created."
+  default     = ""
+}
+
+variable "storage_sync_group_storage_sync_id" {
+  description = "The resource ID of the Storage Sync where this Storage Sync Group is. Changing this forces a new Storage Sync Group to be created."
+  default     = ""
+}
+
+variable "storage_sync_group_timeouts" {
+  description = "Set timeouts for storage sync group"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure storage sync cloud endpoint
+#-----------------------------------------------------------
+variable "enable_storage_sync_cloud_endpoint" {
+  description = "Enable storage sync cloud endpoint usage"
+  default     = false
+}
+
+variable "storage_sync_cloud_endpoint_name" {
+  description = "The name which should be used for this Storage Sync Cloud Endpoint. Changing this forces a new Storage Sync Cloud Endpoint to be created."
+  default     = ""
+}
+
+variable "storage_sync_cloud_endpoint_storage_sync_group_id" {
+  description = "The ID of the Storage Sync Group where this Cloud Endpoint should be created. Changing this forces a new Storage Sync Cloud Endpoint to be created."
+  default     = ""
+}
+
+variable "storage_sync_cloud_endpoint_file_share_name" {
+  description = "The Storage Share name to be synchronized in this Storage Sync Cloud Endpoint. Changing this forces a new Storage Sync Cloud Endpoint to be created."
+  default     = ""
+}
+
+variable "storage_sync_cloud_endpoint_storage_account_id" {
+  description = "The ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created."
+  default     = ""
+}
+
+variable "storage_sync_cloud_endpoint_storage_account_tenant_id" {
+  description = "(Optional) The Tenant ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created. Defaults to the current tenant id."
+  default     = null
+}
+
+variable "storage_sync_group_timeouts" {
+  description = "Set timeouts for storage sync group"
+  default     = {}
+}

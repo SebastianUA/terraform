@@ -120,3 +120,55 @@ module "storage_blob" {
     module.base_resource_group
   ]
 }
+
+module "storage_share" {
+  source = "../../modules/storage"
+
+  // Enable storage share
+  enable_storage_share = true
+
+  storage_share_name                 = "my-storage-share"
+  storage_share_storage_account_name = module.storage_account.storage_account_id
+  storage_share_quota                = 50
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}
+
+module "storage_sync" {
+  source = "../../modules/storage"
+
+  // Enable storage sync
+  enable_storage_sync = true
+
+  storage_sync_name                = "my-storage-sync"
+  storage_sync_location            = module.base_resource_group.resource_group_location
+  storage_sync_resource_group_name = module.base_resource_group.resource_group_name
+
+  // Enable storage sync group
+  enable_storage_sync_group = true
+  storage_sync_group_name   = "my-storage-sync-group"
+
+  // Enable storage sync cloud endpoint
+  enable_storage_sync_cloud_endpoint             = true
+  storage_sync_cloud_endpoint_name               = "my-storage-sync-cloud-endpoint"
+  storage_sync_cloud_endpoint_file_share_name    = module.storage_share.storage_share_id
+  storage_sync_cloud_endpoint_storage_account_id = module.storage_account.storage_account_id
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}

@@ -130,6 +130,58 @@ module "storage_blob" {
     module.base_resource_group
   ]
 }
+
+module "storage_share" {
+  source = "../../modules/storage"
+
+  // Enable storage share
+  enable_storage_share = true
+
+  storage_share_name                 = "my-storage-share"
+  storage_share_storage_account_name = module.storage_account.storage_account_id
+  storage_share_quota                = 50
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}
+
+module "storage_sync" {
+  source = "../../modules/storage"
+
+  // Enable storage sync
+  enable_storage_sync = true
+
+  storage_sync_name                = "my-storage-sync"
+  storage_sync_location            = module.base_resource_group.resource_group_location
+  storage_sync_resource_group_name = module.base_resource_group.resource_group_name
+
+  // Enable storage sync group
+  enable_storage_sync_group = true
+  storage_sync_group_name   = "my-storage-sync-group"
+
+  // Enable storage sync cloud endpoint
+  enable_storage_sync_cloud_endpoint             = true
+  storage_sync_cloud_endpoint_name               = "my-storage-sync-cloud-endpoint"
+  storage_sync_cloud_endpoint_file_share_name    = module.storage_share.storage_share_id
+  storage_sync_cloud_endpoint_storage_account_id = module.storage_account.storage_account_id
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}
 ```
 
 ## Module Input Variables
@@ -209,6 +261,98 @@ module "storage_blob" {
 - `storage_blob_inventory_policy_storage_account_id` - The ID of the storage account to apply this Blob Inventory Policy to. Changing this forces a new Storage Blob Inventory Policy to be created. (`default = ""`)
 - `storage_blob_inventory_policy_rules` - (Required) One or more rules blocks (`default = []`)
 - `storage_blob_inventory_policy_timeouts` - Set timeouts for storage blob inventory policy (`default = {}`)
+- `enable_storage_data_lake_gen2_filesystem` - Enable storage data lake gen2 filesystem usage (`default = False`)
+- `storage_data_lake_gen2_filesystem_name` - The name of the Data Lake Gen2 File System which should be created within the Storage Account. Must be unique within the storage account the queue is located. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_data_lake_gen2_filesystem_storage_account_id` - Specifies the ID of the Storage Account in which the Data Lake Gen2 File System should exist. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_data_lake_gen2_filesystem_properties` - (Optional) A mapping of Key to Base64-Encoded Values which should be assigned to this Data Lake Gen2 File System. (`default = null`)
+- `storage_data_lake_gen2_filesystem_ace` - (Optional) One or more ace blocks as defined below to specify the entries for the ACL for the path. (`default = []`)
+- `storage_data_lake_gen2_filesystem_owner` - (Optional) Specifies the Object ID of the Azure Active Directory User to make the owning user of the root path (i.e. /). Possible values also include $superuser. (`default = null`)
+- `storage_data_lake_gen2_filesystem_group` - (Optional) Specifies the Object ID of the Azure Active Directory Group to make the owning group of the root path (i.e. /). Possible values also include $superuser. (`default = null`)
+- `storage_data_lake_gen2_filesystem_timeouts` - Set timeouts for storage data lake gen2 filesystem (`default = {}`)
+- `enable_storage_data_lake_gen2_path` - Enable storage data lake gen2 path usage (`default = False`)
+- `storage_data_lake_gen2_path_path` - The path which should be created within the Data Lake Gen2 File System in the Storage Account. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_data_lake_gen2_path_filesystem_name` - The name of the Data Lake Gen2 File System which should be created within the Storage Account. Must be unique within the storage account the queue is located. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_data_lake_gen2_path_storage_account_id` - Specifies the ID of the Storage Account in which the Data Lake Gen2 File System should exist. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_data_lake_gen2_path_resource` - (Required) Specifies the type for path to create. Currently only directory is supported. (`default = null`)
+- `storage_data_lake_gen2_path_owner` - (Optional) Specifies the Object ID of the Azure Active Directory User to make the owning user. Possible values also include $superuser (`default = null`)
+- `storage_data_lake_gen2_path_group` - (Optional) Specifies the Object ID of the Azure Active Directory Group to make the owning group. Possible values also include $superuser. (`default = null`)
+- `storage_data_lake_gen2_path_ace` - (Required) One or more ace blocks as defined below to specify the entries for the ACL for the path. (`default = []`)
+- `storage_data_lake_gen2_path_timeouts` - Set timeouts for storage data lake gen2 path (`default = {}`)
+- `enable_storage_encryption_scope` - Enable storage encryption scope usage (`default = False`)
+- `storage_encryption_scope_name` - The name which should be used for this Storage Encryption Scope. Changing this forces a new Storage Encryption Scope to be created. (`default = ""`)
+- `storage_encryption_scope_storage_account_id` - The ID of the Storage Account where this Storage Encryption Scope is created. Changing this forces a new Storage Encryption Scope to be created. (`default = ""`)
+- `storage_encryption_scope_source` - (Required) The source of the Storage Encryption Scope. Possible values are Microsoft.KeyVault and Microsoft.Storage (`default = null`)
+- `storage_encryption_scope_infrastructure_encryption_required` - (Optional) Is a secondary layer of encryption with Platform Managed Keys for data applied? (`default = null`)
+- `storage_encryption_scope_key_vault_key_ids` - (Optional) The ID of the Key Vault Key. Required when source is Microsoft.KeyVault. (`default = null`)
+- `storage_encryption_scope_timeouts` - Set timeouts for storage encryption scope (`default = {}`)
+- `enable_storage_queue` - Enable storage queue usage (`default = False`)
+- `storage_queue_name` - The name of the Queue which should be created within the Storage Account. Must be unique within the storage account the queue is located. (`default = ""`)
+- `storage_queue_storage_account_name` - Specifies the Storage Account in which the Storage Queue should exist. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_queue_metadata` - (Optional) A mapping of MetaData which should be assigned to this Storage Queue. (`default = null`)
+- `storage_queue_timeouts` - Set timeouts storage queue (`default = {}`)
+- `enable_storage_object_replication` - Enable storage object replication usage (`default = False`)
+- `storage_object_replication_source_storage_account_id` - The ID of the source storage account. Changing this forces a new Storage Object Replication to be created. (`default = ""`)
+- `storage_object_replication_destination_storage_account_id` - (Required) The ID of the destination storage account. Changing this forces a new Storage Object Replication to be created. (`default = null`)
+- `storage_object_replication_rules` - (Required) One or more rules blocks (`default = []`)
+- `storage_object_replication_timeouts` - Set timeouts for storage object replication (`default = {}`)
+- `enable_storage_management_policy` - Enable storage management policy usage (`default = False`)
+- `storage_management_policy_storage_account_id` - Specifies the id of the storage account to apply the management policy to. (`default = ""`)
+- `storage_management_policy_rule` - (Optional) A rule blocks (`default = []`)
+- `storage_management_policy_timeouts` - Set timeouts for storage management policy (`default = {}`)
+- `enable_storage_table` - Enable storage table usage (`default = False`)
+- `storage_table_name` - The name of the storage table. Must be unique within the storage account the table is located. (`default = ""`)
+- `storage_table_storage_account_name` - Specifies the storage account in which to create the storage table. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_table_acl` - (Optional) One or more acl blocks (`default = []`)
+- `storage_table_timeouts` - Set timeouts for storage table (`default = {}`)
+- `enable_storage_table_entity` - Enable storage table entity usage (`default = False`)
+- `storage_table_entity_storage_account_name` - Specifies the storage account in which to create the storage table entity. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_table_entity_table_name` - The name of the storage table in which to create the storage table entity. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_table_entity_partition_key` - (Required) The key for the partition where the entity will be inserted/merged. Changing this forces a new resource. (`default = null`)
+- `storage_table_entity_row_key` - (Required) The key for the row where the entity will be inserted/merged. Changing this forces a new resource. (`default = null`)
+- `storage_table_entity_entity` - (Required) A map of key/value pairs that describe the entity to be inserted/merged in to the storage table. (`default = null`)
+- `storage_table_entity_timeouts` - Set timeouts for storage table entity (`default = {}`)
+- `enable_storage_share` - Enable storage share usage (`default = False`)
+- `storage_share_name` - The name of the share. Must be unique within the storage account where the share is located. (`default = ""`)
+- `storage_share_storage_account_name` - Specifies the storage account in which to create the share. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_share_quota` - (Required) The maximum size of the share, in gigabytes. For Standard storage accounts, this must be 1GB (or higher) and at most 5120 GB (5 TB). For Premium FileStorage storage accounts, this must be greater than 100 GB and at most 102400 GB (100 TB). (`default = null`)
+- `storage_share_enabled_protocol` - (Optional) The protocol used for the share. Possible values are SMB and NFS. The SMB indicates the share can be accessed by SMBv3.0, SMBv2.1 and REST. The NFS indicates the share can be accessed by NFSv4.1. Defaults to SMB. Changing this forces a new resource to be created. (`default = null`)
+- `storage_share_metadata` - (Optional) A mapping of MetaData for this File Share. (`default = null`)
+- `storage_share_acl` - (Optional) One or more acl blocks (`default = []`)
+- `storage_share_timeouts` - Set timeouts for storage share (`default = {}`)
+- `enable_storage_share_file` - Enable storage share file usage (`default = False`)
+- `storage_share_file_name` - (Required) The name (or path) of the File that should be created within this File Share. Changing this forces a new resource to be created. (`default = null`)
+- `storage_share_file_storage_share_id` - The Storage Share ID in which this file will be placed into. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_share_file_source` - (Optional) An absolute path to a file on the local system. (`default = null`)
+- `storage_share_file_path` - (Optional) The storage share directory that you would like the file placed into. Changing this forces a new resource to be created. (`default = null`)
+- `storage_share_file_content_type` - (Optional) The content type of the share file. Defaults to application/octet-stream. (`default = null`)
+- `storage_share_file_content_md5` - (Optional) The MD5 sum of the file contents. Changing this forces a new resource to be created. (`default = null`)
+- `storage_share_file_content_encoding` - (Optional) Specifies which content encodings have been applied to the file. (`default = null`)
+- `storage_share_file_content_disposition` - (Optional) Sets the file’s Content-Disposition header. (`default = null`)
+- `storage_share_file_metadata` - (Optional) A mapping of metadata to assign to this file. (`default = null`)
+- `storage_share_file_timeouts` - Set timeouts for storage share file (`default = {}`)
+- `enable_storage_share_directory` - Enable storage share directory usage (`default = False`)
+- `storage_share_directory_name` - The name (or path) of the Directory that should be created within this File Share. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_share_directory_share_name` - The name of the File Share where this Directory should be created. Changing this forces a new resource to be created. (`default = ""`)
+- `storage_share_directory_storage_account_name` - The name of the Storage Account within which the File Share is located. Changing this forces a new resource to be created (`default = ""`)
+- `storage_share_directory_metadata` - (Optional) A mapping of metadata to assign to this Directory. (`default = null`)
+- `storage_share_directory_timeouts` - Set timeouts for storage share directory (`default = {}`)
+- `enable_storage_sync` - Enable storage sync usage (`default = False`)
+- `storage_sync_name` - The name which should be used for this Storage Sync. Changing this forces a new Storage Sync to be created. (`default = ""`)
+- `storage_sync_resource_group_name` - (Required) The name of the Resource Group where the Storage Sync should exist. Changing this forces a new Storage Sync to be created. (`default = null`)
+- `storage_sync_location` - (Required) The Azure Region where the Storage Sync should exist. Changing this forces a new Storage Sync to be created. (`default = null`)
+- `storage_sync_incoming_traffic_policy` - (Optional) Incoming traffic policy. Possible values are AllowAllTraffic and AllowVirtualNetworksOnly (`default = null`)
+- `storage_sync_timeouts` - Set timeouts storage sync (`default = {}`)
+- `enable_storage_sync_group` - Enable storage sync group usage (`default = False`)
+- `storage_sync_group_name` - The name which should be used for this Storage Sync Group. Changing this forces a new Storage Sync Group to be created. (`default = ""`)
+- `storage_sync_group_storage_sync_id` - The resource ID of the Storage Sync where this Storage Sync Group is. Changing this forces a new Storage Sync Group to be created. (`default = ""`)
+- `storage_sync_group_timeouts` - Set timeouts for storage sync group (`default = {}`)
+- `enable_storage_sync_cloud_endpoint` - Enable storage sync cloud endpoint usage (`default = False`)
+- `storage_sync_cloud_endpoint_name` - The name which should be used for this Storage Sync Cloud Endpoint. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
+- `storage_sync_cloud_endpoint_storage_sync_group_id` - The ID of the Storage Sync Group where this Cloud Endpoint should be created. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
+- `storage_sync_cloud_endpoint_file_share_name` - The Storage Share name to be synchronized in this Storage Sync Cloud Endpoint. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
+- `storage_sync_cloud_endpoint_storage_account_id` - The ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
+- `storage_sync_cloud_endpoint_storage_account_tenant_id` - (Optional) The Tenant ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created. Defaults to the current tenant id. (`default = null`)
+- `storage_sync_group_timeouts` - Set timeouts for storage sync group (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -255,6 +399,29 @@ module "storage_blob" {
 - `storage_blob_id` - The ID of the Storage Blob.
 - `storage_blob_url` - The URL of the blob
 - `storage_blob_inventory_policy_id` - The ID of the Storage Blob Inventory Policy.
+- `storage_data_lake_gen2_filesystem_id` - The ID of the Data Lake Gen2 File System.
+- `storage_data_lake_gen2_filesystem_name` - The name of the Data Lake Gen2 File System.
+- `storage_data_lake_gen2_path_id` - The ID of the Data Lake Gen2 File System.
+- `storage_encryption_scope_id` - The ID of the Storage Encryption Scope.
+- `storage_queue_id` - The ID of the Storage Queue.
+- `storage_object_replication_id` - The ID of the Storage Object Replication in the destination storage account. It's composed as format source_object_replication_id;destination_object_replication_id.
+- `storage_object_replication_source_object_replication_id` - The ID of the Object Replication in the source storage account.
+- `storage_object_replication_destination_object_replication_id` - The ID of the Object Replication in the destination storage account.
+- `storage_management_policy_id` - The ID of the Storage Account Management Policy.
+- `storage_table_id` - The ID of the Table within the Storage Account.
+- `storage_table_name` - The name of the Table within the Storage Account.
+- `storage_table_entity_id` - The ID of the Entity within the Table in the Storage Account.
+- `storage_share_id` - The ID of the File Share.
+- `storage_share_resource_manager_id` - The Resource Manager ID of this File Share.
+- `storage_share_url` - The URL of the File Share
+- `storage_share_file_id` - The ID of the File Share.
+- `storage_share_file_resource_manager_id` - The Resource Manager ID of this File Share.
+- `storage_share_file_url` - The URL of the File Share
+- `storage_share_directory_id` - The ID of the Directory within the File Share.
+- `storage_share_directory_id` - The ID of the Directory within the File Share.
+- `storage_sync_id` - The ID of the Storage Sync.
+- `storage_sync_group_id` - The ID of the Storage Sync Group.
+- `storage_sync_cloud_endpoint_id` - The ID of the Storage Sync Cloud Endpoint.
 
 
 ## Authors
