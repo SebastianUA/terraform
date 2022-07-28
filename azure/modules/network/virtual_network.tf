@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "virtual_network" {
     for_each = var.virtual_network_subnet
 
     content {
-      name           = lookup(subnet.value, "name", "${lower(var.name)}-virtual-network-subnet-${lower(var.environment)}-${index(var.virtual_network_subnet, each.value) + 1}")
+      name           = lookup(subnet.value, "name", "${lower(var.name)}-virtual-network-subnet-${lower(var.environment)}-${index(var.virtual_network_subnet, subnet.value) + 1}")
       address_prefix = lookup(subnet.value, "address_prefix", null)
 
       security_group = lookup(subnet.value, "security_group", (var.enable_network_security_group ? azurerm_network_security_group.network_security_group[0].name : null))

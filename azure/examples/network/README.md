@@ -107,8 +107,11 @@ module "virtual_network" {
       security_group = module.network_sg.network_security_group_id
     },
     {
-      # name           = 
       address_prefix = "10.0.2.0/24"
+    },
+    {
+      name           = "temp"
+      address_prefix = "10.0.3.0/24"
     }
   ]
 
@@ -123,6 +126,38 @@ module "virtual_network" {
     module.network_sg
   ]
 }
+
+module "public_ip" {
+  source = "../../modules/network"
+
+  // Enable Network SG
+  enable_public_ip              = true
+  public_ip_name                = "my-public-ip"
+  public_ip_location            = module.base_resource_group.resource_group_location
+  public_ip_resource_group_name = module.base_resource_group.resource_group_name
+  public_ip_allocation_method   = "Static"
+
+  public_ip_ip_version = "IPv4"
+  public_ip_sku        = null
+  public_ip_sku_tier   = null
+
+  public_ip_ip_tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}
+
 ```
 
 ## Module Input Variables
@@ -171,6 +206,22 @@ module "virtual_network" {
 - `virtual_network_subnet` - (Optional) Can be specified multiple times to define multiple subnets. (`default = []`)
 - `virtual_network_ddos_protection_plan` - (Optional) A ddos_protection_plan block (`default = {}`)
 - `virtual_network_timeouts` - Set timeouts for virtual network (`default = {}`)
+- `enable_public_ip` - Enable public ip usage (`default = False`)
+- `public_ip_name` - Specifies the name of the Public IP. Changing this forces a new Public IP to be created. (`default = ""`)
+- `public_ip_resource_group_name` - (Required) The name of the Resource Group where this Public IP should exist. Changing this forces a new Public IP to be created. (`default = null`)
+- `public_ip_location` - (Required) Specifies the supported Azure location where the Public IP should exist. Changing this forces a new resource to be created. (`default = null`)
+- `public_ip_allocation_method` - (Required) Defines the allocation method for this IP address. Possible values are Static or Dynamic (`default = null`)
+- `public_ip_zones` - (Optional) A collection containing the availability zone to allocate the Public IP in. (`default = null`)
+- `public_ip_domain_name_label` - (Optional) Label for the Domain Name. Will be used to make up the FQDN. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system. (`default = null`)
+- `public_ip_edge_zone` - (Optional) Specifies the Edge Zone within the Azure Region where this Public IP should exist. Changing this forces a new Public IP to be created. (`default = null`)
+- `public_ip_idle_timeout_in_minutes` - (Optional) Specifies the timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. (`default = null`)
+- `public_ip_ip_tags` - (Optional) A mapping of IP tags to assign to the public IP. (`default = null`)
+- `public_ip_ip_version` - (Optional) The IP Version to use, IPv6 or IPv4. (`default = null`)
+- `public_ip_public_ip_prefix_id` - (Optional) If specified then public IP address allocated will be provided from the public IP prefix resource. (`default = null`)
+- `public_ip_reverse_fqdn` -  (Optional) A fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. (`default = null`)
+- `public_ip_sku` - (Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Basic. (`default = null`)
+- `public_ip_sku_tier` - (Optional) The SKU Tier that should be used for the Public IP. Possible values are Regional and Global. Defaults to Regional. (`default = null`)
+- `public_ip_timeouts` - Set timeouts for public ip (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -185,6 +236,9 @@ module "virtual_network" {
 - `virtual_network_address_space` - The list of address spaces used by the virtual network.
 - `virtual_network_guid` - The GUID of the virtual network.
 - `virtual_network_subnet` - The virtual NetworkConfiguration ID.
+- `public_ip_id` - The ID of this Public IP.
+- `public_ip_ip_address` - The IP address value that was allocated.
+- `public_ip_fqdn` - Fully qualified domain name of the A DNS record associated with the public IP. domain_name_label must be specified to get the fqdn. This is the concatenation of the domain_name_label and the regionalized DNS zone
 
 
 ## Authors

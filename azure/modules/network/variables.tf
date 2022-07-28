@@ -230,10 +230,211 @@ variable "virtual_network_timeouts" {
   default     = {}
 }
 
-#
-#
-#
-# variable "AAAAA" {
-#   description = "AAAAA"
-#   default     = null
-# }
+#-----------------------------------------------------------
+# Azure public ip
+#-----------------------------------------------------------
+variable "enable_public_ip" {
+  description = "Enable public ip usage"
+  default     = false
+}
+
+variable "public_ip_name" {
+  description = "Specifies the name of the Public IP. Changing this forces a new Public IP to be created."
+  default     = ""
+}
+
+variable "public_ip_resource_group_name" {
+  description = "(Required) The name of the Resource Group where this Public IP should exist. Changing this forces a new Public IP to be created."
+  default     = null
+}
+
+variable "public_ip_location" {
+  description = "(Required) Specifies the supported Azure location where the Public IP should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "public_ip_allocation_method" {
+  description = "(Required) Defines the allocation method for this IP address. Possible values are Static or Dynamic"
+  default     = null
+}
+
+variable "public_ip_zones" {
+  description = "(Optional) A collection containing the availability zone to allocate the Public IP in."
+  default     = null
+}
+
+variable "public_ip_domain_name_label" {
+  description = "(Optional) Label for the Domain Name. Will be used to make up the FQDN. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system."
+  default     = null
+}
+
+variable "public_ip_edge_zone" {
+  description = "(Optional) Specifies the Edge Zone within the Azure Region where this Public IP should exist. Changing this forces a new Public IP to be created."
+  default     = null
+}
+
+variable "public_ip_idle_timeout_in_minutes" {
+  description = "(Optional) Specifies the timeout for the TCP idle connection. The value can be set between 4 and 30 minutes."
+  default     = null
+}
+
+variable "public_ip_ip_tags" {
+  description = "(Optional) A mapping of IP tags to assign to the public IP."
+  default     = null
+}
+
+variable "public_ip_ip_version" {
+  description = "(Optional) The IP Version to use, IPv6 or IPv4."
+  default     = null
+}
+
+variable "public_ip_public_ip_prefix_id" {
+  description = "(Optional) If specified then public IP address allocated will be provided from the public IP prefix resource."
+  default     = null
+}
+
+variable "public_ip_reverse_fqdn" {
+  description = " (Optional) A fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN."
+  default     = null
+}
+
+variable "public_ip_sku" {
+  description = "(Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Basic."
+  default     = null
+}
+
+variable "public_ip_sku_tier" {
+  description = "(Optional) The SKU Tier that should be used for the Public IP. Possible values are Regional and Global. Defaults to Regional."
+  default     = null
+}
+
+variable "public_ip_timeouts" {
+  description = "Set timeouts for public ip"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure subnet
+#-----------------------------------------------------------
+variable "enable_subnet" {
+  description = "Enable subnet usage"
+  default     = false
+}
+
+variable "subnet_name" {
+  description = "The name of the subnet. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "subnet_resource_group_name" {
+  description = "(Required) The name of the resource group in which to create the subnet. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "subnet_virtual_network_name" {
+  description = "The name of the virtual network to which to attach the subnet. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "subnet_address_prefixes" {
+  description = "(Required) The address prefixes to use for the subnet."
+  default     = null
+}
+
+variable "subnet_enforce_private_link_endpoint_network_policies" {
+  description = "(Optional) Enable or Disable network policies for the private link endpoint on the subnet. Setting this to true will Disable the policy and setting this to false will Enable the policy. Default value is false."
+  default     = null
+}
+
+variable "subnet_enforce_private_link_service_network_policies" {
+  description = "(Optional) Enable or Disable network policies for the private link service on the subnet. Setting this to true will Disable the policy and setting this to false will Enable the policy. Default value is false."
+  default     = null
+}
+
+variable "subnet_service_endpoints" {
+  description = "(Optional) The list of Service endpoints to associate with the subnet. Possible values include: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage and Microsoft.Web."
+  default     = null
+}
+
+variable "subnet_service_endpoint_policy_ids" {
+  description = "(Optional) The list of IDs of Service Endpoint Policies to associate with the subnet."
+  default     = null
+}
+
+variable "subnet_delegation" {
+  description = "(Optional) One or more delegation blocks"
+  default     = []
+}
+
+variable "subnet_timeouts" {
+  description = "Set timeouts for subnet"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure bastion host
+#-----------------------------------------------------------
+variable "enable_bastion_host" {
+  description = "Enable bastion host usage"
+  default     = false
+}
+
+variable "bastion_host_name" {
+  description = "Specifies the name of the Bastion Host. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "bastion_host_resource_group_name" {
+  description = "(Required) The name of the resource group in which to create the Bastion Host."
+  default     = null
+}
+
+variable "bastion_host_location" {
+  description = "(Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. Review Azure Bastion Host FAQ for supported locations."
+  default     = null
+}
+
+variable "bastion_host_copy_paste_enabled" {
+  description = "(Optional) Is Copy/Paste feature enabled for the Bastion Host. Defaults to true."
+  default     = null
+}
+
+variable "bastion_host_file_copy_enabled" {
+  description = "(Optional) Is File Copy feature enabled for the Bastion Host. Defaults to false."
+  default     = null
+}
+
+variable "bastion_host_sku" {
+  description = "(Optional) The SKU of the Bastion Host. Accepted values are Basic and Standard. Defaults to Basic"
+  default     = null
+}
+
+variable "bastion_host_ip_connect_enabled" {
+  description = "(Optional) Is IP Connect feature enabled for the Bastion Host. Defaults to false."
+  default     = null
+}
+
+variable "bastion_host_scale_units" {
+  description = "(Optional) The number of scale units with which to provision the Bastion Host. Possible values are between 2 and 50. Defaults to 2"
+  default     = null
+}
+
+variable "bastion_host_shareable_link_enabled" {
+  description = "(Optional) Is Shareable Link feature enabled for the Bastion Host. Defaults to false."
+  default     = null
+}
+
+variable "bastion_host_tunneling_enabled" {
+  description = "(Optional) Is Tunneling feature enabled for the Bastion Host. Defaults to false."
+  default     = null
+}
+
+variable "bastion_host_ip_configuration" {
+  description = "(Required) A ip_configuration block"
+  default     = {}
+}
+
+variable "bastion_host_timeouts" {
+  description = "Set timeouts for bastion host"
+  default     = {}
+}

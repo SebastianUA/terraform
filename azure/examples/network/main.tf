@@ -82,7 +82,7 @@ module "network_sg" {
 module "virtual_network" {
   source = "../../modules/network"
 
-  // Enable Network SG
+  // Enable virtual network
   enable_virtual_network              = true
   virtual_network_name                = "my-virtual-network"
   virtual_network_location            = module.base_resource_group.resource_group_location
@@ -97,8 +97,11 @@ module "virtual_network" {
       security_group = module.network_sg.network_security_group_id
     },
     {
-      # name           = 
       address_prefix = "10.0.2.0/24"
+    },
+    {
+      name           = "temp"
+      address_prefix = "10.0.3.0/24"
     }
   ]
 
@@ -111,5 +114,88 @@ module "virtual_network" {
   depends_on = [
     module.base_resource_group,
     module.network_sg
+  ]
+}
+
+module "subnet" {
+  source = "../../modules/network"
+
+  // Enable subnet
+  enable_subnet               = true
+  subnet_name                 = "my-subnet"
+  subnet_resource_group_name  = module.base_resource_group.resource_group_name
+  subnet_virtual_network_name = module.virtual_network.virtual_network_id
+  subnet_address_prefixes     = ["10.0.4.0/24"]
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group,
+    module.virtual_network
+  ]
+}
+
+module "public_ip" {
+  source = "../../modules/network"
+
+  // Enable Network SG
+  enable_public_ip              = true
+  public_ip_name                = "my-public-ip"
+  public_ip_location            = module.base_resource_group.resource_group_location
+  public_ip_resource_group_name = module.base_resource_group.resource_group_name
+  public_ip_allocation_method   = "Static"
+
+  public_ip_ip_version = "IPv4"
+  public_ip_sku        = null
+  public_ip_sku_tier   = null
+
+  public_ip_ip_tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group
+  ]
+}
+
+module "bastion_host" {
+  source = "../../modules/network"
+
+  // Enable bastion host
+  enable_bastion_host              = true
+  bastion_host_name                = "my-public-ip"
+  bastion_host_location            = module.base_resource_group.resource_group_location
+  bastion_host_resource_group_name = module.base_resource_group.resource_group_name
+
+  bastion_host_ip_configuration = {
+    name                 = "configuration"
+    subnet_id            = module.subnet.subnet_id
+    public_ip_address_id = module.public_ip.public_ip_id
+  }
+
+  bastion_host_sku         = null
+  bastion_host_scale_units = null
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group,
+    module.public_ip
   ]
 }
