@@ -92,7 +92,7 @@ module "network_sg" {
 module "virtual_network" {
   source = "../../modules/network"
 
-  // Enable Network SG
+  // Enable virtual network
   enable_virtual_network              = true
   virtual_network_name                = "my-virtual-network"
   virtual_network_location            = module.base_resource_group.resource_group_location
@@ -127,6 +127,28 @@ module "virtual_network" {
   ]
 }
 
+module "subnet" {
+  source = "../../modules/network"
+
+  // Enable subnet
+  enable_subnet               = true
+  subnet_name                 = "my-subnet"
+  subnet_resource_group_name  = module.base_resource_group.resource_group_name
+  subnet_virtual_network_name = module.virtual_network.virtual_network_id
+  subnet_address_prefixes     = ["10.0.4.0/24"]
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group,
+    module.virtual_network
+  ]
+}
+
 module "public_ip" {
   source = "../../modules/network"
 
@@ -158,6 +180,35 @@ module "public_ip" {
   ]
 }
 
+module "bastion_host" {
+  source = "../../modules/network"
+
+  // Enable bastion host
+  enable_bastion_host              = true
+  bastion_host_name                = "my-public-ip"
+  bastion_host_location            = module.base_resource_group.resource_group_location
+  bastion_host_resource_group_name = module.base_resource_group.resource_group_name
+
+  bastion_host_ip_configuration = {
+    name                 = "configuration"
+    subnet_id            = module.subnet.subnet_id
+    public_ip_address_id = module.public_ip.public_ip_id
+  }
+
+  bastion_host_sku         = null
+  bastion_host_scale_units = null
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.base_resource_group,
+    module.public_ip
+  ]
+}
 ```
 
 ## Module Input Variables
@@ -222,6 +273,30 @@ module "public_ip" {
 - `public_ip_sku` - (Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Basic. (`default = null`)
 - `public_ip_sku_tier` - (Optional) The SKU Tier that should be used for the Public IP. Possible values are Regional and Global. Defaults to Regional. (`default = null`)
 - `public_ip_timeouts` - Set timeouts for public ip (`default = {}`)
+- `enable_subnet` - Enable subnet usage (`default = False`)
+- `subnet_name` - The name of the subnet. Changing this forces a new resource to be created. (`default = ""`)
+- `subnet_resource_group_name` - (Required) The name of the resource group in which to create the subnet. Changing this forces a new resource to be created. (`default = null`)
+- `subnet_virtual_network_name` - The name of the virtual network to which to attach the subnet. Changing this forces a new resource to be created. (`default = ""`)
+- `subnet_address_prefixes` - (Required) The address prefixes to use for the subnet. (`default = null`)
+- `subnet_enforce_private_link_endpoint_network_policies` - (Optional) Enable or Disable network policies for the private link endpoint on the subnet. Setting this to true will Disable the policy and setting this to false will Enable the policy. Default value is false. (`default = null`)
+- `subnet_enforce_private_link_service_network_policies` - (Optional) Enable or Disable network policies for the private link service on the subnet. Setting this to true will Disable the policy and setting this to false will Enable the policy. Default value is false. (`default = null`)
+- `subnet_service_endpoints` - (Optional) The list of Service endpoints to associate with the subnet. Possible values include: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage and Microsoft.Web. (`default = null`)
+- `subnet_service_endpoint_policy_ids` - (Optional) The list of IDs of Service Endpoint Policies to associate with the subnet. (`default = null`)
+- `subnet_delegation` - (Optional) One or more delegation blocks (`default = []`)
+- `subnet_timeouts` - Set timeouts for subnet (`default = {}`)
+- `enable_bastion_host` - Enable bastion host usage (`default = False`)
+- `bastion_host_name` - Specifies the name of the Bastion Host. Changing this forces a new resource to be created. (`default = ""`)
+- `bastion_host_resource_group_name` - (Required) The name of the resource group in which to create the Bastion Host. (`default = null`)
+- `bastion_host_location` - (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. Review Azure Bastion Host FAQ for supported locations. (`default = null`)
+- `bastion_host_copy_paste_enabled` - (Optional) Is Copy/Paste feature enabled for the Bastion Host. Defaults to true. (`default = null`)
+- `bastion_host_file_copy_enabled` - (Optional) Is File Copy feature enabled for the Bastion Host. Defaults to false. (`default = null`)
+- `bastion_host_sku` - (Optional) The SKU of the Bastion Host. Accepted values are Basic and Standard. Defaults to Basic (`default = null`)
+- `bastion_host_ip_connect_enabled` - (Optional) Is IP Connect feature enabled for the Bastion Host. Defaults to false. (`default = null`)
+- `bastion_host_scale_units` - (Optional) The number of scale units with which to provision the Bastion Host. Possible values are between 2 and 50. Defaults to 2 (`default = null`)
+- `bastion_host_shareable_link_enabled` - (Optional) Is Shareable Link feature enabled for the Bastion Host. Defaults to false. (`default = null`)
+- `bastion_host_tunneling_enabled` - (Optional) Is Tunneling feature enabled for the Bastion Host. Defaults to false. (`default = null`)
+- `bastion_host_ip_configuration` - (Required) A ip_configuration block (`default = {}`)
+- `bastion_host_timeouts` - Set timeouts for bastion host (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -235,10 +310,17 @@ module "public_ip" {
 - `virtual_network_location` - The location/region where the virtual network is created.
 - `virtual_network_address_space` - The list of address spaces used by the virtual network.
 - `virtual_network_guid` - The GUID of the virtual network.
-- `virtual_network_subnet` - The virtual NetworkConfiguration ID.
+- `virtual_network_subnet` - One or more subnet blocks.
 - `public_ip_id` - The ID of this Public IP.
 - `public_ip_ip_address` - The IP address value that was allocated.
 - `public_ip_fqdn` - Fully qualified domain name of the A DNS record associated with the public IP. domain_name_label must be specified to get the fqdn. This is the concatenation of the domain_name_label and the regionalized DNS zone
+- `subnet_id` - The subnet ID.
+- `subnet_name` - The name of the subnet.
+- `subnet_resource_group_name` - The name of the resource group in which the subnet is created in.
+- `subnet_virtual_network_name` - The name of the virtual network in which the subnet is created in
+- `subnet_address_prefixes` - The address prefixes for the subnet
+- `bastion_host_id` - The ID of the Bastion Host.
+- `bastion_host_dns_name` - The FQDN for the Bastion Host.
 
 
 ## Authors
