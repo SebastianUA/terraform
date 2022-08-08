@@ -75,7 +75,7 @@ resource "azurerm_mysql_server" "mysql_server" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [
+    ignore_changes = [
       threat_detection_policy
     ]
   }
