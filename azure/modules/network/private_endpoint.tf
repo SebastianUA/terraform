@@ -27,7 +27,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
       name                 = lookup(private_service_connection.value, "name", null)
       is_manual_connection = lookup(private_service_connection.value, "is_manual_connection", null)
 
-      private_connection_resource_id    = lookup(private_service_connection.value, "private_connection_resource_id", (var.enable_private_endpoint ? azurerm_private_link_service.private_link_service[count.index].id : null))
+      private_connection_resource_id    = lookup(private_service_connection.value, "private_connection_resource_id", (var.enable_private_endpoint ? azurerm_private_link_service.private_link_service[0].id : null))
       private_connection_resource_alias = lookup(private_service_connection.value, "private_connection_resource_alias", null)
       subresource_names                 = lookup(private_service_connection.value, "subresource_names", null)
       request_message                   = lookup(private_service_connection.value, "request_message", null)
