@@ -313,9 +313,20 @@ module "bastion_host" {
 - `private_endpoint_resource_group_name` - (Required) Specifies the Name of the Resource Group within which the Private Endpoint should exist. Changing this forces a new resource to be created. (`default = null`)
 - `private_endpoint_location` - (Required) The supported Azure location where the resource exists. Changing this forces a new resource to be created. (`default = null`)
 - `private_endpoint_subnet_id` - (Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created. (`default = null`)
-- `private_endpoint_private_dns_zone_group` - (Optional) A private_dns_zone_group block  (`default = {}`)
+- `private_endpoint_private_dns_zone_group` - (Optional) A private_dns_zone_group block (`default = {}`)
 - `private_endpoint_private_service_connection` - (Required) A private_service_connection block (`default = {}`)
 - `private_endpoint_timeouts` - Set timeouts for private endpoint (`default = {}`)
+- `enable_network_interface` - Enable network interface usage (`default = False`)
+- `network_interface_name` - The name of the Network Interface. Changing this forces a new resource to be created. (`default = ""`)
+- `network_interface_location` - (Required) The location where the Network Interface should exist. Changing this forces a new resource to be created. (`default = null`)
+- `network_interface_resource_group_name` - (Required) The name of the Resource Group in which to create the Network Interface. Changing this forces a new resource to be created. (`default = null`)
+- `network_interface_dns_servers` - (Optional) A list of IP Addresses defining the DNS Servers which should be used for this Network Interface. (`default = null`)
+- `network_interface_edge_zone` - (Optional) Specifies the Edge Zone within the Azure Region where this Network Interface should exist. Changing this forces a new Network Interface to be created. (`default = null`)
+- `network_interface_enable_ip_forwarding` - (Optional) Should IP Forwarding be enabled? Defaults to false. (`default = null`)
+- `network_interface_enable_accelerated_networking` - (Optional) Should Accelerated Networking be enabled? Defaults to false. (`default = null`)
+- `network_interface_internal_dns_name_label` - (Optional) The (relative) DNS Name used for internal communications between Virtual Machines in the same Virtual Network. (`default = null`)
+- `network_interface_ip_configuration` - (Required) One or more ip_configuration blocks (`default = []`)
+- `network_interface_timeouts` - Set timeouts network interface (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -348,6 +359,13 @@ module "bastion_host" {
 - `private_endpoint_custom_dns_configs` - The ID of the Private Endpoint (custom dns configs).
 - `private_endpoint_private_dns_zone_configs` - The ID of the Private Endpoint (private dns zone configs).
 - `private_endpoint_private_service_connection` - The ID of the Private Endpoint (private service connection).
+- `network_interface_id` - The ID of the Network Interface.
+- `network_interface_applied_dns_servers` - If the Virtual Machine using this Network Interface is part of an Availability Set, then this list will have the union of all DNS servers from all Network Interfaces that are part of the Availability Set.
+- `network_interface_internal_domain_name_suffix` - Even if internal_dns_name_label is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internal_domain_name_suffix.
+- `network_interface_mac_address` - The Media Access Control (MAC) Address of the Network Interface.
+- `network_interface_private_ip_address` - The first private IP address of the network interface.
+- `network_interface_private_ip_addresses` - The private IP addresses of the network interface.
+- `network_interface_virtual_machine_id` - The ID of the Virtual Machine which this Network Interface is connected to.
 
 
 ## Authors

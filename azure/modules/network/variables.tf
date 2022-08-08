@@ -526,7 +526,7 @@ variable "private_endpoint_subnet_id" {
 }
 
 variable "private_endpoint_private_dns_zone_group" {
-  description = "(Optional) A private_dns_zone_group block "
+  description = "(Optional) A private_dns_zone_group block"
   default     = {}
 }
 
@@ -537,5 +537,63 @@ variable "private_endpoint_private_service_connection" {
 
 variable "private_endpoint_timeouts" {
   description = "Set timeouts for private endpoint"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure network interface
+#-----------------------------------------------------------
+variable "enable_network_interface" {
+  description = "Enable network interface usage"
+  default     = false
+}
+
+variable "network_interface_name" {
+  description = "The name of the Network Interface. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "network_interface_location" {
+  description = "(Required) The location where the Network Interface should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "network_interface_resource_group_name" {
+  description = "(Required) The name of the Resource Group in which to create the Network Interface. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "network_interface_dns_servers" {
+  description = "(Optional) A list of IP Addresses defining the DNS Servers which should be used for this Network Interface."
+  default     = null
+}
+
+variable "network_interface_edge_zone" {
+  description = "(Optional) Specifies the Edge Zone within the Azure Region where this Network Interface should exist. Changing this forces a new Network Interface to be created."
+  default     = null
+}
+
+variable "network_interface_enable_ip_forwarding" {
+  description = "(Optional) Should IP Forwarding be enabled? Defaults to false."
+  default     = null
+}
+
+variable "network_interface_enable_accelerated_networking" {
+  description = "(Optional) Should Accelerated Networking be enabled? Defaults to false."
+  default     = null
+}
+
+variable "network_interface_internal_dns_name_label" {
+  description = "(Optional) The (relative) DNS Name used for internal communications between Virtual Machines in the same Virtual Network."
+  default     = null
+}
+
+variable "network_interface_ip_configuration" {
+  description = "(Required) One or more ip_configuration blocks"
+  default     = []
+}
+
+variable "network_interface_timeouts" {
+  description = "Set timeouts network interface"
   default     = {}
 }
