@@ -348,7 +348,6 @@ module "bastion_host" {
 - `private_endpoint_custom_dns_configs` - The ID of the Private Endpoint (custom dns configs).
 - `private_endpoint_private_dns_zone_configs` - The ID of the Private Endpoint (private dns zone configs).
 - `private_endpoint_private_service_connection` - The ID of the Private Endpoint (private service connection).
-- `private_endpoint_record_sets` - The ID of the Private Endpoint (record sets).
 
 
 ## Authors

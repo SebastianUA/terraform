@@ -167,7 +167,7 @@ output "private_endpoint_private_service_connection" {
   value       = concat(azurerm_private_endpoint.private_endpoint.*.private_service_connection, [""])
 }
 
-output "private_endpoint_record_sets" {
-  description = "The ID of the Private Endpoint (record sets)."
-  value       = concat(azurerm_private_endpoint.private_endpoint.*.record_sets, [""])
-}
+# output "private_endpoint_record_sets" {
+#   description = "The ID of the Private Endpoint (record sets)."
+#   value       = concat(azurerm_private_endpoint.private_endpoint.*.record_sets, [""])
+# }
