@@ -525,12 +525,12 @@ variable "private_endpoint_subnet_id" {
   default     = null
 }
 
-variable "private_link_service_private_dns_zone_group" {
+variable "private_endpoint_private_dns_zone_group" {
   description = "(Optional) A private_dns_zone_group block "
   default     = {}
 }
 
-variable "private_link_service_private_service_connection" {
+variable "private_endpoint_private_service_connection" {
   description = "(Required) A private_service_connection block"
   default     = {}
 }

@@ -313,8 +313,8 @@ module "bastion_host" {
 - `private_endpoint_resource_group_name` - (Required) Specifies the Name of the Resource Group within which the Private Endpoint should exist. Changing this forces a new resource to be created. (`default = null`)
 - `private_endpoint_location` - (Required) The supported Azure location where the resource exists. Changing this forces a new resource to be created. (`default = null`)
 - `private_endpoint_subnet_id` - (Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created. (`default = null`)
-- `private_link_service_private_dns_zone_group` - (Optional) A private_dns_zone_group block  (`default = {}`)
-- `private_link_service_private_service_connection` - (Required) A private_service_connection block (`default = {}`)
+- `private_endpoint_private_dns_zone_group` - (Optional) A private_dns_zone_group block  (`default = {}`)
+- `private_endpoint_private_service_connection` - (Required) A private_service_connection block (`default = {}`)
 - `private_endpoint_timeouts` - Set timeouts for private endpoint (`default = {}`)
 
 ## Module Output Variables

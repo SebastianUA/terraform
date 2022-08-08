@@ -11,7 +11,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
   dynamic "private_dns_zone_group" {
     iterator = private_dns_zone_group
-    for_each = length(keys(var.private_link_service_private_dns_zone_group)) > 0 ? [var.private_link_service_private_dns_zone_group] : []
+    for_each = length(keys(var.private_endpoint_private_dns_zone_group)) > 0 ? [var.private_endpoint_private_dns_zone_group] : []
 
     content {
       name                 = lookup(private_dns_zone_group.value, "name", null)
@@ -21,7 +21,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
   dynamic "private_service_connection" {
     iterator = private_service_connection
-    for_each = length(keys(var.private_link_service_private_service_connection)) > 0 ? [var.private_link_service_private_service_connection] : []
+    for_each = length(keys(var.private_endpoint_private_service_connection)) > 0 ? [var.private_endpoint_private_service_connection] : []
 
     content {
       name                 = lookup(private_service_connection.value, "name", null)
