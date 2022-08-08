@@ -3,8 +3,7 @@
 # AWS DMS source resources
 #---------------------------------------------------------------
 module "dms_replication" {
-  source = "../../../../aws/modules/dms2"
-  # "git@github.com:SebastianUA/terraform.git//aws/modules/dms2?ref=dev"
+  source = "git@github.com:SebastianUA/terraform.git//aws/modules/dms2?ref=dev"
 
   providers = {
     aws = aws.linux_notes_main
@@ -30,7 +29,7 @@ module "dms_replication" {
   # Enable DMS endpoints
   enable_dms_endpoint = true
   dms_endpoints = {
-    
+
     # sources
     source1 = {
       endpoint_id     = "${local.name}-${local.environment}-${local.dms_source_endpoint_properties["dms_endpoint_region"]}-dms-source-endpoint"
@@ -204,9 +203,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination1"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.eucentral1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.eucentral1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -216,9 +215,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination2"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.euwest2_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.euwest2_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -228,9 +227,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination3"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.cacentral1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.cacentral1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -240,9 +239,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination4"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.apnortheast1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.apnortheast1_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -252,9 +251,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination5"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.apsoutheast2_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.apsoutheast2_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -264,9 +263,9 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination6"
 
-      migration_type           = "full-load"
-      replication_task_id      = "${local.name}-${local.environment}-${local.westeurope_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
-      table_mappings = data.template_file.table_mappings.rendered
+      migration_type      = "full-load"
+      replication_task_id = "${local.name}-${local.environment}-${local.westeurope_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
+      table_mappings      = data.template_file.table_mappings.rendered
 
       cdc_start_time            = ""
       replication_task_settings = ""
@@ -276,7 +275,7 @@ module "dms_replication" {
       source_endpoint_key = "source1"
       target_endpoint_key = "destination7"
 
-      migration_type           = "full-load"
+      migration_type = "full-load"
       # replication_task_id      = "${local.name}-${local.environment}-${local.westus2_dms_target_endpoint_properties["dms_endpoint_region"]}-dms-replication-task"
       table_mappings = data.template_file.table_mappings.rendered
 

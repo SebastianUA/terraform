@@ -99,8 +99,7 @@ module "dms-vpc-role" {
 }
 
 module "time_sleep" {
-  source = "../../../../time/modules/time"
-  # "git@github.com:SebastianUA/terraform.git//time/modules/time?ref=dev"
+  source = "git@github.com:SebastianUA/terraform.git//time/modules/time?ref=dev"
 
   # Time sleep
   enable_sleep           = local.create_iams
