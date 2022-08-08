@@ -438,3 +438,104 @@ variable "bastion_host_timeouts" {
   description = "Set timeouts for bastion host"
   default     = {}
 }
+
+#-----------------------------------------------------------
+# Azure private link service
+#-----------------------------------------------------------
+variable "enable_private_link_service" {
+  description = "Enable private link service usage"
+  default     = false
+}
+
+variable "private_link_service_name" {
+  description = "Specifies the name of this Private Link Service. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "private_link_service_resource_group_name" {
+  description = "(Required) The name of the Resource Group where the Private Link Service should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_link_service_location" {
+  description = "(Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_link_service_load_balancer_frontend_ip_configuration_ids" {
+  description = "(Required) A list of Frontend IP Configuration IDs from a Standard Load Balancer, where traffic from the Private Link Service should be routed. You can use Load Balancer Rules to direct this traffic to appropriate backend pools where your applications are running."
+  default     = null
+}
+
+variable "private_link_service_nat_ip_configuration" {
+  description = "(Required) One or more (up to 8) nat_ip_configuration block"
+  default     = []
+}
+
+variable "private_link_service_auto_approval_subscription_ids" {
+  description = "(Optional) A list of Subscription UUID/GUID's that will be automatically be able to use this Private Link Service."
+  default     = null
+}
+
+variable "private_link_service_enable_proxy_protocol" {
+  description = "(Optional) Should the Private Link Service support the Proxy Protocol? Defaults to false."
+  default     = null
+}
+
+variable "private_link_service_fqdns" {
+  description = "(Optional) List of FQDNs allowed for the Private Link Service."
+  default     = null
+}
+
+variable "private_link_service_visibility_subscription_ids" {
+  description = "(Optional) A list of Subscription UUID/GUID's that will be able to see this Private Link Service."
+  default     = null
+}
+
+variable "private_link_service_timeouts" {
+  description = "Set timeouts for private link service"
+  default     = {}
+}
+
+#-----------------------------------------------------------
+# Azure private endpoint
+#-----------------------------------------------------------
+variable "enable_private_endpoint" {
+  description = "Enable private endpoint usage"
+  default     = false
+}
+
+variable "private_endpoint_name" {
+  description = "Specifies the Name of the Private Endpoint. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "private_endpoint_resource_group_name" {
+  description = "(Required) Specifies the Name of the Resource Group within which the Private Endpoint should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_endpoint_location" {
+  description = "(Required) The supported Azure location where the resource exists. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_endpoint_subnet_id" {
+  description = "(Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_link_service_private_dns_zone_group" {
+  description = "(Optional) A private_dns_zone_group block "
+  default     = {}
+}
+
+variable "private_link_service_private_service_connection" {
+  description = "(Required) A private_service_connection block"
+  default     = {}
+}
+
+variable "private_endpoint_timeouts" {
+  description = "Set timeouts for private endpoint"
+  default     = {}
+}

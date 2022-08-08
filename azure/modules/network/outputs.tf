@@ -121,3 +121,53 @@ output "bastion_host_dns_name" {
   value       = element(concat(azurerm_bastion_host.bastion_host.*.dns_name, [""]), 0)
 }
 
+#-----------------------------------------------------------
+# Azure private link service
+#-----------------------------------------------------------
+output "private_link_service_id" {
+  description = "The ID of the private link service."
+  value       = element(concat(azurerm_private_link_service.private_link_service.*.id, [""]), 0)
+}
+
+output "private_link_service_alias" {
+  description = "A globally unique DNS Name for your Private Link Service. You can use this alias to request a connection to your Private Link Service."
+  value       = concat(azurerm_private_link_service.private_link_service.*.alias, [""])
+}
+
+#-----------------------------------------------------------
+# Azure private endpoint
+#-----------------------------------------------------------
+output "private_endpoint_id" {
+  description = "The ID of the Private Endpoint."
+  value       = element(concat(azurerm_private_endpoint.private_endpoint.*.id, [""]), 0)
+}
+
+output "private_endpoint_network_interface" {
+  description = "The ID of the Private Endpoint (network interface)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.network_interface, [""])
+}
+
+output "private_endpoint_private_dns_zone_group" {
+  description = "The ID of the Private Endpoint (private dns zone group)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.private_dns_zone_group, [""])
+}
+
+output "private_endpoint_custom_dns_configs" {
+  description = "The ID of the Private Endpoint (custom dns configs)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.custom_dns_configs, [""])
+}
+
+output "private_endpoint_private_dns_zone_configs" {
+  description = "The ID of the Private Endpoint (private dns zone configs)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.private_dns_zone_configs, [""])
+}
+
+output "private_endpoint_private_service_connection" {
+  description = "The ID of the Private Endpoint (private service connection)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.private_service_connection, [""])
+}
+
+output "private_endpoint_record_sets" {
+  description = "The ID of the Private Endpoint (record sets)."
+  value       = concat(azurerm_private_endpoint.private_endpoint.*.record_sets, [""])
+}
