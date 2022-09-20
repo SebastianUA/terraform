@@ -227,8 +227,8 @@ variable "lambda_event_source_mapping_bisect_batch_on_function_error" {
 }
 
 variable "lambda_event_source_mapping_destination_config" {
-  description = " (Optional) An Amazon SQS queue or Amazon SNS topic destination for failed records. Only available for stream sources (DynamoDB and Kinesis). "
-  default     = null
+  description = "(Optional) An Amazon SQS queue or Amazon SNS topic destination for failed records. Only available for stream sources (DynamoDB and Kinesis). "
+  default     = []
 }
 
 #---------------------------------------------------
