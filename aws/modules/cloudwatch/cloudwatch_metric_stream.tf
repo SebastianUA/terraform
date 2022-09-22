@@ -29,24 +29,24 @@ resource "aws_cloudwatch_metric_stream" "cw_metric_stream" {
     }
   }
 
-  dynamic "statistics_configuration" {
-    iterator = statistics_configuration
-    for_each = var.cw_metric_stream_statistics_configuration
+  # dynamic "statistics_configuration" {
+  #   iterator = statistics_configuration
+  #   for_each = var.cw_metric_stream_statistics_configuration
 
-    content {
-      additional_statistics = lookup(statistics_configuration.value, "additional_statistics", null)
+  #   content {
+  #     additional_statistics = lookup(statistics_configuration.value, "additional_statistics", null)
 
-      dynamic "include_metric" {
-        iterator = include_metric
-        for_each = length(keys(lookup(statistics_configuration.value, "include_metric", {}))) > 0 ? [lookup(statistics_configuration.value, "include_metric", {})] : []
+  #     dynamic "include_metric" {
+  #       iterator = include_metric
+  #       for_each = length(keys(lookup(statistics_configuration.value, "include_metric", {}))) > 0 ? [lookup(statistics_configuration.value, "include_metric", {})] : []
 
-        content {
-          metric_name = lookup(include_metric.value, "metric_name", null)
-          namespace   = lookup(include_metric.value, "namespace", null)
-        }
-      }
-    }
-  }
+  #       content {
+  #         metric_name = lookup(include_metric.value, "metric_name", null)
+  #         namespace   = lookup(include_metric.value, "namespace", null)
+  #       }
+  #     }
+  #   }
+  # }
 
   tags = merge(
     {

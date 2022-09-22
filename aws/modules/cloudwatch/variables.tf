@@ -233,7 +233,7 @@ variable "cw_metric_stream_include_filter" {
   default     = []
 }
 
-variable "cw_metric_stream_statistics_configuration" {
-  description = "(Optional) For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's output_format. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in CloudWatch statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile statistics (p99 etc.)."
-  default     = []
-}
+# variable "cw_metric_stream_statistics_configuration" {
+#   description = "(Optional) For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's output_format. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in CloudWatch statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile statistics (p99 etc.)."
+#   default     = []
+# }

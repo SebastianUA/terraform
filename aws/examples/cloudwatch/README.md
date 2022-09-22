@@ -93,7 +93,6 @@ module "cloudwatch" {
 - `cw_metric_stream_name_prefix` - (Optional, Forces new resource) Creates a unique friendly name beginning with the specified prefix. Conflicts with name (`default = null`)
 - `cw_metric_stream_exclude_filter` - (Optional) List of exclusive metric filters. If you specify this parameter, the stream sends metrics from all metric namespaces except for the namespaces that you specify here. Conflicts with include_filter. (`default = []`)
 - `cw_metric_stream_include_filter` - (Optional) List of inclusive metric filters. If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. Conflicts with exclude_filter. (`default = []`)
-- `cw_metric_stream_statistics_configuration` - (Optional) For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's output_format. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in CloudWatch statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile statistics (p99 etc.). (`default = []`)
 
 ## Module Output Variables
 ----------------------
