@@ -69,9 +69,9 @@ variable "cw_log_metric_filter_metric_transformation" {
   default     = []
 }
 
-variable "cloudwatch_log_stream_name" {
-  description = "The name of the log stream. Must not be longer than 512 characters and must not contain :"
-  default     = ""
+variable "cloudwatch_log_stream_names" {
+  description = "The names of the log stream. Must not be longer than 512 characters and must not contain :"
+  default     = []
 }
 
 #---------------------------------------------------

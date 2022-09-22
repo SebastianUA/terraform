@@ -10,8 +10,14 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
 }
 
-module "kinesis" {
-  source      = "../../modules/kinesis"
+module "kinesis_analytics" {
+  source      = "../../modules/kinesis_analytics"
   name        = "TEST"
   environment = "stage"
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }

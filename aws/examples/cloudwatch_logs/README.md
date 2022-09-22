@@ -66,20 +66,20 @@ module "cloudwatch_logs" {
 - `cw_log_metric_filter_name` - A name for the metric filter. (`default = metric-filter`)
 - `cw_log_metric_filter_pattern` - A valid CloudWatch Logs filter pattern for extracting metric data out of ingested log events. (`default = ""`)
 - `cw_log_metric_filter_metric_transformation` - (Required) A block defining collection of information needed to define how metric data gets emitted. (`default = []`)
-- `cloudwatch_log_stream_name` - The name of the log stream. Must not be longer than 512 characters and must not contain : (`default = ""`)
+- `cloudwatch_log_stream_names` - The names of the log stream. Must not be longer than 512 characters and must not contain : (`default = []`)
 - `enable_cw_dashboard` - Enable cw_dashboard (`default = False`)
 - `cw_dashboard_name` - The name of the dashboard. (`default = ""`)
 - `cw_dashboard_body` - description (`default = ""`)
 
 ## Module Output Variables
 ----------------------
-- `cw_log_group_id` - ""
-- `cw_log_group_name` - ""
-- `cw_log_group_arn` - ""
-- `cw_log_stream_arn` - ""
-- `cw_log_stream_name` - ""
-- `cw_log_stream_id` - ""
-- `cw_log_metric_filter_id` - ""
+- `cw_log_group_id` - The ID specifying the log group
+- `cw_log_group_name` - The name specifying the log group
+- `cw_log_group_arn` - The Amazon Resource Name (ARN) specifying the log group. Any :* suffix added by the API, denoting all CloudWatch Log Streams under the CloudWatch Log Group, is removed for greater compatibility with other AWS services that do not accept the suffix.
+- `cw_log_stream_arns` - The Amazon Resource Name (ARN) specifying the log stream.
+- `cw_log_stream_names` - The name specifying the log stream.
+- `cw_log_stream_ids` - The ID specifying the log stream.
+- `cw_log_metric_filter_id` - The name of the metric filter.
 
 
 ## Authors

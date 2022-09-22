@@ -1,5 +1,3 @@
 #---------------------------------------------------
-# AWS kinesis stream
+# AWS kinesis analytics
 #---------------------------------------------------
-
-# https://www.terraform.io/docs/providers/aws/r/kinesis_stream.html
