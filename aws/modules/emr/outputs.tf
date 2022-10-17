@@ -132,3 +132,55 @@ output "emr_managed_scaling_policy_id" {
   description = "The unique identifier of managed scaling policy"
   value       = element(concat(aws_emr_managed_scaling_policy.emr_managed_scaling_policy.*.id, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS EMR studio
+#---------------------------------------------------
+output "emr_studio_id" {
+  description = "The id of the Elastic MapReduce Studio."
+  value       = element(concat(aws_emr_studio.emr_studio.*.id, [""]), 0)
+}
+
+output "emr_studio_arn" {
+  description = "ARN of the studio."
+  value       = element(concat(aws_emr_studio.emr_studio.*.arn, [""]), 0)
+}
+
+output "emr_studio_url" {
+  description = "The unique access URL of the Amazon EMR Studio."
+  value       = element(concat(aws_emr_studio.emr_studio.*.url, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS EMR studio session mapping
+#---------------------------------------------------
+output "emr_studio_session_mapping_id" {
+  description = "The id of the Elastic MapReduce Studio Session Mapping."
+  value       = element(concat(aws_emr_studio_session_mapping.emr_studio_session_mapping.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS EMR containers virtual cluster
+#---------------------------------------------------
+output "emrcontainers_virtual_cluster_id" {
+  description = "The ID of the cluster."
+  value       = element(concat(aws_emrcontainers_virtual_cluster.emrcontainers_virtual_cluster.*.id, [""]), 0)
+}
+
+output "emrcontainers_virtual_cluster_arn" {
+  description = "ARN of the cluster."
+  value       = element(concat(aws_emrcontainers_virtual_cluster.emrcontainers_virtual_cluster.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS emr serverless application
+#---------------------------------------------------
+output "emrserverless_application_id" {
+  description = "The ID of the cluster."
+  value       = element(concat(aws_emrserverless_application.emrserverless_application.*.id, [""]), 0)
+}
+
+output "emrserverless_application_arn" {
+  description = "ARN of the cluster."
+  value       = element(concat(aws_emrserverless_application.emrserverless_application.*.arn, [""]), 0)
+}

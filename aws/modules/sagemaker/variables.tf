@@ -142,6 +142,16 @@ variable "sagemaker_notebook_instance_instance_type" {
   default     = "ml.t2.medium"
 }
 
+variable "sagemaker_notebook_instance_platform_identifier" {
+  description = "(Optional) The platform identifier of the notebook instance runtime environment. This value can be either notebook-al1-v1, notebook-al2-v1, or notebook-al2-v2, depending on which version of Amazon Linux you require."
+  default     = null
+}
+
+variable "sagemaker_notebook_instance_volume_size" {
+  description = "(Optional) The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB."
+  default     = null
+}
+
 variable "sagemaker_notebook_instance_subnet_id" {
   description = "(Optional) The VPC subnet ID."
   default     = null
@@ -381,6 +391,40 @@ variable "sagemaker_code_repository_git_config" {
   default     = []
 }
 
+
+#---------------------------------------------------
+# AWS sagemaker app
+#---------------------------------------------------
+variable "enable_sagemaker_app" {
+  description = "Enable sagemaker app usage"
+  default     = false
+}
+
+variable "sagemaker_app_name" {
+  description = "The name of the app."
+  default     = ""
+}
+
+variable "sagemaker_app_type" {
+  description = "(Required) The type of app. Valid values are JupyterServer, KernelGateway and TensorBoard"
+  default     = null
+}
+
+variable "sagemaker_app_domain_id" {
+  description = "The domain ID."
+  default     = ""
+}
+
+variable "sagemaker_app_user_profile_name" {
+  description = "The user profile name."
+  default     = null
+}
+
+variable "sagemaker_app_resource_spec" {
+  description = "(Optional) The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance"
+  default     = []
+}
+
 #---------------------------------------------------
 # AWS sagemaker app image config
 #---------------------------------------------------
@@ -399,3 +443,239 @@ variable "sagemaker_app_image_config_kernel_gateway_image_config" {
   default     = []
 }
 
+#---------------------------------------------------
+# AWS Sagemaker device fleet
+#---------------------------------------------------
+variable "enable_sagemaker_device_fleet" {
+  description = "Enable sagemaker device fleet usage"
+  default     = false
+}
+
+variable "sagemaker_device_fleet_name" {
+  description = "Set name for sagemaker device fleet"
+  default     = ""
+}
+
+variable "sagemaker_device_fleet_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT)."
+  default     = null
+}
+
+variable "sagemaker_device_fleet_description" {
+  description = "(Optional) A description of the fleet."
+  default     = null
+}
+
+variable "sagemaker_device_fleet_enable_iot_role_alias" {
+  description = "(Optional) Whether to create an AWS IoT Role Alias during device fleet creation. The name of the role alias generated will match this pattern: 'SageMakerEdge-{DeviceFleetName}'."
+  default     = null
+}
+
+variable "sagemaker_device_fleet_output_config" {
+  description = "(Required) Specifies details about the repository."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker device
+#---------------------------------------------------
+variable "enable_sagemaker_device" {
+  description = "Enable sagemaker device usage"
+  default     = false
+}
+
+variable "sagemaker_device_fleet_name" {
+  description = "The name of the Device Fleet."
+  default     = ""
+}
+
+variable "sagemaker_device_fleet_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT)."
+  default     = null
+}
+
+variable "sagemaker_device_devices" {
+  description = "(Required) The list of devices to register with SageMaker Edge Manager."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker model package group policy
+#---------------------------------------------------
+variable "enable_sagemaker_model_package_group_policy" {
+  description = "Enable sagemaker model package group policy usage"
+  default     = false
+}
+
+variable "sagemaker_model_package_group_policy_model_package_group_name" {
+  description = "The name of the model package group."
+  default     = ""
+}
+
+variable "sagemaker_model_package_group_policy_resource_policy" {
+  description = "The resource policy for the model package group."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Sagemaker project
+#---------------------------------------------------
+variable "enable_sagemaker_project" {
+  description = "Enable sagemaker project usage"
+  default     = false
+}
+
+variable "sagemaker_project_name" {
+  description = "The name of the Project."
+  default     = ""
+}
+
+variable "sagemaker_project_project_description" {
+  description = "(Optional) A description for the project."
+  default     = null
+}
+
+variable "sagemaker_project_service_catalog_provisioning_details" {
+  description = "(Required) The product ID and provisioning artifact ID to provision a service catalog"
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker workteam
+#---------------------------------------------------
+variable "enable_sagemaker_workteam" {
+  description = "Enable sagemaker workteam usage"
+  default     = false
+}
+
+variable "sagemaker_workteam_name" {
+  description = "The name of the workforce."
+  default     = ""
+}
+
+variable "sagemaker_workteam_workforce_name" {
+  description = "The name of the Workteam (must be unique)."
+  default     = ""
+}
+
+variable "sagemaker_workteam_description" {
+  description = "(Required) A description of the work team."
+  default     = null
+}
+
+variable "sagemaker_workteam_member_definition" {
+  description = "(Required) A list of Member Definitions that contains objects that identify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use cognito_member_definition. For workforces created using your own OIDC identity provider (IdP) use oidc_member_definition. Do not provide input for both of these parameters in a single request."
+  default     = []
+}
+
+variable "sagemaker_workteam_notification_configuration" {
+  description = "(Optional) Configures notification of workers regarding available or expiring work items."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker workforce
+#---------------------------------------------------
+variable "enable_sagemaker_workforce" {
+  description = "Enable sagemaker workforce usage"
+  default     = false
+}
+
+variable "sagemaker_workforce_name" {
+  description = "The name of the Workforce (must be unique)."
+  default     = ""
+}
+
+variable "sagemaker_workforce_cognito_config" {
+  description = "(Required) Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single Amazon Cognito user pool. Conflicts with oidc_config"
+  default     = []
+}
+
+variable "sagemaker_workforce_oidc_config" {
+  description = "(Required) Use this parameter to configure a private workforce using your own OIDC Identity Provider. Conflicts with cognito_config"
+  default     = []
+}
+
+variable "sagemaker_workforce_source_ip_config" {
+  description = "(Required) A list of IP address ranges Used to create an allow list of IP addresses for a private workforce. By default, a workforce isn't restricted to specific IP addresses. "
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker studio lifecycle config
+#---------------------------------------------------
+variable "enable_sagemaker_studio_lifecycle_config" {
+  description = "Enable sagemaker studio lifecycle config usage"
+  default     = false
+}
+
+variable "sagemaker_studio_lifecycle_config_name" {
+  description = "The name of the Studio Lifecycle Configuration to create."
+  default     = ""
+}
+
+variable "sagemaker_studio_lifecycle_config_app_type" {
+  description = "(Required) The App type that the Lifecycle Configuration is attached to. Valid values are JupyterServer and KernelGateway."
+  default     = null
+}
+
+variable "sagemaker_studio_lifecycle_config_content" {
+  description = "(Required) The content of your Studio Lifecycle Configuration script. This content must be base64 encoded."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Sagemaker flow definition
+#---------------------------------------------------
+variable "enable_sagemaker_flow_definition" {
+  description = "Enable sagemaker flow definition usage"
+  default     = false
+}
+
+variable "sagemaker_flow_definition_flow_definition_name" {
+  description = "The name of your flow definition."
+  default     = ""
+}
+
+variable "sagemaker_flow_definition_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) of the role needed to call other services on your behalf."
+  default     = null
+}
+
+variable "sagemaker_flow_definition_human_loop_config" {
+  description = "(Required) An object containing information about the tasks the human reviewers will perform"
+  default     = []
+}
+
+variable "sagemaker_project_output_config" {
+  description = "(Required) An object containing information about where the human review results will be uploaded."
+  default     = []
+}
+
+variable "sagemaker_flow_definition_human_loop_activation_config" {
+  description = "(Optional) An object containing information about the events that trigger a human workflow"
+  default     = []
+}
+
+variable "sagemaker_flow_definition_human_loop_request_source" {
+  description = "(Optional) Container for configuring the source of human task requests. Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker human task ui
+#---------------------------------------------------
+variable "enable_sagemaker_human_task_ui" {
+  description = "Enable sagemaker human task ui usage"
+  default     = false
+}
+
+variable "sagemaker_human_task_ui_name" {
+  description = "The name of the Human Task UI."
+  default     = ""
+}
+
+variable "sagemaker_human_task_ui_template" {
+  description = "(Required) The Liquid template for the worker user interface."
+  default     = []
+}

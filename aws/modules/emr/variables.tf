@@ -298,3 +298,170 @@ variable "emr_managed_scaling_policy_compute_limits" {
   description = "(Required) Configuration block with compute limit settings."
   default     = []
 }
+
+#---------------------------------------------------
+# AWS EMR studio session mapping
+#---------------------------------------------------
+variable "enable_emr_studio_session_mapping" {
+  description = "Enable emr studio session mapping usage"
+  default     = false
+}
+
+variable "emr_studio_session_mapping_studio_id" {
+  description = "The ID of the Amazon EMR Studio to which the user or group will be mapped."
+  default     = ""
+}
+
+variable "emr_studio_session_mapping_identity_type" {
+  description = "(Required) Specifies whether the identity to map to the Amazon EMR Studio is a USER or a GROUP"
+  default     = null
+}
+
+variable "emr_studio_session_mapping_session_policy_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. You should specify the ARN for the session policy that you want to apply, not the ARN of your user role."
+  default     = null
+}
+
+variable "emr_studio_session_mapping_identity_id" {
+  description = "(Optional) The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store."
+  default     = null
+}
+
+variable "emr_studio_session_mapping_identity_name" {
+  description = "(Optional) The name of the user or group from the Amazon Web Services SSO Identity Store."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS EMR studio
+#---------------------------------------------------
+variable "enable_emr_studio_session_mapping" {
+  description = "Enable emr studio session mapping usage"
+  default     = false
+}
+
+variable "emr_studio_name" {
+  description = "A descriptive name for the Amazon EMR Studio."
+  default     = ""
+}
+
+variable "emr_studio_auth_mode" {
+  description = "(Required) Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO. Valid values are SSO or IAM"
+  default     = null
+}
+
+variable "emr_studio_default_s3_location" {
+  description = "(Required) The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files."
+  default     = null
+}
+
+variable "emr_studio_engine_security_group_id" {
+  description = "(Required) The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by vpc_id"
+  default     = null
+}
+
+variable "emr_studio_service_role" {
+  description = "(Required) The IAM role that the Amazon EMR Studio assumes. The service role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services services."
+  default     = null
+}
+
+variable "emr_studio_subnet_ids" {
+  description = "(Required) A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by vpc_id. Studio users can create a Workspace in any of the specified subnets."
+  default     = null
+}
+
+variable "emr_studio_vpc_id" {
+  description = "(Required) The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio."
+  default     = null
+}
+
+variable "emr_studio_workspace_security_group_id" {
+  description = "(Required) The ID of the Amazon EMR Studio Workspace security group. The Workspace security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by vpc_id."
+  default     = null
+}
+
+variable "emr_studio_description" {
+  description = "(Optional) A detailed description of the Amazon EMR Studio."
+  default     = null
+}
+
+variable "emr_studio_idp_auth_url" {
+  description = "(Optional) The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to enter credentials."
+  default     = null
+}
+
+variable "emr_studio_idp_relay_state_parameter_name" {
+  description = "(Optional) The name that your identity provider (IdP) uses for its RelayState parameter. For example, RelayState or TargetSource. Specify this value when you use IAM authentication and want to let federated users log in to a Studio using the Studio URL. The RelayState parameter differs by IdP."
+  default     = null
+}
+
+variable "emr_studio_user_role" {
+  description = "(Optional) - The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a User Role when you use Amazon Web Services SSO authentication. The permissions attached to the User Role can be scoped down for each user or group using session policies."
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS EMR containers virtual cluster
+#---------------------------------------------------
+variable "enable_emrcontainers_virtual_cluster" {
+  description = "Enable emrcontainers virtual cluster usage"
+  default     = false
+}
+
+variable "emrcontainers_virtual_cluster_name" {
+  description = "Name of the virtual cluster."
+  default     = ""
+}
+
+variable "emrcontainers_virtual_cluster_container_provider" {
+  description = "(Required) Configuration block for the container provider associated with your cluster."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS emr serverless application
+#---------------------------------------------------
+variable "enable_emrserverless_application" {
+  description = "Enable emrserverless application usage"
+  default     = false
+}
+
+variable "emrserverless_application_name" {
+  description = "The name of the application."
+  default     = ""
+}
+
+variable "emrserverless_application_release_label" {
+  description = "(Required) The EMR release version associated with the application."
+  default     = null
+}
+
+variable "emrserverless_application_type" {
+  description = "(Required) The type of application you want to start, such as spark or hive."
+  default     = null
+}
+
+variable "emrserverless_application_initial_capacity" {
+  description = "(Optional) The capacity to initialize when the application is created."
+  default     = {}
+}
+
+variable "emrserverless_application_maximum_capacity" {
+  description = "(Optional) The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit."
+  default     = {}
+}
+
+variable "emrserverless_application_auto_start_configuration" {
+  description = "(Optional) The configuration for an application to automatically start on job submission."
+  default     = {}
+}
+
+variable "emrserverless_application_auto_stop_configuration" {
+  description = "(Optional) The configuration for an application to automatically stop after a certain amount of time being idle."
+  default     = {}
+}
+
+variable "emrserverless_application_network_configuration" {
+  description = "(Optional) The network configuration for customer VPC connectivity."
+  default     = {}
+}

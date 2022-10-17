@@ -105,6 +105,8 @@ module "sagemaker" {
 - `sagemaker_notebook_instance_name` - The name of the notebook instance (must be unique). (`default = ""`)
 - `sagemaker_notebook_instance_role_arn` - (Required) The ARN of the IAM role to be used by the notebook instance which allows SageMaker to call other services on your behalf. (`default = null`)
 - `sagemaker_notebook_instance_instance_type` - (Required) The name of ML compute instance type. (`default = ml.t2.medium`)
+- `sagemaker_notebook_instance_platform_identifier` - (Optional) The platform identifier of the notebook instance runtime environment. This value can be either notebook-al1-v1, notebook-al2-v1, or notebook-al2-v2, depending on which version of Amazon Linux you require. (`default = null`)
+- `sagemaker_notebook_instance_volume_size` - (Optional) The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. (`default = null`)
 - `sagemaker_notebook_instance_subnet_id` - (Optional) The VPC subnet ID. (`default = null`)
 - `sagemaker_notebook_instance_security_groups` - (Optional) The associated security groups. (`default = null`)
 - `sagemaker_notebook_instance_kms_key_id` - (Optional) The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. (`default = null`)
@@ -147,9 +149,57 @@ module "sagemaker" {
 - `enable_sagemaker_code_repository` - Enable sagemaker code repository usage (`default = False`)
 - `sagemaker_code_repository_name` - The name of the Code Repository (must be unique). (`default = ""`)
 - `sagemaker_code_repository_git_config` - (Required) Specifies details about the repository. (`default = []`)
+- `enable_sagemaker_app` - Enable sagemaker app usage (`default = False`)
+- `sagemaker_app_name` - The name of the app. (`default = ""`)
+- `sagemaker_app_type` - (Required) The type of app. Valid values are JupyterServer, KernelGateway and TensorBoard (`default = null`)
+- `sagemaker_app_domain_id` - The domain ID. (`default = ""`)
+- `sagemaker_app_user_profile_name` - The user profile name. (`default = null`)
+- `sagemaker_app_resource_spec` - (Optional) The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance (`default = []`)
 - `enable_sagemaker_app_image_config` - Enable sagemaker app image config usage (`default = False`)
 - `sagemaker_app_image_config_name` - The name of the App Image Config. (`default = ""`)
 - `sagemaker_app_image_config_kernel_gateway_image_config` - (Optional) The configuration for the file system and kernels in a SageMaker image running as a KernelGateway app. (`default = []`)
+- `enable_sagemaker_device_fleet` - Enable sagemaker device fleet usage (`default = False`)
+- `sagemaker_device_fleet_name` - Set name for sagemaker device fleet (`default = ""`)
+- `sagemaker_device_fleet_role_arn` - (Required) The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT). (`default = null`)
+- `sagemaker_device_fleet_description` - (Optional) A description of the fleet. (`default = null`)
+- `sagemaker_device_fleet_enable_iot_role_alias` - (Optional) Whether to create an AWS IoT Role Alias during device fleet creation. The name of the role alias generated will match this pattern: 'SageMakerEdge-{DeviceFleetName}'. (`default = null`)
+- `sagemaker_device_fleet_output_config` - (Required) Specifies details about the repository. (`default = []`)
+- `enable_sagemaker_device` - Enable sagemaker device usage (`default = False`)
+- `sagemaker_device_fleet_name` - The name of the Device Fleet. (`default = ""`)
+- `sagemaker_device_fleet_role_arn` - (Required) The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT). (`default = null`)
+- `sagemaker_device_devices` - (Required) The list of devices to register with SageMaker Edge Manager. (`default = []`)
+- `enable_sagemaker_model_package_group_policy` - Enable sagemaker model package group policy usage (`default = False`)
+- `sagemaker_model_package_group_policy_model_package_group_name` - The name of the model package group. (`default = ""`)
+- `sagemaker_model_package_group_policy_resource_policy` - The resource policy for the model package group. (`default = null`)
+- `enable_sagemaker_project` - Enable sagemaker project usage (`default = False`)
+- `sagemaker_project_name` - The name of the Project. (`default = ""`)
+- `sagemaker_project_project_description` - (Optional) A description for the project. (`default = null`)
+- `sagemaker_project_service_catalog_provisioning_details` - (Required) The product ID and provisioning artifact ID to provision a service catalog (`default = []`)
+- `enable_sagemaker_workteam` - Enable sagemaker workteam usage (`default = False`)
+- `sagemaker_workteam_name` - The name of the workforce. (`default = ""`)
+- `sagemaker_workteam_workforce_name` - The name of the Workteam (must be unique). (`default = ""`)
+- `sagemaker_workteam_description` - (Required) A description of the work team. (`default = null`)
+- `sagemaker_workteam_member_definition` - (Required) A list of Member Definitions that contains objects that identify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use cognito_member_definition. For workforces created using your own OIDC identity provider (IdP) use oidc_member_definition. Do not provide input for both of these parameters in a single request. (`default = []`)
+- `sagemaker_workteam_notification_configuration` - (Optional) Configures notification of workers regarding available or expiring work items. (`default = []`)
+- `enable_sagemaker_workforce` - Enable sagemaker workforce usage (`default = False`)
+- `sagemaker_workforce_name` - The name of the Workforce (must be unique). (`default = ""`)
+- `sagemaker_workforce_cognito_config` - (Required) Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single Amazon Cognito user pool. Conflicts with oidc_config (`default = []`)
+- `sagemaker_workforce_oidc_config` - (Required) Use this parameter to configure a private workforce using your own OIDC Identity Provider. Conflicts with cognito_config (`default = []`)
+- `sagemaker_workforce_source_ip_config` - (Required) A list of IP address ranges Used to create an allow list of IP addresses for a private workforce. By default, a workforce isn't restricted to specific IP addresses.  (`default = []`)
+- `enable_sagemaker_studio_lifecycle_config` - Enable sagemaker studio lifecycle config usage (`default = False`)
+- `sagemaker_studio_lifecycle_config_name` - The name of the Studio Lifecycle Configuration to create. (`default = ""`)
+- `sagemaker_studio_lifecycle_config_app_type` - (Required) The App type that the Lifecycle Configuration is attached to. Valid values are JupyterServer and KernelGateway. (`default = null`)
+- `sagemaker_studio_lifecycle_config_content` - (Required) The content of your Studio Lifecycle Configuration script. This content must be base64 encoded. (`default = null`)
+- `enable_sagemaker_flow_definition` - Enable sagemaker flow definition usage (`default = False`)
+- `sagemaker_flow_definition_flow_definition_name` - The name of your flow definition. (`default = ""`)
+- `sagemaker_flow_definition_role_arn` - (Required) The Amazon Resource Name (ARN) of the role needed to call other services on your behalf. (`default = null`)
+- `sagemaker_flow_definition_human_loop_config` - (Required) An object containing information about the tasks the human reviewers will perform (`default = []`)
+- `sagemaker_project_output_config` - (Required) An object containing information about where the human review results will be uploaded. (`default = []`)
+- `sagemaker_flow_definition_human_loop_activation_config` - (Optional) An object containing information about the events that trigger a human workflow (`default = []`)
+- `sagemaker_flow_definition_human_loop_request_source` - (Optional) Container for configuring the source of human task requests. Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source. (`default = []`)
+- `enable_sagemaker_human_task_ui` - Enable sagemaker human task ui usage (`default = False`)
+- `sagemaker_human_task_ui_name` - The name of the Human Task UI. (`default = ""`)
+- `sagemaker_human_task_ui_template` - (Required) The Liquid template for the worker user interface. (`default = []`)
 
 ## Module Output Variables
 ----------------------
@@ -176,6 +226,7 @@ module "sagemaker" {
 - `sagemaker_domain_home_efs_file_system_id` - The ID of the Amazon Elastic File System (EFS) managed by this Domain.
 - `sagemaker_model_package_group_id` - The name of the Model Package Group.
 - `sagemaker_model_package_group_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Model Package Group.
+- `sagemaker_model_package_group_model_package_group_name` - The name of Model Package Group.
 - `sagemaker_image_id` - The name of the Image.
 - `sagemaker_image_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Image.
 - `sagemaker_image_version_id` - The name of the Image version.
@@ -185,8 +236,32 @@ module "sagemaker" {
 - `sagemaker_feature_group_name` - The name of the Feature Group.
 - `sagemaker_code_repository_id` - The name of the Code Repository.
 - `sagemaker_code_repository_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Code Repository.
+- `sagemaker_app_id` - The Amazon Resource Name (ARN) of the app.
+- `sagemaker_app_arn` - The Amazon Resource Name (ARN) of the app.
 - `sagemaker_app_image_config_id` - The name of the app image config.
 - `sagemaker_app_image_config_arn` - The Amazon Resource Name (ARN) assigned by AWS to this App Image Config.
+- `sagemaker_device_fleet_id` - The name of the Device Fleet.
+- `sagemaker_device_fleet_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Device Fleet.
+- `sagemaker_device_fleet_device_fleet_name` - The Name assigned by AWS to this Device Fleet.
+- `sagemaker_device_id` - The name of the Device.
+- `sagemaker_device_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Device.
+- `sagemaker_model_package_group_policy_id` - The name of the Model Package Package Group.
+- `sagemaker_project_id` - The name of the Project.
+- `sagemaker_project_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Project.
+- `sagemaker_project_project_id` - The ID of the project.
+- `sagemaker_workteam_id` - The name of the Workteam.
+- `sagemaker_workteam_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Workteam.
+- `sagemaker_workteam_subdomain` - The subdomain for your OIDC Identity Provider.
+- `sagemaker_workforce_id` - The name of the Workforce.
+- `sagemaker_workforce_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Workforce.
+- `sagemaker_workforce_subdomain` - The subdomain for your OIDC Identity Provider.
+- `sagemaker_studio_lifecycle_config_id` - The name of the Studio Lifecycle Config.
+- `sagemaker_studio_lifecycle_config_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Studio Lifecycle Config.
+- `sagemaker_flow_definition_id` - The name of the Flow Definition.
+- `sagemaker_flow_definition_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Flow Definition.
+- `sagemaker_human_task_ui_id` - The name of the Human Task UI.
+- `sagemaker_human_task_ui_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Human Task UI.
+- `sagemaker_human_task_ui_arn` - The Liquid template for the worker user interface
 
 
 ## Authors

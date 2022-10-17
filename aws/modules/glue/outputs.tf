@@ -288,3 +288,11 @@ output "glue_user_defined_function_create_time" {
   description = "The time at which the function was created."
   value       = element(concat(aws_glue_user_defined_function.glue_user_defined_function.*.create_time, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS Glue partition index
+#---------------------------------------------------
+output "glue_partition_index_id" {
+  description = "Catalog ID, Database name, table name, and index name."
+  value       = element(concat(aws_glue_partition_index.glue_partition_index.*.id, [""]), 0)
+}

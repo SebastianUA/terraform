@@ -447,6 +447,7 @@ module "glue_trigger" {
 - `glue_job_default_arguments` - (Optional) The map of default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide. (`default = {'--job-language': 'python'}`)
 - `glue_job_execution_property` - (Optional) Execution property of the job. (`default = []`)
 - `glue_job_glue_version` - (Optional) The version of glue to use, for example '1.0'. For information about available versions, see the AWS Glue Release Notes. (`default = null`)
+- `glue_job_execution_class` - (Optional) Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. Valid value: FLEX, STANDARD. (`default = null`)
 - `glue_job_max_capacity` - (Optional) The maximum number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. Required when pythonshell is set, accept either 0.0625 or 1.0. (`default = null`)
 - `glue_job_max_retries` - (Optional) The maximum number of times to retry this job if it fails. (`default = null`)
 - `glue_job_notification_property` - (Optional) Notification property of the job. (`default = []`)
@@ -521,6 +522,12 @@ module "glue_trigger" {
 - `glue_user_defined_function_owner_type` - (Required) The owner type. can be one of USER, ROLE, and GROUP. (`default = null`)
 - `glue_user_defined_function_catalog_id` - (Optional) ID of the Glue Catalog to create the function in. If omitted, this defaults to the AWS Account ID. (`default = null`)
 - `glue_user_defined_function_resource_uris` - (Optional) The configuration block for Resource URIs. See resource uris below for more details. (`default = []`)
+- `enable_glue_partition_index` - Enable glue partition index usage (`default = False`)
+- `glue_partition_index_table_name` - Name of the table. For Hive compatibility, this must be entirely lowercase. (`default = ""`)
+- `glue_partition_index_database_name` - (Required) Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase. (`default = ""`)
+- `glue_partition_index_catalog_id` - (Optional) The catalog ID where the table resides. (`default = ""`)
+- `glue_partition_index_partition_index` - (Required) Configuration block for a partition index. (`default = []`)
+- `glue_partition_index_timeouts` - Set timeouts glue partition index (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -572,6 +579,7 @@ module "glue_trigger" {
 - `glue_user_defined_function_id` - The id of the Glue User Defined Function.
 - `glue_user_defined_function_arn` - The ARN of the Glue User Defined Function.
 - `glue_user_defined_function_create_time` - The time at which the function was created.
+- `glue_partition_index_id` - Catalog ID, Database name, table name, and index name.
 
 
 ## Authors

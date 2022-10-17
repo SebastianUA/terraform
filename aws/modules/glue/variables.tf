@@ -392,6 +392,11 @@ variable "glue_job_glue_version" {
   default     = null
 }
 
+variable "glue_job_execution_class" {
+  description = "(Optional) Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. Valid value: FLEX, STANDARD."
+  default     = null
+}
+
 variable "glue_job_max_capacity" {
   description = "(Optional) The maximum number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. Required when pythonshell is set, accept either 0.0625 or 1.0."
   default     = null
@@ -796,4 +801,37 @@ variable "glue_user_defined_function_catalog_id" {
 variable "glue_user_defined_function_resource_uris" {
   description = "(Optional) The configuration block for Resource URIs. See resource uris below for more details."
   default     = []
+}
+
+#---------------------------------------------------
+# AWS Glue partition index
+#---------------------------------------------------
+variable "enable_glue_partition_index" {
+  description = "Enable glue partition index usage"
+  default     = false
+}
+
+variable "glue_partition_index_table_name" {
+  description = "Name of the table. For Hive compatibility, this must be entirely lowercase."
+  default     = ""
+}
+
+variable "glue_partition_index_database_name" {
+  description = "(Required) Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase."
+  default     = ""
+}
+
+variable "glue_partition_index_catalog_id" {
+  description = "(Optional) The catalog ID where the table resides."
+  default     = ""
+}
+
+variable "glue_partition_index_partition_index" {
+  description = "(Required) Configuration block for a partition index."
+  default     = []
+}
+
+variable "glue_partition_index_timeouts" {
+  description = "Set timeouts glue partition index"
+  default     = {}
 }

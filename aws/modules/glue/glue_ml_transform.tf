@@ -66,5 +66,3 @@ resource "aws_glue_ml_transform" "glue_ml_transform" {
     aws_glue_catalog_table.glue_catalog_table
   ]
 }
-
-

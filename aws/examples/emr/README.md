@@ -302,6 +302,37 @@ module "emr" {
 - `enable_emr_managed_scaling_policy` - Enable emr managed scaling policy usage (`default = False`)
 - `emr_managed_scaling_policy_cluster_id` - The id of the EMR cluster (`default = ""`)
 - `emr_managed_scaling_policy_compute_limits` - (Required) Configuration block with compute limit settings. (`default = []`)
+- `enable_emr_studio_session_mapping` - Enable emr studio session mapping usage (`default = False`)
+- `emr_studio_session_mapping_studio_id` - The ID of the Amazon EMR Studio to which the user or group will be mapped. (`default = ""`)
+- `emr_studio_session_mapping_identity_type` - (Required) Specifies whether the identity to map to the Amazon EMR Studio is a USER or a GROUP (`default = null`)
+- `emr_studio_session_mapping_session_policy_arn` - (Required) The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. You should specify the ARN for the session policy that you want to apply, not the ARN of your user role. (`default = null`)
+- `emr_studio_session_mapping_identity_id` - (Optional) The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store. (`default = null`)
+- `emr_studio_session_mapping_identity_name` - (Optional) The name of the user or group from the Amazon Web Services SSO Identity Store. (`default = null`)
+- `enable_emr_studio_session_mapping` - Enable emr studio session mapping usage (`default = False`)
+- `emr_studio_name` - A descriptive name for the Amazon EMR Studio. (`default = ""`)
+- `emr_studio_auth_mode` - (Required) Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO. Valid values are SSO or IAM (`default = null`)
+- `emr_studio_default_s3_location` - (Required) The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. (`default = null`)
+- `emr_studio_engine_security_group_id` - (Required) The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by vpc_id (`default = null`)
+- `emr_studio_service_role` - (Required) The IAM role that the Amazon EMR Studio assumes. The service role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services services. (`default = null`)
+- `emr_studio_subnet_ids` - (Required) A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by vpc_id. Studio users can create a Workspace in any of the specified subnets. (`default = null`)
+- `emr_studio_vpc_id` - (Required) The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio. (`default = null`)
+- `emr_studio_workspace_security_group_id` - (Required) The ID of the Amazon EMR Studio Workspace security group. The Workspace security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by vpc_id. (`default = null`)
+- `emr_studio_description` - (Optional) A detailed description of the Amazon EMR Studio. (`default = null`)
+- `emr_studio_idp_auth_url` - (Optional) The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to enter credentials. (`default = null`)
+- `emr_studio_idp_relay_state_parameter_name` - (Optional) The name that your identity provider (IdP) uses for its RelayState parameter. For example, RelayState or TargetSource. Specify this value when you use IAM authentication and want to let federated users log in to a Studio using the Studio URL. The RelayState parameter differs by IdP. (`default = null`)
+- `emr_studio_user_role` - (Optional) - The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a User Role when you use Amazon Web Services SSO authentication. The permissions attached to the User Role can be scoped down for each user or group using session policies. (`default = null`)
+- `enable_emrcontainers_virtual_cluster` - Enable emrcontainers virtual cluster usage (`default = False`)
+- `emrcontainers_virtual_cluster_name` - Name of the virtual cluster. (`default = ""`)
+- `emrcontainers_virtual_cluster_container_provider` - (Required) Configuration block for the container provider associated with your cluster. (`default = []`)
+- `enable_emrserverless_application` - Enable emrserverless application usage (`default = False`)
+- `emrserverless_application_name` - The name of the application. (`default = ""`)
+- `emrserverless_application_release_label` - (Required) The EMR release version associated with the application. (`default = null`)
+- `emrserverless_application_type` - (Required) The type of application you want to start, such as spark or hive. (`default = null`)
+- `emrserverless_application_initial_capacity` - (Optional) The capacity to initialize when the application is created. (`default = {}`)
+- `emrserverless_application_maximum_capacity` - (Optional) The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit. (`default = {}`)
+- `emrserverless_application_auto_start_configuration` - (Optional) The configuration for an application to automatically start on job submission. (`default = {}`)
+- `emrserverless_application_auto_stop_configuration` - (Optional) The configuration for an application to automatically stop after a certain amount of time being idle. (`default = {}`)
+- `emrserverless_application_network_configuration` - (Optional) The network configuration for customer VPC connectivity. (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -329,6 +360,14 @@ module "emr" {
 - `emr_instance_fleet_provisioned_spot_capacity` - The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
 - `emr_instance_fleet_provisioned_on_demand_capacity` - The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
 - `emr_managed_scaling_policy_id` - The unique identifier of managed scaling policy
+- `emr_studio_id` - The id of the Elastic MapReduce Studio.
+- `emr_studio_arn` - ARN of the studio.
+- `emr_studio_url` - The unique access URL of the Amazon EMR Studio.
+- `emr_studio_session_mapping_id` - The id of the Elastic MapReduce Studio Session Mapping.
+- `emrcontainers_virtual_cluster_id` - The ID of the cluster.
+- `emrcontainers_virtual_cluster_arn` - ARN of the cluster.
+- `emrserverless_application_id` - The ID of the cluster.
+- `emrserverless_application_arn` - ARN of the cluster.
 
 
 ## Authors

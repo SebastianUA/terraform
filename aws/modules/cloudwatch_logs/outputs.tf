@@ -41,3 +41,11 @@ output "cw_log_metric_filter_id" {
   description = "The name of the metric filter."
   value       = element(concat(aws_cloudwatch_log_metric_filter.cw_log_metric_filter.*.id, [""]), 0)
 }
+
+#---------------------------------------------------
+# AWS CloudWatch LOG subscription filter
+#---------------------------------------------------
+output "cw_log_subscription_filterid" {
+  description = "The name of the log subscription filter."
+  value       = element(concat(aws_cloudwatch_log_subscription_filter.cw_log_subscription_filter.*.id, [""]), 0)
+}

@@ -137,6 +137,11 @@ output "sagemaker_model_package_group_arn" {
   value       = element(concat(aws_sagemaker_model_package_group.sagemaker_model_package_group.*.arn, [""]), 0)
 }
 
+output "sagemaker_model_package_group_model_package_group_name" {
+  description = "The name of Model Package Group."
+  value       = element(concat(aws_sagemaker_model_package_group.sagemaker_model_package_group.*.model_package_group_name, [""]), 0)
+}
+
 #---------------------------------------------------
 # AWS sagemaker image
 #---------------------------------------------------
@@ -195,6 +200,19 @@ output "sagemaker_code_repository_arn" {
 }
 
 #---------------------------------------------------
+# AWS sagemaker app
+#---------------------------------------------------
+output "sagemaker_app_id" {
+  description = "The Amazon Resource Name (ARN) of the app."
+  value       = element(concat(aws_sagemaker_app.sagemaker_app.*.id, [""]), 0)
+}
+
+output "sagemaker_app_arn" {
+  description = "The Amazon Resource Name (ARN) of the app."
+  value       = element(concat(aws_sagemaker_app.sagemaker_app.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
 # AWS sagemaker app image config
 #---------------------------------------------------
 output "sagemaker_app_image_config_id" {
@@ -205,4 +223,141 @@ output "sagemaker_app_image_config_id" {
 output "sagemaker_app_image_config_arn" {
   description = "The Amazon Resource Name (ARN) assigned by AWS to this App Image Config."
   value       = element(concat(aws_sagemaker_app_image_config.sagemaker_app_image_config.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker device fleet
+#---------------------------------------------------
+output "sagemaker_device_fleet_id" {
+  description = "The name of the Device Fleet."
+  value       = element(concat(aws_sagemaker_device_fleet.sagemaker_device_fleet.*.id, [""]), 0)
+}
+
+output "sagemaker_device_fleet_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Device Fleet."
+  value       = element(concat(aws_sagemaker_device_fleet.sagemaker_device_fleet.*.arn, [""]), 0)
+}
+
+output "sagemaker_device_fleet_device_fleet_name" {
+  description = "The Name assigned by AWS to this Device Fleet."
+  value       = element(concat(aws_sagemaker_device_fleet.sagemaker_device_fleet.*.device_fleet_name, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker device
+#---------------------------------------------------
+output "sagemaker_device_id" {
+  description = "The name of the Device."
+  value       = element(concat(aws_sagemaker_device.sagemaker_device.*.id, [""]), 0)
+}
+
+output "sagemaker_device_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Device."
+  value       = element(concat(aws_sagemaker_device.sagemaker_device.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker model package group policy
+#---------------------------------------------------
+output "sagemaker_model_package_group_policy_id" {
+  description = "The name of the Model Package Package Group."
+  value       = element(concat(aws_sagemaker_model_package_group_policy.sagemaker_model_package_group_policy.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker project
+#---------------------------------------------------
+output "sagemaker_project_id" {
+  description = "The name of the Project."
+  value       = element(concat(aws_sagemaker_project.sagemaker_project.*.id, [""]), 0)
+}
+
+output "sagemaker_project_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Project."
+  value       = element(concat(aws_sagemaker_project.sagemaker_project.*.arn, [""]), 0)
+}
+
+output "sagemaker_project_project_id" {
+  description = "The ID of the project."
+  value       = element(concat(aws_sagemaker_project.sagemaker_project.*.project_id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker workteam
+#---------------------------------------------------
+output "sagemaker_workteam_id" {
+  description = "The name of the Workteam."
+  value       = element(concat(aws_sagemaker_workteam.sagemaker_workteam.*.id, [""]), 0)
+}
+
+output "sagemaker_workteam_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Workteam."
+  value       = element(concat(aws_sagemaker_workteam.sagemaker_workteam.*.arn, [""]), 0)
+}
+
+output "sagemaker_workteam_subdomain" {
+  description = "The subdomain for your OIDC Identity Provider."
+  value       = element(concat(aws_sagemaker_workteam.sagemaker_workteam.*.subdomain, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker workforce
+#---------------------------------------------------
+output "sagemaker_workforce_id" {
+  description = "The name of the Workforce."
+  value       = element(concat(aws_sagemaker_workforce.sagemaker_workforce.*.id, [""]), 0)
+}
+
+output "sagemaker_workforce_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Workforce."
+  value       = element(concat(aws_sagemaker_workforce.sagemaker_workforce.*.arn, [""]), 0)
+}
+
+output "sagemaker_workforce_subdomain" {
+  description = "The subdomain for your OIDC Identity Provider."
+  value       = element(concat(aws_sagemaker_workforce.sagemaker_workforce.*.subdomain, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker studio lifecycle config
+#---------------------------------------------------
+output "sagemaker_studio_lifecycle_config_id" {
+  description = "The name of the Studio Lifecycle Config."
+  value       = element(concat(aws_sagemaker_studio_lifecycle_config.sagemaker_studio_lifecycle_config.*.id, [""]), 0)
+}
+
+output "sagemaker_studio_lifecycle_config_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Studio Lifecycle Config."
+  value       = element(concat(aws_sagemaker_studio_lifecycle_config.sagemaker_studio_lifecycle_config.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker flow definition
+#---------------------------------------------------
+output "sagemaker_flow_definition_id" {
+  description = "The name of the Flow Definition."
+  value       = element(concat(aws_sagemaker_flow_definition.sagemaker_flow_definition.*.id, [""]), 0)
+}
+
+output "sagemaker_flow_definition_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Flow Definition."
+  value       = element(concat(aws_sagemaker_flow_definition.sagemaker_flow_definition.*.arn, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker human task ui
+#---------------------------------------------------
+output "sagemaker_human_task_ui_id" {
+  description = "The name of the Human Task UI."
+  value       = element(concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.id, [""]), 0)
+}
+
+output "sagemaker_human_task_ui_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this Human Task UI."
+  value       = element(concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.arn, [""]), 0)
+}
+
+output "sagemaker_human_task_ui_arn" {
+  description = "The Liquid template for the worker user interface"
+  value       = concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.ui_template, [""])
 }

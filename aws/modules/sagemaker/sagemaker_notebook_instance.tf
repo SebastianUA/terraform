@@ -8,6 +8,8 @@ resource "aws_sagemaker_notebook_instance" "sagemaker_notebook_instance" {
   role_arn      = var.sagemaker_notebook_instance_role_arn
   instance_type = var.sagemaker_notebook_instance_instance_type
 
+  platform_identifier    = var.sagemaker_notebook_instance_platform_identifier
+  volume_size            = var.sagemaker_notebook_instance_volume_size
   subnet_id              = var.sagemaker_notebook_instance_subnet_id
   security_groups        = var.sagemaker_notebook_instance_security_groups
   kms_key_id             = var.sagemaker_notebook_instance_kms_key_id

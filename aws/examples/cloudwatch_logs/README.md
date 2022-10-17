@@ -70,6 +70,13 @@ module "cloudwatch_logs" {
 - `enable_cw_dashboard` - Enable cw_dashboard (`default = False`)
 - `cw_dashboard_name` - The name of the dashboard. (`default = ""`)
 - `cw_dashboard_body` - description (`default = ""`)
+- `enable_cw_log_subscription_filter` - Enable cw_log subscription filter usage (`default = False`)
+- `cw_log_subscription_filter_name` - A name for the subscription filter (`default = ""`)
+- `cw_log_subscription_filter_destination_arn` - (Required) The ARN of the destination to deliver matching log events to. Kinesis stream or Lambda function ARN. (`default = null`)
+- `cw_log_subscription_filter_filter_pattern` - (Required) A valid CloudWatch Logs filter pattern for subscribing to a filtered stream of log events. Use empty string '' to match everything. For more information, see the Amazon CloudWatch Logs User Guide. (`default = null`)
+- `cw_log_subscription_filter_log_group_name` - Required) The name of the log group to associate the subscription filter with (`default = null`)
+- `cw_log_subscription_filter_role_arn` - (Optional) The ARN of an IAM role that grants Amazon CloudWatch Logs permissions to deliver ingested log events to the destination. If you use Lambda as a destination, you should skip this argument and use aws_lambda_permission resource for granting access from CloudWatch logs to the destination Lambda function. (`default = null`)
+- `cw_log_subscription_filter_distribution` - (Optional) The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. Valid values are 'Random' and 'ByLogStream'. (`default = null`)
 
 ## Module Output Variables
 ----------------------
@@ -80,6 +87,7 @@ module "cloudwatch_logs" {
 - `cw_log_stream_names` - The name specifying the log stream.
 - `cw_log_stream_ids` - The ID specifying the log stream.
 - `cw_log_metric_filter_id` - The name of the metric filter.
+- `cw_log_subscription_filterid` - The name of the log subscription filter.
 
 
 ## Authors
