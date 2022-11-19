@@ -165,8 +165,7 @@ module "sagemaker" {
 - `sagemaker_device_fleet_enable_iot_role_alias` - (Optional) Whether to create an AWS IoT Role Alias during device fleet creation. The name of the role alias generated will match this pattern: 'SageMakerEdge-{DeviceFleetName}'. (`default = null`)
 - `sagemaker_device_fleet_output_config` - (Required) Specifies details about the repository. (`default = []`)
 - `enable_sagemaker_device` - Enable sagemaker device usage (`default = False`)
-- `sagemaker_device_fleet_name` - The name of the Device Fleet. (`default = ""`)
-- `sagemaker_device_fleet_role_arn` - (Required) The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT). (`default = null`)
+- `sagemaker_device_device_fleet_name` - The name of the Device. (`default = ""`)
 - `sagemaker_device_devices` - (Required) The list of devices to register with SageMaker Edge Manager. (`default = []`)
 - `enable_sagemaker_model_package_group_policy` - Enable sagemaker model package group policy usage (`default = False`)
 - `sagemaker_model_package_group_policy_model_package_group_name` - The name of the model package group. (`default = ""`)
@@ -261,7 +260,7 @@ module "sagemaker" {
 - `sagemaker_flow_definition_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Flow Definition.
 - `sagemaker_human_task_ui_id` - The name of the Human Task UI.
 - `sagemaker_human_task_ui_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Human Task UI.
-- `sagemaker_human_task_ui_arn` - The Liquid template for the worker user interface
+- `sagemaker_human_task_ui_template` - The Liquid template for the worker user interface
 
 
 ## Authors

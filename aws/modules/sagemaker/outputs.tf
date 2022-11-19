@@ -357,7 +357,7 @@ output "sagemaker_human_task_ui_arn" {
   value       = element(concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.arn, [""]), 0)
 }
 
-output "sagemaker_human_task_ui_arn" {
+output "sagemaker_human_task_ui_template" {
   description = "The Liquid template for the worker user interface"
   value       = concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.ui_template, [""])
 }
