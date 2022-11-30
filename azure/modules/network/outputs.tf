@@ -121,3 +121,40 @@ output "bastion_host_dns_name" {
   value       = element(concat(azurerm_bastion_host.bastion_host.*.dns_name, [""]), 0)
 }
 
+#-----------------------------------------------------------
+# Azure network interface
+#-----------------------------------------------------------
+output "network_interface_id" {
+  description = "The ID of the Network Interface."
+  value       = element(concat(azurerm_network_interface.network_interface.*.id, [""]), 0)
+}
+
+output "network_interface_applied_dns_servers" {
+  description = "If the Virtual Machine using this Network Interface is part of an Availability Set, then this list will have the union of all DNS servers from all Network Interfaces that are part of the Availability Set."
+  value       = concat(azurerm_network_interface.network_interface.*.applied_dns_servers, [""])
+}
+
+output "network_interface_internal_domain_name_suffix" {
+  description = "Even if internal_dns_name_label is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internal_domain_name_suffix."
+  value       = element(concat(azurerm_network_interface.network_interface.*.internal_domain_name_suffix, [""]), 0)
+}
+
+output "network_interface_mac_address" {
+  description = "The Media Access Control (MAC) Address of the Network Interface."
+  value       = element(concat(azurerm_network_interface.network_interface.*.mac_address, [""]), 0)
+}
+
+output "network_interface_private_ip_address" {
+  description = "The first private IP address of the network interface."
+  value       = element(concat(azurerm_network_interface.network_interface.*.private_ip_address, [""]), 0)
+}
+
+output "network_interface_private_ip_addresses" {
+  description = "The private IP addresses of the network interface."
+  value       = concat(azurerm_network_interface.network_interface.*.private_ip_addresses)
+}
+
+output "network_interface_virtual_machine_id" {
+  description = "The ID of the Virtual Machine which this Network Interface is connected to."
+  value       = element(concat(azurerm_network_interface.network_interface.*.virtual_machine_id, [""]), 0)
+}
