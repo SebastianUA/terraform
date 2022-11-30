@@ -440,6 +440,49 @@ variable "bastion_host_timeouts" {
 }
 
 #-----------------------------------------------------------
+# Azure private endpoint
+#-----------------------------------------------------------
+variable "enable_private_endpoint" {
+  description = "Enable private endpoint usage"
+  default     = false
+}
+
+variable "private_endpoint_name" {
+  description = "Specifies the Name of the Private Endpoint. Changing this forces a new resource to be created."
+  default     = ""
+}
+
+variable "private_endpoint_resource_group_name" {
+  description = "(Required) Specifies the Name of the Resource Group within which the Private Endpoint should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_endpoint_location" {
+  description = "(Required) The supported Azure location where the resource exists. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_endpoint_subnet_id" {
+  description = "(Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
+  default     = null
+}
+
+variable "private_endpoint_private_dns_zone_group" {
+  description = "(Optional) A private_dns_zone_group block"
+  default     = {}
+}
+
+variable "private_endpoint_private_service_connection" {
+  description = "(Required) A private_service_connection block"
+  default     = {}
+}
+
+variable "private_endpoint_timeouts" {
+  description = "Set timeouts for private endpoint"
+  default     = {}
+}
+
+#-----------------------------------------------------------
 # Azure network interface
 #-----------------------------------------------------------
 variable "enable_network_interface" {
