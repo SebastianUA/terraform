@@ -122,6 +122,19 @@ output "bastion_host_dns_name" {
 }
 
 #-----------------------------------------------------------
+# Azure private link service
+#-----------------------------------------------------------
+output "private_link_service_id" {
+  description = "The ID of the private link service."
+  value       = element(concat(azurerm_private_link_service.private_link_service.*.id, [""]), 0)
+}
+
+output "private_link_service_alias" {
+  description = "A globally unique DNS Name for your Private Link Service. You can use this alias to request a connection to your Private Link Service."
+  value       = concat(azurerm_private_link_service.private_link_service.*.alias, [""])
+}
+
+#-----------------------------------------------------------
 # Azure private endpoint
 #-----------------------------------------------------------
 output "private_endpoint_id" {
