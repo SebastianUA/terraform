@@ -73,11 +73,6 @@ variable "ssm_association_document_version" {
   default     = null
 }
 
-variable "ssm_association_instance_id" {
-  description = "(Optional) The instance ID to apply an SSM document to. Use targets with key InstanceIds for document schema versions 2.0 and above."
-  default     = null
-}
-
 variable "ssm_association_parameters" {
   description = "(Optional) A block of arbitrary string parameters to pass to the SSM document."
   default     = null
