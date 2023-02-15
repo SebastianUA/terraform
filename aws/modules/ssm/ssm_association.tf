@@ -9,7 +9,6 @@ resource "aws_ssm_association" "ssm_association" {
   apply_only_at_cron_interval      = var.ssm_association_apply_only_at_cron_interval
   association_name                 = var.ssm_association_association_name
   document_version                 = var.ssm_association_document_version
-  instance_id                      = var.ssm_association_instance_id
   parameters                       = var.ssm_association_parameters
   schedule_expression              = var.ssm_association_schedule_expression
   compliance_severity              = upper(var.ssm_association_compliance_severity)

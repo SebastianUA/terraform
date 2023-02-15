@@ -314,32 +314,12 @@ module "db_instance-rds-oracle" {
 - `db_instance_role_association_role_arn` - (Required) Amazon Resource Name (ARN) of the IAM Role to associate with the DB Instance. (`default = ""`)
 - `enable_db_option_group` - Enable DB option group usage (`default = False`)
 - `db_option_group_name` - (Optional, Forces new resource) The name of the option group. If omitted, Terraform will assign a random, unique name. Must be lowercase, to match as it is stored in AWS. (`default = ""`)
-- `db_option_group_name_prefix` - description (`default = ""`)
+- `db_option_group_name_prefix` - Set prefix name for db option group (`default = ""`)
 - `db_option_group_option_group_description` - (Optional) The description of the option group. Defaults to 'Managed by Terraform'. (`default = Managed by Terraform`)
 - `db_option_group_engine_name` - (Required) Specifies the name of the engine that this option group should be associated with. For ex: sqlserver-ee (`default = ""`)
 - `db_option_group_major_engine_version` - (Required) Specifies the major version of the engine that this option group should be associated with. For ex: 11.00 (`default = ""`)
 - `db_option_group_timeouts` - Set timeouts for db option group (`default = {}`)
 - `db_option_group_options` - (Optional) A list of Options to apply. (`default = []`)
-- `enable_db_proxy` - Enable db proxy usage (`default = False`)
-- `db_proxy_name` - The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. (`default = ""`)
-- `db_proxy_engine_family` - (Required, Forces new resource) The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. The engine family applies to MySQL and PostgreSQL for both RDS and Aurora. Valid values are MYSQL and POSTGRESQL (`default = null`)
-- `db_proxy_role_arn` - (Required) The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager. (`default = null`)
-- `db_proxy_vpc_subnet_ids` - (Required) One or more VPC subnet IDs to associate with the new proxy. (`default = []`)
-- `db_proxy_auth` - (Required) Configuration block(s) with authorization mechanisms to connect to the associated instances or clusters. (`default = []`)
-- `db_proxy_debug_logging` - (Optional) Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs. (`default = null`)
-- `db_proxy_idle_client_timeout` - (Optional) The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database. (`default = null`)
-- `db_proxy_require_tls` - (Optional) A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy. (`default = null`)
-- `db_proxy_vpc_security_group_ids` - (Optional) One or more VPC security group IDs to associate with the new proxy. (`default = null`)
-- `db_proxy_timeouts` - Set timeouts for DB proxy (`default = {}`)
-- `enable_db_proxy_default_target_group` - Enable db proxy default target group usage (`default = False`)
-- `db_proxy_default_target_group_db_proxy_name` - Name of the RDS DB Proxy. (`default = ""`)
-- `db_proxy_default_target_group_timeouts` - Set timeouts for DB proxy default target group (`default = {}`)
-- `enable_db_proxy_target` - Enable db proxy target usage (`default = False`)
-- `db_proxy_target_db_proxy_name` - The name of the DB proxy. (`default = ""`)
-- `db_proxy_default_target_group_connection_pool_config` - (Optional) The settings that determine the size and behavior of the connection pool for the target group. (`default = []`)
-- `db_proxy_target_target_group_name` - The name of the target group. (`default = ""`)
-- `db_proxy_target_db_instance_identifier` - (Optional, Forces new resource) DB instance identifier. (`default = null`)
-- `db_proxy_target_db_cluster_identifier` - (Optional, Forces new resource) DB cluster identifier. (`default = null`)
 
 ## Module Output Variables
 ----------------------
@@ -372,19 +352,6 @@ module "db_instance-rds-oracle" {
 - `db_instance_role_association_id` - ""
 - `db_option_group_id` - The db option group name.
 - `db_option_group_arn` - The ARN of the db option group.
-- `db_proxy_id` - The Amazon Resource Name (ARN) for the proxy.
-- `db_proxy_arn` - The Amazon Resource Name (ARN) for the proxy.
-- `db_proxy_endpoint` - The endpoint that you can use to connect to the proxy. You include the endpoint value in the connection string for a database client application.
-- `db_proxy_default_target_group_id` - Name of the RDS DB Proxy.
-- `db_proxy_default_target_group_arn` - The Amazon Resource Name (ARN) representing the target group.
-- `db_proxy_default_target_group_name` - The name of the default target group.
-- `db_proxy_target_id` - Identifier of db_proxy_name, target_group_name, target type (e.g. RDS_INSTANCE or TRACKED_CLUSTER), and resource identifier separated by forward slashes (/).
-- `db_proxy_target_endpoint` - Hostname for the target RDS DB Instance. Only returned for RDS_INSTANCE type.
-- `db_proxy_target_port` - Port for the target RDS DB Instance or Aurora DB Cluster.
-- `db_proxy_target_rds_resource_id` - Identifier representing the DB Instance or DB Cluster target.
-- `db_proxy_target_target_arn` - Amazon Resource Name (ARN) for the DB instance or DB cluster. Currently not returned by the RDS API.
-- `db_proxy_target_tracked_cluster_id` - DB Cluster identifier for the DB Instance target. Not returned unless manually importing an RDS_INSTANCE target that is part of a DB Cluster.
-- `db_proxy_target_type` - Type of target. e.g. RDS_INSTANCE or TRACKED_CLUSTER
 
 
 ## Authors
