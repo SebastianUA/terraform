@@ -72,7 +72,6 @@ module "ssm" {
 - `ssm_association_name` - The name of the SSM document to apply. (`default = ""`)
 - `ssm_association_association_name` - (Optional) The descriptive name for the association. (`default = null`)
 - `ssm_association_document_version` - (Optional) The document version you want to associate with the target(s). Can be a specific version or the default version. (`default = null`)
-- `ssm_association_instance_id` - (Optional) The instance ID to apply an SSM document to. Use targets with key InstanceIds for document schema versions 2.0 and above. (`default = null`)
 - `ssm_association_parameters` - (Optional) A block of arbitrary string parameters to pass to the SSM document. (`default = null`)
 - `ssm_association_schedule_expression` - (Optional) A cron expression when the association will be applied to the target(s). (`default = null`)
 - `ssm_association_compliance_severity` - (Optional) The compliance severity for the association. Can be one of the following: UNSPECIFIED, LOW, MEDIUM, HIGH or CRITICAL (`default = UNSPECIFIED`)
