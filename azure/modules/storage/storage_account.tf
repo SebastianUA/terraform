@@ -11,7 +11,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = var.storage_account_account_replication_type
 
   account_kind                      = var.storage_account_account_kind
-  cross_tenant_replication_enabled  = var.storage_account_cross_tenant_replication_enabled
+  # cross_tenant_replication_enabled  = var.storage_account_cross_tenant_replication_enabled
   access_tier                       = var.storage_account_access_tier
   edge_zone                         = var.storage_account_edge_zone
   enable_https_traffic_only         = var.storage_account_enable_https_traffic_only
@@ -64,9 +64,18 @@ resource "azurerm_storage_account" "storage_account" {
     content {
       versioning_enabled            = lookup(blob_properties.value, "versioning_enabled", null)
       change_feed_enabled           = lookup(blob_properties.value, "change_feed_enabled", null)
-      change_feed_retention_in_days = lookup(blob_properties.value, "change_feed_retention_in_days", null)
       default_service_version       = lookup(blob_properties.value, "default_service_version", null)
       last_access_time_enabled      = lookup(blob_properties.value, "last_access_time_enabled", null)
+      # change_feed_retention_in_days = lookup(blob_properties.value, "change_feed_retention_in_days", null)
+
+      # dynamic "restore_policy" {
+      #   iterator = restore_policy
+      #   for_each = length(keys(lookup(blob_properties.value, "restore_policy", {}))) > 0 ? [lookup(blob_properties.value, "restore_policy", {})] : []
+
+      #   content {
+      #     days    = lookup(restore_policy.value, "days", null)
+      #   }
+      # }
 
       dynamic "cors_rule" {
         iterator = cors_rule
