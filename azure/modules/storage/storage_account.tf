@@ -191,7 +191,7 @@ resource "azurerm_storage_account" "storage_account" {
 
       dynamic "retention_policy" {
         iterator = retention_policy
-        for_each = length(keys(lookup(blob_properties.value, "retention_policy", {}))) > 0 ? [lookup(blob_properties.value, "retention_policy", {})] : []
+        for_each = length(keys(lookup(share_properties.value, "retention_policy", {}))) > 0 ? [lookup(share_properties.value, "retention_policy", {})] : []
 
         content {
           days = lookup(retention_policy.value, "days", null)
@@ -200,7 +200,7 @@ resource "azurerm_storage_account" "storage_account" {
 
       dynamic "smb" {
         iterator = smb
-        for_each = length(keys(lookup(blob_properties.value, "smb", {}))) > 0 ? [lookup(blob_properties.value, "smb", {})] : []
+        for_each = length(keys(lookup(share_properties.value, "smb", {}))) > 0 ? [lookup(share_properties.value, "smb", {})] : []
 
         content {
           versions                        = lookup(smb.value, "versions", null)
@@ -209,6 +209,7 @@ resource "azurerm_storage_account" "storage_account" {
           channel_encryption_type         = lookup(smb.value, "channel_encryption_type", null)
         }
       }
+
     }
   }
 
@@ -222,7 +223,17 @@ resource "azurerm_storage_account" "storage_account" {
       bypass                     = lookup(network_rules.value, "bypass", null)
       ip_rules                   = lookup(network_rules.value, "ip_rules", null)
       virtual_network_subnet_ids = lookup(network_rules.value, "virtual_network_subnet_ids", null)
-      private_link_access        = lookup(network_rules.value, "private_link_access", null)
+      
+      dynamic "private_link_access" {
+        iterator = private_link_access
+        for_each = length(keys(lookup(network_rules.value, "private_link_access", {}))) > 0 ? [lookup(network_rules.value, "private_link_access", {})] : []
+
+        content {
+          endpoint_resource_id = lookup(private_link_access.value, "endpoint_resource_id", null)
+
+          endpoint_tenant_id = lookup(private_link_access.value, "endpoint_tenant_id", null)
+        }
+      }  
     }
   }
 
