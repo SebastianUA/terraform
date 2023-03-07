@@ -891,7 +891,7 @@ variable "storage_sync_cloud_endpoint_storage_account_tenant_id" {
   default     = null
 }
 
-variable "storage_sync_group_timeouts" {
+variable "storage_sync_cloud_endpoint_timeouts" {
   description = "Set timeouts for storage sync group"
   default     = {}
 }
