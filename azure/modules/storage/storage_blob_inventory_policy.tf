@@ -4,7 +4,7 @@
 resource "azurerm_storage_blob_inventory_policy" "storage_blob_inventory_policy" {
   count = var.enable_storage_blob_inventory_policy ? 1 : 0
 
-  storage_account_id = var.storage_blob_inventory_policy_storage_account_id != "" ? var.storage_blob_inventory_policy_storage_account_id : (var.storage_blob_inventory_policy_storage_account_id ? azurerm_storage_account.storage_account[count.index].id : null)
+  storage_account_id = var.storage_blob_inventory_policy_storage_account_id != "" ? var.storage_blob_inventory_policy_storage_account_id : (var.enable_storage_account ? azurerm_storage_account.storage_account[count.index].id : null)
   dynamic "rules" {
     iterator = rules
     for_each = var.storage_blob_inventory_policy_rules
