@@ -270,7 +270,7 @@ variable "storage_container_name" {
 
 variable "storage_container_storage_account_name" {
   description = "The name of the Storage Account where the Container should be created."
-  default     = ""
+  default     = "examplestoraccount"
 }
 
 variable "storage_container_container_access_type" {
@@ -381,7 +381,7 @@ variable "enable_storage_blob_inventory_policy" {
 
 variable "storage_blob_inventory_policy_storage_account_id" {
   description = "The ID of the storage account to apply this Blob Inventory Policy to. Changing this forces a new Storage Blob Inventory Policy to be created."
-  default     = ""
+  default     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myresourcegroup/providers/Microsoft.Storage/storageAccounts/myaccount"
 }
 
 variable "storage_blob_inventory_policy_rules" {
