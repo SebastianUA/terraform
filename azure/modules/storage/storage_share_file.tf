@@ -5,7 +5,7 @@ resource "azurerm_storage_share_file" "storage_share_file" {
   count = var.enable_storage_share_file ? 1 : 0
 
   name             = var.storage_share_file_name
-  storage_share_id = var.storage_share_file_storage_share_id != "" ? var.storage_share_file_storage_share_id : (var.enable_storage_account ? azurerm_storage_share.storage_account[count.index].id : null)
+  storage_share_id = var.storage_share_file_storage_share_id != "" ? var.storage_share_file_storage_share_id : (var.enable_storage_account ? azurerm_storage_share.storage_share[count.index].id : null)
 
   source              = var.storage_share_file_source
   path                = var.storage_share_file_path
@@ -33,6 +33,6 @@ resource "azurerm_storage_share_file" "storage_share_file" {
   }
 
   depends_on = [
-    azurerm_storage_account.storage_account
+    azurerm_storage_share.storage_share
   ]
 }
