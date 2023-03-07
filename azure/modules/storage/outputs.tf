@@ -362,14 +362,6 @@ output "storage_share_directory_id" {
 #-----------------------------------------------------------
 # Azure storage sync
 #-----------------------------------------------------------
-output "storage_share_directory_id" {
-  description = "The ID of the Directory within the File Share."
-  value       = element(concat(azurerm_storage_share_directory.storage_share_directory.*.id, [""]), 0)
-}
-
-#-----------------------------------------------------------
-# Azure storage sync
-#-----------------------------------------------------------
 output "storage_sync_id" {
   description = "The ID of the Storage Sync."
   value       = element(concat(azurerm_storage_sync.storage_sync.*.id, [""]), 0)
