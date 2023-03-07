@@ -10,7 +10,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier             = var.storage_account_account_tier
   account_replication_type = var.storage_account_account_replication_type
 
-  account_kind                      = var.storage_account_account_kind
+  account_kind = var.storage_account_account_kind
   # cross_tenant_replication_enabled  = var.storage_account_cross_tenant_replication_enabled
   access_tier                       = var.storage_account_access_tier
   edge_zone                         = var.storage_account_edge_zone
@@ -62,10 +62,10 @@ resource "azurerm_storage_account" "storage_account" {
     for_each = length(keys(var.storage_account_blob_properties)) > 0 ? [var.storage_account_blob_properties] : []
 
     content {
-      versioning_enabled            = lookup(blob_properties.value, "versioning_enabled", null)
-      change_feed_enabled           = lookup(blob_properties.value, "change_feed_enabled", null)
-      default_service_version       = lookup(blob_properties.value, "default_service_version", null)
-      last_access_time_enabled      = lookup(blob_properties.value, "last_access_time_enabled", null)
+      versioning_enabled       = lookup(blob_properties.value, "versioning_enabled", null)
+      change_feed_enabled      = lookup(blob_properties.value, "change_feed_enabled", null)
+      default_service_version  = lookup(blob_properties.value, "default_service_version", null)
+      last_access_time_enabled = lookup(blob_properties.value, "last_access_time_enabled", null)
       # change_feed_retention_in_days = lookup(blob_properties.value, "change_feed_retention_in_days", null)
 
       # dynamic "restore_policy" {
