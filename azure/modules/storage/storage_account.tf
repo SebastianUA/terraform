@@ -223,7 +223,7 @@ resource "azurerm_storage_account" "storage_account" {
       bypass                     = lookup(network_rules.value, "bypass", null)
       ip_rules                   = lookup(network_rules.value, "ip_rules", null)
       virtual_network_subnet_ids = lookup(network_rules.value, "virtual_network_subnet_ids", null)
-      
+
       dynamic "private_link_access" {
         iterator = private_link_access
         for_each = length(keys(lookup(network_rules.value, "private_link_access", {}))) > 0 ? [lookup(network_rules.value, "private_link_access", {})] : []
@@ -233,7 +233,7 @@ resource "azurerm_storage_account" "storage_account" {
 
           endpoint_tenant_id = lookup(private_link_access.value, "endpoint_tenant_id", null)
         }
-      }  
+      }
     }
   }
 
