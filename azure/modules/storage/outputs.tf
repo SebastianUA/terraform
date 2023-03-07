@@ -330,7 +330,7 @@ output "storage_share_resource_manager_id" {
 
 output "storage_share_url" {
   description = "The URL of the File Share"
-  value       = element(concat(azurerm_storage_share.storage_share.*.iurld, [""]), 0)
+  value       = element(concat(azurerm_storage_share.storage_share.*.url, [""]), 0)
 }
 
 #-----------------------------------------------------------
