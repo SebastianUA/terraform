@@ -54,10 +54,10 @@ variable "storage_account_account_kind" {
   default     = null
 }
 
-variable "storage_account_cross_tenant_replication_enabled" {
-  description = "(Optional) Should cross Tenant replication be enabled? Defaults to true."
-  default     = null
-}
+# variable "storage_account_cross_tenant_replication_enabled" {
+#   description = "(Optional) Should cross Tenant replication be enabled? Defaults to true."
+#   default     = null
+# }
 
 variable "storage_account_access_tier" {
   description = "(Optional) Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. Valid options are Hot and Cool, defaults to Hot."
