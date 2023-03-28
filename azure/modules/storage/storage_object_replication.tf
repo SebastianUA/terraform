@@ -4,7 +4,7 @@
 resource "azurerm_storage_object_replication" "storage_object_replication" {
   count = var.enable_storage_object_replication ? 1 : 0
 
-  source_storage_account_id      = var.storage_object_replication_source_storage_account_id != "" ? var.storage_object_replication_source_storage_account_id : (var.ebable_storage_container ? azurerm_storage_container.storage_container[count.index].name : null)
+  source_storage_account_id      = var.storage_object_replication_source_storage_account_id != "" ? var.storage_object_replication_source_storage_account_id : (var.enable_storage_container ? azurerm_storage_container.storage_container[count.index].name : null)
   destination_storage_account_id = var.storage_object_replication_destination_storage_account_id
 
   dynamic "rules" {

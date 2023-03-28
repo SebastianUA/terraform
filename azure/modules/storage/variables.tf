@@ -54,10 +54,10 @@ variable "storage_account_account_kind" {
   default     = null
 }
 
-variable "storage_account_cross_tenant_replication_enabled" {
-  description = "(Optional) Should cross Tenant replication be enabled? Defaults to true."
-  default     = null
-}
+# variable "storage_account_cross_tenant_replication_enabled" {
+#   description = "(Optional) Should cross Tenant replication be enabled? Defaults to true."
+#   default     = null
+# }
 
 variable "storage_account_access_tier" {
   description = "(Optional) Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. Valid options are Hot and Cool, defaults to Hot."
@@ -270,7 +270,7 @@ variable "storage_container_name" {
 
 variable "storage_container_storage_account_name" {
   description = "The name of the Storage Account where the Container should be created."
-  default     = ""
+  default     = "examplestoraccount"
 }
 
 variable "storage_container_container_access_type" {
@@ -381,7 +381,7 @@ variable "enable_storage_blob_inventory_policy" {
 
 variable "storage_blob_inventory_policy_storage_account_id" {
   description = "The ID of the storage account to apply this Blob Inventory Policy to. Changing this forces a new Storage Blob Inventory Policy to be created."
-  default     = ""
+  default     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myresourcegroup/providers/Microsoft.Storage/storageAccounts/myaccount"
 }
 
 variable "storage_blob_inventory_policy_rules" {
@@ -891,7 +891,7 @@ variable "storage_sync_cloud_endpoint_storage_account_tenant_id" {
   default     = null
 }
 
-variable "storage_sync_group_timeouts" {
+variable "storage_sync_cloud_endpoint_timeouts" {
   description = "Set timeouts for storage sync group"
   default     = {}
 }

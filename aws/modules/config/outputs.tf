@@ -72,10 +72,10 @@ output "config_config_rule_id" {
 //   value       = element(concat(aws_config_conformance_pack.config_conformance_pack.*.arn, [""], ), 0)
 // }
 
-// #---------------------------------------------------
-// # AWS config remediation configuration
-// #---------------------------------------------------
-// output "config_remediation_configuration_id" {
-//   description = "The ID of the remediation configuration"
-//   value       = element(concat(aws_config_remediation_configuration.config_remediation_configuration.*.id, [""], ), 0)
-// }
+#---------------------------------------------------
+# AWS config remediation configuration
+#---------------------------------------------------
+output "config_remediation_configuration_id" {
+  description = "The ID of the remediation configuration"
+  value       = element(concat(aws_config_remediation_configuration.config_remediation_configuration.*.id, [""], ), 0)
+}

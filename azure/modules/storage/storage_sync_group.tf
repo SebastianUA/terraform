@@ -14,7 +14,6 @@ resource "azurerm_storage_sync_group" "storage_sync_group" {
     content {
       create = lookup(timeouts.value, "create", null)
       read   = lookup(timeouts.value, "read", null)
-      update = lookup(timeouts.value, "update", null)
       delete = lookup(timeouts.value, "delete", null)
     }
   }

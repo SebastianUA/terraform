@@ -10,8 +10,8 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier             = var.storage_account_account_tier
   account_replication_type = var.storage_account_account_replication_type
 
-  account_kind                      = var.storage_account_account_kind
-  cross_tenant_replication_enabled  = var.storage_account_cross_tenant_replication_enabled
+  account_kind = var.storage_account_account_kind
+  # cross_tenant_replication_enabled  = var.storage_account_cross_tenant_replication_enabled
   access_tier                       = var.storage_account_access_tier
   edge_zone                         = var.storage_account_edge_zone
   enable_https_traffic_only         = var.storage_account_enable_https_traffic_only
@@ -62,11 +62,20 @@ resource "azurerm_storage_account" "storage_account" {
     for_each = length(keys(var.storage_account_blob_properties)) > 0 ? [var.storage_account_blob_properties] : []
 
     content {
-      versioning_enabled            = lookup(blob_properties.value, "versioning_enabled", null)
-      change_feed_enabled           = lookup(blob_properties.value, "change_feed_enabled", null)
-      change_feed_retention_in_days = lookup(blob_properties.value, "change_feed_retention_in_days", null)
-      default_service_version       = lookup(blob_properties.value, "default_service_version", null)
-      last_access_time_enabled      = lookup(blob_properties.value, "last_access_time_enabled", null)
+      versioning_enabled       = lookup(blob_properties.value, "versioning_enabled", null)
+      change_feed_enabled      = lookup(blob_properties.value, "change_feed_enabled", null)
+      default_service_version  = lookup(blob_properties.value, "default_service_version", null)
+      last_access_time_enabled = lookup(blob_properties.value, "last_access_time_enabled", null)
+      # change_feed_retention_in_days = lookup(blob_properties.value, "change_feed_retention_in_days", null)
+
+      # dynamic "restore_policy" {
+      #   iterator = restore_policy
+      #   for_each = length(keys(lookup(blob_properties.value, "restore_policy", {}))) > 0 ? [lookup(blob_properties.value, "restore_policy", {})] : []
+
+      #   content {
+      #     days    = lookup(restore_policy.value, "days", null)
+      #   }
+      # }
 
       dynamic "cors_rule" {
         iterator = cors_rule
@@ -191,7 +200,7 @@ resource "azurerm_storage_account" "storage_account" {
 
       dynamic "retention_policy" {
         iterator = retention_policy
-        for_each = length(keys(lookup(blob_properties.value, "retention_policy", {}))) > 0 ? [lookup(blob_properties.value, "retention_policy", {})] : []
+        for_each = length(keys(lookup(share_properties.value, "retention_policy", {}))) > 0 ? [lookup(share_properties.value, "retention_policy", {})] : []
 
         content {
           days = lookup(retention_policy.value, "days", null)
@@ -200,7 +209,7 @@ resource "azurerm_storage_account" "storage_account" {
 
       dynamic "smb" {
         iterator = smb
-        for_each = length(keys(lookup(blob_properties.value, "smb", {}))) > 0 ? [lookup(blob_properties.value, "smb", {})] : []
+        for_each = length(keys(lookup(share_properties.value, "smb", {}))) > 0 ? [lookup(share_properties.value, "smb", {})] : []
 
         content {
           versions                        = lookup(smb.value, "versions", null)
@@ -209,6 +218,7 @@ resource "azurerm_storage_account" "storage_account" {
           channel_encryption_type         = lookup(smb.value, "channel_encryption_type", null)
         }
       }
+
     }
   }
 
@@ -222,7 +232,17 @@ resource "azurerm_storage_account" "storage_account" {
       bypass                     = lookup(network_rules.value, "bypass", null)
       ip_rules                   = lookup(network_rules.value, "ip_rules", null)
       virtual_network_subnet_ids = lookup(network_rules.value, "virtual_network_subnet_ids", null)
-      private_link_access        = lookup(network_rules.value, "private_link_access", null)
+
+      dynamic "private_link_access" {
+        iterator = private_link_access
+        for_each = length(keys(lookup(network_rules.value, "private_link_access", {}))) > 0 ? [lookup(network_rules.value, "private_link_access", {})] : []
+
+        content {
+          endpoint_resource_id = lookup(private_link_access.value, "endpoint_resource_id", null)
+
+          endpoint_tenant_id = lookup(private_link_access.value, "endpoint_tenant_id", null)
+        }
+      }
     }
   }
 

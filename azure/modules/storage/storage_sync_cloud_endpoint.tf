@@ -13,12 +13,11 @@ resource "azurerm_storage_sync_cloud_endpoint" "storage_sync_cloud_endpoint" {
 
   dynamic "timeouts" {
     iterator = timeouts
-    for_each = length(keys(var.storage_sync_group_timeouts)) > 0 ? [var.storage_sync_group_timeouts] : []
+    for_each = length(keys(var.storage_sync_cloud_endpoint_timeouts)) > 0 ? [var.storage_sync_cloud_endpoint_timeouts] : []
 
     content {
       create = lookup(timeouts.value, "create", null)
       read   = lookup(timeouts.value, "read", null)
-      update = lookup(timeouts.value, "update", null)
       delete = lookup(timeouts.value, "delete", null)
     }
   }

@@ -48,7 +48,7 @@ module "storage_account" {
   // Enable storage account
   enable_storage_account = true
 
-  storage_account_name                     = "my-storage-account"
+  storage_account_name                     = "mystorageaccount"
   storage_account_location                 = module.base_resource_group.resource_group_location
   storage_account_resource_group_name      = module.base_resource_group.resource_group_name
   storage_account_account_tier             = "Standard"
@@ -87,10 +87,10 @@ module "storage_blob" {
   storage_container_container_access_type = "private"
 
   // Enable storage blob
-  enable_storage_blob          = true
-  storage_blob_name            = "my-storage-blob.zip"
-  storage_blob_storage_account = module.storage_account.storage_account_id
-  storage_blob_type            = "Block"
+  enable_storage_blob               = true
+  storage_blob_name                 = "my-storage-blob.zip"
+  storage_blob_storage_account_name = module.storage_account.storage_account_id
+  storage_blob_type                 = "Block"
 
   storage_blob_source = "some-local-file.zip"
 
@@ -170,5 +170,26 @@ module "storage_sync" {
 
   depends_on = [
     module.base_resource_group
+  ]
+}
+
+module "storage_container" {
+  source = "../../modules/storage"
+
+  // Enable storage container
+  enable_storage_container               = true
+  storage_container_name                 = "vhds"
+  storage_container_storage_account_name = "examplestoraccount" # module.storage_account.storage_account_id
+
+  storage_container_container_access_type = "private"
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.storage_account
   ]
 }

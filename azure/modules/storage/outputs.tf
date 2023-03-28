@@ -330,7 +330,7 @@ output "storage_share_resource_manager_id" {
 
 output "storage_share_url" {
   description = "The URL of the File Share"
-  value       = element(concat(azurerm_storage_share.storage_share.*.iurld, [""]), 0)
+  value       = element(concat(azurerm_storage_share.storage_share.*.url, [""]), 0)
 }
 
 #-----------------------------------------------------------
@@ -353,14 +353,6 @@ output "storage_share_file_url" {
 
 #-----------------------------------------------------------
 # Azure storage share directory
-#-----------------------------------------------------------
-output "storage_share_directory_id" {
-  description = "The ID of the Directory within the File Share."
-  value       = element(concat(azurerm_storage_share_directory.storage_share_directory.*.id, [""]), 0)
-}
-
-#-----------------------------------------------------------
-# Azure storage sync
 #-----------------------------------------------------------
 output "storage_share_directory_id" {
   description = "The ID of the Directory within the File Share."
