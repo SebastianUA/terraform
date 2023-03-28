@@ -417,5 +417,5 @@ variable "config_remediation_configuration_retry_attempt_seconds" {
 
 variable "config_remediation_configuration_execution_controls" {
   description = "(Optional) Configuration block for execution controls."
-  default     = []
+  default     = {}
 }
