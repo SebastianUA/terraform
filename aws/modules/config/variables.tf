@@ -362,40 +362,60 @@ variable "config_config_rule_scope" {
 //   default     = []
 // }
 
-// #---------------------------------------------------
-// # AWS config remediation configuration
-// #---------------------------------------------------
-// variable "enable_config_remediation_configuration" {
-//   description = "Enable config remediation configuration usage"
-//   default     = false
-// }
+#---------------------------------------------------
+# AWS config remediation configuration
+#---------------------------------------------------
+variable "enable_config_remediation_configuration" {
+  description = "Enable config remediation configuration usage"
+  default     = false
+}
 
-// variable "config_remediation_configuration_config_rule_name" {
-//   description = "The name of the AWS Config rule"
-//   default     = ""
-// }
+variable "config_remediation_configuration_config_rule_name" {
+  description = "The name of the AWS Config rule"
+  default     = ""
+}
 
-// variable "config_remediation_configuration_target_id" {
-//   description = "(Required) Target ID is the name of the public document"
-//   default     = null
-// }
+variable "config_remediation_configuration_target_id" {
+  description = "(Required) Target ID is the name of the public document"
+  default     = null
+}
 
-// variable "config_remediation_configuration_target_type" {
-//   description = "(Required) The type of the target. Target executes remediation. For example, SSM document"
-//   default     = null
-// }
+variable "config_remediation_configuration_target_type" {
+  description = "(Required) The type of the target. Target executes remediation. For example, SSM document"
+  default     = null
+}
 
-// variable "config_remediation_configuration_resource_type" {
-//   description = "(Optional) The type of a resource"
-//   default     = null
-// }
+variable "config_remediation_configuration_resource_type" {
+  description = "(Optional) The type of a resource"
+  default     = null
+}
 
-// variable "config_remediation_configuration_target_version" {
-//   description = "(Optional) Version of the target. For example, version of the SSM document"
-//   default     = null
-// }
+variable "config_remediation_configuration_target_version" {
+  description = "(Optional) Version of the target. For example, version of the SSM document"
+  default     = null
+}
 
-// variable "config_remediation_configuration_parameter" {
-//   description = "(Optional) Can be specified multiple times for each parameter."
-//   default     = []
-// }
+variable "config_remediation_configuration_parameter" {
+  description = "(Optional) Can be specified multiple times for each parameter."
+  default     = []
+}
+
+variable "config_remediation_configuration_automatic" {
+  description = "(Optional) Remediation is triggered automatically if true"
+  default     = null
+}
+
+variable "config_remediation_configuration_maximum_automatic_attempts" {
+  description = "(Optional) Maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5"
+  default     = null
+}
+
+variable "config_remediation_configuration_retry_attempt_seconds" {
+  description = "(Optional) Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds."
+  default     = null
+}
+
+variable "config_remediation_configuration_execution_controls" {
+  description = "(Optional) Configuration block for execution controls."
+  default     = {}
+}
