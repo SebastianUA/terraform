@@ -38,8 +38,8 @@ resource "aws_config_remediation_configuration" "config_remediation_configuratio
         for_each = length(keys(lookup(execution_controls.value, "ssm_controls", {}))) > 0 ? [lookup(execution_controls.value, "ssm_controls", {})] : []
 
         content {
-          concurrent_execution_rate_percentage  = lookup(ssm_controls.value, "concurrent_execution_rate_percentage", null)
-          error_percentage                      = lookup(ssm_controls.value, "error_percentage", null)
+          concurrent_execution_rate_percentage = lookup(ssm_controls.value, "concurrent_execution_rate_percentage", null)
+          error_percentage                     = lookup(ssm_controls.value, "error_percentage", null)
         }
       }
     }
