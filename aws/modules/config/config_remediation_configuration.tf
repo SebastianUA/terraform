@@ -30,7 +30,7 @@ resource "aws_config_remediation_configuration" "config_remediation_configuratio
 
   dynamic "execution_controls" {
     iterator = execution_controls
-    for_each = var.config_remediation_configuration_execution_controls
+    for_each = length(keys(var.config_remediation_configuration_execution_controls)) > 0 ? [var.config_remediation_configuration_execution_controls] : []
 
     content {
       dynamic "ssm_controls" {
