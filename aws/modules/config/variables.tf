@@ -399,3 +399,23 @@ variable "config_remediation_configuration_parameter" {
   description = "(Optional) Can be specified multiple times for each parameter."
   default     = []
 }
+
+variable "config_remediation_configuration_automatic" {
+  description = "(Optional) Remediation is triggered automatically if true"
+  default     = null
+}
+
+variable "config_remediation_configuration_maximum_automatic_attempts" {
+  description = "(Optional) Maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5"
+  default     = null
+}
+
+variable "config_remediation_configuration_retry_attempt_seconds" {
+  description = "(Optional) Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds."
+  default     = null
+}
+
+variable "config_remediation_configuration_execution_controls" {
+  description = "(Optional) Configuration block for execution controls."
+  default     = []
+}
