@@ -19,7 +19,7 @@ $ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/ins
 ---------
 First of all, you should clone this repo to your local machine. I provided modules with simple examples. After, go to needed example and run the next command:
 ```bash
-$ terrafrom init
+$ terraform init
 ```
 
 This command will init everything to provision module(s).
