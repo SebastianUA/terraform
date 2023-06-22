@@ -51,12 +51,12 @@ variable "instance_ami" {
 
 variable "instance_launch_template" {
   description = "is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting instance_type will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance."
-  default     = []
+  default     = {}
 }
 
 variable "instance_metadata_options" {
   description = "(Optional) Customize the metadata options of the instance"
-  default     = []
+  default     = {}
 }
 
 variable "instance_availability_zone" {
