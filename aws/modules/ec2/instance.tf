@@ -29,9 +29,10 @@ resource "aws_instance" "instance" {
   iam_instance_profile   = var.instance_iam_instance_profile
   key_name               = var.instance_key_name
 
-  user_data         = var.instance_user_data
-  user_data_base64  = var.instance_user_data_base64
-  get_password_data = var.instance_get_password_data
+  user_data                   = var.instance_user_data
+  user_data_base64            = var.instance_user_data_base64
+  user_data_replace_on_change = var.instance_user_data_replace_on_change
+  get_password_data           = var.instance_get_password_data
 
   disable_api_termination              = var.instance_disable_api_termination
   instance_initiated_shutdown_behavior = var.instance_initiated_shutdown_behavior
