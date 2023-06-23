@@ -159,6 +159,11 @@ variable "instance_user_data_base64" {
   default     = null
 }
 
+variable "instance_user_data_replace_on_change" {
+  description = "(Optional) When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set."
+  default     = null
+}
+
 variable "instance_iam_instance_profile" {
   description = "(Optional) The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the EC2 documentation, notably iam:PassRole."
   default     = null
