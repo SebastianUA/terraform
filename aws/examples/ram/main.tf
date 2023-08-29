@@ -9,9 +9,9 @@ terraform {
 # Account from resoure will be shared (owner)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
-  profile                 = "owner"
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
+  profile                  = "owner"
 
   alias = "owner"
 }
@@ -50,9 +50,9 @@ module "ram_owner" {
 # Account to resoure will be shared (main)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
-  profile                 = "main"
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
+  profile                  = "main"
 }
 
 module "ram_main_accepter" {
