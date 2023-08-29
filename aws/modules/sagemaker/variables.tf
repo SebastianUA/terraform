@@ -312,6 +312,11 @@ variable "sagemaker_domain_app_security_group_management" {
   default     = null
 }
 
+variable "sagemaker_domain_retention_policy" {
+  description = "(Optional) The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained"
+  default     = {}
+}
+
 variable "sagemaker_domain_default_user_settings" {
   description = "(Required) The default user settings."
   default = {
