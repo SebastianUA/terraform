@@ -21,9 +21,9 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  profile                 = "default"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-east-1"
+  profile                  = "default"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 module "s3" {
@@ -148,6 +148,17 @@ module "config" {
 - `config_config_rule_maximum_execution_frequency` - (Optional) The maximum frequency with which AWS Config runs evaluations for a rule. (`default = null`)
 - `config_config_rule_source` - (Required) Source specifies the rule owner, the rule identifier, and the notifications that cause the function to evaluate your AWS resources (`default = []`)
 - `config_config_rule_scope` - (Optional) Scope defines which resources can trigger an evaluation for the rule (`default = []`)
+- `enable_config_remediation_configuration` - Enable config remediation configuration usage (`default = False`)
+- `config_remediation_configuration_config_rule_name` - The name of the AWS Config rule (`default = ""`)
+- `config_remediation_configuration_target_id` - (Required) Target ID is the name of the public document (`default = null`)
+- `config_remediation_configuration_target_type` - (Required) The type of the target. Target executes remediation. For example, SSM document (`default = null`)
+- `config_remediation_configuration_resource_type` - (Optional) The type of a resource (`default = null`)
+- `config_remediation_configuration_target_version` - (Optional) Version of the target. For example, version of the SSM document (`default = null`)
+- `config_remediation_configuration_parameter` - (Optional) Can be specified multiple times for each parameter. (`default = []`)
+- `config_remediation_configuration_automatic` - (Optional) Remediation is triggered automatically if true (`default = null`)
+- `config_remediation_configuration_maximum_automatic_attempts` - (Optional) Maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5 (`default = null`)
+- `config_remediation_configuration_retry_attempt_seconds` - (Optional) Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds. (`default = null`)
+- `config_remediation_configuration_execution_controls` - (Optional) Configuration block for execution controls. (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -159,6 +170,7 @@ module "config" {
 - `config_configuration_aggregator_arn` - The ARN of the aggregator
 - `config_config_rule_arn` - The ARN of the config rule
 - `config_config_rule_id` - The ID of the config rule
+- `config_remediation_configuration_id` - The ID of the remediation configuration
 
 
 ## Authors
