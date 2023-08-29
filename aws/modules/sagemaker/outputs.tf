@@ -181,10 +181,10 @@ output "sagemaker_feature_group_arn" {
   value       = element(concat(aws_sagemaker_feature_group.sagemaker_feature_group.*.arn, [""]), 0)
 }
 
-output "sagemaker_feature_group_name" {
-  description = "The name of the Feature Group."
-  value       = element(concat(aws_sagemaker_feature_group.sagemaker_feature_group.*.name, [""]), 0)
-}
+# output "sagemaker_feature_group_name" {
+#  description = "The name of the Feature Group."
+#  value       = element(concat(aws_sagemaker_feature_group.sagemaker_feature_group.*.name, [""]), 0)
+# }
 
 #---------------------------------------------------
 # AWS sagemaker code repository
@@ -360,4 +360,66 @@ output "sagemaker_human_task_ui_arn" {
 output "sagemaker_human_task_ui_template" {
   description = "The Liquid template for the worker user interface"
   value       = concat(aws_sagemaker_human_task_ui.sagemaker_human_task_ui.*.ui_template, [""])
+}
+
+#---------------------------------------------------
+# AWS Sagemaker space
+#---------------------------------------------------
+output "sagemaker_space_id" {
+  description = "The space's Amazon Resource Name (ARN)."
+  value       = element(concat(aws_sagemaker_space.sagemaker_space.*.id, [""]), 0)
+}
+
+output "sagemaker_space_arn" {
+  description = "The space's Amazon Resource Name (ARN)."
+  value       = element(concat(aws_sagemaker_space.sagemaker_space.*.arn, [""]), 0)
+}
+
+output "sagemaker_space_home_efs_file_system_uid" {
+  description = "The ID of the space's profile in the Amazon Elastic File System volume."
+  value       = element(concat(aws_sagemaker_space.sagemaker_space.*.home_efs_file_system_uid, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker servicecatalog portfolio status
+#---------------------------------------------------
+output "sagemaker_servicecatalog_portfolio_status_id" {
+  description = "The AWS Region the Servicecatalog portfolio status resides in."
+  value       = element(concat(aws_sagemaker_servicecatalog_portfolio_status.sagemaker_servicecatalog_portfolio_status.*.id, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker monitoring schedule
+#---------------------------------------------------
+output "sagemaker_monitoring_schedule_id" {
+  description = "ID assigned by AWS to this monitoring schedule."
+  value       = element(concat(aws_sagemaker_monitoring_schedule.sagemaker_monitoring_schedule.*.id, [""]), 0)
+}
+
+output "sagemaker_monitoring_schedule_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this monitoring schedule."
+  value       = element(concat(aws_sagemaker_monitoring_schedule.sagemaker_monitoring_schedule.*.arn, [""]), 0)
+}
+
+output "sagemaker_monitoring_schedule_name" {
+  description = "The name of the monitoring schedule."
+  value       = element(concat(aws_sagemaker_monitoring_schedule.sagemaker_monitoring_schedule.*.name, [""]), 0)
+}
+
+#---------------------------------------------------
+# AWS Sagemaker data quality job definition
+#---------------------------------------------------
+output "sagemaker_data_quality_job_definition_id" {
+  description = "The ID of the data quality job definition."
+  value       = element(concat(aws_sagemaker_data_quality_job_definition.sagemaker_data_quality_job_definition.*.id, [""]), 0)
+}
+
+output "sagemaker_data_quality_job_definition_arn" {
+  description = "The Amazon Resource Name (ARN) assigned by AWS to this data quality job definition."
+  value       = element(concat(aws_sagemaker_data_quality_job_definition.sagemaker_data_quality_job_definition.*.arn, [""]), 0)
+}
+
+output "sagemaker_data_quality_job_definition_name" {
+  description = "The name of the data quality job definition."
+  value       = element(concat(aws_sagemaker_data_quality_job_definition.sagemaker_data_quality_job_definition.*.name, [""]), 0)
 }

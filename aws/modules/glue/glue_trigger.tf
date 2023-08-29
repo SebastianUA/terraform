@@ -7,11 +7,11 @@ resource "aws_glue_trigger" "glue_trigger" {
   name = var.glue_trigger_name != "" ? lower(var.glue_trigger_name) : "${lower(var.name)}-glue-trigger-${lower(var.environment)}"
   type = upper(var.glue_trigger_type)
 
-  description   = var.glue_trigger_description
-  enabled       = var.glue_trigger_enabled
-  schedule      = var.glue_trigger_schedule
-  workflow_name = var.glue_trigger_workflow_name != "" && !var.enable_glue_workflow ? var.glue_trigger_workflow_name : element(concat(aws_glue_workflow.glue_workflow.*.id, [""]), 0)
-
+  description       = var.glue_trigger_description
+  enabled           = var.glue_trigger_enabled
+  schedule          = var.glue_trigger_schedule
+  workflow_name     = var.glue_trigger_workflow_name != "" && !var.enable_glue_workflow ? var.glue_trigger_workflow_name : element(concat(aws_glue_workflow.glue_workflow.*.id, [""]), 0)
+  start_on_creation = var.glue_trigger_start_on_creation
   dynamic "actions" {
     iterator = actions
     for_each = var.glue_trigger_actions
@@ -19,9 +19,19 @@ resource "aws_glue_trigger" "glue_trigger" {
     content {
       arguments = lookup(actions.value, "arguments", null)
       # Both JobName or CrawlerName cannot be set together in an action
-      crawler_name = lookup(actions.value, "crawler_name", (var.enable_glue_crawler && !var.enable_glue_job ? element(concat(aws_glue_crawler.glue_crawler.*.id, [""]), 0) : null))
-      job_name     = lookup(actions.value, "job_name", (var.enable_glue_job && !var.enable_glue_crawler ? element(concat(aws_glue_job.glue_job.*.id, [""]), 0) : null))
-      timeout      = lookup(actions.value, "timeout", null)
+      crawler_name           = lookup(actions.value, "crawler_name", (var.enable_glue_crawler && !var.enable_glue_job ? element(concat(aws_glue_crawler.glue_crawler.*.id, [""]), 0) : null))
+      job_name               = lookup(actions.value, "job_name", (var.enable_glue_job && !var.enable_glue_crawler ? element(concat(aws_glue_job.glue_job.*.id, [""]), 0) : null))
+      timeout                = lookup(actions.value, "timeout", null)
+      security_configuration = lookup(actions.value, "security_configuration", null)
+
+      dynamic "notification_property" {
+        iterator = notification_property
+        for_each = length(keys(lookup(actions.value, "notification_property", {}))) > 0 ? [lookup(actions.value, "notification_property", {})] : []
+
+        content {
+          notify_delay_after = lookup(notification_property.value, "notify_delay_after", [])
+        }
+      }
     }
   }
 
@@ -44,6 +54,17 @@ resource "aws_glue_trigger" "glue_trigger" {
           logical_operator = lookup(conditions.value, "logical_operator", null)
         }
       }
+    }
+  }
+
+  dynamic "event_batching_condition" {
+    iterator = event_batching_condition
+    for_each = var.glue_trigger_event_batching_condition
+
+    content {
+      batch_size = lookup(event_batching_condition.value, "create", null)
+
+      batch_window = lookup(event_batching_condition.value, "delete", null)
     }
   }
 

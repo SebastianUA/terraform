@@ -11,12 +11,14 @@ resource "aws_glue_classifier" "glue_classifier" {
     for_each = var.glue_classifier_csv_classifier
 
     content {
-      allow_single_column    = lookup(csv_classifier.value, "allow_single_column", null)
-      contains_header        = lookup(csv_classifier.value, "contains_header", null)
-      delimiter              = lookup(csv_classifier.value, "delimiter", null)
-      disable_value_trimming = lookup(csv_classifier.value, "disable_value_trimming", null)
-      header                 = lookup(csv_classifier.value, "header", null)
-      quote_symbol           = lookup(csv_classifier.value, "quote_symbol", null)
+      allow_single_column        = lookup(csv_classifier.value, "allow_single_column", null)
+      contains_header            = lookup(csv_classifier.value, "contains_header", null)
+      custom_datatype_configured = lookup(csv_classifier.value, "custom_datatype_configured", null)
+      custom_datatypes           = lookup(csv_classifier.value, "custom_datatypes", null)
+      delimiter                  = lookup(csv_classifier.value, "delimiter", null)
+      disable_value_trimming     = lookup(csv_classifier.value, "disable_value_trimming", null)
+      header                     = lookup(csv_classifier.value, "header", null)
+      quote_symbol               = lookup(csv_classifier.value, "quote_symbol", null)
     }
   }
 

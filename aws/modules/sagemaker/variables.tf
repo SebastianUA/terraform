@@ -45,8 +45,13 @@ variable "sagemaker_model_vpc_config" {
   default     = []
 }
 
+variable "sagemaker_model_inference_execution_config" {
+  description = "(Optional) Specifies details of how containers in a multi-container endpoint are called"
+  default     = []
+}
+
 variable "sagemaker_model_primary_container" {
-  description = "(Optional) The primary docker image containing inference code that is used when the model is deployed for predictions. If not specified, the container argument is required. "
+  description = "(Optional) The primary docker image containing inference code that is used when the model is deployed for predictions. If not specified, the container argument is required."
   default     = []
 }
 
@@ -64,7 +69,12 @@ variable "enable_sagemaker_endpoint_configuration" {
 }
 
 variable "sagemaker_endpoint_configuration_name" {
-  description = "The name of the endpoint configuration. If omitted, Terraform will assign a random, unique name."
+  description = "(Optional) The name of the endpoint configuration. If omitted, Terraform will assign a random, unique name."
+  default     = ""
+}
+
+variable "sagemaker_endpoint_configuration_name_prefix" {
+  description = "(Optional) Creates a unique endpoint configuration name beginning with the specified prefix. Conflicts with name"
   default     = ""
 }
 
@@ -75,6 +85,26 @@ variable "sagemaker_endpoint_configuration_kms_key_arn" {
 
 variable "sagemaker_endpoint_configuration_production_variants" {
   description = "(Required) Fields for endpoint"
+  default     = []
+}
+
+variable "sagemaker_endpoint_configuration_data_capture_config" {
+  description = "(Optional) Specifies the parameters to capture input/output of SageMaker models endpoints"
+  default     = []
+}
+
+variable "sagemaker_endpoint_configuration_shadow_production_variants" {
+  description = "(Optional) Array of ProductionVariant objects. There is one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants"
+  default     = []
+}
+
+variable "sagemaker_endpoint_configuration_async_inference_config" {
+  description = "(Optional) Specifies configuration for how an endpoint performs asynchronous inference."
+  default     = []
+}
+
+variable "sagemaker_endpoint_deployment_config" {
+  description = "(Optional) The deployment configuration for an endpoint, which contains the desired deployment strategy and rollback configurations"
   default     = []
 }
 
@@ -162,6 +192,26 @@ variable "sagemaker_notebook_instance_security_groups" {
   default     = null
 }
 
+variable "sagemaker_notebook_instance_accelerator_types" {
+  description = "(Optional) A list of Elastic Inference (EI) instance types to associate with this notebook instance. See Elastic Inference Accelerator for more details. Valid values: ml.eia1.medium, ml.eia1.large, ml.eia1.xlarge, ml.eia2.medium, ml.eia2.large, ml.eia2.xlarge"
+  default     = null
+}
+
+variable "sagemaker_notebook_instance_additional_code_repositories" {
+  description = "(Optional) An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance."
+  default     = null
+}
+
+variable "sagemaker_notebook_instance_default_code_repository" {
+  description = "(Optional) The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository."
+  default     = null
+}
+
+variable "sagemaker_notebook_instance_root_access" {
+  description = "(Optional) Whether root access is Enabled or Disabled for users of the notebook instance. The default value is Enabled"
+  default     = null
+}
+
 variable "sagemaker_notebook_instance_kms_key_id" {
   description = "(Optional) The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption."
   default     = null
@@ -175,6 +225,11 @@ variable "sagemaker_notebook_instance_lifecycle_config_name" {
 variable "sagemaker_notebook_instance_direct_internet_access" {
   description = "(Optional) Set to Disabled to disable internet access to notebook. Requires security_groups and subnet_id to be set. Supported values: Enabled (Default) or Disabled. If set to Disabled, the notebook instance will be able to access resources only in your VPC, and will not be able to connect to Amazon SageMaker training and endpoint services unless your configure a NAT Gateway in your VPC."
   default     = null
+}
+
+variable "sagemaker_notebook_instance_instance_metadata_service_configuration" {
+  description = "(Optional) Information on the IMDS configuration of the notebook instance"
+  default     = []
 }
 
 #---------------------------------------------------
@@ -252,6 +307,11 @@ variable "sagemaker_domain_app_network_access_type" {
   default     = null
 }
 
+variable "sagemaker_domain_app_security_group_management" {
+  description = "(Optional) The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Valid values are Service and Customer."
+  default     = null
+}
+
 variable "sagemaker_domain_default_user_settings" {
   description = "(Required) The default user settings."
   default = {
@@ -260,6 +320,18 @@ variable "sagemaker_domain_default_user_settings" {
     security_groups = null
   }
 }
+
+variable "sagemaker_domain_default_space_settings" {
+  description = "(Required) The default space settings"
+  default     = []
+}
+
+variable "sagemaker_domain_settings" {
+  description = "(Optional) The domain's settings."
+  default     = []
+}
+
+
 
 #---------------------------------------------------
 # AWS sagemaker model package group
@@ -417,6 +489,11 @@ variable "sagemaker_app_domain_id" {
 
 variable "sagemaker_app_user_profile_name" {
   description = "The user profile name."
+  default     = null
+}
+
+variable "sagemaker_app_space_name" {
+  description = "(Optional) The name of the space. At least one of user_profile_name or space_name required."
   default     = null
 }
 
@@ -672,5 +749,112 @@ variable "sagemaker_human_task_ui_name" {
 
 variable "sagemaker_human_task_ui_template" {
   description = "(Required) The Liquid template for the worker user interface."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker space
+#---------------------------------------------------
+variable "enable_sagemaker_space" {
+  description = "Enable sagemaker space usage"
+  default     = false
+}
+
+variable "sagemaker_space_name" {
+  description = "The name of the space."
+  default     = ""
+}
+
+variable "sagemaker_space_domain_id" {
+  description = "(Required) The ID of the associated Domain."
+  default     = ""
+}
+
+variable "sagemaker_space_settings" {
+  description = "(Required) A collection of space settings."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker servicecatalog portfolio status
+#---------------------------------------------------
+variable "enable_sagemaker_servicecatalog_portfolio_status" {
+  description = "Enable sagemaker servicecatalog portfolio status usage"
+  default     = false
+}
+
+variable "sagemaker_servicecatalog_portfolio_status" {
+  description = "(Required) Whether Service Catalog is enabled or disabled in SageMaker. Valid values are Enabled and Disabled"
+  default     = null
+}
+
+#---------------------------------------------------
+# AWS Sagemaker monitoring schedule
+#---------------------------------------------------
+variable "enable_sagemaker_monitoring_schedule" {
+  description = "Enable sagemaker monitoring schedule usage"
+  default     = false
+}
+
+variable "sagemaker_monitoring_schedule_name" {
+  description = "(Optional) The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account. If omitted, Terraform will assign a random, unique name."
+  default     = null
+}
+
+variable "sagemaker_monitoring_schedule_config" {
+  description = "(Required) The configuration object that specifies the monitoring schedule and defines the monitoring job."
+  default     = []
+}
+
+#---------------------------------------------------
+# AWS Sagemaker data quality job definition
+#---------------------------------------------------
+variable "enable_sagemaker_data_quality_job_definition" {
+  description = "Enable sagemaker data quality job definition usage"
+  default     = false
+}
+
+variable "sagemaker_data_quality_job_definition_name" {
+  description = "(Optional) The name of the data quality job definition. If omitted, Terraform will assign a random, unique name."
+  default     = null
+}
+
+variable "sagemaker_data_quality_job_definition_role_arn" {
+  description = "(Required) The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf."
+  default     = null
+}
+
+variable "sagemaker_data_quality_job_definition_data_quality_app_specification" {
+  description = "(Required) Specifies the container that runs the monitoring job."
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_data_quality_job_input" {
+  description = "(Required) A list of inputs for the monitoring job."
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_data_quality_job_output_config" {
+  description = "(Required) The output configuration for monitoring jobs"
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_job_resources" {
+  description = "(Required) Identifies the resources to deploy for a monitoring job."
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_data_quality_baseline_config" {
+  description = "(Optional) Configures the constraints and baselines for the monitoring job"
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_network_config" {
+  description = "(Optional) Specifies networking configuration for the monitoring job."
+  default     = []
+}
+
+variable "sagemaker_data_quality_job_definition_stopping_condition" {
+  description = "(Optional) A time limit for how long the monitoring job is allowed to run before stopping."
   default     = []
 }

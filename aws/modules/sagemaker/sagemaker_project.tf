@@ -14,6 +14,20 @@ resource "aws_sagemaker_project" "sagemaker_project" {
 
     content {
       product_id = lookup(service_catalog_provisioning_details.value, "product_id", null)
+
+      path_id                  = lookup(service_catalog_provisioning_details.value, "path_id", null)
+      provisioning_artifact_id = lookup(service_catalog_provisioning_details.value, "provisioning_artifact_id", null)
+
+      dynamic "provisioning_parameter" {
+        iterator = provisioning_parameter
+        for_each = lookup(service_catalog_provisioning_details.value, "provisioning_parameter", [])
+
+        content {
+          key = lookup(provisioning_parameter.value, "key", null)
+
+          value = lookup(provisioning_parameter.value, "value", null)
+        }
+      }
     }
   }
 
