@@ -58,7 +58,7 @@ module "storage_account" {
   // Enable storage account
   enable_storage_account = true
 
-  storage_account_name                     = "my-storage-account"
+  storage_account_name                     = "mystorageaccount"
   storage_account_location                 = module.base_resource_group.resource_group_location
   storage_account_resource_group_name      = module.base_resource_group.resource_group_name
   storage_account_account_tier             = "Standard"
@@ -97,10 +97,10 @@ module "storage_blob" {
   storage_container_container_access_type = "private"
 
   // Enable storage blob
-  enable_storage_blob          = true
-  storage_blob_name            = "my-storage-blob.zip"
-  storage_blob_storage_account = module.storage_account.storage_account_id
-  storage_blob_type            = "Block"
+  enable_storage_blob               = true
+  storage_blob_name                 = "my-storage-blob.zip"
+  storage_blob_storage_account_name = module.storage_account.storage_account_id
+  storage_blob_type                 = "Block"
 
   storage_blob_source = "some-local-file.zip"
 
@@ -182,6 +182,28 @@ module "storage_sync" {
     module.base_resource_group
   ]
 }
+
+module "storage_container" {
+  source = "../../modules/storage"
+
+  // Enable storage container
+  enable_storage_container               = true
+  storage_container_name                 = "vhds"
+  storage_container_storage_account_name = "examplestoraccount" # module.storage_account.storage_account_id
+
+  storage_container_container_access_type = "private"
+
+  tags = tomap({
+    "Environment"   = "test",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
+
+  depends_on = [
+    module.storage_account
+  ]
+}
+
 ```
 
 ## Module Input Variables
@@ -196,7 +218,6 @@ module "storage_sync" {
 - `storage_account_account_tier` - (Required) Defines the Tier to use for this storage account. Valid options are Standard and Premium. For BlockBlobStorage and FileStorage accounts only Premium is valid. Changing this forces a new resource to be created. (`default = null`)
 - `storage_account_account_replication_type` -  (Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa. (`default = null`)
 - `storage_account_account_kind` - (Optional) Defines the Kind of account. Valid options are BlobStorage, BlockBlobStorage, FileStorage, Storage and StorageV2. Changing this forces a new resource to be created. Defaults to StorageV2. (`default = null`)
-- `storage_account_cross_tenant_replication_enabled` - (Optional) Should cross Tenant replication be enabled? Defaults to true. (`default = null`)
 - `storage_account_access_tier` - (Optional) Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. Valid options are Hot and Cool, defaults to Hot. (`default = null`)
 - `storage_account_edge_zone` - (Optional) Specifies the Edge Zone within the Azure Region where this Storage Account should exist. Changing this forces a new Storage Account to be created. (`default = null`)
 - `storage_account_enable_https_traffic_only` - (Optional) Boolean flag which forces HTTPS if enabled, see here for more information. Defaults to true (`default = null`)
@@ -237,7 +258,7 @@ module "storage_sync" {
 - `storage_account_customer_managed_key_timeouts` - Set timeouts for storage account customer managed key (`default = {}`)
 - `enable_storage_container` - Enable storage container usage (`default = False`)
 - `storage_container_name` - The name of the Container which should be created within the Storage Account. (`default = False`)
-- `storage_container_storage_account_name` - The name of the Storage Account where the Container should be created. (`default = ""`)
+- `storage_container_storage_account_name` - The name of the Storage Account where the Container should be created. (`default = examplestoraccount`)
 - `storage_container_container_access_type` - (Optional) The Access Level configured for this Container. Possible values are blob, container or private. Defaults to private (`default = null`)
 - `storage_container_metadata` - (Optional) A mapping of MetaData for this Container. All metadata keys should be lowercase. (`default = null`)
 - `storage_container_timeouts` - Set timeouts for storage container (`default = {}`)
@@ -258,7 +279,7 @@ module "storage_sync" {
 - `storage_blob_metadata` - (Optional) A map of custom blob metadata. (`default = null`)
 - `storage_blob_timeouts` - Set timeouts for storage blob (`default = {}`)
 - `enable_storage_blob_inventory_policy` - Enable storage blob inventory policy usage (`default = False`)
-- `storage_blob_inventory_policy_storage_account_id` - The ID of the storage account to apply this Blob Inventory Policy to. Changing this forces a new Storage Blob Inventory Policy to be created. (`default = ""`)
+- `storage_blob_inventory_policy_storage_account_id` - The ID of the storage account to apply this Blob Inventory Policy to. Changing this forces a new Storage Blob Inventory Policy to be created. (`default = /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myresourcegroup/providers/Microsoft.Storage/storageAccounts/myaccount`)
 - `storage_blob_inventory_policy_rules` - (Required) One or more rules blocks (`default = []`)
 - `storage_blob_inventory_policy_timeouts` - Set timeouts for storage blob inventory policy (`default = {}`)
 - `enable_storage_data_lake_gen2_filesystem` - Enable storage data lake gen2 filesystem usage (`default = False`)
@@ -352,7 +373,7 @@ module "storage_sync" {
 - `storage_sync_cloud_endpoint_file_share_name` - The Storage Share name to be synchronized in this Storage Sync Cloud Endpoint. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
 - `storage_sync_cloud_endpoint_storage_account_id` - The ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created. (`default = ""`)
 - `storage_sync_cloud_endpoint_storage_account_tenant_id` - (Optional) The Tenant ID of the Storage Account where the Storage Share exists. Changing this forces a new Storage Sync Cloud Endpoint to be created. Defaults to the current tenant id. (`default = null`)
-- `storage_sync_group_timeouts` - Set timeouts for storage sync group (`default = {}`)
+- `storage_sync_cloud_endpoint_timeouts` - Set timeouts for storage sync group (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -417,7 +438,6 @@ module "storage_sync" {
 - `storage_share_file_id` - The ID of the File Share.
 - `storage_share_file_resource_manager_id` - The Resource Manager ID of this File Share.
 - `storage_share_file_url` - The URL of the File Share
-- `storage_share_directory_id` - The ID of the Directory within the File Share.
 - `storage_share_directory_id` - The ID of the Directory within the File Share.
 - `storage_sync_id` - The ID of the Storage Sync.
 - `storage_sync_group_id` - The ID of the Storage Sync Group.
