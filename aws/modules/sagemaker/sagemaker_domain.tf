@@ -112,20 +112,33 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
 
   retention_policy {}
 
-  default_user_settings {
-    execution_role = lookup(var.sagemaker_domain_default_user_settings, "execution_role", null)
+  dynamic "default_user_settings" {
+    iterator = default_user_settings
+    for_each = length(keys(var.sagemaker_domain_default_user_settings)) > 0 ? [var.sagemaker_domain_default_user_settings] : []
 
-    security_groups = lookup(var.sagemaker_domain_default_user_settings, "security_groups", null)
+    content {
+      execution_role = lookup(default_user_settings.value, "execution_role", null)
 
-    dynamic "sharing_settings" {
-      iterator = sharing_settings
-      for_each = lookup(var.sagemaker_domain_default_user_settings, "sharing_settings", [])
+      security_groups = lookup(default_user_settings.value, "security_groups", null)
 
-      content {
-        notebook_output_option = lookup(sharing_settings.value, "notebook_output_option", null)
-        s3_kms_key_id          = lookup(sharing_settings.value, "s3_kms_key_id", null)
-        s3_output_path         = lookup(sharing_settings.value, "s3_output_path", null)
+      canvas_app_settings {}
+      jupyter_server_app_settings {}
+      kernel_gateway_app_settings {}
+      r_session_app_settings {}
+      r_studio_server_pro_app_settings {}
+
+      dynamic "sharing_settings" {
+        iterator = sharing_settings
+        for_each = lookup(var.sagemaker_domain_default_user_settings, "sharing_settings", [])
+
+        content {
+          notebook_output_option = lookup(sharing_settings.value, "notebook_output_option", null)
+          s3_kms_key_id          = lookup(sharing_settings.value, "s3_kms_key_id", null)
+          s3_output_path         = lookup(sharing_settings.value, "s3_output_path", null)
+        }
       }
+
+      tensor_board_app_settings {}
     }
 
     dynamic "tensor_board_app_settings" {
