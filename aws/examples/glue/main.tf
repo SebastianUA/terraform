@@ -6,8 +6,8 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 
@@ -118,13 +118,13 @@ module "s3_private_glue_catalog" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-catalog-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-catalog-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create test folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/catalog"
     }
@@ -143,13 +143,13 @@ module "s3_private_glue_crawler" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-crawler-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-crawler-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create crawler folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/crawler"
     }
@@ -168,13 +168,13 @@ module "s3_private_glue_jobs" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-jobs-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-jobs-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create crawler folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/jobs"
     }
@@ -202,6 +202,7 @@ module "glue" {
   source      = "../../modules/glue"
   name        = "TEST"
   environment = "STAGE"
+
   # AWS Glue catalog DB
   enable_glue_catalog_database     = true
   glue_catalog_database_name       = "test-glue-db-${data.aws_caller_identity.current.account_id}"

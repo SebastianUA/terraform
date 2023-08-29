@@ -16,8 +16,8 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 
@@ -128,13 +128,13 @@ module "s3_private_glue_catalog" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-catalog-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-catalog-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create test folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/catalog"
     }
@@ -153,13 +153,13 @@ module "s3_private_glue_crawler" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-crawler-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-crawler-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create crawler folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/crawler"
     }
@@ -178,13 +178,13 @@ module "s3_private_glue_jobs" {
   environment = "DEV"
 
   # AWS S3 bucket
-  enable_s3_bucket = true
-  s3_bucket_name   = "glue-jobs-${data.aws_caller_identity.current.account_id}"
-  s3_bucket_acl    = "private"
+  enable_s3_bucket  = true
+  s3_bucket_name    = "glue-jobs-${data.aws_caller_identity.current.account_id}"
+  s3_bucket_acl_acl = "private"
 
   # Create crawler folder in the bucket
-  enable_s3_bucket_object = true
-  s3_bucket_object_stack = [
+  enable_s3_object = true
+  s3_object_stack = [
     {
       key = "/jobs"
     }
@@ -212,6 +212,7 @@ module "glue" {
   source      = "../../modules/glue"
   name        = "TEST"
   environment = "STAGE"
+
   # AWS Glue catalog DB
   enable_glue_catalog_database     = true
   glue_catalog_database_name       = "test-glue-db-${data.aws_caller_identity.current.account_id}"
@@ -385,6 +386,8 @@ module "glue_trigger" {
 - `glue_catalog_database_catalog_id` - (Optional) ID of the Glue Catalog to create the database in. If omitted, this defaults to the AWS Account ID. (`default = null`)
 - `glue_catalog_database_location_uri` - (Optional) The location of the database (for example, an HDFS path). (`default = null`)
 - `glue_catalog_database_parameters` - (Optional) A list of key-value pairs that define parameters and properties of the database. (`default = null`)
+- `glue_catalog_database_create_table_default_permission` - (Optional) Creates a set of default permissions on the table for principals. (`default = {}`)
+- `glue_catalog_database_target_database` - (Optional) Configuration block for a target database for resource linking. (`default = {}`)
 - `enable_glue_catalog_table` - Enable glue catalog table usage (`default = False`)
 - `glue_catalog_table_name` - Name of the table. For Hive compatibility, this must be entirely lowercase. (`default = ""`)
 - `glue_catalog_table_database_name` - Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase. (`default = ""`)
@@ -398,6 +401,8 @@ module "glue_trigger" {
 - `glue_catalog_table_table_type` - (Optional) The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.). (`default = null`)
 - `glue_catalog_table_parameters` - (Optional) Properties associated with this table, as a list of key-value pairs. (`default = null`)
 - `glue_catalog_table_storage_descriptor` - (Optional) A storage descriptor object containing information about the physical storage of this table. You can refer to the Glue Developer Guide for a full explanation of this object. (`default = {'location': None, 'input_format': None, 'output_format': None, 'compressed': None, 'number_of_buckets': None, 'bucket_columns': None, 'parameters': None, 'stored_as_sub_directories': None}`)
+- `glue_catalog_table_partition_index` - (Optional) Configuration block for a maximum of 3 partition indexes. (`default = []`)
+- `glue_catalog_table_target_table` - Optional) Configuration block of a target table for resource linking. (`default = []`)
 - `enable_glue_classifier` - Enable glue classifier usage (`default = False`)
 - `glue_classifier_name` - The name of the classifier. (`default = ""`)
 - `glue_classifier_csv_classifier` - (Optional) A classifier for Csv content.  (`default = []`)
@@ -422,6 +427,9 @@ module "glue_trigger" {
 - `glue_crawler_schedule` - (Optional) A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *). (`default = null`)
 - `glue_crawler_security_configuration` - (Optional) The name of Security Configuration to be used by the crawler (`default = null`)
 - `glue_crawler_table_prefix` - (Optional) The table prefix used for catalog tables that are created. (`default = null`)
+- `glue_crawler_delta_target` - (Optional) List of nested Delta Lake target arguments (`default = []`)
+- `glue_crawler_iceberg_target` - (Optional) List nested Iceberg target arguments. (`default = []`)
+- `glue_crawler_lake_formation_configuration` - (Optional) Specifies Lake Formation configuration settings for the crawler. (`default = []`)
 - `glue_crawler_dynamodb_target` - (Optional) List of nested DynamoDB target arguments. (`default = []`)
 - `glue_crawler_jdbc_target` - (Optional) List of nested JBDC target arguments.  (`default = []`)
 - `glue_crawler_s3_target` - (Optional) List nested Amazon S3 target arguments. (`default = []`)
@@ -437,6 +445,7 @@ module "glue_trigger" {
 - `glue_workflow_name` - The name you assign to this workflow. (`default = ""`)
 - `glue_workflow_description` - (Optional) Description of the workflow. (`default = null`)
 - `glue_workflow_default_run_properties` - (Optional) A map of default run properties for this workflow. These properties are passed to all jobs associated to the workflow. (`default = null`)
+- `glue_workflow_max_concurrent_runs` - (Optional) Prevents exceeding the maximum number of concurrent runs of any of the component jobs. If you leave this parameter blank, there is no limit to the number of concurrent workflow runs. (`default = null`)
 - `enable_glue_job` - Enable glue job usage (`default = False`)
 - `glue_job_name` - The name you assign to this job. It must be unique in your account. (`default = ""`)
 - `glue_job_role_arn` - The ARN of the IAM role associated with this job. (`default = null`)
@@ -445,6 +454,7 @@ module "glue_trigger" {
 - `glue_job_connections` - (Optional) The list of connections used for this job. (`default = []`)
 - `glue_job_additional_connections` - (Optional) The list of connections used for the job. (`default = []`)
 - `glue_job_default_arguments` - (Optional) The map of default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide. (`default = {'--job-language': 'python'}`)
+- `glue_job_non_overridable_arguments` - (Optional) Non-overridable arguments for this job, specified as name-value pairs. (`default = null`)
 - `glue_job_execution_property` - (Optional) Execution property of the job. (`default = []`)
 - `glue_job_glue_version` - (Optional) The version of glue to use, for example '1.0'. For information about available versions, see the AWS Glue Release Notes. (`default = null`)
 - `glue_job_execution_class` - (Optional) Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. Valid value: FLEX, STANDARD. (`default = null`)
@@ -465,6 +475,8 @@ module "glue_trigger" {
 - `glue_trigger_actions` - (Required) List of actions initiated by this trigger when it fires.  (`default = []`)
 - `glue_trigger_timeouts` - Set timeouts for glue trigger (`default = {}`)
 - `glue_trigger_predicate` - (Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL (`default = {}`)
+- `glue_trigger_start_on_creation` - (Optional) Set to true to start SCHEDULED and CONDITIONAL triggers when created. True is not supported for ON_DEMAND triggers. (`default = null`)
+- `glue_trigger_event_batching_condition` - (Optional) Batch condition that must be met (specified number of events received or batch time window expired) before EventBridge event trigger fires. (`default = []`)
 - `enable_glue_data_catalog_encryption_settings` - Enable glue data catalog encryption settings usage (`default = False`)
 - `glue_data_catalog_encryption_settings_data_catalog_encryption_settings` - Set data_catalog_encryption_settings block for Glue data catalog encryption (`default = {}`)
 - `glue_data_catalog_encryption_settings_catalog_id` - (Optional) The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default. (`default = null`)
@@ -507,6 +519,7 @@ module "glue_trigger" {
 - `glue_registry_description` - (Optional) A description of the registry. (`default = null`)
 - `enable_glue_resource_policy` - Enable glue resource policy usage (`default = False`)
 - `glue_resource_policy` - (Required) The policy to be applied to the aws glue data catalog. (`default = null`)
+- `glue_resource_policy_enable_hybrid` - (Optional) Indicates that you are using both methods to grant cross-account. Valid values are TRUE and FALSE. Note the terraform will not perform drift detetction on this field as its not return on read. (`default = null`)
 - `enable_glue_schema` - Enable glue schema usage (`default = False`)
 - `glue_schema_name` - The Name of the schema. (`default = ""`)
 - `glue_schema_registry_arn` - The ARN of the Glue Registry to create the schema in. (`default = ""`)
@@ -528,6 +541,11 @@ module "glue_trigger" {
 - `glue_partition_index_catalog_id` - (Optional) The catalog ID where the table resides. (`default = ""`)
 - `glue_partition_index_partition_index` - (Required) Configuration block for a partition index. (`default = []`)
 - `glue_partition_index_timeouts` - Set timeouts glue partition index (`default = {}`)
+- `enable_glue_data_quality_ruleset` - Enable glue data quality ruleset usage (`default = False`)
+- `glue_data_quality_ruleset_name` - Name of the data quality ruleset. (`default = ""`)
+- `glue_data_quality_ruleset_description` - (Optional) Description of the data quality ruleset. (`default = null`)
+- `glue_data_quality_ruleset_ruleset` - (Optional) A Data Quality Definition Language (DQDL) ruleset. For more information, see the AWS Glue developer guide. (`default = null`)
+- `glue_trigger_target_table` - (Optional, Forces new resource) A Configuration block specifying a target table associated with the data quality ruleset. (`default = {}`)
 
 ## Module Output Variables
 ----------------------
@@ -580,6 +598,11 @@ module "glue_trigger" {
 - `glue_user_defined_function_arn` - The ARN of the Glue User Defined Function.
 - `glue_user_defined_function_create_time` - The time at which the function was created.
 - `glue_partition_index_id` - Catalog ID, Database name, table name, and index name.
+- `glue_data_quality_ruleset_id` - ID of the Glue Data Quality Ruleset.
+- `glue_data_quality_ruleset_arn` - ARN of the Glue Data Quality Ruleset.
+- `glue_data_quality_ruleset_created_on` - The time and date that this data quality ruleset was created.
+- `glue_data_quality_ruleset_last_modified_on` - The time and date that this data quality ruleset was created.
+- `glue_data_quality_ruleset_recommendation_run_id` - When a ruleset was created from a recommendation run, this run ID is generated to link the two together.
 
 
 ## Authors
