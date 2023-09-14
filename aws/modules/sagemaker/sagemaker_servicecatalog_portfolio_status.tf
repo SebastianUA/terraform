@@ -4,7 +4,6 @@
 resource "aws_sagemaker_servicecatalog_portfolio_status" "sagemaker_servicecatalog_portfolio_status" {
   count = var.enable_sagemaker_servicecatalog_portfolio_status ? 1 : 0
 
-
   status = var.sagemaker_servicecatalog_portfolio_status
 
   lifecycle {
