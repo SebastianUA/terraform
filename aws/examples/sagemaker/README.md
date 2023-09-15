@@ -69,6 +69,30 @@ module "sagemaker" {
   sagemaker_notebook_instance_kms_key_id             = null
   sagemaker_notebook_instance_direct_internet_access = null
 
+  # Sagemaker domain
+  enable_sagemaker_domain     = true
+  sagemaker_domain_name       = ""
+  sagemaker_domain_auth_mode  = "IAM"
+  sagemaker_domain_vpc_id     = ""
+  sagemaker_domain_subnet_ids = []
+
+  sagemaker_domain_default_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+
+    sharing_settings = []
+  }
+
+  # Sagemaker user profile
+  enable_sagemaker_user_profile    = true
+  sagemaker_user_profile_name      = ""
+  sagemaker_user_profile_domain_id = ""
+
+  sagemaker_user_profile_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+  }
+
   tags = tomap({
     "Environment"   = "dev",
     "Createdby"     = "Vitaliy Natarov",
@@ -137,6 +161,7 @@ module "sagemaker" {
 - `sagemaker_domain_kms_key_id` - (Optional) The AWS KMS customer managed CMK used to encrypt the EFS volume attached to the domain. (`default = null`)
 - `sagemaker_domain_app_network_access_type` - (Optional) Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly. Valid values are PublicInternetOnly and VpcOnly. (`default = null`)
 - `sagemaker_domain_app_security_group_management` - (Optional) The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Valid values are Service and Customer. (`default = null`)
+- `sagemaker_domain_retention_policy` - (Optional) The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (`default = {}`)
 - `sagemaker_domain_default_user_settings` - (Required) The default user settings. (`default = {'execution_role': None, 'security_groups': None}`)
 - `sagemaker_domain_default_space_settings` - (Required) The default space settings (`default = []`)
 - `sagemaker_domain_settings` - (Optional) The domain's settings. (`default = []`)
