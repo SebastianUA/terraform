@@ -13,7 +13,7 @@ module "rolesanywhere" {
   source = "../../modules/rolesanywhere"
 
   # Additionals vars will be added later
-  
+
   tags = tomap({
     "Environment"   = "dev",
     "Createdby"     = "Vitaliy Natarov",
