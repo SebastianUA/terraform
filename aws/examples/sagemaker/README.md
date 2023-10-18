@@ -16,8 +16,8 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 # Get the usera and account information
@@ -69,6 +69,30 @@ module "sagemaker" {
   sagemaker_notebook_instance_kms_key_id             = null
   sagemaker_notebook_instance_direct_internet_access = null
 
+  # Sagemaker domain
+  enable_sagemaker_domain     = true
+  sagemaker_domain_name       = ""
+  sagemaker_domain_auth_mode  = "IAM"
+  sagemaker_domain_vpc_id     = ""
+  sagemaker_domain_subnet_ids = []
+
+  sagemaker_domain_default_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+
+    sharing_settings = []
+  }
+
+  # Sagemaker user profile
+  enable_sagemaker_user_profile    = true
+  sagemaker_user_profile_name      = ""
+  sagemaker_user_profile_domain_id = ""
+
+  sagemaker_user_profile_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+  }
+
   tags = tomap({
     "Environment"   = "dev",
     "Createdby"     = "Vitaliy Natarov",
@@ -88,12 +112,18 @@ module "sagemaker" {
 - `sagemaker_model_execution_role_arn` - (Required) A role that SageMaker can assume to access model artifacts and docker images for deployment. (`default = null`)
 - `sagemaker_model_enable_network_isolation` - (Optional) - Isolates the model container. No inbound or outbound network calls can be made to or from the model container. (`default = null`)
 - `sagemaker_model_vpc_config` - (Optional) - Specifies the VPC that you want your model to connect to. VpcConfig is used in hosting services and in batch transform. (`default = []`)
-- `sagemaker_model_primary_container` - (Optional) The primary docker image containing inference code that is used when the model is deployed for predictions. If not specified, the container argument is required.  (`default = []`)
+- `sagemaker_model_inference_execution_config` - (Optional) Specifies details of how containers in a multi-container endpoint are called (`default = []`)
+- `sagemaker_model_primary_container` - (Optional) The primary docker image containing inference code that is used when the model is deployed for predictions. If not specified, the container argument is required. (`default = []`)
 - `sagemaker_model_container` - (Optional) - Specifies containers in the inference pipeline. If not specified, the primary_container argument is required. (`default = []`)
 - `enable_sagemaker_endpoint_configuration` - Enable sagemaker endpoint configuration usage (`default = False`)
-- `sagemaker_endpoint_configuration_name` - The name of the endpoint configuration. If omitted, Terraform will assign a random, unique name. (`default = ""`)
+- `sagemaker_endpoint_configuration_name` - (Optional) The name of the endpoint configuration. If omitted, Terraform will assign a random, unique name. (`default = ""`)
+- `sagemaker_endpoint_configuration_name_prefix` - (Optional) Creates a unique endpoint configuration name beginning with the specified prefix. Conflicts with name (`default = ""`)
 - `sagemaker_endpoint_configuration_kms_key_arn` - (Optional) Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. (`default = null`)
 - `sagemaker_endpoint_configuration_production_variants` - (Required) Fields for endpoint (`default = []`)
+- `sagemaker_endpoint_configuration_data_capture_config` - (Optional) Specifies the parameters to capture input/output of SageMaker models endpoints (`default = []`)
+- `sagemaker_endpoint_configuration_shadow_production_variants` - (Optional) Array of ProductionVariant objects. There is one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants (`default = []`)
+- `sagemaker_endpoint_configuration_async_inference_config` - (Optional) Specifies configuration for how an endpoint performs asynchronous inference. (`default = []`)
+- `sagemaker_endpoint_deployment_config` - (Optional) The deployment configuration for an endpoint, which contains the desired deployment strategy and rollback configurations (`default = []`)
 - `enable_sagemaker_endpoint` - Enable sagemaker endpoint usage (`default = False`)
 - `sagemaker_endpoint_name` - The name of the endpoint. If omitted, Terraform will assign a random, unique name. (`default = null`)
 - `sagemaker_endpoint_endpoint_config_name` - The name of the endpoint configuration to use. (`default = ""`)
@@ -109,9 +139,14 @@ module "sagemaker" {
 - `sagemaker_notebook_instance_volume_size` - (Optional) The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. (`default = null`)
 - `sagemaker_notebook_instance_subnet_id` - (Optional) The VPC subnet ID. (`default = null`)
 - `sagemaker_notebook_instance_security_groups` - (Optional) The associated security groups. (`default = null`)
+- `sagemaker_notebook_instance_accelerator_types` - (Optional) A list of Elastic Inference (EI) instance types to associate with this notebook instance. See Elastic Inference Accelerator for more details. Valid values: ml.eia1.medium, ml.eia1.large, ml.eia1.xlarge, ml.eia2.medium, ml.eia2.large, ml.eia2.xlarge (`default = null`)
+- `sagemaker_notebook_instance_additional_code_repositories` - (Optional) An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. (`default = null`)
+- `sagemaker_notebook_instance_default_code_repository` - (Optional) The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. (`default = null`)
+- `sagemaker_notebook_instance_root_access` - (Optional) Whether root access is Enabled or Disabled for users of the notebook instance. The default value is Enabled (`default = null`)
 - `sagemaker_notebook_instance_kms_key_id` - (Optional) The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. (`default = null`)
 - `sagemaker_notebook_instance_lifecycle_config_name` - (Optional) The name of a lifecycle configuration to associate with the notebook instance. (`default = null`)
 - `sagemaker_notebook_instance_direct_internet_access` - (Optional) Set to Disabled to disable internet access to notebook. Requires security_groups and subnet_id to be set. Supported values: Enabled (Default) or Disabled. If set to Disabled, the notebook instance will be able to access resources only in your VPC, and will not be able to connect to Amazon SageMaker training and endpoint services unless your configure a NAT Gateway in your VPC. (`default = null`)
+- `sagemaker_notebook_instance_instance_metadata_service_configuration` - (Optional) Information on the IMDS configuration of the notebook instance (`default = []`)
 - `enable_sagemaker_user_profile` - Enable sagemaker user profile usage (`default = False`)
 - `sagemaker_user_profile_name` - The name for the User Profile. (`default = ""`)
 - `sagemaker_user_profile_domain_id` - The ID of the associated Domain. (`default = ""`)
@@ -125,7 +160,11 @@ module "sagemaker" {
 - `sagemaker_domain_subnet_ids` - (Required) The VPC subnets that Studio uses for communication. (`default = null`)
 - `sagemaker_domain_kms_key_id` - (Optional) The AWS KMS customer managed CMK used to encrypt the EFS volume attached to the domain. (`default = null`)
 - `sagemaker_domain_app_network_access_type` - (Optional) Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly. Valid values are PublicInternetOnly and VpcOnly. (`default = null`)
+- `sagemaker_domain_app_security_group_management` - (Optional) The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Valid values are Service and Customer. (`default = null`)
+- `sagemaker_domain_retention_policy` - (Optional) The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (`default = {}`)
 - `sagemaker_domain_default_user_settings` - (Required) The default user settings. (`default = {'execution_role': None, 'security_groups': None}`)
+- `sagemaker_domain_default_space_settings` - (Required) The default space settings (`default = []`)
+- `sagemaker_domain_settings` - (Optional) The domain's settings. (`default = []`)
 - `enable_sagemaker_model_package_group` - Enable sagemaker model package group usage (`default = False`)
 - `sagemaker_model_package_group_name` - The name of the model group. (`default = ""`)
 - `sagemaker_model_package_group_description` - AAA (`default = null`)
@@ -154,6 +193,7 @@ module "sagemaker" {
 - `sagemaker_app_type` - (Required) The type of app. Valid values are JupyterServer, KernelGateway and TensorBoard (`default = null`)
 - `sagemaker_app_domain_id` - The domain ID. (`default = ""`)
 - `sagemaker_app_user_profile_name` - The user profile name. (`default = null`)
+- `sagemaker_app_space_name` - (Optional) The name of the space. At least one of user_profile_name or space_name required. (`default = null`)
 - `sagemaker_app_resource_spec` - (Optional) The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance (`default = []`)
 - `enable_sagemaker_app_image_config` - Enable sagemaker app image config usage (`default = False`)
 - `sagemaker_app_image_config_name` - The name of the App Image Config. (`default = ""`)
@@ -199,6 +239,25 @@ module "sagemaker" {
 - `enable_sagemaker_human_task_ui` - Enable sagemaker human task ui usage (`default = False`)
 - `sagemaker_human_task_ui_name` - The name of the Human Task UI. (`default = ""`)
 - `sagemaker_human_task_ui_template` - (Required) The Liquid template for the worker user interface. (`default = []`)
+- `enable_sagemaker_space` - Enable sagemaker space usage (`default = False`)
+- `sagemaker_space_name` - The name of the space. (`default = ""`)
+- `sagemaker_space_domain_id` - (Required) The ID of the associated Domain. (`default = ""`)
+- `sagemaker_space_settings` - (Required) A collection of space settings. (`default = []`)
+- `enable_sagemaker_servicecatalog_portfolio_status` - Enable sagemaker servicecatalog portfolio status usage (`default = False`)
+- `sagemaker_servicecatalog_portfolio_status` - (Required) Whether Service Catalog is enabled or disabled in SageMaker. Valid values are Enabled and Disabled (`default = null`)
+- `enable_sagemaker_monitoring_schedule` - Enable sagemaker monitoring schedule usage (`default = False`)
+- `sagemaker_monitoring_schedule_name` - (Optional) The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account. If omitted, Terraform will assign a random, unique name. (`default = null`)
+- `sagemaker_monitoring_schedule_config` - (Required) The configuration object that specifies the monitoring schedule and defines the monitoring job. (`default = []`)
+- `enable_sagemaker_data_quality_job_definition` - Enable sagemaker data quality job definition usage (`default = False`)
+- `sagemaker_data_quality_job_definition_name` - (Optional) The name of the data quality job definition. If omitted, Terraform will assign a random, unique name. (`default = null`)
+- `sagemaker_data_quality_job_definition_role_arn` - (Required) The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf. (`default = null`)
+- `sagemaker_data_quality_job_definition_data_quality_app_specification` - (Required) Specifies the container that runs the monitoring job. (`default = []`)
+- `sagemaker_data_quality_job_definition_data_quality_job_input` - (Required) A list of inputs for the monitoring job. (`default = []`)
+- `sagemaker_data_quality_job_definition_data_quality_job_output_config` - (Required) The output configuration for monitoring jobs (`default = []`)
+- `sagemaker_data_quality_job_definition_job_resources` - (Required) Identifies the resources to deploy for a monitoring job. (`default = []`)
+- `sagemaker_data_quality_job_definition_data_quality_baseline_config` - (Optional) Configures the constraints and baselines for the monitoring job (`default = []`)
+- `sagemaker_data_quality_job_definition_network_config` - (Optional) Specifies networking configuration for the monitoring job. (`default = []`)
+- `sagemaker_data_quality_job_definition_stopping_condition` - (Optional) A time limit for how long the monitoring job is allowed to run before stopping. (`default = []`)
 
 ## Module Output Variables
 ----------------------
@@ -232,7 +291,6 @@ module "sagemaker" {
 - `sagemaker_image_version_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Image version.
 - `sagemaker_feature_group_id` - The name of the feature group.
 - `sagemaker_feature_group_arn` - The Amazon Resource Name (ARN) assigned by AWS to this feature_group.
-- `sagemaker_feature_group_name` - The name of the Feature Group.
 - `sagemaker_code_repository_id` - The name of the Code Repository.
 - `sagemaker_code_repository_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Code Repository.
 - `sagemaker_app_id` - The Amazon Resource Name (ARN) of the app.
@@ -261,6 +319,16 @@ module "sagemaker" {
 - `sagemaker_human_task_ui_id` - The name of the Human Task UI.
 - `sagemaker_human_task_ui_arn` - The Amazon Resource Name (ARN) assigned by AWS to this Human Task UI.
 - `sagemaker_human_task_ui_template` - The Liquid template for the worker user interface
+- `sagemaker_space_id` - The space's Amazon Resource Name (ARN).
+- `sagemaker_space_arn` - The space's Amazon Resource Name (ARN).
+- `sagemaker_space_home_efs_file_system_uid` - The ID of the space's profile in the Amazon Elastic File System volume.
+- `sagemaker_servicecatalog_portfolio_status_id` - The AWS Region the Servicecatalog portfolio status resides in.
+- `sagemaker_monitoring_schedule_id` - ID assigned by AWS to this monitoring schedule.
+- `sagemaker_monitoring_schedule_arn` - The Amazon Resource Name (ARN) assigned by AWS to this monitoring schedule.
+- `sagemaker_monitoring_schedule_name` - The name of the monitoring schedule.
+- `sagemaker_data_quality_job_definition_id` - The ID of the data quality job definition.
+- `sagemaker_data_quality_job_definition_arn` - The Amazon Resource Name (ARN) assigned by AWS to this data quality job definition.
+- `sagemaker_data_quality_job_definition_name` - The name of the data quality job definition.
 
 
 ## Authors

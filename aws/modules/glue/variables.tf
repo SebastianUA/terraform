@@ -50,6 +50,16 @@ variable "glue_catalog_database_parameters" {
   default     = null
 }
 
+variable "glue_catalog_database_create_table_default_permission" {
+  description = "(Optional) Creates a set of default permissions on the table for principals."
+  default     = {}
+}
+
+variable "glue_catalog_database_target_database" {
+  description = "(Optional) Configuration block for a target database for resource linking."
+  default     = {}
+}
+
 #---------------------------------------------------
 # AWS Glue catalog table
 #---------------------------------------------------
@@ -125,6 +135,16 @@ variable "glue_catalog_table_storage_descriptor" {
     parameters                = null
     stored_as_sub_directories = null
   }
+}
+
+variable "glue_catalog_table_partition_index" {
+  description = "(Optional) Configuration block for a maximum of 3 partition indexes."
+  default     = []
+}
+
+variable "glue_catalog_table_target_table" {
+  description = "Optional) Configuration block of a target table for resource linking."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -256,6 +276,21 @@ variable "glue_crawler_table_prefix" {
   default     = null
 }
 
+variable "glue_crawler_delta_target" {
+  description = "(Optional) List of nested Delta Lake target arguments"
+  default     = []
+}
+
+variable "glue_crawler_iceberg_target" {
+  description = "(Optional) List nested Iceberg target arguments."
+  default     = []
+}
+
+variable "glue_crawler_lake_formation_configuration" {
+  description = "(Optional) Specifies Lake Formation configuration settings for the crawler."
+  default     = []
+}
+
 variable "glue_crawler_dynamodb_target" {
   description = "(Optional) List of nested DynamoDB target arguments."
   default     = []
@@ -337,6 +372,11 @@ variable "glue_workflow_default_run_properties" {
   default     = null
 }
 
+variable "glue_workflow_max_concurrent_runs" {
+  description = "(Optional) Prevents exceeding the maximum number of concurrent runs of any of the component jobs. If you leave this parameter blank, there is no limit to the number of concurrent workflow runs."
+  default     = null
+}
+
 #---------------------------------------------------
 # AWS Glue job
 #---------------------------------------------------
@@ -380,6 +420,11 @@ variable "glue_job_default_arguments" {
   default = {
     "--job-language" = "python"
   }
+}
+
+variable "glue_job_non_overridable_arguments" {
+  description = "(Optional) Non-overridable arguments for this job, specified as name-value pairs."
+  default     = null
 }
 
 variable "glue_job_execution_property" {
@@ -483,6 +528,16 @@ variable "glue_trigger_timeouts" {
 variable "glue_trigger_predicate" {
   description = "(Optional) A predicate to specify when the new trigger should fire. Required when trigger type is CONDITIONAL"
   default     = {}
+}
+
+variable "glue_trigger_start_on_creation" {
+  description = "(Optional) Set to true to start SCHEDULED and CONDITIONAL triggers when created. True is not supported for ON_DEMAND triggers."
+  default     = null
+}
+
+variable "glue_trigger_event_batching_condition" {
+  description = "(Optional) Batch condition that must be met (specified number of events received or batch time window expired) before EventBridge event trigger fires."
+  default     = []
 }
 
 #---------------------------------------------------
@@ -722,6 +777,11 @@ variable "glue_resource_policy" {
   default     = null
 }
 
+variable "glue_resource_policy_enable_hybrid" {
+  description = "(Optional) Indicates that you are using both methods to grant cross-account. Valid values are TRUE and FALSE. Note the terraform will not perform drift detetction on this field as its not return on read."
+  default     = null
+}
+
 #---------------------------------------------------
 # AWS Glue schema
 #---------------------------------------------------
@@ -833,5 +893,33 @@ variable "glue_partition_index_partition_index" {
 
 variable "glue_partition_index_timeouts" {
   description = "Set timeouts glue partition index"
+  default     = {}
+}
+
+#---------------------------------------------------
+# AWS Glue data quality ruleset
+#---------------------------------------------------
+variable "enable_glue_data_quality_ruleset" {
+  description = "Enable glue data quality ruleset usage"
+  default     = false
+}
+
+variable "glue_data_quality_ruleset_name" {
+  description = "Name of the data quality ruleset."
+  default     = ""
+}
+
+variable "glue_data_quality_ruleset_description" {
+  description = "(Optional) Description of the data quality ruleset."
+  default     = null
+}
+
+variable "glue_data_quality_ruleset_ruleset" {
+  description = "(Optional) A Data Quality Definition Language (DQDL) ruleset. For more information, see the AWS Glue developer guide."
+  default     = null
+}
+
+variable "glue_trigger_target_table" {
+  description = "(Optional, Forces new resource) A Configuration block specifying a target table associated with the data quality ruleset."
   default     = {}
 }

@@ -21,9 +21,24 @@ provider "aws" {
 }
 
 module "event_bridge" {
-  source      = "../../modules/event_bridge"
-  name        = "TEST"
-  environment = "stage"
+  source = "../../modules/event_bridge"
+
+  enable_cloudwatch_event_rule      = true
+  cloudwatch_event_rule_name        = "test-cw-rule"
+  cloudwatch_event_rule_name_prefix = null
+  cloudwatch_event_rule_description = "test"
+
+  cloudwatch_event_rule_event_pattern = jsonencode({
+    detail-type = [
+      "AWS Console Sign In via CloudTrail"
+    ]
+  })
+
+  tags = tomap({
+    "Environment"   = "dev",
+    "Createdby"     = "Vitaliy Natarov",
+    "Orchestration" = "Terraform"
+  })
 }
 
 ```
@@ -33,63 +48,91 @@ module "event_bridge" {
 - `name` - Name to be used on all resources as prefix (`default = TEST`)
 - `environment` - Environment for service (`default = STAGE`)
 - `tags` - Add additional tags (`default = {}`)
-- `enable_cw_metric_alarm` - Enable cw_metric_alarm usage (`default = False`)
-- `alarm_name` - The descriptive name for the alarm. This name must be unique within the user's AWS account (`default = ""`)
-- `comparison_operator` - The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold. (`default = GreaterThanOrEqualToThreshold`)
-- `evaluation_periods` - The number of periods over which data is compared to the specified threshold. (`default = 2`)
-- `metric_name` - The name for the alarm's associated metric (ex: CPUUtilization) (`default = null`)
-- `namespace` - The namespace for the alarm's associated metric (ex: AWS/EC2) (`default = null`)
-- `period` - The period in seconds over which the specified statistic is applied. (`default = null`)
-- `statistic` - The statistic to apply to the alarm's associated metric. Either of the following is supported: SampleCount, Average, Sum, Minimum, Maximum (`default = null`)
-- `threshold` - The value against which the specified statistic is compared (`default = 80`)
-- `unit` - (Optional) The unit for the alarm's associated metric. (`default = null`)
-- `metric_query` - (Optional) Enables you to create an alarm based on a metric math expression. You may specify at most 20. (`default = []`)
-- `actions_enabled` - Indicates whether or not actions should be executed during any changes to the alarm's state. Defaults to true. (`default = True`)
-- `alarm_actions` - The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Number (ARN). (`default = []`)
-- `alarm_description` - The description for the alarm. (`default = null`)
-- `datapoints_to_alarm` - The number of datapoints that must be breaching to trigger the alarm. (`default = null`)
-- `dimensions` - (Optional) The dimensions for the alarm's associated metric. For the list of available dimensions see the AWS documentation (`default = null`)
-- `insufficient_data_actions` - The list of actions to execute when this alarm transitions into an INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Number (ARN). (`default = []`)
-- `ok_actions` - The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Number (ARN). (`default = []`)
-- `extended_statistic` - The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100. (`default = null`)
-- `treat_missing_data` - Sets how this alarm is to handle missing data points. The following values are supported: missing, ignore, breaching and notBreaching. Defaults to missing. (`default = missing`)
-- `evaluate_low_sample_count_percentiles` - Used only for alarms based on percentiles. If you specify ignore, the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. The following values are supported: ignore, and evaluate. (`default = null`)
-- `enable_cw_event_permission` - Enable cw_event_permission usage (`default = False`)
-- `cw_event_permission_principal` - The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify * to permit any account to put events to your default event bus. (`default = ""`)
-- `cw_event_permission_statement_id` - An identifier string for the external account that you are granting permissions to. (`default = DevAccountAccess`)
-- `cw_event_permission_action` - The action that you are enabling the other account to perform. Defaults to events:PutEvents. (`default = events:PutEvents`)
-- `is_enabled_for_event_rule` - Whether the rule should be enabled (defaults to true). (`default = True`)
-- `cw_event_rule_event_pattern` - description (`default = ""`)
-- `enable_cw_event_rule` - Enable cw_event_rule usage (`default = False`)
-- `enbale_cw_event_target` - Enable enbale_cw_event_target usage (`default = False`)
-- `cw_event_target_arn` - The Amazon Resource Name (ARN) of the rule. (`default = ""`)
-- `cw_event_rule_name` - description (`default = ""`)
-- `cw_event_rule_description` - description (`default = ""`)
-- `cw_event_target_target_id` - target ID (`default = SendToSNS`)
-- `enable_cw_log_group` - Enable cw_log_group usage (`default = False`)
-- `enable_cw_log_stream` - Enable cw_log_stream usage (`default = False`)
-- `enable_cw_log_metric_filter` - Enable cw_log_metric_filter usage (`default = False`)
-- `cw_log_group` - Enable cw_log_group usage (`default = False`)
-- `cw_log_group_name` - The name of the log group. If omitted, Terraform will assign a random, unique name. (`default = ""`)
-- `cw_log_group_retention_in_days` - Specifies the number of days you want to retain log events in the specified log group. (`default = 0`)
-- `cw_log_group_kms_key_id` - The ARN of the KMS Key to use when encrypting log data. Please note, after the AWS KMS CMK is disassociated from the log group, AWS CloudWatch Logs stops encrypting newly ingested data for the log group. All previously ingested data remains encrypted, and AWS CloudWatch Logs requires permissions for the CMK whenever the encrypted data is requested. (`default = ""`)
-- `cw_log_metric_filter_name` - A name for the metric filter. (`default = metric-filter`)
-- `cw_log_metric_filter_pattern` - A valid CloudWatch Logs filter pattern for extracting metric data out of ingested log events. (`default = ""`)
-- `cw_log_metric_filter_metric_transformation` - (Required) A block defining collection of information needed to define how metric data gets emitted. (`default = []`)
-- `cloudwatch_log_stream_name` - The name of the log stream. Must not be longer than 512 characters and must not contain : (`default = ""`)
-- `enable_cw_dashboard` - Enable cw_dashboard (`default = False`)
-- `cw_dashboard_name` - The name of the dashboard. (`default = ""`)
-- `cw_dashboard_body` - description (`default = ""`)
+- `enable_cloudwatch_event_rule` - Enable cloudwatch event rule usage (`default = False`)
+- `cloudwatch_event_rule_name` - (Optional) The name of the rule. If omitted, Terraform will assign a random, unique name. Conflicts with name_prefix (`default = null`)
+- `cloudwatch_event_rule_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with name. Note: Due to the length of the generated suffix, must be 38 characters or less. (`default = null`)
+- `cloudwatch_event_rule_description` - (Optional) The description of the rule. (`default = null`)
+- `cloudwatch_event_rule_schedule_expression` - (Optional) The scheduling expression. For example, cron(0 20 * * ? *) or rate(5 minutes). At least one of schedule_expression or event_pattern is required. Can only be used on the default event bus. For more information, refer to the AWS documentation Schedule Expressions for Rules. (`default = null`)
+- `cloudwatch_event_rule_event_bus_name` - (Optional) The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used. (`default = null`)
+- `cloudwatch_event_rule_event_pattern` - (Optional) The event pattern described a JSON object. At least one of schedule_expression or event_pattern is required. See full documentation of Events and Event Patterns in EventBridge for details. (`default = null`)
+- `cloudwatch_event_rule_role_arn` - (Optional) The Amazon Resource Name (ARN) associated with the role that is used for target invocation. (`default = null`)
+- `cloudwatch_event_rule_is_enabled` - (Optional) Whether the rule should be enabled (defaults to true). (`default = null`)
+- `enable_cloudwatch_event_permission` - Enable cloudwatch event permission usage (`default = False`)
+- `cloudwatch_event_permission_principal` - Required) The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify * to permit any account to put events to your default event bus, optionally limited by condition. (`default = null`)
+- `cloudwatch_event_permission_statement_id` - (Required) An identifier string for the external account that you are granting permissions to. (`default = null`)
+- `cloudwatch_event_permission_action` - (Optional) The action that you are enabling the other account to perform. Defaults to events:PutEvents. (`default = null`)
+- `cloudwatch_event_permission_event_bus_name` - (Optional) The name of the event bus to set the permissions on. If you omit this, the permissions are set on the default event bus. (`default = null`)
+- `cloudwatch_event_permission_condition` - (Optional) Configuration block to limit the event bus permissions you are granting to only accounts that fulfill the condition (`default = []`)
+- `enable_cloudwatch_event_api_destination` - Enable cloudwatch event api destination usage (`default = False`)
+- `cloudwatch_event_api_destination_name` - (Required) The name of the new API Destination. The name must be unique for your account. Maximum of 64 characters consisting of numbers, lower/upper case letters, .,-,_. (`default = ""`)
+- `cloudwatch_event_api_destination_invocation_endpoint` - (Required) URL endpoint to invoke as a target. This could be a valid endpoint generated by a partner service. You can include " * " as path parameters wildcards to be set from the Target HttpParameters. (`default = null`)
+- `cloudwatch_event_api_destination_http_method` - (Required) Select the HTTP method used for the invocation endpoint, such as GET, POST, PUT, etc. (`default = null`)
+- `cloudwatch_event_api_destination_connection_arn` - (Required) ARN of the EventBridge Connection to use for the API Destination. (`default = null`)
+- `cloudwatch_event_api_destination_description` - (Optional) The description of the new API Destination. Maximum of 512 characters. (`default = null`)
+- `cloudwatch_event_api_destination_invocation_rate_limit_per_second` - (Optional) Enter the maximum number of invocations per second to allow for this destination. Enter a value greater than 0 (default 300). (`default = null`)
+- `enable_cloudwatch_event_archive` - Enable cloudwatch event archive usage (`default = False`)
+- `cloudwatch_event_archive_name` - The name of the new event archive. The archive name cannot exceed 48 characters. (`default = ""`)
+- `cloudwatch_event_archive_event_source_arn` - (Required) Event bus source ARN from where these events should be archived. (`default = null`)
+- `cloudwatch_event_archive_description` - (Optional) The description of the new event archive. (`default = null`)
+- `cloudwatch_event_archive_event_pattern` - (Optional) Instructs the new event archive to only capture events matched by this pattern. By default, it attempts to archive every event received in the event_source_arn. (`default = null`)
+- `cloudwatch_event_archive_retention_days` - (Optional) The maximum number of days to retain events in the new event archive. By default, it archives indefinitely. (`default = null`)
+- `enable_cloudwatch_event_bus_policy` - Enable cloudwatch event bus policy usage (`default = False`)
+- `cloudwatch_event_bus_policy_policy` - (Required) The text of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. (`default = null`)
+- `cloudwatch_event_bus_policy_event_bus_name` - (Optional) The name of the event bus to set the permissions on. If you omit this, the permissions are set on the default event bus. (`default = null`)
+- `enable_cloudwatch_event_bus` - Enable cloudwatch event bus usage (`default = False`)
+- `cloudwatch_event_bus_name` - The name of the new event bus. The names of custom event buses can't contain the / character. To create a partner event bus, ensure the name matches the event_source_name. (`default = ""`)
+- `cloudwatch_event_bus_event_source_name` - (Optional) The partner event source that the new event bus will be matched with. Must match name. (`default = null`)
+- `enable_cloudwatch_event_target` - Enable cloudwatch event target usage (`default = False`)
+- `cloudwatch_event_target_rule` - (Required) The name of the rule you want to add targets to. (`default = ""`)
+- `cloudwatch_event_target_arn` - Required) The Amazon Resource Name (ARN) of the target. (`default = null`)
+- `cloudwatch_event_target_event_bus_name` - (Optional) The name or ARN of the event bus to associate with the rule. If you omit this, the default event bus is used. (`default = null`)
+- `cloudwatch_event_target_input` - (Optional) Valid JSON text passed to the target. Conflicts with input_path and input_transformer. (`default = null`)
+- `cloudwatch_event_target_input_path` - (Optional) The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. Conflicts with input and input_transformer. (`default = null`)
+- `cloudwatch_event_target_input_transformer` - (Optional) Parameters used when you are providing a custom input to a target based on certain event data. Conflicts with input and input_path (`default = null`)
+- `cloudwatch_event_target_role_arn` - (Optional) The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. Required if ecs_target is used or target in arn is EC2 instance, Kinesis data stream, Step Functions state machine, or Event Bus in different account or region. (`default = null`)
+- `cloudwatch_event_target_target_id` - (Optional) The unique target assignment ID. If missing, will generate a random, unique id. (`default = null`)
+- `cloudwatch_event_target_batch_target` - (Optional) Parameters used when you are using the rule to invoke an Amazon Batch Job (`default = {}`)
+- `cloudwatch_event_target_dead_letter_config` - (Optional) Parameters used when you are providing a dead letter config. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_ecs_target` - (Optional) Parameters used when you are using the rule to invoke Amazon ECS Task. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_http_target` - (Optional) Parameters used when you are using the rule to invoke an API Gateway REST endpoint. A maximum of 1 is allowed. (`default = {}`)
+- `cloudwatch_event_target_kinesis_target` - (Optional) Parameters used when you are using the rule to invoke an Amazon Kinesis Stream. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_run_command_targets` - (Optional) Parameters used when you are using the rule to invoke Amazon EC2 Run Command. A maximum of 5 are allowed. (`default = []`)
+- `cloudwatch_event_target_redshift_target` - (Optional) Parameters used when you are using the rule to invoke an Amazon Redshift Statement. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_retry_policy` - (Optional) Parameters used when you are providing retry policies. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_sagemaker_pipeline_target` - (Optional) Parameters used when you are using the rule to invoke an Amazon SageMaker Pipeline. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_target_sqs_target` - (Optional) Parameters used when you are using the rule to invoke an Amazon SQS Queue. A maximum of 1 are allowed. (`default = {}`)
+- `enable_cloudwatch_event_endpoint` - Enable cloudwatch event endpoint usage (`default = False`)
+- `cloudwatch_event_endpoint_description` - (Optional) A description of the global endpoint. (`default = null`)
+- `cloudwatch_event_endpoint_role_arn` - (Optional) The ARN of the IAM role used for replication between event buses. (`default = null`)
+- `cloudwatch_event_endpoint_event_bus` - (Required) The event buses to use. The names of the event buses must be identical in each Region. Exactly two event buses are required. (`default = {}`)
+- `cloudwatch_event_endpoint_replication_config` - (Optional) Parameters used for replication (`default = {}`)
+- `cloudwatch_event_endpoint_routing_config` - (Required) Parameters used for routing, including the health check and secondary Region (`default = {}`)
+- `enable_cloudwatch_event_connection` - Enable cloudwatch event connection usage (`default = False`)
+- `cloudwatch_event_connection_name` - The name of the new connection. Maximum of 64 characters consisting of numbers, lower/upper case letters, .,-,_. (`default = ""`)
+- `cloudwatch_event_connection_authorization_type` - (Required) Choose the type of authorization to use for the connection. One of API_KEY,BASIC,OAUTH_CLIENT_CREDENTIALS. (`default = null`)
+- `cloudwatch_event_connection_description` - (Optional) Enter a description for the connection. Maximum of 512 characters. (`default = null`)
+- `cloudwatch_event_connection_invocation_http_parameters` - (Optional) Invocation Http Parameters are additional credentials used to sign each Invocation of the ApiDestination created from this Connection. If the ApiDestination Rule Target has additional HttpParameters, the values will be merged together, with the Connection Invocation Http Parameters taking precedence. Secret values are stored and managed by AWS Secrets Manager. A maximum of 1 are allowed. (`default = {}`)
+- `cloudwatch_event_connection_auth_parameters` - (Required) Parameters used for authorization. A maximum of 1 are allowed (`default = {}`)
 
 ## Module Output Variables
 ----------------------
-- `directory_service_directory_id` - The directory identifier.
-- `directory_service_directory_access_url` - The access URL for the directory, such as http://alias.awsapps.com.
-- `directory_service_directory_dns_ip_addresses` - A list of IP addresses of the DNS servers for the directory or connector.
-- `directory_service_directory_security_group_id` - The ID of the security group created by the directory.
-- `directory_service_directory_connect_settings` - connect_settings: The IP addresses of the AD Connector servers.
-- `directory_service_log_subscription_id` - The directory identifier for log subscription.
-- `directory_service_conditional_forwarder_id` - The directory identifier for conditional forwarder
+- `cloudwatch_event_rule_id` - The name of the rule.
+- `cloudwatch_event_rule_arn` - The Amazon Resource Name (ARN) of the rule.
+- `cloudwatch_event_permission_id` - The statement ID of the EventBridge permission.
+- `cloudwatch_event_api_destination_id` - The ID of the event API Destination.
+- `cloudwatch_event_api_destination_arn` - The Amazon Resource Name (ARN) of the event API Destination.
+- `cloudwatch_event_archive_id` - The ID of the event archive.
+- `cloudwatch_event_archive_arn` - The Amazon Resource Name (ARN) of the event archive.
+- `cloudwatch_event_bus_policy_id` - The name of the EventBridge event bus policy.
+- `cloudwatch_event_bus_id` - The ID of the EventBridge event bus.
+- `cloudwatch_event_bus_arn` - The Amazon Resource Name (ARN) of the event bus.
+- `cloudwatch_event_target_id` - The ID of the EventBridge event target.
+- `cloudwatch_event_endpoint_id` - The ID of the EventBridge event endpoint.
+- `cloudwatch_event_endpoint_arn` - The ARN of the endpoint that was created.
+- `cloudwatch_event_endpoint_endpoint_url` - The URL of the endpoint that was created.
+- `cloudwatch_event_connection_id` - The ID of the EventBridge event connection.
+- `cloudwatch_event_connection_arn` - The Amazon Resource Name (ARN) of the connection.
+- `cloudwatch_event_connection_secret_arn` - The Amazon Resource Name (ARN) of the secret created from the authorization parameters specified for the connection.
 
 
 ## Authors

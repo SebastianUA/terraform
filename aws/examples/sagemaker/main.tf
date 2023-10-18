@@ -6,8 +6,8 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-east-1"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 # Get the usera and account information
@@ -58,6 +58,30 @@ module "sagemaker" {
   sagemaker_notebook_instance_security_groups        = null
   sagemaker_notebook_instance_kms_key_id             = null
   sagemaker_notebook_instance_direct_internet_access = null
+
+  # Sagemaker domain
+  enable_sagemaker_domain     = true
+  sagemaker_domain_name       = ""
+  sagemaker_domain_auth_mode  = "IAM"
+  sagemaker_domain_vpc_id     = ""
+  sagemaker_domain_subnet_ids = []
+
+  sagemaker_domain_default_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+
+    sharing_settings = []
+  }
+
+  # Sagemaker user profile
+  enable_sagemaker_user_profile    = true
+  sagemaker_user_profile_name      = ""
+  sagemaker_user_profile_domain_id = ""
+
+  sagemaker_user_profile_user_settings = {
+    execution_role  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/admin-role"
+    security_groups = []
+  }
 
   tags = tomap({
     "Environment"   = "dev",

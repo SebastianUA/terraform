@@ -26,13 +26,13 @@ variable "enable_sqs_queue" {
 }
 
 variable "sqs_queue_name" {
-  description = "description"
+  description = "(Optional) The name of the queue. Queue names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 80 characters long. For a FIFO (first-in-first-out) queue, the name must end with the .fifo suffix. If omitted, Terraform will assign a random, unique name. Conflicts with sqs_queue_name_prefix"
   default     = ""
 }
 
 variable "sqs_queue_name_prefix" {
-  description = "description"
-  default     = "(Optional) Creates a unique name beginning with the specified prefix. Conflicts with sqs_queue_name"
+  description = "(Optional) Creates a unique name beginning with the specified prefix. Conflicts with sqs_queue_name"
+  default     = ""
 }
 
 variable "sqs_queue_delay_seconds" {

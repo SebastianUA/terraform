@@ -4,13 +4,13 @@
 resource "aws_glue_connection" "glue_connection" {
   count = var.enable_glue_connection ? 1 : 0
 
-  name                  = var.glue_connection_name != "" ? lower(var.glue_connection_name) : "${lower(var.name)}-glue-connection-${lower(var.environment)}"
-  connection_properties = var.glue_connection_connection_properties
+  name = var.glue_connection_name != "" ? lower(var.glue_connection_name) : "${lower(var.name)}-glue-connection-${lower(var.environment)}"
 
-  description     = var.glue_connection_description
-  catalog_id      = var.glue_connection_catalog_id
-  connection_type = upper(var.glue_connection_connection_type)
-  match_criteria  = var.glue_connection_match_criteria
+  description           = var.glue_connection_description
+  catalog_id            = var.glue_connection_catalog_id
+  connection_properties = var.glue_connection_connection_properties
+  connection_type       = upper(var.glue_connection_connection_type)
+  match_criteria        = var.glue_connection_match_criteria
 
   dynamic "physical_connection_requirements" {
     iterator = physical_connection_requirements
@@ -22,6 +22,13 @@ resource "aws_glue_connection" "glue_connection" {
       subnet_id              = lookup(physical_connection_requirements.value, "subnet_id", null)
     }
   }
+
+  tags = merge(
+    {
+      Name = var.glue_connection_name != "" ? lower(var.glue_connection_name) : "${lower(var.name)}-glue-connection-${lower(var.environment)}"
+    },
+    var.tags
+  )
 
   lifecycle {
     create_before_destroy = true

@@ -6,9 +6,9 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-west-2"
-  profile                 = "default"
-  shared_credentials_file = pathexpand("~/.aws/credentials")
+  region                   = "us-west-2"
+  profile                  = "default"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 module "lex" {

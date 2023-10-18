@@ -4,10 +4,12 @@
 resource "aws_sagemaker_app" "sagemaker_app" {
   count = var.enable_sagemaker_app ? 1 : 0
 
-  app_name          = var.sagemaker_app_name != "" ? var.sagemaker_app_name : "${lower(var.name)}-app-${lower(var.environment)}"
-  app_type          = var.sagemaker_app_type
-  domain_id         = var.sagemaker_app_domain_id != "" ? var.sagemaker_app_domain_id : (var.enable_sagemaker_domain ? aws_sagemaker_domain.sagemaker_domain[count.index].id : null)
+  app_name  = var.sagemaker_app_name != "" ? var.sagemaker_app_name : "${lower(var.name)}-app-${lower(var.environment)}"
+  app_type  = var.sagemaker_app_type
+  domain_id = var.sagemaker_app_domain_id != "" ? var.sagemaker_app_domain_id : (var.enable_sagemaker_domain ? aws_sagemaker_domain.sagemaker_domain[count.index].id : null)
+
   user_profile_name = var.sagemaker_app_user_profile_name != "" ? var.sagemaker_app_user_profile_name : (var.enable_sagemaker_user_profile ? aws_sagemaker_user_profile.sagemaker_user_profile[count.index].user_profile_name : null)
+  space_name        = var.sagemaker_app_space_name
 
   dynamic "resource_spec" {
     iterator = resource_spec

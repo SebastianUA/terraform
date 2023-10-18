@@ -18,8 +18,7 @@ resource "aws_glue_dev_endpoint" "glue_dev_endpoint" {
   security_configuration    = var.glue_dev_endpoint_security_configuration
   security_group_ids        = var.glue_dev_endpoint_security_group_ids
   subnet_id                 = var.glue_dev_endpoint_subnet_id
-
-  worker_type = var.glue_dev_endpoint_worker_type
+  worker_type               = var.glue_dev_endpoint_worker_type
 
   tags = merge(
     {

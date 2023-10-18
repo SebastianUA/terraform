@@ -17,9 +17,9 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  profile                 = "default"
-  shared_credentials_file = pathexpand("/Users/captain/.aws/credentials")
+  region                   = "us-east-1"
+  profile                  = "default"
+  shared_credentials_files = [pathexpand("~/.aws/credentials")]
 }
 
 module "key_pair_name" {

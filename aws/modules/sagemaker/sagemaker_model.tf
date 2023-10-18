@@ -9,6 +9,15 @@ resource "aws_sagemaker_model" "sagemaker_model" {
 
   enable_network_isolation = var.sagemaker_model_enable_network_isolation
 
+  dynamic "inference_execution_config" {
+    iterator = inference_execution_config
+    for_each = var.sagemaker_model_inference_execution_config
+
+    content {
+      mode = lookup(inference_execution_config.value, "mode", null)
+    }
+  }
+
   dynamic "primary_container" {
     iterator = primary_container
     for_each = var.sagemaker_model_primary_container

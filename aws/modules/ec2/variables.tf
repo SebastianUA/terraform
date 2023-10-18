@@ -49,6 +49,16 @@ variable "instance_ami" {
   default     = ""
 }
 
+variable "instance_launch_template" {
+  description = "is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting instance_type will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance."
+  default     = {}
+}
+
+variable "instance_metadata_options" {
+  description = "(Optional) Customize the metadata options of the instance"
+  default     = {}
+}
+
 variable "instance_availability_zone" {
   description = "(Optional) The AZ to start the instance in."
   default     = null
@@ -146,6 +156,11 @@ variable "instance_user_data" {
 
 variable "instance_user_data_base64" {
   description = "(Optional) Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption."
+  default     = null
+}
+
+variable "instance_user_data_replace_on_change" {
+  description = "(Optional) When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set."
   default     = null
 }
 
