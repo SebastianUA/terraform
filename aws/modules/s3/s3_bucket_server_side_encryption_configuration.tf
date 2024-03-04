@@ -8,7 +8,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_server_
 
   dynamic "rule" {
     iterator = rule
-    for_each = var.s3_bucket_server_side_encryption_configuration_rule
+    for_each = length(keys(var.s3_bucket_server_side_encryption_configuration_rule)) > 0 ? [var.s3_bucket_server_side_encryption_configuration_rule] : []
 
     content {
       dynamic "apply_server_side_encryption_by_default" {

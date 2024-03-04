@@ -591,7 +591,7 @@ variable "s3_bucket_server_side_encryption_configuration_bucket" {
 
 variable "s3_bucket_server_side_encryption_configuration_rule" {
   description = "(Required) Set of server-side encryption configuration rules. documented below. Currently, only a single rule is supported."
-  default     = []
+  default     = {}
 }
 
 variable "s3_bucket_server_side_encryption_configuration_expected_bucket_owner" {
