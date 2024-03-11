@@ -21,6 +21,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_server_
           sse_algorithm = lookup(apply_server_side_encryption_by_default.value, "sse_algorithm", null)
         }
       }
+
+      bucket_key_enabled = lookup(rule.value, "bucket_key_enabled", null)
     }
   }
 
