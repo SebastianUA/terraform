@@ -1,18 +1,18 @@
 # provider identity parameters
 variable "provider_oci_fingerprint" {
-  type        = string  
+  type        = string
   description = "fingerprint of oci api private key"
   default     = ""
 }
 
 variable "provider_oci_private_key_path" {
-  type        = string  
+  type        = string
   description = "path to oci api private key used"
   default     = ""
 }
 
 variable "provider_oci_region" {
-  type        = string  
+  type = string
   # List of regions: https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#ServiceAvailabilityAcrossRegions
   description = "the oci region where resources will be created"
   default     = ""
@@ -25,7 +25,7 @@ variable "provider_oci_tenancy_ocid" {
 }
 
 variable "provider_oci_user_ocid" {
-  type        = string  
+  type        = string
   description = "id of user that terraform will use to create the resources"
   default     = ""
 }
