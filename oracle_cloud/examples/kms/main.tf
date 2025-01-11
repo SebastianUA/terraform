@@ -25,4 +25,7 @@ provider "oci" {
 module "kms" {
   source = "../../modules/kms"
 
+  enable_kms_key         = true
+  kms_key_display_name   = "my-kms-1"
+  kms_key_compartment_id = "ocid1.compartment.oc1..exampleuniqueID"
 }
