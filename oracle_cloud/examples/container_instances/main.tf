@@ -25,4 +25,22 @@ provider "oci" {
 module "container_instances" {
   source = "../../modules/container_instances"
 
+  enable_container_instance              = true
+  container_instance_availability_domain = ""
+  container_instance_compartment_id      = ""
+  container_instance_shape               = ""
+
+  container_instance_containers = [
+    {
+
+    }
+  ]
+
+  container_instance_shape_config = {}
+
+  container_instance_vnics = []
+
+  container_instance_display_name = ""
+
+  tags = {}
 }
