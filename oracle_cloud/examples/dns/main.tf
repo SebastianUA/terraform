@@ -25,4 +25,11 @@ provider "oci" {
 module "dns" {
   source = "../../modules/dns"
 
+  enable_dns_record = true
+  # dns_record_zone_name_or_id = ""
+  dns_record_domain = ""
+  dns_record_rtype  = ""
+
+  dns_record_rdata = ""
+  dns_record_ttl   = ""
 }
