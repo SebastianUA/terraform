@@ -22,7 +22,14 @@ provider "oci" {
   alias            = var.provider_oci_alias
 }
 
-module "compute" {
-  source = "../../modules/compute"
+module "compute_cloud_at_customer" {
+  source = "../../modules/compute_cloud_at_customer"
 
+  enable_ccc_infrastructure = true
+
+  ccc_infrastructure_compartment_id = ""
+  ccc_infrastructure_display_name   = ""
+  ccc_infrastructure_subnet_id      = ""
+
+  tags = {}
 }

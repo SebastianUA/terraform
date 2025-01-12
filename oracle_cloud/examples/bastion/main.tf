@@ -25,4 +25,11 @@ provider "oci" {
 module "bastion" {
   source = "../../modules/bastion"
 
+  enable_bastion           = true
+  bastion_bastion_type     = "standard"
+  bastion_compartment_id   = "ocid1.compartment.oc1..exampleuniqueID"
+  bastion_target_subnet_id = "ocid1.subnet.oc1.phx.exampleuniqueID"
+
+  bastion_name = "ibastion-1"
+  tags         = {}
 }
