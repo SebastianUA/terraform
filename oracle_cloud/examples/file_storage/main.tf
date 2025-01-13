@@ -25,4 +25,11 @@ provider "oci" {
 module "file_storage" {
   source = "../../modules/file_storage"
 
+  enable_file_storage_file_system = true
+
+  file_storage_file_system_availability_domain = ""
+  file_storage_file_system_compartment_id      = ""
+
+  file_storage_file_system_display_name = ""
+
 }
