@@ -1,5 +1,3 @@
 #-----------------------------------------------------------
-# identity_api_key
+# TMP
 #-----------------------------------------------------------
-
-# https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_api_key
