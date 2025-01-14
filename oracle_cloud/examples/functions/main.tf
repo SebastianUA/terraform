@@ -25,4 +25,18 @@ provider "oci" {
 module "functions" {
   source = "../../modules/functions"
 
+  enable_functions_application         = true
+  functions_application_compartment_id = ""
+  functions_application_display_name   = ""
+  functions_application_subnet_ids     = []
+
+  enable_functions_function = true
+  # functions_function_application_id = ""
+  functions_function_display_name  = ""
+  functions_function_memory_in_mbs = 128
+
+  functions_function_image        = null
+  functions_function_image_digest = null
+
+  tags = {}
 }
