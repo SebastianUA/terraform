@@ -22,14 +22,19 @@ provider "oci" {
   alias            = var.provider_oci_alias
 }
 
-module "identity_user" {
-  source = "../../modules/identity_user"
+module "identity_tag" {
+  source = "../../modules/identity_tag"
 
-  enable_identity_user = true
+  enable_identity_tag_namespace         = true
+  identity_tag_namespace_compartment_id = ""
+  identity_tag_namespace_name           = ""
+  identity_tag_namespace_description    = ""
 
-  identity_user_compartment_id = ""
-  identity_user_description    = ""
-  identity_user_name           = ""
+  enable_identity_tag           = true
+  identity_tag_name             = ""
+  identity_tag_description      = ""
+  identity_tag_tag_namespace_id = ""
 
   tags = {}
+
 }
