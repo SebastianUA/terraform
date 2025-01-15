@@ -25,4 +25,9 @@ provider "oci" {
 module "core_drg" {
   source = "../../modules/core_drg"
 
+  enable_core_drg         = true
+  core_drg_compartment_id = ""
+  core_drg_display_name   = ""
+
+  tags = {}
 }
