@@ -25,4 +25,10 @@ provider "oci" {
 module "core_image" {
   source = "../../modules/core_image"
 
+  enable_core_image               = true
+  core_image_compartment_id       = ""
+  core_image_display_name         = ""
+  core_image_launch_mode          = null
+  core_image_image_source_details = []
+
 }
