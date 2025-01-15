@@ -25,4 +25,10 @@ provider "oci" {
 module "identity_group" {
   source = "../../modules/identity_group"
 
+  enable_identity_group         = true
+  identity_group_compartment_id = ""
+  identity_group_description    = ""
+  identity_group_name           = ""
+
+  tags = {}
 }
