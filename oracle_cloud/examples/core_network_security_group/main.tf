@@ -25,4 +25,11 @@ provider "oci" {
 module "core_network_security_group" {
   source = "../../modules/core_network_security_group"
 
+  enable_core_network_security_group         = true
+  core_network_security_group_compartment_id = ""
+  core_network_security_group_vcn_id         = ""
+
+  core_network_security_group_display_name = ""
+
+  tags = {}
 }
