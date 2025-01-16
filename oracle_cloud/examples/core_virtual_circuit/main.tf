@@ -25,4 +25,9 @@ provider "oci" {
 module "core_virtual_circuit" {
   source = "../../modules/core_virtual_circuit"
 
+  enable_core_virtual_circuit         = true
+  core_virtual_circuit_compartment_id = ""
+  core_virtual_circuit_type           = ""
+
+  tags = {}
 }
