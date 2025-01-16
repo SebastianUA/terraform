@@ -25,4 +25,8 @@ provider "oci" {
 module "core_volume" {
   source = "../../modules/core_volume"
 
+  enable_core_volume         = true
+  core_volume_compartment_id = ""
+
+  tags = {}
 }
