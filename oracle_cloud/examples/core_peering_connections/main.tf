@@ -23,7 +23,7 @@ provider "oci" {
 }
 
 module "core_vcn" {
-  source = "../../modules/core_vcn"
+  source = "../../modules/core_peering_connections"
 
   # enable
 
