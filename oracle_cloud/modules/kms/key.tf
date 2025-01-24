@@ -54,7 +54,7 @@ resource "oci_kms_key" "kms_key" {
 
   defined_tags = merge(
     {
-      Name = var.kms_key_display_name != "" ? var.kms_key_display_name : "${lower(var.name)}-kms-key-${lower(var.environment)}"
+      "company.Name" = var.kms_key_display_name != "" ? var.kms_key_display_name : "${lower(var.name)}-kms-key-${lower(var.environment)}"
     },
     var.tags
   )

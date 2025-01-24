@@ -13,7 +13,7 @@ resource "oci_dns_view" "dns_view" {
 
   defined_tags = merge(
     {
-      Name = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"
+      "company.Name" = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"
     },
     var.tags
   )

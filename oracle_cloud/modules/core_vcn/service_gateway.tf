@@ -25,7 +25,7 @@ resource "oci_core_service_gateway" "core_service_gateway" {
 
   defined_tags = merge(
     {
-      Name = var.core_service_gateway_display_name != "" ? var.core_service_gateway_display_name : "${lower(var.name)}-svc-gtw-${lower(var.environment)}"
+      "company.Name" = var.core_service_gateway_display_name != "" ? var.core_service_gateway_display_name : "${lower(var.name)}-svc-gtw-${lower(var.environment)}"
     },
     var.tags
   )

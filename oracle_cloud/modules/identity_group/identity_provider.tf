@@ -18,7 +18,7 @@ resource "oci_identity_identity_provider" "identity_identity_provider" {
 
   defined_tags = merge(
     {
-      Name = var.identity_identity_provider_name != "" ? var.identity_identity_provider_name : "${lower(var.name)}-identity-provider-${lower(var.environment)}"
+      "company.Name" = var.identity_identity_provider_name != "" ? var.identity_identity_provider_name : "${lower(var.name)}-identity-provider-${lower(var.environment)}"
     },
     var.tags
   )

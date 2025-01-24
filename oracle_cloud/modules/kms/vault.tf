@@ -36,7 +36,7 @@ resource "oci_kms_vault" "kms_vault" {
 
   defined_tags = merge(
     {
-      Name = var.kms_vault_display_name != "" ? var.kms_vault_display_name : "${lower(var.name)}-kms-vault-${lower(var.environment)}"
+      "company.Name" = var.kms_vault_display_name != "" ? var.kms_vault_display_name : "${lower(var.name)}-kms-vault-${lower(var.environment)}"
     },
     var.tags
   )

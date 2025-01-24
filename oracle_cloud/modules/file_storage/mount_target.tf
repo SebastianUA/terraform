@@ -68,7 +68,7 @@ resource "oci_file_storage_mount_target" "file_storage_mount_target" {
 
   defined_tags = merge(
     {
-      Name = var.file_storage_mount_target_display_name != "" ? var.file_storage_mount_target_display_name : "${lower(var.name)}-nfs-mount-target-${lower(var.environment)}"
+      "company.Name" = var.file_storage_mount_target_display_name != "" ? var.file_storage_mount_target_display_name : "${lower(var.name)}-nfs-mount-target-${lower(var.environment)}"
     },
     var.tags
   )

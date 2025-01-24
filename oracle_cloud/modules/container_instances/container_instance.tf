@@ -208,7 +208,7 @@ resource "oci_container_instances_container_instance" "container_instance" {
 
   defined_tags = merge(
     {
-      Name = var.container_instance_display_name != "" ? var.container_instance_display_name : "${lower(var.name)}-container-instance-${lower(var.environment)}"
+      "company.Name" = var.container_instance_display_name != "" ? var.container_instance_display_name : "${lower(var.name)}-container-instance-${lower(var.environment)}"
     },
     var.tags
   )

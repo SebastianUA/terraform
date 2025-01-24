@@ -64,7 +64,7 @@ resource "oci_core_boot_volume" "core_boot_volume" {
 
   defined_tags = merge(
     {
-      Name = var.core_boot_volume_display_name != "" ? var.core_boot_volume_display_name : "${lower(var.name)}-boot-volume-${lower(var.environment)}"
+      "company.Name" = var.core_boot_volume_display_name != "" ? var.core_boot_volume_display_name : "${lower(var.name)}-boot-volume-${lower(var.environment)}"
     },
     var.tags
   )

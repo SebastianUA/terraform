@@ -44,7 +44,7 @@ resource "oci_dns_zone" "dns_zone" {
 
   defined_tags = merge(
     {
-      Name = var.dns_zone_name != "" ? var.dns_zone_name : "${lower(var.name)}-dns-zone-${lower(var.environment)}"
+      "company.Name" = var.dns_zone_name != "" ? var.dns_zone_name : "${lower(var.name)}-dns-zone-${lower(var.environment)}"
     },
     var.tags
   )

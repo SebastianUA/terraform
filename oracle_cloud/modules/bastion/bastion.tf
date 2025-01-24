@@ -19,7 +19,7 @@ resource "oci_bastion_bastion" "bastion" {
 
   defined_tags = merge(
     {
-      Name = var.bastion_name != "" ? var.bastion_name : "${lower(var.name)}-bastion-${lower(var.environment)}"
+      "company.Name" = var.bastion_name != "" ? var.bastion_name : "${lower(var.name)}-bastion-${lower(var.environment)}"
     },
     var.tags
   )

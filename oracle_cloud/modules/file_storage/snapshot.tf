@@ -28,7 +28,7 @@ resource "oci_file_storage_snapshot" "file_storage_snapshot" {
 
   defined_tags = merge(
     {
-      Name = var.file_storage_snapshot_name != "" ? var.file_storage_snapshot_name : "${lower(var.name)}-nfs-snapshot-${lower(var.environment)}"
+      "company.Name" = var.file_storage_snapshot_name != "" ? var.file_storage_snapshot_name : "${lower(var.name)}-nfs-snapshot-${lower(var.environment)}"
     },
     var.tags
   )

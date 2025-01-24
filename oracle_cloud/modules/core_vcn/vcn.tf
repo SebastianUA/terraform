@@ -29,7 +29,7 @@ resource "oci_core_vcn" "core_vcn" {
 
   defined_tags = merge(
     {
-      Name = var.core_vcn_display_name != "" ? var.core_vcn_display_name : "${lower(var.name)}-vcn-${lower(var.environment)}"
+      "company.Name" = var.core_vcn_display_name != "" ? var.core_vcn_display_name : "${lower(var.name)}-vcn-${lower(var.environment)}"
     },
     var.tags
   )

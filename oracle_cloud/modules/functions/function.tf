@@ -52,7 +52,7 @@ resource "oci_functions_function" "functions_function" {
 
   defined_tags = merge(
     {
-      Name = var.functions_function_display_name != "" ? var.functions_function_display_name : "${lower(var.name)}-function-${lower(var.environment)}"
+      "company.Name" = var.functions_function_display_name != "" ? var.functions_function_display_name : "${lower(var.name)}-function-${lower(var.environment)}"
     },
     var.tags
   )

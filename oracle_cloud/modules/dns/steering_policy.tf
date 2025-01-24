@@ -81,7 +81,7 @@ resource "oci_dns_steering_policy" "dns_steering_policy" {
 
   defined_tags = merge(
     {
-      Name = var.dns_steering_policy_display_name != "" ? var.dns_steering_policy_display_name : "${lower(var.name)}-dns-steering-policy-${lower(var.environment)}"
+      "company.Name" = var.dns_steering_policy_display_name != "" ? var.dns_steering_policy_display_name : "${lower(var.name)}-dns-steering-policy-${lower(var.environment)}"
     },
     var.tags
   )

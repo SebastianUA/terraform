@@ -23,7 +23,7 @@ resource "oci_dns_resolver" "dns_resolver" {
 
   defined_tags = merge(
     {
-      Name = var.dns_resolver_display_name != "" ? var.dns_resolver_display_name : "${lower(var.name)}-dns-resolver-${lower(var.environment)}"
+      "company.Name" = var.dns_resolver_display_name != "" ? var.dns_resolver_display_name : "${lower(var.name)}-dns-resolver-${lower(var.environment)}"
     },
     var.tags
   )

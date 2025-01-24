@@ -49,7 +49,7 @@ resource "oci_file_storage_filesystem_snapshot_policy" "file_storage_filesystem_
 
   defined_tags = merge(
     {
-      Name = var.file_storage_filesystem_snapshot_policy_display_name != "" ? var.file_storage_filesystem_snapshot_policy_display_name : "${lower(var.name)}-nfs-snapshot-policy-${lower(var.environment)}"
+      "company.Name" = var.file_storage_filesystem_snapshot_policy_display_name != "" ? var.file_storage_filesystem_snapshot_policy_display_name : "${lower(var.name)}-nfs-snapshot-policy-${lower(var.environment)}"
     },
     var.tags
   )

@@ -13,7 +13,7 @@ resource "oci_core_drg_route_distribution" "drg_route_distribution" {
 
   defined_tags = merge(
     {
-      Name = var.drg_route_distribution_display_name != "" ? var.drg_route_distribution_display_name : "${lower(var.name)}-drg-route-distribution-${lower(var.environment)}"
+      "company.Name" = var.drg_route_distribution_display_name != "" ? var.drg_route_distribution_display_name : "${lower(var.name)}-drg-route-distribution-${lower(var.environment)}"
     },
     var.tags
   )

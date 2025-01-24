@@ -52,7 +52,7 @@ resource "oci_core_virtual_circuit" "core_virtual_circuit" {
 
   defined_tags = merge(
     {
-      Name = var.core_virtual_circuit_display_name != "" ? var.core_virtual_circuit_display_name : "${lower(var.name)}-virtual-circuit-${lower(var.environment)}"
+      "company.Name" = var.core_virtual_circuit_display_name != "" ? var.core_virtual_circuit_display_name : "${lower(var.name)}-virtual-circuit-${lower(var.environment)}"
     },
     var.tags
   )

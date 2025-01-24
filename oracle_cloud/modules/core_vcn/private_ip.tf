@@ -14,7 +14,7 @@ resource "oci_core_private_ip" "core_private_ip" {
 
   defined_tags = merge(
     {
-      Name = var.core_private_ip_display_name != "" ? var.core_private_ip_display_name : "${lower(var.name)}-private-ip-${lower(var.environment)}-${count.index + 1}"
+      "company.Name" = var.core_private_ip_display_name != "" ? var.core_private_ip_display_name : "${lower(var.name)}-private-ip-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )

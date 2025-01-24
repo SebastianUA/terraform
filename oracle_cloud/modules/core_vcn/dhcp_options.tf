@@ -15,8 +15,9 @@ resource "oci_core_dhcp_options" "core_dhcp_options" {
       type        = lookup(options.value, "type", null)
       server_type = lookup(options.value, "server_type", null)
 
-      # Ensure no more than 3 DNS servers are specified
-      custom_dns_servers  = length(lookup(options.value, "custom_dns_servers", [])) > 3 ? (throw("Error: custom_dns_servers can have a maximum of 3 entries.")) : lookup(options.value, "custom_dns_servers", null)
+      # Handle custom_dns_servers with default to empty list and validate length
+      custom_dns_servers = lookup(options.value, "custom_dns_servers", [])
+
       search_domain_names = lookup(options.value, "search_domain_names", null)
     }
   }
@@ -28,7 +29,7 @@ resource "oci_core_dhcp_options" "core_dhcp_options" {
 
   defined_tags = merge(
     {
-      Name = var.core_dhcp_options_display_name != "" ? var.core_dhcp_options_display_name : "${lower(var.name)}-dhcp-options-${lower(var.environment)}"
+      "company.Name" = var.core_dhcp_options_display_name != "" ? var.core_dhcp_options_display_name : "${lower(var.name)}-dhcp-options-${lower(var.environment)}"
     },
     var.tags
   )

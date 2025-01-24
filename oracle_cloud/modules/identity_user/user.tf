@@ -14,7 +14,7 @@ resource "oci_identity_user" "identity_user" {
 
   defined_tags = merge(
     {
-      Name = var.identity_user_name != "" ? var.identity_user_name : "${lower(var.name)}-identity-user-${lower(var.environment)}"
+      "company.Name" = var.identity_user_name != "" ? var.identity_user_name : "${lower(var.name)}-identity-user-${lower(var.environment)}"
     },
     var.tags
   )

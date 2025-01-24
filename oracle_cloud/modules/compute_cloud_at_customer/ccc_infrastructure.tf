@@ -17,7 +17,7 @@ resource "oci_compute_cloud_at_customer_ccc_infrastructure" "ccc_infrastructure"
 
   defined_tags = merge(
     {
-      Name = var.ccc_infrastructure_display_name != "" ? var.ccc_infrastructure_display_name : "${lower(var.name)}-ccc-infra-${lower(var.environment)}"
+      "company.Name" = var.ccc_infrastructure_display_name != "" ? var.ccc_infrastructure_display_name : "${lower(var.name)}-ccc-infra-${lower(var.environment)}"
     },
     var.tags
   )

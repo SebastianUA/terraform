@@ -22,7 +22,7 @@ resource "oci_identity_domain" "identity_domain" {
 
   defined_tags = merge(
     {
-      Name = var.identity_domain_display_name != "" ? var.identity_domain_display_name : "${lower(var.name)}-identity-domain-${lower(var.environment)}"
+      "company.Name" = var.identity_domain_display_name != "" ? var.identity_domain_display_name : "${lower(var.name)}-identity-domain-${lower(var.environment)}"
     },
     var.tags
   )

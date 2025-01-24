@@ -16,7 +16,7 @@ resource "oci_core_public_ip" "core_public_ip" {
 
   defined_tags = merge(
     {
-      Name = var.core_public_ip_display_name != "" ? var.core_public_ip_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
+      "company.Name" = var.core_public_ip_display_name != "" ? var.core_public_ip_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )

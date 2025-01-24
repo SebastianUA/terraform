@@ -39,6 +39,11 @@ variable "dns_record_rtype" {
   default     = null
 }
 
+# variable "dns_record_record_type" {
+#   description = "(Required) The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs."
+#   default     = null
+# }
+
 variable "dns_record_rdata" {
   description = "(Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types"
   default     = null

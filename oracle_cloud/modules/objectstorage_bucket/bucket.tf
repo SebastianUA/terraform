@@ -54,7 +54,7 @@ resource "oci_objectstorage_bucket" "objectstorage_bucket" {
 
   defined_tags = merge(
     {
-      Name = var.objectstorage_bucket_name != "" ? var.objectstorage_bucket_name : "${lower(var.name)}-obj-bucket-${lower(var.environment)}"
+      "company.Name" = var.objectstorage_bucket_name != "" ? var.objectstorage_bucket_name : "${lower(var.name)}-obj-bucket-${lower(var.environment)}"
     },
     var.tags
   )

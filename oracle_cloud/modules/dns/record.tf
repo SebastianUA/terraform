@@ -8,6 +8,7 @@ resource "oci_dns_record" "dns_record" {
   zone_name_or_id = var.dns_record_zone_name_or_id != "" ? var.dns_record_zone_name_or_id : (var.enable_dns_zone ? element(oci_dns_zone.dns_zone.*.id, 0) : null)
   domain          = var.dns_record_domain
   rtype           = var.dns_record_rtype
+  # record_type     = var.dns_record_record_type
 
   # Optional
   rdata          = var.dns_record_rdata

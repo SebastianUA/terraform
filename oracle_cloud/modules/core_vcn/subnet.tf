@@ -24,7 +24,7 @@ resource "oci_core_subnet" "core_subnet" {
 
   defined_tags = merge(
     {
-      Name = var.core_subnet_display_name != "" ? var.core_subnet_display_name : "${lower(var.name)}-subnet-${lower(var.environment)}-${count.index + 1}"
+      "company.Name" = var.core_subnet_display_name != "" ? var.core_subnet_display_name : "${lower(var.name)}-subnet-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )

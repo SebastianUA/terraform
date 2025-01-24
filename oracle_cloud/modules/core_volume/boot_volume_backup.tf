@@ -14,7 +14,7 @@ resource "oci_core_boot_volume_backup" "core_boot_volume_backup" {
 
   defined_tags = merge(
     {
-      Name = var.core_boot_volume_backup_display_name != "" ? var.core_boot_volume_backup_display_name : "${lower(var.name)}-boot-volume-backup-${lower(var.environment)}"
+      "company.Name" = var.core_boot_volume_backup_display_name != "" ? var.core_boot_volume_backup_display_name : "${lower(var.name)}-boot-volume-backup-${lower(var.environment)}"
     },
     var.tags
   )

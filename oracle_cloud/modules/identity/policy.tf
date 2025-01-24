@@ -15,7 +15,7 @@ resource "oci_identity_policy" "identity_policy" {
 
   defined_tags = merge(
     {
-      Name = var.identity_policy_name != "" ? var.identity_policy_name : "${lower(var.name)}-identity-policy-${lower(var.environment)}"
+      "company.Name" = var.identity_policy_name != "" ? var.identity_policy_name : "${lower(var.name)}-identity-policy-${lower(var.environment)}"
     },
     var.tags
   )

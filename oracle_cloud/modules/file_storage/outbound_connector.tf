@@ -43,7 +43,7 @@ resource "oci_file_storage_outbound_connector" "file_storage_outbound_connector"
 
   defined_tags = merge(
     {
-      Name = var.file_storage_outbound_connector_display_name != "" ? var.file_storage_outbound_connector_display_name : "${lower(var.name)}-nfs-out-connector-${lower(var.environment)}"
+      "company.Name" = var.file_storage_outbound_connector_display_name != "" ? var.file_storage_outbound_connector_display_name : "${lower(var.name)}-nfs-out-connector-${lower(var.environment)}"
     },
     var.tags
   )

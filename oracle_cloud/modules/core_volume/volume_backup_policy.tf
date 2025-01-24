@@ -34,7 +34,7 @@ resource "oci_core_volume_backup_policy" "core_volume_backup_policy" {
 
   defined_tags = merge(
     {
-      Name = var.core_volume_backup_policy_display_name != "" ? var.core_volume_backup_policy_display_name : "${lower(var.name)}-volume-backup-policy-${lower(var.environment)}"
+      "company.Name" = var.core_volume_backup_policy_display_name != "" ? var.core_volume_backup_policy_display_name : "${lower(var.name)}-volume-backup-policy-${lower(var.environment)}"
     },
     var.tags
   )

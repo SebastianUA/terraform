@@ -14,7 +14,7 @@ resource "oci_identity_tag_namespace" "identity_tag_namespace" {
 
   defined_tags = merge(
     {
-      Name = var.identity_tag_namespace_name != "" ? var.identity_tag_namespace_name : "${lower(var.name)}-identity-tag-ns-${lower(var.environment)}"
+      "company.Name" = var.identity_tag_namespace_name != "" ? var.identity_tag_namespace_name : "${lower(var.name)}-identity-tag-ns-${lower(var.environment)}"
     },
     var.tags
   )

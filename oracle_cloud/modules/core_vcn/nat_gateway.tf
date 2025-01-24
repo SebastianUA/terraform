@@ -17,7 +17,7 @@ resource "oci_core_nat_gateway" "core_nat_gateway" {
 
   defined_tags = merge(
     {
-      Name = var.core_nat_gateway_display_name != "" ? var.core_nat_gateway_display_name : "${lower(var.name)}-nat-gtw-${lower(var.environment)}"
+      "company.Name" = var.core_nat_gateway_display_name != "" ? var.core_nat_gateway_display_name : "${lower(var.name)}-nat-gtw-${lower(var.environment)}"
     },
     var.tags
   )

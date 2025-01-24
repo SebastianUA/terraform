@@ -13,7 +13,7 @@ resource "oci_identity_dynamic_group" "identity_dynamic_group" {
   # Optional
   defined_tags = merge(
     {
-      Name = var.identity_dynamic_group_name != "" ? var.identity_dynamic_group_name : "${lower(var.name)}-identity-dynamic-group-${lower(var.environment)}"
+      "company.Name" = var.identity_dynamic_group_name != "" ? var.identity_dynamic_group_name : "${lower(var.name)}-identity-dynamic-group-${lower(var.environment)}"
     },
     var.tags
   )

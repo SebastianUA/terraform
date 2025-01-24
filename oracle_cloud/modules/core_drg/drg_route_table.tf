@@ -15,7 +15,7 @@ resource "oci_core_drg_route_table" "core_drg_route_table" {
 
   defined_tags = merge(
     {
-      Name = var.core_drg_route_table_display_name != "" ? var.core_drg_route_table_display_name : "${lower(var.name)}-drg-route-table-${lower(var.environment)}"
+      "company.Name" = var.core_drg_route_table_display_name != "" ? var.core_drg_route_table_display_name : "${lower(var.name)}-drg-route-table-${lower(var.environment)}"
     },
     var.tags
   )

@@ -15,7 +15,7 @@ resource "oci_core_ipv6" "core_ipv6" {
 
   defined_tags = merge(
     {
-      Name = var.core_ipv6_display_name != "" ? var.core_ipv6_display_name : "${lower(var.name)}-ipv6-${lower(var.environment)}-${count.index + 1}"
+      "company.Name" = var.core_ipv6_display_name != "" ? var.core_ipv6_display_name : "${lower(var.name)}-ipv6-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )

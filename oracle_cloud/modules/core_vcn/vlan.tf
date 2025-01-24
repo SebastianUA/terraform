@@ -19,7 +19,7 @@ resource "oci_core_vlan" "core_vlan" {
 
   defined_tags = merge(
     {
-      Name = var.core_vlan_display_name != "" ? var.core_vlan_display_name : "${lower(var.name)}-vlan-${lower(var.environment)}"
+      "company.Name" = var.core_vlan_display_name != "" ? var.core_vlan_display_name : "${lower(var.name)}-vlan-${lower(var.environment)}"
     },
     var.tags
   )

@@ -21,7 +21,7 @@ resource "oci_file_storage_file_system" "file_storage_file_system" {
 
     content {
       # Required
-      type = var.file_system_locks_type
+      type = lookup(locks.value, "type", null)
 
       # Optional
       message             = lookup(locks.value, "message", null)
@@ -32,7 +32,7 @@ resource "oci_file_storage_file_system" "file_storage_file_system" {
 
   defined_tags = merge(
     {
-      Name = var.file_storage_file_system_display_name != "" ? var.file_storage_file_system_display_name : "${lower(var.name)}-nfs-${lower(var.environment)}"
+      "company.Name" = var.file_storage_file_system_display_name != "" ? var.file_storage_file_system_display_name : "${lower(var.name)}-nfs-${lower(var.environment)}"
     },
     var.tags
   )

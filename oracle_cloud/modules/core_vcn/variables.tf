@@ -461,13 +461,13 @@ variable "core_dhcp_options_compartment_id" {
 
 variable "core_dhcp_options_options" {
   description = "List of DHCP options configurations."
-  type        = list(map(any))
-  default     = []
+  # type        = list(map(any))
+  default = []
 
-  validation {
-    condition     = length(var.core_dhcp_options_options) > 0
-    error_message = "The variable 'core_dhcp_options_options' must not be empty. Provide at least one DHCP option configuration."
-  }
+  # validation {
+  #   condition     = length(var.core_dhcp_options_options) == 0 || length(var.core_dhcp_options_options) > 0
+  #   error_message = "If provided, the variable 'core_dhcp_options_options' must contain at least one DHCP option configuration."
+  # }
 }
 
 variable "core_dhcp_options_vcn_id" {

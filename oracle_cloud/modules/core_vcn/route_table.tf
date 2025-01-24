@@ -29,7 +29,7 @@ resource "oci_core_route_table" "core_route_table" {
 
   defined_tags = merge(
     {
-      Name = var.core_route_table_display_name != "" ? var.core_route_table_display_name : "${lower(var.name)}-route-table-${lower(var.environment)}"
+      "company.Name" = var.core_route_table_display_name != "" ? var.core_route_table_display_name : "${lower(var.name)}-route-table-${lower(var.environment)}"
     },
     var.tags
   )

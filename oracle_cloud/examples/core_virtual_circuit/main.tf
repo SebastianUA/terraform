@@ -14,12 +14,14 @@ terraform {
 }
 
 provider "oci" {
+  # config_file = var.provider_oci_config_file
+  # profile     = var.provider_oci_profile
+
   fingerprint      = var.provider_oci_fingerprint
   private_key_path = var.provider_oci_private_key_path
   region           = var.provider_oci_region
   tenancy_ocid     = var.provider_oci_tenancy_ocid
   user_ocid        = var.provider_oci_user_ocid
-  alias            = var.provider_oci_alias
 }
 
 module "core_virtual_circuit" {

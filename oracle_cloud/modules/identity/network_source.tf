@@ -16,7 +16,7 @@ resource "oci_identity_network_source" "identity_network_source" {
 
   defined_tags = merge(
     {
-      Name = var.identity_network_source_name != "" ? var.identity_network_source_name : "${lower(var.name)}-identity-net-source-${lower(var.environment)}"
+      "company.Name" = var.identity_network_source_name != "" ? var.identity_network_source_name : "${lower(var.name)}-identity-net-source-${lower(var.environment)}"
     },
     var.tags
   )

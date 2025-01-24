@@ -49,7 +49,7 @@ resource "oci_functions_application" "functions_application" {
 
   defined_tags = merge(
     {
-      Name = var.functions_application_display_name != "" ? var.functions_application_display_name : "${lower(var.name)}-application-${lower(var.environment)}"
+      "company.Name" = var.functions_application_display_name != "" ? var.functions_application_display_name : "${lower(var.name)}-application-${lower(var.environment)}"
     },
     var.tags
   )

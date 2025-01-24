@@ -30,7 +30,7 @@ resource "oci_file_storage_replication" "file_storage_replication" {
 
   defined_tags = merge(
     {
-      Name = var.file_storage_replication_display_name != "" ? var.file_storage_replication_display_name : "${lower(var.name)}-nfs-replication-${lower(var.environment)}"
+      "company.Name" = var.file_storage_replication_display_name != "" ? var.file_storage_replication_display_name : "${lower(var.name)}-nfs-replication-${lower(var.environment)}"
     },
     var.tags
   )

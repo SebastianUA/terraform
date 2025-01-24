@@ -28,7 +28,7 @@ resource "oci_compute_cloud_at_customer_ccc_upgrade_schedule" "ccc_upgrade_sched
 
   defined_tags = merge(
     {
-      Name = var.ccc_upgrade_schedule_display_name != "" ? var.ccc_upgrade_schedule_display_name : "${lower(var.name)}-ccc-upgrade-schedules-${lower(var.environment)}"
+      "company.Name" = var.ccc_upgrade_schedule_display_name != "" ? var.ccc_upgrade_schedule_display_name : "${lower(var.name)}-ccc-upgrade-schedules-${lower(var.environment)}"
     },
     var.tags
   )

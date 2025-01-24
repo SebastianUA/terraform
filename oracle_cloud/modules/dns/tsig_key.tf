@@ -13,7 +13,7 @@ resource "oci_dns_tsig_key" "dns_tsig_key" {
   # Optional
   defined_tags = merge(
     {
-      Name = var.dns_tsig_key_name != "" ? var.dns_tsig_key_name : "${lower(var.name)}-dns-tsig-key-${lower(var.environment)}"
+      "company.Name" = var.dns_tsig_key_name != "" ? var.dns_tsig_key_name : "${lower(var.name)}-dns-tsig-key-${lower(var.environment)}"
     },
     var.tags
   )

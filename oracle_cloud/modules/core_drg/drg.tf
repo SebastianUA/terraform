@@ -12,7 +12,7 @@ resource "oci_core_drg" "core_drg" {
 
   defined_tags = merge(
     {
-      Name = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"
+      "company.Name" = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"
     },
     var.tags
   )

@@ -14,7 +14,7 @@ resource "oci_identity_compartment" "identity_compartment" {
 
   defined_tags = merge(
     {
-      Name = var.identity_compartment_name != "" ? var.identity_compartment_name : "${lower(var.name)}-identity-compartment-${lower(var.environment)}"
+      "company.Name" = var.identity_compartment_name != "" ? var.identity_compartment_name : "${lower(var.name)}-identity-compartment-${lower(var.environment)}"
     },
     var.tags
   )

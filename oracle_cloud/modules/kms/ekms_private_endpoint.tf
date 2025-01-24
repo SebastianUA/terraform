@@ -14,7 +14,7 @@ resource "oci_kms_ekms_private_endpoint" "kms_ekms_private_endpoint" {
   # Optional
   defined_tags = merge(
     {
-      Name = var.kms_ekms_private_endpoint_display_name != "" ? var.kms_ekms_private_endpoint_display_name : "${lower(var.name)}-kms-ekms-prvt-end-${lower(var.environment)}"
+      "company.Name" = var.kms_ekms_private_endpoint_display_name != "" ? var.kms_ekms_private_endpoint_display_name : "${lower(var.name)}-kms-ekms-prvt-end-${lower(var.environment)}"
     },
     var.tags
   )

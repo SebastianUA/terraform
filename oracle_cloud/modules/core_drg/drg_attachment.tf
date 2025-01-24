@@ -28,7 +28,7 @@ resource "oci_core_drg_attachment" "core_drg_attachment" {
 
   defined_tags = merge(
     {
-      Name = var.core_drg_attachment_display_name != "" ? var.core_drg_attachment_display_name : "${lower(var.name)}-drg-attachment-${lower(var.environment)}"
+      "company.Name" = var.core_drg_attachment_display_name != "" ? var.core_drg_attachment_display_name : "${lower(var.name)}-drg-attachment-${lower(var.environment)}"
     },
     var.tags
   )

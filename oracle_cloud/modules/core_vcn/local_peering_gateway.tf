@@ -15,7 +15,7 @@ resource "oci_core_local_peering_gateway" "core_local_peering_gateway" {
 
   defined_tags = merge(
     {
-      Name = var.core_local_peering_gateway_display_name != "" ? var.core_local_peering_gateway_display_name : "${lower(var.name)}-local-peering-gtw-${lower(var.environment)}"
+      "company.Name" = var.core_local_peering_gateway_display_name != "" ? var.core_local_peering_gateway_display_name : "${lower(var.name)}-local-peering-gtw-${lower(var.environment)}"
     },
     var.tags
   )
