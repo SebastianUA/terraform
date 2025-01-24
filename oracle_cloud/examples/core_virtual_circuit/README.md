@@ -58,7 +58,6 @@ module "core_virtual_circuit" {
 - `core_virtual_circuit_bgp_admin_state` - (Optional) (Updatable) Set to ENABLED (the default) to activate the BGP session of the virtual circuit, set to DISABLED to deactivate the virtual circuit. (`default = null`)
 - `core_virtual_circuit_cross_connect_mappings` - Optional) (Updatable) Create a CrossConnectMapping for each cross-connect or cross-connect group this virtual circuit will run on. (`default = []`)
 - `core_virtual_circuit_customer_asn` - (Optional) (Updatable) Your BGP ASN (either public or private). Provide this value only if there's a BGP session that goes from your edge router to Oracle. Otherwise, leave this empty or null. Can be a 2-byte or 4-byte ASN. Uses 'asplain' format. Example: 12345 (2-byte) or 1587232876 (4-byte) (`default = null`)
-- `core_virtual_circuit_customer_bgp_asn` - (Optional) (Updatable) Deprecated. Instead use customerAsn. If you specify values for both, the request will be rejected. (`default = null`)
 - `core_virtual_circuit_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_virtual_circuit_ip_mtu` - (Optional) (Updatable) The layer 3 IP MTU to use with this virtual circuit. (`default = null`)
 - `core_virtual_circuit_is_bfd_enabled` - (Optional) (Updatable) Set to true to enable BFD for IPv4 BGP peering, or set to false to disable BFD. If this is not set, the default is false. (`default = null`)
@@ -69,7 +68,7 @@ module "core_virtual_circuit" {
 - `core_virtual_circuit_region` - (Optional) The Oracle Cloud Infrastructure region where this virtual circuit is located. Example: phx (`default = null`)
 - `core_virtual_circuit_routing_policy` - (Optional) (Updatable) The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit. Policies available are: ORACLE_SERVICE_NETWORK, REGIONAL, MARKET_LEVEL, and GLOBAL. See Route Filtering for details. By default, routing information is shared for all routes in the same market. (`default = null`)
 - `core_virtual_circuit_public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. (`default = []`)
-- `core_virtual_circuit_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_virtual_circuit_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_virtual_circuit_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Virtual Circuit * update - (Defaults to 20 minutes), when updating the Virtual Circuit * delete - (Defaults to 20 minutes), when destroying the Virtual Circuit (`default = {}`)
 
 ## Module Output Variables

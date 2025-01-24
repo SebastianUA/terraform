@@ -14,13 +14,13 @@ resource "oci_identity_network_source" "identity_network_source" {
   services           = var.identity_network_source_services
   //virtual_source_list = var.identity_network_source_virtual_source_list
 
-  defined_tags = merge(
+  defined_tags = var.identity_network_source_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_network_source_name != "" ? var.identity_network_source_name : "${lower(var.name)}-identity-net-source-${lower(var.environment)}"
+      "Name" = var.identity_network_source_name != "" ? var.identity_network_source_name : "${lower(var.name)}-identity-net-source-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_network_source_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

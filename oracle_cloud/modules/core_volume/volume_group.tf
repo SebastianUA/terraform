@@ -40,13 +40,13 @@ resource "oci_core_volume_group" "core_volume_group" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_volume_group_defined_tags
+  freeform_tags = merge(
     {
-      Name = var.core_volume_group_display_name != "" ? var.core_volume_group_display_name : "${lower(var.name)}-volume-group-${lower(var.environment)}"
+      "Name" = var.core_volume_group_display_name != "" ? var.core_volume_group_display_name : "${lower(var.name)}-volume-group-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_volume_group_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

@@ -74,8 +74,8 @@ variable "objectstorage_bucket_versioning" {
   default     = null
 }
 
-variable "objectstorage_bucket_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
+variable "objectstorage_bucket_defined_tags" {
+  description = "(Optional) (Updatable) Defined-formtags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
   default     = {}
 }
 

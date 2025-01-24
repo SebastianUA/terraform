@@ -54,11 +54,6 @@ variable "core_virtual_circuit_customer_asn" {
   default     = null
 }
 
-variable "core_virtual_circuit_customer_bgp_asn" {
-  description = "(Optional) (Updatable) Deprecated. Instead use customerAsn. If you specify values for both, the request will be rejected."
-  default     = null
-}
-
 variable "core_virtual_circuit_display_name" {
   description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
   default     = null
@@ -109,8 +104,8 @@ variable "core_virtual_circuit_public_prefixes" {
   default     = []
 }
 
-variable "core_virtual_circuit_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_virtual_circuit_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 

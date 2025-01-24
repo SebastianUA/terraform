@@ -61,14 +61,14 @@ module "compute_cloud_at_customer" {
 - `ccc_infrastructure_ccc_upgrade_schedule_id` - (Optional) (Updatable) Schedule used for upgrades. If no schedule is associated with the infrastructure, it can be upgraded at any time. (`default = null`)
 - `ccc_infrastructure_connection_details` - (Optional) (Updatable) A message describing the current connection state in more detail. (`default = null`)
 - `ccc_infrastructure_connection_state` - (Optional) (Updatable) The current connection state of the Compute Cloud@Customer infrastructure. This value will default to REJECT if the value is not provided. The only valid value at creation time is REJECT. (`default = null`)
-- `ccc_infrastructure_freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
+- `ccc_infrastructure_defined_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
 - `ccc_infrastructure_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Ccc Infrastructure * update - (Defaults to 20 minutes), when updating the Ccc Infrastructure * delete - (Defaults to 20 minutes), when destroying the Ccc Infrastructure (`default = {}`)
 - `enable_ccc_upgrade_schedule` - Enable ccc upgrade schedule usages (`default = False`)
 - `ccc_upgrade_schedule_compartment_id` - (Required) (Updatable) Compartment OCID for the Compute Cloud@Customer Upgrade Schedule. (`default = null`)
 - `ccc_upgrade_schedule_display_name` - (Updatable) Compute Cloud@Customer upgrade schedule display name. Avoid entering confidential information. (`default = ""`)
 - `ccc_upgrade_schedule_events` - (Required) (Updatable) List of preferred times for Compute Cloud@Customer infrastructure to be upgraded. (`default = []`)
 - `ccc_upgrade_schedule_descriptions` - (Optional) (Updatable) An optional description of the Compute Cloud@Customer upgrade schedule. Avoid entering confidential information. (`default = null`)
-- `ccc_upgrade_schedule_freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
+- `ccc_upgrade_schedule_defined_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
 - `ccc_upgrade_schedule_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Ccc Upgrade Schedule * update - (Defaults to 20 minutes), when updating the Ccc Upgrade Schedule * delete - (Defaults to 20 minutes), when destroying the Ccc Upgrade Schedule (`default = {}`)
 
 ## Module Output Variables

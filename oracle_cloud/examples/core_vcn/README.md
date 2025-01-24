@@ -34,29 +34,22 @@ provider "oci" {
   user_ocid        = var.provider_oci_user_ocid
 }
 
+locals {
+  compartment_id = "ocid1.tenancy.oc1..aaaaaaaaepggbbn72sgkuxbmx2ifwpjuy2dx5kzhsveteiagrbwasjahdrxa"
+}
+
 module "core_vcn" {
   source = "../../modules/core_vcn"
 
   enable_core_vcn         = true
-  core_vcn_compartment_id = "captainua"
+  core_vcn_compartment_id = local.compartment_id
   core_vcn_display_name   = "main-vcn-1"
 
   # DHCP:
   enable_core_dhcp_options         = true
-  core_dhcp_options_compartment_id = "captainua"
+  core_dhcp_options_compartment_id = local.compartment_id
+  core_vcn_cidr_blocks             = ["10.0.0.0/16"]
   core_dhcp_options_options = [
-    {
-      type                = "DomainNameServer"
-      server_type         = "CustomDnsServer"
-      custom_dns_servers  = ["10.0.0.1", "10.0.0.2"]
-      search_domain_names = ["example.com", "subdomain.example.com"]
-    },
-    {
-      type                = "SearchDomain"
-      server_type         = null
-      custom_dns_servers  = null
-      search_domain_names = ["anotherdomain.com"]
-    },
     {
       type        = "DomainNameServer"
       server_type = "VcnLocalPlusInternet"
@@ -82,7 +75,7 @@ module "core_vcn" {
 - `core_vcn_is_ipv6enabled` - (Optional) Whether IPv6 is enabled for the VCN. Default is false. If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block. You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to false. For important details about IPv6 addressing in a VCN, see IPv6 Addresses. Example: true (`default = null`)
 - `core_vcn_is_oracle_gua_allocation_enabled` - (Optional) Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN. (`default = null`)
 - `core_vcn_security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls. Example: {'Oracle-DataSecurity-ZPR.MaxEgressCount.value': '42', 'Oracle-DataSecurity-ZPR.MaxEgressCount.mode': 'audit'} (`default = null`)
-- `core_vcn_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_vcn_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_vcn_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Vcn * update - (Defaults to 20 minutes), when updating the Vcn * delete - (Defaults to 20 minutes), when destroying the Vcn (`default = {}`)
 - `enable_core_private_ip` - Enable core private ip usages (`default = False`)
 - `core_private_ip_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
@@ -90,7 +83,7 @@ module "core_vcn" {
 - `core_private_ip_ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. Example: 10.0.3.3 (`default = null`)
 - `core_private_ip_vlan_id` - (Optional) Use this attribute only with the Oracle Cloud VMware Solution. The OCID of the VLAN from which the private IP is to be drawn. The IP address, if supplied, must be valid for the given VLAN. See Vlan. (`default = null`)
 - `core_private_ip_vnic_id` - (Optional) (Updatable) The OCID of the VNIC to assign the private IP to. The VNIC and private IP must be in the same subnet. (`default = null`)
-- `core_private_ip_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (`default = {}`)
+- `core_private_ip_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (`default = {}`)
 - `core_private_ip_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Private Ip * update - (Defaults to 20 minutes), when updating the Private Ip * delete - (Defaults to 20 minutes), when destroying the Private Ip (`default = {}`)
 - `enable_core_public_ip_pool_capacity` - Enable core public ip pool capacity usages (`default = False`)
 - `core_public_ip_pool_capacity_public_ip_pool_id` - (Required) The OCID of the pool object created by the current tenancy (`default = null`)
@@ -99,7 +92,7 @@ module "core_vcn" {
 - `enable_core_public_ip_pool` - Enable core public ip pool usages (`default = False`)
 - `core_public_ip_pool_compartment_id` - (Required) (Updatable) The OCID of the compartment containing the public IP pool. (`default = null`)
 - `core_public_ip_pool_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
-- `core_public_ip_pool_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_public_ip_pool_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_public_ip_pool_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Public Ip Pool * update - (Defaults to 20 minutes), when updating the Public Ip Pool * delete - (Defaults to 20 minutes), when destroying the Public Ip Pool (`default = {}`)
 - `enable_core_public_ip` - Enable core public ip usages (`default = False`)
 - `core_public_ip_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the public IP. For ephemeral public IPs, you must set this to the private IP's compartment OCID. (`default = null`)
@@ -107,14 +100,14 @@ module "core_vcn" {
 - `core_public_ip_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_public_ip_private_ip_id` - (Optional) (Updatable) The OCID of the private IP to assign the public IP to. (`default = null`)
 - `core_public_ip_public_ip_pool_id` - (Optional) The OCID of the public IP pool. (`default = null`)
-- `core_public_ip_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
+- `core_public_ip_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
 - `core_public_ip_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Public Ip * update - (Defaults to 20 minutes), when updating the Public Ip * delete - (Defaults to 20 minutes), when destroying the Public Ip (`default = {}`)
 - `enable_core_route_table` - Enable core route table usages (`default = False`)
 - `core_route_table_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the route table. (`default = null`)
 - `core_route_table_vcn_id` - (Required) The OCID of the VCN the route table belongs to. (`default = ""`)
 - `core_route_table_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_route_table_route_rules` - (Optional) (Updatable) The collection of rules used for routing destination IPs to network devices. (`default = []`)
-- `core_route_table_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
+- `core_route_table_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
 - `core_route_table_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table (`default = {}`)
 - `enable_core_route_table_attachment` - Enable core route table attachment usages (`default = False`)
 - `core_route_table_attachment_subnet_id` - (Required) The OCID of the subnet. (`default = ""`)
@@ -128,7 +121,7 @@ module "core_vcn" {
 - `core_vlan_nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add all VNICs in the VLAN to. For more information about NSGs (`default = null`)
 - `core_vlan_route_table_id` - (Optional) (Updatable) The OCID of the route table the VLAN will use. If you don't provide a value, the VLAN uses the VCN's default route table. (`default = null`)
 - `core_vlan_vlan_tag` - (Optional) The IEEE 802.1Q VLAN tag for this VLAN. The value must be unique across all VLANs in the VCN. If you don't provide a value, Oracle assigns one. You cannot change the value later. VLAN tag 0 is reserved for use by Oracle. (`default = null`)
-- `core_vlan_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_vlan_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_vlan_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Vlan * update - (Defaults to 20 minutes), when updating the Vlan * delete - (Defaults to 20 minutes), when destroying the Vlan (`default = {}`)
 - `enable_core_vnic_attachment` - Enable core vnic attachment usages (`default = False`)
 - `core_vnic_attachment_create_vnic_details` - (Required) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see Virtual Network Interface Cards (VNICs). (`default = []`)
@@ -150,14 +143,14 @@ module "core_vcn" {
 - `core_subnet_prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). (`default = null`)
 - `core_subnet_route_table_id` - (Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. (`default = null`)
 - `core_subnet_security_list_ids` - (Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet. (`default = null`)
-- `core_subnet_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_subnet_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_subnet_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet (`default = {}`)
 - `enable_core_dhcp_options` - Enablecore dhcp options usages (`default = False`)
 - `core_dhcp_options_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the set of DHCP options. (`default = null`)
 - `core_dhcp_options_options` - List of DHCP options configurations. (`default = []`)
 - `core_dhcp_options_vcn_id` - The OCID of the VCN the set of DHCP options belongs to. (`default = ""`)
 - `core_dhcp_options_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
-- `core_dhcp_options_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_dhcp_options_defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {'Operations.CostCenter': '42'} (`default = {}`)
 - `core_dhcp_options_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Dhcp Options * update - (Defaults to 20 minutes), when updating the Dhcp Options * delete - (Defaults to 20 minutes), when destroying the Dhcp Options (`default = {}`)
 - `enable_core_service_gateway` - Enable core service gateway usages (`default = False`)
 - `core_service_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the service gateway. (`default = null`)
@@ -165,7 +158,7 @@ module "core_vcn" {
 - `core_service_gateway_vcn_id` - The OCID of the VCN. (`default = ""`)
 - `core_service_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_service_gateway_route_table_id` - (Optional) (Updatable) The OCID of the route table the service gateway will use. (`default = null`)
-- `core_service_gateway_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (`default = {}`)
+- `core_service_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (`default = {}`)
 - `core_service_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Service Gateway * update - (Defaults to 20 minutes), when updating the Service Gateway * delete - (Defaults to 20 minutes), when destroying the Service Gateway (`default = {}`)
 - `enable_core_nat_gateway` - Enable core nat gateway usages (`default = False`)
 - `core_nat_gateway_compartment_id` - Required) (Updatable) The OCID of the compartment to contain the NAT gateway. (`default = null`)
@@ -174,7 +167,7 @@ module "core_vcn" {
 - `core_nat_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_nat_gateway_public_ip_id` - (Optional) The OCID of the public IP address associated with the NAT gateway. (`default = null`)
 - `core_nat_gateway_route_table_id` - (Optional) (Updatable) The OCID of the route table used by the NAT gateway. (`default = null`)
-- `core_nat_gateway_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_nat_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_nat_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Nat Gateway * update - (Defaults to 20 minutes), when updating the Nat Gateway * delete - (Defaults to 20 minutes), when destroying the Nat Gateway (`default = {}`)
 - `enable_core_internet_gateway` - Enable core internet gateway usages (`default = False`)
 - `core_internet_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the internet gateway. (`default = null`)
@@ -182,14 +175,14 @@ module "core_vcn" {
 - `core_internet_gateway_enabled` - (Optional) (Updatable) Whether the gateway is enabled upon creation. (`default = null`)
 - `core_internet_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_internet_gateway_route_table_id` - (Optional) (Updatable) The OCID of the route table the Internet Gateway is using. (`default = null`)
-- `core_internet_gateway_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_internet_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_internet_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Internet Gateway * update - (Defaults to 20 minutes), when updating the Internet Gateway * delete - (Defaults to 20 minutes), when destroying the Internet Gateway (`default = {}`)
 - `enable_core_ipv6` - Enable core ipv6 usages (`default = False`)
 - `core_ipv6_vnic_id` - (Updatable) The OCID of the VNIC to assign the IPv6 to. The IPv6 will be in the VNIC's subnet. (`default = null`)
 - `core_ipv6_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_ipv6_ip_address` - (Optional) An IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns an IPv6 address from the subnet. The subnet is the one that contains the VNIC you specify in vnicId. Example: 2001:DB8:: (`default = null`)
 - `core_ipv6_ipv6subnet_cidr` - (Optional) The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet. (`default = null`)
-- `core_ipv6_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_ipv6_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_ipv6_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Ipv6 * update - (Defaults to 20 minutes), when updating the Ipv6 * delete - (Defaults to 20 minutes), when destroying the Ipv6 (`default = {}`)
 - `enable_core_local_peering_gateway` - enable_core_local_peering_gateway usages (`default = False`)
 - `core_local_peering_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment containing the local peering gateway (LPG). (`default = null`)
@@ -197,7 +190,7 @@ module "core_vcn" {
 - `core_local_peering_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_local_peering_gateway_peer_id` - (Optional) The OCID of the LPG you want to peer with. Specifying a peer_id connects this local peering gateway (LPG) to another one in the same region. This operation must be called by the VCN administrator who is designated as the requestor in the peering relationship. The acceptor must implement an Identity and Access Management (IAM) policy that gives the requestor permission to connect to LPGs in the acceptor's compartment. Without that permission, this operation will fail. For more information, see VCN Peering. (`default = null`)
 - `core_local_peering_gateway_route_table_id` - (Optional) (Updatable) The OCID of the route table the LPG will use. (`default = ""`)
-- `core_local_peering_gateway_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
+- `core_local_peering_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
 - `core_local_peering_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Local Peering Gateway * update - (Defaults to 20 minutes), when updating the Local Peering Gateway * delete - (Defaults to 20 minutes), when destroying the Local Peering Gateway (`default = {}`)
 
 ## Module Output Variables

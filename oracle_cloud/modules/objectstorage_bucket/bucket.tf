@@ -52,14 +52,13 @@ resource "oci_objectstorage_bucket" "objectstorage_bucket" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.objectstorage_bucket_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.objectstorage_bucket_name != "" ? var.objectstorage_bucket_name : "${lower(var.name)}-obj-bucket-${lower(var.environment)}"
+      "Name" = var.objectstorage_bucket_name != "" ? var.objectstorage_bucket_name : "${lower(var.name)}-obj-bucket-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.objectstorage_bucket_freeform_tags
 
   lifecycle {
     create_before_destroy = true

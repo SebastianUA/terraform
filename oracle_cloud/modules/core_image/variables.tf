@@ -49,8 +49,8 @@ variable "core_image_image_source_details" {
   default     = []
 }
 
-variable "core_image_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_image_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -115,8 +115,8 @@ variable "core_compute_image_capability_schema_display_name" {
   default     = null
 }
 
-variable "core_compute_image_capability_schema_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "core_compute_image_capability_schema_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = {}
 }
 

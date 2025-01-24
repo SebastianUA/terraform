@@ -50,13 +50,13 @@ resource "oci_functions_function" "functions_function" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.functions_function_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.functions_function_display_name != "" ? var.functions_function_display_name : "${lower(var.name)}-function-${lower(var.environment)}"
+      "Name" = var.functions_function_display_name != "" ? var.functions_function_display_name : "${lower(var.name)}-function-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.functions_function_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

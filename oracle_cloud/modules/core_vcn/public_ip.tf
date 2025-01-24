@@ -14,13 +14,13 @@ resource "oci_core_public_ip" "core_public_ip" {
   private_ip_id     = var.core_public_ip_private_ip_id != "" && !var.enable_core_private_ip ? var.core_public_ip_private_ip_id : (var.enable_core_private_ip ? element(oci_core_private_ip.core_private_ip.*.id, 0) : null)
   public_ip_pool_id = var.core_public_ip_public_ip_pool_id != "" && !var.enable_core_public_ip_pool ? var.core_public_ip_public_ip_pool_id : (var.enable_core_public_ip_pool ? element(oci_core_public_ip_pool.core_public_ip_pool.*.id, 0) : null)
 
-  defined_tags = merge(
+  defined_tags = var.core_public_ip_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_public_ip_display_name != "" ? var.core_public_ip_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
+      "Name" = var.core_public_ip_display_name != "" ? var.core_public_ip_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )
-  freeform_tags = var.core_public_ip_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

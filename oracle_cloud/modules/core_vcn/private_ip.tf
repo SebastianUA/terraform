@@ -12,13 +12,13 @@ resource "oci_core_private_ip" "core_private_ip" {
   vlan_id        = var.core_private_ip_vlan_id != "" && !var.enable_core_vlan ? var.core_private_ip_vlan_id : (var.enable_core_vlan ? element(oci_core_vlan.core_vlan.*.id, 0) : null)
   vnic_id        = var.core_private_ip_vnic_id != "" && !var.enable_core_vnic_attachment ? var.core_private_ip_vnic_id : (var.enable_core_vnic_attachment ? element(oci_core_vnic_attachment.core_vnic_attachment.*.id, 0) : null)
 
-  defined_tags = merge(
+  defined_tags = var.core_private_ip_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_private_ip_display_name != "" ? var.core_private_ip_display_name : "${lower(var.name)}-private-ip-${lower(var.environment)}-${count.index + 1}"
+      "Name" = var.core_private_ip_display_name != "" ? var.core_private_ip_display_name : "${lower(var.name)}-private-ip-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )
-  freeform_tags = var.core_private_ip_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

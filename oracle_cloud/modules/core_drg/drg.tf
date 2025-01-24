@@ -10,13 +10,13 @@ resource "oci_core_drg" "core_drg" {
   # Optional
   display_name = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"
 
-  defined_tags = merge(
+  defined_tags = var.core_drg_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"
+      "Name" = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_drg_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

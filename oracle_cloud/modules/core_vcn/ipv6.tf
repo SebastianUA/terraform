@@ -13,13 +13,13 @@ resource "oci_core_ipv6" "core_ipv6" {
   ip_address      = var.core_ipv6_ip_address
   ipv6subnet_cidr = var.core_ipv6_ipv6subnet_cidr
 
-  defined_tags = merge(
+  defined_tags = var.core_ipv6_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_ipv6_display_name != "" ? var.core_ipv6_display_name : "${lower(var.name)}-ipv6-${lower(var.environment)}-${count.index + 1}"
+      "Name" = var.core_ipv6_display_name != "" ? var.core_ipv6_display_name : "${lower(var.name)}-ipv6-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )
-  freeform_tags = var.core_ipv6_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

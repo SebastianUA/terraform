@@ -112,8 +112,8 @@ variable "dns_zone_external_masters" {
   default     = []
 }
 
-variable "dns_zone_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "dns_zone_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -201,8 +201,8 @@ variable "dns_view_scope" {
   default     = null
 }
 
-variable "dns_view_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "dns_view_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -239,8 +239,8 @@ variable "dns_tsig_key_secret" {
   default     = null
 }
 
-variable "dns_tsig_key_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "dns_tsig_key_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -292,8 +292,8 @@ variable "dns_steering_policy_rules" {
   default     = []
 }
 
-variable "dns_steering_policy_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "dns_steering_policy_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -502,8 +502,8 @@ variable "dns_resolver_attached_views" {
   default     = []
 }
 
-variable "dns_resolver_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "dns_resolver_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 

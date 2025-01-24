@@ -78,7 +78,7 @@ module "container_instances" {
 - `container_instance_dns_config` - (Optional) Allow customers to define DNS settings for containers. If this is not provided, the containers use the default DNS settings of the subnet. (`default = {}`)
 - `container_instance_image_pull_secrets` - (Optional) The image pulls secrets so you can access private registry to pull container images. (`default = []`)
 - `container_instance_volumes` - (Optional) A volume is a directory with data that is accessible across multiple containers in a container instance. (`default = []`)
-- `ccc_infrastructure_freeform_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
+- `container_instance_defined_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
 - `container_instance_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Container Instance * update - (Defaults to 20 minutes), when updating the Container Instance * delete - (Defaults to 20 minutes), when destroying the Container Instance (`default = {}`)
 
 ## Module Output Variables

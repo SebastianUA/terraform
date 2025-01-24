@@ -15,14 +15,13 @@ resource "oci_compute_cloud_at_customer_ccc_infrastructure" "ccc_infrastructure"
   connection_details      = var.ccc_infrastructure_connection_details
   connection_state        = var.ccc_infrastructure_connection_state
 
-  defined_tags = merge(
+  defined_tags = var.ccc_infrastructure_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.ccc_infrastructure_display_name != "" ? var.ccc_infrastructure_display_name : "${lower(var.name)}-ccc-infra-${lower(var.environment)}"
+      "Name" = var.ccc_infrastructure_display_name != "" ? var.ccc_infrastructure_display_name : "${lower(var.name)}-ccc-infra-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.ccc_infrastructure_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

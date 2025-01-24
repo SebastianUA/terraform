@@ -39,8 +39,8 @@ variable "core_network_security_group_display_name" {
   default     = null
 }
 
-variable "core_network_security_group_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_network_security_group_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 

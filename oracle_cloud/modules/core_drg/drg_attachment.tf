@@ -26,13 +26,13 @@ resource "oci_core_drg_attachment" "core_drg_attachment" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_drg_attachment_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_drg_attachment_display_name != "" ? var.core_drg_attachment_display_name : "${lower(var.name)}-drg-attachment-${lower(var.environment)}"
+      "Name" = var.core_drg_attachment_display_name != "" ? var.core_drg_attachment_display_name : "${lower(var.name)}-drg-attachment-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_drg_attachment_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

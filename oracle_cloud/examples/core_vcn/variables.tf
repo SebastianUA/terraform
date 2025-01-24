@@ -15,7 +15,7 @@ variable "provider_oci_region" {
   type = string
   # List of regions: https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#ServiceAvailabilityAcrossRegions
   description = "the oci region where resources will be created"
-  default     = null
+  default     = "eu-zurich-1"
 }
 
 variable "provider_oci_tenancy_ocid" {

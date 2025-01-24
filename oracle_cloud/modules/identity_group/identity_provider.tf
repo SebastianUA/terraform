@@ -16,13 +16,13 @@ resource "oci_identity_identity_provider" "identity_identity_provider" {
   # Optional
   freeform_attributes = var.identity_identity_provider_freeform_attributes
 
-  defined_tags = merge(
+  defined_tags = var.identity_identity_provider_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_identity_provider_name != "" ? var.identity_identity_provider_name : "${lower(var.name)}-identity-provider-${lower(var.environment)}"
+      "Name" = var.identity_identity_provider_name != "" ? var.identity_identity_provider_name : "${lower(var.name)}-identity-provider-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_identity_provider_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

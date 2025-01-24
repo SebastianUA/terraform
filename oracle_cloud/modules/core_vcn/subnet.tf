@@ -22,13 +22,13 @@ resource "oci_core_subnet" "core_subnet" {
   route_table_id             = var.core_subnet_route_table_id != "" && !var.enable_core_route_table ? var.core_subnet_route_table_id : (var.enable_core_route_table ? element(oci_core_route_table.core_route_table.*.id, 0) : null)
   security_list_ids          = var.core_subnet_security_list_ids
 
-  defined_tags = merge(
+  defined_tags = var.core_subnet_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_subnet_display_name != "" ? var.core_subnet_display_name : "${lower(var.name)}-subnet-${lower(var.environment)}-${count.index + 1}"
+      "Name" = var.core_subnet_display_name != "" ? var.core_subnet_display_name : "${lower(var.name)}-subnet-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )
-  freeform_tags = var.core_subnet_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

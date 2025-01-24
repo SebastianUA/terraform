@@ -23,13 +23,13 @@ resource "oci_core_service_gateway" "core_service_gateway" {
   # TODO: Fix this routes if so!
   route_table_id = var.core_service_gateway_route_table_id != "" && !var.enable_core_route_table ? var.core_service_gateway_route_table_id : (var.enable_core_route_table ? element(oci_core_route_table.core_route_table.*.id, 0) : null)
 
-  defined_tags = merge(
+  defined_tags = var.core_service_gateway_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_service_gateway_display_name != "" ? var.core_service_gateway_display_name : "${lower(var.name)}-svc-gtw-${lower(var.environment)}"
+      "Name" = var.core_service_gateway_display_name != "" ? var.core_service_gateway_display_name : "${lower(var.name)}-svc-gtw-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_service_gateway_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

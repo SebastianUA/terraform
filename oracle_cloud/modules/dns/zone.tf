@@ -42,13 +42,13 @@ resource "oci_dns_zone" "dns_zone" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.dns_zone_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.dns_zone_name != "" ? var.dns_zone_name : "${lower(var.name)}-dns-zone-${lower(var.environment)}"
+      "Name" = var.dns_zone_name != "" ? var.dns_zone_name : "${lower(var.name)}-dns-zone-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.dns_zone_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

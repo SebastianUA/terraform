@@ -20,13 +20,13 @@ resource "oci_identity_domain" "identity_domain" {
   is_notification_bypassed  = var.identity_domain_is_notification_bypassed
   is_primary_email_required = var.identity_domain_is_primary_email_required
 
-  defined_tags = merge(
+  defined_tags = var.identity_domain_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_domain_display_name != "" ? var.identity_domain_display_name : "${lower(var.name)}-identity-domain-${lower(var.environment)}"
+      "Name" = var.identity_domain_display_name != "" ? var.identity_domain_display_name : "${lower(var.name)}-identity-domain-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_domain_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

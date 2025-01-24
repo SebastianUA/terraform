@@ -52,14 +52,13 @@ resource "oci_kms_key" "kms_key" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.kms_key_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.kms_key_display_name != "" ? var.kms_key_display_name : "${lower(var.name)}-kms-key-${lower(var.environment)}"
+      "Name" = var.kms_key_display_name != "" ? var.kms_key_display_name : "${lower(var.name)}-kms-key-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.kms_key_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

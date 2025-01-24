@@ -71,7 +71,7 @@ variable "bastion_static_jump_host_ip_addresses" {
 }
 
 
-variable "bastion_freeform_tags" {
+variable "bastion_defined_tags" {
   description = "(Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'}"
   default     = null
 }

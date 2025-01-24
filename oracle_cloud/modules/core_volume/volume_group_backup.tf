@@ -12,13 +12,13 @@ resource "oci_core_volume_group_backup" "core_volume_group_backup" {
   display_name   = var.core_volume_group_backup_display_name != "" ? var.core_volume_group_backup_display_name : "${lower(var.name)}-volume-group-backup-${lower(var.environment)}"
   type           = var.core_volume_group_backup_type
 
-  defined_tags = merge(
+  defined_tags = var.core_volume_group_backup_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_volume_group_backup_display_name != "" ? var.core_volume_group_backup_display_name : "${lower(var.name)}-volume-group-backup-${lower(var.environment)}"
+      "Name" = var.core_volume_group_backup_display_name != "" ? var.core_volume_group_backup_display_name : "${lower(var.name)}-volume-group-backup-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_volume_group_backup_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

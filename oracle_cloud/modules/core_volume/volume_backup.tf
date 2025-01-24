@@ -12,13 +12,13 @@ resource "oci_core_volume_backup" "core_volume_backup" {
   kms_key_id   = var.core_volume_backup_kms_key_id
   type         = var.core_volume_backup_type
 
-  defined_tags = merge(
+  defined_tags = var.core_volume_backup_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_volume_backup_display_name != "" ? var.core_volume_backup_display_name : "${lower(var.name)}-volume-backup-${lower(var.environment)}"
+      "Name" = var.core_volume_backup_display_name != "" ? var.core_volume_backup_display_name : "${lower(var.name)}-volume-backup-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_volume_backup_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

@@ -11,13 +11,13 @@ resource "oci_dns_view" "dns_view" {
   display_name = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"
   scope        = var.dns_view_scope
 
-  defined_tags = merge(
+  defined_tags = var.dns_view_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"
+      "Name" = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.dns_view_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

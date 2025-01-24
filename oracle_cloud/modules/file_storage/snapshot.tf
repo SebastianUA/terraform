@@ -26,13 +26,13 @@ resource "oci_file_storage_snapshot" "file_storage_snapshot" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.file_storage_snapshot_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.file_storage_snapshot_name != "" ? var.file_storage_snapshot_name : "${lower(var.name)}-nfs-snapshot-${lower(var.environment)}"
+      "Name" = var.file_storage_snapshot_name != "" ? var.file_storage_snapshot_name : "${lower(var.name)}-nfs-snapshot-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.file_storage_snapshot_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

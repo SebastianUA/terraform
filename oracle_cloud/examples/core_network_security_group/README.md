@@ -57,7 +57,7 @@ module "core_network_security_group" {
 - `core_network_security_group_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the network security group. (`default = null`)
 - `core_network_security_group_vcn_id` - (Required) The OCID of the VCN to create the network security group in. (`default = null`)
 - `core_network_security_group_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
-- `core_network_security_group_freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_network_security_group_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_network_security_group_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Network Security Group * update - (Defaults to 20 minutes), when updating the Network Security Group * delete - (Defaults to 20 minutes), when destroying the Network Security Group (`default = {}`)
 - `enable_core_network_security_group_security_rule` - Enable core network security group security rule usages (`default = False`)
 - `core_network_security_group_security_rule_network_security_group_id` - The OCID of the network security group. (`default = ""`)

@@ -13,13 +13,13 @@ resource "oci_core_drg_route_table" "core_drg_route_table" {
   is_ecmp_enabled                  = var.core_drg_route_table_is_ecmp_enabled
   remove_import_trigger            = var.core_drg_route_table_remove_import_trigger
 
-  defined_tags = merge(
+  defined_tags = var.core_drg_route_table_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_drg_route_table_display_name != "" ? var.core_drg_route_table_display_name : "${lower(var.name)}-drg-route-table-${lower(var.environment)}"
+      "Name" = var.core_drg_route_table_display_name != "" ? var.core_drg_route_table_display_name : "${lower(var.name)}-drg-route-table-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_drg_route_table_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

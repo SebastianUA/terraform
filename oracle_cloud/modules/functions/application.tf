@@ -47,13 +47,13 @@ resource "oci_functions_application" "functions_application" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.functions_application_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.functions_application_display_name != "" ? var.functions_application_display_name : "${lower(var.name)}-application-${lower(var.environment)}"
+      "Name" = var.functions_application_display_name != "" ? var.functions_application_display_name : "${lower(var.name)}-application-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.functions_application_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

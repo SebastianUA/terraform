@@ -12,13 +12,13 @@ resource "oci_identity_tag_namespace" "identity_tag_namespace" {
   # Optional
   is_retired = var.identity_tag_namespace_is_retired
 
-  defined_tags = merge(
+  defined_tags = var.identity_tag_namespace_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_tag_namespace_name != "" ? var.identity_tag_namespace_name : "${lower(var.name)}-identity-tag-ns-${lower(var.environment)}"
+      "Name" = var.identity_tag_namespace_name != "" ? var.identity_tag_namespace_name : "${lower(var.name)}-identity-tag-ns-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_tag_namespace_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

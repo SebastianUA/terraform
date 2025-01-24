@@ -54,8 +54,8 @@ variable "identity_network_source_services" {
 #   default     = null
 # }
 
-variable "identity_network_source_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "identity_network_source_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -97,8 +97,8 @@ variable "identity_policy_version_date" {
   default     = null
 }
 
-variable "identity_policy_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "identity_policy_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = {}
 }
 
@@ -155,8 +155,8 @@ variable "identity_identity_provider_freeform_attributes" {
   default     = null
 }
 
-variable "identity_identity_provider_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "identity_identity_provider_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = null
 }
 
@@ -216,8 +216,8 @@ variable "identity_compartment_name" {
   default     = ""
 }
 
-variable "identity_compartment_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "identity_compartment_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 

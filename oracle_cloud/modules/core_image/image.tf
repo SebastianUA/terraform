@@ -29,13 +29,13 @@ resource "oci_core_image" "core_image" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_image_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_image_display_name != "" ? var.core_image_display_name : "${lower(var.name)}-image-${lower(var.environment)}"
+      "Name" = var.core_image_display_name != "" ? var.core_image_display_name : "${lower(var.name)}-image-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_image_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

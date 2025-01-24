@@ -13,13 +13,13 @@ resource "oci_identity_policy" "identity_policy" {
   # Optional
   version_date = var.identity_policy_version_date
 
-  defined_tags = merge(
+  defined_tags = var.identity_policy_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_policy_name != "" ? var.identity_policy_name : "${lower(var.name)}-identity-policy-${lower(var.environment)}"
+      "Name" = var.identity_policy_name != "" ? var.identity_policy_name : "${lower(var.name)}-identity-policy-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_policy_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

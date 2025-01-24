@@ -11,13 +11,13 @@ resource "oci_dns_tsig_key" "dns_tsig_key" {
   secret         = var.dns_tsig_key_secret
 
   # Optional
-  defined_tags = merge(
+  defined_tags = var.dns_tsig_key_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.dns_tsig_key_name != "" ? var.dns_tsig_key_name : "${lower(var.name)}-dns-tsig-key-${lower(var.environment)}"
+      "Name" = var.dns_tsig_key_name != "" ? var.dns_tsig_key_name : "${lower(var.name)}-dns-tsig-key-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.dns_tsig_key_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

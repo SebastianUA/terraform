@@ -54,8 +54,8 @@ variable "identity_tag_validator" {
   default     = []
 }
 
-variable "identity_tag_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "identity_tag_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = {}
 }
 
@@ -92,8 +92,8 @@ variable "identity_tag_namespace_is_retired" {
   default     = null
 }
 
-variable "identity_tag_namespace_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "identity_tag_namespace_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 

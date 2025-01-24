@@ -27,13 +27,13 @@ resource "oci_core_vcn" "core_vcn" {
   is_oracle_gua_allocation_enabled = var.core_vcn_is_oracle_gua_allocation_enabled
   security_attributes              = var.core_vcn_security_attributes
 
-  defined_tags = merge(
+  defined_tags = var.core_vcn_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_vcn_display_name != "" ? var.core_vcn_display_name : "${lower(var.name)}-vcn-${lower(var.environment)}"
+      "Name" = var.core_vcn_display_name != "" ? var.core_vcn_display_name : "${lower(var.name)}-vcn-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_vcn_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

@@ -17,13 +17,13 @@ resource "oci_core_vlan" "core_vlan" {
   route_table_id      = var.core_vlan_route_table_id != "" && !var.enable_core_route_table ? var.core_vlan_route_table_id : (var.enable_core_route_table ? element(oci_core_route_table.core_route_table.*.id, 0) : null)
   vlan_tag            = var.core_vlan_vlan_tag
 
-  defined_tags = merge(
+  defined_tags = var.core_vlan_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_vlan_display_name != "" ? var.core_vlan_display_name : "${lower(var.name)}-vlan-${lower(var.environment)}"
+      "Name" = var.core_vlan_display_name != "" ? var.core_vlan_display_name : "${lower(var.name)}-vlan-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_vlan_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

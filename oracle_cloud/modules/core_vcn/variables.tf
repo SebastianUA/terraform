@@ -69,8 +69,8 @@ variable "core_vcn_security_attributes" {
   default     = null
 }
 
-variable "core_vcn_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_vcn_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -112,8 +112,8 @@ variable "core_private_ip_vnic_id" {
   default     = null
 }
 
-variable "core_private_ip_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "core_private_ip_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = {}
 }
 
@@ -163,8 +163,8 @@ variable "core_public_ip_pool_display_name" {
   default     = null
 }
 
-variable "core_public_ip_pool_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_public_ip_pool_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -206,8 +206,8 @@ variable "core_public_ip_public_ip_pool_id" {
   default     = null
 }
 
-variable "core_public_ip_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
+variable "core_public_ip_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
   default     = {}
 }
 
@@ -244,8 +244,8 @@ variable "core_route_table_route_rules" {
   default     = []
 }
 
-variable "core_route_table_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
+variable "core_route_table_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
   default     = {}
 }
 
@@ -320,8 +320,8 @@ variable "core_vlan_vlan_tag" {
   default     = null
 }
 
-variable "core_vlan_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_vlan_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -436,8 +436,8 @@ variable "core_subnet_security_list_ids" {
   default     = null
 }
 
-variable "core_subnet_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_subnet_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -480,8 +480,8 @@ variable "core_dhcp_options_display_name" {
   default     = null
 }
 
-variable "core_dhcp_options_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_dhcp_options_defined_tags" {
+  description = "(Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {'Operations.CostCenter': '42'}"
   default     = {}
 }
 
@@ -523,8 +523,8 @@ variable "core_service_gateway_route_table_id" {
   default     = null
 }
 
-variable "core_service_gateway_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
+variable "core_service_gateway_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags"
   default     = {}
 }
 
@@ -571,8 +571,8 @@ variable "core_nat_gateway_route_table_id" {
   default     = null
 }
 
-variable "core_nat_gateway_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_nat_gateway_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -614,8 +614,8 @@ variable "core_internet_gateway_route_table_id" {
   default     = null
 }
 
-variable "core_internet_gateway_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_internet_gateway_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -652,8 +652,8 @@ variable "core_ipv6_ipv6subnet_cidr" {
   default     = null
 }
 
-variable "core_ipv6_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+variable "core_ipv6_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
   default     = {}
 }
 
@@ -695,8 +695,8 @@ variable "core_local_peering_gateway_route_table_id" {
   default     = ""
 }
 
-variable "core_local_peering_gateway_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
+variable "core_local_peering_gateway_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
   default     = {}
 }
 

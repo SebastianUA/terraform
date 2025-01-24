@@ -78,14 +78,13 @@ resource "oci_dns_steering_policy" "dns_steering_policy" {
     }
   }
 
-
-  defined_tags = merge(
+  defined_tags = var.dns_steering_policy_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.dns_steering_policy_display_name != "" ? var.dns_steering_policy_display_name : "${lower(var.name)}-dns-steering-policy-${lower(var.environment)}"
+      "Name" = var.dns_steering_policy_display_name != "" ? var.dns_steering_policy_display_name : "${lower(var.name)}-dns-steering-policy-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.dns_steering_policy_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

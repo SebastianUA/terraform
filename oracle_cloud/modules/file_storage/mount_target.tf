@@ -66,13 +66,13 @@ resource "oci_file_storage_mount_target" "file_storage_mount_target" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.file_storage_mount_target_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.file_storage_mount_target_display_name != "" ? var.file_storage_mount_target_display_name : "${lower(var.name)}-nfs-mount-target-${lower(var.environment)}"
+      "Name" = var.file_storage_mount_target_display_name != "" ? var.file_storage_mount_target_display_name : "${lower(var.name)}-nfs-mount-target-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.file_storage_mount_target_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

@@ -21,13 +21,13 @@ resource "oci_dns_resolver" "dns_resolver" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.dns_resolver_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.dns_resolver_display_name != "" ? var.dns_resolver_display_name : "${lower(var.name)}-dns-resolver-${lower(var.environment)}"
+      "Name" = var.dns_resolver_display_name != "" ? var.dns_resolver_display_name : "${lower(var.name)}-dns-resolver-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.dns_resolver_freeform_tags
 
   dynamic "rules" {
     iterator = rules

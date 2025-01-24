@@ -11,13 +11,13 @@ resource "oci_core_network_security_group" "core_network_security_group" {
   # Optional
   display_name = var.core_network_security_group_display_name != "" ? var.core_network_security_group_display_name : "${lower(var.name)}-nsg-${lower(var.environment)}"
 
-  defined_tags = merge(
+  defined_tags = var.core_network_security_group_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_network_security_group_display_name != "" ? var.core_network_security_group_display_name : "${lower(var.name)}-nsg-${lower(var.environment)}"
+      "Name" = var.core_network_security_group_display_name != "" ? var.core_network_security_group_display_name : "${lower(var.name)}-nsg-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_network_security_group_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

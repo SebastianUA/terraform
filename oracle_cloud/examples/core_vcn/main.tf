@@ -24,29 +24,22 @@ provider "oci" {
   user_ocid        = var.provider_oci_user_ocid
 }
 
+locals {
+  compartment_id = "ocid1.tenancy.oc1..aaaaaaaaepggbbn72sgkuxbmx2ifwpjuy2dx5kzhsveteiagrbwasjahdrxa"
+}
+
 module "core_vcn" {
   source = "../../modules/core_vcn"
 
   enable_core_vcn         = true
-  core_vcn_compartment_id = "captainua"
+  core_vcn_compartment_id = local.compartment_id
   core_vcn_display_name   = "main-vcn-1"
 
   # DHCP:
   enable_core_dhcp_options         = true
-  core_dhcp_options_compartment_id = "captainua"
+  core_dhcp_options_compartment_id = local.compartment_id
+  core_vcn_cidr_blocks             = ["10.0.0.0/16"]
   core_dhcp_options_options = [
-    {
-      type                = "DomainNameServer"
-      server_type         = "CustomDnsServer"
-      custom_dns_servers  = ["10.0.0.1", "10.0.0.2"]
-      search_domain_names = ["example.com", "subdomain.example.com"]
-    },
-    {
-      type                = "SearchDomain"
-      server_type         = null
-      custom_dns_servers  = null
-      search_domain_names = ["anotherdomain.com"]
-    },
     {
       type        = "DomainNameServer"
       server_type = "VcnLocalPlusInternet"

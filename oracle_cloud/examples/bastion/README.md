@@ -63,7 +63,7 @@ module "bastion" {
 - `bastion_max_session_ttl_in_seconds` - (Optional) (Updatable) The maximum amount of time that any session on the bastion can remain active. (`default = null`)
 - `bastion_phone_book_entry` - (Optional) The phonebook entry of the customer's team, which can't be changed after creation. Not applicable to standard bastions. (`default = null`)
 - `bastion_static_jump_host_ip_addresses` - (Optional) (Updatable) A list of IP addresses of the hosts that the bastion has access to. Not applicable to standard bastions. (`default = null`)
-- `bastion_freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = null`)
+- `bastion_defined_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = null`)
 - `bastion_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Bastion * update - (Defaults to 20 minutes), when updating the Bastion * delete - (Defaults to 20 minutes), when destroying the Bastion (`default = {}`)
 - `enable_session` - Enable session usages (`default = False`)
 - `session_bastion_id` - The unique identifier (OCID) of the bastion that is hosting this session. (`default = ""`)

@@ -27,13 +27,15 @@ resource "oci_core_dhcp_options" "core_dhcp_options" {
   # Optional
   display_name = var.core_dhcp_options_display_name != "" ? var.core_dhcp_options_display_name : "${lower(var.name)}-dhcp-options-${lower(var.environment)}"
 
-  defined_tags = merge(
+  defined_tags = var.core_dhcp_options_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_dhcp_options_display_name != "" ? var.core_dhcp_options_display_name : "${lower(var.name)}-dhcp-options-${lower(var.environment)}"
+      "Name" = var.core_dhcp_options_display_name != "" ? var.core_dhcp_options_display_name : "${lower(var.name)}-dhcp-options-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_dhcp_options_freeform_tags
+
+  # freeform_tags = var.core_dhcp_options_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

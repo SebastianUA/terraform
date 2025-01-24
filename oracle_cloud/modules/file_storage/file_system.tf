@@ -30,13 +30,13 @@ resource "oci_file_storage_file_system" "file_storage_file_system" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.file_storage_file_system_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.file_storage_file_system_display_name != "" ? var.file_storage_file_system_display_name : "${lower(var.name)}-nfs-${lower(var.environment)}"
+      "Name" = var.file_storage_file_system_display_name != "" ? var.file_storage_file_system_display_name : "${lower(var.name)}-nfs-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.file_storage_file_system_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

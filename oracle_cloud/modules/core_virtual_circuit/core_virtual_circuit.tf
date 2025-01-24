@@ -29,7 +29,6 @@ resource "oci_core_virtual_circuit" "core_virtual_circuit" {
   }
 
   customer_asn              = var.core_virtual_circuit_customer_asn
-  customer_bgp_asn          = var.core_virtual_circuit_customer_bgp_asn
   display_name              = var.core_virtual_circuit_display_name != "" ? var.core_virtual_circuit_display_name : "${lower(var.name)}-virtual-circuit-${lower(var.environment)}"
   ip_mtu                    = var.core_virtual_circuit_ip_mtu
   is_bfd_enabled            = var.core_virtual_circuit_is_bfd_enabled
@@ -50,13 +49,13 @@ resource "oci_core_virtual_circuit" "core_virtual_circuit" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_virtual_circuit_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_virtual_circuit_display_name != "" ? var.core_virtual_circuit_display_name : "${lower(var.name)}-virtual-circuit-${lower(var.environment)}"
+      "Name" = var.core_virtual_circuit_display_name != "" ? var.core_virtual_circuit_display_name : "${lower(var.name)}-virtual-circuit-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_virtual_circuit_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

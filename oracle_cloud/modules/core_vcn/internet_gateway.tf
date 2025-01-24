@@ -14,13 +14,13 @@ resource "oci_core_internet_gateway" "core_internet_gateway" {
   display_name   = var.core_internet_gateway_display_name != "" ? var.core_internet_gateway_display_name : "${lower(var.name)}-internet-gtw-${lower(var.environment)}"
   route_table_id = var.core_internet_gateway_route_table_id != "" && !var.enable_core_route_table ? var.core_nat_gateway_route_table_id : (var.enable_core_route_table ? element(oci_core_route_table.core_route_table.*.id, 0) : null)
 
-  defined_tags = merge(
+  defined_tags = var.core_internet_gateway_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_internet_gateway_display_name != "" ? var.core_internet_gateway_display_name : "${lower(var.name)}-internet-gtw-${lower(var.environment)}"
+      "Name" = var.core_internet_gateway_display_name != "" ? var.core_internet_gateway_display_name : "${lower(var.name)}-internet-gtw-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_internet_gateway_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

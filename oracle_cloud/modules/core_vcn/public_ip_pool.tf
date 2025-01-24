@@ -10,13 +10,13 @@ resource "oci_core_public_ip_pool" "core_public_ip_pool" {
   # Optional
   display_name = var.core_public_ip_pool_display_name != "" ? var.core_public_ip_pool_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
 
-  defined_tags = merge(
+  defined_tags = var.core_public_ip_pool_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_public_ip_pool_display_name != "" ? var.core_public_ip_pool_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
+      "Name" = var.core_public_ip_pool_display_name != "" ? var.core_public_ip_pool_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"
     },
     var.tags
   )
-  freeform_tags = var.core_public_ip_pool_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

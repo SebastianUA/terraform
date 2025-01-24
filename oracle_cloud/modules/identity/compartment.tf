@@ -12,13 +12,13 @@ resource "oci_identity_compartment" "identity_compartment" {
   # Optional
   enable_delete = var.identity_compartment_enable_delete
 
-  defined_tags = merge(
+  defined_tags = var.identity_compartment_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_compartment_name != "" ? var.identity_compartment_name : "${lower(var.name)}-identity-compartment-${lower(var.environment)}"
+      "Name" = var.identity_compartment_name != "" ? var.identity_compartment_name : "${lower(var.name)}-identity-compartment-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_compartment_freeform_tags
 
   #   dynamic "timeouts" {
   #     iterator = timeouts

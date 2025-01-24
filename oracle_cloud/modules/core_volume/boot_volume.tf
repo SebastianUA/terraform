@@ -13,7 +13,7 @@ resource "oci_core_boot_volume" "core_boot_volume" {
 
     content {
       # Required
-      type = var.boot_volume_source_details_type
+      type = lookup(source_details.value, "type", null)
 
       # Optional
       change_block_size_in_bytes = lookup(source_details.value, "change_block_size_in_bytes", null)
@@ -62,13 +62,13 @@ resource "oci_core_boot_volume" "core_boot_volume" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_boot_volume_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_boot_volume_display_name != "" ? var.core_boot_volume_display_name : "${lower(var.name)}-boot-volume-${lower(var.environment)}"
+      "Name" = var.core_boot_volume_display_name != "" ? var.core_boot_volume_display_name : "${lower(var.name)}-boot-volume-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_boot_volume_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

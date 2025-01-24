@@ -15,13 +15,13 @@ resource "oci_core_nat_gateway" "core_nat_gateway" {
   public_ip_id   = var.core_nat_gateway_public_ip_id != "" && !var.enable_core_public_ip ? var.core_nat_gateway_route_table_id : (var.enable_core_public_ip ? element(oci_core_public_ip.core_public_ip.*.id, 0) : null)
   route_table_id = var.core_nat_gateway_route_table_id != "" && !var.enable_core_route_table ? var.core_nat_gateway_route_table_id : (var.enable_core_route_table ? element(oci_core_route_table.core_route_table.*.id, 0) : null)
 
-  defined_tags = merge(
+  defined_tags = var.core_nat_gateway_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_nat_gateway_display_name != "" ? var.core_nat_gateway_display_name : "${lower(var.name)}-nat-gtw-${lower(var.environment)}"
+      "Name" = var.core_nat_gateway_display_name != "" ? var.core_nat_gateway_display_name : "${lower(var.name)}-nat-gtw-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_nat_gateway_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

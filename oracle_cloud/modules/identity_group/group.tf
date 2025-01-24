@@ -10,13 +10,13 @@ resource "oci_identity_group" "identity_group" {
   name           = var.identity_group_name != "" ? var.identity_group_name : "${lower(var.name)}-identity-group-${lower(var.environment)}"
 
   # Optional
-  defined_tags = merge(
+  defined_tags = var.identity_group_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_group_name != "" ? var.identity_group_name : "${lower(var.name)}-identity-group-${lower(var.environment)}"
+      "Name" = var.identity_group_name != "" ? var.identity_group_name : "${lower(var.name)}-identity-group-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_group_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

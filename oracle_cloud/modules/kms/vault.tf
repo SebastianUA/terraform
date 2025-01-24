@@ -34,14 +34,13 @@ resource "oci_kms_vault" "kms_vault" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.kms_vault_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.kms_vault_display_name != "" ? var.kms_vault_display_name : "${lower(var.name)}-kms-vault-${lower(var.environment)}"
+      "Name" = var.kms_vault_display_name != "" ? var.kms_vault_display_name : "${lower(var.name)}-kms-vault-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.kms_vault_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

@@ -12,13 +12,13 @@ resource "oci_identity_user" "identity_user" {
   # Optional
   email = var.identity_user_email
 
-  defined_tags = merge(
+  defined_tags = var.identity_user_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.identity_user_name != "" ? var.identity_user_name : "${lower(var.name)}-identity-user-${lower(var.environment)}"
+      "Name" = var.identity_user_name != "" ? var.identity_user_name : "${lower(var.name)}-identity-user-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.identity_user_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

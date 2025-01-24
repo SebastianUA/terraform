@@ -17,14 +17,13 @@ resource "oci_bastion_bastion" "bastion" {
   phone_book_entry              = var.bastion_phone_book_entry
   static_jump_host_ip_addresses = var.bastion_static_jump_host_ip_addresses
 
-  defined_tags = merge(
+  defined_tags = var.bastion_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.bastion_name != "" ? var.bastion_name : "${lower(var.name)}-bastion-${lower(var.environment)}"
+      "Name" = var.bastion_name != "" ? var.bastion_name : "${lower(var.name)}-bastion-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.bastion_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

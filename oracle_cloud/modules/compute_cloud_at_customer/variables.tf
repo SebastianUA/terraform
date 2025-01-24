@@ -59,7 +59,7 @@ variable "ccc_infrastructure_connection_state" {
   default     = null
 }
 
-variable "ccc_infrastructure_freeform_tags" {
+variable "ccc_infrastructure_defined_tags" {
   description = "(Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'}"
   default     = {}
 }
@@ -97,7 +97,7 @@ variable "ccc_upgrade_schedule_descriptions" {
   default     = null
 }
 
-variable "ccc_upgrade_schedule_freeform_tags" {
+variable "ccc_upgrade_schedule_defined_tags" {
   description = "(Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'}"
   default     = {}
 }

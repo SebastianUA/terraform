@@ -12,14 +12,15 @@ resource "oci_kms_ekms_private_endpoint" "kms_ekms_private_endpoint" {
   subnet_id               = var.kms_ekms_private_endpoint_subnet_id
 
   # Optional
-  defined_tags = merge(
+  port = var.kms_ekms_private_endpoint_port
+
+  defined_tags = var.kms_ekms_private_endpoint_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.kms_ekms_private_endpoint_display_name != "" ? var.kms_ekms_private_endpoint_display_name : "${lower(var.name)}-kms-ekms-prvt-end-${lower(var.environment)}"
+      "Name" = var.kms_ekms_private_endpoint_display_name != "" ? var.kms_ekms_private_endpoint_display_name : "${lower(var.name)}-kms-ekms-prvt-end-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.kms_ekms_private_endpoint_freeform_tags
-  port          = var.kms_ekms_private_endpoint_port
 
   dynamic "timeouts" {
     iterator = timeouts

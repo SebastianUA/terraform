@@ -101,7 +101,7 @@ variable "container_instance_volumes" {
   }
 }
 
-variable "ccc_infrastructure_freeform_tags" {
+variable "container_instance_defined_tags" {
   description = "(Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'}"
   default     = {}
 }

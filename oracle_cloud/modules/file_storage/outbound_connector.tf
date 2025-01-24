@@ -41,13 +41,13 @@ resource "oci_file_storage_outbound_connector" "file_storage_outbound_connector"
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.file_storage_outbound_connector_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.file_storage_outbound_connector_display_name != "" ? var.file_storage_outbound_connector_display_name : "${lower(var.name)}-nfs-out-connector-${lower(var.environment)}"
+      "Name" = var.file_storage_outbound_connector_display_name != "" ? var.file_storage_outbound_connector_display_name : "${lower(var.name)}-nfs-out-connector-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.file_storage_outbound_connector_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

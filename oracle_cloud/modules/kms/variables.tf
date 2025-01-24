@@ -64,8 +64,8 @@ variable "kms_key_external_key_reference" {
   default     = {}
 }
 
-variable "kms_key_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
+variable "kms_key_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
   default     = {}
 }
 
@@ -226,7 +226,7 @@ variable "kms_ekms_private_endpoint_subnet_id" {
   default     = null
 }
 
-variable "kms_ekms_private_endpoint_freeform_tags" {
+variable "kms_ekms_private_endpoint_defined_tags" {
   description = "(Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'}"
   default     = {}
 }
@@ -365,8 +365,8 @@ variable "kms_verify_external_key_manager_metadata" {
   default     = {}
 }
 
-variable "kms_vault_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
+variable "kms_vault_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {'Department': 'Finance'}"
   default     = {}
 }
 

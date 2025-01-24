@@ -11,13 +11,13 @@ resource "oci_core_drg_route_distribution" "drg_route_distribution" {
   # Optional
   display_name = var.drg_route_distribution_display_name != "" ? var.drg_route_distribution_display_name : "${lower(var.name)}-drg-route-distribution-${lower(var.environment)}"
 
-  defined_tags = merge(
+  defined_tags = var.drg_route_distribution_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.drg_route_distribution_display_name != "" ? var.drg_route_distribution_display_name : "${lower(var.name)}-drg-route-distribution-${lower(var.environment)}"
+      "Name" = var.drg_route_distribution_display_name != "" ? var.drg_route_distribution_display_name : "${lower(var.name)}-drg-route-distribution-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.drg_route_distribution_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

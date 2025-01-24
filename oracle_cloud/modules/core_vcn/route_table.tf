@@ -27,13 +27,13 @@ resource "oci_core_route_table" "core_route_table" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.core_route_table_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.core_route_table_display_name != "" ? var.core_route_table_display_name : "${lower(var.name)}-route-table-${lower(var.environment)}"
+      "Name" = var.core_route_table_display_name != "" ? var.core_route_table_display_name : "${lower(var.name)}-route-table-${lower(var.environment)}"
     },
     var.tags
   )
-  freeform_tags = var.core_route_table_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts

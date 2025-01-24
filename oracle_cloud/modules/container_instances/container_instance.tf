@@ -206,14 +206,13 @@ resource "oci_container_instances_container_instance" "container_instance" {
     }
   }
 
-  defined_tags = merge(
+  defined_tags = var.container_instance_defined_tags
+  freeform_tags = merge(
     {
-      "company.Name" = var.container_instance_display_name != "" ? var.container_instance_display_name : "${lower(var.name)}-container-instance-${lower(var.environment)}"
+      "Name" = var.container_instance_display_name != "" ? var.container_instance_display_name : "${lower(var.name)}-container-instance-${lower(var.environment)}"
     },
     var.tags
   )
-
-  freeform_tags = var.ccc_infrastructure_freeform_tags
 
   dynamic "timeouts" {
     iterator = timeouts
