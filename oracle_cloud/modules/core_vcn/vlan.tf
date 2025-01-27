@@ -7,7 +7,7 @@ resource "oci_core_vlan" "core_vlan" {
 
   # Required
   cidr_block     = var.core_vlan_cidr_block
-  compartment_id = var.core_vlan_compartment_id
+  compartment_id = var.compartment_id
   vcn_id         = var.core_vlan_vcn_id != "" && !var.enable_core_vcn ? var.core_vlan_vcn_id : (var.enable_core_vcn ? element(oci_core_vcn.core_vcn.*.id, 0) : null)
 
   # Optional

@@ -5,7 +5,7 @@ resource "oci_core_vcn" "core_vcn" {
   count = var.enable_core_vcn ? 1 : 0
 
   # Required
-  compartment_id = var.core_vcn_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   dynamic "byoipv6cidr_details" {

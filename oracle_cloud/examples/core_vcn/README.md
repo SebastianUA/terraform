@@ -34,28 +34,42 @@ provider "oci" {
   user_ocid        = var.provider_oci_user_ocid
 }
 
-locals {
-  compartment_id = "ocid1.tenancy.oc1..aaaaaaaaepggbbn72sgkuxbmx2ifwpjuy2dx5kzhsveteiagrbwasjahdrxa"
-}
-
 module "core_vcn" {
   source = "../../modules/core_vcn"
 
-  enable_core_vcn         = true
-  core_vcn_compartment_id = local.compartment_id
-  core_vcn_display_name   = "main-vcn-1"
+  compartment_id = "ocid1.tenancy.oc1..aaaaaaaaepggbbn72sgkuxbmx2ifwpjuy2dx5kzhsveteiagrbwasjahdrxa"
+
+  # VCN:
+  enable_core_vcn       = true
+  core_vcn_display_name = "main-vcn-1"
 
   # DHCP:
-  enable_core_dhcp_options         = true
-  core_dhcp_options_compartment_id = local.compartment_id
-  core_vcn_cidr_blocks             = ["10.0.0.0/16"]
+  enable_core_dhcp_options = true
+  core_vcn_cidr_blocks     = ["10.0.0.0/16"]
   core_dhcp_options_options = [
     {
       type        = "DomainNameServer"
       server_type = "VcnLocalPlusInternet"
-    }
+      search_domain_names = "main-vcn-1.oraclevcn.com"
+    },
   ]
 
+  core_subnet_privates_cidr_blocks = ["10.0.0.0/24", "10.0.1.0/24"]
+  core_subnet_publics_cidr_blocks  = ["10.0.10.0/24", "10.0.11.0/24"]
+
+  # RT
+  core_route_table_publics_display_name  = "public-rt"
+  core_route_table_privates_display_name = "private-rt"
+
+  # internet gateway 
+  enable_core_internet_gateway       = true
+  core_internet_gateway_display_name = "my-igtw"
+  core_internet_gateway_enabled      = true
+
+  # nat gateway
+  enable_core_nat_gateway        = true
+  core_nat_gateway_display_name  = "my-natgtw"
+  core_nat_gateway_block_traffic = null
 }
 
 ```
@@ -65,8 +79,8 @@ module "core_vcn" {
 - `name` - The name for resources (`default = test`)
 - `environment` - The environment for resources (`default = dev`)
 - `tags` - Add additional tags (`default = {}`)
+- `compartment_id` - (Required) The OCID of the compartment (`default = null`)
 - `enable_core_vcn` - Enable core vcn usages (`default = False`)
-- `core_vcn_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN. (`default = null`)
 - `core_vcn_byoipv6cidr_details` - (Optional) The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges. (`default = []`)
 - `core_vcn_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_vcn_cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN (`default = null`)
@@ -90,12 +104,10 @@ module "core_vcn" {
 - `core_public_ip_pool_capacity_byoip_id` - (Required) The OCID of the Byoip Range Id object to which the cidr block belongs. (`default = null`)
 - `core_public_ip_pool_capacity_cidr_block` - (Required) The CIDR IP address range to be added to the Public Ip Pool. Example: 10.0.1.0/24 (`default = null`)
 - `enable_core_public_ip_pool` - Enable core public ip pool usages (`default = False`)
-- `core_public_ip_pool_compartment_id` - (Required) (Updatable) The OCID of the compartment containing the public IP pool. (`default = null`)
 - `core_public_ip_pool_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_public_ip_pool_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_public_ip_pool_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Public Ip Pool * update - (Defaults to 20 minutes), when updating the Public Ip Pool * delete - (Defaults to 20 minutes), when destroying the Public Ip Pool (`default = {}`)
 - `enable_core_public_ip` - Enable core public ip usages (`default = False`)
-- `core_public_ip_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the public IP. For ephemeral public IPs, you must set this to the private IP's compartment OCID. (`default = null`)
 - `core_public_ip_lifetime` - (Required) Defines when the public IP is deleted and released back to the Oracle Cloud Infrastructure public IP pool. For more information, see Public IP Addresses. (`default = null`)
 - `core_public_ip_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_public_ip_private_ip_id` - (Optional) (Updatable) The OCID of the private IP to assign the public IP to. (`default = null`)
@@ -103,18 +115,24 @@ module "core_vcn" {
 - `core_public_ip_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
 - `core_public_ip_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Public Ip * update - (Defaults to 20 minutes), when updating the Public Ip * delete - (Defaults to 20 minutes), when destroying the Public Ip (`default = {}`)
 - `enable_core_route_table` - Enable core route table usages (`default = False`)
-- `core_route_table_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the route table. (`default = null`)
 - `core_route_table_vcn_id` - (Required) The OCID of the VCN the route table belongs to. (`default = ""`)
 - `core_route_table_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_route_table_route_rules` - (Optional) (Updatable) The collection of rules used for routing destination IPs to network devices. (`default = []`)
 - `core_route_table_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
 - `core_route_table_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table (`default = {}`)
+- `core_route_table_privates_vcn_id` - (Required) The OCID of the VCN the route table belongs to. (`default = ""`)
+- `core_route_table_privates_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
+- `core_route_table_privates_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
+- `core_route_table_privates_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table (`default = {}`)
+- `core_route_table_publics_vcn_id` - (Required) The OCID of the VCN the route table belongs to. (`default = ""`)
+- `core_route_table_publics_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
+- `core_route_table_publics_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  (`default = {}`)
+- `core_route_table_publics_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table (`default = {}`)
 - `enable_core_route_table_attachment` - Enable core route table attachment usages (`default = False`)
 - `core_route_table_attachment_subnet_id` - (Required) The OCID of the subnet. (`default = ""`)
 - `core_route_table_attachment_route_table_id` - (Required) The OCID of the route table. (`default = ""`)
 - `enable_core_vlan` - Enable core vlan usages (`default = False`)
 - `core_vlan_cidr_block` - (Required) (Updatable) The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN (`default = null`)
-- `core_vlan_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VLAN. (`default = null`)
 - `core_vlan_vcn_id` - (Required) The OCID of the VCN to contain the VLAN. (`default = ""`)
 - `core_vlan_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_vlan_availability_domain` - (Optional) Controls whether the VLAN is regional or specific to an availability domain. A regional VLAN has the flexibility to implement failover across availability domains. Previously, all VLANs were AD-specific. (`default = null`)
@@ -131,7 +149,6 @@ module "core_vcn" {
 - `core_vnic_attachment_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Vnic Attachment * update - (Defaults to 20 minutes), when updating the Vnic Attachment * delete - (Defaults to 20 minutes), when destroying the Vnic Attachment (`default = {}`)
 - `enable_core_subnet` - Enable core subnet usages (`default = False`)
 - `core_subnet_cidr_block` - (Required) (Updatable) The CIDR IP address range of the subnet.  (`default = null`)
-- `core_subnet_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the subnet. (`default = null`)
 - `core_subnet_vcn_id` - (Required) The OCID of the VCN to contain the subnet. (`default = ""`)
 - `core_subnet_availability_domain` -  (Optional) Controls whether the subnet is regional or specific to an availability domain. Oracle recommends creating regional subnets because they're more flexible and make it easier to implement failover across availability domains. Originally, AD-specific subnets were the only kind available to use. (`default = null`)
 - `core_subnet_dhcp_options_id` - (Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options. (`default = null`)
@@ -145,15 +162,41 @@ module "core_vcn" {
 - `core_subnet_security_list_ids` - (Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet. (`default = null`)
 - `core_subnet_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_subnet_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet (`default = {}`)
+- `core_subnet_privates_cidr_blocks` - Set the CIDR IP address ranges of the subnets.  (`default = null`)
+- `core_subnet_privates_vcn_id` - (Required) The OCID of the VCN to contain the subnet. (`default = ""`)
+- `core_subnet_privates_availability_domain` -  (Optional) Controls whether the subnet is regional or specific to an availability domain. Oracle recommends creating regional subnets because they're more flexible and make it easier to implement failover across availability domains. Originally, AD-specific subnets were the only kind available to use. (`default = null`)
+- `core_subnet_privates_dhcp_options_id` - (Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options. (`default = null`)
+- `core_subnet_privates_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
+- `core_subnet_privates_dns_label` - (Optional) A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed. (`default = null`)
+- `core_subnet_privates_ipv6cidr_block` - (Optional) (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example). (`default = null`)
+- `core_subnet_privates_ipv6cidr_blocks` - (Optional) (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet (`default = null`)
+- `core_subnet_privates_prohibit_internet_ingress` - (Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false. (`default = null`)
+- `core_subnet_privates_prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). (`default = null`)
+- `core_subnet_privates_route_table_id` - (Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. (`default = null`)
+- `core_subnet_privates_security_list_ids` - (Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet. (`default = null`)
+- `core_subnet_privates_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_subnet_privates_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet (`default = {}`)
+- `core_subnet_publics_cidr_blocks` - Set the CIDR IP address ranges of the subnets.  (`default = null`)
+- `core_subnet_publics_vcn_id` - (Required) The OCID of the VCN to contain the subnet. (`default = ""`)
+- `core_subnet_publics_availability_domain` -  (Optional) Controls whether the subnet is regional or specific to an availability domain. Oracle recommends creating regional subnets because they're more flexible and make it easier to implement failover across availability domains. Originally, AD-specific subnets were the only kind available to use. (`default = null`)
+- `core_subnet_publics_dhcp_options_id` - (Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options. (`default = null`)
+- `core_subnet_publics_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
+- `core_subnet_publics_dns_label` - (Optional) A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed. (`default = null`)
+- `core_subnet_publics_ipv6cidr_block` - (Optional) (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example). (`default = null`)
+- `core_subnet_publics_ipv6cidr_blocks` - (Optional) (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet (`default = null`)
+- `core_subnet_publics_prohibit_internet_ingress` - (Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false. (`default = null`)
+- `core_subnet_publics_prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). (`default = null`)
+- `core_subnet_publics_route_table_id` - (Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. (`default = null`)
+- `core_subnet_publics_security_list_ids` - (Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet. (`default = null`)
+- `core_subnet_publics_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
+- `core_subnet_publics_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet (`default = {}`)
 - `enable_core_dhcp_options` - Enablecore dhcp options usages (`default = False`)
-- `core_dhcp_options_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the set of DHCP options. (`default = null`)
 - `core_dhcp_options_options` - List of DHCP options configurations. (`default = []`)
 - `core_dhcp_options_vcn_id` - The OCID of the VCN the set of DHCP options belongs to. (`default = ""`)
 - `core_dhcp_options_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_dhcp_options_defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {'Operations.CostCenter': '42'} (`default = {}`)
 - `core_dhcp_options_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Dhcp Options * update - (Defaults to 20 minutes), when updating the Dhcp Options * delete - (Defaults to 20 minutes), when destroying the Dhcp Options (`default = {}`)
 - `enable_core_service_gateway` - Enable core service gateway usages (`default = False`)
-- `core_service_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the service gateway. (`default = null`)
 - `core_service_gateway_services` - (Required) (Updatable) List of the OCIDs of the Service objects to enable for the service gateway. This list can be empty if you don't want to enable any Service objects when you create the gateway. You can enable a Service object later by using either AttachServiceId or UpdateServiceGateway. (`default = []`)
 - `core_service_gateway_vcn_id` - The OCID of the VCN. (`default = ""`)
 - `core_service_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
@@ -161,7 +204,6 @@ module "core_vcn" {
 - `core_service_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (`default = {}`)
 - `core_service_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Service Gateway * update - (Defaults to 20 minutes), when updating the Service Gateway * delete - (Defaults to 20 minutes), when destroying the Service Gateway (`default = {}`)
 - `enable_core_nat_gateway` - Enable core nat gateway usages (`default = False`)
-- `core_nat_gateway_compartment_id` - Required) (Updatable) The OCID of the compartment to contain the NAT gateway. (`default = null`)
 - `core_nat_gateway_vcn_id` - (Required) The OCID of the VCN the gateway belongs to. (`default = ""`)
 - `core_nat_gateway_block_traffic` - (Optional) (Updatable) Whether the NAT gateway blocks traffic through it. The default is false. Example: true (`default = null`)
 - `core_nat_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
@@ -170,7 +212,6 @@ module "core_vcn" {
 - `core_nat_gateway_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_nat_gateway_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Nat Gateway * update - (Defaults to 20 minutes), when updating the Nat Gateway * delete - (Defaults to 20 minutes), when destroying the Nat Gateway (`default = {}`)
 - `enable_core_internet_gateway` - Enable core internet gateway usages (`default = False`)
-- `core_internet_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the internet gateway. (`default = null`)
 - `core_internet_gateway_vcn_id` - The OCID of the VCN the Internet Gateway is attached to. (`default = ""`)
 - `core_internet_gateway_enabled` - (Optional) (Updatable) Whether the gateway is enabled upon creation. (`default = null`)
 - `core_internet_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
@@ -185,7 +226,6 @@ module "core_vcn" {
 - `core_ipv6_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_ipv6_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Ipv6 * update - (Defaults to 20 minutes), when updating the Ipv6 * delete - (Defaults to 20 minutes), when destroying the Ipv6 (`default = {}`)
 - `enable_core_local_peering_gateway` - enable_core_local_peering_gateway usages (`default = False`)
-- `core_local_peering_gateway_compartment_id` - (Required) (Updatable) The OCID of the compartment containing the local peering gateway (LPG). (`default = null`)
 - `core_local_peering_gateway_vcn_id` - The OCID of the VCN the LPG belongs to. (`default = ""`)
 - `core_local_peering_gateway_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)
 - `core_local_peering_gateway_peer_id` - (Optional) The OCID of the LPG you want to peer with. Specifying a peer_id connects this local peering gateway (LPG) to another one in the same region. This operation must be called by the VCN administrator who is designated as the requestor in the peering relationship. The acceptor must implement an Identity and Access Management (IAM) policy that gives the requestor permission to connect to LPGs in the acceptor's compartment. Without that permission, this operation will fail. For more information, see VCN Peering. (`default = null`)
@@ -246,9 +286,27 @@ module "core_vcn" {
 - `core_route_table_route_rules` - The collection of rules for routing destination IPs to network devices.
 - `core_route_table_compartment_id` - The OCID of the compartment containing the route table.
 - `core_route_table_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+- `core_route_table_publics_id` - ID of core route table
+- `core_route_table_publics_state` - The route table's current state.
+- `core_route_table_publics_vcn_id` - The OCID of the VCN the route table list belongs to.
+- `core_route_table_publics_route_rules` - The collection of rules for routing destination IPs to network devices.
+- `core_route_table_publics_compartment_id` - The OCID of the compartment containing the route table.
+- `core_route_table_publics_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+- `core_route_table_privates_id` - ID of core route table
+- `core_route_table_privates_state` - The route table's current state.
+- `core_route_table_privates_vcn_id` - The OCID of the VCN the route table list belongs to.
+- `core_route_table_privates_route_rules` - The collection of rules for routing destination IPs to network devices.
+- `core_route_table_privates_compartment_id` - The OCID of the compartment containing the route table.
+- `core_route_table_privates_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 - `core_route_table_attachment_id` - ID of core route table attachment
 - `core_route_table_attachment_subnet_id` - The OCID of the subnet.
 - `core_route_table_attachment_route_table_id` - The OCID of the route table.
+- `core_route_table_attachment_publics_id` - ID of core route table attachment
+- `core_route_table_attachment_publics_subnet_id` - The OCID of the subnet.
+- `core_route_table_attachment_publics_route_table_id` - The OCID of the route table.
+- `core_route_table_attachment_privates_id` - ID of core route table attachment
+- `core_route_table_attachment_privates_subnet_id` - The OCID of the subnet.
+- `core_route_table_attachment_privates_route_table_id` - The OCID of the route table.
 - `core_vlan_id` - The VLAN's Oracle ID (OCID).
 - `core_vlan_availability_domain` - The VLAN's availability domain. This attribute will be null if this is a regional VLAN rather than an AD-specific VLAN. Example: Uocm:PHX-AD-1
 - `core_vlan_cidr_block` - The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN. Example: 192.168.1.0/24
@@ -289,6 +347,44 @@ module "core_vcn" {
 - `core_subnet_vcn_id` - The OCID of the VCN the subnet is in.
 - `core_subnet_virtual_router_ip` - The IP address of the virtual router. Example: 10.0.14.1
 - `core_subnet_virtual_router_mac` - The MAC address of the virtual router. Example: 00:00:00:00:00:01
+- `core_subnet_privates_id` - The subnet's Oracle ID (OCID).
+- `core_subnet_privates_availability_domain` - The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets. Example: Uocm:PHX-AD-1
+- `core_subnet_privates_cidr_block` - The subnet's CIDR block. Example: 10.0.1.0/24
+- `core_subnet_privates_compartment_id` - The OCID of the compartment containing the subnet.
+- `core_subnet_privates_dhcp_options_id` - The OCID of the set of DHCP options that the subnet uses.
+- `core_subnet_privates_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+- `core_subnet_privates_dns_label` - A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed.
+- `core_subnet_privates_ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See IPv6 Addresses. Example: 2001:0db8:0123:1111::/64
+- `core_subnet_privates_ipv6cidr_blocks` - The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet.
+- `core_subnet_privates_ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router. Example: 2001:0db8:0123:1111:89ab:cdef:1234:5678
+- `core_subnet_privates_prohibit_internet_ingress` - Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+- `core_subnet_privates_prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). Example: true
+- `core_subnet_privates_route_table_id` - The OCID of the route table that the subnet uses.
+- `core_subnet_privates_security_list_ids` - The OCIDs of the security list or lists that the subnet uses. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet.
+- `core_subnet_privates_state` - The subnet's current state.
+- `core_subnet_privates_subnet_domain_name` - The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label, and the oraclevcn.com domain.
+- `core_subnet_privates_vcn_id` - The OCID of the VCN the subnet is in.
+- `core_subnet_privates_virtual_router_ip` - The IP address of the virtual router. Example: 10.0.14.1
+- `core_subnet_privates_virtual_router_mac` - The MAC address of the virtual router. Example: 00:00:00:00:00:01
+- `core_subnet_publics_id` - The subnet's Oracle ID (OCID).
+- `core_subnet_publics_availability_domain` - The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets. Example: Uocm:PHX-AD-1
+- `core_subnet_publics_cidr_block` - The subnet's CIDR block. Example: 10.0.1.0/24
+- `core_subnet_publics_compartment_id` - The OCID of the compartment containing the subnet.
+- `core_subnet_publics_dhcp_options_id` - The OCID of the set of DHCP options that the subnet uses.
+- `core_subnet_publics_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+- `core_subnet_publics_dns_label` - A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed.
+- `core_subnet_publics_ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See IPv6 Addresses. Example: 2001:0db8:0123:1111::/64
+- `core_subnet_publics_ipv6cidr_blocks` - The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet.
+- `core_subnet_publics_ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router. Example: 2001:0db8:0123:1111:89ab:cdef:1234:5678
+- `core_subnet_publics_prohibit_internet_ingress` - Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+- `core_subnet_publics_prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). Example: true
+- `core_subnet_publics_route_table_id` - The OCID of the route table that the subnet uses.
+- `core_subnet_publics_security_list_ids` - The OCIDs of the security list or lists that the subnet uses. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet.
+- `core_subnet_publics_state` - The subnet's current state.
+- `core_subnet_publics_subnet_domain_name` - The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label, and the oraclevcn.com domain.
+- `core_subnet_publics_vcn_id` - The OCID of the VCN the subnet is in.
+- `core_subnet_publics_virtual_router_ip` - The IP address of the virtual router. Example: 10.0.14.1
+- `core_subnet_publics_virtual_router_mac` - The MAC address of the virtual router. Example: 00:00:00:00:00:01
 - `core_dhcp_options_id` - Oracle ID (OCID) for the set of DHCP options.
 - `core_dhcp_options_compartment_id` - The OCID of the compartment containing the set of DHCP options.
 - `core_dhcp_options_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

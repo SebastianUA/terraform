@@ -5,7 +5,7 @@ resource "oci_core_dhcp_options" "core_dhcp_options" {
   count = var.enable_core_dhcp_options ? 1 : 0
 
   # Required
-  compartment_id = var.core_dhcp_options_compartment_id
+  compartment_id = var.compartment_id
 
   dynamic "options" {
     iterator = options

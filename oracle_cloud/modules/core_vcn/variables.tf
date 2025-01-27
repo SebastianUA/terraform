@@ -16,6 +16,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "compartment_id" {
+  description = "(Required) The OCID of the compartment"
+  default     = null
+}
+
 #-----------------------------------------------------------
 # core vcn
 #-----------------------------------------------------------
@@ -24,10 +29,10 @@ variable "enable_core_vcn" {
   default     = false
 }
 
-variable "core_vcn_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the VCN."
-  default     = null
-}
+# variable "core_vcn_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the VCN."
+#   default     = null
+# }
 
 variable "core_vcn_byoipv6cidr_details" {
   description = "(Optional) The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges."
@@ -153,10 +158,10 @@ variable "enable_core_public_ip_pool" {
   default     = false
 }
 
-variable "core_public_ip_pool_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment containing the public IP pool."
-  default     = null
-}
+# variable "core_public_ip_pool_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment containing the public IP pool."
+#   default     = null
+# }
 
 variable "core_public_ip_pool_display_name" {
   description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
@@ -181,10 +186,10 @@ variable "enable_core_public_ip" {
   default     = false
 }
 
-variable "core_public_ip_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the public IP. For ephemeral public IPs, you must set this to the private IP's compartment OCID."
-  default     = null
-}
+# variable "core_public_ip_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the public IP. For ephemeral public IPs, you must set this to the private IP's compartment OCID."
+#   default     = null
+# }
 
 variable "core_public_ip_lifetime" {
   description = "(Required) Defines when the public IP is deleted and released back to the Oracle Cloud Infrastructure public IP pool. For more information, see Public IP Addresses."
@@ -224,10 +229,10 @@ variable "enable_core_route_table" {
   default     = false
 }
 
-variable "core_route_table_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the route table."
-  default     = null
-}
+# variable "core_route_table_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the route table."
+#   default     = null
+# }
 
 variable "core_route_table_vcn_id" {
   description = "(Required) The OCID of the VCN the route table belongs to."
@@ -250,6 +255,68 @@ variable "core_route_table_defined_tags" {
 }
 
 variable "core_route_table_timeouts" {
+  description = "The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table"
+  default     = {}
+}
+
+// privates
+# variable "core_route_table_privates_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the route table."
+#   default     = null
+# }
+
+variable "core_route_table_privates_vcn_id" {
+  description = "(Required) The OCID of the VCN the route table belongs to."
+  default     = ""
+}
+
+variable "core_route_table_privates_display_name" {
+  description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  default     = null
+}
+
+# variable "core_route_table_privates_route_rules" {
+#   description = "(Optional) (Updatable) The collection of rules used for routing destination IPs to network devices."
+#   default     = []
+# }
+
+variable "core_route_table_privates_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
+  default     = {}
+}
+
+variable "core_route_table_privates_timeouts" {
+  description = "The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table"
+  default     = {}
+}
+
+// publics
+# variable "core_route_table_publics_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the route table."
+#   default     = null
+# }
+
+variable "core_route_table_publics_vcn_id" {
+  description = "(Required) The OCID of the VCN the route table belongs to."
+  default     = ""
+}
+
+variable "core_route_table_publics_display_name" {
+  description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  default     = null
+}
+
+# variable "core_route_table_publics_route_rules" {
+#   description = "(Optional) (Updatable) The collection of rules used for routing destination IPs to network devices."
+#   default     = []
+# }
+
+variable "core_route_table_publics_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. "
+  default     = {}
+}
+
+variable "core_route_table_publics_timeouts" {
   description = "The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Route Table * update - (Defaults to 20 minutes), when updating the Route Table * delete - (Defaults to 20 minutes), when destroying the Route Table"
   default     = {}
 }
@@ -285,10 +352,10 @@ variable "core_vlan_cidr_block" {
   default     = null
 }
 
-variable "core_vlan_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the VLAN."
-  default     = null
-}
+# variable "core_vlan_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the VLAN."
+#   default     = null
+# }
 
 variable "core_vlan_vcn_id" {
   description = "(Required) The OCID of the VCN to contain the VLAN."
@@ -376,10 +443,10 @@ variable "core_subnet_cidr_block" {
   default     = null
 }
 
-variable "core_subnet_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the subnet."
-  default     = null
-}
+# variable "core_subnet_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the subnet."
+#   default     = null
+# }
 
 variable "core_subnet_vcn_id" {
   description = "(Required) The OCID of the VCN to contain the subnet."
@@ -446,6 +513,158 @@ variable "core_subnet_timeouts" {
   default     = {}
 }
 
+// privates
+variable "core_subnet_privates_cidr_blocks" {
+  description = "Set the CIDR IP address ranges of the subnets. "
+  default     = null
+}
+
+# variable "core_subnet_privates_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the subnet."
+#   default     = null
+# }
+
+variable "core_subnet_privates_vcn_id" {
+  description = "(Required) The OCID of the VCN to contain the subnet."
+  default     = ""
+}
+
+variable "core_subnet_privates_availability_domain" {
+  description = " (Optional) Controls whether the subnet is regional or specific to an availability domain. Oracle recommends creating regional subnets because they're more flexible and make it easier to implement failover across availability domains. Originally, AD-specific subnets were the only kind available to use."
+  default     = null
+}
+
+variable "core_subnet_privates_dhcp_options_id" {
+  description = "(Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options."
+  default     = null
+}
+
+variable "core_subnet_privates_display_name" {
+  description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  default     = null
+}
+
+variable "core_subnet_privates_dns_label" {
+  description = "(Optional) A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed."
+  default     = null
+}
+
+variable "core_subnet_privates_ipv6cidr_block" {
+  description = "(Optional) (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example)."
+  default     = null
+}
+
+variable "core_subnet_privates_ipv6cidr_blocks" {
+  description = "(Optional) (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet"
+  default     = null
+}
+
+variable "core_subnet_privates_prohibit_internet_ingress" {
+  description = "(Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false."
+  default     = null
+}
+
+variable "core_subnet_privates_prohibit_public_ip_on_vnic" {
+  description = "(Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet)."
+  default     = null
+}
+
+variable "core_subnet_privates_route_table_id" {
+  description = "(Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table."
+  default     = null
+}
+
+variable "core_subnet_privates_security_list_ids" {
+  description = "(Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet."
+  default     = null
+}
+
+variable "core_subnet_privates_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+  default     = {}
+}
+
+variable "core_subnet_privates_timeouts" {
+  description = "The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet"
+  default     = {}
+}
+
+// publics
+variable "core_subnet_publics_cidr_blocks" {
+  description = "Set the CIDR IP address ranges of the subnets. "
+  default     = null
+}
+
+# variable "core_subnet_publics_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the subnet."
+#   default     = null
+# }
+
+variable "core_subnet_publics_vcn_id" {
+  description = "(Required) The OCID of the VCN to contain the subnet."
+  default     = ""
+}
+
+variable "core_subnet_publics_availability_domain" {
+  description = " (Optional) Controls whether the subnet is regional or specific to an availability domain. Oracle recommends creating regional subnets because they're more flexible and make it easier to implement failover across availability domains. Originally, AD-specific subnets were the only kind available to use."
+  default     = null
+}
+
+variable "core_subnet_publics_dhcp_options_id" {
+  description = "(Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options."
+  default     = null
+}
+
+variable "core_subnet_publics_display_name" {
+  description = "(Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  default     = null
+}
+
+variable "core_subnet_publics_dns_label" {
+  description = "(Optional) A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed."
+  default     = null
+}
+
+variable "core_subnet_publics_ipv6cidr_block" {
+  description = "(Optional) (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example)."
+  default     = null
+}
+
+variable "core_subnet_publics_ipv6cidr_blocks" {
+  description = "(Optional) (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet"
+  default     = null
+}
+
+variable "core_subnet_publics_prohibit_internet_ingress" {
+  description = "(Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false."
+  default     = null
+}
+
+variable "core_subnet_publics_prohibit_public_ip_on_vnic" {
+  description = "(Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet)."
+  default     = null
+}
+
+variable "core_subnet_publics_route_table_id" {
+  description = "(Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table."
+  default     = null
+}
+
+variable "core_subnet_publics_security_list_ids" {
+  description = "(Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet."
+  default     = null
+}
+
+variable "core_subnet_publics_defined_tags" {
+  description = "(Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags."
+  default     = {}
+}
+
+variable "core_subnet_publics_timeouts" {
+  description = "The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Subnet * update - (Defaults to 20 minutes), when updating the Subnet * delete - (Defaults to 20 minutes), when destroying the Subnet"
+  default     = {}
+}
+
 #-----------------------------------------------------------
 # core dhcp options
 #-----------------------------------------------------------
@@ -454,10 +673,10 @@ variable "enable_core_dhcp_options" {
   default     = false
 }
 
-variable "core_dhcp_options_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the set of DHCP options."
-  default     = null
-}
+# variable "core_dhcp_options_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the set of DHCP options."
+#   default     = null
+# }
 
 variable "core_dhcp_options_options" {
   description = "List of DHCP options configurations."
@@ -498,10 +717,10 @@ variable "enable_core_service_gateway" {
   default     = false
 }
 
-variable "core_service_gateway_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the service gateway."
-  default     = null
-}
+# variable "core_service_gateway_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the service gateway."
+#   default     = null
+# }
 
 variable "core_service_gateway_services" {
   description = "(Required) (Updatable) List of the OCIDs of the Service objects to enable for the service gateway. This list can be empty if you don't want to enable any Service objects when you create the gateway. You can enable a Service object later by using either AttachServiceId or UpdateServiceGateway."
@@ -541,10 +760,10 @@ variable "enable_core_nat_gateway" {
   default     = false
 }
 
-variable "core_nat_gateway_compartment_id" {
-  description = "Required) (Updatable) The OCID of the compartment to contain the NAT gateway."
-  default     = null
-}
+# variable "core_nat_gateway_compartment_id" {
+#   description = "Required) (Updatable) The OCID of the compartment to contain the NAT gateway."
+#   default     = null
+# }
 
 variable "core_nat_gateway_vcn_id" {
   description = "(Required) The OCID of the VCN the gateway belongs to."
@@ -589,10 +808,10 @@ variable "enable_core_internet_gateway" {
   default     = false
 }
 
-variable "core_internet_gateway_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the internet gateway."
-  default     = null
-}
+# variable "core_internet_gateway_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment to contain the internet gateway."
+#   default     = null
+# }
 
 variable "core_internet_gateway_vcn_id" {
   description = "The OCID of the VCN the Internet Gateway is attached to."
@@ -670,10 +889,10 @@ variable "enable_core_local_peering_gateway" {
   default     = false
 }
 
-variable "core_local_peering_gateway_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment containing the local peering gateway (LPG)."
-  default     = null
-}
+# variable "core_local_peering_gateway_compartment_id" {
+#   description = "(Required) (Updatable) The OCID of the compartment containing the local peering gateway (LPG)."
+#   default     = null
+# }
 
 variable "core_local_peering_gateway_vcn_id" {
   description = "The OCID of the VCN the LPG belongs to."

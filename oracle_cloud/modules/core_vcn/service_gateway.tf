@@ -5,7 +5,7 @@ resource "oci_core_service_gateway" "core_service_gateway" {
   count = var.enable_core_service_gateway ? 1 : 0
 
   # Required
-  compartment_id = var.core_service_gateway_compartment_id
+  compartment_id = var.compartment_id
 
   dynamic "services" {
     iterator = services

@@ -5,7 +5,7 @@ resource "oci_core_public_ip_pool" "core_public_ip_pool" {
   count = var.enable_core_public_ip_pool ? 1 : 0
 
   # Required
-  compartment_id = var.core_public_ip_pool_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   display_name = var.core_public_ip_pool_display_name != "" ? var.core_public_ip_pool_display_name : "${lower(var.name)}-public-ip-${lower(var.environment)}-${count.index + 1}"

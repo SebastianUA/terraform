@@ -6,7 +6,7 @@ resource "oci_core_nat_gateway" "core_nat_gateway" {
   count = var.enable_core_nat_gateway ? 1 : 0
 
   # Required
-  compartment_id = var.core_nat_gateway_compartment_id
+  compartment_id = var.compartment_id
   vcn_id         = var.core_nat_gateway_vcn_id != "" && !var.enable_core_vcn ? var.core_nat_gateway_vcn_id : (var.enable_core_vcn ? element(oci_core_vcn.core_vcn.*.id, 0) : null)
 
   # Optional

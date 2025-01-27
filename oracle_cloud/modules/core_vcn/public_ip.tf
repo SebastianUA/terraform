@@ -6,7 +6,7 @@ resource "oci_core_public_ip" "core_public_ip" {
   count = var.enable_core_public_ip ? 1 : 0
 
   # Required
-  compartment_id = var.core_public_ip_compartment_id
+  compartment_id = var.compartment_id
   lifetime       = var.core_public_ip_lifetime
 
   # Optional

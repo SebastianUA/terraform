@@ -271,6 +271,68 @@ output "core_route_table_display_name" {
   value       = element(concat(oci_core_route_table.core_route_table.*.display_name, [""]), 0)
 }
 
+// publics
+output "core_route_table_publics_id" {
+  description = "ID of core route table"
+  value       = element(concat(oci_core_route_table.core_route_table_publics.*.id, [""]), 0)
+}
+
+output "core_route_table_publics_state" {
+  description = "The route table's current state."
+  value       = element(concat(oci_core_route_table.core_route_table_publics.*.state, [""]), 0)
+}
+
+output "core_route_table_publics_vcn_id" {
+  description = "The OCID of the VCN the route table list belongs to."
+  value       = element(concat(oci_core_route_table.core_route_table_publics.*.vcn_id, [""]), 0)
+}
+
+output "core_route_table_publics_route_rules" {
+  description = "The collection of rules for routing destination IPs to network devices."
+  value       = concat(oci_core_route_table.core_route_table_publics.*.route_rules, [""])
+}
+
+output "core_route_table_publics_compartment_id" {
+  description = "The OCID of the compartment containing the route table."
+  value       = element(concat(oci_core_route_table.core_route_table_publics.*.compartment_id, [""]), 0)
+}
+
+output "core_route_table_publics_display_name" {
+  description = "A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  value       = element(concat(oci_core_route_table.core_route_table_publics.*.display_name, [""]), 0)
+}
+
+// privates
+output "core_route_table_privates_id" {
+  description = "ID of core route table"
+  value       = element(concat(oci_core_route_table.core_route_table_privates.*.id, [""]), 0)
+}
+
+output "core_route_table_privates_state" {
+  description = "The route table's current state."
+  value       = element(concat(oci_core_route_table.core_route_table_privates.*.state, [""]), 0)
+}
+
+output "core_route_table_privates_vcn_id" {
+  description = "The OCID of the VCN the route table list belongs to."
+  value       = element(concat(oci_core_route_table.core_route_table_privates.*.vcn_id, [""]), 0)
+}
+
+output "core_route_table_privates_route_rules" {
+  description = "The collection of rules for routing destination IPs to network devices."
+  value       = concat(oci_core_route_table.core_route_table_privates.*.route_rules, [""])
+}
+
+output "core_route_table_privates_compartment_id" {
+  description = "The OCID of the compartment containing the route table."
+  value       = element(concat(oci_core_route_table.core_route_table_privates.*.compartment_id, [""]), 0)
+}
+
+output "core_route_table_privates_display_name" {
+  description = "A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  value       = element(concat(oci_core_route_table.core_route_table_privates.*.display_name, [""]), 0)
+}
+
 #-----------------------------------------------------------
 # core route table attachment
 #-----------------------------------------------------------
@@ -287,6 +349,38 @@ output "core_route_table_attachment_subnet_id" {
 output "core_route_table_attachment_route_table_id" {
   description = "The OCID of the route table."
   value       = element(concat(oci_core_route_table_attachment.core_route_table_attachment.*.route_table_id, [""]), 0)
+}
+
+// publics
+output "core_route_table_attachment_publics_id" {
+  description = "ID of core route table attachment"
+  value       = element(concat(oci_core_route_table_attachment.core_route_table_attachment_publics.*.id, [""]), 0)
+}
+
+output "core_route_table_attachment_publics_subnet_id" {
+  description = "The OCID of the subnet."
+  value       = concat(oci_core_route_table_attachment.core_route_table_attachment_publics.*.subnet_id, [""])
+}
+
+output "core_route_table_attachment_publics_route_table_id" {
+  description = "The OCID of the route table."
+  value       = element(concat(oci_core_route_table_attachment.core_route_table_attachment_publics.*.route_table_id, [""]), 0)
+}
+
+// privates
+output "core_route_table_attachment_privates_id" {
+  description = "ID of core route table attachment"
+  value       = element(concat(oci_core_route_table_attachment.core_route_table_attachment_privates.*.id, [""]), 0)
+}
+
+output "core_route_table_attachment_privates_subnet_id" {
+  description = "The OCID of the subnet."
+  value       = concat(oci_core_route_table_attachment.core_route_table_attachment_privates.*.subnet_id, [""])
+}
+
+output "core_route_table_attachment_privates_route_table_id" {
+  description = "The OCID of the route table."
+  value       = element(concat(oci_core_route_table_attachment.core_route_table_attachment_privates.*.route_table_id, [""]), 0)
 }
 
 #-----------------------------------------------------------
@@ -496,6 +590,198 @@ output "core_subnet_virtual_router_ip" {
 output "core_subnet_virtual_router_mac" {
   description = "The MAC address of the virtual router. Example: 00:00:00:00:00:01"
   value       = element(concat(oci_core_subnet.core_subnet.*.virtual_router_mac, [""]), 0)
+}
+
+// privates
+output "core_subnet_privates_id" {
+  description = "The subnet's Oracle ID (OCID)."
+  value       = concat(oci_core_subnet.core_subnet_privates.*.id, [""])
+}
+
+output "core_subnet_privates_availability_domain" {
+  description = "The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets. Example: Uocm:PHX-AD-1"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.availability_domain, [""]), 0)
+}
+
+output "core_subnet_privates_cidr_block" {
+  description = "The subnet's CIDR block. Example: 10.0.1.0/24"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.cidr_block, [""]), 0)
+}
+
+output "core_subnet_privates_compartment_id" {
+  description = "The OCID of the compartment containing the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.compartment_id, [""]), 0)
+}
+
+output "core_subnet_privates_dhcp_options_id" {
+  description = "The OCID of the set of DHCP options that the subnet uses."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.dhcp_options_id, [""]), 0)
+}
+
+output "core_subnet_privates_display_name" {
+  description = "A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.display_name, [""]), 0)
+}
+
+output "core_subnet_privates_dns_label" {
+  description = "A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.dns_label, [""]), 0)
+}
+
+output "core_subnet_privates_ipv6cidr_block" {
+  description = "For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See IPv6 Addresses. Example: 2001:0db8:0123:1111::/64"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.ipv6cidr_block, [""]), 0)
+}
+
+output "core_subnet_privates_ipv6cidr_blocks" {
+  description = "The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.ipv6cidr_blocks, [""]), 0)
+}
+
+output "core_subnet_privates_ipv6virtual_router_ip" {
+  description = "For an IPv6-enabled subnet, this is the IPv6 address of the virtual router. Example: 2001:0db8:0123:1111:89ab:cdef:1234:5678"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.ipv6virtual_router_ip, [""]), 0)
+}
+
+output "core_subnet_privates_prohibit_internet_ingress" {
+  description = "Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.prohibit_internet_ingress, [""]), 0)
+}
+
+output "core_subnet_privates_prohibit_public_ip_on_vnic" {
+  description = "Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). Example: true"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.prohibit_public_ip_on_vnic, [""]), 0)
+}
+
+output "core_subnet_privates_route_table_id" {
+  description = "The OCID of the route table that the subnet uses."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.route_table_id, [""]), 0)
+}
+
+output "core_subnet_privates_security_list_ids" {
+  description = "The OCIDs of the security list or lists that the subnet uses. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.security_list_ids, [""]), 0)
+}
+
+output "core_subnet_privates_state" {
+  description = "The subnet's current state."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.state, [""]), 0)
+}
+
+output "core_subnet_privates_subnet_domain_name" {
+  description = "The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label, and the oraclevcn.com domain."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.subnet_domain_name, [""]), 0)
+}
+
+output "core_subnet_privates_vcn_id" {
+  description = "The OCID of the VCN the subnet is in."
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.vcn_id, [""]), 0)
+}
+
+output "core_subnet_privates_virtual_router_ip" {
+  description = "The IP address of the virtual router. Example: 10.0.14.1"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.virtual_router_ip, [""]), 0)
+}
+
+output "core_subnet_privates_virtual_router_mac" {
+  description = "The MAC address of the virtual router. Example: 00:00:00:00:00:01"
+  value       = element(concat(oci_core_subnet.core_subnet_privates.*.virtual_router_mac, [""]), 0)
+}
+
+// publics
+output "core_subnet_publics_id" {
+  description = "The subnet's Oracle ID (OCID)."
+  value       = concat(oci_core_subnet.core_subnet_publics.*.id, [""])
+}
+
+output "core_subnet_publics_availability_domain" {
+  description = "The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets. Example: Uocm:PHX-AD-1"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.availability_domain, [""]), 0)
+}
+
+output "core_subnet_publics_cidr_block" {
+  description = "The subnet's CIDR block. Example: 10.0.1.0/24"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.cidr_block, [""]), 0)
+}
+
+output "core_subnet_publics_compartment_id" {
+  description = "The OCID of the compartment containing the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.compartment_id, [""]), 0)
+}
+
+output "core_subnet_publics_dhcp_options_id" {
+  description = "The OCID of the set of DHCP options that the subnet uses."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.dhcp_options_id, [""]), 0)
+}
+
+output "core_subnet_publics_display_name" {
+  description = "A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.display_name, [""]), 0)
+}
+
+output "core_subnet_publics_dns_label" {
+  description = "A DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, bminstance1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.dns_label, [""]), 0)
+}
+
+output "core_subnet_publics_ipv6cidr_block" {
+  description = "For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See IPv6 Addresses. Example: 2001:0db8:0123:1111::/64"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.ipv6cidr_block, [""]), 0)
+}
+
+output "core_subnet_publics_ipv6cidr_blocks" {
+  description = "The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.ipv6cidr_blocks, [""]), 0)
+}
+
+output "core_subnet_publics_ipv6virtual_router_ip" {
+  description = "For an IPv6-enabled subnet, this is the IPv6 address of the virtual router. Example: 2001:0db8:0123:1111:89ab:cdef:1234:5678"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.ipv6virtual_router_ip, [""]), 0)
+}
+
+output "core_subnet_publics_prohibit_internet_ingress" {
+  description = "Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.prohibit_internet_ingress, [""]), 0)
+}
+
+output "core_subnet_publics_prohibit_public_ip_on_vnic" {
+  description = "Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the assignPublicIp flag in CreateVnicDetails). If prohibitPublicIpOnVnic is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet). Example: true"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.prohibit_public_ip_on_vnic, [""]), 0)
+}
+
+output "core_subnet_publics_route_table_id" {
+  description = "The OCID of the route table that the subnet uses."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.route_table_id, [""]), 0)
+}
+
+output "core_subnet_publics_security_list_ids" {
+  description = "The OCIDs of the security list or lists that the subnet uses. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.security_list_ids, [""]), 0)
+}
+
+output "core_subnet_publics_state" {
+  description = "The subnet's current state."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.state, [""]), 0)
+}
+
+output "core_subnet_publics_subnet_domain_name" {
+  description = "The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label, and the oraclevcn.com domain."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.subnet_domain_name, [""]), 0)
+}
+
+output "core_subnet_publics_vcn_id" {
+  description = "The OCID of the VCN the subnet is in."
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.vcn_id, [""]), 0)
+}
+
+output "core_subnet_publics_virtual_router_ip" {
+  description = "The IP address of the virtual router. Example: 10.0.14.1"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.virtual_router_ip, [""]), 0)
+}
+
+output "core_subnet_publics_virtual_router_mac" {
+  description = "The MAC address of the virtual router. Example: 00:00:00:00:00:01"
+  value       = element(concat(oci_core_subnet.core_subnet_publics.*.virtual_router_mac, [""]), 0)
 }
 
 #-----------------------------------------------------------
