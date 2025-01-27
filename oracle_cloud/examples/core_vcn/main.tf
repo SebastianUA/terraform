@@ -47,7 +47,7 @@ module "core_vcn" {
   //core_subnet_privates_display_name = "private"
   core_subnet_privates_cidr_blocks = ["10.0.0.0/24", "10.0.1.0/24"]
   //core_subnet_publics_display_name = "public"
-  core_subnet_publics_cidr_blocks  = ["10.0.10.0/24", "10.0.11.0/24"]
+  core_subnet_publics_cidr_blocks = ["10.0.10.0/24", "10.0.11.0/24"]
 
   # RT
   core_route_table_publics_display_name  = "public-rt"
