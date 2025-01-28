@@ -5,7 +5,7 @@ resource "oci_identity_domain" "identity_domain" {
   count = var.enable_identity_domain ? 1 : 0
 
   # Required
-  compartment_id = var.identity_domain_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_domain_description
   display_name   = var.identity_domain_display_name != "" ? var.identity_domain_display_name : "${lower(var.name)}-identity-domain-${lower(var.environment)}"
   home_region    = var.identity_domain_home_region

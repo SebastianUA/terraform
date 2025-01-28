@@ -6,7 +6,7 @@ resource "oci_file_storage_mount_target" "file_storage_mount_target" {
 
   # Required
   availability_domain = var.file_storage_mount_target_availability_domain
-  compartment_id      = var.file_storage_mount_target_compartment_id
+  compartment_id      = var.compartment_id
   subnet_id           = var.file_storage_mount_target_subnet_id
 
   # Optional

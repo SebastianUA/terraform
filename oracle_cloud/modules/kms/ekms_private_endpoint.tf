@@ -6,7 +6,7 @@ resource "oci_kms_ekms_private_endpoint" "kms_ekms_private_endpoint" {
 
   # Required
   ca_bundle               = var.kms_ekms_private_endpoint_ca_bundle
-  compartment_id          = var.kms_ekms_private_endpoint_compartment_id
+  compartment_id          = var.compartment_id
   display_name            = var.kms_ekms_private_endpoint_display_name != "" ? var.kms_ekms_private_endpoint_display_name : "${lower(var.name)}-kms-ekms-prvt-end-${lower(var.environment)}"
   external_key_manager_ip = var.kms_ekms_private_endpoint_external_key_manager_ip
   subnet_id               = var.kms_ekms_private_endpoint_subnet_id

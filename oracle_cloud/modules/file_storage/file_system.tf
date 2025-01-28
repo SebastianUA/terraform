@@ -6,7 +6,7 @@ resource "oci_file_storage_file_system" "file_storage_file_system" {
 
   # Required
   availability_domain = var.file_storage_file_system_availability_domain
-  compartment_id      = var.file_storage_file_system_compartment_id
+  compartment_id      = var.compartment_id
 
   # Optional
   clone_attach_status           = var.file_storage_file_system_clone_attach_status

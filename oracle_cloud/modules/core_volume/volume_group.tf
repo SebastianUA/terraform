@@ -6,7 +6,7 @@ resource "oci_core_volume_group" "core_volume_group" {
 
   # Required
   availability_domain = var.core_volume_group_availability_domain
-  compartment_id      = var.core_volume_group_compartment_id
+  compartment_id      = var.compartment_id
 
   dynamic "source_details" {
     iterator = source_details

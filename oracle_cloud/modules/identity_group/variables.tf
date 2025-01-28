@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}

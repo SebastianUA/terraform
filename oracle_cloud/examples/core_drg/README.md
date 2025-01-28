@@ -50,9 +50,9 @@ module "core_drg" {
 ----------------------
 - `name` - The name for resources (`default = test`)
 - `environment` - The environment for resources (`default = dev`)
+- `compartment_id` - (Required) (Updatable) The OCID of the compartment to (`default = null`)
 - `tags` - Add additional tags (`default = {}`)
 - `enable_core_drg` - Enable core drg usages (`default = False`)
-- `core_drg_compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the DRG. (`default = null`)
 - `core_drg_display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = ""`)
 - `core_drg_defined_tags` - (Optional) (Updatable) Defined-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. (`default = {}`)
 - `core_drg_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Drg * update - (Defaults to 20 minutes), when updating the Drg * delete - (Defaults to 20 minutes), when destroying the Drg (`default = {}`)
@@ -82,7 +82,6 @@ module "core_drg" {
 - `core_drg_attachment_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Drg Attachment * update - (Defaults to 20 minutes), when updating the Drg Attachment * delete - (Defaults to 20 minutes), when destroying the Drg Attachment (`default = {}`)
 - `enable_core_drg_attachment_management` - Enable core drg attachment management usages (`default = False`)
 - `core_drg_attachment_management_attachment_type` - (Required) The type for the network resource attached to the DRG. (`default = null`)
-- `core_drg_attachment_management_compartment_id` - (Required) The OCID of the compartment. (`default = null`)
 - `core_drg_attachment_management_network_id` - (Optional) The OCID of the resource (virtual circuit, VCN, IPSec tunnel, or remote peering connection) attached to the DRG. (`default = null`)
 - `core_drg_attachment_management_drg_id` - (Required) The OCID of the DRG. (`default = ""`)
 - `core_drg_attachment_management_display_name` - (Optional)(Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. (`default = null`)

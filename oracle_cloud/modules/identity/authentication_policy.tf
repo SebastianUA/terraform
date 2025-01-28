@@ -5,7 +5,7 @@ resource "oci_identity_authentication_policy" "identity_authentication_policy" {
   count = var.enable_identity_authentication_policy ? 1 : 0
 
   # Required
-  compartment_id = var.identity_authentication_policy_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   dynamic "network_policy" {

@@ -5,7 +5,7 @@ resource "oci_core_drg" "core_drg" {
   count = var.enable_core_drg ? 1 : 0
 
   # Required
-  compartment_id = var.core_drg_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   display_name = var.core_drg_display_name != "" ? var.core_drg_display_name : "${lower(var.name)}-drg-${lower(var.environment)}"

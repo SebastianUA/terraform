@@ -51,6 +51,7 @@ module "identity_group" {
 ----------------------
 - `name` - The name for resources (`default = test`)
 - `environment` - The environment for resources (`default = dev`)
+- `compartment_id` - (Required) (Updatable) The OCID of the compartment to (`default = null`)
 - `tags` - Add additional tags (`default = {}`)
 - `enable_identity_dynamic_group` - Enable identity dynamic group usages (`default = False`)
 - `identity_dynamic_group_compartment_id` - (Required) The OCID of the tenancy containing the group. (`default = null`)

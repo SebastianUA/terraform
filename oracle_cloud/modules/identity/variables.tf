@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -22,11 +27,6 @@ variable "tags" {
 variable "enable_identity_network_source" {
   description = "Enable identity network source usages"
   default     = false
-}
-
-variable "identity_network_source_compartment_id" {
-  description = "(Required) The OCID of the tenancy (root compartment) containing the network source object."
-  default     = null
 }
 
 variable "identity_network_source_description" {
@@ -72,11 +72,6 @@ variable "enable_identity_policy" {
   default     = false
 }
 
-variable "identity_policy_compartment_id" {
-  description = "(Required) The OCID of the compartment containing the policy (either the tenancy or another compartment)."
-  default     = null
-}
-
 variable "identity_policy_description" {
   description = "(Required) (Updatable) The description you assign to the policy during creation. Does not have to be unique, and it's changeable."
   default     = null
@@ -113,11 +108,6 @@ variable "identity_policy_timeouts" {
 variable "enable_identity_identity_provider" {
   description = "Enable identity identity provider usages"
   default     = false
-}
-
-variable "identity_identity_provider_compartment_id" {
-  description = "(Required) The OCID of your tenancy."
-  default     = null
 }
 
 variable "identity_identity_provider_description" {
@@ -173,11 +163,6 @@ variable "enable_identity_authentication_policy" {
   default     = false
 }
 
-variable "identity_authentication_policy_compartment_id" {
-  description = "(Required) The OCID of the compartment."
-  default     = null
-}
-
 variable "identity_authentication_policy_network_policy" {
   description = "(Optional) (Updatable) Network policy, Consists of a list of Network Source ids."
   default     = {}
@@ -199,11 +184,6 @@ variable "identity_authentication_policy_timeouts" {
 variable "enable_identity_compartment" {
   description = "Enable identity compartment usages"
   default     = false
-}
-
-variable "identity_compartment_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the parent compartment containing the compartment."
-  default     = null
 }
 
 variable "identity_compartment_description" {

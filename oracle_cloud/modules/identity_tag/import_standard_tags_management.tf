@@ -5,7 +5,7 @@ resource "oci_identity_import_standard_tags_management" "identity_import_standar
   count = var.enable_identity_import_standard_tags_management ? 1 : 0
 
   # Required
-  compartment_id              = var.identity_import_standard_tags_management_compartment_id
+  compartment_id              = var.compartment_id
   standard_tag_namespace_name = var.identity_import_standard_tags_management_standard_tag_namespace_name != "" && !var.enable_identity_tag_namespace ? var.identity_import_standard_tags_management_standard_tag_namespace_name : (var.enable_identity_tag_namespace ? element(oci_identity_tag_namespace.identity_tag_namespace.*.name, 0) : null)
 
   dynamic "timeouts" {

@@ -16,17 +16,17 @@ variable "tags" {
   default     = {}
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 #-----------------------------------------------------------
 # core image
 #-----------------------------------------------------------
 variable "enable_core_image" {
   description = "Enable core image usages"
   default     = false
-}
-
-variable "core_image_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment you want the image to be created in."
-  default     = ""
 }
 
 variable "core_image_display_name" {
@@ -67,11 +67,6 @@ variable "enable_core_shape_management" {
   default     = false
 }
 
-variable "core_shape_management_compartment_id" {
-  description = "(Required) The OCID of the compartment containing the image."
-  default     = null
-}
-
 variable "core_shape_management_image_id" {
   description = "The OCID of the Image to which the shape should be added."
   default     = ""
@@ -88,11 +83,6 @@ variable "core_shape_management_shape_name" {
 variable "enable_core_compute_image_capability_schema" {
   description = "Enable core compute image capability schema usages"
   default     = false
-}
-
-variable "core_compute_image_capability_schema_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the resource."
-  default     = null
 }
 
 variable "core_compute_image_capability_schema_compute_global_image_capability_schema_version_name" {
@@ -131,11 +121,6 @@ variable "core_compute_image_capability_schema_timeouts" {
 variable "enable_core_app_catalog_subscription" {
   description = "Enable core app catalog subscription usages"
   default     = false
-}
-
-variable "core_app_catalog_subscription_compartment_id" {
-  description = "(Required) The compartmentID for the subscription."
-  default     = null
 }
 
 variable "core_app_catalog_subscription_listing_id" {

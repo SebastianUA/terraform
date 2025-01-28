@@ -6,7 +6,7 @@ resource "oci_file_storage_filesystem_snapshot_policy" "file_storage_filesystem_
 
   # Required
   availability_domain = var.file_storage_filesystem_snapshot_policy_availability_domain
-  compartment_id      = var.file_storage_filesystem_snapshot_policy_compartment_id
+  compartment_id      = var.compartment_id
 
   # Optional
   display_name  = var.file_storage_filesystem_snapshot_policy_display_name != "" ? var.file_storage_filesystem_snapshot_policy_display_name : "${lower(var.name)}-nfs-snapshot-policy-${lower(var.environment)}"

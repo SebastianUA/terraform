@@ -5,7 +5,7 @@ resource "oci_identity_network_source" "identity_network_source" {
   count = var.enable_identity_network_source ? 1 : 0
 
   # Required
-  compartment_id = var.identity_network_source_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_network_source_description
   name           = var.identity_network_source_name != "" ? var.identity_network_source_name : "${lower(var.name)}-identity-net-source-${lower(var.environment)}"
 

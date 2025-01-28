@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -26,11 +31,6 @@ variable "enable_file_storage_file_system" {
 
 variable "file_storage_file_system_availability_domain" {
   description = "(Required) The availability domain to create the file system in. Example: Uocm:PHX-AD-1"
-  default     = null
-}
-
-variable "file_storage_file_system_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to create the file system in."
   default     = null
 }
 
@@ -87,11 +87,6 @@ variable "file_storage_filesystem_snapshot_policy_availability_domain" {
   default     = null
 }
 
-variable "file_storage_filesystem_snapshot_policy_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the file system snapshot policy."
-  default     = null
-}
-
 variable "file_storage_filesystem_snapshot_policy_display_name" {
   description = "(Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information. Example: policy1"
   default     = ""
@@ -138,11 +133,6 @@ variable "enable_file_storage_mount_target" {
 
 variable "file_storage_mount_target_availability_domain" {
   description = "(Required) The availability domain in which to create the mount target. Example: Uocm:PHX-AD-1"
-  default     = null
-}
-
-variable "file_storage_mount_target_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment in which to create the mount target."
   default     = null
 }
 
@@ -229,11 +219,6 @@ variable "file_storage_outbound_connector_bind_distinguished_name" {
   default     = null
 }
 
-variable "file_storage_outbound_connector_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the outbound connector."
-  default     = null
-}
-
 variable "file_storage_outbound_connector_connector_type" {
   description = "(Required) The account type of this outbound connector."
   default     = null
@@ -280,11 +265,6 @@ variable "file_storage_outbound_connector_timeouts" {
 variable "enable_file_storage_replication" {
   description = "Enable file storage replication usages"
   default     = false
-}
-
-variable "file_storage_replication_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the replication."
-  default     = null
 }
 
 variable "file_storage_replication_source_id" {

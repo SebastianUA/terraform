@@ -6,7 +6,7 @@ resource "oci_core_drg_attachment_management" "core_drg_attachment_management" {
 
   # Required
   attachment_type = var.core_drg_attachment_management_attachment_type
-  compartment_id  = var.core_drg_attachment_management_compartment_id
+  compartment_id  = var.compartment_id
   drg_id          = var.core_drg_attachment_management_drg_id != "" && !var.enable_core_drg ? var.core_drg_attachment_management_drg_id : (var.enable_core_drg ? element(oci_core_drg.core_drg.*.id, 0) : null)
 
   # Optional

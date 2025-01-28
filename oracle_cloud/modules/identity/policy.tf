@@ -5,7 +5,7 @@ resource "oci_identity_policy" "identity_policy" {
   count = var.enable_identity_policy ? 1 : 0
 
   # Required
-  compartment_id = var.identity_policy_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_policy_description
   name           = var.identity_policy_name != "" ? var.identity_policy_name : "${lower(var.name)}-identity-policy-${lower(var.environment)}"
   statements     = var.identity_policy_statements

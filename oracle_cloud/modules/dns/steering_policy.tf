@@ -5,7 +5,7 @@ resource "oci_dns_steering_policy" "dns_steering_policy" {
   count = var.enable_dns_steering_policy ? 1 : 0
 
   # Required
-  compartment_id = var.dns_steering_policy_compartment_id
+  compartment_id = var.compartment_id
   display_name   = var.dns_steering_policy_display_name != "" ? var.dns_steering_policy_display_name : "${lower(var.name)}-dns-steering-policy-${lower(var.environment)}"
   template       = var.dns_steering_policy_template
 

@@ -5,7 +5,7 @@ resource "oci_identity_identity_provider" "identity_identity_provider" {
   count = var.enable_identity_identity_provider ? 1 : 0
 
   # Required
-  compartment_id = var.identity_identity_provider_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_identity_provider_description
   metadata       = var.identity_identity_provider_metadata
   metadata_url   = var.identity_identity_provider_metadata_url

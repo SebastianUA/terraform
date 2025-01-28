@@ -5,7 +5,7 @@ resource "oci_dns_zone" "dns_zone" {
   count = var.enable_dns_zone ? 1 : 0
 
   # Required
-  compartment_id = var.dns_zone_compartment_id
+  compartment_id = var.compartment_id
   name           = var.dns_zone_name != "" ? var.dns_zone_name : "${lower(var.name)}-dns-zone-${lower(var.environment)}"
   zone_type      = var.dns_zone_zone_type
 

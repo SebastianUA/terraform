@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -22,11 +27,6 @@ variable "tags" {
 variable "enable_core_drg" {
   description = "Enable core drg usages"
   default     = false
-}
-
-variable "core_drg_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment to contain the DRG."
-  default     = null
 }
 
 variable "core_drg_display_name" {
@@ -186,11 +186,6 @@ variable "enable_core_drg_attachment_management" {
 
 variable "core_drg_attachment_management_attachment_type" {
   description = "(Required) The type for the network resource attached to the DRG."
-  default     = null
-}
-
-variable "core_drg_attachment_management_compartment_id" {
-  description = "(Required) The OCID of the compartment."
   default     = null
 }
 

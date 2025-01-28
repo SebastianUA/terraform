@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -22,11 +27,6 @@ variable "tags" {
 variable "enable_core_boot_volume" {
   description = "Enable core boot volume usages"
   default     = false
-}
-
-variable "core_boot_volume_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the boot volume."
-  default     = null
 }
 
 variable "core_boot_volume_source_details" {
@@ -155,18 +155,8 @@ variable "enable_core_volume" {
   default     = false
 }
 
-variable "core_volume_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the volume."
-  default     = null
-}
-
 variable "core_volume_availability_domain" {
   description = "(Optional) The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume. Example: Uocm:PHX-AD-1"
-  default     = null
-}
-
-variable "core_volume_backup_policy_id" {
-  description = "(Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume."
   default     = null
 }
 
@@ -192,11 +182,6 @@ variable "core_volume_kms_key_id" {
 
 variable "core_volume_size_in_gbs" {
   description = "(Optional) (Updatable) The size of the volume in GBs."
-  default     = null
-}
-
-variable "core_volume_size_in_mbs" {
-  description = "(Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead."
   default     = null
 }
 
@@ -250,11 +235,6 @@ variable "enable_core_volume_group" {
 
 variable "core_volume_group_availability_domain" {
   description = "(Required) The availability domain of the volume group."
-  default     = null
-}
-
-variable "core_volume_group_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment that contains the volume group."
   default     = null
 }
 
@@ -385,11 +365,6 @@ variable "core_volume_backup_timeouts" {
 variable "enable_core_volume_backup_policy" {
   description = "Enable core volume backup policy usages"
   default     = false
-}
-
-variable "core_volume_backup_policy_compartment_id" {
-  description = "(Required) The OCID of the compartment."
-  default     = null
 }
 
 variable "core_volume_backup_policy_destination_region" {

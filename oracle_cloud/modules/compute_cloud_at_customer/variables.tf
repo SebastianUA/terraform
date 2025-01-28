@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The compartment OCID associated with the infrastructure."
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -22,11 +27,6 @@ variable "tags" {
 variable "enable_ccc_infrastructure" {
   description = "Enable ccc infrastructure usage"
   default     = false
-}
-
-variable "ccc_infrastructure_compartment_id" {
-  description = "(Required) (Updatable) The compartment OCID associated with the infrastructure."
-  default     = null
 }
 
 variable "ccc_infrastructure_display_name" {
@@ -75,11 +75,6 @@ variable "ccc_infrastructure_timeouts" {
 variable "enable_ccc_upgrade_schedule" {
   description = "Enable ccc upgrade schedule usages"
   default     = false
-}
-
-variable "ccc_upgrade_schedule_compartment_id" {
-  description = "(Required) (Updatable) Compartment OCID for the Compute Cloud@Customer Upgrade Schedule."
-  default     = null
 }
 
 variable "ccc_upgrade_schedule_display_name" {

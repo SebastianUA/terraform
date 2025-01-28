@@ -5,7 +5,7 @@ resource "oci_compute_cloud_at_customer_ccc_infrastructure" "ccc_infrastructure"
   count = var.enable_ccc_infrastructure ? 1 : 0
 
   # Required
-  compartment_id = var.ccc_infrastructure_compartment_id
+  compartment_id = var.compartment_id
   display_name   = var.ccc_infrastructure_display_name != "" ? var.ccc_infrastructure_display_name : "${lower(var.name)}-ccc-infra-${lower(var.environment)}"
   subnet_id      = var.ccc_infrastructure_subnet_id
 

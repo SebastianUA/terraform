@@ -7,7 +7,7 @@ resource "oci_file_storage_outbound_connector" "file_storage_outbound_connector"
   # Required
   availability_domain     = var.file_storage_outbound_connector_availability_domain
   bind_distinguished_name = var.file_storage_outbound_connector_bind_distinguished_name
-  compartment_id          = var.file_storage_outbound_connector_compartment_id
+  compartment_id          = var.compartment_id
   connector_type          = var.file_storage_outbound_connector_connector_type
 
   dynamic "endpoints" {

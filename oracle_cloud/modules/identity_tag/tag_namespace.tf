@@ -5,7 +5,7 @@ resource "oci_identity_tag_namespace" "identity_tag_namespace" {
   count = var.enable_identity_tag_namespace ? 1 : 0
 
   # Required
-  compartment_id = var.identity_tag_namespace_compartment_id
+  compartment_id = var.compartment_id
   name           = var.identity_tag_namespace_name != "" ? var.identity_tag_namespace_name : "${lower(var.name)}-identity-tag-ns-${lower(var.environment)}"
   description    = var.identity_tag_namespace_description
 

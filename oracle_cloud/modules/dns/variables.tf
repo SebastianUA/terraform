@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -39,11 +44,6 @@ variable "dns_record_rtype" {
   default     = null
 }
 
-# variable "dns_record_record_type" {
-#   description = "(Required) The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs."
-#   default     = null
-# }
-
 variable "dns_record_rdata" {
   description = "(Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types"
   default     = null
@@ -51,11 +51,6 @@ variable "dns_record_rdata" {
 
 variable "dns_record_ttl" {
   description = "(Optional) (Updatable) The Time To Live for the record, in seconds."
-  default     = null
-}
-
-variable "dns_record_compartment_id" {
-  description = "(Optional) (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid."
   default     = null
 }
 
@@ -70,11 +65,6 @@ variable "dns_record_timeouts" {
 variable "enable_dns_zone" {
   description = "Enable dns zone usage"
   default     = false
-}
-
-variable "dns_zone_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment containing the zone."
-  default     = null
 }
 
 variable "dns_zone_name" {
@@ -186,11 +176,6 @@ variable "enable_dns_view" {
   default     = false
 }
 
-variable "dns_view_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the owning compartment."
-  default     = null
-}
-
 variable "dns_view_display_name" {
   description = "(Updatable) The display name of the view."
   default     = ""
@@ -224,11 +209,6 @@ variable "dns_tsig_key_algorithm" {
   default     = null
 }
 
-variable "dns_tsig_key_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment containing the TSIG key."
-  default     = null
-}
-
 variable "dns_tsig_key_name" {
   description = "A globally unique domain name identifying the key for a given pair of hosts."
   default     = ""
@@ -255,11 +235,6 @@ variable "dns_tsig_key_timeouts" {
 variable "enable_dns_steering_policy" {
   description = "Enable dns steering policy usages"
   default     = false
-}
-
-variable "dns_steering_policy_compartment_id" {
-  description = "The OCID of the compartment containing the steering policy."
-  default     = null
 }
 
 variable "dns_steering_policy_display_name" {
@@ -345,11 +320,6 @@ variable "enable_dns_action_create_zone_from_zone_file" {
 
 variable "dns_action_create_zone_from_zone_file_create_zone_from_zone_file_details" {
   description = "(Required) The zone file contents."
-  default     = null
-}
-
-variable "dns_action_create_zone_from_zone_file_compartment_id" {
-  description = "(Required) The OCID of the compartment the resource belongs to."
   default     = null
 }
 

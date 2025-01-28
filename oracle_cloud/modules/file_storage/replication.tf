@@ -5,7 +5,7 @@ resource "oci_file_storage_replication" "file_storage_replication" {
   count = var.enable_file_storage_replication ? 1 : 0
 
   # Required
-  compartment_id = var.file_storage_replication_compartment_id
+  compartment_id = var.compartment_id
   source_id      = var.file_storage_replication_source_id
   target_id      = var.file_storage_replication_target_id
 

@@ -5,7 +5,7 @@ resource "oci_identity_dynamic_group" "identity_dynamic_group" {
   count = var.enable_identity_dynamic_group ? 1 : 0
 
   # Required
-  compartment_id = var.identity_dynamic_group_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_dynamic_group_description
   matching_rule  = var.identity_dynamic_group_matching_rule
   name           = var.identity_dynamic_group_name != "" ? var.identity_dynamic_group_name : "${lower(var.name)}-identity-dynamic-group-${lower(var.environment)}"

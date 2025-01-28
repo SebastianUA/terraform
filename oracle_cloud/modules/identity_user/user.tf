@@ -5,7 +5,7 @@ resource "oci_identity_user" "identity_user" {
   count = var.enable_identity_user ? 1 : 0
 
   # Required
-  compartment_id = var.identity_user_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_user_description
   name           = var.identity_user_name != "" ? var.identity_user_name : "${lower(var.name)}-identity-user-${lower(var.environment)}"
 

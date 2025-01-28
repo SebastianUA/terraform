@@ -1,11 +1,9 @@
-#-----------------------------------------------------------
-# core compute image capability schema
-#-----------------------------------------------------------
+
 resource "oci_core_compute_image_capability_schema" "core_compute_image_capability_schema" {
   count = var.enable_core_compute_image_capability_schema ? 1 : 0
 
   # Required
-  compartment_id                                      = var.core_compute_image_capability_schema_compartment_id
+  compartment_id                                      = var.compartment_id
   compute_global_image_capability_schema_version_name = var.core_compute_image_capability_schema_compute_global_image_capability_schema_version_name
   image_id                                            = var.core_compute_image_capability_schema_image_id != "" && !var.enable_core_image ? var.core_compute_image_capability_schema_image_id : (var.enable_core_image ? element(oci_core_image.core_image.*.id, 0) : null)
   dynamic "schema_data" {

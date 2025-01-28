@@ -5,7 +5,7 @@ resource "oci_identity_group" "identity_group" {
   count = var.enable_identity_group ? 1 : 0
 
   # Required
-  compartment_id = var.identity_group_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_group_description
   name           = var.identity_group_name != "" ? var.identity_group_name : "${lower(var.name)}-identity-group-${lower(var.environment)}"
 

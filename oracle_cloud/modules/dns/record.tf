@@ -8,12 +8,11 @@ resource "oci_dns_record" "dns_record" {
   zone_name_or_id = var.dns_record_zone_name_or_id != "" ? var.dns_record_zone_name_or_id : (var.enable_dns_zone ? element(oci_dns_zone.dns_zone.*.id, 0) : null)
   domain          = var.dns_record_domain
   rtype           = var.dns_record_rtype
-  # record_type     = var.dns_record_record_type
 
   # Optional
   rdata          = var.dns_record_rdata
   ttl            = var.dns_record_ttl
-  compartment_id = var.dns_record_compartment_id
+  compartment_id = var.compartment_id
 
   dynamic "timeouts" {
     iterator = timeouts

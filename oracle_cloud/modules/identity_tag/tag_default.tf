@@ -5,7 +5,7 @@ resource "oci_identity_tag_default" "identity_tag_default" {
   count = var.enable_identity_tag_default ? 1 : 0
 
   # Required
-  compartment_id    = var.identity_tag_default_compartment_id
+  compartment_id    = var.compartment_id
   tag_definition_id = var.identity_tag_default_tag_definition_id
   value             = var.identity_tag_default_value
 

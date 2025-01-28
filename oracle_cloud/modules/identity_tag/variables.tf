@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -72,11 +77,6 @@ variable "enable_identity_tag_namespace" {
   default     = false
 }
 
-variable "identity_tag_namespace_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the tenancy containing the tag namespace."
-  default     = null
-}
-
 variable "identity_tag_namespace_name" {
   description = "The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed."
   default     = ""
@@ -110,11 +110,6 @@ variable "enable_identity_tag_default" {
   default     = false
 }
 
-variable "identity_tag_default_compartment_id" {
-  description = "(Required) The OCID of the compartment. The tag default will be applied to all new resources created in this compartment."
-  default     = null
-}
-
 variable "identity_tag_default_tag_definition_id" {
   description = "Required) The OCID of the tag definition. The tag default will always assign a default value for this tag definition."
   default     = null
@@ -141,11 +136,6 @@ variable "identity_tag_default_timeouts" {
 variable "enable_identity_import_standard_tags_management" {
   description = "Enable identity import standard tags management usages"
   default     = false
-}
-
-variable "identity_import_standard_tags_management_compartment_id" {
-  description = "(Required) The OCID of the compartment where the bulk create request is submitted and where the tag namespaces will be created."
-  default     = null
 }
 
 variable "identity_import_standard_tags_management_standard_tag_namespace_name" {

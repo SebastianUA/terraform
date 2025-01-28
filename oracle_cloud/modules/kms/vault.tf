@@ -5,7 +5,7 @@ resource "oci_kms_vault" "kms_vault" {
   count = var.enable_kms_vault ? 1 : 0
 
   # Required
-  compartment_id = var.kms_vault_compartment_id
+  compartment_id = var.compartment_id
   display_name   = var.kms_vault_display_name != "" ? var.kms_vault_display_name : "${lower(var.name)}-kms-vault-${lower(var.environment)}"
   vault_type     = var.kms_vault_vault_type
 

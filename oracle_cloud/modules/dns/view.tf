@@ -5,7 +5,7 @@ resource "oci_dns_view" "dns_view" {
   count = var.enable_dns_view ? 1 : 0
 
   # Required
-  compartment_id = var.dns_view_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   display_name = var.dns_view_display_name != "" ? var.dns_view_display_name : "${lower(var.name)}-dns-view-${lower(var.environment)}"

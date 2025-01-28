@@ -5,7 +5,7 @@ resource "oci_core_boot_volume" "core_boot_volume" {
   count = var.enable_core_boot_volume ? 1 : 0
 
   # Required
-  compartment_id = var.core_boot_volume_compartment_id
+  compartment_id = var.compartment_id
 
   dynamic "source_details" {
     iterator = source_details

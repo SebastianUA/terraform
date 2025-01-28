@@ -6,7 +6,7 @@ resource "oci_dns_action_create_zone_from_zone_file" "dns_action_create_zone_fro
 
   # Required
   create_zone_from_zone_file_details = var.dns_action_create_zone_from_zone_file_create_zone_from_zone_file_details
-  compartment_id                     = var.dns_action_create_zone_from_zone_file_compartment_id
+  compartment_id                     = var.compartment_id
 
   # Optional
   scope   = var.dns_action_create_zone_from_zone_file_scope

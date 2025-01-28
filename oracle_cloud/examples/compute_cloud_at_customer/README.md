@@ -52,9 +52,9 @@ module "compute_cloud_at_customer" {
 ----------------------
 - `name` - The name for resources (`default = test`)
 - `environment` - The environment for resources (`default = dev`)
+- `compartment_id` - (Required) (Updatable) The compartment OCID associated with the infrastructure. (`default = null`)
 - `tags` - Add additional tags (`default = {}`)
 - `enable_ccc_infrastructure` - Enable ccc infrastructure usage (`default = False`)
-- `ccc_infrastructure_compartment_id` - (Required) (Updatable) The compartment OCID associated with the infrastructure. (`default = null`)
 - `ccc_infrastructure_display_name` - (Required) (Updatable) The name that will be used to display the Compute Cloud@Customer infrastructure in the Oracle Cloud Infrastructure console. Does not have to be unique and can be changed. Avoid entering confidential information. (`default = ""`)
 - `ccc_infrastructure_subnet_id` - (Required) (Updatable) Identifier for network subnet that will be used to communicate with Compute Cloud@Customer infrastructure. (`default = null`)
 - `ccc_infrastructure_description` - (Optional) (Updatable) A mutable client-meaningful text description of the Compute Cloud@Customer infrastructure. Avoid entering confidential information. (`default = null`)
@@ -64,7 +64,6 @@ module "compute_cloud_at_customer" {
 - `ccc_infrastructure_defined_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {'bar-key': 'value'} (`default = {}`)
 - `ccc_infrastructure_timeouts` - The timeouts block allows you to specify timeouts for certain operations: * create - (Defaults to 20 minutes), when creating the Ccc Infrastructure * update - (Defaults to 20 minutes), when updating the Ccc Infrastructure * delete - (Defaults to 20 minutes), when destroying the Ccc Infrastructure (`default = {}`)
 - `enable_ccc_upgrade_schedule` - Enable ccc upgrade schedule usages (`default = False`)
-- `ccc_upgrade_schedule_compartment_id` - (Required) (Updatable) Compartment OCID for the Compute Cloud@Customer Upgrade Schedule. (`default = null`)
 - `ccc_upgrade_schedule_display_name` - (Updatable) Compute Cloud@Customer upgrade schedule display name. Avoid entering confidential information. (`default = ""`)
 - `ccc_upgrade_schedule_events` - (Required) (Updatable) List of preferred times for Compute Cloud@Customer infrastructure to be upgraded. (`default = []`)
 - `ccc_upgrade_schedule_descriptions` - (Optional) (Updatable) An optional description of the Compute Cloud@Customer upgrade schedule. Avoid entering confidential information. (`default = null`)

@@ -5,7 +5,7 @@ resource "oci_core_volume_backup_policy" "core_volume_backup_policy" {
   count = var.enable_core_volume_backup_policy ? 1 : 0
 
   # Required
-  compartment_id = var.core_volume_backup_policy_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   destination_region = var.core_volume_backup_policy_destination_region

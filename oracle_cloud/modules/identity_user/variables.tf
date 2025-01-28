@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -22,11 +27,6 @@ variable "tags" {
 variable "enable_identity_user" {
   description = "Enable identity user usages"
   default     = false
-}
-
-variable "identity_user_compartment_id" {
-  description = "(Required) The OCID of the tenancy containing the user."
-  default     = null
 }
 
 variable "identity_user_description" {
@@ -60,11 +60,6 @@ variable "identity_user_timeouts" {
 variable "enable_identity_domain" {
   description = "Enable identity domain usages"
   default     = false
-}
-
-variable "identity_domain_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the Compartment where domain is created"
-  default     = null
 }
 
 variable "identity_domain_description" {

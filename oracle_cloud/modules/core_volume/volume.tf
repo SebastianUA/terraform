@@ -5,17 +5,15 @@ resource "oci_core_volume" "core_volume" {
   count = var.enable_core_volume ? 1 : 0
 
   # Required
-  compartment_id = var.core_volume_compartment_id
+  compartment_id = var.compartment_id
 
   # Optional
   availability_domain            = var.core_volume_availability_domain
-  backup_policy_id               = var.core_volume_backup_policy_id
   cluster_placement_group_id     = var.core_volume_cluster_placement_group_id
   display_name                   = var.core_volume_display_name != "" ? var.core_volume_display_name : "${lower(var.name)}-volume-${lower(var.environment)}"
   is_auto_tune_enabled           = var.core_volume_is_auto_tune_enabled
   kms_key_id                     = var.core_volume_kms_key_id
   size_in_gbs                    = var.core_volume_size_in_gbs
-  size_in_mbs                    = var.core_volume_size_in_mbs
   vpus_per_gb                    = var.core_volume_vpus_per_gb
   xrc_kms_key_id                 = var.core_volume_xrc_kms_key_id
   block_volume_replicas_deletion = var.core_volume_block_volume_replicas_deletion

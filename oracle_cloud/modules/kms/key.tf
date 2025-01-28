@@ -6,7 +6,7 @@ resource "oci_kms_key" "kms_key" {
 
   # Required
   display_name   = var.kms_key_display_name != "" ? var.kms_key_display_name : "${lower(var.name)}-kms-key-${lower(var.environment)}"
-  compartment_id = var.kms_key_compartment_id
+  compartment_id = var.compartment_id
 
   dynamic "key_shape" {
     iterator = "key_shape"

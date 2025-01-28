@@ -11,6 +11,11 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "compartment_id" {
+  description = "(Required) (Updatable) The OCID of the compartment to"
+  default     = null
+}
+
 variable "tags" {
   description = "Add additional tags"
   default     = {}
@@ -27,11 +32,6 @@ variable "enable_kms_key" {
 variable "kms_key_display_name" {
   description = "(Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information."
   default     = ""
-}
-
-variable "kms_key_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment where you want to create the master encryption key."
-  default     = null
 }
 
 variable "kms_key_key_shape" {
@@ -206,11 +206,6 @@ variable "kms_ekms_private_endpoint_ca_bundle" {
   default     = null
 }
 
-variable "kms_ekms_private_endpoint_compartment_id" {
-  description = "(Required) Compartment identifier."
-  default     = null
-}
-
 variable "kms_ekms_private_endpoint_display_name" {
   description = "(Required) (Updatable) Display name of the EKMS private endpoint resource being created."
   default     = ""
@@ -343,11 +338,6 @@ variable "kms_verify_timeouts" {
 variable "enable_kms_vault" {
   description = "Enable kms vault usages"
   default     = false
-}
-
-variable "kms_vault_compartment_id" {
-  description = "(Required) (Updatable) The OCID of the compartment where you want to create this vault."
-  default     = null
 }
 
 variable "kms_vault_display_name" {

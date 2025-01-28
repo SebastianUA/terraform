@@ -5,7 +5,7 @@ resource "oci_core_app_catalog_subscription" "core_app_catalog_subscription" {
   count = var.enable_core_app_catalog_subscription ? 1 : 0
 
   # Required
-  compartment_id           = var.core_app_catalog_subscription_compartment_id
+  compartment_id           = var.compartment_id
   listing_id               = var.core_app_catalog_subscription_listing_id
   listing_resource_version = var.core_app_catalog_subscription_listing_resource_version
   oracle_terms_of_use_link = var.core_app_catalog_subscription_oracle_terms_of_use_link

@@ -6,7 +6,7 @@ resource "oci_dns_tsig_key" "dns_tsig_key" {
 
   # Required
   algorithm      = var.dns_tsig_key_algorithm
-  compartment_id = var.dns_tsig_key_compartment_id
+  compartment_id = var.compartment_id
   name           = var.dns_tsig_key_name != "" ? var.dns_tsig_key_name : "${lower(var.name)}-dns-tsig-key-${lower(var.environment)}"
   secret         = var.dns_tsig_key_secret
 

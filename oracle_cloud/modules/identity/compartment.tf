@@ -5,7 +5,7 @@ resource "oci_identity_compartment" "identity_compartment" {
   count = var.enable_identity_compartment ? 1 : 0
 
   # Required
-  compartment_id = var.identity_compartment_compartment_id
+  compartment_id = var.compartment_id
   description    = var.identity_compartment_description
   name           = var.identity_compartment_name != "" ? var.identity_compartment_name : "${lower(var.name)}-identity-compartment-${lower(var.environment)}"
 
