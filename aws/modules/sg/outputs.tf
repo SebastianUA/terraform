@@ -47,8 +47,6 @@ output "security_group_egress" {
 output "security_group_rule_id" {
   description = "The ID of the security group rules"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.id,
-    aws_security_group_rule.egress_ports.*.id,
     aws_security_group_rule.ingress_ports_all.*.id,
     aws_security_group_rule.egress_ports_all.*.id,
     [""]
@@ -58,8 +56,6 @@ output "security_group_rule_id" {
 output "security_group_rule_type" {
   description = "The type of rule, ingress or egress"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.type,
-    aws_security_group_rule.egress_ports.*.type,
     aws_security_group_rule.ingress_ports_all.*.type,
     aws_security_group_rule.egress_ports_all.*.type,
     [""]
@@ -69,8 +65,6 @@ output "security_group_rule_type" {
 output "security_group_rule_from_port" {
   description = "The start port (or ICMP type number if protocol is 'icmp')"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.from_port,
-    aws_security_group_rule.egress_ports.*.from_port,
     aws_security_group_rule.ingress_ports_all.*.from_port,
     aws_security_group_rule.egress_ports_all.*.from_port,
     [""]
@@ -80,8 +74,6 @@ output "security_group_rule_from_port" {
 output "security_group_rule_to_port" {
   description = "The end port (or ICMP code if protocol is 'icmp')"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.to_port,
-    aws_security_group_rule.egress_ports.*.to_port,
     aws_security_group_rule.ingress_ports_all.*.to_port,
     aws_security_group_rule.egress_ports_all.*.to_port,
     [""]
@@ -91,8 +83,6 @@ output "security_group_rule_to_port" {
 output "security_group_rule_protocol" {
   description = "The protocol used"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.protocol,
-    aws_security_group_rule.egress_ports.*.protocol,
     aws_security_group_rule.ingress_ports_all.*.protocol,
     aws_security_group_rule.egress_ports_all.*.protocol,
     [""]
@@ -102,8 +92,6 @@ output "security_group_rule_protocol" {
 output "security_group_rule_description" {
   description = "Description of the rule"
   value = concat(
-    aws_security_group_rule.ingress_ports.*.description,
-    aws_security_group_rule.egress_ports.*.description,
     aws_security_group_rule.ingress_ports_all.*.description,
     aws_security_group_rule.egress_ports_all.*.description,
     [""]

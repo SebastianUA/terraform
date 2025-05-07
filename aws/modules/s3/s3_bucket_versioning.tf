@@ -11,7 +11,7 @@ resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
 
   dynamic "versioning_configuration" {
     iterator = versioning_configuration
-    for_each = length(var.s3_bucket_versioning_versioning_configuration) > 0 ? [var.s3_bucket_versioning_versioning_configuration] : []
+    for_each = length(keys(var.s3_bucket_versioning_versioning_configuration)) > 0 ? [var.s3_bucket_versioning_versioning_configuration] : []
 
     content {
       status = lookup(versioning_configuration.value, "status", null)

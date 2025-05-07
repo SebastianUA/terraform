@@ -30,6 +30,17 @@ variable "security_group_name" {
   default     = ""
 }
 
+variable "security_group_id" {
+  description = "ID of existing security group whose rules we will manage"
+  type        = string
+  default     = null
+}
+
+variable "security_group_name" {
+  description = "(Optional, Forces new resource) The name of the security group. If omitted, Terraform will assign a random, unique name"
+  default     = ""
+}
+
 variable "security_group_name_prefix" {
   description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with security_group_name."
   default     = ""
@@ -75,20 +86,10 @@ variable "enable_sg_rule_ingress_ports" {
   default     = false
 }
 
-variable "ingress_ports_stack" {
-  description = "Set list of the values for ingress"
-  default     = []
-}
-
 # egress
 variable "enable_sg_rule_egress_ports" {
   description = "Enable SG rule with egress ports usage"
   default     = false
-}
-
-variable "egress_ports_stack" {
-  description = "Set list of the values for engress"
-  default     = []
 }
 
 # Ingress all ports
@@ -116,6 +117,50 @@ variable "ingress_ports_all_stack" {
   ]
 }
 
+variable "ingress_rules" {
+  description = <<EOF
+  (Optional) The configuration for ingress rules of the security group. Each block of `ingress_rules` as defined below.
+    (Required) `id` - The ID of the ingress rule. This value is only used internally within Terraform code.
+    (Optional) `description` - The description of the rule.
+    (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.
+    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
+    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
+    (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
+    (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
+    (Optional) `prefix_lists` - The prefix list IDs to allow.
+    (Optional) `security_groups` - The source security group IDs to allow.
+    (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule.
+  EOF
+  type = list(object({
+    id              = string
+    description     = optional(string, "Managed by Terraform.")
+    protocol        = string
+    from_port       = number
+    to_port         = number
+    ipv4_cidrs      = optional(list(string), [])
+    ipv6_cidrs      = optional(list(string), [])
+    prefix_lists    = optional(list(string), [])
+    security_groups = optional(list(string), [])
+    self            = optional(bool, false)
+  }))
+  default  = []
+  nullable = false
+
+  validation {
+    condition = alltrue([
+      for rule in var.ingress_rules :
+      anytrue([
+        length(rule.ipv4_cidrs) > 0,
+        length(rule.ipv6_cidrs) > 0,
+        length(rule.prefix_lists) > 0,
+        length(rule.security_groups) > 0,
+        rule.self,
+      ])
+    ])
+    error_message = "At least one of `ipv4_cidrs`, `ipv6_cidrs`, `prefix_lists`, `security_groups` or `self` must be specified."
+  }
+}
+
 # Egress all ports
 variable "enable_sg_rule_egress_ports_all" {
   description = "Enable SG rule with egress to open all ports usage"
@@ -139,6 +184,50 @@ variable "egress_ports_all_stack" {
       description              = null
     }
   ]
+}
+
+variable "egress_rules" {
+  description = <<EOF
+  (Optional) The configuration for egress rules of the security group. Each block of `egress_rules` as defined below.
+    (Required) `id` - The ID of the egress rule. This value is only used internally within Terraform code.
+    (Optional) `description` - The description of the rule.
+    (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.
+    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
+    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
+    (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
+    (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
+    (Optional) `prefix_lists` - The prefix list IDs to allow.
+    (Optional) `security_groups` - The source security group IDs to allow.
+    (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule.
+  EOF
+  type = list(object({
+    id              = string
+    description     = optional(string, "Managed by Terraform.")
+    protocol        = string
+    from_port       = number
+    to_port         = number
+    ipv4_cidrs      = optional(list(string), [])
+    ipv6_cidrs      = optional(list(string), [])
+    prefix_lists    = optional(list(string), [])
+    security_groups = optional(list(string), [])
+    self            = optional(bool, false)
+  }))
+  default  = []
+  nullable = false
+
+  validation {
+    condition = alltrue([
+      for rule in var.egress_rules :
+      anytrue([
+        length(rule.ipv4_cidrs) > 0,
+        length(rule.ipv6_cidrs) > 0,
+        length(rule.prefix_lists) > 0,
+        length(rule.security_groups) > 0,
+        rule.self,
+      ])
+    ])
+    error_message = "At least one of `ipv4_cidrs`, `ipv6_cidrs`, `prefix_lists`, `security_groups` or `self` must be specified."
+  }
 }
 
 #---------------------------------------------------
